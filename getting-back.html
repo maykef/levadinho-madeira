@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================= CONFIG — edit as needed ================== -->
+<script>
+const CONFIG = {
+  whatsappNumber: "351900000000",   // <-- same number as index.html
+  goatcounterCode: "levadinho",
+  lastUpdated: "2026-07-03"
+};
+</script>
+<!-- ============================================================ -->
+
+<title>PR1 is one-way: how to get back from Achada do Teixeira (transfers, taxis, buses)</title>
+<meta name="description" content="Since April 2026, PR1 runs one-way from Pico do Areeiro to Pico Ruivo — you finish at Achada do Teixeira. Every realistic way back: pre-booked transfers, taxis from Santana, buses, and the two-car trick.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I get back to my car after hiking PR1 one-way?",
+      "acceptedAnswer": {"@type": "Answer", "text": "PR1 now ends at Achada do Teixeira, far from the Pico do Areeiro start. Options: pre-book a hiker transfer, arrange a taxi from Santana, travel with two cars, or book a guided tour that includes transport both ways."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a bus from Achada do Teixeira or Pico do Areeiro?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No public bus serves Pico do Areeiro or Achada do Teixeira directly. The nearest bus connections are from Santana; taxis from Pico do Areeiro toward Funchal cost roughly €70."}
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --wa:#1FAF54; --card:#FFFFFF; --line:#E3E1D8; --warn:#B3372E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55;
+  padding:0 16px 96px; max-width:640px; margin:0 auto}
+.waymark{height:14px; margin:0 -16px;
+  background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.waymark.thin{height:8px; margin:28px 0; border-radius:2px}
+header{padding:20px 0 6px}
+.brand{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
+h1{font-size:clamp(25px,6.6vw,32px); line-height:1.14; font-weight:800; letter-spacing:-.02em; margin:6px 0 2px}
+.sub{color:var(--ink-soft); font-size:15px}
+.alert{background:#FBEFED; border:1px solid #EACFCB; border-left:4px solid var(--warn);
+  border-radius:0 10px 10px 0; padding:12px 14px; margin-top:16px; font-size:15px}
+section{margin-top:26px}
+h2{font-size:19px; font-weight:800; letter-spacing:-.01em; margin-bottom:8px}
+.opt{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:12px}
+.opt h3{font-size:16.5px; font-weight:750; margin-bottom:4px; display:flex; justify-content:space-between; gap:10px; align-items:baseline}
+.opt .tag{font-size:12px; font-weight:700; color:var(--ink-soft); letter-spacing:.06em; text-transform:uppercase; white-space:nowrap}
+p{margin-bottom:9px; font-size:15.5px}
+ul{padding-left:22px; margin-bottom:9px}
+li{margin-bottom:7px; font-size:15.5px}
+.fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
+.wa-btn{display:flex; align-items:center; justify-content:center; gap:10px;
+  background:var(--wa); color:#fff; text-decoration:none; font-weight:700; font-size:16.5px;
+  padding:15px 18px; border-radius:12px; margin:18px 0 4px; box-shadow:0 2px 8px rgba(31,175,84,.35)}
+.wa-btn:active{transform:scale(.985)}
+.wa-sub{text-align:center; font-size:13px; color:var(--ink-soft)}
+.sticky-wa{position:fixed; bottom:0; left:0; right:0; padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,rgba(250,250,247,0) 0,var(--paper) 30%)}
+.sticky-wa .wa-btn{max-width:608px; margin:0 auto}
+footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
+a.plain{color:var(--ink); font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="waymark" aria-hidden="true"></div>
+
+<header>
+  <div class="brand">Levadinho · Madeira trail answers</div>
+  <h1>PR1 is one-way now. Here's how you get back.</h1>
+  <p class="sub">Since the April 2026 reopening, the hike runs Pico do Areeiro → Pico Ruivo only. You come off the mountain at <b>Achada do Teixeira</b> — a car park with no bus, a long way from where you started.</p>
+</header>
+
+<div class="alert">
+  <b>Don't start walking without a plan for the end.</b> There is no public bus at Achada do Teixeira or Pico do Areeiro. Phone signal at both is patchy. Sort your return before you take the first step.
+</div>
+
+<section>
+  <h2>Your options, honestly ranked</h2>
+
+  <div class="opt">
+    <h3>Pre-booked hiker transfer <span class="tag">Best for most</span></h3>
+    <p>Transfer companies drop you at Areeiro for sunrise and collect you at Achada do Teixeira at an agreed time. Book the day before at the latest — sunrise pickups fill up. This also solves the "no parking at Areeiro at 6am" problem entirely.</p>
+  </div>
+
+  <div class="opt">
+    <h3>Guided tour with transport <span class="tag">Zero logistics</span></h3>
+    <p>IFCN protocol operators bundle the permit (discounted to €7 on PR1), guide, and both transfers. The most expensive option, but the only one where the trail closing or slots selling out becomes someone else's problem.</p>
+  </div>
+
+  <div class="opt">
+    <h3>Taxi from Santana <span class="tag">The fallback</span></h3>
+    <p>Achada do Teixeira sits above Santana. Taxis don't wait at the car park — arrange one in advance or call from the trail end if you have signal (save the number before you hike). For scale: taxis between Pico do Areeiro and the Funchal area run around €70, so split it if you've made friends on the ridge.</p>
+  </div>
+
+  <div class="opt">
+    <h3>Two cars <span class="tag">Groups only</span></h3>
+    <p>Leave one at Achada do Teixeira the evening before or at dawn, drive the other to Areeiro. Costs you an hour of shuttling but nothing in cash. Only sensible with 4+ people and two rentals.</p>
+  </div>
+
+  <div class="opt">
+    <h3>Bus — partially <span class="tag">Patience required</span></h3>
+    <p>No bus reaches the trailheads. From Achada do Teixeira you'd first need to get down to <b>Santana</b> (taxi or a long road walk), where buses run toward Funchal — infrequently, and slowly (Madeira's rural buses serve villages, not hikers). Treat this as the backup to the backup, not the plan.</p>
+  </div>
+
+  <div class="fact">Descending PR1 in reverse to get back to your car is <b>no longer permitted</b> — the one-way rule exists because the narrow ridge sections can't handle two-way traffic. Rangers are on the trail.</div>
+</section>
+
+<a class="wa-btn" id="wa1" href="#" rel="noopener">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .2 0 .7-.2 1.3Z"/></svg>
+  Ask Levadinho to sort your return
+</a>
+<p class="wa-sub">Tell us your hike date — we'll lay out transfer options and times on WhatsApp.</p>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section>
+  <h2>Before you go</h2>
+  <ul>
+    <li>Check <a class="plain" href="index.html">today's PR1 status</a> — the trail closes fast in bad weather, and your SIMplifica slot has rules about rescheduling.</li>
+    <li>Screenshot your permit. Signal on the ridge is unreliable and rangers do check.</li>
+    <li>Agree a pickup time with margin: the full route takes 3.5 hours officially, longer with photo stops and the final climb to the Pico Ruivo shelter.</li>
+  </ul>
+</section>
+
+<div class="sticky-wa">
+  <a class="wa-btn" id="wa2" href="#" rel="noopener" style="margin:0">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .2 0 .7-.2 1.3Z"/></svg>
+    Ask Levadinho on WhatsApp
+  </a>
+</div>
+
+<footer>
+  <p>Independent guide, updated <span id="stamp"></span>. Not affiliated with the Madeira Regional Government. Transport details change — confirm times directly with operators.</p>
+</footer>
+
+<script>
+(function(){
+  const c = CONFIG;
+  document.getElementById('stamp').textContent = c.lastUpdated;
+  const msg = encodeURIComponent("Hi Levadinho! I'm hiking PR1 — can you help me plan the ride back from Achada do Teixeira?");
+  const waUrl = 'https://wa.me/' + c.whatsappNumber + '?text=' + msg;
+  ['wa1','wa2'].forEach(function(id){
+    const el = document.getElementById(id);
+    el.href = waUrl;
+    el.addEventListener('click', function(){
+      if (window.goatcounter && window.goatcounter.count){
+        window.goatcounter.count({path:'whatsapp-click-getting-back-'+id, title:'WhatsApp click', event:true});
+      }
+    });
+  });
+  if (c.goatcounterCode){
+    const s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
