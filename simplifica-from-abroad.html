@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================= CONFIG — edit as needed ================== -->
+<script>
+const CONFIG = {
+  whatsappNumber: "351900000000",   // <-- same number as index.html
+  goatcounterCode: "levadinho-madeira",
+  lastUpdated: "2026-07-06"
+};
+</script>
+<!-- ============================================================ -->
+
+<title>SIMplifica won't work from abroad? How to book Madeira trails before you fly</title>
+<meta name="description" content="The SIMplifica portal often won't open from outside Portugal and rejects foreign phone numbers. Here's how to register with email, pay by card, and book your Madeira hiking slot before you travel.">
+
+<link rel="canonical" href="https://levadinho-madeira.github.io/Levadinho/simplifica-from-abroad.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://levadinho-madeira.github.io/Levadinho/simplifica-from-abroad.html">
+<meta property="og:title" content="SIMplifica won't work from abroad? Book your Madeira trail anyway">
+<meta property="og:description" content="Register with email (not a phone number), pay by card, screenshot the QR. The full workaround for booking Madeira hikes from outside Portugal.">
+<meta name="twitter:card" content="summary">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why won't the SIMplifica website open from my country?",
+      "acceptedAnswer": {"@type": "Answer", "text": "SIMplifica is sometimes unreachable from outside Portugal — it can fail to load or trap you on the first page. Try a different browser, disable any VPN, or switch to mobile data. If it still won't complete, register your account and book from a Portuguese connection once you arrive, or ask an IFCN protocol operator to hold your slot."}
+    },
+    {
+      "@type": "Question",
+      "name": "SIMplifica won't accept my phone number. What do I do?",
+      "acceptedAnswer": {"@type": "Answer", "text": "The portal often rejects non-Portuguese mobile numbers. Register with your email address instead of a phone number — the account and your ticket QR code both work by email, so a foreign number is not required."}
+    },
+    {
+      "@type": "Question",
+      "name": "Can I book a Madeira trail after I arrive on the island?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes, same-day booking is possible if slots remain, and the portal is far more reliable from a local connection. But popular trails like PR1, PR6 and PR9 sell out weeks ahead in summer and around Christmas, so booking before you fly is safer for a fixed date."}
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --wa:#1FAF54; --card:#FFFFFF; --line:#E3E1D8; --warn:#B3372E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55;
+  padding:0 16px 96px; max-width:640px; margin:0 auto}
+.waymark{height:14px; margin:0 -16px;
+  background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.waymark.thin{height:8px; margin:28px 0; border-radius:2px}
+header{padding:20px 0 6px}
+.brand{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
+h1{font-size:clamp(25px,6.6vw,32px); line-height:1.14; font-weight:800; letter-spacing:-.02em; margin:6px 0 2px}
+.sub{color:var(--ink-soft); font-size:15px}
+.alert{background:#FBEFED; border:1px solid #EACFCB; border-left:4px solid var(--warn);
+  border-radius:0 10px 10px 0; padding:12px 14px; margin-top:16px; font-size:15px}
+section{margin-top:26px}
+h2{font-size:19px; font-weight:800; letter-spacing:-.01em; margin-bottom:8px}
+.opt{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:12px}
+.opt h3{font-size:16.5px; font-weight:750; margin-bottom:4px; display:flex; justify-content:space-between; gap:10px; align-items:baseline}
+.opt .tag{font-size:12px; font-weight:700; color:var(--ink-soft); letter-spacing:.06em; text-transform:uppercase; white-space:nowrap}
+p{margin-bottom:9px; font-size:15.5px}
+ol,ul{padding-left:22px; margin-bottom:9px}
+li{margin-bottom:7px; font-size:15.5px}
+.fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
+.wa-btn{display:flex; align-items:center; justify-content:center; gap:10px;
+  background:var(--wa); color:#fff; text-decoration:none; font-weight:700; font-size:16.5px;
+  padding:15px 18px; border-radius:12px; margin:18px 0 4px; box-shadow:0 2px 8px rgba(31,175,84,.35)}
+.wa-btn:active{transform:scale(.985)}
+.wa-sub{text-align:center; font-size:13px; color:var(--ink-soft)}
+.sticky-wa{position:fixed; bottom:0; left:0; right:0; padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,rgba(250,250,247,0) 0,var(--paper) 30%)}
+.sticky-wa .wa-btn{max-width:608px; margin:0 auto}
+footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
+a.plain{color:var(--ink); font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="waymark" aria-hidden="true"></div>
+
+<header>
+  <div class="brand">Levadinho · Madeira trail answers</div>
+  <h1>SIMplifica won't work from abroad?</h1>
+  <p class="sub">Since 2026 every official PR trail needs a booking through the government's SIMplifica portal — and that portal is the single biggest headache for visitors trying to plan from home.</p>
+</header>
+
+<div class="alert">
+  <b>The two-line fix:</b> if the site won't take your phone number, <b>register with your email instead</b> — a foreign number isn't needed. If the site won't load at all, disable any VPN and try mobile data; if it still traps you, book once you land (it's reliable from a local connection) or have an operator hold your slot.
+</div>
+
+<section>
+  <h2>What actually goes wrong — and the workaround</h2>
+
+  <div class="opt">
+    <h3>Site won't load / traps you on page one <span class="tag">Access</span></h3>
+    <p>SIMplifica is sometimes unreachable from outside Portugal — it loads the first screen then goes nowhere. Turn off any VPN (a foreign exit node can make it worse), try a different browser, or switch from Wi-Fi to mobile data. If it still won't complete, don't waste an evening on it: it works normally once you're on the island, or an operator can book for you.</p>
+  </div>
+
+  <div class="opt">
+    <h3>"Invalid phone number" at sign-up <span class="tag">Registration</span></h3>
+    <p>The portal frequently rejects non-Portuguese mobile numbers. Choose the <b>email</b> registration path instead of the phone one. Account type is <b>"Pessoa Singular"</b> (individual). Your password needs at least 10 characters using 3 of 4 types (upper, lower, number, symbol) — the "suggest strong password" button saves the hassle.</p>
+  </div>
+
+  <div class="opt">
+    <h3>Payment won't go through <span class="tag">Checkout</span></h3>
+    <p>Pay by <b>credit or debit card</b> (Visa or Mastercard) — that's the route that works for visitors. MB WAY and "ATM reference" are for Portuguese bank accounts, so skip them. Your ticket and QR code arrive by <b>email</b>, not SMS.</p>
+  </div>
+</section>
+
+<a class="wa-btn" id="wa1" href="#" rel="noopener">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .2 0 .7-.2 1.3Z"/></svg>
+  Stuck on SIMplifica? Ask Levadinho
+</a>
+<p class="wa-sub">Tell us which trail and date — we'll walk you through the booking step by step.</p>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section>
+  <h2>Book before you fly — the calm version</h2>
+  <ol>
+    <li><b>Create the account this week</b>, from home, at simplifica.madeira.gov.pt — not on hike morning at the trailhead with no signal.</li>
+    <li><b>Book the exact date and 30-minute entry slot.</b> Popular trails (PR1, PR6 25 Fontes, PR9 Caldeirão Verde) sell out weeks ahead in summer and around Christmas.</li>
+    <li><b>Screenshot the QR ticket.</b> Rangers check it at the trailhead, and there's often no signal to reload your email.</li>
+    <li><b>Everyone in the group goes on the booking</b> — including under-12s (free) and residents (free) — or the whole reservation can be refused.</li>
+  </ol>
+  <div class="fact">Hiking an official PR trail without a valid booking is an infraction, with fines reported up to <b>€250</b>. Same-day slots are possible if any remain, but a fixed travel date is a bad time to gamble on it.</div>
+</section>
+
+<section>
+  <h2>Next steps</h2>
+  <ul>
+    <li><a class="plain" href="hiking-fees.html">What each trail costs in 2026</a> — fees, passes, and the operator discount.</li>
+    <li><a class="plain" href="index.html">Is PR1 open today?</a> — live status before you commit to a slot.</li>
+    <li><a class="plain" href="getting-back.html">Getting back from PR1</a> — it's one-way now; plan the return first.</li>
+  </ul>
+</section>
+
+<div class="sticky-wa">
+  <a class="wa-btn" id="wa2" href="#" rel="noopener" style="margin:0">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .2 0 .7-.2 1.3Z"/></svg>
+    Ask Levadinho on WhatsApp
+  </a>
+</div>
+
+<footer>
+  <p>Independent guide, updated <span id="stamp"></span>. Not affiliated with the Madeira Regional Government or SIMplifica. The portal and its rules change — always confirm the current process at simplifica.madeira.gov.pt.</p>
+</footer>
+
+<script>
+(function(){
+  const c = CONFIG;
+  try {
+    if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+    if (location.hash === '#countme') localStorage.removeItem('gc-skip');
+  } catch(e){}
+  const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  document.getElementById('stamp').textContent = c.lastUpdated;
+  const msg = encodeURIComponent("Hi Levadinho! I can't get SIMplifica to work from home — can you help me book my Madeira trail?");
+  const waUrl = 'https://wa.me/' + c.whatsappNumber + '?text=' + msg;
+  ['wa1','wa2'].forEach(function(id){
+    const el = document.getElementById(id);
+    el.href = waUrl;
+    el.addEventListener('click', function(){
+      if (!SKIP_ANALYTICS && window.goatcounter && window.goatcounter.count){
+        window.goatcounter.count({path:'whatsapp-click-simplifica-'+id, title:'WhatsApp click', event:true});
+      }
+    });
+  });
+  if (c.goatcounterCode && !SKIP_ANALYTICS){
+    const s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
