@@ -1,17 +1,13 @@
 # Levadinho
 
-A WhatsApp guide for Madeira hikers, and the small website that feeds it.
+A WhatsApp guide for Madeira hikers, and the small website that feeds it:
 
-The site isn't the product — the chatbot is. These static pages exist to
-catch people mid-search ("is PR1 open today?", "how do I get back from Achada
-do Teixeira?") and hand them off to the bot on WhatsApp. Everything here is
-built around one promise: the trail status you read is true *this morning*,
-not whatever was true when the page was written.
+Four pages so far:
 
-Two pages so far. `index.html` covers PR1 Vereda do Areeiro — today's status,
-what to do when SIMplifica is sold out, how to reschedule. `getting-back.html`
-covers the one-way problem: PR1 drops you at Achada do Teixeira, miles from
-your car, so it walks through transfers, taxis and the two-car trick.
+- `index.html` — PR1 Vereda do Areeiro: today's status, sold-out fixes, rescheduling.
+- `getting-back.html` — the one-way problem: getting back from Achada do Teixeira.
+- `simplifica-from-abroad.html` — booking when the SIMplifica portal won't work from abroad.
+- `hiking-fees.html` — the 2026 trail fees, passes and exemptions, as a table.
 
 ## The daily updater
 
