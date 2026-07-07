@@ -50,11 +50,11 @@ native proofread before relying on them commercially.
   `CONFIG.whatsappNumber`, and copy stripped out (GoatCounter pageview analytics
   kept). **The pages now have no call-to-action** — a replacement (WhatsApp or
   otherwise) still needs designing and building before this is a lead-gen site.
-- [ ] **GoatCounter analytics not set up yet.** Every page references
-  `goatcounterCode: "levadinho-madeira"`, but the account hasn't been created/
-  moved — so pageviews are currently **not recorded**. Create the GoatCounter
-  account at `levadinho-madeira.goatcounter.com` (or change the code in each
-  page's `CONFIG`) when ready; the tracking is already wired in.
+- [x] **GoatCounter analytics live (2026-07-07):** account created at
+  `madeira-levadinho.goatcounter.com`; the `goatcounterCode` in every page's
+  `CONFIG` was corrected from `levadinho-madeira` to `madeira-levadinho` (the
+  account name is reversed). Pageviews now record, respecting the `#skipgc`
+  self-exclusion.
 - [ ] Article pages (all languages) show a static `CONFIG.lastUpdated` date.
   Since v4 the updater no longer touches HTML, so these dates don't advance.
   Cosmetic — could wire them to `status.json`'s `date` with a small script if it
