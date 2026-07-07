@@ -1,13 +1,17 @@
 # Levadinho
 
-A WhatsApp guide for Madeira hikers, and the small website that feeds it:
+A small static website answering the questions Madeira hikers actually ask.
 
-Four pages so far:
+Four pages, each in four languages (English at the root; `fr/`, `de/`, `pl/`):
 
-- `index.html` — PR1 Vereda do Areeiro: today's status, sold-out fixes, rescheduling.
+- `index.html` — PR1 Vereda do Areeiro: today's live status, sold-out fixes, rescheduling.
 - `getting-back.html` — the one-way problem: getting back from Achada do Teixeira.
 - `simplifica-from-abroad.html` — booking when the SIMplifica portal won't work from abroad.
 - `hiking-fees.html` — the 2026 trail fees, passes and exemptions, as a table.
+
+The live status card is rendered by `status.js` from `status.json` (written
+daily by the updater), localised per page — so one data file drives all four
+languages.
 
 ## The daily updater
 
@@ -21,8 +25,9 @@ things:
   temperature, a "likely in cloud" note when humidity is very high, and wind
   when strong (with a neighbouring station as a wind fallback). Missing (−99) or
   out-of-range (below −10 °C / above 30 °C) values are discarded.
-- Rewrites the status block and `<title>` in `index.html`, updates the date in
-  `getting-back.html`, and bumps the `lastmod` in `sitemap.xml`.
+- Writes `status.json` (status word, official note, structured weather,
+  timestamp) and bumps the `lastmod` in `sitemap.xml`. It edits no HTML — the
+  homepages render the card from `status.json` via `status.js`.
 - Commits and pushes if anything changed.
 
 If the note restricts access ("only between…", "km 1,2"), an OPEN status is
@@ -39,9 +44,9 @@ Needs Python 3.12 and `requests`. From the repo root:
 
     python scripts/update_status.py
 
-It edits the HTML in place, so check `git diff` before pushing. The Action
-does exactly this on a schedule, plus a commit; you can also trigger it by
-hand from the Actions tab.
+It writes `status.json` and bumps `sitemap.xml`, so check `git diff` before
+pushing. The Action does exactly this on a schedule, plus a commit; you can also
+trigger it by hand from the Actions tab.
 
 ## Config
 

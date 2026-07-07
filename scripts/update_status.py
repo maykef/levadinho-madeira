@@ -1,27 +1,29 @@
 #!/usr/bin/env python3
 """
-Levadinho daily status updater (v3).
+Levadinho daily status updater (v4).
 
-Source: the official Visit Madeira PR1 trail page, which carries the status
+Source: the official Visit Madeira PR1 trail page carries the status
 (OPEN / RESTRICTED / CLOSED) and the official warning note as static HTML.
 Summit weather is the official IPMA observation for the Pico do Areeiro station.
-Rewrites the STATUS block and <title> in index.html, stamps getting-back.html,
-and bumps sitemap.xml lastmod.
 
-Hard rules (v3):
+v4 change: instead of rewriting HTML, this writes a single language-neutral
+`status.json`. Every homepage (en/fr/de/pl) renders the status card from it via
+`status.js`, so one data file drives all languages. It also bumps sitemap.xml.
+
+Hard rules:
   1. Badge never contradicts the note. If the official note restricts access
      ("only", "between", "km 1,2", "restricted", ...), an OPEN badge is
-     downgraded to PARTIAL. A final sanity check refuses to publish a block
-     whose badge still contradicts its note (exit non-zero).
-  2. Weather is the real measured reading from IPMA's Pico do Areeiro station
-     (no model, no elevation guessing). IPMA carries no sky code, so we report
-     temperature plus a humidity-derived "likely in cloud" note. IPMA -99
-     "missing" fields and temps < -10 C / > 30 C are rejected (fallback used).
-  3. Fail loud. Any scrape failure exits non-zero -> red Action -> yesterday's
-     honest status stays live instead of garbage.
+     downgraded to PARTIAL. A final gate refuses to publish a contradictory
+     status (exit non-zero).
+  2. Weather is the real measured reading from IPMA's Pico do Areeiro station.
+     IPMA -99 "missing" fields and temps < -10 C / > 30 C are rejected, and the
+     weather object is marked {"ok": false} so the pages show a safe fallback.
+  3. Fail loud. Any status-scrape failure exits non-zero -> red Action ->
+     yesterday's honest status.json stays live instead of garbage.
   4. scripts/manual_note.txt (optional) injects a human-written line.
 """
 import datetime
+import json
 import re
 import sys
 import zoneinfo
@@ -36,11 +38,12 @@ STATION_SUMMIT = 1210974          # "Madeira, Pico do Areeiro" — the ridge sta
 STATION_WIND_FALLBACK = 1210973   # "Madeira, Areeiro" — used when the summit wind sensor is missing
 IPMA_MISSING = -99.0              # IPMA codes an unavailable field as -99.0
 HUMIDITY_CLOUD_PCT = 90.0         # at/above this at the summit you are most likely inside cloud/fog
-WIND_STRONG_KMH = 40.0           # only mention wind when it is genuinely strong
+WIND_STRONG_KMH = 40.0           # only flag wind when it is genuinely strong
 TEMP_MIN_PLAUSIBLE = -10.0
 TEMP_MAX_PLAUSIBLE = 30.0
 TZ = zoneinfo.ZoneInfo("Atlantic/Madeira")
-UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/3.0; +https://madeira.maykef.info)"}
+UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/4.0; +https://madeira.maykef.info)"}
+STATUS_JSON = "status.json"
 
 # A note is "restrictive" when it limits where/when you may walk. This is the
 # core of rule 1 -- it is what turns the live "Footpath accessible only between
@@ -119,12 +122,11 @@ def _field(rec, key):
 
 
 def summit_weather():
-    """Official measured summit weather from IPMA's Pico do Areeiro station.
+    """Official measured summit weather from IPMA's Pico do Areeiro station,
+    as a structured dict for status.js to phrase in each language.
 
-    IPMA observations carry no sky/weather code, so we report the measured
-    temperature, a "likely in cloud" note derived from very high humidity, and
-    wind when it is strong. Rule 2: a missing or implausible temperature raises,
-    so main() falls back to a generic line rather than publish garbage.
+    Rule 2: a missing or implausible temperature raises, so main() records
+    {"ok": False} and the pages show a generic fallback rather than garbage.
     """
     obs = requests.get(IPMA_OBS, headers=UA, timeout=30).json()
 
@@ -141,59 +143,23 @@ def summit_weather():
     if wind_kmh is None:
         wind_kmh = _field(_latest_reading(obs, STATION_WIND_FALLBACK), "intensidadeVentoKM")
 
-    cloud = ""
-    if humidity is not None and humidity >= HUMIDITY_CLOUD_PCT:
-        cloud = f", likely in cloud/fog (humidity {humidity:.0f}%)"
-    wind = ""
-    if wind_kmh is not None and wind_kmh >= WIND_STRONG_KMH:
-        wind = f", strong wind ({wind_kmh:.0f} km/h)"
-
-    return (f"Summit weather now: {temp:.0f}°C measured at the Pico do Areeiro "
-            f"station (~1,800 m){cloud}{wind} — expect it far colder and "
-            "cloudier than Funchal.")
-
-
-def build_block(status, note, weather, stamp, manual_note):
-    default_note = {
-        "OPEN": "One-way only: Pico do Areeiro → Pico Ruivo. Book on SIMplifica before you go.",
-        "PARTIAL": "Access is restricted — read the official note above before planning.",
-        "CLOSED": "The trail is officially closed. See below for rescheduling your SIMplifica booking and open alternatives.",
-    }[status]
-    lines = []
-    if note:
-        lines.append(f"    <p><b>Official note:</b> {note}</p>")
-    lines.append(f"    <p>{default_note}</p>")
-    if manual_note:
-        lines.append(f"    <p>{manual_note}</p>")
-    lines.append(f"    <p>{weather}</p>")
-    lines.append(
-        '    <p class="advisory">The webcam shows you a snippet of the summit right now — '
-        "don't assume conditions will stay that way. Pack a good anorak and fleece, carry "
-        "enough water, and wear adequate footwear.</p>"
-    )
-    body = "\n".join(lines)
-    return f"""<!-- STATUS:BEGIN (rewritten daily by scripts/update_status.py — do not edit by hand) -->
-  <div class="status-head">
-    <span class="status-dot {status}"></span>
-    <span class="status-badge {status}">{status}</span>
-  </div>
-  <div class="status-body">
-{body}
-  </div>
-  <div class="stamp">
-    <span>Last checked: <b>{stamp}</b> (Madeira time)</span>
-    <span>Source: IFCN / Visit Madeira · IPMA</span>
-  </div>
-<!-- STATUS:END -->"""
+    return {
+        "ok": True,
+        "temp_c": round(temp, 1),
+        "humidity": round(humidity) if humidity is not None else None,
+        "in_cloud": bool(humidity is not None and humidity >= HUMIDITY_CLOUD_PCT),
+        "wind_kmh": round(wind_kmh) if wind_kmh is not None else None,
+        "wind_strong": bool(wind_kmh is not None and wind_kmh >= WIND_STRONG_KMH),
+    }
 
 
 def assert_not_contradictory(status, note):
-    """Rule 1, final sanity gate: refuse to publish a block whose badge still
+    """Rule 1, final sanity gate: refuse to publish a status whose badge still
     contradicts its note. Should be unreachable after the downgrade, but if it
     ever fires we fail loud rather than publish a green-but-restricted lie.
     """
     if status == "OPEN" and is_restrictive(note):
-        sys.exit(f"FATAL: contradictory block refused — OPEN badge with restrictive note: {note!r}")
+        sys.exit(f"FATAL: contradictory status refused — OPEN badge with restrictive note: {note!r}")
 
 
 def bump_sitemap(today):
@@ -217,7 +183,7 @@ def main():
     try:
         weather = summit_weather()
     except Exception as e:
-        weather = "Check the mountain forecast before you go — summit conditions differ sharply from Funchal."
+        weather = {"ok": False}
         print("weather fetch failed/rejected:", e, file=sys.stderr)
 
     manual_note = ""
@@ -226,25 +192,24 @@ def main():
     except FileNotFoundError:
         pass
 
-    # Rule 1 final gate before we touch any file.
+    # Rule 1 final gate before we write anything.
     assert_not_contradictory(status, note)
 
-    block = build_block(status, note, weather, stamp, manual_note)
-
-    s = open("index.html").read()
-    s = re.sub(r"<!-- STATUS:BEGIN.*?STATUS:END -->", block, s, flags=re.S)
-    s = re.sub(r"<title>.*?</title>",
-               f"<title>PR1 Pico do Areeiro trail status — {today}: {status} | sold-out fixes & rescheduling</title>",
-               s, count=1)
-    open("index.html", "w").write(s)
-
-    g = open("getting-back.html").read()
-    g = re.sub(r'lastUpdated: "[^"]*"', f'lastUpdated: "{today}"', g)
-    open("getting-back.html", "w").write(g)
+    data = {
+        "status": status,
+        "note": note,
+        "manual_note": manual_note,
+        "weather": weather,
+        "stamp": stamp,
+        "date": today,
+    }
+    with open(STATUS_JSON, "w") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+        f.write("\n")
 
     bump_sitemap(today)
 
-    print(f"PR1={status} | note={note[:80]!r} | {stamp}")
+    print(f"PR1={status} | note={note[:80]!r} | weather_ok={weather.get('ok')} | {stamp}")
 
 
 if __name__ == "__main__":

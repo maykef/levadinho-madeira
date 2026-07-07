@@ -1,0 +1,15 @@
+{
+  "status": "PARTIAL",
+  "note": "Footpath accessible only between Pico do Areeiro and Pedra Rija Belvedere (km 1,2).",
+  "manual_note": "",
+  "weather": {
+    "ok": true,
+    "temp_c": 25.7,
+    "humidity": 18,
+    "in_cloud": false,
+    "wind_kmh": 20,
+    "wind_strong": false
+  },
+  "stamp": "2026-07-07 14:03",
+  "date": "2026-07-07"
+}

@@ -1,27 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://madeira.maykef.info/</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/"/>
   </url>
   <url>
     <loc>https://madeira.maykef.info/getting-back.html</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/getting-back.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/getting-back.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/getting-back.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/getting-back.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/getting-back.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/getting-back.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/getting-back.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/getting-back.html"/>
   </url>
   <url>
     <loc>https://madeira.maykef.info/simplifica-from-abroad.html</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/simplifica-from-abroad.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/simplifica-from-abroad.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/simplifica-from-abroad.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/simplifica-from-abroad.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/simplifica-from-abroad.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/simplifica-from-abroad.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/simplifica-from-abroad.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/simplifica-from-abroad.html"/>
   </url>
   <url>
     <loc>https://madeira.maykef.info/hiking-fees.html</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/hiking-fees.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/hiking-fees.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/hiking-fees.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/hiking-fees.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/hiking-fees.html"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/hiking-fees.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/hiking-fees.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/hiking-fees.html"/>
   </url>
 </urlset>

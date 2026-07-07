@@ -23,6 +23,12 @@ const CONFIG = {
 <meta property="og:description" content="Register with email (not a phone number), pay by card, screenshot the QR. The full workaround for booking Madeira hikes from outside Portugal.">
 <meta name="twitter:card" content="summary">
 
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/simplifica-from-abroad.html">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/simplifica-from-abroad.html">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/simplifica-from-abroad.html">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/simplifica-from-abroad.html">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/simplifica-from-abroad.html">
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -65,6 +71,10 @@ header{padding:20px 0 6px}
 .brand{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
 h1{font-size:clamp(25px,6.6vw,32px); line-height:1.14; font-weight:800; letter-spacing:-.02em; margin:6px 0 2px}
 .sub{color:var(--ink-soft); font-size:15px}
+.langs{display:flex; gap:6px; margin:0 0 4px; list-style:none; padding:0}
+.langs a{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none;
+  color:var(--ink-soft); padding:3px 9px; border:1px solid var(--line); border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink); color:#fff; border-color:var(--ink)}
 .alert{background:#FBEFED; border:1px solid #EACFCB; border-left:4px solid var(--warn);
   border-radius:0 10px 10px 0; padding:12px 14px; margin-top:16px; font-size:15px}
 section{margin-top:26px}
@@ -86,6 +96,12 @@ a.plain{color:var(--ink); font-weight:600}
 <div class="waymark" aria-hidden="true"></div>
 
 <header>
+  <nav class="langs" aria-label="Language">
+    <a href="/simplifica-from-abroad.html" hreflang="en" aria-current="page">EN</a>
+    <a href="/fr/simplifica-from-abroad.html" hreflang="fr">FR</a>
+    <a href="/de/simplifica-from-abroad.html" hreflang="de">DE</a>
+    <a href="/pl/simplifica-from-abroad.html" hreflang="pl">PL</a>
+  </nav>
   <div class="brand">Levadinho · Madeira trail answers</div>
   <h1>SIMplifica won't work from abroad?</h1>
   <p class="sub">Since 2026 every official PR trail needs a booking through the government's SIMplifica portal — and that portal is the single biggest headache for visitors trying to plan from home.</p>
