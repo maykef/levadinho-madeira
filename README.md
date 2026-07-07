@@ -43,9 +43,11 @@ hand from the Actions tab.
 
 ## Config
 
-Each HTML file has a small CONFIG block at the top — the WhatsApp number and
-the analytics code, nothing else. If the WhatsApp buttons are dead, the number
-is still the placeholder.
+Each HTML file has a small CONFIG block at the top — currently just the
+analytics code (`goatcounterCode`, plus `lastUpdated` on the article pages). The
+WhatsApp buttons that used to live on every page were removed for now, and the
+CONFIG's `whatsappNumber` went with them; both come back when the WhatsApp
+helpdesk is wired up.
 
 Hosted on GitHub Pages from the `maykef/levadinho-madeira` repo, served at
 `https://madeira.maykef.info/` (custom domain in the `CNAME` file). The base URL

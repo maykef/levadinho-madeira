@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ============================================================
-     LEVADINHO CONFIG — WhatsApp number and analytics only.
+     LEVADINHO CONFIG — analytics only.
      Trail status below is auto-updated daily by GitHub Actions.
      ============================================================ -->
 <script>
 const CONFIG = {
-  whatsappNumber: "351900000000",   // <-- your number, country code, no + or spaces
   goatcounterCode: "levadinho-madeira"
 };
 </script>
@@ -24,7 +23,7 @@ const CONFIG = {
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://madeira.maykef.info/">
 <meta property="og:title" content="Is PR1 Pico do Areeiro open today? Live status + sold-out fixes">
-<meta property="og:description" content="Daily PR1 trail status from official IFCN info, plus what to do when SIMplifica is sold out. Ask on WhatsApp.">
+<meta property="og:description" content="Daily PR1 trail status from official IFCN info, plus what to do when SIMplifica is sold out.">
 <meta name="twitter:card" content="summary">
 
 <script type="application/ld+json">
@@ -56,14 +55,14 @@ const CONFIG = {
   --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
   --way-yellow:#E8B71A; --way-red:#BE3A2B;
   --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
-  --wa:#1FAF54; --card:#FFFFFF; --line:#E3E1D8;
+  --card:#FFFFFF; --line:#E3E1D8;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   background:var(--paper); color:var(--ink); line-height:1.55;
-  padding:0 16px 96px;
+  padding:0 16px 40px;
   max-width:640px; margin:0 auto;
 }
 /* Waymark stripe — the yellow/red paint mark hikers see on Madeira rocks */
@@ -97,17 +96,6 @@ ol,ul{padding-left:22px; margin-bottom:10px}
 li{margin-bottom:8px; font-size:15.5px}
 .fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0;
   font-size:14.5px; margin:12px 0}
-
-.wa-btn{display:flex; align-items:center; justify-content:center; gap:10px;
-  background:var(--wa); color:#fff; text-decoration:none; font-weight:700; font-size:16.5px;
-  padding:15px 18px; border-radius:12px; margin:18px 0 4px; box-shadow:0 2px 8px rgba(31,175,84,.35)}
-.wa-btn:active{transform:scale(.985)}
-.wa-btn svg{flex:0 0 auto}
-.wa-sub{text-align:center; font-size:13px; color:var(--ink-soft)}
-
-.sticky-wa{position:fixed; bottom:0; left:0; right:0; padding:10px 16px calc(10px + env(safe-area-inset-bottom));
-  background:linear-gradient(180deg,rgba(250,250,247,0) 0,var(--paper) 30%)}
-.sticky-wa .wa-btn{max-width:608px; margin:0 auto}
 
 footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line);
   font-size:12.5px; color:var(--ink-soft)}
@@ -143,12 +131,6 @@ a.plain{color:var(--ink); font-weight:600}
   </div>
 <!-- STATUS:END -->
 </div>
-
-<a class="wa-btn" id="wa1" href="#" rel="noopener">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .2 0 .7-.2 1.3Z"/></svg>
-  Ask Levadinho on WhatsApp — free
-</a>
-<p class="wa-sub">Trail status, rebooking help, alternatives. A real answer in minutes.</p>
 
 <div class="waymark thin" aria-hidden="true"></div>
 
@@ -189,13 +171,6 @@ a.plain{color:var(--ink); font-weight:600}
   </ul>
 </section>
 
-<div class="sticky-wa">
-  <a class="wa-btn" id="wa2" href="#" rel="noopener" style="margin:0">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.8 1.4 1.8 2.2 1.2 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .2 0 .7-.2 1.3Z"/></svg>
-    Ask Levadinho on WhatsApp
-  </a>
-</div>
-
 <footer>
   <p>Status compiled each morning from IFCN (ifcn.madeira.gov.pt) and SIMplifica. Independent — not affiliated with the Madeira Regional Government. Conditions in the mountains change fast; always use your own judgement on the trail.</p>
 </footer>
@@ -212,17 +187,6 @@ a.plain{color:var(--ink); font-weight:600}
     if (location.hash === '#countme') localStorage.removeItem('gc-skip');
   } catch(e){}
   const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
-  const msg = encodeURIComponent('Hi Levadinho! Is PR1 open — and can you help me plan around it?');
-  const waUrl = 'https://wa.me/' + c.whatsappNumber + '?text=' + msg;
-  ['wa1','wa2'].forEach(function(id){
-    const el = document.getElementById(id);
-    el.href = waUrl;
-    el.addEventListener('click', function(){
-      if (!SKIP_ANALYTICS && window.goatcounter && window.goatcounter.count){
-        window.goatcounter.count({path:'whatsapp-click-'+id, title:'WhatsApp click', event:true});
-      }
-    });
-  });
 
   // GoatCounter pageview script (free analytics — create account at goatcounter.com)
   if (c.goatcounterCode && !SKIP_ANALYTICS){

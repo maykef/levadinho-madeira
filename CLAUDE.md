@@ -4,10 +4,12 @@ Guidance for Claude Code when working in this repository.
 
 ## What this is
 
-**Levadinho** is a tiny static website that feeds a WhatsApp helpdesk for hikers
-on Madeira. It answers the questions visitors actually ask about the island's
-paid, booking-only PR trails — above all **PR1 Vereda do Areeiro** (Pico do
-Areeiro → Pico Ruivo). Every page funnels the reader to a WhatsApp button.
+**Levadinho** is a tiny static website that answers the questions visitors
+actually ask about Madeira's paid, booking-only PR trails — above all
+**PR1 Vereda do Areeiro** (Pico do Areeiro → Pico Ruivo). It's intended to feed
+a WhatsApp helpdesk, but the WhatsApp call-to-action was **removed on
+2026-07-07** (not ready yet); the pages currently carry no CTA and will get one
+back when the helpdesk is wired up.
 
 There is no build step, no framework, no dependencies for the site itself. Each
 page is a single self-contained `.html` file (inline CSS + inline JS). It is
@@ -64,10 +66,10 @@ python scripts/update_status.py
 
 ## Conventions
 
-- Each page carries a small `CONFIG` block at the very top: WhatsApp number
-  (`whatsappNumber`, country code, no `+` or spaces) and `goatcounterCode` for
-  analytics. The number is currently the placeholder `351900000000` — if the
-  WhatsApp buttons are dead, that's why. Keep the number identical across pages.
+- Each page carries a small `CONFIG` block at the very top. It currently holds
+  just `goatcounterCode` (plus `lastUpdated` on the three article pages). The
+  old `whatsappNumber` was removed with the WhatsApp buttons; add it back here
+  when the helpdesk returns.
 - Analytics is **GoatCounter**, loaded only when not self-excluded. Visiting any
   page with `#skipgc` sets a localStorage flag so your own device is never
   counted; `#countme` undoes it.

@@ -27,9 +27,11 @@ schedule. Content and pricing reflect the **April 2026 one-way reopening** and
 
 ## Open items / risks
 
-- [ ] **WhatsApp number is still the placeholder `351900000000`** across all
-  four pages. The core CTA of the whole site is non-functional until this is
-  set. Highest-priority fix.
+- [x] **WhatsApp fully removed (2026-07-07):** per decision, all four pages had
+  their WhatsApp buttons, sticky bars, `wa.me` JS, click tracking,
+  `CONFIG.whatsappNumber`, and copy stripped out (GoatCounter pageview analytics
+  kept). **The pages now have no call-to-action** — a replacement (WhatsApp or
+  otherwise) still needs designing and building before this is a lead-gen site.
 - [ ] **GoatCounter analytics** uses code `levadinho-madeira` — confirm the
   account exists at `levadinho-madeira.goatcounter.com`, else pageviews/clicks
   aren't recorded.
