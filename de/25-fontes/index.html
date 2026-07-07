@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Ist der 25-Fontes-Wanderweg heute geöffnet? Levada das 25 Fontes (PR6) Status, Buchung &amp; Parken</title>
+<meta name="description" content="Aktueller Status der Levada das 25 Fontes (PR6) bei Rabaçal — ist sie heute geöffnet? Wie Sie den €4.50-SIMplifica-Slot buchen, wo Sie parken, wie lange die Wanderung dauert und geöffnete Alternativen.">
+
+<link rel="canonical" href="https://madeira.maykef.info/de/25-fontes/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/de/25-fontes/">
+<meta property="og:title" content="Ist der 25-Fontes-Wanderweg heute geöffnet? Aktueller Status, Buchung &amp; Parken">
+<meta property="og:description" content="Levada das 25 Fontes (PR6): der heutige offizielle Status, wie Sie auf SIMplifica buchen und wie Sie nach Rabaçal kommen.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/25-fontes/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/25-fontes/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/25-fontes/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/25-fontes/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/25-fontes/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Ist die Levada das 25 Fontes heute geöffnet?","acceptedAnswer":{"@type":"Answer","text":"Der heutige Status wird oben auf dieser Seite live angezeigt und jeden Morgen anhand offizieller Informationen von IFCN / Visit Madeira aktualisiert. Der Zugang kostet €4.50 über das SIMplifica-Portal; Kinder unter 12 Jahren sind kostenlos, müssen aber trotzdem in der Buchung stehen."}},
+    {"@type":"Question","name":"Muss man die 25-Fontes-Wanderung buchen?","acceptedAnswer":{"@type":"Answer","text":"Ja. PR6 erfordert eine Vorausbuchung und eine Zahlung von €4.50 über SIMplifica, in einem 30-minütigen Einlassfenster. Es ist einer der beliebtesten Wanderwege Madeiras und im Sommer Tage im Voraus ausgebucht, buchen Sie also frühzeitig."}},
+    {"@type":"Question","name":"Wo parkt man für die 25 Fontes?","acceptedAnswer":{"@type":"Answer","text":"Parken Sie auf dem Parkplatz Rabaçal an der Bergstraße (ER110/ER105). Von dort sind es etwa 2 km Fußweg — rund 300 m Abstieg — die schmale asphaltierte Zufahrtsstraße hinunter zum Einstieg, oder Sie nehmen den kleinen kostenpflichtigen Shuttle-Van. Der Anstieg zurück am Ende ist der schwerste Teil."}},
+    {"@type":"Question","name":"Wie lang ist die 25-Fontes-Wanderung?","acceptedAnswer":{"@type":"Answer","text":"Etwa 4.3 km pro Richtung (8.6 km hin und zurück), rund 3 Stunden, mit dem Schwierigkeitsgrad mittel. Es handelt sich um eine Hin- und Rückwanderung, Sie kehren also entlang derselben Levada zurück."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#20573a url(/img/25fontes.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/25-fontes/" hreflang="en">EN</a>
+    <a href="/fr/25-fontes/" hreflang="fr">FR</a>
+    <a href="/de/25-fontes/" hreflang="de" aria-current="page">DE</a>
+    <a href="/pl/25-fontes/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Antworten zu Madeiras Wanderwegen</div>
+  <h1>Ist der 25-Fontes-Wanderweg heute geöffnet?</h1>
+  <p class="sub">Levada das 25 Fontes (PR6) — von Rabaçal zur Lagune der 25 Quellen. Jeden Morgen anhand des offiziellen IFCN-Status überprüft. Sehen Sie <a href="/de/trails/">alle Wanderwege Madeiras</a> oder <a href="/de/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR6">
+  <div class="status-body"><p>Der heutige Status für die 25 Fontes wird geladen… falls er nicht erscheint, prüfen Sie die unten verlinkten offiziellen Quellen.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Wegdaten</h2>
+  <dl>
+    <dt>Distanz</dt><dd>4.3 km pro Richtung</dd>
+    <dt>Hin und zurück</dt><dd>8.6 km</dd>
+    <dt>Dauer</dt><dd>~3 Stunden</dd>
+    <dt>Schwierigkeit</dt><dd>Mittel</dd>
+    <dt>Höhe</dt><dd>964–1,288 m</dd>
+    <dt>Art</dt><dd>Hin und zurück</dd>
+    <dt>Gebühr</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Buchen Sie.</span> PR6 auf SIMplifica</h2>
+  <p>Die 25 Fontes ist eine der beliebtesten Wanderungen Madeiras, die Slots sind also schnell vergeben. In der Reihenfolge, was am wichtigsten ist:</p>
+  <ol>
+    <li><b>Buchen Sie Ihren <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">€4.50-Slot auf SIMplifica</a> im Voraus.</b> Der Einlass erfolgt in 30-Minuten-Fenstern; im Sommer ist der Weg Tage im Voraus ausgebucht. Kinder unter 12 sind kostenlos, müssen aber trotzdem in der Buchung stehen.</li>
+    <li><b>Zielen Sie auf frühe oder späte Slots.</b> Die Lagune und die schmale Levada werden mittags voll; die ersten oder letzten Einlässe sind ruhiger und kühler.</li>
+    <li><b>Oder gehen Sie mit einem IFCN-Protokollanbieter</b> — eine niedrigere Weggebühr (€3) plus Transport ab Funchal, was die lange Bergfahrt löst.</li>
+  </ol>
+  <div class="fact">PR6 wird über SIMplifica bezahlt und ist in den Mehrtagespässen <b>nicht enthalten</b> — es gilt eine eigene separate Buchung. €4.50 pro Person; Kinder unter 12 und Einheimische kostenlos, werden aber in der Reservierung mitgezählt. Prüfen Sie den aktuellen Status oben, bevor Sie zahlen.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Anreise.</span> Rabaçal &amp; die Straße hinunter</h2>
+  <p>Der Weg beginnt in <b>Rabaçal</b>, hoch im Westen der Insel — eine lange, kurvige Bergfahrt von Funchal (etwa anderthalb Stunden).</p>
+  <ul>
+    <li><b>Parken Sie auf dem Parkplatz Rabaçal</b> an der Bergstraße (ER110/ER105). Sie können nicht bis zum Einstieg hinunterfahren.</li>
+    <li><b>Vom Parkplatz sind es etwa 2 km Fußweg</b> — rund 300 m Abstieg — die schmale asphaltierte Zufahrtsstraße hinunter zu den Forsthäusern von Rabaçal, wo die Levada beginnt. Ein kleiner <b>kostenpflichtiger Shuttle-Van</b> fährt die Strecke ebenfalls, falls Sie nicht hinunterlaufen möchten.</li>
+    <li><b>Dieser Abstieg ist der Haken an der Sache:</b> hinunter geht es leicht, aber Sie steigen ihn am Ende erschöpft wieder hinauf. Rechnen Sie ihn in Ihre Zeitplanung ein.</li>
+  </ul>
+  <div class="fact">Oben in Rabaçal gibt es weder Tankstelle noch Geschäft noch zuverlässigen Empfang. Bringen Sie Wasser, warme Kleidung und alles mit, was Sie für den Tag brauchen, bevor Sie die Küste verlassen.</div>
+</section>
+
+<section id="combine">
+  <h2>Machen Sie einen Tag daraus</h2>
+  <p>Zwei kurze Ergänzungen teilen sich denselben Start, daher kombinieren die meisten Leute sie:</p>
+  <ul>
+    <li><b>Levada do Risco (PR6.1)</b> — ein 20-minütiger Spaziergang zu einem hohen, nebligen Wasserfall. Mit eigener €4.50-Buchung.</li>
+    <li><b>Vereda da Lagoa do Vento (PR6.3)</b> — eine steilere Erweiterung zu einer versteckten Lagune und einem Wasserfall für die Ambitionierten.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Geschlossen oder ausgebucht?</span> Ihre Optionen</h2>
+  <p>Wenn IFCN PR6 schließt (Wetter, Erdrutsch, Arbeiten) oder Sie keinen Slot bekommen:</p>
+  <ul>
+    <li><b>Umbuchen</b> über das SIMplifica-Callcenter vor Ihrem Termin — Sie können Datum/Uhrzeit frei ändern und den Weg nur dann wechseln, wenn Ihrer offiziell geschlossen war.</li>
+    <li><b>Geöffnete Alternativen:</b> <a class="plain" href="/de/trails/">prüfen Sie die Live-Übersicht</a> — Risco (PR6.1), Caldeirão Verde (PR9) und Balcões (PR11) sind meist verfügbar und genauso grün.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Drei Dinge, die die Leute zu spät herausfinden</h2>
+  <ul>
+    <li><b>Der Rückweg geht bergauf.</b> Die 2 km Zufahrtsstraße, die Sie am Anfang hinuntergegangen sind, ist am Ende ein echter Anstieg — teilen Sie sich Ihre Kräfte ein und behalten Sie Wasser.</li>
+    <li><b>Es ist Lorbeerwald, kein Strandtag.</b> Rabaçal liegt auf ~1,000–1,300 m; es kann kühl, feucht oder neblig sein, während in Funchal die Sonne scheint. Bringen Sie eine warme Schicht und Schuhe mit gutem Grip mit — der Rand der Levada ist schmal und fällt steil ab.</li>
+    <li><b>Es ist ein Hin- und Rückweg.</b> Sie kehren entlang derselben Levada zurück, kehren Sie also mit genug Zeit und Tageslicht für den Anstieg zurück um.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Der Status wird jeden Morgen aus Daten von IFCN (ifcn.madeira.gov.pt) und SIMplifica zusammengestellt, mit Wetterangaben von IPMA (ipma.pt). Unabhängig — nicht mit der Regionalregierung Madeiras verbunden. Die Bedingungen ändern sich in den Bergen schnell; verlassen Sie sich auf dem Weg immer auf Ihr eigenes Urteilsvermögen.</p>
+  <p style="margin-top:6px">Foto: Asurnipal, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, verkleinert.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

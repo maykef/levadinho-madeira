@@ -25,9 +25,10 @@ hosted on **GitHub Pages**.
 | `hiking-fees.html` | 2026 trail fees, passes, exemptions (as a table) |
 | `fr/`, `de/`, `pl/` | Full French/German/Polish translations of all four pages |
 | `status.json` | Live data written daily: PR1 flagship fields (top-level) **plus** `counts`, `regions` (weather) and `trails[]` for the dashboard |
-| `status.js` | Renders the single-trail status card (PR1 pages) from `status.json`, localized by `<html lang>` |
+| `status.js` | Renders a single-trail status card from `status.json`. `#statusCard` with no `data-trail` → the detailed PR1 card; `data-trail="PR6"` → that trail's spoke card from `trails[]`. Localized by `<html lang>` |
 | `dashboard.js` | Renders the trails dashboard (board + weather strip + counts + search/filter) from `status.json`, localized |
 | `trails/` (+ `fr/`,`de/`,`pl/`) | The live "Madeira trails: open or closed today?" dashboard — the hub |
+| `25-fontes/` (+ `fr/`,`de/`,`pl/`) | First per-trail **spoke** page (PR6): PR1 shell + trail content, hero photo, `data-trail="PR6"` live card, trail-facts sidebar |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
 | `.github/workflows/update.yml` | Cron that runs the updater at 06:40 UTC daily |
 | `sitemap.xml`, `robots.txt` | SEO (sitemap carries hreflang alternates for all 16 URLs) |
@@ -105,6 +106,12 @@ python scripts/update_status.py
   links, the hreflang blocks, and `sitemap.xml`. Internal links stay relative so
   they resolve within each language folder. Machine translations — flag for
   native review before relying on them commercially.
+- **Adding a trail spoke page:** copy `25-fontes/index.html` as the template,
+  set `data-trail="<CODE>"` on `#statusCard`, write the trail's content + facts +
+  FAQ, add `"<CODE>": "/<slug>/"` to `PAGES` in `update_status.py` (so the
+  dashboard links it), translate to fr/de/pl, and add the 4 URLs to `sitemap.xml`.
+  Keep spokes lightweight and freshness-focused (open today? booking, fee,
+  parking, closures) — not exhaustive guides. Prioritise by search demand.
 - Every page has FAQ `schema.org` JSON-LD in the head — keep it in sync with the
   visible copy when you change facts.
 - Pages cross-link via a "Next steps" list. Keep those links working when adding

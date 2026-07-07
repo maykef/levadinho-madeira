@@ -52,6 +52,14 @@ native proofread before relying on them commercially.
   photos). Kept at `/trails/` for now (PR1 stays the homepage `/`); promote to
   the homepage once per-trail spoke pages exist.
 
+- **First spoke shipped (2026-07-07):** `/25-fontes/` (+ fr/de/pl) — the
+  Levada das 25 Fontes (PR6) page, built from the PR1 shell with a hero photo,
+  live status card (`status.js` `data-trail="PR6"`), a trail-facts sidebar, and
+  booking / getting-there / alternatives sections. `status.js` now renders any
+  trail's spoke card; the engine's `PAGES` map links the dashboard card to it.
+  Next spokes (Pico Ruivo, Caldeirão Verde…) are cheap: copy the template + add
+  to `PAGES`.
+
 ## Open items / risks
 
 - [x] **WhatsApp fully removed (2026-07-07):** per decision, all four pages had
