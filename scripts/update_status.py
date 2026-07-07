@@ -166,6 +166,11 @@ def build_block(status, note, weather, stamp, manual_note):
     if manual_note:
         lines.append(f"    <p>{manual_note}</p>")
     lines.append(f"    <p>{weather}</p>")
+    lines.append(
+        '    <p class="advisory">The webcam shows you a snippet of the summit right now — '
+        "don't assume conditions will stay that way. Pack a good anorak and fleece, carry "
+        "enough water, and wear adequate footwear.</p>"
+    )
     body = "\n".join(lines)
     return f"""<!-- STATUS:BEGIN (rewritten daily by scripts/update_status.py — do not edit by hand) -->
   <div class="status-head">
