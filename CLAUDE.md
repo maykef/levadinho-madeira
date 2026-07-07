@@ -4,16 +4,23 @@ Guidance for Claude Code when working in this repository.
 
 ## What this is
 
-**Levadinho** is a tiny static website that answers the questions visitors
-actually ask about Madeira's paid, booking-only PR trails — above all
-**PR1 Vereda do Areeiro** (Pico do Areeiro → Pico Ruivo). It's intended to feed
-a WhatsApp helpdesk, but the WhatsApp call-to-action was **removed on
-2026-07-07** (not ready yet); the pages currently carry no CTA and will get one
-back when the helpdesk is wired up.
+**Levadinho** is a static website answering the questions visitors actually ask
+about Madeira's paid, booking-only PR trails. It's a **hub-and-spoke** site:
 
-There is no build step, no framework, no dependencies for the site itself. Each
-page is a single self-contained `.html` file (inline CSS + inline JS). It is
-hosted on **GitHub Pages**.
+- **Hub** — `/trails/`, a live "open or closed today?" board for all ~37 trails.
+- **Spokes** — the PR1 flagship (`/`) and per-trail pages (25 Fontes, Pico Ruivo,
+  Caldeirão Verde, São Lourenço, Balcões, Fanal), each with a live status card.
+
+**Strategy (why it exists):** own the *volatile, novel* search queries — "is X
+open today", "new 2026 fees", closures, booking — where daily-updated freshness
+beats years-old static guides. That traffic is meant to funnel to **Levadinho**,
+a planned LLM chatbot on WhatsApp (added by QR) — see the `levadinho-strategy`
+memory. The WhatsApp CTA was stripped on 2026-07-07 and returns as the Levadinho
+bot CTA when it's ready; pages currently carry no CTA.
+
+No build step, no framework. Pages are self-contained `.html` (inline CSS + JS),
+sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
+`/img/` (photos). Hosted on **GitHub Pages**, in four languages (en/fr/de/pl).
 
 ## Layout
 

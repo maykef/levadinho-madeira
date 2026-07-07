@@ -4,26 +4,34 @@ _Snapshot: 2026-07-07. Branch `main`, working tree clean._
 
 ## Where it stands
 
-A working, live static site on GitHub Pages with a self-maintaining PR1 status
-card **and a live all-trails dashboard** (`/trails/`), now in **four languages**
-(EN at the root; `fr/`, `de/`, `pl/`). The daily
-updater (v4) writes a language-neutral `status.json` that every homepage renders
-via `status.js`, localized per page — including the scraped official note, which
-is machine-translated into fr/de/pl. Content and pricing reflect the **April 2026
-one-way reopening** and 2026 fees. The site is on Google Search Console (new
-`madeira.maykef.info` property; homepage indexed).
+A working, live static site on GitHub Pages — now a **hub-and-spoke** trail site
+in **four languages** (EN at the root; `fr/`, `de/`, `pl/`):
 
-## Pages
+- **Hub:** `/trails/` — a live "open or closed today?" board for all ~37 paid
+  Madeira PR trails.
+- **Spokes:** the PR1 flagship (`/`) plus **6 per-trail pages** (25 Fontes,
+  Pico Ruivo, Caldeirão Verde, São Lourenço, Balcões, Fanal).
 
-| Page | State |
-|------|-------|
-| `index.html` (+ `fr/`,`de/`,`pl/`) | Live. Status card rendered from `status.json` via `status.js`, localized. |
-| `getting-back.html` (+ 3 langs) | Live. |
-| `simplifica-from-abroad.html` (+ 3 langs) | Live. |
-| `hiking-fees.html` (+ 3 langs) | Live. |
+One daily engine (`update_status.py` → `status.json`) drives every status card
+and the board; pages render client-side via `status.js` / `dashboard.js`,
+localized per page — including the scraped official note (machine-translated to
+fr/de/pl). Content/pricing reflect the **April 2026 one-way reopening** and 2026
+fees. Strategy is freshness-first — own the volatile "is X open / new fees /
+closures" queries, funnelling to the planned Levadinho chatbot (see the
+`levadinho-strategy` memory). On Google Search Console (`madeira.maykef.info`
+property; homepage indexed).
 
-Translations (FR/DE/PL) were machine-generated on 2026-07-07 — recommend a
-native proofread before relying on them commercially.
+## Pages (all × en/fr/de/pl)
+
+| Page | Role |
+|------|------|
+| `/` (`index.html`) | PR1 flagship — live status card, webcam, sold-out/closed help |
+| `/trails/` | Dashboard hub — live board of all ~37 trails |
+| `/25-fontes/`, `/pico-ruivo/`, `/caldeirao-verde/`, `/sao-lourenco/`, `/balcoes/`, `/fanal/` | Trail spokes (PR6, PR1.2, PR9, PR8, PR11, PR13) |
+| `/getting-back.html`, `/simplifica-from-abroad.html`, `/hiking-fees.html` | Evergreen explainers |
+
+**44 URLs** in `sitemap.xml` (with hreflang). Translations are machine-generated
+— recommend a native FR/DE/PL proofread before relying on them commercially.
 
 ## Automation
 
@@ -48,9 +56,9 @@ native proofread before relying on them commercially.
   closed today?" board for all ~37 Madeira PR trails, driven by the multi-trail
   engine (one scrape of the Visit Madeira index → `trails[]`, `counts`, 5-region
   IPMA weather in `status.json`). Rendered by `dashboard.js`; search + filter
-  chips; photo ribbon uses **placeholder gradients** (swap in real licensed
-  photos). Kept at `/trails/` for now (PR1 stays the homepage `/`); promote to
-  the homepage once per-trail spoke pages exist.
+  chips; photo ribbon uses real self-hosted trail photos (Wikimedia Commons,
+  credited in `/img/CREDITS.txt`). Kept at `/trails/` for now (PR1 stays the
+  homepage `/`) — could be promoted to the homepage now that spokes exist.
 
 - **Spoke pages (2026-07-07):** `/25-fontes/` (PR6), `/pico-ruivo/` (PR1.2),
   `/caldeirao-verde/` (PR9), `/sao-lourenco/` (PR8), `/balcoes/` (PR11),
@@ -85,17 +93,21 @@ native proofread before relying on them commercially.
   `Levadinho-Madeira` repo **and account** have been deleted.
 - [x] **Google Search Console (2026-07-07):** new `https://madeira.maykef.info/`
   URL-prefix property verified (HTML-file method), homepage indexed. Sitemap now
-  carries 16 URLs + hreflang — let Google refetch it in the new property and use
-  URL Inspection → Request indexing on `/fr/`, `/de/`, `/pl/` to speed discovery.
-  The old github.io property is obsolete.
+  carries **44 URLs** + hreflang. **To do:** URL Inspection → Request indexing on
+  `/trails/` and the 6 spoke pages to speed discovery (Google refetches the
+  sitemap on its own). The old github.io property is obsolete.
 - [ ] Status scraper depends on the exact wording/structure of the Visit Madeira
   page. If they redesign it, the run fails loud (by design) and status freezes
   at the last good value until fixed.
 
 ## Possible next steps
 
-- Set the real WhatsApp number and verify the buttons end-to-end.
-- Confirm GoatCounter is live; sanity-check the self-exclusion (`#skipgc`).
-- Consider more content pages (other popular trails: PR6 25 Fontes,
-  PR9 Caldeirão Verde) following the existing template.
-- Optional: a `manual_note.txt` workflow/UI for pushing ranger notes.
+- **Request-index** the dashboard + 6 spokes in Search Console.
+- **Levadinho chatbot** — the funnel endpoint. When ready, drop the "add
+  Levadinho on WhatsApp" QR/CTA into every page (see `levadinho-strategy` memory).
+- More spokes only if search demand justifies (top trails are now covered); the
+  closed PR7/PR10/PR20 could be low-effort "is it closed?" targets.
+- Consider promoting `/trails/` to the homepage now that spokes exist.
+- Native FR/DE/PL proofread of the machine translations.
+- Optional: wire the article pages' static `lastUpdated` to `status.json`'s date;
+  a `manual_note.txt` workflow for pushing ranger notes.
