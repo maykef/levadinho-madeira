@@ -198,7 +198,11 @@ def scrape_trails():
     r.raise_for_status()
     trails, seen = [], set()
     for m in TRAIL_RE.finditer(r.text):
-        raw, lat, lon, label = m.group(1), float(m.group(2)), float(m.group(3)), m.group(4)
+        try:
+            raw = json.loads('"' + m.group(1) + '"')   # decode JSON \uXXXX escapes (São, Balcões, …)
+        except Exception:
+            raw = m.group(1)
+        lat, lon, label = float(m.group(2)), float(m.group(3)), m.group(4)
         code_part, name = (raw.split(" - ", 1) + [raw])[:2] if " - " in raw else (raw, raw)
         code = code_part.replace(" ", "")
         if code in seen:          # the index lists some trails (e.g. PR1) twice
