@@ -32,7 +32,7 @@ RIDGE_ELEVATION_M = 1818          # real start elevation; without this Open-Mete
 TEMP_MIN_PLAUSIBLE = -10.0
 TEMP_MAX_PLAUSIBLE = 30.0
 TZ = zoneinfo.ZoneInfo("Atlantic/Madeira")
-UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/3.0; +https://levadinho-madeira.github.io)"}
+UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/3.0; +https://madeira.maykef.info)"}
 
 # A note is "restrictive" when it limits where/when you may walk. This is the
 # core of rule 1 -- it is what turns the live "Footpath accessible only between
