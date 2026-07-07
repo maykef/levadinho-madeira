@@ -26,5 +26,10 @@ Fanal
   Licence: CC BY-SA 4.0
   Source:  https://commons.wikimedia.org/wiki/File:Fanal_(Madeira,_Portugal),_Lorbeerwald_--_2025_--_1519.jpg
 
+Vereda dos Balcões (PR11, Miradouro dos Balcões / Ribeiro Frio)
+  Author:  Ricardo Martins
+  Licence: CC BY-SA 4.0
+  Source:  https://commons.wikimedia.org/wiki/File:Floresta_Laurissilva,_Miradouro_dos_Balc%C3%B5es,_Ribeiro_Frio.jpg
+
 CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
 CC BY 2.0:    https://creativecommons.org/licenses/by/2.0/

@@ -73,6 +73,8 @@ PAGES = {
     "PR1.2": "/pico-ruivo/",
     "PR9": "/caldeirao-verde/",
     "PR8": "/sao-lourenco/",
+    "PR11": "/balcoes/",
+    "PR13": "/fanal/",
 }
 
 # A note is "restrictive" when it limits where/when you may walk. This is the

@@ -15,7 +15,7 @@
     "wind_kmh": 28,
     "wind_strong": false
   },
-  "stamp": "2026-07-07 20:53",
+  "stamp": "2026-07-07 21:22",
   "date": "2026-07-07",
   "counts": {
     "OPEN": 28,
@@ -221,7 +221,8 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 21
+      "temp": 21,
+      "page": "/balcoes/"
     },
     {
       "code": "PR12",
@@ -239,7 +240,8 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 25
+      "temp": 25,
+      "page": "/fanal/"
     },
     {
       "code": "PR14",

@@ -265,6 +265,94 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/sao-lourenco/"/>
   </url>
   <url>
+    <loc>https://madeira.maykef.info/balcoes/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/balcoes/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/balcoes/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/balcoes/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/balcoes/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/balcoes/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/balcoes/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/balcoes/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/balcoes/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fanal/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/fanal/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/fanal/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/fanal/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/fanal/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/fanal/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/fanal/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/fanal/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/fanal/"/>
+  </url>
+  <url>
     <loc>https://madeira.maykef.info/getting-back.html</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
