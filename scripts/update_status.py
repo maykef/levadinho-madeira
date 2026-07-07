@@ -4,17 +4,19 @@ Levadinho daily status updater (v3).
 
 Source: the official Visit Madeira PR1 trail page, which carries the status
 (OPEN / RESTRICTED / CLOSED) and the official warning note as static HTML.
-Weather from Open-Meteo. Rewrites the STATUS block and <title> in index.html,
-stamps getting-back.html, and bumps sitemap.xml lastmod.
+Summit weather is the official IPMA observation for the Pico do Areeiro station.
+Rewrites the STATUS block and <title> in index.html, stamps getting-back.html,
+and bumps sitemap.xml lastmod.
 
 Hard rules (v3):
   1. Badge never contradicts the note. If the official note restricts access
      ("only", "between", "km 1,2", "restricted", ...), an OPEN badge is
      downgraded to PARTIAL. A final sanity check refuses to publish a block
      whose badge still contradicts its note (exit non-zero).
-  2. Weather uses the real ridge elevation (1,818 m). Without the `elevation`
-     param Open-Meteo returns near-coastal temperatures. Values < -10 C or
-     > 30 C are treated as implausible and rejected (fallback line used).
+  2. Weather is the real measured reading from IPMA's Pico do Areeiro station
+     (no model, no elevation guessing). IPMA carries no sky code, so we report
+     temperature plus a humidity-derived "likely in cloud" note. IPMA -99
+     "missing" fields and temps < -10 C / > 30 C are rejected (fallback used).
   3. Fail loud. Any scrape failure exits non-zero -> red Action -> yesterday's
      honest status stays live instead of garbage.
   4. scripts/manual_note.txt (optional) injects a human-written line.
@@ -27,8 +29,14 @@ import zoneinfo
 import requests
 
 TRAIL_PAGE = "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/pr-1-vereda-do-areeiro/"
-AREEIRO = (32.7357, -16.9289)
-RIDGE_ELEVATION_M = 1818          # real start elevation; without this Open-Meteo returns coastal temps
+
+# IPMA official surface observations (keyless open data), keyed by ISO timestamp.
+IPMA_OBS = "https://api.ipma.pt/open-data/observation/meteorology/stations/observations.json"
+STATION_SUMMIT = 1210974          # "Madeira, Pico do Areeiro" — the ridge start (32.735, -16.928)
+STATION_WIND_FALLBACK = 1210973   # "Madeira, Areeiro" — used when the summit wind sensor is missing
+IPMA_MISSING = -99.0              # IPMA codes an unavailable field as -99.0
+HUMIDITY_CLOUD_PCT = 90.0         # at/above this at the summit you are most likely inside cloud/fog
+WIND_STRONG_KMH = 40.0           # only mention wind when it is genuinely strong
 TEMP_MIN_PLAUSIBLE = -10.0
 TEMP_MAX_PLAUSIBLE = 30.0
 TZ = zoneinfo.ZoneInfo("Atlantic/Madeira")
@@ -42,16 +50,6 @@ RESTRICTIVE = re.compile(
     r"accessible only|not accessible|no access)\b",
     re.IGNORECASE,
 )
-
-WMO = {
-    0: "clear skies", 1: "mostly clear", 2: "partly cloudy", 3: "overcast",
-    45: "FOG at summit level", 48: "freezing FOG at summit level",
-    51: "light drizzle", 53: "drizzle", 55: "heavy drizzle",
-    61: "light rain", 63: "rain", 65: "heavy rain",
-    71: "light snow", 73: "snow", 75: "heavy snow",
-    80: "rain showers", 81: "rain showers", 82: "violent rain showers",
-    95: "thunderstorms", 96: "thunderstorms with hail", 99: "thunderstorms with hail",
-}
 
 
 def is_restrictive(note: str) -> bool:
@@ -96,29 +94,63 @@ def pr1_status():
     return status, note
 
 
-def summit_weather():
-    """Ridge weather via Open-Meteo at the real elevation. Rule 2 applies:
-    reject implausible temperatures by raising, so main() uses the fallback.
+def _latest_reading(obs, station_id):
+    """Most recent non-empty reading for a station. IPMA keys observations by
+    ISO timestamp and a station can be absent/empty at the very latest hour, so
+    walk backwards from newest until we find data. Returns the record or None.
     """
-    r = requests.get(
-        "https://api.open-meteo.com/v1/forecast",
-        params={
-            "latitude": AREEIRO[0], "longitude": AREEIRO[1],
-            "elevation": RIDGE_ELEVATION_M,          # rule 2: without this, temps are coastal
-            "current": "temperature_2m,weather_code,wind_speed_10m",
-            "timezone": "Atlantic/Madeira",
-        }, headers=UA, timeout=30,
-    ).json()
-    cur = r["current"]
-    temp = float(cur["temperature_2m"])
-    if not (TEMP_MIN_PLAUSIBLE <= temp <= TEMP_MAX_PLAUSIBLE):
-        raise ValueError(f"implausible summit temperature {temp} C -- rejected")
-    phrase = WMO.get(cur["weather_code"], "changeable conditions")
+    sid = str(station_id)
+    for ts in sorted(obs.keys(), reverse=True):
+        rec = obs[ts].get(sid)
+        if rec:
+            return rec
+    return None
+
+
+def _field(rec, key):
+    """A numeric field, or None if absent or the IPMA -99 'missing' sentinel."""
+    if not rec:
+        return None
+    v = rec.get(key)
+    if v is None:
+        return None
+    v = float(v)
+    return None if v <= IPMA_MISSING + 0.5 else v
+
+
+def summit_weather():
+    """Official measured summit weather from IPMA's Pico do Areeiro station.
+
+    IPMA observations carry no sky/weather code, so we report the measured
+    temperature, a "likely in cloud" note derived from very high humidity, and
+    wind when it is strong. Rule 2: a missing or implausible temperature raises,
+    so main() falls back to a generic line rather than publish garbage.
+    """
+    obs = requests.get(IPMA_OBS, headers=UA, timeout=30).json()
+
+    rec = _latest_reading(obs, STATION_SUMMIT)
+    temp = _field(rec, "temperatura")
+    if temp is None or not (TEMP_MIN_PLAUSIBLE <= temp <= TEMP_MAX_PLAUSIBLE):
+        raise ValueError(f"no plausible IPMA summit temperature (got {temp!r}) -- rejected")
+
+    humidity = _field(rec, "humidade")
+
+    # Wind: the summit sensor is frequently missing (-99); fall back to the
+    # neighbouring Areeiro station before giving up on a wind reading.
+    wind_kmh = _field(rec, "intensidadeVentoKM")
+    if wind_kmh is None:
+        wind_kmh = _field(_latest_reading(obs, STATION_WIND_FALLBACK), "intensidadeVentoKM")
+
+    cloud = ""
+    if humidity is not None and humidity >= HUMIDITY_CLOUD_PCT:
+        cloud = f", likely in cloud/fog (humidity {humidity:.0f}%)"
     wind = ""
-    if cur["wind_speed_10m"] >= 40:
-        wind = f", strong wind ({cur['wind_speed_10m']:.0f} km/h)"
-    return (f"Summit weather now: {phrase}, {temp:.0f}°C at ~1,800 m{wind} — "
-            "expect it far colder and cloudier than Funchal.")
+    if wind_kmh is not None and wind_kmh >= WIND_STRONG_KMH:
+        wind = f", strong wind ({wind_kmh:.0f} km/h)"
+
+    return (f"Summit weather now: {temp:.0f}°C measured at the Pico do Areeiro "
+            f"station (~1,800 m){cloud}{wind} — expect it far colder and "
+            "cloudier than Funchal.")
 
 
 def build_block(status, note, weather, stamp, manual_note):
@@ -145,7 +177,7 @@ def build_block(status, note, weather, stamp, manual_note):
   </div>
   <div class="stamp">
     <span>Last checked: <b>{stamp}</b> (Madeira time)</span>
-    <span>Source: IFCN / Visit Madeira</span>
+    <span>Source: IFCN / Visit Madeira · IPMA</span>
   </div>
 <!-- STATUS:END -->"""
 
