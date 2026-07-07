@@ -97,6 +97,13 @@ li{margin-bottom:8px; font-size:15.5px}
 .fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0;
   font-size:14.5px; margin:12px 0}
 
+.livecam{margin-top:18px; background:var(--card); border:1px solid var(--line); border-radius:14px;
+  overflow:hidden; box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.livecam .frame{display:flex; justify-content:center; align-items:center; background:#0d1b16; padding:16px}
+.livecam iframe{width:208px; height:156px; max-width:100%; border:0; display:block}
+.livecam .cap{border-top:1px dashed var(--line); padding:10px 14px; font-size:13px; color:var(--ink-soft);
+  display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap}
+
 footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line);
   font-size:12.5px; color:var(--ink-soft)}
 footer a{color:var(--ink-soft)}
@@ -130,6 +137,17 @@ a.plain{color:var(--ink); font-weight:600}
     <span>Source: IFCN / Visit Madeira · IPMA</span>
   </div>
 <!-- STATUS:END -->
+</div>
+
+<div class="livecam">
+  <div class="frame">
+    <iframe width="208" height="156" src="https://www.netmadeira.com/webcams/show/netmadeira/pico-do-arieiro"
+            title="Live webcam — Pico do Areeiro summit" loading="lazy" scrolling="no"></iframe>
+  </div>
+  <div class="cap">
+    <span>Live summit view — refreshes automatically</span>
+    <span><a class="plain" href="https://www.netmadeira.com/webcams-madeira/pico-do-arieiro" target="_blank" rel="noopener">Full webcam · NetMadeira ↗</a></span>
+  </div>
 </div>
 
 <div class="waymark thin" aria-hidden="true"></div>
