@@ -50,19 +50,21 @@ native proofread before relying on them commercially.
   `CONFIG.whatsappNumber`, and copy stripped out (GoatCounter pageview analytics
   kept). **The pages now have no call-to-action** — a replacement (WhatsApp or
   otherwise) still needs designing and building before this is a lead-gen site.
-- [ ] **GoatCounter analytics** uses code `levadinho-madeira` — confirm the
-  account exists at `levadinho-madeira.goatcounter.com`, else pageviews/clicks
-  aren't recorded.
+- [ ] **GoatCounter analytics not set up yet.** Every page references
+  `goatcounterCode: "levadinho-madeira"`, but the account hasn't been created/
+  moved — so pageviews are currently **not recorded**. Create the GoatCounter
+  account at `levadinho-madeira.goatcounter.com` (or change the code in each
+  page's `CONFIG`) when ready; the tracking is already wired in.
 - [ ] Article pages (all languages) show a static `CONFIG.lastUpdated` date.
   Since v4 the updater no longer touches HTML, so these dates don't advance.
   Cosmetic — could wire them to `status.json`'s `date` with a small script if it
   matters.
 - [ ] Translations are machine-generated (by Claude) — get a native FR/DE/PL
   proofread before using commercially.
-- [x] **Domain move done (2026-07-07):** repo republished on
+- [x] **Domain move complete (2026-07-07):** repo republished on
   `maykef/levadinho-madeira`, served at `https://madeira.maykef.info/` via GitHub
-  Pages + `CNAME` + DNS; base URL updated everywhere. **Only leftover:** delete
-  the retired `Levadinho-Madeira/Levadinho` repo.
+  Pages + `CNAME` + DNS; base URL updated everywhere. The old
+  `Levadinho-Madeira` repo **and account** have been deleted.
 - [x] **Google Search Console (2026-07-07):** new `https://madeira.maykef.info/`
   URL-prefix property verified (HTML-file method), homepage indexed. Sitemap now
   carries 16 URLs + hreflang — let Google refetch it in the new property and use
