@@ -66,6 +66,8 @@ REGIONS = [
 ]
 REGION_PLACE = {"summit": "Pico do Areeiro", "north": "Santana", "west": "Rabaçal",
                 "east": "São Lourenço", "south": "Funchal"}
+# Trails that have their own spoke page (the dashboard links to these).
+PAGES = {"PR1": "/", "PR6": "/25-fontes/"}
 
 # A note is "restrictive" when it limits where/when you may walk. This is the
 # core of rule 1 -- it is what turns the live "Footpath accessible only between
@@ -299,11 +301,12 @@ def main():
     region_temps = _region_temps()
     for t in trails:
         t["temp"] = region_temps.get(t["region"])
+        if t["code"] in PAGES:
+            t["page"] = PAGES[t["code"]]
         if t["code"] == "PR1":
-            # Use our accurate detailed PR1 status + translated note + internal page.
+            # Use our accurate detailed PR1 status + translated note.
             t["status"] = status
             t["note"] = note_i18n
-            t["page"] = "/"
     counts = {"OPEN": 0, "PARTIAL": 0, "CLOSED": 0}
     for t in trails:
         counts[t["status"]] = counts.get(t["status"], 0) + 1

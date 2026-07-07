@@ -15,7 +15,7 @@
     "wind_kmh": 24,
     "wind_strong": false
   },
-  "stamp": "2026-07-07 20:03",
+  "stamp": "2026-07-07 20:33",
   "date": "2026-07-07",
   "counts": {
     "OPEN": 28,
@@ -58,13 +58,13 @@
       "region": "summit",
       "popular": true,
       "temp": 23,
+      "page": "/",
       "note": {
         "en": "Footpath accessible only between Pico do Areeiro and Pedra Rija Belvedere (km 1,2).",
         "fr": "Sentier accessible uniquement entre Pico do Areeiro et Pedra Rija Belvedere (km 1,2).",
         "de": "Fußweg nur zwischen Pico do Areeiro und Pedra Rija Belvedere (km 1,2).",
         "pl": "Ścieżka dostępna tylko między Pico do Areeiro a Pedra Rija Belvedere (km 1,2)."
-      },
-      "page": "/"
+      }
     },
     {
       "code": "PR1.1",
@@ -145,7 +145,8 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 26
+      "temp": 26,
+      "page": "/25-fontes/"
     },
     {
       "code": "PR6.1",
