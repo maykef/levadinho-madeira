@@ -1,15 +1,20 @@
 {
   "status": "PARTIAL",
-  "note": "Footpath accessible only between Pico do Areeiro and Pedra Rija Belvedere (km 1,2).",
+  "note": {
+    "en": "Footpath accessible only between Pico do Areeiro and Pedra Rija Belvedere (km 1,2).",
+    "fr": "Sentier accessible uniquement entre Pico do Areeiro et Pedra Rija Belvedere (km 1,2).",
+    "de": "Fußweg nur zwischen Pico do Areeiro und Pedra Rija Belvedere (km 1,2).",
+    "pl": "Ścieżka dostępna tylko między Pico do Areeiro a Pedra Rija Belvedere (km 1,2)."
+  },
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 25.7,
-    "humidity": 18,
+    "temp_c": 26.3,
+    "humidity": 19,
     "in_cloud": false,
-    "wind_kmh": 20,
+    "wind_kmh": 18,
     "wind_strong": false
   },
-  "stamp": "2026-07-07 14:03",
+  "stamp": "2026-07-07 14:56",
   "date": "2026-07-07"
 }
