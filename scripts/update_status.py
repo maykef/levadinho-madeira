@@ -67,7 +67,13 @@ REGIONS = [
 REGION_PLACE = {"summit": "Pico do Areeiro", "north": "Santana", "west": "Rabaçal",
                 "east": "São Lourenço", "south": "Funchal"}
 # Trails that have their own spoke page (the dashboard links to these).
-PAGES = {"PR1": "/", "PR6": "/25-fontes/"}
+PAGES = {
+    "PR1": "/",
+    "PR6": "/25-fontes/",
+    "PR1.2": "/pico-ruivo/",
+    "PR9": "/caldeirao-verde/",
+    "PR8": "/sao-lourenco/",
+}
 
 # A note is "restrictive" when it limits where/when you may walk. This is the
 # core of rule 1 -- it is what turns the live "Footpath accessible only between

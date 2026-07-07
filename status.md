@@ -52,13 +52,13 @@ native proofread before relying on them commercially.
   photos). Kept at `/trails/` for now (PR1 stays the homepage `/`); promote to
   the homepage once per-trail spoke pages exist.
 
-- **First spoke shipped (2026-07-07):** `/25-fontes/` (+ fr/de/pl) — the
-  Levada das 25 Fontes (PR6) page, built from the PR1 shell with a hero photo,
-  live status card (`status.js` `data-trail="PR6"`), a trail-facts sidebar, and
-  booking / getting-there / alternatives sections. `status.js` now renders any
-  trail's spoke card; the engine's `PAGES` map links the dashboard card to it.
-  Next spokes (Pico Ruivo, Caldeirão Verde…) are cheap: copy the template + add
-  to `PAGES`.
+- **Spoke pages (2026-07-07):** `/25-fontes/` (PR6), `/pico-ruivo/` (PR1.2),
+  `/caldeirao-verde/` (PR9), `/sao-lourenco/` (PR8) — each + fr/de/pl. Built from
+  the PR1 shell: hero photo, live status card (`status.js` `data-trail`),
+  trail-facts sidebar, and trail-specific booking / getting-there / alternatives
+  content. The engine's `PAGES` map links each dashboard card to its spoke.
+  Adding more is cheap: copy the template, set `data-trail`, add to `PAGES`,
+  translate, add to sitemap.
 
 ## Open items / risks
 

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Czy Pico Ruivo jest dziś otwarte? Vereda do Pico Ruivo (PR1.2) — najłatwiejsza droga na szczyt Madery</title>
+<meta name="description" content="Aktualny status szlaku Vereda do Pico Ruivo (PR1.2) z Achada do Teixeira — czy jest dziś otwarty? Najłatwiejsza trasa na Pico Ruivo (1862 m), najwyższy punkt Madery: rezerwacja, dojazd i pogoda na szczycie.">
+
+<link rel="canonical" href="https://madeira.maykef.info/pl/pico-ruivo/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/pl/pico-ruivo/">
+<meta property="og:title" content="Czy Pico Ruivo jest dziś otwarte? Najłatwiejsza droga na szczyt Madery">
+<meta property="og:description" content="Vereda do Pico Ruivo (PR1.2): dzisiejszy oficjalny status, rezerwacja na SIMplifica i dojazd do Achada do Teixeira.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/pico-ruivo/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/pico-ruivo/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/pico-ruivo/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/pico-ruivo/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/pico-ruivo/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Czy Pico Ruivo jest dziś otwarte?","acceptedAnswer":{"@type":"Answer","text":"Dzisiejszy status jest wyświetlany na żywo na górze tej strony, aktualizowany każdego ranka na podstawie oficjalnych informacji IFCN / Visit Madeira. Wstęp kosztuje €4.50 przez portal SIMplifica; dzieci poniżej 12 lat wchodzą za darmo, ale muszą być ujęte w rezerwacji."}},
+    {"@type":"Question","name":"Jaka jest najłatwiejsza droga na Pico Ruivo?","acceptedAnswer":{"@type":"Answer","text":"Vereda do Pico Ruivo (PR1.2) z Achada do Teixeira — około 2,8 km w jedną stronę wybrukowaną kamienną ścieżką — to najkrótsza i najłagodniejsza trasa na szczyt, znacznie łatwiejsza niż długa grań PR1 z Pico do Areeiro."}},
+    {"@type":"Question","name":"Czy trzeba rezerwować Pico Ruivo?","acceptedAnswer":{"@type":"Answer","text":"Tak. PR1.2 wymaga wcześniejszej rezerwacji i opłaty €4.50 przez SIMplifica, w 30-minutowym oknie wejścia. Trasa jest popularna o wschodzie słońca, więc latem rezerwuj z wyprzedzeniem."}},
+    {"@type":"Question","name":"Ile trwa wędrówka na Pico Ruivo z Achada do Teixeira?","acceptedAnswer":{"@type":"Answer","text":"Około 2,8 km w jedną stronę (5,6 km w obie strony), mniej więcej 1 godzina 30 minut w jedną stronę, trudność umiarkowana. To równomierne podejście wybrukowaną kamienną ścieżką do schroniska i szczytu na wysokości 1862 m, a potem powrót tą samą drogą."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#5f7590 url(/img/areeiro.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/pico-ruivo/" hreflang="en">EN</a>
+    <a href="/fr/pico-ruivo/" hreflang="fr">FR</a>
+    <a href="/de/pico-ruivo/" hreflang="de">DE</a>
+    <a href="/pl/pico-ruivo/" hreflang="pl" aria-current="page">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Odpowiedzi o szlakach Madery</div>
+  <h1>Czy Pico Ruivo jest dziś otwarte?</h1>
+  <p class="sub">Vereda do Pico Ruivo (PR1.2) — z Achada do Teixeira na najwyższy punkt Madery (1862 m), najłagodniejsza droga na górę. Sprawdzane każdego ranka względem oficjalnego statusu IFCN. Zobacz <a href="/pl/trails/">wszystkie szlaki Madery</a> lub <a href="/pl/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR1.2">
+  <div class="status-body"><p>Wczytywanie dzisiejszego statusu Pico Ruivo… jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Informacje o szlaku</h2>
+  <dl>
+    <dt>Dystans</dt><dd>2,8 km w jedną stronę</dd>
+    <dt>W obie strony</dt><dd>5,6 km</dd>
+    <dt>Czas</dt><dd>~1h30 w jedną stronę</dd>
+    <dt>Trudność</dt><dd>Umiarkowana</dd>
+    <dt>Szczyt</dt><dd>1862 m</dd>
+    <dt>Typ</dt><dd>Tam i z powrotem</dd>
+    <dt>Opłata</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Zarezerwuj.</span> PR1.2 na SIMplifica</h2>
+  <p>To krótka trasa na szczyt i ulubieniec wschodów słońca, więc miejsca znikają szybko.</p>
+  <ol>
+    <li><b>Zarezerwuj z wyprzedzeniem swoje <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">miejsce za €4.50 na SIMplifica</a></b>, w 30-minutowym oknie. Dzieci poniżej 12 lat wchodzą za darmo, ale muszą być ujęte w rezerwacji.</li>
+    <li><b>Miejsca na wschód słońca schodzą pierwsze.</b> Jeśli chcesz być na szczycie o świcie, rezerwuj wcześnie i licz się z towarzystwem; przed południem jest spokojniej.</li>
+    <li><b>Schodzisz z PR1?</b> Jeśli przechodzisz z Pico do Areeiro szlakiem PR1, kończysz powyżej tego miejsca — zobacz <a class="plain" href="/pl/getting-back.html">powrót z PR1</a>.</li>
+  </ol>
+  <div class="fact">PR1.2 kosztuje €4.50 od osoby, płatne na SIMplifica; dzieci poniżej 12 lat i mieszkańcy za darmo, ale liczeni w rezerwacji. Sprawdź aktualny status powyżej, zanim tam podjedziesz.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Dojazd.</span> Achada do Teixeira</h2>
+  <p>Wędrówka zaczyna się na parkingu <b>Achada do Teixeira</b>, wysoko nad Santaną po północnej stronie — około godziny jazdy z Funchal.</p>
+  <ul>
+    <li><b>Dojedź na parking Achada do Teixeira</b> (to również miejsce, gdzie kończy się PR1). Jest tam schronisko i punkt widokowy; o wschodzie słońca miejsc parkingowych jest niewiele.</li>
+    <li><b>Z parkingu wybrukowana kamienna ścieżka wspina się równomiernie</b> do górskiego schroniska Pico Ruivo (Casa de Abrigo), a potem krótki końcowy odcinek na szczyt na wysokości 1862 m — najwyższy punkt Madery.</li>
+    <li>To <b>najłatwiejsza droga na sam szczyt</b>: żadnej odsłoniętej grani, tylko równomierne podejście po bruku, z około 200 m przewyższenia.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Zamknięte lub pełne?</span> Twoje opcje</h2>
+  <p>Jeśli IFCN zamknie PR1.2 (pogoda, prace) albo nie uda ci się zdobyć miejsca:</p>
+  <ul>
+    <li><b>Zmień termin</b> przez infolinię SIMplifica przed swoją datą — datę i godzinę dowolnie, inny szlak tylko jeśli twój był oficjalnie zamknięty.</li>
+    <li><b>Otwarte alternatywy:</b> <a class="plain" href="/pl/trails/">sprawdź tablicę na żywo</a> — <a class="plain" href="/pl/caldeirao-verde/">Caldeirão Verde (PR9)</a> i Balcões (PR11) są zwykle dostępne.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trzy rzeczy, które ludzie odkrywają za późno</h2>
+  <ul>
+    <li><b>Pogoda na szczycie ≠ pogoda w Funchal.</b> Na wysokości 1862 m może być zimno, wietrznie i mgliście, podczas gdy na wybrzeżu świeci słońce — możesz być ponad morzem chmur albo w nim. Zabierz ciepłą warstwę i sprawdź aktualny status.</li>
+    <li><b>To podejście, a nie spacer.</b> Kamienna ścieżka równomiernie nabiera wysokości do schroniska; łatwa pod nogami, ale to prawdziwe podejście, zwłaszcza na wysokości.</li>
+    <li><b>Na górze nic nie jest otwarte.</b> Schronisko jest podstawowe — brak sklepu i pewnego zasięgu. Weź wodę, przekąski i czołówkę na start po ciemku.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Status opracowywany każdego ranka na podstawie IFCN (ifcn.madeira.gov.pt) i SIMplifica, z pogodą z IPMA (ipma.pt). Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
+  <p style="margin-top:6px">Zdjęcie: Luis Miguel Bugallo Sánchez, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, przeskalowane.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

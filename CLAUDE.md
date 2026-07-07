@@ -28,7 +28,7 @@ hosted on **GitHub Pages**.
 | `status.js` | Renders a single-trail status card from `status.json`. `#statusCard` with no `data-trail` → the detailed PR1 card; `data-trail="PR6"` → that trail's spoke card from `trails[]`. Localized by `<html lang>` |
 | `dashboard.js` | Renders the trails dashboard (board + weather strip + counts + search/filter) from `status.json`, localized |
 | `trails/` (+ `fr/`,`de/`,`pl/`) | The live "Madeira trails: open or closed today?" dashboard — the hub |
-| `25-fontes/` (+ `fr/`,`de/`,`pl/`) | First per-trail **spoke** page (PR6): PR1 shell + trail content, hero photo, `data-trail="PR6"` live card, trail-facts sidebar |
+| `25-fontes/`, `pico-ruivo/`, `caldeirao-verde/`, `sao-lourenco/` (each + `fr/`,`de/`,`pl/`) | Per-trail **spoke** pages (PR6, PR1.2, PR9, PR8): PR1 shell + trail content, hero photo, `data-trail` live card, trail-facts sidebar |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
 | `.github/workflows/update.yml` | Cron that runs the updater at 06:40 UTC daily |
 | `sitemap.xml`, `robots.txt` | SEO (sitemap carries hreflang alternates for all 16 URLs) |

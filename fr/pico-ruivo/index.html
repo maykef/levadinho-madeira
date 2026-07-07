@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Le Pico Ruivo est-il ouvert aujourd'hui ? Vereda do Pico Ruivo (PR1.2) — la voie la plus facile vers le sommet de Madère</title>
+<meta name="description" content="Statut en direct de la Vereda do Pico Ruivo (PR1.2) depuis Achada do Teixeira — est-elle ouverte aujourd'hui ? L'itinéraire le plus facile vers le Pico Ruivo (1 862 m), le point culminant de Madère : réservation, accès et météo au sommet.">
+
+<link rel="canonical" href="https://madeira.maykef.info/fr/pico-ruivo/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/fr/pico-ruivo/">
+<meta property="og:title" content="Le Pico Ruivo est-il ouvert aujourd'hui ? La voie la plus facile vers le sommet de Madère">
+<meta property="og:description" content="Vereda do Pico Ruivo (PR1.2) : le statut officiel du jour, la réservation sur SIMplifica et l'accès à Achada do Teixeira.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/pico-ruivo/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/pico-ruivo/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/pico-ruivo/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/pico-ruivo/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/pico-ruivo/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Le Pico Ruivo est-il ouvert aujourd'hui ?","acceptedAnswer":{"@type":"Answer","text":"Le statut du jour est affiché en direct en haut de cette page, mis à jour chaque matin à partir des informations officielles de l'IFCN / Visit Madeira. L'accès coûte 4,50 € via le portail SIMplifica ; les enfants de moins de 12 ans sont gratuits mais doivent figurer sur la réservation."}},
+    {"@type":"Question","name":"Quel est le chemin le plus facile pour rejoindre le Pico Ruivo ?","acceptedAnswer":{"@type":"Answer","text":"La Vereda do Pico Ruivo (PR1.2) depuis Achada do Teixeira — environ 2,8 km à l'aller sur un sentier pavé de pierres — est l'itinéraire le plus court et le plus doux vers le sommet, bien plus facile que la longue crête du PR1 depuis le Pico do Areeiro."}},
+    {"@type":"Question","name":"Faut-il réserver pour le Pico Ruivo ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Le PR1.2 exige une réservation à l'avance et un paiement de 4,50 € via SIMplifica, dans un créneau d'entrée de 30 minutes. Il est très prisé au lever du soleil, alors réservez à l'avance en été."}},
+    {"@type":"Question","name":"Combien de temps dure la marche jusqu'au Pico Ruivo depuis Achada do Teixeira ?","acceptedAnswer":{"@type":"Answer","text":"Environ 2,8 km à l'aller (5,6 km aller-retour), soit à peu près 1 h 30 à l'aller, classée modérée. C'est une montée régulière sur sentier pavé jusqu'au refuge et au sommet de 1 862 m, puis retour par le même chemin."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#5f7590 url(/img/areeiro.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/pico-ruivo/" hreflang="en">EN</a>
+    <a href="/fr/pico-ruivo/" hreflang="fr" aria-current="page">FR</a>
+    <a href="/de/pico-ruivo/" hreflang="de">DE</a>
+    <a href="/pl/pico-ruivo/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Réponses sur les sentiers de Madère</div>
+  <h1>Le Pico Ruivo est-il ouvert aujourd'hui ?</h1>
+  <p class="sub">Vereda do Pico Ruivo (PR1.2) — d'Achada do Teixeira au point culminant de Madère (1 862 m), la voie la plus douce vers le sommet. Vérifié chaque matin par rapport au statut officiel de l'IFCN. Voir <a href="/fr/trails/">tous les sentiers de Madère</a> ou <a href="/fr/">le PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR1.2">
+  <div class="status-body"><p>Chargement du statut du jour pour le Pico Ruivo… s'il ne s'affiche pas, consultez les sources officielles indiquées ci-dessous.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Infos sur le sentier</h2>
+  <dl>
+    <dt>Distance</dt><dd>2,8 km à l'aller</dd>
+    <dt>Aller-retour</dt><dd>5,6 km</dd>
+    <dt>Durée</dt><dd>~1h30 à l'aller</dd>
+    <dt>Difficulté</dt><dd>Modérée</dd>
+    <dt>Sommet</dt><dd>1 862 m</dd>
+    <dt>Type</dt><dd>Aller-retour</dd>
+    <dt>Tarif</dt><dd>4,50 €</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Réservez.</span> Le PR1.2 sur SIMplifica</h2>
+  <p>C'est l'itinéraire court vers le sommet, et un incontournable du lever du soleil, alors les créneaux partent vite.</p>
+  <ol>
+    <li><b>Réservez à l'avance votre <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">créneau à 4,50 € sur SIMplifica</a></b>, dans une fenêtre de 30 minutes. Les moins de 12 ans sont gratuits mais doivent figurer sur la réservation.</li>
+    <li><b>Les créneaux du lever du soleil partent en premier.</b> Si vous voulez le sommet à l'aube, réservez tôt et attendez-vous à du monde ; la fin de matinée est plus calme.</li>
+    <li><b>Vous arrivez du PR1 ?</b> Si vous traversez depuis le Pico do Areeiro par le PR1, vous terminez au-dessus d'ici — voir <a class="plain" href="/fr/getting-back.html">comment revenir du PR1</a>.</li>
+  </ol>
+  <div class="fact">Le PR1.2 coûte 4,50 € par personne, payés sur SIMplifica ; les moins de 12 ans et les résidents sont gratuits mais comptés sur la réservation. Vérifiez le statut en direct ci-dessus avant de monter en voiture.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Y aller.</span> Achada do Teixeira</h2>
+  <p>La marche commence au parking d'<b>Achada do Teixeira</b>, haut perché au-dessus de Santana sur le versant nord — à environ une heure de route de Funchal.</p>
+  <ul>
+    <li><b>Rendez-vous en voiture au parking d'Achada do Teixeira</b> (c'est aussi là que se termine le PR1). Il y a un refuge et un point de vue ; le stationnement est limité au lever du soleil.</li>
+    <li><b>Depuis le parking, un sentier pavé de pierres monte régulièrement</b> jusqu'au refuge de montagne du Pico Ruivo (Casa de Abrigo), puis un court effort final jusqu'au sommet de 1 862 m — le point culminant de Madère.</li>
+    <li>C'est la <b>voie la plus facile vers le sommet</b> : pas de crête exposée, juste une montée pavée régulière d'environ 200 m de dénivelé.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Fermé ou complet ?</span> Vos options</h2>
+  <p>Si l'IFCN ferme le PR1.2 (météo, travaux) ou si vous n'obtenez pas de créneau :</p>
+  <ul>
+    <li><b>Reprogrammez</b> via le centre d'appels SIMplifica avant votre date — la date et l'heure librement, un autre sentier uniquement si le vôtre était officiellement fermé.</li>
+    <li><b>Alternatives ouvertes :</b> <a class="plain" href="/fr/trails/">consultez le tableau en direct</a> — le <a class="plain" href="/fr/caldeirao-verde/">Caldeirão Verde (PR9)</a> et les Balcões (PR11) sont généralement disponibles.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trois choses que les gens découvrent trop tard</h2>
+  <ul>
+    <li><b>La météo au sommet ≠ la météo à Funchal.</b> À 1 862 m, il peut faire froid, venté et brumeux alors que la côte est ensoleillée — vous pouvez être au-dessus d'une mer de nuages, ou dedans. Emportez une couche chaude et vérifiez le statut en direct.</li>
+    <li><b>C'est une montée, pas une balade.</b> Le sentier pavé prend de la hauteur régulièrement jusqu'au refuge ; facile sous les pieds mais une vraie montée, surtout en altitude.</li>
+    <li><b>Rien n'est ouvert là-haut.</b> Le refuge est sommaire — pas de boutique ni de réseau fiable. Emportez de l'eau, des en-cas et une lampe frontale pour un départ dans le noir.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Statut compilé chaque matin à partir de l'IFCN (ifcn.madeira.gov.pt) et de SIMplifica, avec la météo de l'IPMA (ipma.pt). Indépendant — sans affiliation avec le gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.</p>
+  <p style="margin-top:6px">Photo : Luis Miguel Bugallo Sánchez, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, redimensionnée.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
