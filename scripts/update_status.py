@@ -44,6 +44,7 @@ TEMP_MAX_PLAUSIBLE = 30.0
 TZ = zoneinfo.ZoneInfo("Atlantic/Madeira")
 UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/4.0; +https://madeira.maykef.info)"}
 STATUS_JSON = "status.json"
+TRANSLATE_LANGS = ("fr", "de", "pl")   # note is scraped in English; mirror it into these
 
 # A note is "restrictive" when it limits where/when you may walk. This is the
 # core of rule 1 -- it is what turns the live "Footpath accessible only between
@@ -153,6 +154,36 @@ def summit_weather():
     }
 
 
+def translate_note(note):
+    """Mirror the official English note into each site language via MyMemory
+    (free, keyless). English is always kept; any per-language failure falls back
+    to the English text, so a localized page never shows an empty note. This is
+    machine translation — the engine preserves the proper nouns well, but the
+    English original stays authoritative.
+    """
+    out = {"en": note}
+    for lang in TRANSLATE_LANGS:
+        out[lang] = note  # fallback = English original
+        if not note:
+            out[lang] = ""
+            continue
+        try:
+            r = requests.get(
+                "https://api.mymemory.translated.net/get",
+                params={"q": note, "langpair": f"en|{lang}"},
+                headers=UA, timeout=20,
+            ).json()
+            t = (r.get("responseData") or {}).get("translatedText", "").strip()
+            # MyMemory returns UPPERCASE warnings (quota, invalid) instead of text.
+            if r.get("responseStatus") == 200 and t and "WARNING" not in t.upper() and "INVALID" not in t.upper():
+                out[lang] = t
+            else:
+                print(f"note translate {lang}: unusable response, kept English", file=sys.stderr)
+        except Exception as e:
+            print(f"note translate {lang} failed: {e} — kept English", file=sys.stderr)
+    return out
+
+
 def assert_not_contradictory(status, note):
     """Rule 1, final sanity gate: refuse to publish a status whose badge still
     contradicts its note. Should be unreachable after the downgrade, but if it
@@ -197,7 +228,7 @@ def main():
 
     data = {
         "status": status,
-        "note": note,
+        "note": translate_note(note),
         "manual_note": manual_note,
         "weather": weather,
         "stamp": stamp,

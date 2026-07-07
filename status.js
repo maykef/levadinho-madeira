@@ -85,7 +85,9 @@
   function render(d, L) {
     var st = (d.status === "OPEN" || d.status === "CLOSED") ? d.status : "PARTIAL";
     var body = "";
-    if (d.note) body += "<p><b>" + L.officialNote + "</b> " + esc(d.note) + "</p>";
+    // note may be a per-language object {en,fr,de,pl} or (legacy) a plain string.
+    var note = d.note ? (typeof d.note === "string" ? d.note : (d.note[lang] || d.note.en || "")) : "";
+    if (note) body += "<p><b>" + L.officialNote + "</b> " + esc(note) + "</p>";
     body += "<p>" + L.defaultNote[st] + "</p>";
     if (d.manual_note) body += "<p>" + esc(d.manual_note) + "</p>";
     body += "<p>" + L.weather(d.weather) + "</p>";
