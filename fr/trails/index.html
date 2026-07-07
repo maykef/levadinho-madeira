@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Trail data is loaded live from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Sentiers de Madère : lesquels sont ouverts ou fermés aujourd'hui ? (statut en direct)</title>
+<meta name="description" content="Statut en direct (ouvert / restreint / fermé) de chaque sentier de randonnée PR payant de Madère, vérifié chaque matin auprès des sources officielles IFCN et Visit Madeira. La réservation et les frais se font via SIMplifica.">
+
+<link rel="canonical" href="https://madeira.maykef.info/fr/trails/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://madeira.maykef.info/fr/trails/">
+<meta property="og:title" content="Sentiers de Madère : ouverts ou fermés aujourd'hui ? Tableau de statut en direct">
+<meta property="og:description" content="Le statut en direct de chaque sentier PR payant, mis à jour chaque matin d'après les sources officielles.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/trails/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/trails/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/trails/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/trails/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/trails/">
+
+<script src="/dashboard.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Quels sentiers de Madère sont ouverts aujourd'hui ?","acceptedAnswer":{"@type":"Answer","text":"Cette page affiche le statut en direct (ouvert, restreint ou fermé) de chaque sentier de randonnée PR classé, actualisé chaque matin d'après les informations officielles de l'IFCN / Visit Madeira. Les sentiers restreints et fermés sont listés en premier."}},
+    {"@type":"Question","name":"Dois-je quand même réserver un sentier de Madère s'il est ouvert ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Tous les sentiers PR classés nécessitent une réservation et un paiement à l'avance via le portail SIMplifica — 4,50 € par sentier, ou 10,50 € pour le PR1 — même lorsque le sentier est ouvert. Les enfants de moins de 12 ans sont gratuits mais doivent figurer sur la réservation."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.5; padding:0 0 48px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+.ribbon{display:flex;gap:2px;overflow:hidden;height:150px}
+.ribbon .pic{flex:1 1 0;min-width:0;position:relative}
+.ribbon .pic.a{background:linear-gradient(135deg,#20573a,#79b268)}
+.ribbon .pic.b{background:linear-gradient(150deg,#5f7590,#c6d1dc)}
+.ribbon .pic.c{background:linear-gradient(135deg,#9a583a,#d9b189)}
+.ribbon .pic.d{background:linear-gradient(140deg,#1d5638,#57996a)}
+.ribbon .pic.e{background:linear-gradient(150deg,#48594d,#9fb0a2)}
+.ribbon .pic span{position:absolute;left:0;right:0;bottom:0;padding:7px 12px;font-size:12px;font-weight:700;
+  color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent)}
+@media (max-width:640px){.ribbon{height:116px}.ribbon .pic.d,.ribbon .pic.e{display:none}}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 8px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,6vw,36px);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin:6px 0 4px}
+.sub{color:var(--ink-soft);font-size:15.5px;max-width:64ch}
+
+.summary{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:18px 0 8px;
+  padding:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:14px}
+.summary .upd{color:var(--ink-soft)}
+.summary b{font-variant-numeric:tabular-nums}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.dot.OPEN{background:var(--open)}.dot.PARTIAL{background:var(--partial)}.dot.CLOSED{background:var(--closed)}
+
+.weather{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;margin:0 0 8px;padding:11px 16px;
+  background:#EDF3EE;border:1px solid #D5E4DA;border-radius:12px;font-size:14px}
+.weather .wx{white-space:nowrap}.weather .wx b{font-weight:700}
+.weather .note{color:var(--ink-soft);font-size:13px}
+
+.search{display:flex;gap:8px;margin:12px 0 6px}
+.search input{flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:#fff}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.chip{font-size:13px;font-weight:600;padding:6px 12px;border:1px solid var(--line);border-radius:999px;
+  color:var(--ink-soft);background:#fff;cursor:pointer}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px;flex-wrap:wrap}
+.sec-h h2{font-size:19px;font-weight:800;letter-spacing:-.01em}
+.sec-h .count{font-size:13px;color:var(--ink-soft);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.tcard{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);
+  border-radius:12px;padding:13px 15px;box-shadow:0 1px 2px rgba(22,52,42,.05)}
+.tcard.OPEN{border-left-color:var(--open)}.tcard.PARTIAL{border-left-color:var(--partial)}.tcard.CLOSED{border-left-color:var(--closed)}
+.trow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.tname{font-weight:750;font-size:15.5px;letter-spacing:-.01em}
+.tcode{font-size:12px;font-weight:700;color:var(--ink-soft);letter-spacing:.05em}
+.tbadge{font-size:12.5px;font-weight:800;letter-spacing:.02em;white-space:nowrap;padding-top:1px}
+.tbadge.OPEN{color:var(--open)}.tbadge.PARTIAL{color:var(--partial)}.tbadge.CLOSED{color:var(--closed)}
+.tmeta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:7px}
+.tnote{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.tfee{font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.tlink{font-size:13px;font-weight:700;color:var(--ink);text-decoration:none}
+.compact .tcard{padding:11px 14px}.compact .tnote{display:none}
+.nomatch{color:var(--ink-soft);font-size:15px;margin-top:10px}
+
+.why{margin-top:30px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.why h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.why p{font-size:14.5px;color:var(--ink-soft);max-width:72ch}
+.disclaimer{margin-top:16px;padding:12px 16px;background:#FBF4E6;border:1px solid #ECDCBB;border-radius:10px;
+  font-size:12.5px;color:#6b5b34;line-height:1.5}
+.disclaimer b{color:#5a4a25}
+footer{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+
+<div class="ribbon" aria-hidden="true">
+  <div class="pic a"><span>Levada das 25 Fontes</span></div>
+  <div class="pic b"><span>Pico do Areeiro → Pico Ruivo</span></div>
+  <div class="pic c"><span>Ponta de São Lourenço</span></div>
+  <div class="pic d"><span>Caldeirão Verde</span></div>
+  <div class="pic e"><span>Fanal</span></div>
+</div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/trails/" hreflang="en">EN</a>
+    <a href="/fr/trails/" hreflang="fr" aria-current="page">FR</a>
+    <a href="/de/trails/" hreflang="de">DE</a>
+    <a href="/pl/trails/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Réponses sur les sentiers de Madère</div>
+  <h1>Sentiers de Madère : ouverts ou fermés aujourd'hui ?</h1>
+  <p class="sub">Chaque sentier de randonnée PR payant, vérifié chaque matin auprès du statut officiel IFCN / Visit Madeira. La réservation &amp; les frais se font via SIMplifica. Vous cherchez le PR1 ? <a class="tlink" href="/fr/">Le PR1 est-il ouvert aujourd'hui →</a></p>
+</header>
+
+<div class="summary" id="summary"><span class="upd">Chargement du statut du jour…</span></div>
+<div class="weather" id="weatherStrip"></div>
+
+<div class="search"><input id="trailSearch" type="search" placeholder="Rechercher un sentier — ex. 25 Fontes, Pico Ruivo, São Lourenço…" aria-label="Rechercher un sentier"></div>
+<div class="chips" id="chips">
+  <span class="chip on" data-filter="all">Tous</span>
+  <span class="chip" data-filter="OPEN">Ouverts</span>
+  <span class="chip" data-filter="PARTIAL">Restreints</span>
+  <span class="chip" data-filter="CLOSED">Fermés</span>
+  <span class="chip" data-filter="popular">Les plus populaires</span>
+</div>
+
+<div id="trailBoard"><p class="nomatch">Chargement des sentiers…</p></div>
+
+<div class="why">
+  <h2>Pourquoi j'ai créé ce site</h2>
+  <p>En 2026, Madère a soumis chaque sentier classé à une réservation payante et horodatée sur SIMplifica — et les frais, les règles et les fermetures ne cessent de changer. Je voyais sans cesse des visiteurs arriver devant un sentier fermé, payer trop cher, ou renoncer au portail de réservation parce que le guide qu'ils avaient lu datait de plusieurs mois. J'ai donc créé une page unique qui vérifie les sources officielles chaque matin et vous dit simplement ce qui est vrai aujourd'hui. <i>(Espace réservé — votre histoire va ici.)</i></p>
+</div>
+
+<div class="disclaimer">
+  <b>Avertissement.</b> Les informations de ce site sont compilées à partir de sources secondaires et officielles (IFCN, Visit Madeira, SIMplifica, IPMA) et peuvent être incomplètes, retardées ou incorrectes. Nous ne sommes pas responsables des éventuelles erreurs, ni d'aucune décision prise sur cette base. Vérifiez toujours le statut, les frais et la réservation en cours directement auprès des sources officielles avant de partir, et faites preuve de votre propre jugement sur le sentier.
+</div>
+<footer>Statut compilé chaque matin à partir des sources officielles de Madère. Indépendant — non affilié au gouvernement régional de Madère.</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

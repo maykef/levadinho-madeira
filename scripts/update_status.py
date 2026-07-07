@@ -46,6 +46,27 @@ UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/4.0; +https://m
 STATUS_JSON = "status.json"
 TRANSLATE_LANGS = ("fr", "de", "pl")   # note is scraped in English; mirror it into these
 
+# --- Multi-trail dashboard ---------------------------------------------------
+# The Visit Madeira hiking index embeds every trail as a JSON row
+# ["PR X - Name", lat, lon, n, "img", "url", "", bool, {"label":"Open|Restricted|Closed"}].
+TRAILS_INDEX = "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/"
+TRAIL_RE = re.compile(
+    r'\["(PR[^"]+?)",(-?\d+\.\d+),(-?\d+\.\d+),\d+,"[^"]*","[^"]*","[^"]*",'
+    r'(?:true|false),\{"label":"([^"]+)"'
+)
+STATUS_MAP = {"Open": "OPEN", "Restricted": "PARTIAL", "Closed": "CLOSED"}
+POPULAR = {"PR1", "PR1.2", "PR6", "PR6.1", "PR8", "PR9", "PR11", "PR13", "PR18"}
+# Regional IPMA stations for the weather strip: (key, station id, lat, lon).
+REGIONS = [
+    ("summit", 1210974, 32.735, -16.928),   # Pico do Areeiro
+    ("north", 1210965, 32.808, -16.886),    # Santana
+    ("west", 1210987, 32.757, -17.202),     # Prazeres / Rabaçal side
+    ("east", 1210978, 32.747, -16.706),     # São Lourenço
+    ("south", 1200522, 32.648, -16.888),    # Funchal
+]
+REGION_PLACE = {"summit": "Pico do Areeiro", "north": "Santana", "west": "Rabaçal",
+                "east": "São Lourenço", "south": "Funchal"}
+
 # A note is "restrictive" when it limits where/when you may walk. This is the
 # core of rule 1 -- it is what turns the live "Footpath accessible only between
 # Pico do Areeiro and Pedra Rija Belvedere (km 1,2)" note into a PARTIAL badge.
@@ -154,6 +175,48 @@ def summit_weather():
     }
 
 
+def _region_temps():
+    """Latest temperature (rounded °C, or None) for each regional station."""
+    obs = requests.get(IPMA_OBS, headers=UA, timeout=30).json()
+    out = {}
+    for key, sid, _lat, _lon in REGIONS:
+        t = _field(_latest_reading(obs, sid), "temperatura")
+        out[key] = round(t) if t is not None else None
+    return out
+
+
+def _nearest_region(lat, lon):
+    """Region key of the closest regional station (flat lat/lon is fine here)."""
+    return min(REGIONS, key=lambda r: (lat - r[2]) ** 2 + (lon - r[3]) ** 2)[0]
+
+
+def scrape_trails():
+    """Every Madeira PR trail from the Visit Madeira hiking index: code, name,
+    coarse status (OPEN/PARTIAL/CLOSED), fee and nearest weather region. Fails
+    loud if the index can't be parsed (rule 3)."""
+    r = requests.get(TRAILS_INDEX, headers=UA, timeout=30)
+    r.raise_for_status()
+    trails, seen = [], set()
+    for m in TRAIL_RE.finditer(r.text):
+        raw, lat, lon, label = m.group(1), float(m.group(2)), float(m.group(3)), m.group(4)
+        code_part, name = (raw.split(" - ", 1) + [raw])[:2] if " - " in raw else (raw, raw)
+        code = code_part.replace(" ", "")
+        if code in seen:          # the index lists some trails (e.g. PR1) twice
+            continue
+        seen.add(code)
+        trails.append({
+            "code": code,
+            "name": name.strip(),
+            "status": STATUS_MAP.get(label, "PARTIAL"),
+            "fee": "10.50" if code == "PR1" else "4.50",
+            "region": _nearest_region(lat, lon),
+            "popular": code in POPULAR,
+        })
+    if len(trails) < 20:
+        sys.exit(f"FATAL: only {len(trails)} trails parsed from hiking index — refusing to publish")
+    return trails
+
+
 def translate_note(note):
     """Mirror the official English note into each site language via MyMemory
     (free, keyless). English is always kept; any per-language failure falls back
@@ -210,6 +273,7 @@ def main():
     today = now.strftime("%Y-%m-%d")
 
     status, note = pr1_status()
+    note_i18n = translate_note(note)
 
     try:
         weather = summit_weather()
@@ -226,13 +290,34 @@ def main():
     # Rule 1 final gate before we write anything.
     assert_not_contradictory(status, note)
 
+    # Multi-trail board for the dashboard (fails loud on scrape/parse error).
+    trails = scrape_trails()
+    region_temps = _region_temps()
+    for t in trails:
+        t["temp"] = region_temps.get(t["region"])
+        if t["code"] == "PR1":
+            # Use our accurate detailed PR1 status + translated note + internal page.
+            t["status"] = status
+            t["note"] = note_i18n
+            t["page"] = "/"
+    counts = {"OPEN": 0, "PARTIAL": 0, "CLOSED": 0}
+    for t in trails:
+        counts[t["status"]] = counts.get(t["status"], 0) + 1
+    regions = [{"key": k, "place": REGION_PLACE[k], "temp": region_temps.get(k)}
+               for k, _sid, _lat, _lon in REGIONS]
+
     data = {
+        # Top-level = the detailed PR1 flagship data (status.js on the PR1 pages).
         "status": status,
-        "note": translate_note(note),
+        "note": note_i18n,
         "manual_note": manual_note,
         "weather": weather,
         "stamp": stamp,
         "date": today,
+        # Added for the dashboard (dashboard.js).
+        "counts": counts,
+        "regions": regions,
+        "trails": trails,
     }
     with open(STATUS_JSON, "w") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
@@ -240,7 +325,8 @@ def main():
 
     bump_sitemap(today)
 
-    print(f"PR1={status} | note={note[:80]!r} | weather_ok={weather.get('ok')} | {stamp}")
+    print(f"PR1={status} | trails={len(trails)} | "
+          f"open={counts['OPEN']} partial={counts['PARTIAL']} closed={counts['CLOSED']} | {stamp}")
 
 
 if __name__ == "__main__":

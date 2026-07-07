@@ -24,8 +24,10 @@ hosted on **GitHub Pages**.
 | `simplifica-from-abroad.html` | Booking when the SIMplifica portal won't work from abroad |
 | `hiking-fees.html` | 2026 trail fees, passes, exemptions (as a table) |
 | `fr/`, `de/`, `pl/` | Full French/German/Polish translations of all four pages |
-| `status.json` | Live status data (badge, note, structured weather, timestamp) — written daily by the updater |
-| `status.js` | Renders the status card on every homepage from `status.json`, localized by `<html lang>` |
+| `status.json` | Live data written daily: PR1 flagship fields (top-level) **plus** `counts`, `regions` (weather) and `trails[]` for the dashboard |
+| `status.js` | Renders the single-trail status card (PR1 pages) from `status.json`, localized by `<html lang>` |
+| `dashboard.js` | Renders the trails dashboard (board + weather strip + counts + search/filter) from `status.json`, localized |
+| `trails/` (+ `fr/`,`de/`,`pl/`) | The live "Madeira trails: open or closed today?" dashboard — the hub |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
 | `.github/workflows/update.yml` | Cron that runs the updater at 06:40 UTC daily |
 | `sitemap.xml`, `robots.txt` | SEO (sitemap carries hreflang alternates for all 16 URLs) |
@@ -44,12 +46,14 @@ runs from the Actions tab). What it does:
    + wind (falling back to neighbouring station `1210973` when the summit wind
    sensor reports the `-99` "missing" sentinel). `-99` fields and temps
    `< -10 °C` / `> 30 °C` are rejected → generic fallback line.
-3. Translates the English official note into fr/de/pl (MyMemory — free, keyless,
-   with English fallback) and writes `status.json`: status code, the note as a
-   per-language object `{en,fr,de,pl}`, structured weather, timestamp. Then bumps
-   `<lastmod>` in `sitemap.xml`. It **no longer edits any HTML** — every homepage
-   renders the card from `status.json` via `status.js`, localized by
-   `<html lang>`.
+3. Scrapes the Visit Madeira hiking **index** (one request → every PR trail's
+   Open/Restricted/Closed status, parsed from the embedded JSON) and reads five
+   regional IPMA stations, then writes `status.json`: the PR1 flagship fields
+   (status; note translated to fr/de/pl via MyMemory with English fallback;
+   structured weather; timestamp) **plus** `counts`, `regions`, and `trails[]`
+   for the dashboard. PR1's own status/note override the coarse index value with
+   our detailed scrape. Bumps `<lastmod>` in `sitemap.xml`; edits **no HTML** —
+   per-trail cards render via `status.js`, the dashboard via `dashboard.js`.
 4. The Action commits and pushes only if something changed (`status.json` +
    `sitemap.xml`).
 

@@ -5,7 +5,8 @@ _Snapshot: 2026-07-07. Branch `main`, working tree clean._
 ## Where it stands
 
 A working, live static site on GitHub Pages with a self-maintaining PR1 status
-card, now in **four languages** (EN at the root; `fr/`, `de/`, `pl/`). The daily
+card **and a live all-trails dashboard** (`/trails/`), now in **four languages**
+(EN at the root; `fr/`, `de/`, `pl/`). The daily
 updater (v4) writes a language-neutral `status.json` that every homepage renders
 via `status.js`, localized per page — including the scraped official note, which
 is machine-translated into fr/de/pl. Content and pricing reflect the **April 2026
@@ -42,6 +43,14 @@ native proofread before relying on them commercially.
   the note in their own language (proper nouns preserved).
 - Current live status: **PARTIAL** (footpath accessible only Areeiro → Pedra Rija
   Belvedere, km 1,2), last checked 2026-07-07.
+
+- **Dashboard shipped (2026-07-07):** `/trails/` (+ fr/de/pl) — live "open or
+  closed today?" board for all ~37 Madeira PR trails, driven by the multi-trail
+  engine (one scrape of the Visit Madeira index → `trails[]`, `counts`, 5-region
+  IPMA weather in `status.json`). Rendered by `dashboard.js`; search + filter
+  chips; photo ribbon uses **placeholder gradients** (swap in real licensed
+  photos). Kept at `/trails/` for now (PR1 stays the homepage `/`); promote to
+  the homepage once per-trail spoke pages exist.
 
 ## Open items / risks
 
