@@ -44,10 +44,12 @@ runs from the Actions tab). What it does:
    + wind (falling back to neighbouring station `1210973` when the summit wind
    sensor reports the `-99` "missing" sentinel). `-99` fields and temps
    `< -10 °C` / `> 30 °C` are rejected → generic fallback line.
-3. Writes `status.json` (a small language-neutral file: status code, official
-   note, structured weather, timestamp) and bumps `<lastmod>` in `sitemap.xml`.
-   It **no longer edits any HTML** — every homepage renders the card from
-   `status.json` via `status.js`, localized by `<html lang>`.
+3. Translates the English official note into fr/de/pl (MyMemory — free, keyless,
+   with English fallback) and writes `status.json`: status code, the note as a
+   per-language object `{en,fr,de,pl}`, structured weather, timestamp. Then bumps
+   `<lastmod>` in `sitemap.xml`. It **no longer edits any HTML** — every homepage
+   renders the card from `status.json` via `status.js`, localized by
+   `<html lang>`.
 4. The Action commits and pushes only if something changed (`status.json` +
    `sitemap.xml`).
 
@@ -57,9 +59,12 @@ runs from the Actions tab). What it does:
   restrictive note (`only`, `between`, `km 1,2`, …) is downgraded to `PARTIAL`.
   `assert_not_contradictory` is a final gate that exits non-zero rather than
   publish a "green but restricted" lie.
-- **Fail loud.** Any scrape failure exits non-zero → red Action → yesterday's
-  honest status stays live instead of publishing garbage. Do not add
-  try/except that swallows scrape errors.
+- **Fail loud on the status scrape.** Any failure there exits non-zero → red
+  Action → yesterday's honest `status.json` stays live instead of garbage. Do
+  not add try/except that swallows scrape errors. Weather and note-translation
+  are the deliberate exceptions — they degrade gracefully (weather →
+  `{"ok": false}`, note-translation → English fallback) so a transient IPMA or
+  MyMemory outage never blanks the whole card.
 - The status card is **rendered client-side** by `status.js` from `status.json`
   — don't hard-code status into any homepage's HTML. To change wording or add a
   language, edit the `LANGS` dictionary in `status.js`; to change the data

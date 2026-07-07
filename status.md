@@ -7,8 +7,10 @@ _Snapshot: 2026-07-07. Branch `main`, working tree clean._
 A working, live static site on GitHub Pages with a self-maintaining PR1 status
 card, now in **four languages** (EN at the root; `fr/`, `de/`, `pl/`). The daily
 updater (v4) writes a language-neutral `status.json` that every homepage renders
-via `status.js`. Content and pricing reflect the **April 2026 one-way reopening**
-and 2026 fees.
+via `status.js`, localized per page — including the scraped official note, which
+is machine-translated into fr/de/pl. Content and pricing reflect the **April 2026
+one-way reopening** and 2026 fees. The site is on Google Search Console (new
+`madeira.maykef.info` property; homepage indexed).
 
 ## Pages
 
@@ -34,8 +36,12 @@ native proofread before relying on them commercially.
   forecast); now the real measured reading from IPMA's Pico do Areeiro station.
   Trade-off: IPMA has no sky/weather code, so the old "clear skies / FOG" phrase
   is replaced by temperature + a humidity-derived "likely in cloud" note.
-- Last recorded status update commit: **2026-07-06** (badge currently `PARTIAL`
-  — footpath accessible only Areeiro → Pedra Rija Belvedere, km 1,2).
+- **Official note translated (2026-07-07):** the scraped English note is mirrored
+  into fr/de/pl via MyMemory (free/keyless, English fallback) and stored as a
+  per-language object `{en,fr,de,pl}` in `status.json`, so localized pages show
+  the note in their own language (proper nouns preserved).
+- Current live status: **PARTIAL** (footpath accessible only Areeiro → Pedra Rija
+  Belvedere, km 1,2), last checked 2026-07-07.
 
 ## Open items / risks
 
@@ -53,12 +59,15 @@ native proofread before relying on them commercially.
   matters.
 - [ ] Translations are machine-generated (by Claude) — get a native FR/DE/PL
   proofread before using commercially.
-- [x] **Domain move done (2026-07-07):** repo republished on the `maykef`
-  account as `maykef/levadinho-madeira`; base URL switched to
-  `https://madeira.maykef.info/` across the pages, `sitemap.xml`, `robots.txt`,
-  and the scraper UA; `CNAME` added. **Still pending on GitHub's side:** delete
-  the old `Levadinho-Madeira/Levadinho` repo, enable Pages + custom domain on
-  the new repo, and add the DNS `CNAME madeira → maykef.github.io`.
+- [x] **Domain move done (2026-07-07):** repo republished on
+  `maykef/levadinho-madeira`, served at `https://madeira.maykef.info/` via GitHub
+  Pages + `CNAME` + DNS; base URL updated everywhere. **Only leftover:** delete
+  the retired `Levadinho-Madeira/Levadinho` repo.
+- [x] **Google Search Console (2026-07-07):** new `https://madeira.maykef.info/`
+  URL-prefix property verified (HTML-file method), homepage indexed. Sitemap now
+  carries 16 URLs + hreflang — let Google refetch it in the new property and use
+  URL Inspection → Request indexing on `/fr/`, `/de/`, `/pl/` to speed discovery.
+  The old github.io property is obsolete.
 - [ ] Status scraper depends on the exact wording/structure of the Visit Madeira
   page. If they redesign it, the run fails loud (by design) and status freezes
   at the last good value until fixed.
