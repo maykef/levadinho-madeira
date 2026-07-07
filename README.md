@@ -16,9 +16,11 @@ things:
 
 - Scrapes the official Visit Madeira PR1 page for the status word (OPEN /
   CLOSED / RESTRICTED) and the warning note next to it.
-- Fetches summit weather from Open-Meteo, using the ridge elevation (1,818 m)
-  so the temperature isn't a coastal reading. Values below −10 °C or above
-  30 °C are discarded.
+- Reads the official measured summit weather from IPMA's Pico do Areeiro
+  station (open data, no key). IPMA has no sky code, so it publishes the
+  temperature, a "likely in cloud" note when humidity is very high, and wind
+  when strong (with a neighbouring station as a wind fallback). Missing (−99) or
+  out-of-range (below −10 °C / above 30 °C) values are discarded.
 - Rewrites the status block and `<title>` in `index.html`, updates the date in
   `getting-back.html`, and bumps the `lastmod` in `sitemap.xml`.
 - Commits and pushes if anything changed.

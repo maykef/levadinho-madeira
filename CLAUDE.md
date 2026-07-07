@@ -35,9 +35,12 @@ runs from the Actions tab). What it does:
 
 1. Scrapes the official Visit Madeira PR1 page for the status word
    (`OPEN` / `CLOSED` / `RESTRICTED`→`PARTIAL`) and the official warning note.
-2. Fetches summit weather from Open-Meteo **at the real ridge elevation
-   (1,818 m)** — without the `elevation` param the API returns coastal temps.
-   Values `< -10 °C` or `> 30 °C` are rejected as implausible.
+2. Reads **official measured** summit weather from IPMA's Pico do Areeiro
+   observation station (`1210974`, keyless open-data API). IPMA carries no sky
+   code, so it reports temperature + a humidity-derived "likely in cloud" note
+   + wind (falling back to neighbouring station `1210973` when the summit wind
+   sensor reports the `-99` "missing" sentinel). `-99` fields and temps
+   `< -10 °C` / `> 30 °C` are rejected → generic fallback line.
 3. Rewrites the `<!-- STATUS:BEGIN … STATUS:END -->` block and `<title>` in
    `index.html`, stamps `lastUpdated` in `getting-back.html`, bumps `<lastmod>`
    in `sitemap.xml`.

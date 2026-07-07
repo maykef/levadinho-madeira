@@ -21,7 +21,12 @@ schedule. Content and pricing reflect the **April 2026 one-way reopening** and
 ## Automation
 
 - `scripts/update_status.py` (v3) + `.github/workflows/update.yml` — runs
-  06:40 UTC daily, scrapes Visit Madeira + Open-Meteo, commits if changed.
+  06:40 UTC daily, scrapes Visit Madeira for trail status and reads official
+  IPMA observations for summit weather, commits if changed.
+- **Weather source switched to IPMA (2026-07-07):** was Open-Meteo (model
+  forecast); now the real measured reading from IPMA's Pico do Areeiro station.
+  Trade-off: IPMA has no sky/weather code, so the old "clear skies / FOG" phrase
+  is replaced by temperature + a humidity-derived "likely in cloud" note.
 - Last recorded status update commit: **2026-07-06** (badge currently `PARTIAL`
   — footpath accessible only Areeiro → Pedra Rija Belvedere, km 1,2).
 
