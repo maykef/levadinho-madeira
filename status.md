@@ -53,7 +53,8 @@ native proofread before relying on them commercially.
   the homepage once per-trail spoke pages exist.
 
 - **Spoke pages (2026-07-07):** `/25-fontes/` (PR6), `/pico-ruivo/` (PR1.2),
-  `/caldeirao-verde/` (PR9), `/sao-lourenco/` (PR8) — each + fr/de/pl. Built from
+  `/caldeirao-verde/` (PR9), `/sao-lourenco/` (PR8), `/balcoes/` (PR11),
+  `/fanal/` (PR13) — **6 trails**, each + fr/de/pl (28 pages). Built from
   the PR1 shell: hero photo, live status card (`status.js` `data-trail`),
   trail-facts sidebar, and trail-specific booking / getting-there / alternatives
   content. The engine's `PAGES` map links each dashboard card to its spoke.

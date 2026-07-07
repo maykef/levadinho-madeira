@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Le Fanal est-il ouvert aujourd'hui ? Vereda do Fanal (PR13) — la forêt de lauriers brumeuse, état et réservation</title>
+<meta name="description" content="État en temps réel de la Vereda do Fanal (PR13) sur le Paúl da Serra — est-elle ouverte aujourd'hui ? La célèbre forêt de lauriers brumeuse de Madère : la balade de 10,8 km, la réservation, quand le brouillard s'installe et comment s'y rendre.">
+
+<link rel="canonical" href="https://madeira.maykef.info/fr/fanal/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/fr/fanal/">
+<meta property="og:title" content="Le Fanal est-il ouvert aujourd'hui ? La forêt de lauriers brumeuse — état et réservation">
+<meta property="og:description" content="Vereda do Fanal (PR13) : l'état officiel du jour, la réservation sur SIMplifica et comment rejoindre le plateau du Paúl da Serra.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/fanal/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/fanal/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/fanal/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/fanal/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/fanal/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Le Fanal est-il ouvert aujourd'hui ?","acceptedAnswer":{"@type":"Answer","text":"L'état du jour pour la Vereda do Fanal (PR13) est affiché en direct en haut de cette page, mis à jour chaque matin à partir des informations officielles de l'IFCN / Visit Madeira. Le sentier classé coûte 4,50 € via le portail SIMplifica."}},
+    {"@type":"Question","name":"Faut-il réserver le Fanal ?","acceptedAnswer":{"@type":"Answer","text":"Le sentier classé Vereda do Fanal (PR13) nécessite une réservation à l'avance et un paiement de 4,50 € via SIMplifica. La forêt du Fanal elle-même est aussi accessible en voiture par l'ER209 ; pour savoir si une réservation est nécessaire simplement pour flâner dans la zone forestière, mieux vaut vérifier sur SIMplifica, car les règles se durcissent."}},
+    {"@type":"Question","name":"Pourquoi le Fanal est-il toujours brumeux ?","acceptedAnswer":{"@type":"Answer","text":"Le Fanal se situe en altitude sur le plateau exposé du Paúl da Serra (~1 150–1 420 m), où l'air atlantique humide se condense au-dessus de la forêt de lauriers. La brume parmi les vieux tils noueux est précisément ce qui fait les photos — mais elle signifie aussi froid, humidité et faible visibilité, alors couvrez-vous."}},
+    {"@type":"Question","name":"Comment se rendre à la forêt du Fanal ?","acceptedAnswer":{"@type":"Answer","text":"C'est un trajet isolé jusqu'au plateau du Paúl da Serra, à l'ouest (plus d'une heure de Funchal via l'ER110/ER209). Le sentier PR13 parcourt environ 10,8 km à travers le plateau jusqu'à la forêt du Fanal et son cratère volcanique."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#48594d url(/img/fanal.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/fanal/" hreflang="en">EN</a>
+    <a href="/fr/fanal/" hreflang="fr" aria-current="page">FR</a>
+    <a href="/de/fanal/" hreflang="de">DE</a>
+    <a href="/pl/fanal/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Réponses sur les sentiers de Madère</div>
+  <h1>Le Fanal est-il ouvert aujourd'hui ?</h1>
+  <p class="sub">Vereda do Fanal (PR13) — l'ancienne forêt de lauriers brumeuse sur le plateau du Paúl da Serra. Vérifié chaque matin par rapport à l'état officiel de l'IFCN. Voir <a href="/fr/trails/">tous les sentiers de Madère</a> ou <a href="/fr/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR13">
+  <div class="status-body"><p>Chargement de l'état du jour pour le Fanal… s'il n'apparaît pas, consultez les sources officielles liées ci-dessous.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Fiche du sentier</h2>
+  <dl>
+    <dt>Distance</dt><dd>10,8 km</dd>
+    <dt>Durée</dt><dd>~4 heures</dd>
+    <dt>Difficulté</dt><dd>Modérée</dd>
+    <dt>Altitude</dt><dd>1 130–1 420 m</dd>
+    <dt>Forêt</dt><dd>Laurissilva (UNESCO)</dd>
+    <dt>Type</dt><dd>Linéaire (ER209)</dd>
+    <dt>Tarif</dt><dd>4,50 €</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="forest">
+  <h2><span class="q">La forêt.</span> Ces arbres dans la brume</h2>
+  <p>Le Fanal, c'est l'image que tout le monde vient chercher : de vieux <b>tils (lauriers) noueux</b> dans la brume, en altitude sur le plateau du Paúl da Serra — une partie de la Laurissilva classée à l'UNESCO.</p>
+  <ul>
+    <li><b>Le brouillard, c'est la magie.</b> La scène est à son meilleur quand les nuages traversent les arbres ; une journée d'un bleu limpide est jolie mais bien moins atmosphérique.</li>
+    <li><b>Deux choses partagent le nom.</b> La <b>Vereda do Fanal (PR13)</b> classée est une balade de 10,8 km à travers le plateau ; la <b>forêt du Fanal</b> au bout (avec les arbres célèbres et le pré à pique-nique) est aussi accessible en voiture par l'ER209.</li>
+  </ul>
+</section>
+
+<section id="book">
+  <h2><span class="q">Réservez.</span> Le PR13 sur SIMplifica</h2>
+  <ol>
+    <li><b>Réservez le <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">créneau à 4,50 € sur SIMplifica</a> du sentier PR13 à l'avance</b>, dans une fenêtre de 30 minutes. Les moins de 12 ans sont gratuits mais figurent sur la réservation.</li>
+    <li><b>Vous ne visitez la forêt qu'en voiture ?</b> C'est la balade classée qui se réserve ; pour savoir si un créneau est aussi nécessaire simplement pour flâner dans la zone forestière du Fanal, cela vaut la peine de vérifier sur SIMplifica, car les règles d'accès se durcissent.</li>
+  </ol>
+  <div class="fact">Vérifiez l'état en direct ci-dessus avant la longue montée — le plateau ferme selon la météo, et c'est un endroit isolé où tomber sur une barrière fermée.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Comment s'y rendre.</span> Le plateau du Paúl da Serra</h2>
+  <p>Le Fanal est <b>isolé</b> : un plateau élevé et exposé à l'ouest, à plus d'une heure de Funchal via l'ER110 et l'ER209.</p>
+  <ul>
+    <li><b>Il est en altitude et souvent dans les nuages</b> (1 130–1 420 m) — c'est tout l'intérêt, mais cela signifie froid, humidité et faible visibilité. Emportez des couches chaudes et imperméables, même en été.</li>
+    <li><b>Faites le plein et partez préparé :</b> pas de magasins, un signal aléatoire et une brume qui peut faire chuter la visibilité rapidement. Ne comptez pas uniquement sur une carte sur téléphone.</li>
+    <li>Le <b>PR13 complet fait 10,8 km, ~4 heures</b> à travers le plateau jusqu'à la forêt et son cratère volcanique — une vraie balade, pas juste l'arrêt photo.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Fermé ou complet ?</span> Vos options</h2>
+  <ul>
+    <li><b>Reprogrammez</b> via le centre d'appels de SIMplifica avant votre date — une fermeture pour cause de météo vous permet de changer de sentier.</li>
+    <li><b>Alternatives :</b> <a class="plain" href="/fr/trails/">consultez le tableau en direct</a> — les levadas abritées comme <a class="plain" href="/fr/25-fontes/">25 Fontes</a> et <a class="plain" href="/fr/caldeirao-verde/">Caldeirão Verde</a> sont le choix le plus sûr un jour de mauvais temps.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trois choses que les gens découvrent trop tard</h2>
+  <ul>
+    <li><b>C'est en altitude et froid.</b> Le plateau peut être brumeux et proche de zéro alors que Funchal est en short — habillez-vous pour la montagne.</li>
+    <li><b>Le sentier ≠ l'arrêt photo.</b> Le PR13 complet est une balade de 10,8 km / 4 heures ; les arbres célèbres sont au bout, côté Fanal, où vous pouvez aussi vous rendre en voiture.</li>
+    <li><b>Isolé et exposé.</b> Aucun équipement, un signal aléatoire et une brume qui change vite — emportez de l'eau, de la nourriture, des couches et ne comptez pas uniquement sur votre téléphone.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>État compilé chaque matin à partir de l'IFCN (ifcn.madeira.gov.pt) et de SIMplifica, avec la météo de l'IPMA (ipma.pt). Indépendant — non affilié au gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.</p>
+  <p style="margin-top:6px">Photo : Dietmar Rabich, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, redimensionnée.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
