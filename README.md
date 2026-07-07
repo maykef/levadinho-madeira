@@ -47,6 +47,8 @@ Each HTML file has a small CONFIG block at the top — the WhatsApp number and
 the analytics code, nothing else. If the WhatsApp buttons are dead, the number
 is still the placeholder.
 
-Hosted on GitHub Pages. When it moves to a real domain, the base URL lives in
-a few places on purpose (the canonical tags, `sitemap.xml`, `robots.txt`) —
-search for the current one and replace it, and add a `CNAME`.
+Hosted on GitHub Pages from the `maykef/levadinho-madeira` repo, served at
+`https://madeira.maykef.info/` (custom domain in the `CNAME` file). The base URL
+lives in a few places on purpose (the canonical tags, `sitemap.xml`,
+`robots.txt`) — if it ever changes again, search for the current one and replace
+it, and update `CNAME`.
