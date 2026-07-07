@@ -19,13 +19,16 @@ hosted on **GitHub Pages**.
 
 | File | Purpose |
 |------|---------|
-| `index.html` | PR1 live status (auto-updated daily), sold-out fixes, rescheduling |
+| `index.html` | English homepage: PR1 live status card, sold-out fixes, rescheduling |
 | `getting-back.html` | The one-way problem: getting back from Achada do Teixeira |
 | `simplifica-from-abroad.html` | Booking when the SIMplifica portal won't work from abroad |
 | `hiking-fees.html` | 2026 trail fees, passes, exemptions (as a table) |
+| `fr/`, `de/`, `pl/` | Full French/German/Polish translations of all four pages |
+| `status.json` | Live status data (badge, note, structured weather, timestamp) — written daily by the updater |
+| `status.js` | Renders the status card on every homepage from `status.json`, localized by `<html lang>` |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
 | `.github/workflows/update.yml` | Cron that runs the updater at 06:40 UTC daily |
-| `sitemap.xml`, `robots.txt` | SEO |
+| `sitemap.xml`, `robots.txt` | SEO (sitemap carries hreflang alternates for all 16 URLs) |
 | `googleea2064b7684c2bab.html` | Google Search Console site-verification token — do not delete |
 
 ## The daily updater (`scripts/update_status.py`)
@@ -41,10 +44,12 @@ runs from the Actions tab). What it does:
    + wind (falling back to neighbouring station `1210973` when the summit wind
    sensor reports the `-99` "missing" sentinel). `-99` fields and temps
    `< -10 °C` / `> 30 °C` are rejected → generic fallback line.
-3. Rewrites the `<!-- STATUS:BEGIN … STATUS:END -->` block and `<title>` in
-   `index.html`, stamps `lastUpdated` in `getting-back.html`, bumps `<lastmod>`
-   in `sitemap.xml`.
-4. The Action commits and pushes only if something changed.
+3. Writes `status.json` (a small language-neutral file: status code, official
+   note, structured weather, timestamp) and bumps `<lastmod>` in `sitemap.xml`.
+   It **no longer edits any HTML** — every homepage renders the card from
+   `status.json` via `status.js`, localized by `<html lang>`.
+4. The Action commits and pushes only if something changed (`status.json` +
+   `sitemap.xml`).
 
 ### Invariants — do not break these
 
@@ -55,13 +60,17 @@ runs from the Actions tab). What it does:
 - **Fail loud.** Any scrape failure exits non-zero → red Action → yesterday's
   honest status stays live instead of publishing garbage. Do not add
   try/except that swallows scrape errors.
-- The `STATUS:BEGIN…END` block in `index.html` is machine-written — **do not
-  hand-edit it**; edit `build_block()` instead.
+- The status card is **rendered client-side** by `status.js` from `status.json`
+  — don't hard-code status into any homepage's HTML. To change wording or add a
+  language, edit the `LANGS` dictionary in `status.js`; to change the data
+  shape, edit the updater and `status.js` together. Each homepage keeps a
+  plain-text fallback inside `#statusCard` for no-JS.
 - `scripts/manual_note.txt` (optional, not committed) injects a human-written
-  line into the status card — for things the scrape can't see (e.g. a ranger
-  reporting ice).
+  line into the status card (lands in `status.json` as `manual_note`) — for
+  things the scrape can't see (e.g. a ranger reporting ice).
 
-Run locally from the repo root (edits HTML in place — check `git diff` first):
+Run locally from the repo root (writes `status.json`, bumps `sitemap.xml` —
+check `git diff` first):
 
 ```
 python scripts/update_status.py
@@ -78,8 +87,15 @@ python scripts/update_status.py
   counted; `#countme` undoes it.
 - Shared visual language: cream `--paper`, ink green, and the yellow/red
   **waymark stripe** (the paint marks on Madeira's rocks). Reuse the existing
-  CSS variables and the `.waymark`, `.wa-btn`, `.fact`, `.opt` patterns rather
-  than inventing new styles.
+  CSS variables and the `.waymark`, `.fact`, `.opt` patterns rather than
+  inventing new styles.
+- **Multilingual (en/fr/de/pl).** English lives at the root; `fr/`, `de/`, `pl/`
+  mirror all four pages. Every page has a language switcher (`.langs`), five
+  `hreflang` alternates in the head, and a self-referencing canonical. When you
+  add/rename a page or change copy, update **all four languages**, the switcher
+  links, the hreflang blocks, and `sitemap.xml`. Internal links stay relative so
+  they resolve within each language folder. Machine translations — flag for
+  native review before relying on them commercially.
 - Every page has FAQ `schema.org` JSON-LD in the head — keep it in sync with the
   visible copy when you change facts.
 - Pages cross-link via a "Next steps" list. Keep those links working when adding

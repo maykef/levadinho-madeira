@@ -28,7 +28,7 @@ jobs:
         run: |
           git config user.name "levadinho-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add index.html getting-back.html sitemap.xml
+          git add status.json sitemap.xml
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Daily status update $(date -u +%F)"
           git push

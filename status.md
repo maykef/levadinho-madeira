@@ -5,24 +5,31 @@ _Snapshot: 2026-07-07. Branch `main`, working tree clean._
 ## Where it stands
 
 A working, live static site on GitHub Pages with a self-maintaining PR1 status
-card. Four content pages ship; the daily updater (v3) is deployed and running on
-schedule. Content and pricing reflect the **April 2026 one-way reopening** and
-2026 fees.
+card, now in **four languages** (EN at the root; `fr/`, `de/`, `pl/`). The daily
+updater (v4) writes a language-neutral `status.json` that every homepage renders
+via `status.js`. Content and pricing reflect the **April 2026 one-way reopening**
+and 2026 fees.
 
 ## Pages
 
 | Page | State |
 |------|-------|
-| `index.html` | Live. Status block auto-updated daily. |
-| `getting-back.html` | Live. `lastUpdated` stamped by the updater. |
-| `simplifica-from-abroad.html` | Live. |
-| `hiking-fees.html` | Live. |
+| `index.html` (+ `fr/`,`de/`,`pl/`) | Live. Status card rendered from `status.json` via `status.js`, localized. |
+| `getting-back.html` (+ 3 langs) | Live. |
+| `simplifica-from-abroad.html` (+ 3 langs) | Live. |
+| `hiking-fees.html` (+ 3 langs) | Live. |
+
+Translations (FR/DE/PL) were machine-generated on 2026-07-07 — recommend a
+native proofread before relying on them commercially.
 
 ## Automation
 
-- `scripts/update_status.py` (v3) + `.github/workflows/update.yml` — runs
+- `scripts/update_status.py` (v4) + `.github/workflows/update.yml` — runs
   06:40 UTC daily, scrapes Visit Madeira for trail status and reads official
-  IPMA observations for summit weather, commits if changed.
+  IPMA observations for summit weather, writes `status.json` + bumps
+  `sitemap.xml`, commits if changed. **v4 (2026-07-07): stopped editing HTML** —
+  the status card is now rendered client-side from `status.json` for all
+  languages.
 - **Weather source switched to IPMA (2026-07-07):** was Open-Meteo (model
   forecast); now the real measured reading from IPMA's Pico do Areeiro station.
   Trade-off: IPMA has no sky/weather code, so the old "clear skies / FOG" phrase
@@ -40,10 +47,12 @@ schedule. Content and pricing reflect the **April 2026 one-way reopening** and
 - [ ] **GoatCounter analytics** uses code `levadinho-madeira` — confirm the
   account exists at `levadinho-madeira.goatcounter.com`, else pageviews/clicks
   aren't recorded.
-- [ ] The updater stamps `lastUpdated` only in `getting-back.html`.
-  `hiking-fees.html` and `simplifica-from-abroad.html` also carry a
-  `lastUpdated` field that the script does **not** refresh — they'll show a
-  stale date. Decide whether to extend the script or leave them static.
+- [ ] Article pages (all languages) show a static `CONFIG.lastUpdated` date.
+  Since v4 the updater no longer touches HTML, so these dates don't advance.
+  Cosmetic — could wire them to `status.json`'s `date` with a small script if it
+  matters.
+- [ ] Translations are machine-generated (by Claude) — get a native FR/DE/PL
+  proofread before using commercially.
 - [x] **Domain move done (2026-07-07):** repo republished on the `maykef`
   account as `maykef/levadinho-madeira`; base URL switched to
   `https://madeira.maykef.info/` across the pages, `sitemap.xml`, `robots.txt`,
