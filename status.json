@@ -9,12 +9,386 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 26.3,
-    "humidity": 19,
+    "temp_c": 26.7,
+    "humidity": 21,
     "in_cloud": false,
     "wind_kmh": 18,
     "wind_strong": false
   },
-  "stamp": "2026-07-07 14:56",
-  "date": "2026-07-07"
+  "stamp": "2026-07-07 16:32",
+  "date": "2026-07-07",
+  "counts": {
+    "OPEN": 28,
+    "PARTIAL": 4,
+    "CLOSED": 5
+  },
+  "regions": [
+    {
+      "key": "summit",
+      "place": "Pico do Areeiro",
+      "temp": 27
+    },
+    {
+      "key": "north",
+      "place": "Santana",
+      "temp": 24
+    },
+    {
+      "key": "west",
+      "place": "Rabaçal",
+      "temp": 27
+    },
+    {
+      "key": "east",
+      "place": "São Lourenço",
+      "temp": 25
+    },
+    {
+      "key": "south",
+      "place": "Funchal",
+      "temp": 24
+    }
+  ],
+  "trails": [
+    {
+      "code": "PR1",
+      "name": "Vereda do Areeiro",
+      "status": "PARTIAL",
+      "fee": "10.50",
+      "region": "summit",
+      "popular": true,
+      "temp": 27,
+      "note": {
+        "en": "Footpath accessible only between Pico do Areeiro and Pedra Rija Belvedere (km 1,2).",
+        "fr": "Sentier accessible uniquement entre Pico do Areeiro et Pedra Rija Belvedere (km 1,2).",
+        "de": "Fußweg nur zwischen Pico do Areeiro und Pedra Rija Belvedere (km 1,2).",
+        "pl": "Ścieżka dostępna tylko między Pico do Areeiro a Pedra Rija Belvedere (km 1,2)."
+      },
+      "page": "/"
+    },
+    {
+      "code": "PR1.1",
+      "name": "Vereda da Ilha",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "north",
+      "popular": false,
+      "temp": 24
+    },
+    {
+      "code": "PR1.2",
+      "name": "Vereda do Pico Ruivo",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": true,
+      "temp": 27
+    },
+    {
+      "code": "PR1.3",
+      "name": "Vereda da Encumeada",
+      "status": "PARTIAL",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR2",
+      "name": "Vereda do Urzal",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR3",
+      "name": "Vereda do Burro",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR3.1",
+      "name": "Caminho Real do Monte",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "south",
+      "popular": false,
+      "temp": 24
+    },
+    {
+      "code": "PR4",
+      "name": "Levada do Barreiro",
+      "status": "PARTIAL",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR5",
+      "name": "Vereda das Funduras",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "north",
+      "popular": false,
+      "temp": 24
+    },
+    {
+      "code": "PR6",
+      "name": "Levada das 25 Fontes",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": true,
+      "temp": 27
+    },
+    {
+      "code": "PR6.1",
+      "name": "Levada do Risco",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": true,
+      "temp": 27
+    },
+    {
+      "code": "PR6.2",
+      "name": "Levada do Alecrim",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR6.3",
+      "name": "Vereda da Lagoa do Vento",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR7",
+      "name": "Levada do Moinho",
+      "status": "CLOSED",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR8",
+      "name": "Vereda da Ponta de S\\u00E3o Louren\\u00E7o",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "east",
+      "popular": true,
+      "temp": 25
+    },
+    {
+      "code": "PR9",
+      "name": "Levada do Caldeir\\u00E3o Verde",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "north",
+      "popular": true,
+      "temp": 24
+    },
+    {
+      "code": "PR10",
+      "name": "Levada do Furado",
+      "status": "CLOSED",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR11",
+      "name": "Vereda dos Balc\\u00F5es",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": true,
+      "temp": 27
+    },
+    {
+      "code": "PR12",
+      "name": "Caminho Real da Encumeada",
+      "status": "PARTIAL",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR13",
+      "name": "Vereda do Fanal",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": true,
+      "temp": 27
+    },
+    {
+      "code": "PR14",
+      "name": "Levada dos Cedros",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR15",
+      "name": "Vereda da Ribeira da Janela",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR16",
+      "name": "Levada Faj\\u00E3 do Rodrigues",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR17",
+      "name": "Caminho do Pin\\u00E1culo e Folhadal",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR18",
+      "name": "Levada do Rei",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "north",
+      "popular": true,
+      "temp": 24
+    },
+    {
+      "code": "PR19",
+      "name": "Caminho Real do Paul do Mar",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR20",
+      "name": "Vereda do Jardim do Mar",
+      "status": "CLOSED",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR21",
+      "name": "Caminho do Norte",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR22",
+      "name": "Vereda do Ch\\u00E3o dos Louros",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR27",
+      "name": "Glaciar de Planalto",
+      "status": "CLOSED",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR6.6",
+      "name": "Vereda do T\\u00FAnel do Cavalo",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR28",
+      "name": "Levada da Rocha Vermelha",
+      "status": "CLOSED",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR6.8",
+      "name": "Levada do Paul II - Um caminho para todos",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR6.4",
+      "name": "Levada Velha do Raba\\u00E7al",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR6.5",
+      "name": "Vereda do Pico Fernandes",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR13.1",
+      "name": "Vereda da Palha Carga",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 27
+    },
+    {
+      "code": "PR9.1",
+      "name": "Levada do Caldeir\\u00E3o Verde - um caminho para todos",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "north",
+      "popular": false,
+      "temp": 24
+    }
+  ]
 }

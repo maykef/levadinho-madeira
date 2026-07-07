@@ -45,6 +45,50 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/"/>
   </url>
   <url>
+    <loc>https://madeira.maykef.info/trails/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/trails/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/trails/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/trails/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/trails/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/trails/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/trails/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/trails/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/trails/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/trails/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/trails/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/trails/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/trails/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/trails/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/trails/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/trails/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/trails/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/trails/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/trails/</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/trails/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/trails/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/trails/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/trails/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/trails/"/>
+  </url>
+  <url>
     <loc>https://madeira.maykef.info/getting-back.html</loc>
     <lastmod>2026-07-07</lastmod>
     <changefreq>weekly</changefreq>
