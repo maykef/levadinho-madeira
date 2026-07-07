@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Is Pico Ruivo open today? Vereda do Pico Ruivo (PR1.2) — the easy way to Madeira's summit</title>
+<meta name="description" content="Live status for the Vereda do Pico Ruivo (PR1.2) from Achada do Teixeira — is it open today? The easiest route to Pico Ruivo (1,862 m), Madeira's highest point: booking, getting there and summit weather.">
+
+<link rel="canonical" href="https://madeira.maykef.info/pico-ruivo/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/pico-ruivo/">
+<meta property="og:title" content="Is Pico Ruivo open today? The easy way to Madeira's summit">
+<meta property="og:description" content="Vereda do Pico Ruivo (PR1.2): today's official status, booking on SIMplifica, and getting to Achada do Teixeira.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/pico-ruivo/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/pico-ruivo/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/pico-ruivo/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/pico-ruivo/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/pico-ruivo/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is Pico Ruivo open today?","acceptedAnswer":{"@type":"Answer","text":"Today's status is shown live at the top of this page, updated each morning from official IFCN / Visit Madeira information. Access is €4.50 through the SIMplifica portal; children under 12 are free but must be on the booking."}},
+    {"@type":"Question","name":"What is the easiest way to Pico Ruivo?","acceptedAnswer":{"@type":"Answer","text":"The Vereda do Pico Ruivo (PR1.2) from Achada do Teixeira — about 2.8 km each way on a built stone path — is the shortest and gentlest route to the summit, far easier than the long PR1 ridge from Pico do Areeiro."}},
+    {"@type":"Question","name":"Do you need to book Pico Ruivo?","acceptedAnswer":{"@type":"Answer","text":"Yes. PR1.2 requires an advance booking and €4.50 payment through SIMplifica, in a 30-minute entry slot. It is popular for sunrise, so book ahead in summer."}},
+    {"@type":"Question","name":"How long is the walk to Pico Ruivo from Achada do Teixeira?","acceptedAnswer":{"@type":"Answer","text":"About 2.8 km each way (5.6 km round trip), roughly 1 hour 30 minutes each way, graded moderate. It is a steady stone-paved climb to the shelter and the 1,862 m summit, then back the same way."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#5f7590 url(/img/areeiro.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/pico-ruivo/" hreflang="en" aria-current="page">EN</a>
+    <a href="/fr/pico-ruivo/" hreflang="fr">FR</a>
+    <a href="/de/pico-ruivo/" hreflang="de">DE</a>
+    <a href="/pl/pico-ruivo/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Madeira trail answers</div>
+  <h1>Is Pico Ruivo open today?</h1>
+  <p class="sub">Vereda do Pico Ruivo (PR1.2) — Achada do Teixeira to Madeira's highest point (1,862 m), the gentlest way up. Checked every morning against official IFCN status. See <a href="/trails/">all Madeira trails</a> or <a href="/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR1.2">
+  <div class="status-body"><p>Loading today's status for Pico Ruivo… if it doesn't appear, check the official sources linked below.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Trail facts</h2>
+  <dl>
+    <dt>Distance</dt><dd>2.8 km each way</dd>
+    <dt>Round trip</dt><dd>5.6 km</dd>
+    <dt>Time</dt><dd>~1h30 each way</dd>
+    <dt>Difficulty</dt><dd>Moderate</dd>
+    <dt>Summit</dt><dd>1,862 m</dd>
+    <dt>Type</dt><dd>Out-and-back</dd>
+    <dt>Fee</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Book it.</span> PR1.2 on SIMplifica</h2>
+  <p>This is the short route to the summit, and a sunrise favourite, so slots go fast.</p>
+  <ol>
+    <li><b>Book your <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">€4.50 slot on SIMplifica</a> in advance</b>, in a 30-minute window. Under-12s are free but must be on the booking.</li>
+    <li><b>Sunrise slots go first.</b> If you want the summit at dawn, book early and expect company; mid-morning is quieter.</li>
+    <li><b>Coming off PR1?</b> If you cross from Pico do Areeiro on PR1, you finish above here — see <a class="plain" href="/getting-back.html">getting back from PR1</a>.</li>
+  </ol>
+  <div class="fact">PR1.2 is €4.50 per person, paid on SIMplifica; under-12s and residents free but counted on the reservation. Check the live status above before you drive up.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Getting there.</span> Achada do Teixeira</h2>
+  <p>The walk starts at the <b>Achada do Teixeira</b> car park, high above Santana on the north side — about an hour's drive from Funchal.</p>
+  <ul>
+    <li><b>Drive to the Achada do Teixeira car park</b> (this is also where PR1 finishes). There's a shelter and a viewpoint; parking is limited at sunrise.</li>
+    <li><b>From the car park, a built stone path climbs steadily</b> to the Pico Ruivo mountain shelter (Casa de Abrigo), then a short final push to the 1,862 m summit — Madeira's highest point.</li>
+    <li>It's the <b>easiest way to the top</b>: no exposed ridge, just a steady paved climb of roughly 200 m of ascent.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Closed or full?</span> Your options</h2>
+  <p>If IFCN closes PR1.2 (weather, works) or you can't get a slot:</p>
+  <ul>
+    <li><b>Reschedule</b> via the SIMplifica call centre before your date — date/time freely, another trail only if yours was officially closed.</li>
+    <li><b>Open alternatives:</b> <a class="plain" href="/trails/">check the live board</a> — <a class="plain" href="/caldeirao-verde/">Caldeirão Verde (PR9)</a> and Balcões (PR11) are usually available.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Three things people find out too late</h2>
+  <ul>
+    <li><b>Summit weather ≠ Funchal weather.</b> At 1,862 m it can be cold, windy and in cloud while the coast is sunny — you may be above a sea of clouds, or in one. Bring a warm layer and check the live status.</li>
+    <li><b>It's a climb, not a stroll.</b> The stone path gains height steadily to the shelter; easy underfoot but a proper uphill, especially at altitude.</li>
+    <li><b>Nothing's open up there.</b> The shelter is basic — no shop or reliable signal. Carry water, snacks and a headtorch for a dark start.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Status compiled each morning from IFCN (ifcn.madeira.gov.pt) and SIMplifica, with weather from IPMA (ipma.pt). Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.</p>
+  <p style="margin-top:6px">Photo: Luis Miguel Bugallo Sánchez, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, resized.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

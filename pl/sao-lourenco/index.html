@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Czy Ponta de São Lourenço jest dziś otwarte? Status PR8 — zamknięcia przy wietrze, rezerwacja i parking</title>
+<meta name="description" content="Aktualny status szlaku Vereda da Ponta de São Lourenço (PR8) — czy jest dziś otwarty? Wystawiona na wiatr wędrówka po wschodnim półwyspie zamyka się w dni z silnym wiatrem. Rezerwacja, parking przy Baía d'Abra i co zabrać.">
+
+<link rel="canonical" href="https://madeira.maykef.info/pl/sao-lourenco/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/pl/sao-lourenco/">
+<meta property="og:title" content="Czy Ponta de São Lourenço jest dziś otwarte? Aktualny status i zamknięcia przy wietrze">
+<meta property="og:description" content="Vereda da Ponta de São Lourenço (PR8): dzisiejszy oficjalny status, dlaczego zamyka się przy wietrze i rezerwacja na SIMplifica.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/sao-lourenco/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/sao-lourenco/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/sao-lourenco/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/sao-lourenco/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/sao-lourenco/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Czy Ponta de São Lourenço jest dziś otwarte?","acceptedAnswer":{"@type":"Answer","text":"Dzisiejszy status jest wyświetlany na żywo na górze tej strony, aktualizowany każdego ranka na podstawie oficjalnych informacji IFCN / Visit Madeira. Szlak jest często zamknięty w dni z silnym wiatrem, więc sprawdzaj tego samego ranka. Wstęp kosztuje €4.50 przez portal SIMplifica."}},
+    {"@type":"Question","name":"Dlaczego São Lourenço się zamyka?","acceptedAnswer":{"@type":"Answer","text":"Półwysep jest w pełni wystawiony na północny wiatr, bez żadnego schronienia, więc IFCN zamyka PR8, gdy wiatr jest silny, ze względów bezpieczeństwa. Jednego dnia może być otwarty, a następnego zamknięty — zawsze sprawdzaj aktualny status w poranek, w który planujesz iść."}},
+    {"@type":"Question","name":"Czy trzeba rezerwować São Lourenço?","acceptedAnswer":{"@type":"Answer","text":"Tak. PR8 wymaga wcześniejszej rezerwacji i opłaty €4.50 przez SIMplifica, w 30-minutowym oknie wejścia. Dzieci poniżej 12 lat wchodzą za darmo, ale muszą być ujęte w rezerwacji."}},
+    {"@type":"Question","name":"Gdzie zaparkować na São Lourenço?","acceptedAnswer":{"@type":"Answer","text":"Na parkingu Baía d'Abra na samym wschodnim krańcu wyspy (koniec drogi ER214), około 45 minut z Funchal. Szlak zaczyna się tam i prowadzi wzdłuż półwyspu do Casa do Sardinha."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#9a583a url(/img/saolourenco.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/sao-lourenco/" hreflang="en">EN</a>
+    <a href="/fr/sao-lourenco/" hreflang="fr">FR</a>
+    <a href="/de/sao-lourenco/" hreflang="de">DE</a>
+    <a href="/pl/sao-lourenco/" hreflang="pl" aria-current="page">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Odpowiedzi o szlakach Madery</div>
+  <h1>Czy Ponta de São Lourenço jest dziś otwarte?</h1>
+  <p class="sub">Vereda da Ponta de São Lourenço (PR8) — z Baía d'Abra wzdłuż dzikiego wschodniego cypla Madery. Zamyka się w dni z silnym wiatrem, więc sprawdzaj tego samego ranka. Sprawdzane każdego ranka względem oficjalnego statusu IFCN. Zobacz <a href="/pl/trails/">wszystkie szlaki Madery</a> lub <a href="/pl/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR8">
+  <div class="status-body"><p>Wczytywanie dzisiejszego statusu São Lourenço… jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Informacje o szlaku</h2>
+  <dl>
+    <dt>Dystans</dt><dd>3 km w jedną stronę</dd>
+    <dt>W obie strony</dt><dd>6 km</dd>
+    <dt>Czas</dt><dd>~2h30</dd>
+    <dt>Trudność</dt><dd>Umiarkowana</dd>
+    <dt>Wysokość</dt><dd>23–126 m</dd>
+    <dt>Wystawienie</dt><dd>Pełne słońce, brak cienia</dd>
+    <dt>Opłata</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="wind">
+  <h2><span class="q">Uważaj na wiatr.</span> Dlaczego się zamyka</h2>
+  <p>São Lourenço to jedyny szlak, gdzie <b>aktualny status ma największe znaczenie</b>. Półwysep jest w pełni odsłonięty, bez żadnego schronienia, więc IFCN zamyka go, gdy północny wiatr jest silny — jednego dnia może być otwarty, a następnego zamknięty.</p>
+  <ul>
+    <li><b>Sprawdź status powyżej w poranek, w który idziesz</b>, a nie poprzedniego wieczoru. Zarezerwowane miejsce na nic się nie zda, jeśli szlak jest zamknięty z powodu wiatru.</li>
+    <li><b>Brak cienia, brak wody, pełne słońce</b> — to półpustynne wybrzeże, a nie zielona lewada. Zabierz ochronę przeciwsłoneczną, warstwę chroniącą od wiatru i dużo wody.</li>
+  </ul>
+  <div class="fact">W przeciwieństwie do lewad w głębi wyspy, tutaj zagrożeniem jest słońce, upał i wiatr — nie zimno. W dzień z gwałtownym wiatrem lub przy skwarze odpuść i wybierz zacieniony szlak.</div>
+</section>
+
+<section id="book">
+  <h2><span class="q">Zarezerwuj.</span> PR8 na SIMplifica</h2>
+  <ol>
+    <li><b>Zarezerwuj z wyprzedzeniem swoje <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">miejsce za €4.50 na SIMplifica</a></b>, w 30-minutowym oknie. Dzieci poniżej 12 lat za darmo, ale ujęte w rezerwacji.</li>
+    <li><b>Idź wcześnie rano lub późnym popołudniem.</b> Południowe słońce na odsłoniętej skale jest latem bezlitosne; pierwsze lub ostatnie wejścia są chłodniejsze i spokojniejsze.</li>
+  </ol>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Dojazd.</span> Baía d'Abra</h2>
+  <p>Wędrówka zaczyna się przy <b>Baía d'Abra</b>, na samym wschodnim krańcu wyspy — około 45 minut jazdy z Funchal drogą ER214.</p>
+  <ul>
+    <li><b>Zaparkuj na parkingu Baía d'Abra</b> na końcu drogi; w szczycie sezonu zapełnia się.</li>
+    <li>Ścieżka <b>faluje wzdłuż półwyspu</b> — czerwonawa, ochrowa skała wulkaniczna i rozległe widoki na morze po obu stronach — aż do <b>Casa do Sardinha</b>, z dwoma wysepkami za cyplem.</li>
+    <li>Wypatruj <b>ptaków morskich i, jeśli dopisze ci szczęście, mniszek śródziemnomorskich</b> w zatoczkach poniżej.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Zamknięte lub pełne?</span> Twoje opcje</h2>
+  <ul>
+    <li><b>Zmień termin</b> przez infolinię SIMplifica przed swoją datą — zamknięcie z powodu wiatru liczy się jako oficjalne zamknięcie, więc możesz zmienić szlak.</li>
+    <li><b>Lepsze w wietrzny/upalny dzień:</b> <a class="plain" href="/pl/trails/">sprawdź tablicę na żywo</a> — zacienione wędrówki w głębi wyspy, jak <a class="plain" href="/pl/25-fontes/">25 Fontes</a> i <a class="plain" href="/pl/caldeirao-verde/">Caldeirão Verde</a>, to wygodniejszy wybór.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Status opracowywany każdego ranka na podstawie IFCN (ifcn.madeira.gov.pt) i SIMplifica, z pogodą z IPMA (ipma.pt). Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki na wybrzeżu zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
+  <p style="margin-top:6px">Zdjęcie: Dietmar Rabich, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, przeskalowane.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

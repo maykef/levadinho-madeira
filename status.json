@@ -9,13 +9,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 22.7,
-    "humidity": 30,
+    "temp_c": 20.6,
+    "humidity": 31,
     "in_cloud": false,
-    "wind_kmh": 24,
+    "wind_kmh": 28,
     "wind_strong": false
   },
-  "stamp": "2026-07-07 20:33",
+  "stamp": "2026-07-07 20:53",
   "date": "2026-07-07",
   "counts": {
     "OPEN": 28,
@@ -26,27 +26,27 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 23
+      "temp": 21
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 24
+      "temp": 23
     },
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 26
+      "temp": 25
     },
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 25
+      "temp": 24
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 24
+      "temp": 25
     }
   ],
   "trails": [
@@ -57,7 +57,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 23,
+      "temp": 21,
       "page": "/",
       "note": {
         "en": "Footpath accessible only between Pico do Areeiro and Pedra Rija Belvedere (km 1,2).",
@@ -73,7 +73,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 24
+      "temp": 23
     },
     {
       "code": "PR1.2",
@@ -82,7 +82,8 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 23
+      "temp": 21,
+      "page": "/pico-ruivo/"
     },
     {
       "code": "PR1.3",
@@ -91,7 +92,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR2",
@@ -100,7 +101,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR3",
@@ -109,7 +110,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR3.1",
@@ -118,7 +119,7 @@
       "fee": "4.50",
       "region": "south",
       "popular": false,
-      "temp": 24
+      "temp": 25
     },
     {
       "code": "PR4",
@@ -127,7 +128,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR5",
@@ -136,7 +137,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 24
+      "temp": 23
     },
     {
       "code": "PR6",
@@ -145,7 +146,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 26,
+      "temp": 25,
       "page": "/25-fontes/"
     },
     {
@@ -155,7 +156,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR6.2",
@@ -164,7 +165,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR6.3",
@@ -173,7 +174,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR7",
@@ -182,7 +183,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR8",
@@ -191,7 +192,8 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 25
+      "temp": 24,
+      "page": "/sao-lourenco/"
     },
     {
       "code": "PR9",
@@ -200,7 +202,8 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 24
+      "temp": 23,
+      "page": "/caldeirao-verde/"
     },
     {
       "code": "PR10",
@@ -209,7 +212,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR11",
@@ -218,7 +221,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR12",
@@ -227,7 +230,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR13",
@@ -236,7 +239,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR14",
@@ -245,7 +248,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR15",
@@ -254,7 +257,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR16",
@@ -263,7 +266,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR17",
@@ -272,7 +275,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR18",
@@ -281,7 +284,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 24
+      "temp": 23
     },
     {
       "code": "PR19",
@@ -290,7 +293,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR20",
@@ -299,7 +302,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR21",
@@ -308,7 +311,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR22",
@@ -317,7 +320,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR27",
@@ -326,7 +329,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23
+      "temp": 21
     },
     {
       "code": "PR6.6",
@@ -335,7 +338,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR28",
@@ -344,7 +347,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR6.8",
@@ -353,7 +356,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR6.4",
@@ -362,7 +365,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR6.5",
@@ -371,7 +374,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR13.1",
@@ -380,7 +383,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 26
+      "temp": 25
     },
     {
       "code": "PR9.1",
@@ -389,7 +392,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 24
+      "temp": 23
     }
   ]
 }

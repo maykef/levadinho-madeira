@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Le Caldeirão Verde est-il ouvert aujourd'hui ? Levada do Caldeirão Verde (PR9) — statut, tunnels &amp; réservation</title>
+<meta name="description" content="Statut en direct de la Levada do Caldeirão Verde (PR9) depuis Queimadas — est-elle ouverte aujourd'hui ? La marche des tunnels et des cascades : réservation, stationnement à Santana, emportez une lampe et combien de temps cela prend.">
+
+<link rel="canonical" href="https://madeira.maykef.info/fr/caldeirao-verde/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/fr/caldeirao-verde/">
+<meta property="og:title" content="Le Caldeirão Verde est-il ouvert aujourd'hui ? Statut en direct, tunnels &amp; réservation">
+<meta property="og:description" content="Levada do Caldeirão Verde (PR9) : le statut officiel du jour, la réservation sur SIMplifica et l'accès à Queimadas.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/caldeirao-verde/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/caldeirao-verde/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/caldeirao-verde/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/caldeirao-verde/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/caldeirao-verde/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Le Caldeirão Verde est-il ouvert aujourd'hui ?","acceptedAnswer":{"@type":"Answer","text":"Le statut du jour est affiché en direct en haut de cette page, mis à jour chaque matin à partir des informations officielles de l'IFCN / Visit Madeira. L'accès coûte 4,50 € via le portail SIMplifica, plus environ 2,00 € de l'heure pour le stationnement à Queimadas."}},
+    {"@type":"Question","name":"Faut-il une lampe pour le Caldeirão Verde ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Le sentier traverse quatre tunnels creusés dans la roche, certains longs et ruisselants, donc une lampe frontale ou une lampe de téléphone est indispensable. Le bord de la levada est aussi étroit avec de fortes chutes."}},
+    {"@type":"Question","name":"Faut-il réserver pour le Caldeirão Verde ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Le PR9 exige une réservation à l'avance et un paiement de 4,50 € via SIMplifica, dans un créneau d'entrée de 30 minutes. Le stationnement à Queimadas coûte environ 2,00 € de l'heure."}},
+    {"@type":"Question","name":"Où se garer pour le Caldeirão Verde ?","acceptedAnswer":{"@type":"Answer","text":"Au parc forestier de Queimadas au-dessus de Santana, au nord de l'île — à environ une heure de Funchal. Le stationnement coûte à peu près 2,00 € de l'heure et le sentier commence aux maisons de chaume de Queimadas."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#1d5638 url(/img/caldeirao.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/caldeirao-verde/" hreflang="en">EN</a>
+    <a href="/fr/caldeirao-verde/" hreflang="fr" aria-current="page">FR</a>
+    <a href="/de/caldeirao-verde/" hreflang="de">DE</a>
+    <a href="/pl/caldeirao-verde/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Réponses sur les sentiers de Madère</div>
+  <h1>Le Caldeirão Verde est-il ouvert aujourd'hui ?</h1>
+  <p class="sub">Levada do Caldeirão Verde (PR9) — de Queimadas (Santana) à la cascade du chaudron vert, à travers quatre tunnels dans la roche. Vérifié chaque matin par rapport au statut officiel de l'IFCN. Voir <a href="/fr/trails/">tous les sentiers de Madère</a> ou <a href="/fr/">le PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR9">
+  <div class="status-body"><p>Chargement du statut du jour pour le Caldeirão Verde… s'il ne s'affiche pas, consultez les sources officielles indiquées ci-dessous.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Infos sur le sentier</h2>
+  <dl>
+    <dt>Distance</dt><dd>~6,5 km jusqu'au lac</dd>
+    <dt>Aller-retour</dt><dd>~13 km</dd>
+    <dt>Durée</dt><dd>5 à 6 heures</dd>
+    <dt>Difficulté</dt><dd>Modérée</dd>
+    <dt>Altitude</dt><dd>872–1 020 m</dd>
+    <dt>Tunnels</dt><dd>4 (lampe)</dd>
+    <dt>Tarif</dt><dd>4,50 €</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Réservez.</span> Le PR9 sur SIMplifica</h2>
+  <p>Un long classique verdoyant à travers les tunnels jusqu'à une cascade de 100 mètres — et un sentier très fréquenté.</p>
+  <ol>
+    <li><b>Réservez à l'avance votre <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">créneau à 4,50 € sur SIMplifica</a></b>, dans une fenêtre de 30 minutes. Les moins de 12 ans sont gratuits mais figurent sur la réservation.</li>
+    <li><b>Partez tôt.</b> C'est une journée de 5 à 6 heures ; un créneau matinal vous offre la lumière du jour, des tunnels plus frais et moins de monde.</li>
+    <li><b>Le stationnement à Queimadas coûte environ 2,00 €/heure</b> — prévoyez de la monnaie et intégrez-le à une journée entière de marche.</li>
+  </ol>
+  <div class="fact">Le PR9 coûte 4,50 € par personne sur SIMplifica, plus ~2,00 €/heure de stationnement à Queimadas. Les moins de 12 ans et les résidents sont gratuits mais comptés. Vérifiez le statut en direct ci-dessus avant de rouler vers le nord.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Y aller.</span> Queimadas (Santana)</h2>
+  <p>La marche commence au <b>parc forestier de Queimadas</b>, au-dessus de Santana sur la verdoyante côte nord — à environ une heure de Funchal.</p>
+  <ul>
+    <li><b>Rendez-vous en voiture au parking de Queimadas</b> et à ses jolies maisons de chaume ; le stationnement est payant (~2,00 €/heure). Le sentier de la levada commence ici.</li>
+    <li>C'est une longue marche, en grande partie plate, le long d'une levada du XVIIIe siècle à travers la <b>forêt de Laurissilva</b> jusqu'au Caldeirão Verde — un bassin vert sous une cascade d'environ 100 m.</li>
+    <li>Les marcheurs aguerris poursuivent sur l'intégralité du PR9 jusqu'au <b>Caldeirão do Inferno</b> (environ 8,7 km à l'aller) — bien plus long ; la plupart font demi-tour à la cascade du Caldeirão Verde.</li>
+  </ul>
+</section>
+
+<section id="tunnels">
+  <h2><span class="q">Emportez une lampe.</span> Les tunnels &amp; les à-pics</h2>
+  <ul>
+    <li><b>Quatre tunnels sont creusés dans la roche</b> — certains longs, sombres et ruisselants. Une lampe frontale (ou une lampe de téléphone) est indispensable ; il fait vraiment noir à l'intérieur.</li>
+    <li><b>Le bord de la levada est étroit avec de fortes chutes</b> par endroits, souvent avec une main courante — à éviter en cas de forte peur du vide.</li>
+    <li>Portez des <b>chaussures adhérentes</b> et attendez-vous à avoir les pieds mouillés ; le versant nord est humide et les tunnels ruissellent.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Fermé ou complet ?</span> Vos options</h2>
+  <p>Les sentiers du versant nord ferment pour cause de météo et de glissements de terrain. Si le PR9 est fermé ou complet :</p>
+  <ul>
+    <li><b>Reprogrammez</b> via le centre d'appels SIMplifica avant votre date.</li>
+    <li><b>Alternatives ouvertes :</b> <a class="plain" href="/fr/trails/">consultez le tableau en direct</a> — les <a class="plain" href="/fr/25-fontes/">25 Fontes (PR6)</a> et les Balcões (PR11) sont généralement disponibles et tout aussi verdoyants.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trois choses que les gens découvrent trop tard</h2>
+  <ul>
+    <li><b>C'est une journée entière.</b> 5 à 6 heures et ~13 km aller-retour — partez tôt et emportez de l'eau et de la nourriture.</li>
+    <li><b>Les tunnels sont sombres et humides.</b> Sans lampe, vous avancez à tâtons dans le noir ; emportez-en une et des chaussures adhérentes.</li>
+    <li><b>Au nord et humide.</b> Il peut faire brumeux, humide et plus frais que sur la côte, et les corniches sont étroites — allez doucement et faites attention aux à-pics.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Statut compilé chaque matin à partir de l'IFCN (ifcn.madeira.gov.pt) et de SIMplifica, avec la météo de l'IPMA (ipma.pt). Indépendant — sans affiliation avec le gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.</p>
+  <p style="margin-top:6px">Photo : cudi, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY 2.0, redimensionnée.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

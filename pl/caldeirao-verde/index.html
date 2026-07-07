@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Czy Caldeirão Verde jest dziś otwarte? Levada do Caldeirão Verde (PR9) — status, tunele i rezerwacja</title>
+<meta name="description" content="Aktualny status szlaku Levada do Caldeirão Verde (PR9) z Queimadas — czy jest dziś otwarty? Wędrówka przez tunele do wodospadów: rezerwacja, parking w Santanie, zabierz latarkę i ile to trwa.">
+
+<link rel="canonical" href="https://madeira.maykef.info/pl/caldeirao-verde/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/pl/caldeirao-verde/">
+<meta property="og:title" content="Czy Caldeirão Verde jest dziś otwarte? Aktualny status, tunele i rezerwacja">
+<meta property="og:description" content="Levada do Caldeirão Verde (PR9): dzisiejszy oficjalny status, rezerwacja na SIMplifica i dojazd do Queimadas.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/caldeirao-verde/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/caldeirao-verde/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/caldeirao-verde/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/caldeirao-verde/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/caldeirao-verde/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Czy Caldeirão Verde jest dziś otwarte?","acceptedAnswer":{"@type":"Answer","text":"Dzisiejszy status jest wyświetlany na żywo na górze tej strony, aktualizowany każdego ranka na podstawie oficjalnych informacji IFCN / Visit Madeira. Wstęp kosztuje €4.50 przez portal SIMplifica, plus około €2.00 za godzinę parkingu w Queimadas."}},
+    {"@type":"Question","name":"Czy na Caldeirão Verde potrzebna jest latarka?","acceptedAnswer":{"@type":"Answer","text":"Tak. Szlak przechodzi przez cztery tunele wykute w skale, niektóre długie i ociekające wodą, więc czołówka lub latarka w telefonie jest niezbędna. Krawędź lewady jest też wąska z dużymi urwiskami."}},
+    {"@type":"Question","name":"Czy trzeba rezerwować Caldeirão Verde?","acceptedAnswer":{"@type":"Answer","text":"Tak. PR9 wymaga wcześniejszej rezerwacji i opłaty €4.50 przez SIMplifica, w 30-minutowym oknie wejścia. Parking w Queimadas kosztuje około €2.00 za godzinę."}},
+    {"@type":"Question","name":"Gdzie zaparkować na Caldeirão Verde?","acceptedAnswer":{"@type":"Answer","text":"W Parku Leśnym Queimadas nad Santaną, na północy wyspy — około godziny z Funchal. Parking kosztuje mniej więcej €2.00 za godzinę, a szlak zaczyna się przy krytych strzechą domach w Queimadas."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#1d5638 url(/img/caldeirao.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/caldeirao-verde/" hreflang="en">EN</a>
+    <a href="/fr/caldeirao-verde/" hreflang="fr">FR</a>
+    <a href="/de/caldeirao-verde/" hreflang="de">DE</a>
+    <a href="/pl/caldeirao-verde/" hreflang="pl" aria-current="page">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Odpowiedzi o szlakach Madery</div>
+  <h1>Czy Caldeirão Verde jest dziś otwarte?</h1>
+  <p class="sub">Levada do Caldeirão Verde (PR9) — z Queimadas (Santana) do wodospadu zielonego kotła, przez cztery skalne tunele. Sprawdzane każdego ranka względem oficjalnego statusu IFCN. Zobacz <a href="/pl/trails/">wszystkie szlaki Madery</a> lub <a href="/pl/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR9">
+  <div class="status-body"><p>Wczytywanie dzisiejszego statusu Caldeirão Verde… jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Informacje o szlaku</h2>
+  <dl>
+    <dt>Dystans</dt><dd>~6,5 km do jeziora</dd>
+    <dt>W obie strony</dt><dd>~13 km</dd>
+    <dt>Czas</dt><dd>5–6 godzin</dd>
+    <dt>Trudność</dt><dd>Umiarkowana</dd>
+    <dt>Wysokość</dt><dd>872–1020 m</dd>
+    <dt>Tunele</dt><dd>4 (latarka)</dd>
+    <dt>Opłata</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Zarezerwuj.</span> PR9 na SIMplifica</h2>
+  <p>Długi, zielony klasyk przez tunele do 100-metrowego wodospadu — i mocno oblegany.</p>
+  <ol>
+    <li><b>Zarezerwuj z wyprzedzeniem swoje <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">miejsce za €4.50 na SIMplifica</a></b>, w 30-minutowym oknie. Dzieci poniżej 12 lat za darmo, ale ujęte w rezerwacji.</li>
+    <li><b>Zacznij wcześnie.</b> To dzień na 5–6 godzin; wczesne wejście daje światło dzienne, chłodniejsze tunele i mniejsze tłumy.</li>
+    <li><b>Parking w Queimadas to około €2.00/godz.</b> — weź drobne i uwzględnij to przy całodniowej wędrówce.</li>
+  </ol>
+  <div class="fact">PR9 kosztuje €4.50 od osoby na SIMplifica, plus ~€2.00/godz. za parking w Queimadas. Dzieci poniżej 12 lat i mieszkańcy za darmo, ale liczeni. Sprawdź aktualny status powyżej, zanim ruszysz na północ.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Dojazd.</span> Queimadas (Santana)</h2>
+  <p>Wędrówka zaczyna się w <b>Parku Leśnym Queimadas</b>, nad Santaną na zielonym północnym wybrzeżu — około godziny z Funchal.</p>
+  <ul>
+    <li><b>Dojedź na parking Queimadas</b> i jego urokliwe kryte strzechą domy; parking jest płatny (~€2.00/godz.). Ścieżka wzdłuż lewady zaczyna się tutaj.</li>
+    <li>To długa, w większości płaska wędrówka wzdłuż osiemnastowiecznej lewady przez las <b>Laurissilva</b> do Caldeirão Verde — zielonego stawu pod kaskadą o wysokości ~100 m.</li>
+    <li>Zapaleni wędrowcy kontynuują pełnym PR9 do <b>Caldeirão do Inferno</b> (około 8,7 km w jedną stronę) — dużo dłużej; większość zawraca przy wodospadzie Caldeirão Verde.</li>
+  </ul>
+</section>
+
+<section id="tunnels">
+  <h2><span class="q">Zabierz latarkę.</span> Tunele i urwiska</h2>
+  <ul>
+    <li><b>Cztery tunele są wykute w skale</b> — niektóre długie, ciemne i ociekające wodą. Czołówka (lub latarka w telefonie) jest niezbędna; w środku jest naprawdę ciemno.</li>
+    <li><b>Krawędź lewady jest miejscami wąska z dużymi urwiskami</b>, często z poręczą — nie dla osób z silnym lękiem wysokości.</li>
+    <li>Załóż <b>buty z dobrą przyczepnością</b> i licz się z mokrymi stopami; północna strona jest wilgotna, a tunele kapią.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Zamknięte lub pełne?</span> Twoje opcje</h2>
+  <p>Szlaki po północnej stronie zamykają się z powodu pogody i osuwisk. Jeśli PR9 jest zamknięty lub pełny:</p>
+  <ul>
+    <li><b>Zmień termin</b> przez infolinię SIMplifica przed swoją datą.</li>
+    <li><b>Otwarte alternatywy:</b> <a class="plain" href="/pl/trails/">sprawdź tablicę na żywo</a> — <a class="plain" href="/pl/25-fontes/">25 Fontes (PR6)</a> i Balcões (PR11) są zwykle dostępne i równie zielone.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trzy rzeczy, które ludzie odkrywają za późno</h2>
+  <ul>
+    <li><b>To cały dzień.</b> 5–6 godzin i ~13 km tam i z powrotem — zacznij wcześnie i zabierz wodę oraz jedzenie.</li>
+    <li><b>Tunele są ciemne i mokre.</b> Bez latarki będziesz po omacku szukać drogi w ciemności; weź ją i buty z dobrą przyczepnością.</li>
+    <li><b>Północ i wilgoć.</b> Może być mgliście, mokro i chłodniej niż na wybrzeżu, a półki są wąskie — idź spokojnie i uważaj na urwiska.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Status opracowywany każdego ranka na podstawie IFCN (ifcn.madeira.gov.pt) i SIMplifica, z pogodą z IPMA (ipma.pt). Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
+  <p style="margin-top:6px">Zdjęcie: cudi, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY 2.0, przeskalowane.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
