@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Czy Levada do Furado jest dziś otwarta? Levada do Furado (PR10): status, rezerwacja i powrót</title>
+<meta name="description" content="Status na żywo Levada do Furado (PR10), z Ribeiro Frio do Portela — czy jest dziś otwarta? Często bywa zamknięta. Jak zarezerwować slot za 4,50 € w SIMplifica, jak wrócić z Portela i otwarte alternatywy.">
+
+<link rel="canonical" href="https://madeira.maykef.info/pl/levada-do-furado/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/pl/levada-do-furado/">
+<meta property="og:title" content="Czy Levada do Furado jest dziś otwarta? Status na żywo, rezerwacja i powrót">
+<meta property="og:description" content="Levada do Furado (PR10), Ribeiro Frio → Portela: dzisiejszy oficjalny status, rezerwacja przez SIMplifica i problem jednokierunkowej trasy w Portela.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-do-furado/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-do-furado/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-do-furado/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-do-furado/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-do-furado/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Czy Levada do Furado jest dziś otwarta?","acceptedAnswer":{"@type":"Answer","text":"Dzisiejszy status jest pokazywany na żywo na górze tej strony, aktualizowany każdego ranka na podstawie oficjalnych informacji IFCN / Visit Madeira. Levada do Furado (PR10) to jeden z częściej zamykanych szlaków PR po burzach i osuwiskach, więc zawsze sprawdź plakietkę na żywo przed wyjazdem. Wstęp kosztuje 4,50 € przez portal SIMplifica."}},
+    {"@type":"Question","name":"Czy trzeba rezerwować Levada do Furado?","acceptedAnswer":{"@type":"Answer","text":"Tak. PR10 wymaga wcześniejszej rezerwacji i opłaty 4,50 € przez SIMplifica. Dzieci poniżej 12 lat i mieszkańcy są zwolnieni z opłaty, ale i tak muszą być w rezerwacji. Rezerwuj dopiero po potwierdzeniu, że szlak jest otwarty — bywa zamykany często."}},
+    {"@type":"Question","name":"Jak wrócić z Portela do Ribeiro Frio?","acceptedAnswer":{"@type":"Answer","text":"Levada do Furado to wędrówka liniowa (z punktu do punktu), która kończy się w Portela, a nie tam, gdzie zaczynałeś, w Ribeiro Frio. Większość osób korzysta z dwóch samochodów, wcześniej zamówionej taksówki lub wycieczki z przewodnikiem i transferami. Autobusy z Portela kursują rzadko, więc zaplanuj powrót przed wyruszeniem."}},
+    {"@type":"Question","name":"Jak długa jest trasa Levada do Furado?","acceptedAnswer":{"@type":"Answer","text":"Około 11 km w jedną stronę z Ribeiro Frio do Portela, mniej więcej 4 godziny, trudność umiarkowana. Są wąskie, eksponowane odcinki z przepaściami i kilka niskich przejść skalnych, więc potrzebna jest odporność na wysokość i pewny krok."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#20573a url(/img/furado.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/levada-do-furado/" hreflang="en">EN</a>
+    <a href="/fr/levada-do-furado/" hreflang="fr">FR</a>
+    <a href="/de/levada-do-furado/" hreflang="de">DE</a>
+    <a href="/pl/levada-do-furado/" hreflang="pl" aria-current="page">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Odpowiedzi o szlakach Madery</div>
+  <h1>Czy Levada do Furado jest dziś otwarta?</h1>
+  <p class="sub">Levada do Furado (PR10) — z Ribeiro Frio do Portela, jedna z najstarszych lewad Madery. Sprawdzana każdego ranka względem oficjalnego statusu IFCN. Zobacz <a href="/pl/trails/">wszystkie szlaki Madery</a> lub <a href="/pl/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR10">
+  <div class="status-body"><p>Ładowanie dzisiejszego statusu Levada do Furado… jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Fakty o szlaku</h2>
+  <dl>
+    <dt>Dystans</dt><dd>~11 km (w jedną stronę)</dd>
+    <dt>Czas</dt><dd>~4 godziny</dd>
+    <dt>Trudność</dt><dd>Umiarkowana</dd>
+    <dt>Wysokość</dt><dd>620–870 m</dd>
+    <dt>Trasa</dt><dd>Ribeiro Frio → Portela</dd>
+    <dt>Typ</dt><dd>Z punktu do punktu</dd>
+    <dt>Opłata</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="open">
+  <h2><span class="q">Otwarta dziś?</span> Dlaczego akurat ta jest wyjątkowa</h2>
+  <p>Levada do Furado to jedna z najstarszych i najbardziej lubianych wędrówek lewadowych na wyspie — i zarazem jedna z <b>najczęściej zamykanych</b>. Biegnie wzdłuż stromych, zalesionych wąwozów, które po ulewach obsypują się kamieniami i błotem, więc IFCN zamyka jej odcinki częściej niż na łatwiejszych szlakach.</p>
+  <p>Właśnie dlatego plakietka na żywo powyżej jest ważna: <b>nie rezerwuj, nie wyjeżdżaj i nie planuj dnia wokół PR10, dopóki nie pokaże OTWARTA dzisiaj.</b> Jeśli jest zamknięta, alternatywy poniżej startują z tej samej doliny.</p>
+</section>
+
+<section id="book">
+  <h2><span class="q">Zarezerwuj.</span> PR10 w SIMplifica</h2>
+  <p>Gdy szlak pokazuje się jako otwarty, rezerwacja przebiega jak dla każdego płatnego szlaku PR:</p>
+  <ol>
+    <li><b>Zarezerwuj swój <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">slot za 4,50 € w SIMplifica</a>.</b> Dzieci poniżej 12 lat i mieszkańcy są zwolnieni z opłaty, ale i tak muszą być imiennie w rezerwacji. Rezerwuj dopiero po potwierdzeniu dzisiejszego statusu — ten szlak bywa zamykany często, a zamknięcie to jedyny przypadek, w którym możesz zmienić szlak.</li>
+    <li><b>Albo wybierz się z operatorem z protokołu IFCN</b> — niższa opłata za szlak (3 €) plus transport, co rozwiązuje też powrót z Portela (patrz niżej).</li>
+  </ol>
+  <div class="fact">PR10 jest płatny przez SIMplifica jako osobna rezerwacja i <b>nie jest wliczony</b> w karnety wielodniowe. 4,50 € od osoby; dzieci poniżej 12 lat i mieszkańcy bezpłatnie, ale liczeni w rezerwacji. Sprawdź status na żywo powyżej, zanim zapłacisz.</div>
+</section>
+
+<section id="getting-back">
+  <h2><span class="q">Haczyk.</span> Kończy się w Portela, nie przy twoim aucie</h2>
+  <p>Furado jest <b>liniowa</b>: startujesz w <b>Ribeiro Frio</b> (przy ER103, ~860 m) i kończysz około 11 km dalej w <b>Portela</b> — zupełnie innym miejscu. Zorganizowanie powrotu <i>przed</i> wyruszeniem to jedyna rzecz, którą ludzie robią źle.</p>
+  <ul>
+    <li><b>Dwa auta lub taksówka.</b> Zostaw jedno auto w Portela albo zamów z góry taksówkę, żeby cię tam odebrała — zasięg w Portela bywa kiepski, więc umów to wcześniej.</li>
+    <li><b>Wędrówka z przewodnikiem i transferami</b> to najprostsze rozwiązanie: podwożą cię do Ribeiro Frio i odbierają w Portela, bez żonglowania samochodami.</li>
+    <li><b>Autobusy kursują rzadko.</b> Nie licz na to, że pojawisz się w Portela i złapiesz jakiś — sprawdź rozkład dzień wcześniej, bo inaczej utkniesz.</li>
+  </ul>
+  <div class="fact">Ten sam problem jednokierunkowej trasy co przy PR1 — zobacz <a class="plain" href="/pl/getting-back.html">powrót bez samochodu</a>, żeby poznać ogólny plan dla tras Madery z punktu do punktu.</div>
+</section>
+
+<section id="combine">
+  <h2>Jeśli jest zamknięta — ta sama dolina, wciąż idziesz</h2>
+  <p>Ribeiro Frio to węzeł tras, więc zamknięta Furado nie marnuje dojazdu:</p>
+  <ul>
+    <li><b>Vereda dos Balcões (PR11)</b> — startuje z tego samego Ribeiro Frio, łatwe 1,5 km w jedną stronę do słynnego punktu widokowego nad lasem wawrzynowym. Zwykle otwarta. <a class="plain" href="/pl/balcoes/">Zobacz Balcões →</a></li>
+    <li><b>Samo Ribeiro Frio</b> — wylęgarnia pstrągów, kawiarnie i cień pod laurisilvą, warte przystanku w każdym przypadku.</li>
+    <li><b>Bardziej zielone wycieczki:</b> <a class="plain" href="/pl/caldeirao-verde/">Caldeirão Verde (PR9)</a> i <a class="plain" href="/pl/25-fontes/">25 Fontes (PR6)</a> są zwykle dostępne i równie bujne.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Zamknięta lub pełna?</span> Twoje opcje</h2>
+  <p>Jeśli IFCN zamknie PR10 (typowe powody: szkody po burzy, osuwisko, prace) lub nie zdobędziesz slotu:</p>
+  <ul>
+    <li><b>Przełóż termin</b> przez infolinię SIMplifica przed swoją datą — datę i godzinę możesz zmieniać dowolnie, a szlak tylko wtedy, gdy twój został oficjalnie zamknięty.</li>
+    <li><b>Otwarte alternatywy:</b> <a class="plain" href="/pl/trails/">sprawdź tablicę na żywo</a> — Balcões (PR11), Caldeirão Verde (PR9) i Fanal (PR13) są zwykle dostępne.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trzy rzeczy, o których ludzie dowiadują się za późno</h2>
+  <ul>
+    <li><b>Zamykana częściej niż większość.</b> Miej plan B na ten sam dzień, żeby zamknięcie w ostatniej chwili nie zatopiło całego wyjazdu — Balcões z tego samego parkingu to oczywisty wybór.</li>
+    <li><b>Trzeba nie mieć lęku wysokości.</b> Miejscami ścieżka lewady jest wąska, z pionową przepaścią i bez barierki, a do tego kilka niskich przejść skalnych — weź latarkę i buty z dobrą przyczepnością i odpuść przy złej pogodzie.</li>
+    <li><b>Nie kończysz tam, gdzie zacząłeś.</b> Portela leży 11 km od Ribeiro Frio — najpierw załatw powrót, bo inaczej będziesz łapać stopa po ciemku.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Status zestawiany każdego ranka z IFCN (ifcn.madeira.gov.pt) i SIMplifica, z pogodą z IPMA (ipma.pt). Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
+  <p style="margin-top:6px">Zdjęcie: VillageHero, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 2.0, przeskalowane.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

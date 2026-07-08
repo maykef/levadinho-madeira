@@ -484,4 +484,48 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/hiking-fees.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/hiking-fees.html"/>
   </url>
+  <url>
+    <loc>https://madeira.maykef.info/levada-do-furado/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-do-furado/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/levada-do-furado/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-do-furado/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/levada-do-furado/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-do-furado/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/levada-do-furado/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-do-furado/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-do-furado/"/>
+  </url>
 </urlset>
