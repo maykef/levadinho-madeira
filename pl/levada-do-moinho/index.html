@@ -64,7 +64,6 @@ html{-webkit-text-size-adjust:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
 .waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
-.hero{height:130px;background:#20573a}
 .wrap{max-width:960px;margin:0 auto;padding:0 20px;
   display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
 .wrap > :not(.facts){grid-column:1}
@@ -112,6 +111,8 @@ a.plain{color:var(--ink);font-weight:600}
   .facts{grid-row:auto}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.hero{height:210px;background:#20573a url(/img/levada-do-moinho.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
 </style>
 </head>
 <body>
@@ -176,6 +177,7 @@ a.plain{color:var(--ink);font-weight:600}
 
 <footer>
   <p>Status zestawiany każdego ranka z IFCN (ifcn.madeira.gov.pt) i SIMplifica, z pogodą z IPMA (ipma.pt). Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
+  <p style="margin-top:6px">Zdjęcie: Gerda Arendt, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, przeskalowane.</p>
 </footer>
 </div>
 
