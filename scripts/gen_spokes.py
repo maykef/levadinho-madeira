@@ -21,6 +21,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Trails that already have a hand-authored spoke (leave these alone).
 HAVE = {"PR1", "PR6", "PR1.2", "PR9", "PR8", "PR11", "PR13", "PR10", "PR18", "PR14"}
 
+# Long-tail trails that have a self-hosted hero photo (Wikimedia Commons,
+# credited in img/CREDITS.txt). Everything else uses the plain hero.
+PHOTOS = {
+    "PR6.1": {"file": "levada-do-risco.jpg", "author": "GualdimG", "lic": "CC BY-SA 4.0"},
+    "PR7":   {"file": "levada-do-moinho.jpg", "author": "Gerda Arendt", "lic": "CC BY-SA 4.0"},
+    "PR16":  {"file": "levada-faja-do-rodrigues.jpg", "author": "Gerda Arendt", "lic": "CC0"},
+    "PR6.2": {"file": "levada-do-alecrim.jpg", "author": "Asurnipal", "lic": "CC BY-SA 4.0"},
+}
+PHOTO_CREDIT = {
+    "en": ("Photo", "resized"), "fr": ("Photo", "redimensionnée"),
+    "de": ("Foto", "verkleinert"), "pl": ("Zdjęcie", "przeskalowane"),
+}
+
 
 def slugify(name):
     s = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode()
@@ -240,7 +253,6 @@ html{-webkit-text-size-adjust:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
 .waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
-.hero{height:130px;background:#20573a}
 .wrap{max-width:960px;margin:0 auto;padding:0 20px;
   display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
 .wrap > :not(.facts){grid-column:1}
@@ -310,6 +322,18 @@ def facts_rows(lang, f, linear, typ):
 def build(lang, code, name, slug, f, linear, typ):
     start, end = f.get("start"), f.get("end")
     t = T(lang, code, name, f, linear, start, end, typ)
+    photo = PHOTOS.get(code)
+    if photo:
+        hero_rule = (f".hero{{height:210px;background:#20573a url(/img/{photo['file']}) center/cover}}\n"
+                     "@media (max-width:640px){.hero{height:150px}}")
+        word, resized = PHOTO_CREDIT[lang]
+        lic = photo["lic"] + (" (public domain)" if photo["lic"] == "CC0" else "")
+        sep = " :" if lang == "fr" else ":"
+        footer_extra = (f'\n  <p style="margin-top:6px">{word}{sep} {photo["author"]}, '
+                        f'<a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, {lic}, {resized}.</p>')
+    else:
+        hero_rule = ".hero{height:130px;background:#20573a}"
+        footer_extra = ""
     canon = f"https://madeira.maykef.info{PREFIX[lang]}/{slug}/"
     alts = "\n".join(
         f'<link rel="alternate" hreflang="{hl}" href="https://madeira.maykef.info{PREFIX[hl]}/{slug}/">'
@@ -367,6 +391,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
   --card:#FFFFFF; --line:#E3E1D8;
 }}
 {CSS}
+{hero_rule}
 </style>
 </head>
 <body>
@@ -419,7 +444,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
 </section>
 
 <footer>
-  <p>{t['footer']}</p>
+  <p>{t['footer']}</p>{footer_extra}
 </footer>
 </div>
 

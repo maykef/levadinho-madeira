@@ -46,6 +46,27 @@ Levada dos Cedros (PR14, Fanal → Ribeira da Janela)
   Licence: CC BY-SA 4.0
   Source:  https://commons.wikimedia.org/wiki/File:Verlauf_der_Levada_dos_Cedros.jpg
 
+Levada do Risco (PR6.1, Cascata do Risco / Rabaçal)
+  Author:  GualdimG
+  Licence: CC BY-SA 4.0
+  Source:  https://commons.wikimedia.org/wiki/File:Cascata_do_Risco,_waterfall,_Madeira_01.jpg
+
+Levada do Moinho (PR7, Seixal)
+  Author:  Gerda Arendt
+  Licence: CC BY-SA 4.0
+  Source:  https://commons.wikimedia.org/wiki/File:PR_7,_Levada_do_Moinho,_Madeira,_waterfall.jpg
+
+Levada Fajã do Rodrigues (PR16, São Vicente)
+  Author:  Gerda Arendt
+  Licence: CC0 (public domain)
+  Source:  https://commons.wikimedia.org/wiki/File:Levada_Faj%C3%A3_do_Rodrigues,_two_waterfalls.jpg
+
+Levada do Alecrim (PR6.2, Rabaçal / Paul da Serra)
+  Author:  Asurnipal
+  Licence: CC BY-SA 4.0
+  Source:  https://commons.wikimedia.org/wiki/File:Madeira-Paul_da_Serra-Rabacal-Levada_do_Alecrim_(PR_6-2)-28ASD.jpg
+
 CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
 CC BY-SA 2.0: https://creativecommons.org/licenses/by-sa/2.0/
 CC BY 2.0:    https://creativecommons.org/licenses/by/2.0/
+CC0:          https://creativecommons.org/publicdomain/zero/1.0/
