@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Czy Levada dos Cedros jest dziś otwarta? Levada dos Cedros (PR14): status, rezerwacja i dojazd</title>
+<meta name="description" content="Status na żywo Levada dos Cedros (PR14), z Fanal w dół przez las wawrzynowy do Ribeira da Janela — czy jest dziś otwarta? Jak zarezerwować slot za 4,50 € w SIMplifica, dojazd przez Paul da Serra i otwarte alternatywy.">
+
+<link rel="canonical" href="https://madeira.maykef.info/pl/levada-dos-cedros/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/pl/levada-dos-cedros/">
+<meta property="og:title" content="Czy Levada dos Cedros jest dziś otwarta? Status na żywo, rezerwacja i dojazd">
+<meta property="og:description" content="Levada dos Cedros (PR14), Fanal → Ribeira da Janela: dzisiejszy oficjalny status, rezerwacja przez SIMplifica i zejście przez las wawrzynowy.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-dos-cedros/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-dos-cedros/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-dos-cedros/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-dos-cedros/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-dos-cedros/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Czy Levada dos Cedros jest dziś otwarta?","acceptedAnswer":{"@type":"Answer","text":"Dzisiejszy status jest pokazywany na żywo na górze tej strony, aktualizowany każdego ranka na podstawie oficjalnych informacji IFCN / Visit Madeira. Wstęp kosztuje 4,50 € przez portal SIMplifica; dzieci poniżej 12 lat i mieszkańcy są zwolnieni z opłaty, ale i tak muszą być w rezerwacji."}},
+    {"@type":"Question","name":"Czy trzeba rezerwować Levada dos Cedros?","acceptedAnswer":{"@type":"Answer","text":"Tak. PR14 wymaga wcześniejszej rezerwacji i opłaty 4,50 € przez SIMplifica. Dzieci poniżej 12 lat i mieszkańcy są bezpłatnie, ale muszą być imiennie w rezerwacji. Jest spokojniejsza niż szlaki w Rabaçal, ale nadal to płatna trasa PR wyłącznie na rezerwację."}},
+    {"@type":"Question","name":"Gdzie zaczyna się i kończy Levada dos Cedros?","acceptedAnswer":{"@type":"Answer","text":"Zaczyna się w Fanal, na płaskowyżu Paul da Serra na zachodzie, i schodzi przez las wawrzynowy do Ribeira da Janela, gdzie łączy się z PR15. To trasa z punktu do punktu, więc nie kończy się tam, gdzie zaparkowałeś — zorganizuj odbiór, dwa auta lub idź dalej PR15 w dół do wioski."}},
+    {"@type":"Question","name":"Jak długa jest trasa Levada dos Cedros?","acceptedAnswer":{"@type":"Answer","text":"Około 7 km w jedną stronę, mniej więcej 2,5 do 3 godzin, trudność łatwa do umiarkowanej i głównie w dół przez las wawrzynowy UNESCO. Ścieżka bywa błotnista i śliska, a Fanal często tonie w chmurach."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#20573a url(/img/levada-dos-cedros.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/levada-dos-cedros/" hreflang="en">EN</a>
+    <a href="/fr/levada-dos-cedros/" hreflang="fr">FR</a>
+    <a href="/de/levada-dos-cedros/" hreflang="de">DE</a>
+    <a href="/pl/levada-dos-cedros/" hreflang="pl" aria-current="page">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Odpowiedzi o szlakach Madery</div>
+  <h1>Czy Levada dos Cedros jest dziś otwarta?</h1>
+  <p class="sub">Levada dos Cedros (PR14) — z zamglonego Fanal w dół przez las wawrzynowy do Ribeira da Janela. Sprawdzana każdego ranka względem oficjalnego statusu IFCN. Zobacz <a href="/pl/trails/">wszystkie szlaki Madery</a> lub <a href="/pl/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR14">
+  <div class="status-body"><p>Ładowanie dzisiejszego statusu Levada dos Cedros… jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Fakty o szlaku</h2>
+  <dl>
+    <dt>Dystans</dt><dd>~7 km (w jedną stronę)</dd>
+    <dt>Czas</dt><dd>~2,5–3 godz.</dd>
+    <dt>Trudność</dt><dd>Łatwa–umiarkowana</dd>
+    <dt>Wysokość</dt><dd>~1 250 → 800 m</dd>
+    <dt>Trasa</dt><dd>Fanal → Ribeira da Janela</dd>
+    <dt>Typ</dt><dd>Z punktu do punktu</dd>
+    <dt>Opłata</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Zarezerwuj.</span> PR14 w SIMplifica</h2>
+  <p>Levada dos Cedros to jeden ze spokojniejszych spacerów przez las wawrzynowy — łagodne zejście, nie oblegany magnes na tłumy — ale nadal płatna trasa PR wyłącznie na rezerwację:</p>
+  <ol>
+    <li><b>Zarezerwuj z wyprzedzeniem swój <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">slot za 4,50 € w SIMplifica</a>.</b> Dzieci poniżej 12 lat i mieszkańcy są bezpłatnie, ale i tak muszą być w rezerwacji. Sprawdź status na żywo powyżej, zanim zapłacisz.</li>
+    <li><b>Najpierw załatw powrót.</b> To trasa z punktu do punktu (patrz niżej) — zdecyduj, jak wrócisz, zanim zarezerwujesz dzień.</li>
+    <li><b>Albo wybierz się z operatorem z protokołu IFCN</b> — niższa opłata za szlak (3 €) plus transport, co rozwiązuje i długi dojazd na zachód, i logistykę trasy jednokierunkowej.</li>
+  </ol>
+  <div class="fact">PR14 jest płatny przez SIMplifica jako osobna rezerwacja i <b>nie jest wliczony</b> w karnety wielodniowe. 4,50 € od osoby; dzieci poniżej 12 lat i mieszkańcy bezpłatnie, ale liczeni w rezerwacji.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Dojazd.</span> Fanal i Paul da Serra</h2>
+  <p>Wędrówka zaczyna się w <b>Fanal</b>, wysoko na płaskowyżu <b>Paul da Serra</b> na zachodzie — w tym samym miejscu co słynne wiekowe drzewa til. To długi dojazd z Funchal (około 1h15–1h30) przez otwarte wrzosowiska.</p>
+  <ul>
+    <li><b>Parkuj w Fanal</b>, gdzie ścieżka lewady schodzi w las. Droga na płaskowyżu (ER209) jest odsłonięta i często <b>tonie w chmurach</b> — jedź wolno i nie licz na widoki.</li>
+    <li><b>To trasa z punktu do punktu, w dół</b>, kończąca się w pobliżu <b>Ribeira da Janela</b>, gdzie łączy się z <b>PR15</b>. Bez długiego podejścia nie wrócisz pieszo do auta.</li>
+    <li><b>Powrót:</b> dwa auta, zamówiona wcześniej taksówka/odbiór na dole, wędrówka z przewodnikiem i transferami, albo idź dalej PR15 w dół do wioski Ribeira da Janela po drogę wzdłuż wybrzeża.</li>
+  </ul>
+  <div class="fact">Na Paul da Serra nie ma sklepu, paliwa ani pewnego zasięgu. Weź wodę, ciepłe i wodoodporne warstwy oraz latarkę — w Fanal jest chłodno i wilgotno znacznie częściej niż na wybrzeżu, nawet latem.</div>
+</section>
+
+<section id="like">
+  <h2>Jak tam jest</h2>
+  <p>To wędrówka po głębokim lesie w najlepszym wydaniu: niemal płaska, potem łagodnie schodząca lewada przez <b>laurisilvę</b> — las wawrzynowy wpisany na listę światowego dziedzictwa UNESCO — ociekający mchem i porostami, z paprociami napierającymi na ścieżkę i ptasim śpiewem jako jedynym dźwiękiem.</p>
+  <ul>
+    <li><b>Klimatyczna i często zamglona</b> — chmury, które frustrują łowców widoków, czynią ten las magicznym.</li>
+    <li><b>Łączy się naturalnie z <a class="plain" href="/pl/fanal/">Fanal (PR13)</a></b>, które startuje z tego samego miejsca — przejdź krótką pętlę Fanal dla słynnych sękatych drzew, a potem zejdź trasą Cedros.</li>
+    <li><b>Spokojna.</b> Znacznie mniej ludzi niż w Rabaçal; jeśli chcesz mieć las dla siebie, to jest to.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Zamknięta lub pełna?</span> Twoje opcje</h2>
+  <p>Jeśli IFCN zamknie PR14 (pogoda, powalone drzewa, prace) lub nie zdobędziesz slotu:</p>
+  <ul>
+    <li><b>Przełóż termin</b> przez infolinię SIMplifica przed swoją datą — datę i godzinę możesz zmieniać dowolnie, a szlak tylko wtedy, gdy twój został oficjalnie zamknięty.</li>
+    <li><b>Otwarte alternatywy w pobliżu:</b> <a class="plain" href="/pl/trails/">sprawdź tablicę na żywo</a> — <a class="plain" href="/pl/fanal/">Fanal (PR13)</a> jest tuż obok, a <a class="plain" href="/pl/25-fontes/">25 Fontes (PR6)</a> w Rabaçal to krótki przejazd na południe.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trzy rzeczy, o których ludzie dowiadują się za późno</h2>
+  <ul>
+    <li><b>Nie wraca pętlą.</b> Kończysz w pobliżu Ribeira da Janela, nie w Fanal — załatw powrót przed wyruszeniem, bo inaczej czeka cię długie podejście drogą pod górę.</li>
+    <li><b>Fanal to kraina chmur.</b> Na płaskowyżu często jest zimno, mokro i gęsta mgła, gdy w Funchal świeci słońce — spakuj się na deszcz i weź latarkę na ciemny las i ewentualne tunele.</li>
+    <li><b>Ścieżka jest śliska.</b> Mech, błoto i korzenie sprawiają, że zejście jest śliskie; pomagają buty z dobrą przyczepnością i kijki, zwłaszcza po deszczu.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Status zestawiany każdego ranka z IFCN (ifcn.madeira.gov.pt) i SIMplifica, z pogodą z IPMA (ipma.pt). Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
+  <p style="margin-top:6px">Zdjęcie: Rudolphu, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, przycięte i przeskalowane.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

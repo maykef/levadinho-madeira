@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>La Levada dos Cedros est-elle ouverte aujourd'hui ? Levada dos Cedros (PR14) : statut, réservation et accès</title>
+<meta name="description" content="Statut en direct de la Levada dos Cedros (PR14), de Fanal jusqu'à Ribeira da Janela à travers la forêt de lauriers — est-elle ouverte aujourd'hui ? Comment réserver le créneau SIMplifica à 4,50 €, l'accès par le Paul da Serra et les alternatives ouvertes.">
+
+<link rel="canonical" href="https://madeira.maykef.info/fr/levada-dos-cedros/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/fr/levada-dos-cedros/">
+<meta property="og:title" content="La Levada dos Cedros est-elle ouverte aujourd'hui ? Statut en direct, réservation et accès">
+<meta property="og:description" content="Levada dos Cedros (PR14), Fanal → Ribeira da Janela : le statut officiel du jour, comment réserver sur SIMplifica et la descente en forêt de lauriers.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-dos-cedros/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-dos-cedros/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-dos-cedros/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-dos-cedros/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-dos-cedros/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"La Levada dos Cedros est-elle ouverte aujourd'hui ?","acceptedAnswer":{"@type":"Answer","text":"Le statut du jour est affiché en direct en haut de cette page, mis à jour chaque matin à partir des informations officielles de l'IFCN / Visit Madeira. L'accès coûte 4,50 € via le portail SIMplifica ; les enfants de moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation."}},
+    {"@type":"Question","name":"Faut-il réserver pour la Levada dos Cedros ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Le PR14 exige une réservation à l'avance et un paiement de 4,50 € via SIMplifica. Les moins de 12 ans et les résidents sont gratuits mais doivent figurer nommément sur la réservation. Elle est plus calme que les sentiers de Rabaçal mais reste un itinéraire PR payant, sur réservation uniquement."}},
+    {"@type":"Question","name":"Où commence et se termine la Levada dos Cedros ?","acceptedAnswer":{"@type":"Answer","text":"Elle démarre à Fanal, sur le plateau du Paul da Serra à l'ouest, et descend à travers la forêt de lauriers jusqu'à Ribeira da Janela, où elle rejoint le PR15. C'est une randonnée point à point, elle ne se termine donc pas là où vous vous êtes garé — prévoyez une récupération, deux voitures, ou poursuivez sur le PR15 jusqu'au village."}},
+    {"@type":"Question","name":"Quelle est la longueur de la randonnée de la Levada dos Cedros ?","acceptedAnswer":{"@type":"Answer","text":"Environ 7 km dans un sens, à peu près 2h30 à 3 heures, de difficulté facile à modérée et surtout en descente à travers la forêt de lauriers classée à l'UNESCO. Le sentier peut être boueux et glissant, et Fanal est souvent dans les nuages."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#20573a url(/img/levada-dos-cedros.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/levada-dos-cedros/" hreflang="en">EN</a>
+    <a href="/fr/levada-dos-cedros/" hreflang="fr" aria-current="page">FR</a>
+    <a href="/de/levada-dos-cedros/" hreflang="de">DE</a>
+    <a href="/pl/levada-dos-cedros/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Réponses sur les sentiers de Madère</div>
+  <h1>La Levada dos Cedros est-elle ouverte aujourd'hui ?</h1>
+  <p class="sub">Levada dos Cedros (PR14) — de Fanal, souvent brumeuse, jusqu'à Ribeira da Janela à travers la forêt de lauriers. Vérifié chaque matin par rapport au statut officiel de l'IFCN. Voir <a href="/fr/trails/">tous les sentiers de Madère</a> ou <a href="/fr/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR14">
+  <div class="status-body"><p>Chargement du statut du jour pour la Levada dos Cedros… s'il ne s'affiche pas, consultez les sources officielles indiquées ci-dessous.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Infos sur le sentier</h2>
+  <dl>
+    <dt>Distance</dt><dd>~7 km (aller simple)</dd>
+    <dt>Durée</dt><dd>~2h30–3h</dd>
+    <dt>Difficulté</dt><dd>Facile–modérée</dd>
+    <dt>Altitude</dt><dd>~1 250 → 800 m</dd>
+    <dt>Itinéraire</dt><dd>Fanal → Ribeira da Janela</dd>
+    <dt>Type</dt><dd>Point à point</dd>
+    <dt>Tarif</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Réservez.</span> Le PR14 sur SIMplifica</h2>
+  <p>La Levada dos Cedros est l'une des randonnées en forêt de lauriers les plus calmes — une descente douce, pas un site couru — mais elle reste un sentier PR payant, sur réservation uniquement :</p>
+  <ol>
+    <li><b>Réservez votre <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">créneau à 4,50 € sur SIMplifica</a> à l'avance.</b> Les moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation. Vérifiez le statut en direct ci-dessus avant de payer.</li>
+    <li><b>Organisez d'abord votre retour.</b> C'est une randonnée point à point (voir ci-dessous) — décidez comment vous rentrerez avant de réserver la journée.</li>
+    <li><b>Ou partez avec un opérateur agréé par l'IFCN</b> — un tarif de sentier réduit (3 €) plus le transport, ce qui règle à la fois le long trajet vers l'ouest et la logistique du sens unique.</li>
+  </ol>
+  <div class="fact">Le PR14 se paie via SIMplifica sur sa propre réservation distincte et n'est <b>pas inclus</b> dans les forfaits de plusieurs jours. 4,50 € par personne ; les moins de 12 ans et les résidents sont gratuits mais comptabilisés sur la réservation.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Y aller.</span> Fanal et le Paul da Serra</h2>
+  <p>La randonnée démarre à <b>Fanal</b>, en altitude sur le plateau du <b>Paul da Serra</b> à l'ouest — le même endroit que les célèbres til centenaires. C'est un long trajet depuis Funchal (environ 1h15–1h30) à travers la lande ouverte.</p>
+  <ul>
+    <li><b>Garez-vous à Fanal</b>, là où le sentier de la levada plonge dans la forêt. La route du plateau (ER209) est exposée et souvent <b>noyée dans les nuages</b> — roulez doucement et ne comptez pas sur la vue.</li>
+    <li><b>C'est point à point et en descente</b>, se terminant près de <b>Ribeira da Janela</b> où elle rejoint le <b>PR15</b>. Vous ne reviendrez pas à votre voiture à pied sans une longue montée.</li>
+    <li><b>Pour rentrer :</b> deux voitures, un taxi/une récupération réservés en bas, une randonnée guidée avec transferts, ou poursuivez sur le PR15 jusqu'au village de Ribeira da Janela pour la route côtière.</li>
+  </ul>
+  <div class="fact">Ni magasin, ni carburant, ni réseau fiable sur le Paul da Serra. Emportez de l'eau, des couches chaudes et imperméables, et une lampe — Fanal est froide et humide bien plus souvent que la côte, même en été.</div>
+</section>
+
+<section id="like">
+  <h2>À quoi ça ressemble</h2>
+  <p>C'est la marche en forêt profonde dans ce qu'elle a de meilleur : une levada presque plate, puis en douce descente, à travers la <b>laurisylve</b> — la forêt de lauriers classée au patrimoine mondial de l'UNESCO — ruisselante de mousse et de lichen, les fougères envahissant le sentier, le chant des oiseaux pour seul bruit.</p>
+  <ul>
+    <li><b>Atmosphérique et souvent brumeuse</b> — les nuages qui frustrent les chasseurs de panoramas rendent cette forêt magique.</li>
+    <li><b>Se combine naturellement avec <a class="plain" href="/fr/fanal/">Fanal (PR13)</a></b>, qui part du même endroit — faites la courte boucle de Fanal pour les fameux arbres noueux, puis descendez la Cedros.</li>
+    <li><b>Calme.</b> Bien moins de monde qu'à Rabaçal ; si vous voulez la forêt pour vous seul, c'est ici.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Fermée ou complète ?</span> Vos options</h2>
+  <p>Si l'IFCN ferme le PR14 (météo, arbres tombés, travaux) ou si vous ne trouvez pas de créneau :</p>
+  <ul>
+    <li><b>Reprogrammez</b> via le centre d'appels SIMplifica avant votre date — vous pouvez modifier librement la date et l'heure, et changer de sentier uniquement si le vôtre a été officiellement fermé.</li>
+    <li><b>Alternatives ouvertes à proximité :</b> <a class="plain" href="/fr/trails/">consultez le tableau en direct</a> — <a class="plain" href="/fr/fanal/">Fanal (PR13)</a> est juste là, et <a class="plain" href="/fr/25-fontes/">25 Fontes (PR6)</a> à Rabaçal est à peu de route au sud.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trois choses que les gens découvrent trop tard</h2>
+  <ul>
+    <li><b>Elle ne boucle pas.</b> Vous terminez près de Ribeira da Janela, pas à Fanal — réglez le retour avant de partir, sinon vous voilà parti pour une longue montée sur la route.</li>
+    <li><b>Fanal, c'est le pays des nuages.</b> Il y fait souvent froid, humide et brouillard à couper au couteau sur le plateau alors que Funchal est ensoleillée — prévoyez la pluie et une lampe pour la forêt sombre et d'éventuels tunnels.</li>
+    <li><b>Le sentier est glissant.</b> Mousse, boue et racines rendent la descente glissante ; des chaussures qui accrochent et des bâtons aident, surtout après la pluie.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Statut compilé chaque matin à partir de l'IFCN (ifcn.madeira.gov.pt) et de SIMplifica, avec la météo de l'IPMA (ipma.pt). Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.</p>
+  <p style="margin-top:6px">Photo : Rudolphu, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, recadrée et redimensionnée.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
