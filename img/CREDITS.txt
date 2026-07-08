@@ -36,6 +36,11 @@ Levada do Furado (PR10, Ribeiro Frio → Portela)
   Licence: CC BY-SA 2.0
   Source:  https://commons.wikimedia.org/wiki/File:Levada_do_Furado_(Ribeiro_Frio)_(38096778111).jpg
 
+Levada do Rei (PR18, São Jorge → Ribeiro Bonito)
+  Author:  VillageHero from Ulm, Germany
+  Licence: CC BY-SA 2.0
+  Source:  https://commons.wikimedia.org/wiki/File:Levada_do_Rei_(38044050476).jpg
+
 CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
 CC BY-SA 2.0: https://creativecommons.org/licenses/by-sa/2.0/
 CC BY 2.0:    https://creativecommons.org/licenses/by/2.0/

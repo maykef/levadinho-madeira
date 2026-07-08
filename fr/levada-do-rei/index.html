@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>La Levada do Rei est-elle ouverte aujourd'hui ? Levada do Rei (PR18) : statut, réservation et stationnement</title>
+<meta name="description" content="Statut en direct de la Levada do Rei (PR18) à São Jorge — est-elle ouverte aujourd'hui ? Comment réserver le créneau SIMplifica à 4,50 €, où se garer au départ de l'ETAR, la durée de la marche jusqu'à Ribeiro Bonito et les alternatives ouvertes.">
+
+<link rel="canonical" href="https://madeira.maykef.info/fr/levada-do-rei/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/fr/levada-do-rei/">
+<meta property="og:title" content="La Levada do Rei est-elle ouverte aujourd'hui ? Statut en direct, réservation et stationnement">
+<meta property="og:description" content="Levada do Rei (PR18) à São Jorge : le statut officiel du jour, comment réserver sur SIMplifica et la paisible marche en forêt de lauriers jusqu'à Ribeiro Bonito.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-do-rei/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-do-rei/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-do-rei/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-do-rei/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-do-rei/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"La Levada do Rei est-elle ouverte aujourd'hui ?","acceptedAnswer":{"@type":"Answer","text":"Le statut du jour est affiché en direct en haut de cette page, mis à jour chaque matin à partir des informations officielles de l'IFCN / Visit Madeira. L'accès coûte 4,50 € via le portail SIMplifica ; les enfants de moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation."}},
+    {"@type":"Question","name":"Faut-il réserver pour la Levada do Rei ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Le PR18 exige une réservation à l'avance et un paiement de 4,50 € via SIMplifica. Elle est plus calme que les 25 Fontes mais reste une randonnée populaire en forêt de lauriers, alors réservez à l'avance en été. Les moins de 12 ans et les résidents sont gratuits mais doivent figurer nommément sur la réservation."}},
+    {"@type":"Question","name":"Où se garer pour la Levada do Rei ?","acceptedAnswer":{"@type":"Answer","text":"Le sentier démarre à la station de traitement des eaux (ETAR) au-dessus de São Jorge, sur la côte nord. Il n'y a qu'un petit parking au départ, alors arrivez tôt ou partagez une voiture ; il n'y a pas de navette."}},
+    {"@type":"Question","name":"Quelle est la longueur de la randonnée de la Levada do Rei ?","acceptedAnswer":{"@type":"Answer","text":"Environ 5,3 km à l'aller (à peu près 10,5 km aller-retour), autour de 3 heures, de difficulté facile à modérée. C'est un aller-retour le long d'une levada presque plate à travers une forêt de lauriers dense jusqu'à la source de Ribeiro Bonito, vous revenez donc par le même chemin."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#20573a url(/img/levada-do-rei.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/levada-do-rei/" hreflang="en">EN</a>
+    <a href="/fr/levada-do-rei/" hreflang="fr" aria-current="page">FR</a>
+    <a href="/de/levada-do-rei/" hreflang="de">DE</a>
+    <a href="/pl/levada-do-rei/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Réponses sur les sentiers de Madère</div>
+  <h1>La Levada do Rei est-elle ouverte aujourd'hui ?</h1>
+  <p class="sub">Levada do Rei (PR18) — de São Jorge à la source de Ribeiro Bonito, à travers une forêt de lauriers profonde. Vérifié chaque matin par rapport au statut officiel de l'IFCN. Voir <a href="/fr/trails/">tous les sentiers de Madère</a> ou <a href="/fr/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR18">
+  <div class="status-body"><p>Chargement du statut du jour pour la Levada do Rei… s'il ne s'affiche pas, consultez les sources officielles indiquées ci-dessous.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Infos sur le sentier</h2>
+  <dl>
+    <dt>Distance</dt><dd>5,3 km à l'aller</dd>
+    <dt>Aller-retour</dt><dd>~10,5 km</dd>
+    <dt>Durée</dt><dd>~3 heures</dd>
+    <dt>Difficulté</dt><dd>Facile–modérée</dd>
+    <dt>Altitude</dt><dd>~600 m (plat)</dd>
+    <dt>Type</dt><dd>Aller-retour</dd>
+    <dt>Tarif</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Réservez.</span> Le PR18 sur SIMplifica</h2>
+  <p>La Levada do Rei est l'une des randonnées classiques en forêt de lauriers de Madère — plus calme que les 25 Fontes, mais toujours prisée. Par ordre d'importance :</p>
+  <ol>
+    <li><b>Réservez votre <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">créneau à 4,50 € sur SIMplifica</a> à l'avance.</b> Les moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation. Vérifiez le statut en direct ci-dessus avant de payer.</li>
+    <li><b>Partez tôt.</b> Le parking du départ est petit et la levada est un unique sentier étroit — un départ matinal vous assure à la fois une place et la forêt pour vous seul.</li>
+    <li><b>Ou partez avec un opérateur agréé par l'IFCN</b> — un tarif de sentier réduit (3 €) plus le transport depuis Funchal, ce qui règle le long trajet vers la côte nord.</li>
+  </ol>
+  <div class="fact">Le PR18 se paie via SIMplifica sur sa propre réservation distincte et n'est <b>pas inclus</b> dans les forfaits de plusieurs jours. 4,50 € par personne ; les moins de 12 ans et les résidents sont gratuits mais comptabilisés sur la réservation.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Y aller.</span> São Jorge et le départ de l'ETAR</h2>
+  <p>Le sentier démarre au-dessus de <b>São Jorge</b>, sur la verdoyante côte nord de l'île — à environ une heure de route de Funchal par la montagne.</p>
+  <ul>
+    <li><b>Garez-vous à l'ETAR</b> (la petite station de traitement des eaux) au bout de la route d'accès au-dessus de São Jorge, là où commence le sentier de la levada. Il n'y a qu'un <b>petit parking</b> et pas de navette, alors venez tôt ou partagez une voiture.</li>
+    <li><b>C'est un aller-retour</b>, donc contrairement aux sentiers point à point, vous revenez à votre voiture — aucun transport de retour à organiser.</li>
+    <li><b>La route qui monte est étroite.</b> Roulez doucement, surtout par temps humide ; la côte nord attire plus de nuages et de pluie que le sud.</li>
+  </ul>
+  <div class="fact">Il n'y a ni magasin ni café au départ. Emportez de l'eau, une couche de vêtements et une veste de pluie — le nord est plus vert parce qu'il est plus humide, et la forêt peut être fraîche et ruisselante même quand la côte est lumineuse.</div>
+</section>
+
+<section id="like">
+  <h2>À quoi ça ressemble</h2>
+  <p>C'est une randonnée pour la forêt, pas pour les panoramas. La levada court presque à plat à travers l'une des <b>laurisylves</b> les mieux préservées — la forêt de lauriers classée au patrimoine mondial de l'UNESCO — chargée de mousse, de fougères et de chants d'oiseaux, pour finir au <b>Ribeiro Bonito</b>, la jolie source d'où provient l'eau du canal.</p>
+  <ul>
+    <li><b>Verte et ombragée du début à la fin</b>, avec quelques petites cascades qui traversent le sentier.</li>
+    <li><b>Bien plus calme que Rabaçal ou Caldeirão Verde</b> — si vous voulez une journée levada paisible, c'est celle-ci.</li>
+    <li><b>Plate et adaptée aux familles</b>, même si le bord de la levada est étroit par endroits et que le sol peut être boueux et glissant après la pluie.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Fermée ou complète ?</span> Vos options</h2>
+  <p>Si l'IFCN ferme le PR18 (météo, glissement de terrain, travaux) ou si vous ne trouvez pas de créneau :</p>
+  <ul>
+    <li><b>Reprogrammez</b> via le centre d'appels SIMplifica avant votre date — vous pouvez modifier librement la date et l'heure, et changer de sentier uniquement si le vôtre a été officiellement fermé.</li>
+    <li><b>Alternatives ouvertes à proximité :</b> <a class="plain" href="/fr/trails/">consultez le tableau en direct</a> — <a class="plain" href="/fr/caldeirao-verde/">Caldeirão Verde (PR9)</a> est l'autre superbe randonnée en forêt de lauriers du versant nord, et <a class="plain" href="/fr/25-fontes/">25 Fontes (PR6)</a> est généralement disponible aussi.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Trois choses que les gens découvrent trop tard</h2>
+  <ul>
+    <li><b>Le parking est minuscule.</b> Le départ à l'ETAR n'accueille qu'une poignée de voitures — une arrivée tardive un week-end ensoleillé peut signifier nulle part où se garer.</li>
+    <li><b>La côte nord est le versant humide.</b> Elle est plus verte pour une raison ; prévoyez une veste de pluie et des chaussures qui accrochent, et attendez-vous à un sentier humide, parfois boueux, même par beau temps.</li>
+    <li><b>C'est un aller-retour.</b> Vous revenez le long de la même levada depuis Ribeiro Bonito, alors faites demi-tour en gardant assez de temps et de lumière du jour pour le retour.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Statut compilé chaque matin à partir de l'IFCN (ifcn.madeira.gov.pt) et de SIMplifica, avec la météo de l'IPMA (ipma.pt). Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.</p>
+  <p style="margin-top:6px">Photo : VillageHero, <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 2.0, redimensionnée.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
