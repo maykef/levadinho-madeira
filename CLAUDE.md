@@ -8,8 +8,11 @@ Guidance for Claude Code when working in this repository.
 about Madeira's paid, booking-only PR trails. It's a **hub-and-spoke** site:
 
 - **Hub** — `/trails/`, a live "open or closed today?" board for all ~37 trails.
-- **Spokes** — the PR1 flagship (`/`) and per-trail pages (25 Fontes, Pico Ruivo,
-  Caldeirão Verde, São Lourenço, Balcões, Fanal), each with a live status card.
+- **Spokes** — the PR1 flagship (`/`) plus a per-trail page for **every one of the
+  ~37 trails**, each with a live status card. **9 are hand-authored** (rich, with
+  photo heroes: 25 Fontes, Pico Ruivo, Caldeirão Verde, São Lourenço, Balcões,
+  Fanal, Levada do Furado, Levada do Rei, Levada dos Cedros); the other **27 are
+  generated** (lightweight, live-status-first) by `scripts/gen_spokes.py`.
 
 **Strategy (why it exists):** own the *volatile, novel* search queries — "is X
 open today", "new 2026 fees", closures, booking — where daily-updated freshness
@@ -35,7 +38,9 @@ sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
 | `status.js` | Renders a single-trail status card from `status.json`. `#statusCard` with no `data-trail` → the detailed PR1 card; `data-trail="PR6"` → that trail's spoke card from `trails[]`. Localized by `<html lang>` |
 | `dashboard.js` | Renders the trails dashboard (board + weather strip + counts + search/filter) from `status.json`, localized |
 | `trails/` (+ `fr/`,`de/`,`pl/`) | The live "Madeira trails: open or closed today?" dashboard — the hub |
-| `25-fontes/`, `pico-ruivo/`, `caldeirao-verde/`, `sao-lourenco/`, `balcoes/`, `fanal/` (each + `fr/`,`de/`,`pl/`) | Per-trail **spoke** pages (PR6, PR1.2, PR9, PR8, PR11, PR13): PR1 shell + trail content, hero photo, `data-trail` live card, trail-facts sidebar |
+| `25-fontes/`, `pico-ruivo/`, `caldeirao-verde/`, `sao-lourenco/`, `balcoes/`, `fanal/`, `levada-do-furado/`, `levada-do-rei/`, `levada-dos-cedros/` (each + `fr/`,`de/`,`pl/`) | The **9 hand-authored spoke** pages (PR6, PR1.2, PR9, PR8, PR11, PR13, PR10, PR18, PR14): PR1 shell + bespoke trail content, hero photo, `data-trail` live card, trail-facts sidebar |
+| 27 more trail dirs (e.g. `levada-do-risco/`, `levada-do-moinho/`, …, each + `fr/`,`de/`,`pl/`) | The **generated spokes** — one per remaining PR trail; lightweight, live-status-first, facts scraped from the official page. Written by `scripts/gen_spokes.py`; don't hand-edit — re-run the generator |
+| `scripts/gen_spokes.py` | One-off (re-runnable) generator for the 27 long-tail spokes: scrapes real facts (distance/difficulty/duration/altitude/start-end/route-type) from each trail's official Visit Madeira page, emits en/fr/de/pl pages, and carries a `PHOTOS` map for hero images (17 of 27 have one) |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
 | `.github/workflows/update.yml` | Cron that runs the updater at 06:40 UTC daily |
 | `sitemap.xml`, `robots.txt` | SEO (sitemap carries hreflang alternates for all 16 URLs) |
@@ -113,12 +118,19 @@ python scripts/update_status.py
   links, the hreflang blocks, and `sitemap.xml`. Internal links stay relative so
   they resolve within each language folder. Machine translations — flag for
   native review before relying on them commercially.
-- **Adding a trail spoke page:** copy `25-fontes/index.html` as the template,
-  set `data-trail="<CODE>"` on `#statusCard`, write the trail's content + facts +
-  FAQ, add `"<CODE>": "/<slug>/"` to `PAGES` in `update_status.py` (so the
-  dashboard links it), translate to fr/de/pl, and add the 4 URLs to `sitemap.xml`.
-  Keep spokes lightweight and freshness-focused (open today? booking, fee,
-  parking, closures) — not exhaustive guides. Prioritise by search demand.
+- **Spokes now cover every trail.** All ~37 PR trails have a page and a `PAGES`
+  entry. Two kinds:
+  - **Hand-authored** (the 9 top trails): copy `25-fontes/index.html`, set
+    `data-trail="<CODE>"`, write bespoke content + facts + FAQ, add to `PAGES`,
+    translate to fr/de/pl, add 4 URLs to `sitemap.xml`. Keep them lightweight and
+    freshness-focused (open today? booking, fee, parking, closures) — not
+    exhaustive guides.
+  - **Generated** (the other 27): produced by `scripts/gen_spokes.py` — **don't
+    hand-edit them**, change the generator and re-run it (it re-scrapes facts and
+    rewrites all 27 × 4 pages). To give a generated spoke a photo, add one line to
+    the `PHOTOS` map in `gen_spokes.py` + drop the image in `/img/` (credited in
+    `CREDITS.txt`), then re-run. New trails from the index get a generated spoke;
+    only "promote" one to hand-authored if search demand justifies bespoke copy.
 - Every page has FAQ `schema.org` JSON-LD in the head — keep it in sync with the
   visible copy when you change facts.
 - Pages cross-link via a "Next steps" list. Keep those links working when adding

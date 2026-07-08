@@ -1,16 +1,20 @@
 # Project status — Levadinho
 
-_Snapshot: 2026-07-07. Branch `main`, working tree clean._
+_Snapshot: 2026-07-08. Branch `main`, working tree clean, pushed._
 
 ## Where it stands
 
-A working, live static site on GitHub Pages — now a **hub-and-spoke** trail site
-in **four languages** (EN at the root; `fr/`, `de/`, `pl/`):
+A working, live static site on GitHub Pages — a **hub-and-spoke** trail site in
+**four languages** (EN at the root; `fr/`, `de/`, `pl/`). As of 2026-07-08,
+**every one of the ~37 paid Madeira PR trails on the dashboard now has its own
+live-status page.**
 
-- **Hub:** `/trails/` — a live "open or closed today?" board for all ~37 paid
-  Madeira PR trails.
-- **Spokes:** the PR1 flagship (`/`) plus **6 per-trail pages** (25 Fontes,
-  Pico Ruivo, Caldeirão Verde, São Lourenço, Balcões, Fanal).
+- **Hub:** `/trails/` — a live "open or closed today?" board for all ~37 trails.
+- **Spokes (37 trail pages):** the PR1 flagship (`/`) plus **36 per-trail pages**:
+  - **9 hand-authored** (rich, photo heroes): 25 Fontes, Pico Ruivo, Caldeirão
+    Verde, São Lourenço, Balcões, Fanal, Levada do Furado, Levada do Rei,
+    Levada dos Cedros.
+  - **27 generated** (lightweight, live-status-first) by `scripts/gen_spokes.py`.
 
 One daily engine (`update_status.py` → `status.json`) drives every status card
 and the board; pages render client-side via `status.js` / `dashboard.js`,
@@ -18,96 +22,92 @@ localized per page — including the scraped official note (machine-translated t
 fr/de/pl). Content/pricing reflect the **April 2026 one-way reopening** and 2026
 fees. Strategy is freshness-first — own the volatile "is X open / new fees /
 closures" queries, funnelling to the planned Levadinho chatbot (see the
-`levadinho-strategy` memory). On Google Search Console (`madeira.maykef.info`
-property; homepage indexed).
+`levadinho-strategy` memory). On Google Search Console (`madeira.maykef.info`).
 
 ## Pages (all × en/fr/de/pl)
 
 | Page | Role |
 |------|------|
-| `/` (`index.html`) | PR1 flagship — live status card, webcam, sold-out/closed help |
+| `/` (`index.html`) | PR1 flagship — live status card, sold-out/closed help |
 | `/trails/` | Dashboard hub — live board of all ~37 trails |
-| `/25-fontes/`, `/pico-ruivo/`, `/caldeirao-verde/`, `/sao-lourenco/`, `/balcoes/`, `/fanal/` | Trail spokes (PR6, PR1.2, PR9, PR8, PR11, PR13) |
+| 9 hand-authored spokes | 25 Fontes (PR6), Pico Ruivo (PR1.2), Caldeirão Verde (PR9), São Lourenço (PR8), Balcões (PR11), Fanal (PR13), Levada do Furado (PR10), Levada do Rei (PR18), Levada dos Cedros (PR14) |
+| 27 generated spokes | every remaining PR trail (Risco, Moinho, Fajã do Rodrigues, Alecrim, Ribeira da Janela, the Caminhos Reais, etc.) via `gen_spokes.py` |
 | `/getting-back.html`, `/simplifica-from-abroad.html`, `/hiking-fees.html` | Evergreen explainers |
 
-**44 URLs** in `sitemap.xml` (with hreflang). Translations are machine-generated
-— recommend a native FR/DE/PL proofread before relying on them commercially.
+**164 URLs** in `sitemap.xml` (41 pages × 4 languages, with hreflang).
+Translations are machine-generated — recommend a native FR/DE/PL proofread
+before relying on them commercially.
+
+## The generator (`scripts/gen_spokes.py`) — added 2026-07-08
+
+One-off (re-runnable) generator for the 27 long-tail spokes. For every PR trail
+without a hand-authored spoke it:
+
+- **Scrapes real facts** from each trail's official Visit Madeira page —
+  distance, difficulty, duration, altitude, start/end, and route type (via the
+  "round trip"/"circular" signals). Nothing is invented; a missing field just
+  drops its row.
+- Emits a lightweight en/fr/de/pl page from a shared template: live
+  `data-trail` card, facts sidebar, and templated booking / getting-there /
+  closed / "before you go" sections with the trail name + facts injected.
+- Heroes come from a `PHOTOS` map (Wikimedia Commons, credited). **17 of the 27
+  long-tail spokes carry a photo**; the other 10 use a plain hero because no
+  correct CC-licensed image was found (wrong-subject candidates — info signs, a
+  chapel, an archive scan — were rejected on a contact-sheet review).
+- Wiring into `PAGES` (updater) and `sitemap.xml` is done by the caller.
+
+Adding a photo to a plain spoke later = one `PHOTOS` entry + the image.
 
 ## Automation
 
 - `scripts/update_status.py` (v4) + `.github/workflows/update.yml` — runs
-  06:40 UTC daily, scrapes Visit Madeira for trail status and reads official
-  IPMA observations for summit weather, writes `status.json` + bumps
-  `sitemap.xml`, commits if changed. **v4 (2026-07-07): stopped editing HTML** —
-  the status card is now rendered client-side from `status.json` for all
-  languages.
-- **Weather source switched to IPMA (2026-07-07):** was Open-Meteo (model
-  forecast); now the real measured reading from IPMA's Pico do Areeiro station.
-  Trade-off: IPMA has no sky/weather code, so the old "clear skies / FOG" phrase
-  is replaced by temperature + a humidity-derived "likely in cloud" note.
-- **Official note translated (2026-07-07):** the scraped English note is mirrored
-  into fr/de/pl via MyMemory (free/keyless, English fallback) and stored as a
-  per-language object `{en,fr,de,pl}` in `status.json`, so localized pages show
-  the note in their own language (proper nouns preserved).
-- Current live status: **PARTIAL** (footpath accessible only Areeiro → Pedra Rija
-  Belvedere, km 1,2), last checked 2026-07-07.
+  06:40 UTC daily, scrapes Visit Madeira for trail status + IPMA summit weather,
+  writes `status.json` + bumps `sitemap.xml`, commits if changed. Renders no
+  HTML (client-side via `status.js`/`dashboard.js`). `PAGES` now has **37
+  entries**, so every dashboard card links to its spoke.
+- **The daily cron now fires on its own** — confirmed 2026-07-08 (an automatic
+  `Daily status update` commit landed unprompted). Earlier in the day it had to
+  be kicked manually once because a freshly-added cron takes ~a day to activate.
+- Weather from IPMA Pico do Areeiro station (temp + humidity-derived cloud note
+  + wind); official note machine-translated to fr/de/pl via MyMemory.
+- Current live status: **PR1 PARTIAL** (footpath only Areeiro → Pedra Rija
+  Belvedere, km 1,2); board **28 OPEN / 4 PARTIAL / 5 CLOSED**; dated 2026-07-08.
 
-- **Dashboard shipped (2026-07-07):** `/trails/` (+ fr/de/pl) — live "open or
-  closed today?" board for all ~37 Madeira PR trails, driven by the multi-trail
-  engine (one scrape of the Visit Madeira index → `trails[]`, `counts`, 5-region
-  IPMA weather in `status.json`). Rendered by `dashboard.js`; search + filter
-  chips; photo ribbon uses real self-hosted trail photos (Wikimedia Commons,
-  credited in `/img/CREDITS.txt`). Kept at `/trails/` for now (PR1 stays the
-  homepage `/`) — could be promoted to the homepage now that spokes exist.
+## Fixed this session (2026-07-08)
 
-- **Spoke pages (2026-07-07):** `/25-fontes/` (PR6), `/pico-ruivo/` (PR1.2),
-  `/caldeirao-verde/` (PR9), `/sao-lourenco/` (PR8), `/balcoes/` (PR11),
-  `/fanal/` (PR13) — **6 trails**, each + fr/de/pl (28 pages). Built from
-  the PR1 shell: hero photo, live status card (`status.js` `data-trail`),
-  trail-facts sidebar, and trail-specific booking / getting-there / alternatives
-  content. The engine's `PAGES` map links each dashboard card to its spoke.
-  Adding more is cheap: copy the template, set `data-trail`, add to `PAGES`,
-  translate, add to sitemap.
+- **Start/End scrape over-run:** the fact regex ran to end-of-page on
+  point-to-point trails, dumping the whole scraped page (nav, newsletter,
+  reCAPTCHA JS) into the "getting there" paragraph — 17 trails × 4 langs = 68
+  broken pages (e.g. `/levada-do-paul-ii-.../`). Regex now bounded at
+  "Max. Altitude" / "How to get there"; regenerated. 0 pages affected now.
+- **Wrong ribbon photos:** the dashboard ribbon (and matching spoke heroes)
+  showed a boulder for São Lourenço and a moorland road for Areeiro → Ruivo.
+  Replaced with the iconic peninsula (Asurnipal) and the PR1 summit ridge
+  (Krzysztof Popławski); `CREDITS.txt` + ribbon credit line updated in all 4.
 
 ## Open items / risks
 
-- [x] **WhatsApp fully removed (2026-07-07):** per decision, all four pages had
-  their WhatsApp buttons, sticky bars, `wa.me` JS, click tracking,
-  `CONFIG.whatsappNumber`, and copy stripped out (GoatCounter pageview analytics
-  kept). **The pages now have no call-to-action** — a replacement (WhatsApp or
-  otherwise) still needs designing and building before this is a lead-gen site.
-- [x] **GoatCounter analytics live (2026-07-07):** account created at
-  `madeira-levadinho.goatcounter.com`; the `goatcounterCode` in every page's
-  `CONFIG` was corrected from `levadinho-madeira` to `madeira-levadinho` (the
-  account name is reversed). Pageviews now record, respecting the `#skipgc`
-  self-exclusion.
-- [ ] Article pages (all languages) show a static `CONFIG.lastUpdated` date.
-  Since v4 the updater no longer touches HTML, so these dates don't advance.
-  Cosmetic — could wire them to `status.json`'s `date` with a small script if it
-  matters.
-- [ ] Translations are machine-generated (by Claude) — get a native FR/DE/PL
-  proofread before using commercially.
-- [x] **Domain move complete (2026-07-07):** repo republished on
-  `maykef/levadinho-madeira`, served at `https://madeira.maykef.info/` via GitHub
-  Pages + `CNAME` + DNS; base URL updated everywhere. The old
-  `Levadinho-Madeira` repo **and account** have been deleted.
-- [x] **Google Search Console (2026-07-07):** new `https://madeira.maykef.info/`
-  URL-prefix property verified (HTML-file method), homepage indexed. Sitemap now
-  carries **44 URLs** + hreflang. **To do:** URL Inspection → Request indexing on
-  `/trails/` and the 6 spoke pages to speed discovery (Google refetches the
-  sitemap on its own). The old github.io property is obsolete.
-- [ ] Status scraper depends on the exact wording/structure of the Visit Madeira
-  page. If they redesign it, the run fails loud (by design) and status freezes
-  at the last good value until fixed.
+- [ ] **No call-to-action.** WhatsApp was fully stripped; pages carry no CTA
+  until the Levadinho bot CTA is built. This is still not a lead-gen site yet.
+- [ ] **10 long-tail spokes have a plain hero** (no correct CC photo found).
+  Could revisit with wider/manual sourcing — but a plain band beats a
+  wrong-subject photo.
+- [ ] Translations are machine-generated (by Claude) — native FR/DE/PL proofread
+  before commercial use. The 27 generated spokes are templated, so their prose
+  is uniform across trails (unique facts + status differentiate them).
+- [ ] Article pages show a static `CONFIG.lastUpdated` date that no longer
+  advances (updater doesn't touch HTML). Cosmetic.
+- [ ] Status scraper (both `update_status.py` and `gen_spokes.py` facts) depends
+  on Visit Madeira's page wording/structure. A redesign breaks the scrape — the
+  daily run fails loud by design; `gen_spokes.py` is a manual re-run.
 
 ## Possible next steps
 
-- **Request-index** the dashboard + 6 spokes in Search Console.
 - **Levadinho chatbot** — the funnel endpoint. When ready, drop the "add
-  Levadinho on WhatsApp" QR/CTA into every page (see `levadinho-strategy` memory).
-- More spokes only if search demand justifies (top trails are now covered); the
-  closed PR7/PR10/PR20 could be low-effort "is it closed?" targets.
-- Consider promoting `/trails/` to the homepage now that spokes exist.
-- Native FR/DE/PL proofread of the machine translations.
-- Optional: wire the article pages' static `lastUpdated` to `status.json`'s date;
-  a `manual_note.txt` workflow for pushing ranger notes.
+  Levadinho on WhatsApp" QR/CTA into every page (see `levadinho-strategy`).
+- Photos for the remaining 10 plain spokes (manual sourcing).
+- Consider promoting `/trails/` to the homepage now that every trail is covered.
+- Native FR/DE/PL proofread; optionally hand-enrich the highest-demand generated
+  spokes with bespoke copy.
+- Request-index the new pages in Search Console (Google refetches the sitemap
+  anyway).
