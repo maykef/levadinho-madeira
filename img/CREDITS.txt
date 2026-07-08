@@ -41,6 +41,11 @@ Levada do Rei (PR18, São Jorge → Ribeiro Bonito)
   Licence: CC BY-SA 2.0
   Source:  https://commons.wikimedia.org/wiki/File:Levada_do_Rei_(38044050476).jpg
 
+Levada dos Cedros (PR14, Fanal → Ribeira da Janela)
+  Author:  Rudolphu
+  Licence: CC BY-SA 4.0
+  Source:  https://commons.wikimedia.org/wiki/File:Verlauf_der_Levada_dos_Cedros.jpg
+
 CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
 CC BY-SA 2.0: https://creativecommons.org/licenses/by-sa/2.0/
 CC BY 2.0:    https://creativecommons.org/licenses/by/2.0/

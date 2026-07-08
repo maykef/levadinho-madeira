@@ -572,4 +572,48 @@
     <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-do-rei/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-do-rei/"/>
   </url>
+  <url>
+    <loc>https://madeira.maykef.info/levada-dos-cedros/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-dos-cedros/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/fr/levada-dos-cedros/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-dos-cedros/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/de/levada-dos-cedros/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-dos-cedros/"/>
+  </url>
+  <url>
+    <loc>https://madeira.maykef.info/pl/levada-dos-cedros/</loc>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://madeira.maykef.info/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/levada-dos-cedros/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/levada-dos-cedros/"/>
+  </url>
 </urlset>
