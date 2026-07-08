@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Czy Caminho do Pináculo e Folhadal jest dziś otwarta? Caminho do Pináculo e Folhadal (PR17): status i rezerwacja</title>
+<meta name="description" content="Status na żywo Caminho do Pináculo e Folhadal (PR17) — czy jest dziś otwarta? Jak zarezerwować slot za 4,50 € w SIMplifica, fakty o szlaku i otwarte alternatywy.">
+
+<link rel="canonical" href="https://madeira.maykef.info/pl/caminho-do-pinaculo-e-folhadal/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/pl/caminho-do-pinaculo-e-folhadal/">
+<meta property="og:title" content="Czy Caminho do Pináculo e Folhadal jest dziś otwarta?">
+<meta property="og:description" content="Status na żywo Caminho do Pináculo e Folhadal (PR17) — czy jest dziś otwarta? Jak zarezerwować slot za 4,50 € w SIMplifica, fakty o szlaku i otwarte alternatywy.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/caminho-do-pinaculo-e-folhadal/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/caminho-do-pinaculo-e-folhadal/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/caminho-do-pinaculo-e-folhadal/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/caminho-do-pinaculo-e-folhadal/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/caminho-do-pinaculo-e-folhadal/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Czy Caminho do Pináculo e Folhadal jest dziś otwarta?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dzisiejszy status jest pokazywany na żywo na górze tej strony, aktualizowany każdego ranka na podstawie oficjalnych informacji IFCN / Visit Madeira. Caminho do Pináculo e Folhadal (PR17) to płatny szlak PR wyłącznie na rezerwację; wstęp kosztuje 4,50 € przez portal SIMplifica."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Czy trzeba rezerwować Caminho do Pináculo e Folhadal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tak. PR17 wymaga wcześniejszej rezerwacji i opłaty 4,50 € przez SIMplifica. Dzieci poniżej 12 lat i mieszkańcy są bezpłatnie, ale muszą być imiennie w rezerwacji."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:130px;background:#20573a}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/caminho-do-pinaculo-e-folhadal/" hreflang="en">EN</a>
+    <a href="/fr/caminho-do-pinaculo-e-folhadal/" hreflang="fr">FR</a>
+    <a href="/de/caminho-do-pinaculo-e-folhadal/" hreflang="de">DE</a>
+    <a href="/pl/caminho-do-pinaculo-e-folhadal/" hreflang="pl" aria-current="page">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Odpowiedzi o szlakach Madery</div>
+  <h1>Czy Caminho do Pináculo e Folhadal jest dziś otwarta?</h1>
+  <p class="sub">Caminho do Pináculo e Folhadal (PR17) — płatny szlak PR, wyłącznie na rezerwację. Sprawdzany każdego ranka względem oficjalnego statusu IFCN. <a href="/pl/trails/">wszystkie szlaki Madery</a> · <a href="/pl/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR17">
+  <div class="status-body"><p>Ładowanie dzisiejszego statusu Caminho do Pináculo e Folhadal… jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Fakty o szlaku</h2>
+  <dl>
+    <dt>Dystans</dt><dd>15 km</dd>
+    <dt>Czas</dt><dd>6:30 h</dd>
+    <dt>Trudność</dt><dd>Trudna</dd>
+    <dt>Wysokość</dt><dd>970–1490 m</dd>
+    <dt>Trasa</dt><dd>Lombo do Mouro → 970 m How to get there Remove From Wishlist Add to Wishlist IFCN Madeira Rua Alferes Veiga Pestana,15 | Quinta Vila Passos 9054-505 Funchal291 145 590 ifcn@madeira.gov.pt ifcn.madeira.gov.pt/ SEE MAP Explore this trail! FIND OUT MORE Madeira Ocean &amp; Trails Our natural settings allow for enjoying unique and enticing activities in the most beautiful landscapes in the world. Soak up every detail of this fantastic environment and discover a thousand forms of adventure at your own pace. EXPLORE levada do alecrim 2 Want to know more about this topic? Be an explorer and travel to our BLOG to read the first-person accounts of those who enjoyed this experience. FIND OUT MORE Discover other routes on the West Coast Hiking OPEN PR 1 - Vereda do Areeiro Vereda do Areeiro is a trail connecting three iconic spots in Madeira - it begins at Pico do Areeiro, crosses Pico das Torres and ends at Pico Ruivo.&#xA; Read more Hiking OPEN PR 1.1 - Vereda da Ilha The Vereda da Ilha starts with a short climb to the highest peak of Madeira, through Vereda do Pico Ruivo. Moderate difficulty. Read more Hiking OPEN PR 1.2 - Vereda do Pico Ruivo The Vereda do Pico Ruivo provides a clear view over the central mountainous massif and several other points of interest. It&#x27;s the highest point in Madeira. Read more Hiking RESTRICTED PR 1.3 - Vereda da Encumeada Beginning near Pico Ruivo, Vereda da Encumeada is 11.2 km long and follows the central mountain range of the island westwards until Encumeada.&#xA; Read more Hiking OPEN PR 2 - Vereda do Urzal This 10,6 km trail along Vereda do Urzal has the peculiarity of following an old path, connecting the south and north coasts of the island of Madeira.&#xA; Read more Hiking RESTRICTED PR 12 - Caminho Real da Encumeada Caminho Real da Encumeada is a 12.5 km trail which takes 4 hours and crosses part of the mountain massif of the island of Madeira.&#xA; Read more Hiking OPEN PR 13.1 - Vereda da Palha Carga The route along Vereda da Palha Carga starts at the regional road, next to Louro da Gota, and follows PR 13 Vereda do Fanal for the first 100 metres until you find the turn-off to 25 Fontes on the left. Read more Hiking CLOSED PR 27 - Glaciar de Planalto This route starts on the Paul da Serra plateau, more specifically at Bica da Cana, and along its course you can see various geomorphological and geological. Read more Keep in Touch @visitmadeira Subscribe to our newsletter and be surprised with every issue. email I unequivocally authorise the processing of these personal data in order to receive information regarding destination Madeira, offers, campaigns and other exclusive commercial messages from Visit Madeira, in accordance with the terms and conditions of the Privacy Policy of the Madeira Promotion Bureau.{ var hiddenField = document.getElementById; var timerFunction = function{ window.grecaptcha.execute.then{ // Enable the submit button now we have a token hiddenField.form.querySelector.removeAttribute; hiddenField.value = token; }); setTimeout; }; document.addEventListener{ // Disable the submit button for this form, until we actually have a key from Google reCAPTCHA hiddenField.form.querySelector.setAttribute; window.grecaptcha.ready{ timerFunction; }); }); }); Madeira. Belongs to all Madeira Porto Santo What to Do What&#x27;s On Where to stay Travel Info Awards and Distinctions Contacts Sitemap Legal Warnings Travel Agencies Tourist Entertainment Accomodations Short Term Rental Car Rental Weddings Frequently Asked Questions Copyright &#xA9; 2026 Madeira Promotion Bureau Designed by Nossa and developed by Create IT // Prevent scrolling while modal is active // Select the element to observe const target = document.body; // Create a MutationObserver const observer = new MutationObserver=> { for{ if{ const hasModal = target.classList.contains; console.logif{ document.documentElement.classList.add}else{ document.documentElement.classList.remove} // You can trigger your scroll-lock logic here } } }); // Start observing observer.observe;</dd>
+    <dt>Typ</dt><dd>Z punktu do punktu</dd>
+    <dt>Opłata</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Zarezerwuj.</span> PR17 w SIMplifica</h2>
+  <p>Gdy pokaże się jako otwarty, zarezerwuj z wyprzedzeniem swój <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">slot za 4,50 € w SIMplifica</a>. Dzieci poniżej 12 lat i mieszkańcy są bezpłatnie, ale i tak muszą być imiennie w rezerwacji. PR17 jest płatny jako osobna rezerwacja i <b>nie jest wliczony</b> w karnety wielodniowe — sprawdź status na żywo powyżej, zanim zapłacisz.</p>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Dojazd.</span> Start i meta</h2>
+  <p>Caminho do Pináculo e Folhadal biegnie od <b>Lombo do Mouro</b> do <b>970 m How to get there Remove From Wishlist Add to Wishlist IFCN Madeira Rua Alferes Veiga Pestana,15 | Quinta Vila Passos 9054-505 Funchal291 145 590 ifcn@madeira.gov.pt ifcn.madeira.gov.pt/ SEE MAP Explore this trail! FIND OUT MORE Madeira Ocean &amp; Trails Our natural settings allow for enjoying unique and enticing activities in the most beautiful landscapes in the world. Soak up every detail of this fantastic environment and discover a thousand forms of adventure at your own pace. EXPLORE levada do alecrim 2 Want to know more about this topic? Be an explorer and travel to our BLOG to read the first-person accounts of those who enjoyed this experience. FIND OUT MORE Discover other routes on the West Coast Hiking OPEN PR 1 - Vereda do Areeiro Vereda do Areeiro is a trail connecting three iconic spots in Madeira - it begins at Pico do Areeiro, crosses Pico das Torres and ends at Pico Ruivo.&#xA; Read more Hiking OPEN PR 1.1 - Vereda da Ilha The Vereda da Ilha starts with a short climb to the highest peak of Madeira, through Vereda do Pico Ruivo. Moderate difficulty. Read more Hiking OPEN PR 1.2 - Vereda do Pico Ruivo The Vereda do Pico Ruivo provides a clear view over the central mountainous massif and several other points of interest. It&#x27;s the highest point in Madeira. Read more Hiking RESTRICTED PR 1.3 - Vereda da Encumeada Beginning near Pico Ruivo, Vereda da Encumeada is 11.2 km long and follows the central mountain range of the island westwards until Encumeada.&#xA; Read more Hiking OPEN PR 2 - Vereda do Urzal This 10,6 km trail along Vereda do Urzal has the peculiarity of following an old path, connecting the south and north coasts of the island of Madeira.&#xA; Read more Hiking RESTRICTED PR 12 - Caminho Real da Encumeada Caminho Real da Encumeada is a 12.5 km trail which takes 4 hours and crosses part of the mountain massif of the island of Madeira.&#xA; Read more Hiking OPEN PR 13.1 - Vereda da Palha Carga The route along Vereda da Palha Carga starts at the regional road, next to Louro da Gota, and follows PR 13 Vereda do Fanal for the first 100 metres until you find the turn-off to 25 Fontes on the left. Read more Hiking CLOSED PR 27 - Glaciar de Planalto This route starts on the Paul da Serra plateau, more specifically at Bica da Cana, and along its course you can see various geomorphological and geological. Read more Keep in Touch @visitmadeira Subscribe to our newsletter and be surprised with every issue. email I unequivocally authorise the processing of these personal data in order to receive information regarding destination Madeira, offers, campaigns and other exclusive commercial messages from Visit Madeira, in accordance with the terms and conditions of the Privacy Policy of the Madeira Promotion Bureau.{ var hiddenField = document.getElementById; var timerFunction = function{ window.grecaptcha.execute.then{ // Enable the submit button now we have a token hiddenField.form.querySelector.removeAttribute; hiddenField.value = token; }); setTimeout; }; document.addEventListener{ // Disable the submit button for this form, until we actually have a key from Google reCAPTCHA hiddenField.form.querySelector.setAttribute; window.grecaptcha.ready{ timerFunction; }); }); }); Madeira. Belongs to all Madeira Porto Santo What to Do What&#x27;s On Where to stay Travel Info Awards and Distinctions Contacts Sitemap Legal Warnings Travel Agencies Tourist Entertainment Accomodations Short Term Rental Car Rental Weddings Frequently Asked Questions Copyright &#xA9; 2026 Madeira Promotion Bureau Designed by Nossa and developed by Create IT // Prevent scrolling while modal is active // Select the element to observe const target = document.body; // Create a MutationObserver const observer = new MutationObserver=> { for{ if{ const hasModal = target.classList.contains; console.logif{ document.documentElement.classList.add}else{ document.documentElement.classList.remove} // You can trigger your scroll-lock logic here } } }); // Start observing observer.observe;</b>. To trasa z punktu do punktu, więc nie kończy się tam, gdzie zaparkowałeś — najpierw załatw powrót (dwa auta, zamówiona taksówka lub wędrówka z przewodnikiem i transferami).</p>
+  <div class="fact">To długi górski dojazd od wybrzeża, przy większości początków szlaków bez sklepu i pewnego zasięgu. Weź wodę, ciepłe i wodoodporne warstwy oraz latarkę — pogoda w górach zmienia się szybko.</div>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Zamknięta lub pełna?</span> Twoje opcje</h2>
+  <p>Jeśli IFCN zamknie PR17 (pogoda, osuwisko, prace) lub nie zdobędziesz slotu: <b>przełóż termin</b> przez infolinię SIMplifica przed swoją datą — datę i godzinę zmieniasz dowolnie, a szlak tylko wtedy, gdy twój został oficjalnie zamknięty. Otwarte alternatywy znajdziesz na <a class="plain" href="/pl/trails/">tablicy na żywo</a>.</p>
+</section>
+
+<section id="know">
+  <h2>Zanim wyruszysz</h2>
+  <ul>
+    <li><b>Wyłącznie na rezerwację.</b> Wejście na płatny szlak PR bez ważnego biletu SIMplifica to wykroczenie, z grzywnami sięgającymi 250 €.</li>
+    <li><b>Nie wraca pętlą.</b> Kończysz w innym miejscu — załatw powrót przed wyruszeniem.</li>
+    <li><b>Sprawdź plakietkę na żywo w dniu wyjścia.</b> Górskie szlaki szybko zamyka się z powodu pogody, obrywów lub prac.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Status zestawiany każdego ranka z IFCN (ifcn.madeira.gov.pt) i SIMplifica, z pogodą z IPMA (ipma.pt). Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>La Vereda da Lagoa do Vento est-elle ouverte aujourd'hui ? Vereda da Lagoa do Vento (PR6.3) : statut et réservation</title>
+<meta name="description" content="Statut en direct de la Vereda da Lagoa do Vento (PR6.3) — est-elle ouverte aujourd'hui ? Comment réserver le créneau SIMplifica à 4,50 €, les infos du sentier et les alternatives ouvertes.">
+
+<link rel="canonical" href="https://madeira.maykef.info/fr/vereda-da-lagoa-do-vento/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/fr/vereda-da-lagoa-do-vento/">
+<meta property="og:title" content="La Vereda da Lagoa do Vento est-elle ouverte aujourd'hui ?">
+<meta property="og:description" content="Statut en direct de la Vereda da Lagoa do Vento (PR6.3) — est-elle ouverte aujourd'hui ? Comment réserver le créneau SIMplifica à 4,50 €, les infos du sentier et les alternatives ouvertes.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/vereda-da-lagoa-do-vento/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/vereda-da-lagoa-do-vento/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/vereda-da-lagoa-do-vento/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/vereda-da-lagoa-do-vento/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/vereda-da-lagoa-do-vento/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "La Vereda da Lagoa do Vento est-elle ouverte aujourd'hui ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le statut du jour est affiché en direct en haut de cette page, mis à jour chaque matin à partir des informations officielles de l'IFCN / Visit Madeira. La Vereda da Lagoa do Vento (PR6.3) est un sentier PR payant, sur réservation ; l'accès coûte 4,50 € via le portail SIMplifica."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Faut-il réserver pour la Vereda da Lagoa do Vento ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Le PR6.3 exige une réservation à l'avance et un paiement de 4,50 € via SIMplifica. Les moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:130px;background:#20573a}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/vereda-da-lagoa-do-vento/" hreflang="en">EN</a>
+    <a href="/fr/vereda-da-lagoa-do-vento/" hreflang="fr" aria-current="page">FR</a>
+    <a href="/de/vereda-da-lagoa-do-vento/" hreflang="de">DE</a>
+    <a href="/pl/vereda-da-lagoa-do-vento/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Réponses sur les sentiers de Madère</div>
+  <h1>La Vereda da Lagoa do Vento est-elle ouverte aujourd'hui ?</h1>
+  <p class="sub">Vereda da Lagoa do Vento (PR6.3) — un sentier PR payant, sur réservation. Vérifié chaque matin par rapport au statut officiel de l'IFCN. <a href="/fr/trails/">tous les sentiers de Madère</a> · <a href="/fr/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR6.3">
+  <div class="status-body"><p>Chargement du statut du jour pour la Vereda da Lagoa do Vento… s'il ne s'affiche pas, consultez les sources officielles indiquées ci-dessous.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Infos sur le sentier</h2>
+  <dl>
+    <dt>Distance</dt><dd>1.8 km (3.6 km round trip)</dd>
+    <dt>Durée</dt><dd>1:30 h</dd>
+    <dt>Difficulté</dt><dd>Facile</dd>
+    <dt>Altitude</dt><dd>200–1600 m</dd>
+    <dt>Type</dt><dd>Aller-retour</dd>
+    <dt>Tarif</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Réservez.</span> Le PR6.3 sur SIMplifica</h2>
+  <p>Une fois indiqué ouvert, réservez à l'avance votre <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">créneau à 4,50 € sur SIMplifica</a>. Les moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation. Le PR6.3 se paie sur sa propre réservation distincte et n'est <b>pas inclus</b> dans les forfaits de plusieurs jours — vérifiez le statut en direct ci-dessus avant de payer.</p>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Y aller.</span> Départ &amp; arrivée</h2>
+  <p>La Vereda da Lagoa do Vento démarre et se termine à <b>Casa de Abrigo do Rabaçal</b> ; vous revenez par le même chemin — aucun transport de retour à organiser.</p>
+  <div class="fact">C'est un long trajet en montagne depuis la côte, sans magasin ni réseau fiable à la plupart des départs. Emportez de l'eau, des couches chaudes et imperméables, et une lampe — la météo change vite en altitude.</div>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Fermé ou complet ?</span> Vos options</h2>
+  <p>Si l'IFCN ferme le PR6.3 (météo, glissement, travaux) ou si vous ne trouvez pas de créneau : <b>reprogrammez</b> via le centre d'appels SIMplifica avant votre date — vous pouvez modifier librement date et heure, et changer de sentier uniquement si le vôtre a été officiellement fermé. Pour des alternatives ouvertes, <a class="plain" href="/fr/trails/">consultez le tableau en direct</a>.</p>
+</section>
+
+<section id="know">
+  <h2>Avant de partir</h2>
+  <ul>
+    <li><b>Sur réservation uniquement.</b> Marcher sur un sentier PR payant sans billet SIMplifica valide est une infraction, avec des amendes signalées jusqu'à 250 €.</li>
+    <li><b>C'est un aller-retour.</b> Faites demi-tour avec assez de temps et de lumière pour revenir par le même chemin.</li>
+    <li><b>Vérifiez le badge en direct le matin même.</b> Les sentiers de montagne ferment vite pour météo, chutes de pierres ou travaux.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Statut compilé chaque matin à partir de l'IFCN (ifcn.madeira.gov.pt) et de SIMplifica, avec la météo de l'IPMA (ipma.pt). Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
