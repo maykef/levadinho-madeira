@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>Ist die Caminho do Norte heute geöffnet? Caminho do Norte (PR21): Status &amp; Buchung</title>
+<meta name="description" content="Live-Status der Caminho do Norte (PR21) — heute geöffnet? Wie man den 4,50-€-Slot auf SIMplifica bucht, die Weg-Fakten und offene Alternativen.">
+
+<link rel="canonical" href="https://madeira.maykef.info/de/caminho-do-norte/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://madeira.maykef.info/de/caminho-do-norte/">
+<meta property="og:title" content="Ist die Caminho do Norte heute geöffnet?">
+<meta property="og:description" content="Live-Status der Caminho do Norte (PR21) — heute geöffnet? Wie man den 4,50-€-Slot auf SIMplifica bucht, die Weg-Fakten und offene Alternativen.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://madeira.maykef.info/caminho-do-norte/">
+<link rel="alternate" hreflang="fr" href="https://madeira.maykef.info/fr/caminho-do-norte/">
+<link rel="alternate" hreflang="de" href="https://madeira.maykef.info/de/caminho-do-norte/">
+<link rel="alternate" hreflang="pl" href="https://madeira.maykef.info/pl/caminho-do-norte/">
+<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/caminho-do-norte/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Ist die Caminho do Norte heute geöffnet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der heutige Status wird live oben auf dieser Seite angezeigt und jeden Morgen aus offiziellen IFCN- / Visit-Madeira-Informationen aktualisiert. Die Caminho do Norte (PR21) ist ein kostenpflichtiger PR-Weg nur mit Buchung; der Zugang kostet 4,50 € über das SIMplifica-Portal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Muss man die Caminho do Norte buchen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Für den PR21 sind eine Vorausbuchung und eine Zahlung von 4,50 € über SIMplifica erforderlich. Kinder unter 12 und Einwohner sind frei, müssen aber namentlich in der Buchung stehen."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:130px;background:#20573a}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Language">
+    <a href="/caminho-do-norte/" hreflang="en">EN</a>
+    <a href="/fr/caminho-do-norte/" hreflang="fr">FR</a>
+    <a href="/de/caminho-do-norte/" hreflang="de" aria-current="page">DE</a>
+    <a href="/pl/caminho-do-norte/" hreflang="pl">PL</a>
+  </nav>
+  <div class="brand">Levadinho · Antworten zu Madeiras Wanderwegen</div>
+  <h1>Ist die Caminho do Norte heute geöffnet?</h1>
+  <p class="sub">Caminho do Norte (PR21) — ein kostenpflichtiger PR-Weg, nur mit Buchung. Jeden Morgen gegen den offiziellen IFCN-Status geprüft. <a href="/de/trails/">alle Wanderwege Madeiras</a> · <a href="/de/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR21">
+  <div class="status-body"><p>Der heutige Status der Caminho do Norte wird geladen… falls er nicht erscheint, prüfen Sie die unten verlinkten offiziellen Quellen.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Weg-Fakten</h2>
+  <dl>
+    <dt>Distanz</dt><dd>3.2 km</dd>
+    <dt>Dauer</dt><dd>1:30 h</dd>
+    <dt>Schwierigkeit</dt><dd>Mittel</dd>
+    <dt>Höhe</dt><dd>320–1000 m</dd>
+    <dt>Typ</dt><dd>Rundweg</dd>
+    <dt>Gebühr</dt><dd>€4.50</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Buchen.</span> Der PR21 auf SIMplifica</h2>
+  <p>Sobald er als geöffnet angezeigt wird, buchen Sie Ihren <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">4,50-€-Slot auf SIMplifica</a> im Voraus. Kinder unter 12 und Einwohner sind frei, müssen aber trotzdem namentlich in der Buchung stehen. Der PR21 wird als eigene, gesonderte Buchung bezahlt und ist <b>nicht</b> in den Mehrtagespässen enthalten — prüfen Sie den Live-Status oben, bevor Sie bezahlen.</p>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Anreise.</span> Start &amp; Ziel</h2>
+  <p>Die Caminho do Norte beginnt und endet an <b>Encumeada</b>, Sie kehren also denselben Weg zurück — kein Rücktransport zu organisieren.</p>
+  <div class="fact">Es ist eine lange Bergfahrt von der Küste, an den meisten Ausgangspunkten ohne Laden oder verlässlichen Empfang. Nehmen Sie Wasser, warme und wasserdichte Kleidung sowie eine Lampe mit — das Wetter schlägt oben schnell um.</div>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Gesperrt oder ausgebucht?</span> Ihre Optionen</h2>
+  <p>Wenn die IFCN den PR21 sperrt (Wetter, Erdrutsch, Arbeiten) oder Sie keinen Slot bekommen: <b>Umbuchen</b> über das SIMplifica-Callcenter vor Ihrem Termin — Datum und Uhrzeit frei änderbar, den Weg wechseln nur, wenn Ihrer offiziell gesperrt war. Offene Alternativen finden Sie auf der <a class="plain" href="/de/trails/">Live-Tafel</a>.</p>
+</section>
+
+<section id="know">
+  <h2>Vor dem Start</h2>
+  <ul>
+    <li><b>Nur mit Buchung.</b> Einen kostenpflichtigen PR-Weg ohne gültiges SIMplifica-Ticket zu gehen ist ein Verstoß, mit gemeldeten Bußgeldern bis zu 250 €.</li>
+    <li><b>Hin und zurück.</b> Drehen Sie mit genug Zeit und Tageslicht um, um denselben Weg zurückzugehen.</li>
+    <li><b>Prüfen Sie das Live-Abzeichen am Morgen Ihrer Tour.</b> Bergwege werden schnell wegen Wetter, Steinschlag oder Arbeiten gesperrt.</li>
+  </ul>
+</section>
+
+<footer>
+  <p>Status jeden Morgen aus IFCN (ifcn.madeira.gov.pt) und SIMplifica zusammengestellt, mit Wetter von IPMA (ipma.pt). Unabhängig — nicht mit der Regionalregierung von Madeira verbunden. Die Bedingungen ändern sich in den Bergen schnell; verlassen Sie sich auf dem Weg immer auf Ihr eigenes Urteil.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
