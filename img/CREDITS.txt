@@ -6,15 +6,15 @@ used under their licences and resized for the web.
   Licence: CC BY-SA 4.0
   Source:  https://commons.wikimedia.org/wiki/File:Madeira-Rabacal-Levada_das_25_Fontes_(PR6)-bridge-02ASD.jpg
 
-Pico do Areeiro
-  Author:  Luis Miguel Bugallo Sánchez (Lmbuga)
-  Licence: CC BY-SA 4.0
-  Source:  https://commons.wikimedia.org/wiki/File:2016._Cami%C3%B1o_de_Pico_do_Areeiro._Madeira._Portugal_%2702.jpg
+Pico do Areeiro → Pico Ruivo (Vereda do Areeiro, PR1)
+  Author:  Krzysztof Popławski
+  Licence: CC BY 4.0
+  Source:  https://commons.wikimedia.org/wiki/File:G%C3%B3rski_szlak_pieszy_PR1_z_Pico_Arreiro_do_Pico_Ruivo_-_Vereda_do_Areeiro_-_Madeira,_Portugalia,_sierpie%C5%84_2022.jpg
 
 Ponta de São Lourenço
-  Author:  Dietmar Rabich
+  Author:  Asurnipal
   Licence: CC BY-SA 4.0
-  Source:  https://commons.wikimedia.org/wiki/File:Cani%C3%A7al_(Madeira,_Portugal),_Ponta_de_S%C3%A3o_Louren%C3%A7o_--_2025_--_1332.jpg
+  Source:  https://commons.wikimedia.org/wiki/File:Madeira-Canical-Sao_Lourenco-lands_end_(east)-Lighthouse-04ASD.jpg
 
 Caldeirão Verde (Levada do Caldeirão Verde, PR9)
   Author:  cudi
