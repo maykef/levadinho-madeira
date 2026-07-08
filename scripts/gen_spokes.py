@@ -93,15 +93,16 @@ def scrape_facts(url):
     m = re.search(r"Max\.?\s*Altitude\s*/\s*Min\.?\s*Altitude:\s*:?\s*([\d.,]+)\s*m(?:etres)?\s*/\s*([\d.,]+)\s*m", text)
     if m: f["alt_max"], f["alt_min"] = m.group(1), m.group(2)
     f["circular"] = bool(re.search(r"\bcircular\b", text, re.I))
-    m = re.search(r"Start\s*/\s*End:\s*(.+?)\s+(?:Route|Nature|Recommended|Duration|Distance|Type|Level|$)", text)
+    # Bound the capture at "Max. Altitude" / "How to get there" — otherwise a
+    # non-greedy .+? runs to EOF and swallows the whole page into `end`.
+    m = re.search(r"Start\s*/\s*End:\s*(.+?)\s*(?:Max\.?\s*Altitude|How to get there|Route type|Nature of)", text)
     if m:
-        se = m.group(1)
-        parts = [p.strip() for p in se.split("/") if p.strip()]
-        # split on ' / ' but road refs contain '/', so rebuild by the last standalone name
-        se2 = re.split(r"\s/\s", se)
-        if len(se2) >= 2:
-            f["start"] = re.sub(r"\s*\(.*?\)\s*", "", se2[0]).strip()
-            f["end"] = re.sub(r"\s*\(.*?\)\s*", "", se2[-1]).strip()
+        se = re.sub(r"\s*\([^)]*\)\s*", " ", m.group(1))   # drop (road refs) like (E.R. 101)
+        parts = [p.strip(" .,") for p in re.split(r"\s*/\s*", se) if p.strip(" .,")]
+        if len(parts) >= 2:
+            f["start"], f["end"] = parts[0], parts[-1]
+        elif parts:
+            f["start"] = parts[0]
     return f
 
 
