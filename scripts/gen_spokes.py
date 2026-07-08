@@ -108,6 +108,7 @@ BRAND = {
     "pl": "Levadinho · Odpowiedzi o szlakach Madery",
 }
 PREFIX = {"en": "", "fr": "/fr", "de": "/de", "pl": "/pl"}
+SEE = {"en": "See", "fr": "Voir", "de": "Siehe", "pl": "Zobacz"}
 
 
 def T(lang, code, name, f, linear, start, end, typ):
@@ -379,7 +380,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
   </nav>
   <div class="brand">{BRAND[lang]}</div>
   <h1>{t['h1']}</h1>
-  <p class="sub">{t['sub']} <a href="{P}/trails/">{t['allt']}</a> · <a href="{P}/">PR1</a>.</p>
+  <p class="sub">{t['sub']} {SEE[lang]} <a href="{P}/trails/">{t['allt']}</a> · <a href="{P}/">PR1</a>.</p>
 </header>
 
 <div class="status-card" id="statusCard" data-trail="{code}">
