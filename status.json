@@ -9,14 +9,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 23.1,
-    "humidity": 16,
+    "temp_c": 20.3,
+    "humidity": 13,
     "in_cloud": false,
-    "wind_kmh": 25,
+    "wind_kmh": 6,
     "wind_strong": false
   },
-  "stamp": "2026-07-08 13:14",
-  "date": "2026-07-08",
+  "stamp": "2026-07-09 11:06",
+  "date": "2026-07-09",
   "counts": {
     "OPEN": 28,
     "PARTIAL": 4,
@@ -26,22 +26,22 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 23
+      "temp": 20
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 24
+      "temp": 21
     },
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 22
+      "temp": 19
     },
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 25
+      "temp": 22
     },
     {
       "key": "south",
@@ -57,7 +57,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 23,
+      "temp": 20,
       "page": "/",
       "note": {
         "en": "Footpath accessible only between Pico do Areeiro and Pedra Rija Belvedere (km 1,2).",
@@ -73,7 +73,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 24,
+      "temp": 21,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -83,7 +83,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 23,
+      "temp": 20,
       "page": "/pico-ruivo/"
     },
     {
@@ -93,7 +93,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -103,7 +103,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -113,7 +113,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/vereda-do-burro/"
     },
     {
@@ -133,7 +133,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -143,7 +143,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 24,
+      "temp": 21,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -153,7 +153,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 22,
+      "temp": 19,
       "page": "/25-fontes/"
     },
     {
@@ -163,7 +163,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 22,
+      "temp": 19,
       "page": "/levada-do-risco/"
     },
     {
@@ -173,7 +173,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/levada-do-alecrim/"
     },
     {
@@ -183,7 +183,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/vereda-da-lagoa-do-vento/"
     },
     {
@@ -193,7 +193,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/levada-do-moinho/"
     },
     {
@@ -203,7 +203,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 25,
+      "temp": 22,
       "page": "/sao-lourenco/"
     },
     {
@@ -213,7 +213,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 24,
+      "temp": 21,
       "page": "/caldeirao-verde/"
     },
     {
@@ -223,7 +223,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/levada-do-furado/"
     },
     {
@@ -233,7 +233,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 23,
+      "temp": 20,
       "page": "/balcoes/"
     },
     {
@@ -243,7 +243,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -253,7 +253,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 22,
+      "temp": 19,
       "page": "/fanal/"
     },
     {
@@ -263,7 +263,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/levada-dos-cedros/"
     },
     {
@@ -273,7 +273,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/vereda-da-ribeira-da-janela/"
     },
     {
@@ -283,7 +283,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -293,7 +293,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
@@ -303,7 +303,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 24,
+      "temp": 21,
       "page": "/levada-do-rei/"
     },
     {
@@ -313,7 +313,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/caminho-real-do-paul-do-mar/"
     },
     {
@@ -323,7 +323,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/vereda-do-jardim-do-mar/"
     },
     {
@@ -333,7 +333,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/caminho-do-norte/"
     },
     {
@@ -343,7 +343,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -353,7 +353,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 23,
+      "temp": 20,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -363,7 +363,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/vereda-do-tunel-do-cavalo/"
     },
     {
@@ -373,7 +373,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/levada-da-rocha-vermelha/"
     },
     {
@@ -383,7 +383,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/levada-do-paul-ii-um-caminho-para-todos/"
     },
     {
@@ -393,7 +393,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/levada-velha-do-rabacal/"
     },
     {
@@ -403,7 +403,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/vereda-do-pico-fernandes/"
     },
     {
@@ -413,7 +413,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 19,
       "page": "/vereda-da-palha-carga/"
     },
     {
@@ -423,7 +423,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 24,
+      "temp": 21,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ]
