@@ -13,6 +13,7 @@
       badge: { OPEN: "OPEN", PARTIAL: "RESTRICTED", CLOSED: "CLOSED" },
       defNote: { PARTIAL: "Access restricted — read the official note before you go.", CLOSED: "Closed by IFCN." },
       region: { summit: "Summit", north: "North", west: "West", east: "East", south: "Coast" },
+      wind: "wind", rain: "rain", fog: "likely in cloud",
       today: "Today's status →", nomatch: "No trail matches that.",
       mmnote: "mountain ≠ coast; fog and wind change fast up high."
     },
@@ -24,6 +25,7 @@
       badge: { OPEN: "OUVERT", PARTIAL: "RESTREINT", CLOSED: "FERMÉ" },
       defNote: { PARTIAL: "Accès restreint — lisez la note officielle avant de partir.", CLOSED: "Fermé par l'IFCN." },
       region: { summit: "Sommet", north: "Nord", west: "Ouest", east: "Est", south: "Côte" },
+      wind: "vent", rain: "pluie", fog: "sans doute dans les nuages",
       today: "État du jour →", nomatch: "Aucun sentier ne correspond.",
       mmnote: "montagne ≠ côte ; le brouillard et le vent changent vite en altitude."
     },
@@ -35,6 +37,7 @@
       badge: { OPEN: "OFFEN", PARTIAL: "EINGESCHRÄNKT", CLOSED: "GESPERRT" },
       defNote: { PARTIAL: "Zugang eingeschränkt — lesen Sie vor dem Start den offiziellen Hinweis.", CLOSED: "Von IFCN gesperrt." },
       region: { summit: "Gipfel", north: "Norden", west: "Westen", east: "Osten", south: "Küste" },
+      wind: "Wind", rain: "Regen", fog: "wohl in Wolken",
       today: "Heutiger Status →", nomatch: "Kein Weg passt dazu.",
       mmnote: "Berg ≠ Küste; Nebel und Wind ändern sich oben schnell."
     },
@@ -46,6 +49,7 @@
       badge: { OPEN: "OTWARTY", PARTIAL: "OGRANICZONY", CLOSED: "ZAMKNIĘTY" },
       defNote: { PARTIAL: "Dostęp ograniczony — przed wyjściem przeczytaj oficjalną uwagę.", CLOSED: "Zamknięte przez IFCN." },
       region: { summit: "Szczyt", north: "Północ", west: "Zachód", east: "Wschód", south: "Wybrzeże" },
+      wind: "wiatr", rain: "deszcz", fog: "pewnie we mgle",
       today: "Dzisiejszy status →", nomatch: "Brak pasujących szlaków.",
       mmnote: "góry ≠ wybrzeże; mgła i wiatr szybko się zmieniają na wysokości."
     }
@@ -85,9 +89,15 @@
       '<span><span class="dot CLOSED"></span><b>' + c.CLOSED + "</b> " + T.closed + "</span>";
 
     el("weatherStrip").innerHTML = (d.regions || []).map(function (r) {
-      var t = (r.temp != null) ? " " + r.temp + "°C" : " —";
-      return '<span class="wx"><b>' + T.region[r.key] + " · " + esc(r.place) + "</b>" + t + "</span>";
-    }).join("") + '<span class="note">— ' + T.mmnote + "</span>";
+      var t = (r.temp != null) ? r.temp + "°C" : "—";
+      var bits = [];
+      if (r.wind != null) bits.push(T.wind + " " + r.wind + " km/h");
+      if (r.rain != null && r.rain > 0) bits.push('<span class="alert">' + T.rain + " " + r.rain + " mm</span>");
+      if (r.in_cloud) bits.push('<span class="alert">' + T.fog + "</span>");
+      return '<div class="wx"><b>' + T.region[r.key] + " · " + esc(r.place) + "</b>" +
+        '<span class="wtemp">' + t + "</span>" +
+        (bits.length ? '<span class="wext">' + bits.join(" · ") + "</span>" : "") + "</div>";
+    }).join("") + '<div class="note">' + T.mmnote + "</div>";
 
     var trails = (d.trails || []).slice();
     var byPop = function (a, b) { return (b.popular - a.popular) || a.code.localeCompare(b.code, undefined, { numeric: true }); };

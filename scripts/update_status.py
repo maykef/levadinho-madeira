@@ -66,6 +66,10 @@ REGIONS = [
 ]
 REGION_PLACE = {"summit": "Pico do Areeiro", "north": "Santana", "west": "Rabaçal",
                 "east": "São Lourenço", "south": "Funchal"}
+# Stations high enough that >=90% humidity usually means you're inside cloud
+# (summit 1,818 m; west/Prazeres ~620 m). At coastal stations the same reading
+# is just muggy sea air, so no fog flag there.
+CLOUD_REGIONS = {"summit", "west"}
 # Trails that have their own spoke page (the dashboard links to these).
 PAGES = {
     "PR1": "/",
@@ -215,14 +219,35 @@ def summit_weather():
     }
 
 
-def _region_temps():
-    """Latest temperature (rounded °C, or None) for each regional station."""
+def _region_weather():
+    """Latest measured conditions per regional station for the weather strip:
+    temp (°C), wind (km/h), rain over the last hour (mm) and a likely-in-cloud
+    flag for the high stations (CLOUD_REGIONS). Every field degrades to
+    None/False on a missing sensor — like all weather, this must never take
+    the run down."""
     obs = requests.get(IPMA_OBS, headers=UA, timeout=30).json()
     out = {}
     for key, sid, _lat, _lon in REGIONS:
-        t = _field(_latest_reading(obs, sid), "temperatura")
-        out[key] = round(t) if t is not None else None
+        rec = _latest_reading(obs, sid)
+        temp = _field(rec, "temperatura")
+        humidity = _field(rec, "humidade")
+        rain = _field(rec, "precAcumulada")
+        wind = _field(rec, "intensidadeVentoKM")
+        if wind is None and sid == STATION_SUMMIT:
+            # Same fallback as summit_weather(): the summit wind sensor is
+            # frequently missing; the neighbouring Areeiro station is close.
+            wind = _field(_latest_reading(obs, STATION_WIND_FALLBACK), "intensidadeVentoKM")
+        out[key] = {
+            "temp": round(temp) if temp is not None else None,
+            "wind": round(wind) if wind is not None else None,
+            "rain": round(rain, 1) if rain is not None else None,
+            "in_cloud": bool(key in CLOUD_REGIONS and humidity is not None
+                             and humidity >= HUMIDITY_CLOUD_PCT),
+        }
     return out
+
+
+_REGION_WX_EMPTY = {"temp": None, "wind": None, "rain": None, "in_cloud": False}
 
 
 def _nearest_region(lat, lon):
@@ -336,9 +361,13 @@ def main():
 
     # Multi-trail board for the dashboard (fails loud on scrape/parse error).
     trails = scrape_trails()
-    region_temps = _region_temps()
+    try:
+        region_wx = _region_weather()
+    except Exception as e:
+        region_wx = {}
+        print("regional weather fetch failed:", e, file=sys.stderr)
     for t in trails:
-        t["temp"] = region_temps.get(t["region"])
+        t["temp"] = region_wx.get(t["region"], _REGION_WX_EMPTY)["temp"]
         if t["code"] in PAGES:
             t["page"] = PAGES[t["code"]]
         if t["code"] == "PR1":
@@ -348,7 +377,7 @@ def main():
     counts = {"OPEN": 0, "PARTIAL": 0, "CLOSED": 0}
     for t in trails:
         counts[t["status"]] = counts.get(t["status"], 0) + 1
-    regions = [{"key": k, "place": REGION_PLACE[k], "temp": region_temps.get(k)}
+    regions = [dict({"key": k, "place": REGION_PLACE[k]}, **region_wx.get(k, _REGION_WX_EMPTY))
                for k, _sid, _lat, _lon in REGIONS]
 
     data = {
