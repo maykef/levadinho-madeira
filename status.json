@@ -15,7 +15,7 @@
     "wind_kmh": 10,
     "wind_strong": false
   },
-  "stamp": "2026-07-14 09:39",
+  "stamp": "2026-07-14 09:49",
   "date": "2026-07-14",
   "counts": {
     "OPEN": 29,
@@ -26,27 +26,42 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 12
+      "temp": 12,
+      "wind": 10,
+      "rain": 0.0,
+      "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 19
+      "temp": 19,
+      "wind": null,
+      "rain": 0.0,
+      "in_cloud": false
     },
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 19
+      "temp": 19,
+      "wind": 5,
+      "rain": 0.0,
+      "in_cloud": false
     },
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 22
+      "temp": 22,
+      "wind": 13,
+      "rain": 0.0,
+      "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 22
+      "temp": 22,
+      "wind": 3,
+      "rain": 0.0,
+      "in_cloud": false
     }
   ],
   "trails": [
