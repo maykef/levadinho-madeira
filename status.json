@@ -9,14 +9,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 20.0,
-    "humidity": 47,
+    "temp_c": 19.9,
+    "humidity": 34,
     "in_cloud": false,
-    "wind_kmh": 17,
+    "wind_kmh": 28,
     "wind_strong": false
   },
-  "stamp": "2026-08-05 10:21",
-  "date": "2026-08-05",
+  "stamp": "2026-08-06 10:25",
+  "date": "2026-08-06",
   "counts": {
     "OPEN": 29,
     "PARTIAL": 4,
@@ -27,7 +27,7 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 20,
-      "wind": 17,
+      "wind": 28,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -42,23 +42,23 @@
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 22,
-      "wind": 1,
+      "temp": 20,
+      "wind": 7,
       "rain": 0.0,
-      "in_cloud": false
+      "in_cloud": true
     },
     {
       "key": "east",
       "place": "São Lourenço",
       "temp": 23,
-      "wind": 10,
+      "wind": 22,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 24,
+      "temp": 25,
       "wind": 2,
       "rain": 0.0,
       "in_cloud": false
@@ -138,7 +138,7 @@
       "fee": "4.50",
       "region": "south",
       "popular": false,
-      "temp": 24,
+      "temp": 25,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -168,7 +168,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 22,
+      "temp": 20,
       "page": "/25-fontes/"
     },
     {
@@ -178,7 +178,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 22,
+      "temp": 20,
       "page": "/levada-do-risco/"
     },
     {
@@ -188,7 +188,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/levada-do-alecrim/"
     },
     {
@@ -198,7 +198,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/vereda-da-lagoa-do-vento/"
     },
     {
@@ -208,7 +208,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/levada-do-moinho/"
     },
     {
@@ -268,7 +268,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 22,
+      "temp": 20,
       "page": "/fanal/"
     },
     {
@@ -278,7 +278,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/levada-dos-cedros/"
     },
     {
@@ -288,7 +288,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/vereda-da-ribeira-da-janela/"
     },
     {
@@ -328,7 +328,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/caminho-real-do-paul-do-mar/"
     },
     {
@@ -338,7 +338,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/vereda-do-jardim-do-mar/"
     },
     {
@@ -378,7 +378,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/vereda-do-tunel-do-cavalo/"
     },
     {
@@ -388,7 +388,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/levada-da-rocha-vermelha/"
     },
     {
@@ -398,7 +398,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/levada-do-paul-ii-um-caminho-para-todos/"
     },
     {
@@ -408,7 +408,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/levada-velha-do-rabacal/"
     },
     {
@@ -418,7 +418,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/vereda-do-pico-fernandes/"
     },
     {
@@ -428,7 +428,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/vereda-da-palha-carga/"
     },
     {
