@@ -9,14 +9,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 14.6,
-    "humidity": 38,
+    "temp_c": 12.5,
+    "humidity": 79,
     "in_cloud": false,
-    "wind_kmh": 26,
+    "wind_kmh": 23,
     "wind_strong": false
   },
-  "stamp": "2026-08-20 08:25",
-  "date": "2026-08-20",
+  "stamp": "2026-08-21 08:25",
+  "date": "2026-08-21",
   "counts": {
     "OPEN": 29,
     "PARTIAL": 4,
@@ -26,8 +26,8 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 15,
-      "wind": 26,
+      "temp": 12,
+      "wind": 23,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -36,30 +36,30 @@
       "place": "Santana",
       "temp": 20,
       "wind": null,
-      "rain": 0.0,
+      "rain": 0.3,
       "in_cloud": false
     },
     {
       "key": "west",
       "place": "Rabaçal",
       "temp": 19,
-      "wind": 6,
+      "wind": 4,
       "rain": 0.0,
-      "in_cloud": false
+      "in_cloud": true
     },
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 23,
-      "wind": 26,
+      "temp": 22,
+      "wind": 14,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 22,
-      "wind": 4,
+      "temp": 23,
+      "wind": 2,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -72,7 +72,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 15,
+      "temp": 12,
       "page": "/",
       "note": {
         "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.",
@@ -98,7 +98,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 15,
+      "temp": 12,
       "page": "/pico-ruivo/"
     },
     {
@@ -108,7 +108,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -118,7 +118,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -128,7 +128,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/vereda-do-burro/"
     },
     {
@@ -138,7 +138,7 @@
       "fee": "4.50",
       "region": "south",
       "popular": false,
-      "temp": 22,
+      "temp": 23,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -148,7 +148,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -218,7 +218,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 23,
+      "temp": 22,
       "page": "/sao-lourenco/"
     },
     {
@@ -238,7 +238,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/levada-do-furado/"
     },
     {
@@ -248,7 +248,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 15,
+      "temp": 12,
       "page": "/balcoes/"
     },
     {
@@ -258,7 +258,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -298,7 +298,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -308,7 +308,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
@@ -348,7 +348,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/caminho-do-norte/"
     },
     {
@@ -358,7 +358,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -368,7 +368,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 12,
       "page": "/glaciar-de-planalto/"
     },
     {
