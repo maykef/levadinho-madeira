@@ -9,14 +9,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 14.8,
-    "humidity": 78,
+    "temp_c": 17.9,
+    "humidity": 54,
     "in_cloud": false,
     "wind_kmh": 22,
     "wind_strong": false
   },
-  "stamp": "2026-08-29 13:48",
-  "date": "2026-08-29",
+  "stamp": "2026-08-30 13:10",
+  "date": "2026-08-30",
   "counts": {
     "OPEN": 29,
     "PARTIAL": 4,
@@ -26,7 +26,7 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 15,
+      "temp": 18,
       "wind": 22,
       "rain": 0.0,
       "in_cloud": false
@@ -43,22 +43,22 @@
       "key": "west",
       "place": "Rabaçal",
       "temp": 20,
-      "wind": 8,
+      "wind": 7,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 24,
-      "wind": 22,
+      "temp": 23,
+      "wind": 23,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 27,
+      "temp": 26,
       "wind": 8,
       "rain": 0.0,
       "in_cloud": false
@@ -72,7 +72,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 15,
+      "temp": 18,
       "page": "/",
       "note": {
         "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.",
@@ -98,7 +98,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 15,
+      "temp": 18,
       "page": "/pico-ruivo/"
     },
     {
@@ -108,7 +108,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -118,7 +118,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -128,7 +128,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/vereda-do-burro/"
     },
     {
@@ -138,7 +138,7 @@
       "fee": "4.50",
       "region": "south",
       "popular": false,
-      "temp": 27,
+      "temp": 26,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -148,7 +148,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -218,7 +218,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 24,
+      "temp": 23,
       "page": "/sao-lourenco/"
     },
     {
@@ -238,7 +238,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/levada-do-furado/"
     },
     {
@@ -248,7 +248,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 15,
+      "temp": 18,
       "page": "/balcoes/"
     },
     {
@@ -258,7 +258,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -298,7 +298,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -308,7 +308,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
@@ -348,7 +348,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/caminho-do-norte/"
     },
     {
@@ -358,7 +358,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -368,7 +368,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 15,
+      "temp": 18,
       "page": "/glaciar-de-planalto/"
     },
     {
