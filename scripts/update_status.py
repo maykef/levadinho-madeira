@@ -114,11 +114,24 @@ PAGES = {
 # A note is "restrictive" when it limits where/when you may walk. This is the
 # core of rule 1 -- it is what turns the live "Footpath accessible only between
 # Pico do Areeiro and Pedra Rija Belvedere (km 1,2)" note into a PARTIAL badge.
+#
+# Match *phrases*, never bare words. The earlier version matched a lone "only",
+# "between" or "partial", which on 2026-08-14 began firing on IFCN's rewritten
+# note -- "can be completed in two ways: partially, between ... or in full,
+# between ..." -- a note that describes two legitimate ways to walk an OPEN
+# trail rather than restricting it. That downgraded PR1 to PARTIAL for 20 days
+# while the official badge read OPEN. Rule 1 exists to stop a "green but
+# restricted" lie; it must not manufacture the inverse.
 RESTRICTIVE = re.compile(
-    r"\b(only|between|km\s*\d|restricted|partial|closed section|"
-    r"accessible only|not accessible|no access)\b",
+    r"(accessible only|open only|only between|only from|only the section|"
+    r"partially closed|temporarily closed|closed section|closed between|"
+    r"not accessible|no access|restricted)",
     re.IGNORECASE,
 )
+
+# A sentence ends at . ! or ? -- but NOT at the dot inside a decimal, or the
+# whole note truncates at "Pedra Rija Viewpoint (1." as it did live.
+SENTENCE_END = re.compile(r"[.!?](?!\d)(?= |$)")
 
 
 def is_restrictive(note: str) -> bool:
@@ -148,9 +161,18 @@ def pr1_status():
         sys.exit("FATAL: no status word found after trail name")
     raw = {"OPEN": "OPEN", "CLOSED": "CLOSED", "RESTRICTED": "PARTIAL"}[m.group(1)]
 
-    window = plain[a + m.end(): a + m.end() + 1500]
-    n = re.search(r"([A-Z][^.!?]*?(?:accessible|closed|restricted|only|between)[^.!?]*[.!?])", window)
-    note = re.sub(r"\s+", " ", n.group(1)).strip() if n else ""
+    # Collapse whitespace first so the note can be matched as one flat line
+    # (the official note wraps across several lines in the scraped HTML).
+    window = re.sub(r"\s+", " ", plain[a + m.end(): a + m.end() + 1500])
+    # Find the keyword, then expand to its whole sentence: back to the previous
+    # sentence end, forward to the next one. Both boundaries are decimal-aware.
+    note = ""
+    kw = re.search(r"accessible|closed|restricted|only|between", window, re.IGNORECASE)
+    if kw:
+        starts = [e.end() for e in SENTENCE_END.finditer(window[: kw.start()])]
+        rest = window[starts[-1] if starts else 0:].lstrip()
+        e = SENTENCE_END.search(rest)
+        note = (rest[: e.end()] if e else rest).strip()
     if "SIMplifica" in note or "payment" in note.lower():
         note = ""
 
@@ -326,14 +348,15 @@ def assert_not_contradictory(status, note):
 
 
 def bump_sitemap(today):
-    """Bump every <lastmod> in sitemap.xml to today. Skipped if absent."""
-    try:
-        s = open("sitemap.xml").read()
-    except FileNotFoundError:
-        print("sitemap.xml not found — skipping lastmod bump", file=sys.stderr)
-        return
-    s = re.sub(r"<lastmod>[^<]*</lastmod>", f"<lastmod>{today}</lastmod>", s)
-    open("sitemap.xml", "w").write(s)
+    """Bump every <lastmod> to today, in the sitemap and its index. Skipped if absent."""
+    for name in ("sitemap.xml", "sitemap_index.xml"):
+        try:
+            s = open(name).read()
+        except FileNotFoundError:
+            print(f"{name} not found — skipping lastmod bump", file=sys.stderr)
+            continue
+        s = re.sub(r"<lastmod>[^<]*</lastmod>", f"<lastmod>{today}</lastmod>", s)
+        open(name, "w").write(s)
 
 
 def main():
