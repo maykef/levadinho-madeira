@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A sitemap index wrapping sitemap.xml. Submitted as a fresh URL because
+     Search Console's stored entry for /sitemap.xml is stuck on "Couldn't
+     fetch" despite the file serving 200 valid XML from every tested angle. -->
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>https://madeira.maykef.info/sitemap.xml</loc>
+    <lastmod>2026-09-02</lastmod>
+  </sitemap>
+</sitemapindex>

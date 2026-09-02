@@ -61,7 +61,7 @@ Adding a photo to a plain spoke later = one `PHOTOS` entry + the image.
 ## Automation
 
 - `scripts/update_status.py` (v4) + `.github/workflows/update.yml` — runs
-  06:40 UTC daily, scrapes Visit Madeira for trail status + IPMA summit weather,
+  04:00 UTC daily, scrapes Visit Madeira for trail status + IPMA summit weather,
   writes `status.json` + bumps `sitemap.xml`, commits if changed. Renders no
   HTML (client-side via `status.js`/`dashboard.js`). `PAGES` now has **37
   entries**, so every dashboard card links to its spoke.

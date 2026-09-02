@@ -15,7 +15,7 @@ languages.
 
 ## The daily updater
 
-`scripts/update_status.py` runs at 06:40 UTC via GitHub Actions. It does four
+`scripts/update_status.py` runs at 04:00 UTC via GitHub Actions. It does four
 things:
 
 - Scrapes the official Visit Madeira PR1 page for the status word (OPEN /

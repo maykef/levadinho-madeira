@@ -42,13 +42,14 @@ sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
 | 27 more trail dirs (e.g. `levada-do-risco/`, `levada-do-moinho/`, …, each + `fr/`,`de/`,`pl/`) | The **generated spokes** — one per remaining PR trail; lightweight, live-status-first, facts scraped from the official page. Written by `scripts/gen_spokes.py`; don't hand-edit — re-run the generator |
 | `scripts/gen_spokes.py` | One-off (re-runnable) generator for the 27 long-tail spokes: scrapes real facts (distance/difficulty/duration/altitude/start-end/route-type) from each trail's official Visit Madeira page, emits en/fr/de/pl pages, and carries a `PHOTOS` map for hero images (17 of 27 have one) |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
-| `.github/workflows/update.yml` | Cron that runs the updater at 06:40 UTC daily |
-| `sitemap.xml`, `robots.txt` | SEO (sitemap carries hreflang alternates for all 16 URLs) |
+| `scripts/gen_trail_index.py` | Writes the **static, crawlable** list of all 37 trail links into `#trailBoard` in the four `trails/index.html` files (between `STATIC-TRAIL-INDEX` markers). `dashboard.js` overwrites the container on load, so JS visitors never see it — it exists so Googlebot can *discover* the spokes. Re-run whenever a trail is added or removed |
+| `.github/workflows/update.yml` | Cron that runs the updater at 04:00 UTC daily |
+| `sitemap.xml`, `sitemap_index.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates for all 164 URLs; `sitemap_index.xml` wraps it as a fresh URL to submit, because Search Console's stored entry for `/sitemap.xml` is stuck on "Couldn't fetch" despite the file serving 200 valid XML from every angle tested. Both are listed in `robots.txt` and both get their `<lastmod>` bumped by the updater |
 | `googleea2064b7684c2bab.html` | Google Search Console site-verification token — do not delete |
 
 ## The daily updater (`scripts/update_status.py`)
 
-Runs at 06:40 UTC via GitHub Actions (`workflow_dispatch` also allows manual
+Runs at 04:00 UTC via GitHub Actions (`workflow_dispatch` also allows manual
 runs from the Actions tab). What it does:
 
 1. Scrapes the official Visit Madeira PR1 page for the status word
@@ -131,6 +132,11 @@ python scripts/update_status.py
     the `PHOTOS` map in `gen_spokes.py` + drop the image in `/img/` (credited in
     `CREDITS.txt`), then re-run. New trails from the index get a generated spoke;
     only "promote" one to hand-authored if search demand justifies bespoke copy.
+- **Internal links must exist in the raw HTML.** The dashboard renders its
+  cards client-side, so for months the only statically-linked pages were `/`
+  and the four `/trails/` — Search Console knew 4 URLs out of 164 and indexed
+  2. `scripts/gen_trail_index.py` now emits real `<a href>`s for every trail.
+  Never let a page's only route in be a JS-injected link.
 - Every page has FAQ `schema.org` JSON-LD in the head — keep it in sync with the
   visible copy when you change facts.
 - Pages cross-link via a "Next steps" list. Keep those links working when adding
