@@ -1,10 +1,10 @@
 {
-  "status": "PARTIAL",
+  "status": "OPEN",
   "note": {
-    "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.",
-    "fr": "Le sentier PR1 – Vereda do Areeiro peut être complété de deux manières : partiellement, entre Pico do Areeiro et le point de vue de Pedra Rija (1.",
-    "de": "Der Wanderweg PR1 – Vereda do Areeiro kann auf zwei Arten absolviert werden: teilweise zwischen dem Pico do Areeiro und dem Aussichtspunkt Pedra Rija (1.",
-    "pl": "Szlak PR1 – Vereda do Areeiro można ukończyć na dwa sposoby: częściowo między Pico do Areeiro a Pedra Rija Viewpoint (1."
+    "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.2 km + 1.2 km), as a two-way route returning along the same path; or in full, between Pico do Areeiro and Pico Ruivo (6.1 km), on a route that becomes one-way from Pedra Rija Viewpoint onwards, with no possibility of returning along the same path.",
+    "fr": "Le sentier PR1 – Vereda do Areeiro peut être complété de deux manières : partiellement, entre Pico do Areeiro et le point de vue de Pedra Rija (1,2 km + 1,2 km), comme un itinéraire à double sens revenant le long du même chemin ; ou en totalité, entre Pico do Areeiro et Pico Ruivo (6,1 km), sur un itinéraire qui devient à sens unique à partir du point de vue de Pedra Rija, sans possibilité de revenir le long du même chemin.",
+    "de": "Der Wanderweg PR1 – Vereda do Areeiro kann auf zwei Arten absolviert werden: teilweise zwischen dem Pico do Areeiro und dem Aussichtspunkt Pedra Rija (1,2 km + 1,2 km), als zweigleisige Route, die auf demselben Weg zurückkehrt; oder ganz zwischen dem Pico do Areeiro und dem Pico Ruivo (6,1 km), auf einer Route, die ab dem Aussichtspunkt Pedra Rija in eine Richtung führt, ohne die Möglichkeit, auf demselben Weg zurückzukehren.",
+    "pl": "Szlak PR1 – Vereda do Areeiro można ukończyć na dwa sposoby: częściowo między Pico do Areeiro a punktem widokowym Pedra Rija (1,2 km + 1,2 km), jako trasa dwukierunkowa powracająca tą samą ścieżką; lub w całości między Pico do Areeiro a Pico Ruivo (6,1 km), na trasie, która staje się jednokierunkowa od punktu widokowego Pedra Rija, bez możliwości powrotu tą samą ścieżką."
   },
   "manual_note": "",
   "weather": {
@@ -15,11 +15,11 @@
     "wind_kmh": 13,
     "wind_strong": false
   },
-  "stamp": "2026-09-02 12:40",
+  "stamp": "2026-09-02 13:14",
   "date": "2026-09-02",
   "counts": {
-    "OPEN": 29,
-    "PARTIAL": 4,
+    "OPEN": 30,
+    "PARTIAL": 3,
     "CLOSED": 4
   },
   "regions": [
@@ -68,17 +68,17 @@
     {
       "code": "PR1",
       "name": "Vereda do Areeiro",
-      "status": "PARTIAL",
+      "status": "OPEN",
       "fee": "10.50",
       "region": "summit",
       "popular": true,
       "temp": 19,
       "page": "/",
       "note": {
-        "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.",
-        "fr": "Le sentier PR1 – Vereda do Areeiro peut être complété de deux manières : partiellement, entre Pico do Areeiro et le point de vue de Pedra Rija (1.",
-        "de": "Der Wanderweg PR1 – Vereda do Areeiro kann auf zwei Arten absolviert werden: teilweise zwischen dem Pico do Areeiro und dem Aussichtspunkt Pedra Rija (1.",
-        "pl": "Szlak PR1 – Vereda do Areeiro można ukończyć na dwa sposoby: częściowo między Pico do Areeiro a Pedra Rija Viewpoint (1."
+        "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.2 km + 1.2 km), as a two-way route returning along the same path; or in full, between Pico do Areeiro and Pico Ruivo (6.1 km), on a route that becomes one-way from Pedra Rija Viewpoint onwards, with no possibility of returning along the same path.",
+        "fr": "Le sentier PR1 – Vereda do Areeiro peut être complété de deux manières : partiellement, entre Pico do Areeiro et le point de vue de Pedra Rija (1,2 km + 1,2 km), comme un itinéraire à double sens revenant le long du même chemin ; ou en totalité, entre Pico do Areeiro et Pico Ruivo (6,1 km), sur un itinéraire qui devient à sens unique à partir du point de vue de Pedra Rija, sans possibilité de revenir le long du même chemin.",
+        "de": "Der Wanderweg PR1 – Vereda do Areeiro kann auf zwei Arten absolviert werden: teilweise zwischen dem Pico do Areeiro und dem Aussichtspunkt Pedra Rija (1,2 km + 1,2 km), als zweigleisige Route, die auf demselben Weg zurückkehrt; oder ganz zwischen dem Pico do Areeiro und dem Pico Ruivo (6,1 km), auf einer Route, die ab dem Aussichtspunkt Pedra Rija in eine Richtung führt, ohne die Möglichkeit, auf demselben Weg zurückzukehren.",
+        "pl": "Szlak PR1 – Vereda do Areeiro można ukończyć na dwa sposoby: częściowo między Pico do Areeiro a punktem widokowym Pedra Rija (1,2 km + 1,2 km), jako trasa dwukierunkowa powracająca tą samą ścieżką; lub w całości między Pico do Areeiro a Pico Ruivo (6,1 km), na trasie, która staje się jednokierunkowa od punktu widokowego Pedra Rija, bez możliwości powrotu tą samą ścieżką."
       }
     },
     {
