@@ -2,7 +2,9 @@ name: Update trail status
 
 on:
   schedule:
-    - cron: "40 6 * * *"   # 06:40 UTC = 07:40 in Madeira, before sunrise hikers check
+    - cron: "0 4 * * *"    # 04:00 UTC. GitHub queues scheduled runs (median ~2h late,
+                          # sometimes much more), so this is set early to absorb the drift
+                          # and still land before sunrise hikers check.
   workflow_dispatch: {}     # lets you run it manually from the GitHub app anytime
 
 permissions:
@@ -28,7 +30,7 @@ jobs:
         run: |
           git config user.name "levadinho-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add status.json sitemap.xml
+          git add status.json sitemap.xml sitemap_index.xml
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Daily status update $(date -u +%F)"
           git push

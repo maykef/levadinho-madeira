@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://madeira.maykef.info/sitemap.xml
+Sitemap: https://madeira.maykef.info/sitemap_index.xml
