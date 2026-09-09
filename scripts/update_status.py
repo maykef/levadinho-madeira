@@ -348,8 +348,8 @@ def assert_not_contradictory(status, note):
 
 
 def bump_sitemap(today):
-    """Bump every <lastmod> to today, in the sitemap and its index. Skipped if absent."""
-    for name in ("sitemap.xml", "sitemap_index.xml"):
+    """Bump every <lastmod> to today. Skipped if the sitemap is absent."""
+    for name in ("sitemap.xml",):
         try:
             s = open(name).read()
         except FileNotFoundError:

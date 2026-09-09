@@ -14,9 +14,9 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -30,7 +30,7 @@ jobs:
         run: |
           git config user.name "levadinho-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add status.json sitemap.xml sitemap_index.xml
+          git add status.json sitemap.xml
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Daily status update $(date -u +%F)"
           git push
