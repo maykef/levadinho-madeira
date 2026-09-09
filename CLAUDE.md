@@ -44,7 +44,7 @@ sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
 | `scripts/gen_trail_index.py` | Writes the **static, crawlable** list of all 37 trail links into `#trailBoard` in the four `trails/index.html` files (between `STATIC-TRAIL-INDEX` markers). `dashboard.js` overwrites the container on load, so JS visitors never see it — it exists so Googlebot can *discover* the spokes. Re-run whenever a trail is added or removed |
 | `.github/workflows/update.yml` | Cron that runs the updater at 04:00 UTC daily |
-| `sitemap.xml`, `sitemap_index.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates for all 164 URLs; `sitemap_index.xml` wraps it as a fresh URL to submit, because Search Console's stored entry for `/sitemap.xml` is stuck on "Couldn't fetch" despite the file serving 200 valid XML from every angle tested. Both are listed in `robots.txt` and both get their `<lastmod>` bumped by the updater |
+| `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates for all 164 URLs, is listed in `robots.txt`, and gets its `<lastmod>` bumped by the updater. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
 | `googleea2064b7684c2bab.html` | Google Search Console site-verification token — do not delete |
 
 ## The daily updater (`scripts/update_status.py`)
