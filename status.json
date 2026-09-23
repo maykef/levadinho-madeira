@@ -1,40 +1,40 @@
 {
-  "status": "CLOSED",
+  "status": "OPEN",
   "note": {
-    "en": "Note: From 14 to 17 and on 21 and 22 September, the section of PR1 – Vereda do Areeiro between Miradouro da Pedra Rija and Pico Ruivo will be closed for maintenance works.",
-    "fr": "Remarque : Du 14 au 17 et les 21 et 22 septembre, la section PR1 – Vereda do Areeiro entre Miradouro da Pedra Rija et Pico Ruivo sera fermée pour travaux d'entretien.",
-    "de": "Hinweis: Vom 14. bis 17. und am 21. und 22. September ist der Abschnitt PR1 – Vereda do Areeiro zwischen Miradouro da Pedra Rija und Pico Ruivo wegen Wartungsarbeiten geschlossen.",
-    "pl": "Uwaga: Od 14 do 17 oraz 21 i 22 września odcinek PR1 – Vereda do Areeiro między Miradouro da Pedra Rija a Pico Ruivo zostanie zamknięty z powodu prac konserwacyjnych."
+    "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.2 km + 1.2 km), as a two-way route returning along the same path; or in full, between Pico do Areeiro and Pico Ruivo (6.1 km), on a route that becomes one-way from Pedra Rija Viewpoint onwards, with no possibility of returning along the same path.",
+    "fr": "Le sentier PR1 – Vereda do Areeiro peut être complété de deux manières : partiellement, entre Pico do Areeiro et le point de vue de Pedra Rija (1,2 km + 1,2 km), comme un itinéraire à double sens revenant le long du même chemin ; ou en totalité, entre Pico do Areeiro et Pico Ruivo (6,1 km), sur un itinéraire qui devient à sens unique à partir du point de vue de Pedra Rija, sans possibilité de revenir le long du même chemin.",
+    "de": "Der Wanderweg PR1 – Vereda do Areeiro kann auf zwei Arten absolviert werden: teilweise zwischen dem Pico do Areeiro und dem Aussichtspunkt Pedra Rija (1,2 km + 1,2 km), als zweigleisige Route, die auf demselben Weg zurückkehrt; oder ganz zwischen dem Pico do Areeiro und dem Pico Ruivo (6,1 km), auf einer Route, die ab dem Aussichtspunkt Pedra Rija in eine Richtung führt, ohne die Möglichkeit, auf demselben Weg zurückzukehren.",
+    "pl": "Szlak PR1 – Vereda do Areeiro można ukończyć na dwa sposoby: częściowo między Pico do Areeiro a punktem widokowym Pedra Rija (1,2 km + 1,2 km), jako trasa dwukierunkowa powracająca tą samą ścieżką; lub w całości między Pico do Areeiro a Pico Ruivo (6,1 km), na trasie, która staje się jednokierunkowa od punktu widokowego Pedra Rija, bez możliwości powrotu tą samą ścieżką."
   },
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 10.6,
-    "humidity": 68,
+    "temp_c": 13.3,
+    "humidity": 52,
     "in_cloud": false,
-    "wind_kmh": 12,
+    "wind_kmh": 26,
     "wind_strong": false
   },
-  "stamp": "2026-09-22 10:11",
-  "date": "2026-09-22",
+  "stamp": "2026-09-23 10:11",
+  "date": "2026-09-23",
   "counts": {
-    "OPEN": 29,
+    "OPEN": 30,
     "PARTIAL": 3,
-    "CLOSED": 5
+    "CLOSED": 4
   },
   "regions": [
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 11,
-      "wind": 12,
+      "temp": 13,
+      "wind": 26,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 17,
+      "temp": 18,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -43,7 +43,7 @@
       "key": "west",
       "place": "Rabaçal",
       "temp": 18,
-      "wind": 1,
+      "wind": 3,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -51,7 +51,7 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 21,
-      "wind": 0,
+      "wind": 12,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -59,7 +59,7 @@
       "key": "south",
       "place": "Funchal",
       "temp": 22,
-      "wind": 3,
+      "wind": 0,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -68,17 +68,17 @@
     {
       "code": "PR1",
       "name": "Vereda do Areeiro",
-      "status": "CLOSED",
+      "status": "OPEN",
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 11,
+      "temp": 13,
       "page": "/",
       "note": {
-        "en": "Note: From 14 to 17 and on 21 and 22 September, the section of PR1 – Vereda do Areeiro between Miradouro da Pedra Rija and Pico Ruivo will be closed for maintenance works.",
-        "fr": "Remarque : Du 14 au 17 et les 21 et 22 septembre, la section PR1 – Vereda do Areeiro entre Miradouro da Pedra Rija et Pico Ruivo sera fermée pour travaux d'entretien.",
-        "de": "Hinweis: Vom 14. bis 17. und am 21. und 22. September ist der Abschnitt PR1 – Vereda do Areeiro zwischen Miradouro da Pedra Rija und Pico Ruivo wegen Wartungsarbeiten geschlossen.",
-        "pl": "Uwaga: Od 14 do 17 oraz 21 i 22 września odcinek PR1 – Vereda do Areeiro między Miradouro da Pedra Rija a Pico Ruivo zostanie zamknięty z powodu prac konserwacyjnych."
+        "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.2 km + 1.2 km), as a two-way route returning along the same path; or in full, between Pico do Areeiro and Pico Ruivo (6.1 km), on a route that becomes one-way from Pedra Rija Viewpoint onwards, with no possibility of returning along the same path.",
+        "fr": "Le sentier PR1 – Vereda do Areeiro peut être complété de deux manières : partiellement, entre Pico do Areeiro et le point de vue de Pedra Rija (1,2 km + 1,2 km), comme un itinéraire à double sens revenant le long du même chemin ; ou en totalité, entre Pico do Areeiro et Pico Ruivo (6,1 km), sur un itinéraire qui devient à sens unique à partir du point de vue de Pedra Rija, sans possibilité de revenir le long du même chemin.",
+        "de": "Der Wanderweg PR1 – Vereda do Areeiro kann auf zwei Arten absolviert werden: teilweise zwischen dem Pico do Areeiro und dem Aussichtspunkt Pedra Rija (1,2 km + 1,2 km), als zweigleisige Route, die auf demselben Weg zurückkehrt; oder ganz zwischen dem Pico do Areeiro und dem Pico Ruivo (6,1 km), auf einer Route, die ab dem Aussichtspunkt Pedra Rija in eine Richtung führt, ohne die Möglichkeit, auf demselben Weg zurückzukehren.",
+        "pl": "Szlak PR1 – Vereda do Areeiro można ukończyć na dwa sposoby: częściowo między Pico do Areeiro a punktem widokowym Pedra Rija (1,2 km + 1,2 km), jako trasa dwukierunkowa powracająca tą samą ścieżką; lub w całości między Pico do Areeiro a Pico Ruivo (6,1 km), na trasie, która staje się jednokierunkowa od punktu widokowego Pedra Rija, bez możliwości powrotu tą samą ścieżką."
       }
     },
     {
@@ -88,7 +88,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 17,
+      "temp": 18,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -98,7 +98,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 11,
+      "temp": 13,
       "page": "/pico-ruivo/"
     },
     {
@@ -108,7 +108,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -118,7 +118,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -128,7 +128,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/vereda-do-burro/"
     },
     {
@@ -148,7 +148,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -158,7 +158,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 17,
+      "temp": 18,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -228,7 +228,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 17,
+      "temp": 18,
       "page": "/caldeirao-verde/"
     },
     {
@@ -238,7 +238,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/levada-do-furado/"
     },
     {
@@ -248,7 +248,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 11,
+      "temp": 13,
       "page": "/balcoes/"
     },
     {
@@ -258,7 +258,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -298,7 +298,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -308,7 +308,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
@@ -318,7 +318,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 17,
+      "temp": 18,
       "page": "/levada-do-rei/"
     },
     {
@@ -348,7 +348,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/caminho-do-norte/"
     },
     {
@@ -358,7 +358,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -368,7 +368,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 13,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -438,7 +438,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 17,
+      "temp": 18,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ]
