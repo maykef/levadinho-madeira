@@ -42,7 +42,7 @@ WIND_STRONG_KMH = 40.0           # only flag wind when it is genuinely strong
 TEMP_MIN_PLAUSIBLE = -10.0
 TEMP_MAX_PLAUSIBLE = 30.0
 TZ = zoneinfo.ZoneInfo("Atlantic/Madeira")
-UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/4.0; +https://madeira.maykef.info)"}
+UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/4.0; +https://levadinho-madeira.com)"}
 STATUS_JSON = "status.json"
 TRANSLATE_LANGS = ("fr", "de", "pl")   # note is scraped in English; mirror it into these
 

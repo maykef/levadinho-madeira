@@ -57,7 +57,7 @@ CONFIG's `whatsappNumber` went with them; both come back when the WhatsApp
 helpdesk is wired up.
 
 Hosted on GitHub Pages from the `maykef/levadinho-madeira` repo, served at
-`https://madeira.maykef.info/` (custom domain in the `CNAME` file). The base URL
+`https://levadinho-madeira.com/` (custom domain in the `CNAME` file). The base URL
 lives in a few places on purpose (the canonical tags, `sitemap.xml`,
 `robots.txt`) — if it ever changes again, search for the current one and replace
 it, and update `CNAME`.

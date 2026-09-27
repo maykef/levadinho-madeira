@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://madeira.maykef.info/sitemap.xml
+Sitemap: https://levadinho-madeira.com/sitemap.xml
