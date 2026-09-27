@@ -14,7 +14,7 @@ done by the caller (kept out of here so the scrape stays side-effect-light).
 """
 import json, os, re, sys, unicodedata, urllib.request
 
-UA = {"User-Agent": "LevadinhoBot/1.0 (https://madeira.maykef.info)"}
+UA = {"User-Agent": "LevadinhoBot/1.0 (https://levadinho-madeira.com)"}
 BASE = "https://visitmadeira.com"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -348,11 +348,11 @@ def build(lang, code, name, slug, f, linear, typ):
     else:
         hero_rule = ".hero{height:130px;background:#20573a}"
         footer_extra = ""
-    canon = f"https://madeira.maykef.info{PREFIX[lang]}/{slug}/"
+    canon = f"https://levadinho-madeira.com{PREFIX[lang]}/{slug}/"
     alts = "\n".join(
-        f'<link rel="alternate" hreflang="{hl}" href="https://madeira.maykef.info{PREFIX[hl]}/{slug}/">'
+        f'<link rel="alternate" hreflang="{hl}" href="https://levadinho-madeira.com{PREFIX[hl]}/{slug}/">'
         for hl in ("en", "fr", "de", "pl")
-    ) + f'\n<link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/{slug}/">'
+    ) + f'\n<link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/{slug}/">'
     langnav = "\n".join(
         f'    <a href="{PREFIX[hl]}/{slug}/" hreflang="{hl}"{" aria-current=\"page\"" if hl==lang else ""}>{hl.upper()}</a>'
         for hl in ("en", "fr", "de", "pl")
@@ -540,12 +540,12 @@ def main():
             os.makedirs(d, exist_ok=True)
             open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(build(lang, code, name, slug, f, linear, TYP[kind][lang]))
         for lang in ("en", "fr", "de", "pl"):
-            loc = f"https://madeira.maykef.info{PREFIX[lang]}/{slug}/"
+            loc = f"https://levadinho-madeira.com{PREFIX[lang]}/{slug}/"
             block = [f"  <url>", f"    <loc>{loc}</loc>", f"    <lastmod>2026-07-08</lastmod>",
                      f"    <changefreq>daily</changefreq>", f"    <priority>0.7</priority>"]
             for hl in ("en", "fr", "de", "pl"):
-                block.append(f'    <xhtml:link rel="alternate" hreflang="{hl}" href="https://madeira.maykef.info{PREFIX[hl]}/{slug}/"/>')
-            block.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="https://madeira.maykef.info/{slug}/"/>')
+                block.append(f'    <xhtml:link rel="alternate" hreflang="{hl}" href="https://levadinho-madeira.com{PREFIX[hl]}/{slug}/"/>')
+            block.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/{slug}/"/>')
             block.append("  </url>")
             sitemap_blocks.append("\n".join(block))
         summary.append((code, kind, f.get("distance", "?"), f.get("duration", "?"), f.get("difficulty", "-")))

@@ -1,5 +1,36 @@
 # Project status — Levadinho
 
+## Update 2026-09-26 — WhatsApp bot trial + government meeting
+
+- **The meeting is booked for 2026-10-19 at 16:45**, at the Secretaria Regional de Turismo,
+  Ambiente e Cultura, Av. Arriaga 18, 2º andar, Funchal. Attending: Dr. Eduardo Jesus,
+  Dr.ª Bárbara Spínola (DRT) and Eng. Manuel Filipe (IFCN). The pitch is a Region-contracted
+  6-month pilot. Levadinho is positioned as a crowd-control / visitor-dispersion platform
+  (Madeira first, then Europe), not a tour operator.
+- **The bot trial (PR1 only) is built in `bot/`** and tested locally in 5 languages. It runs
+  on a local LLM (Qwen3.6-35B-A3B via vLLM), and its webhook has been verified by Meta.
+- **Blocked:** Meta's "Claim test number" errors on the brand-new account, so we're waiting
+  to retry. The App secret, token and phone-number ID are not yet in `bot/.env`. The app
+  may need publishing before real messages arrive.
+- The daily updater is healthy. The local checkout was 17 bot commits behind origin, so
+  `git pull --ff-only` before working.
+- Search Console, as of 2026-08-28: 2 pages indexed. Static trail links and the sitemap fixes
+  were shipped in early September.
+- The official figures disagree with two hand-written spokes: PR8 (official 4 km / 2:30 h)
+  and PR9 (official 8.7 km each way / 6:30 h). Not yet corrected. The generated spokes' route
+  type ("Circular") is a word-match guess (PR7, PR15, PR21 unverified).
+
+### 2026-09-27
+- **The bot works end to end on WhatsApp** (test number +1 555 175 9350) on the owner's phone.
+  The Meta app is published, the privacy policy is live at /privacy/, and welcome messages
+  are enabled.
+- **Next, owner's side:** register a real phone number, so anyone can use it and the name
+  shows "Levadinho"; then set up a permanent token.
+- The bot is **off by default**: `bot/start.sh` / `bot/stop.sh`. CLAUDE.md tells Claude to
+  ask about starting it at the beginning of each session.
+
+_The snapshot below is from 2026-07-08._
+
 _Snapshot: 2026-07-08. Branch `main`, working tree clean, pushed._
 
 ## Where it stands
@@ -22,7 +53,7 @@ localized per page — including the scraped official note (machine-translated t
 fr/de/pl). Content/pricing reflect the **April 2026 one-way reopening** and 2026
 fees. Strategy is freshness-first — own the volatile "is X open / new fees /
 closures" queries, funnelling to the planned Levadinho chatbot (see the
-`levadinho-strategy` memory). On Google Search Console (`madeira.maykef.info`).
+`levadinho-strategy` memory). On Google Search Console (`levadinho-madeira.com`).
 
 ## Pages (all × en/fr/de/pl)
 

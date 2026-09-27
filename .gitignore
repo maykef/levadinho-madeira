@@ -5,3 +5,10 @@ scripts/manual_note.txt
 # local artefacts
 Screenshot*.png
 https___madeira/
+bot/levadinho.db*
+bot/.env
+bot/*.log
+bot/tunnel.pid
+bot/app.pid
+bot/qr/
+bot/.env.bak*

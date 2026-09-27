@@ -2,6 +2,20 @@
 
 Guidance for Claude Code when working in this repository.
 
+## ▶ At the start of every session — ask about the Levadinho bot
+
+Before anything else, ask the user: **"Do you want the Levadinho WhatsApp bot up and running?"**
+
+- **No** → leave it off and carry on.
+- **Yes** →
+  1. **Check the GPU first:** run `nvidia-smi` (memory used and compute processes) and `docker ps`. Tell the user what is running and whether the GPU is busy. The model needs about 85 GB of the 96 GB card, so any other large job means busy.
+  2. **If the GPU is busy, stop and report.** Don't stop other people's jobs or containers (epiproc etc.).
+  3. **If the GPU is free,** run `bot/start.sh`. It loads the model (about 2 min), starts the webhook and a fresh Cloudflare quick tunnel, **re-points Meta's webhook at the new tunnel URL automatically**, and checks the access token.
+  4. **Report the result.** If it warns that the access token was rejected, the 24 h test token has expired: the user must generate a new one in Meta (WhatsApp → Step 1 Try it out → Generate token) and save it with
+     `read -rsp "Paste WA token: " T && sed -i "s|^WA_TOKEN=.*|WA_TOKEN=$T|" bot/.env && unset T`.
+     Then restart the webhook: `bot/stop.sh` stops everything, so for the token alone use `kill $(cat bot/app.pid)` and re-run `bot/start.sh`.
+- **To shut down and free the GPU:** `bot/stop.sh`.
+
 ## What this is
 
 **Levadinho** is a static website answering the questions visitors actually ask
@@ -19,7 +33,8 @@ open today", "new 2026 fees", closures, booking — where daily-updated freshnes
 beats years-old static guides. That traffic is meant to funnel to **Levadinho**,
 a planned LLM chatbot on WhatsApp (added by QR) — see the `levadinho-strategy`
 memory. The WhatsApp CTA was stripped on 2026-07-07 and returns as the Levadinho
-bot CTA when it's ready; pages currently carry no CTA.
+bot CTA when it's ready; pages currently carry no CTA. The bot itself is being built in
+`bot/` (see below).
 
 No build step, no framework. Pages are self-contained `.html` (inline CSS + JS),
 sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
@@ -46,6 +61,27 @@ sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
 | `.github/workflows/update.yml` | Cron that runs the updater at 04:00 UTC daily |
 | `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates for all 164 URLs, is listed in `robots.txt`, and gets its `<lastmod>` bumped by the updater. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
 | `googleea2064b7684c2bab.html` | Google Search Console site-verification token — do not delete |
+| `bot/` | The **Levadinho WhatsApp bot** (trial, PR1 only): Meta Cloud API webhook (`app.py`) → `brain.py` → local Qwen3.6-35B-A3B on vLLM, grounded in `pr1_facts.md` + live `status.json`. See `bot/README.md` |
+
+## The WhatsApp bot (`bot/`) — trial, started 2026-09-26
+
+The funnel endpoint from the strategy. It is being built for the **2026-10-19 meeting** with
+Madeira's Regional Secretary of Tourism, Environment and Culture, the Director of Tourism
+(DRT) and the IFCN president. The meeting shows a teaser of the bot (PR1 only), the scraping
+already in place, and a mock-up of the future usage log.
+
+- **Everything is local.** The model runs in Docker `levadinho-llm` (vLLM, port 8001), the
+  webhook is uvicorn on port 5020, and the public URL is a temporary Cloudflare quick tunnel.
+  It's **off by default**: start it with `bot/start.sh` and stop it with `bot/stop.sh`.
+- **Language rule:** a question is answered in its own language (PT/EN/FR/DE/PL, else
+  English); a first contact that isn't a question gets the 5-language picker.
+- **The bot may only state facts from `bot/pr1_facts.md` and live `status.json`.** Never
+  let it invent prices, timetables or rules.
+- **Don't scrape SIMplifica** (it's behind a login and reCAPTCHA). Availability and booking
+  are to be requested from the Region.
+- Full run instructions and the Meta setup status are in `bot/README.md`.
+- `bot/.env`, `bot/levadinho.db`, `bot/*.log` are git-ignored.
+- **Heads-up:** GitHub Pages publishes `bot/`'s source code publicly.
 
 ## The daily updater (`scripts/update_status.py`)
 
@@ -144,14 +180,12 @@ python scripts/update_status.py
 
 ## The base URL
 
-The site is served at **`https://madeira.maykef.info/`** — a subdomain of the
-owner's main domain, hosted from the `maykef/levadinho-madeira` repo via GitHub
-Pages (custom domain set in the `CNAME` file). This base URL is repeated on
-purpose in the canonical/og tags, `sitemap.xml`, and `robots.txt`. If it ever
-changes again: search-and-replace the base URL everywhere and update `CNAME`.
-
-A subdomain is used (not the apex `maykef.info`) so the project never collides
-with the owner's main site at the root of that domain.
+The site is served at **`https://levadinho-madeira.com/`** (apex; `www` redirects to it),
+hosted from the `maykef/levadinho-madeira` repo via GitHub Pages (custom domain in the
+`CNAME` file, DNS at GoDaddy). It moved from `madeira.maykef.info` on 2026-09-27. The base
+URL is repeated on purpose in the canonical/og tags, `sitemap.xml`, and `robots.txt`. If it
+ever changes again: search-and-replace the base URL everywhere and update `CNAME`.
+Email: hello@levadinho-madeira.com (Microsoft 365 via GoDaddy — don't touch its DNS records).
 
 ## Facts to keep accurate (2026)
 
