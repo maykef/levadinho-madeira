@@ -10,7 +10,7 @@ Before anything else, ask the user: **"Do you want the Levadinho WhatsApp bot up
 - **Yes** →
   1. **Check the GPU first:** run `nvidia-smi` (memory used and compute processes) and `docker ps`. Tell the user what is running and whether the GPU is busy. The model needs about 85 GB of the 96 GB card, so any other large job means busy.
   2. **If the GPU is busy, stop and report.** Don't stop other people's jobs or containers (epiproc etc.).
-  3. **If the GPU is free,** run `bot/start.sh`. It loads the model (about 2 min), starts the webhook and a fresh Cloudflare quick tunnel, **re-points Meta's webhook at the new tunnel URL automatically**, and checks the access token.
+  3. **If the GPU is free,** run `bot/start.sh`. It loads the model (about 2 min), starts the webhook (which also serves the audio guide), makes sure the Tailscale Funnel route `/levadinho` is up, points Meta's webhook at that permanent URL, and checks the access token.
   4. **Report the result.** If it warns that the access token was rejected, the 24 h test token has expired: the user must generate a new one in Meta (WhatsApp → Step 1 Try it out → Generate token) and save it with
      `read -rsp "Paste WA token: " T && sed -i "s|^WA_TOKEN=.*|WA_TOKEN=$T|" bot/.env && unset T`.
      Then restart the webhook: `bot/stop.sh` stops everything, so for the token alone use `kill $(cat bot/app.pid)` and re-run `bot/start.sh`.
@@ -74,7 +74,8 @@ Madeira's Regional Secretary of Tourism, Environment and Culture, the Director o
 already in place, and a mock-up of the future usage log.
 
 - **Everything is local.** The model runs in Docker `levadinho-llm` (vLLM, port 8001), the
-  webhook is uvicorn on port 5020, and the public URL is a temporary Cloudflare quick tunnel.
+  webhook is uvicorn on port 5020, and the public URL is the permanent Tailscale Funnel
+  `https://microscopy-rig-system.tail53cc58.ts.net/levadinho` (webhook at `/webhook`, audio guide at `/guide/`).
   It's **off by default**: start it with `bot/start.sh` and stop it with `bot/stop.sh`.
 - **Language rule:** a question is answered in its own language (PT/EN/FR/DE/PL, else
   English); a first contact that isn't a question gets the 5-language picker.

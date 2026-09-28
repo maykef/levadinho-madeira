@@ -11,6 +11,8 @@ Flow:
   - Known visitor → every question is answered in the language it is written in (English
     if not one of the five); the saved language is used for everything else.
   - "idioma" / "language" / "langue" / "sprache" / "język" → picker again.
+  - A campaign QR pre-fills "Olá Levadinho! 👋 #<tag>" → picker → welcome + that route's guide link.
+  - "guide" / "guia"… → WhatsApp's Send location button; a location pin → the nearby route's link.
 """
 import json
 import os
@@ -18,6 +20,7 @@ import re
 import time
 import urllib.request
 
+import geo
 import store
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -66,6 +69,83 @@ TEXT_ONLY = {
     "de": "Im Moment kann ich nur Textnachrichten lesen ✍️ Schreib mir deine Frage zum PR1.",
     "pl": "Na razie czytam tylko wiadomości tekstowe ✍️ Napisz mi pytanie o PR1.",
 }
+# ---------------------------------------------------------------- location + audio guide
+GUIDE_URL = os.environ.get("GUIDE_URL", "https://microscopy-rig-system.tail53cc58.ts.net/levadinho/guide/")
+AREEIRO = (32.73549, -16.92880)  # PR1 start, from the official Visit Madeira page (trail_facts.json)
+CAMPAIGNS = {"ely": "ely-test"}  # QR tag → guide route (the 19 Oct demo adds "areeiro": "pr1")
+NEAR_M = 3000  # a route's guide is offered when the visitor is this close to its start
+GUIDE_WORDS = {"guide": None, "audio guide": None, "audioguide": None, "guide audio": "fr",
+               "guia": "pt", "guia audio": "pt", "guia áudio": "pt", "audioguia": "pt",
+               "führer": "de", "audioführer": "de", "audioguide deutsch": "de",
+               "przewodnik": "pl", "audioprzewodnik": "pl"}
+
+LOC_ASK = {
+    "pt": "Para começar o guia áudio preciso de saber onde está. Toque no botão abaixo para partilhar a sua localização 📍",
+    "en": "To start the audio guide I need to know where you are. Tap the button below to share your location 📍",
+    "fr": "Pour lancer le guide audio, j'ai besoin de savoir où vous êtes. Touchez le bouton ci-dessous pour partager votre position 📍",
+    "de": "Um den Audioguide zu starten, muss ich wissen, wo du bist. Tippe unten auf den Button, um deinen Standort zu teilen 📍",
+    "pl": "Aby uruchomić audioprzewodnik, muszę wiedzieć, gdzie jesteś. Dotknij przycisku poniżej, aby udostępnić lokalizację 📍",
+}
+WELCOME = {
+    "pt": "Bem-vindo ao *{title}*! 🥾\n\nPara começar o guia áudio, toque no link abaixo. Abre fora do WhatsApp e usa a sua localização "
+          "para tocar cada paragem quando lá chegar:\n{link}\n\n{note}\n\nEnquanto caminha, mantenha a página aberta e use o *Modo bolso*: o ecrã fica ligado no bolso. Bom passeio!",
+    "en": "Welcome to the *{title}*! 🥾\n\nTo start the audio guide, tap the link below. It opens outside WhatsApp and uses your location "
+          "to play each stop as you reach it:\n{link}\n\n{note}\n\nWhile you walk, keep the page open and use *Pocket mode*: the screen stays on in your pocket. Enjoy your walk!",
+    "fr": "Bienvenue sur le *{title}* ! 🥾\n\nPour lancer le guide audio, touchez le lien ci-dessous. Il s'ouvre hors de WhatsApp et utilise "
+          "votre position pour lancer chaque étape quand vous y arrivez :\n{link}\n\n{note}\n\nPendant la marche, gardez la page ouverte et utilisez le *Mode poche* : l'écran reste allumé dans votre poche. Bonne balade !",
+    "de": "Willkommen beim *{title}*! 🥾\n\nUm den Audioguide zu starten, tippe auf den Link unten. Er öffnet sich außerhalb von WhatsApp und "
+          "nutzt deinen Standort, um jeden Halt abzuspielen, sobald du ihn erreichst:\n{link}\n\n{note}\n\nLass die Seite beim Gehen offen und nutze den *Taschenmodus*: Der Bildschirm bleibt in der Tasche an. Viel Spaß!",
+    "pl": "Witamy na trasie *{title}*! 🥾\n\nAby uruchomić audioprzewodnik, dotknij linku poniżej. Otworzy się poza WhatsAppem i użyje "
+          "Twojej lokalizacji, by odtwarzać każdy przystanek, gdy do niego dotrzesz:\n{link}\n\n{note}\n\nPodczas marszu trzymaj stronę otwartą i użyj *trybu kieszonkowego*: ekran pozostaje włączony w kieszeni. Miłego spaceru!",
+}
+LOC_NEAR = {
+    "pt": "📍 Recebido! Está a {dist} do início do *{title}*.\n\nToque para abrir o guia áudio. Abre fora do WhatsApp e usa a sua "
+          "localização para tocar cada paragem quando lá chegar:\n{link}\n\n{note}\n\nEnquanto caminha, mantenha a página aberta e use o *Modo bolso*: o ecrã fica ligado no bolso.",
+    "en": "📍 Got it! You're {dist} from the start of the *{title}*.\n\nTap to open the audio guide. It opens outside WhatsApp and uses "
+          "your location to play each stop as you reach it:\n{link}\n\n{note}\n\nWhile you walk, keep the page open and use *Pocket mode*: the screen stays on in your pocket.",
+    "fr": "📍 Bien reçu ! Vous êtes à {dist} du départ du *{title}*.\n\nTouchez pour ouvrir le guide audio. Il s'ouvre hors de WhatsApp "
+          "et utilise votre position pour lancer chaque étape quand vous y arrivez :\n{link}\n\n{note}\n\nPendant la marche, gardez la page ouverte et utilisez le *Mode poche* : l'écran reste allumé dans votre poche.",
+    "de": "📍 Danke! Du bist {dist} vom Start des *{title}* entfernt.\n\nTippe, um den Audioguide zu öffnen. Er öffnet sich außerhalb von "
+          "WhatsApp und nutzt deinen Standort, um jeden Halt abzuspielen, sobald du ihn erreichst:\n{link}\n\n{note}\n\nLass die Seite beim Gehen offen und nutze den *Taschenmodus*: Der Bildschirm bleibt in der Tasche an.",
+    "pl": "📍 Dzięki! Jesteś {dist} od startu trasy *{title}*.\n\nDotknij, aby otworzyć audioprzewodnik. Otworzy się poza WhatsAppem i użyje "
+          "Twojej lokalizacji, by odtwarzać każdy przystanek, gdy do niego dotrzesz:\n{link}\n\n{note}\n\nPodczas marszu trzymaj stronę otwartą i użyj *trybu kieszonkowego*: ekran pozostaje włączony w kieszeni.",
+}
+LOC_FAR = {
+    "pt": "📍 Recebido! Está a {dist} do Pico do Areeiro, onde começa o PR1. PR1 hoje: *{status}* (verificação oficial desta manhã).\n\n"
+          "O guia áudio começa no início do trilho. Quando lá estiver, envie-me de novo a sua localização (📎 → Localização).",
+    "en": "📍 Got it! You're {dist} from Pico do Areeiro, where PR1 starts. PR1 today: *{status}* (this morning's official check).\n\n"
+          "The audio guide starts at the trailhead. When you're there, send me your location again (📎 → Location).",
+    "fr": "📍 Bien reçu ! Vous êtes à {dist} du Pico do Areeiro, départ du PR1. PR1 aujourd'hui : *{status}* (vérification officielle de ce matin).\n\n"
+          "Le guide audio démarre au début du sentier. Une fois là-bas, renvoyez-moi votre position (📎 → Position).",
+    "de": "📍 Danke! Du bist {dist} vom Pico do Areeiro entfernt, wo der PR1 beginnt. PR1 heute: *{status}* (offizielle Prüfung von heute Morgen).\n\n"
+          "Der Audioguide startet am Wanderweg. Wenn du dort bist, schick mir deinen Standort nochmal (📎 → Standort).",
+    "pl": "📍 Dzięki! Jesteś {dist} od Pico do Areeiro, gdzie zaczyna się PR1. PR1 dziś: *{status}* (oficjalne sprawdzenie z dzisiejszego ranka).\n\n"
+          "Audioprzewodnik startuje na początku szlaku. Gdy tam będziesz, wyślij mi ponownie swoją lokalizację (📎 → Lokalizacja).",
+}
+# Sent with every guide link: open it while there's signal, so the guide saves itself on the phone.
+OFFLINE_NOTE = {
+    "pr1": {
+        "pt": "📶 O PR1 tem troços sem rede móvel. Abra o link agora, enquanto ainda tem sinal: o guia fica guardado no telemóvel e depois funciona sem rede.",
+        "en": "📶 PR1 has stretches with no mobile signal. Open the link now, while you still have signal: the guide saves itself on your phone and then works offline.",
+        "fr": "📶 Le PR1 a des passages sans réseau mobile. Ouvrez le lien maintenant, tant que vous avez du réseau : le guide s'enregistre sur votre téléphone et fonctionne ensuite hors ligne.",
+        "de": "📶 Auf dem PR1 gibt es Abschnitte ohne Mobilfunknetz. Öffne den Link jetzt, solange du Empfang hast: Der Guide speichert sich auf deinem Handy und funktioniert dann offline.",
+        "pl": "📶 Na PR1 są odcinki bez zasięgu. Otwórz link teraz, póki masz zasięg: przewodnik zapisze się w telefonie i będzie działał offline.",
+    },
+    "other": {
+        "pt": "📶 Pode perder a rede pelo caminho. Abra o link agora, enquanto tem sinal: o guia fica guardado no telemóvel e depois funciona sem rede.",
+        "en": "📶 You may lose mobile signal along the way. Open the link now, while you have signal: the guide saves itself on your phone and then works offline.",
+        "fr": "📶 Vous pourriez perdre le réseau en chemin. Ouvrez le lien maintenant, tant que vous avez du réseau : le guide s'enregistre sur votre téléphone et fonctionne ensuite hors ligne.",
+        "de": "📶 Unterwegs kann der Empfang abbrechen. Öffne den Link jetzt, solange du Empfang hast: Der Guide speichert sich auf deinem Handy und funktioniert dann offline.",
+        "pl": "📶 Po drodze możesz stracić zasięg. Otwórz link teraz, póki masz zasięg: przewodnik zapisze się w telefonie i będzie działał offline.",
+    },
+}
+
+STATUS_WORDS = {
+    "OPEN": {"pt": "aberto", "en": "open", "fr": "ouvert", "de": "offen", "pl": "otwarty"},
+    "PARTIAL": {"pt": "parcialmente aberto", "en": "partly open", "fr": "partiellement ouvert", "de": "teilweise offen", "pl": "częściowo otwarty"},
+    "CLOSED": {"pt": "fechado", "en": "closed", "fr": "fermé", "de": "geschlossen", "pl": "zamknięty"},
+}
+
 TEXT_ERROR = ("Desculpe, algo correu mal. Tente de novo daqui a um minuto. · "
               "Sorry, something went wrong — please try again in a minute.")
 
@@ -182,12 +262,58 @@ def picker():
     return {"type": "list", **PICKER}
 
 
+def fmt_distance(m, lang):
+    if m < 1000:
+        return f"{max(10, round(m, -1)):.0f} m"
+    km = f"{m / 1000:.1f}" if m < 100_000 else f"{m / 1000:.0f}"
+    return (km if lang == "en" else km.replace(".", ",")) + " km"
+
+
+def ask_location(lang):
+    return {"type": "location_request", "body": LOC_ASK[lang]}
+
+
+def guide_link(user, route, lang):
+    """→ (personal guide link, route title in the visitor's language)."""
+    token = store.new_guide_token(user, route["id"])
+    return f"{GUIDE_URL}?r={route['id']}&l={lang}&t={token}", route["title"].get(lang) or route["title"]["en"]
+
+
+def offline_note(rid, lang):
+    return OFFLINE_NOTE["pr1" if rid == "pr1" else "other"][lang]
+
+
+def welcome(user, rid, lang):
+    route = geo.load_route(rid)
+    if not route:
+        return {"type": "text", "body": INTRO[lang]}
+    link, title = guide_link(user, route, lang)
+    return {"type": "text", "body": WELCOME[lang].format(title=title, link=link, note=offline_note(rid, lang))}
+
+
+def handle_location(user, lat, lon):
+    """A shared pin → the guide link for the route that starts nearby, or how far PR1 is."""
+    lang = (store.get_user(user) or {}).get("lang") or "en"
+    route, dist = geo.nearest_route(lat, lon)
+    if route and dist <= NEAR_M:
+        link, title = guide_link(user, route, lang)
+        return [{"type": "text", "body": LOC_NEAR[lang].format(dist=fmt_distance(dist, lang), title=title, link=link,
+                                                              note=offline_note(route["id"], lang))}]
+    status = str(live_status().get("status", "")).upper()
+    word = STATUS_WORDS.get(status, {}).get(lang, status.lower() or "?")
+    far = geo.distance_m(lat, lon, *AREEIRO)
+    return [{"type": "text", "body": LOC_FAR[lang].format(dist=fmt_distance(far, lang), status=word)}]
+
+
 def handle(user, text=None, choice=None):
     """Return a list of outgoing messages: {"type": "text", "body": ...} or a picker."""
     u = store.get_user(user)
 
     if choice in LANGS:  # tapped a row in the picker
+        tag = ((u or {}).get("state") or "").partition(":")[2]  # "picking:<campaign tag>" after a campaign QR
         store.set_user(user, lang=choice, state="ready")
+        if tag in CAMPAIGNS:
+            return [welcome(user, CAMPAIGNS[tag], choice)]
         return [{"type": "text", "body": INTRO[choice]}]
 
     text = (text or "").strip()
@@ -196,12 +322,19 @@ def handle(user, text=None, choice=None):
 
     # The QR code's pre-filled greeting always (re)opens the picker — also for returning visitors.
     if "levadinho" in text.lower() and len(text) <= 40 and "?" not in text:
-        store.set_user(user, state="picking")
+        tag = re.search(r"#([a-z0-9-]+)", text.lower())
+        tag = tag.group(1) if tag and tag.group(1) in CAMPAIGNS else ""
+        store.set_user(user, state=f"picking:{tag}" if tag else "picking")
         return [picker()]
 
     if text.lower().strip(" !?.") in CHANGE_WORDS:
         store.set_user(user, state="picking")
         return [picker()]
+
+    word = text.lower().strip(" !?.")
+    if word in GUIDE_WORDS:  # "guide" / "guia"… → ask for a location pin with WhatsApp's button
+        lang = (u or {}).get("lang") or GUIDE_WORDS[word] or "en"
+        return [ask_location(lang)]
 
     if not u or not u.get("lang"):  # first contact, or still hasn't picked
         is_q, lang = classify(text)

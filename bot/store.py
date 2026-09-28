@@ -12,7 +12,9 @@ _db.executescript("""
 CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, lang TEXT, state TEXT, updated REAL);
 CREATE TABLE IF NOT EXISTS turns (user TEXT, at REAL, question TEXT, answer TEXT);
 CREATE TABLE IF NOT EXISTS seen (msg_id TEXT PRIMARY KEY, at REAL);
+CREATE TABLE IF NOT EXISTS guide_tokens (token TEXT PRIMARY KEY, user TEXT, route TEXT, at REAL);
 """)
+GUIDE_TOKEN_TTL = 30 * 24 * 3600  # a guide link keeps working for a month (offline packs, repeat walks)
 
 
 def get_user(uid):
@@ -51,6 +53,20 @@ def first_time(msg_id):
         return True
     except sqlite3.IntegrityError:
         return False
+
+
+def new_guide_token(uid, route):
+    """A random token for a visitor's guide link. Nothing in it derives from the phone number."""
+    import secrets
+    token = secrets.token_urlsafe(12)
+    _db.execute("INSERT INTO guide_tokens VALUES (?,?,?,?)", (token, uid, route, time.time()))
+    _db.commit()
+    return token
+
+
+def guide_token_ok(token, route):
+    row = _db.execute("SELECT at FROM guide_tokens WHERE token=? AND route=?", (token or "", route)).fetchone()
+    return bool(row) and time.time() - row[0] < GUIDE_TOKEN_TTL
 
 
 def reset(uid):

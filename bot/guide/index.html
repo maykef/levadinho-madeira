@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#16342A">
+<meta name="robots" content="noindex">
+<title>Levadinho audio guide</title>
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper);color:var(--ink);line-height:1.45;padding-bottom:env(safe-area-inset-bottom)}
+.waymark{height:10px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+header{padding:14px 0 6px}
+header .brand{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+header h1{font-size:1.4rem;line-height:1.2}
+header .meta{color:var(--ink-soft);font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}
+.how{font-size:.95rem}
+.btn{display:block;width:100%;border:0;border-radius:10px;padding:15px;font-size:1.05rem;font-weight:700;cursor:pointer}
+.btn.go{background:var(--ink);color:#fff}
+.btn.alt{background:#fff;color:var(--ink);border:2px solid var(--ink);margin-top:8px}
+.row{display:flex;gap:8px}.row .btn{flex:1}
+#map{width:100%;height:46vh;min-height:240px;display:block;background:#EEF0E8;border-radius:12px;border:1px solid var(--line);touch-action:manipulation}
+.status{font-size:.9rem;color:var(--ink-soft);margin:6px 2px}
+.status.warn{color:var(--closed);font-weight:600}
+#now{display:none}
+#now.on{display:block;border-color:var(--ink);border-width:2px}
+#now .lbl{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--open)}
+#now h2{font-size:1.15rem;margin:2px 0 4px}
+#now p{font-size:.95rem}
+ol.stops{list-style:none}
+ol.stops li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+ol.stops li:first-child{border-top:0}
+.num{flex:0 0 28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem;
+  background:#fff;border:2px solid var(--ink);color:var(--ink)}
+li.played .num{background:var(--open);border-color:var(--open);color:#fff}
+li.missed .num{background:var(--partial);border-color:var(--partial);color:#fff}
+li.next .num{background:var(--way-yellow);border-color:var(--way-yellow)}
+.sname{flex:1;min-width:0}
+.sname b{display:block;font-size:.98rem}
+.sname small{color:var(--ink-soft)}
+.play{flex:0 0 40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:#fff;font-size:1rem;cursor:pointer;color:var(--ink)}
+#toast{position:fixed;left:16px;right:16px;bottom:16px;max-width:608px;margin:0 auto;background:var(--ink);color:#fff;
+  padding:12px 14px;border-radius:10px;font-size:.95rem;display:none;z-index:5}
+#toast.on{display:block}
+#walk{position:fixed;inset:0;background:#000;color:#3d3d3d;display:none;z-index:10;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;padding:24px;touch-action:none;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#walk.on{display:flex}
+#walk .k{font-size:.9rem;text-transform:uppercase;letter-spacing:.1em;color:#5a5a5a}
+#walk .n{font-size:2rem;font-weight:700;margin:8px 0;color:#4a4a4a}
+#walk .d{font-size:3rem;font-weight:800;color:#555}
+#walk.playing .n{color:#6b5a1c}
+#walk .x{position:absolute;bottom:28px;font-size:.85rem;color:#333}
+#walk .ring{position:absolute;bottom:64px;width:56px;height:56px;border-radius:50%;border:3px solid #222}
+#walk .ring::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:3px solid transparent;border-top-color:#777}
+#walk.holding .ring{border-color:#555}
+#walk.holding .ring::after{animation:hold 2s linear forwards}
+@keyframes hold{to{transform:rotate(360deg);border-color:#777}}
+.offline{font-size:.9rem;font-weight:600;color:var(--open);background:#EAF4EE;border-radius:8px;padding:8px 10px;margin:6px 0}
+.offline.bad{color:var(--closed);background:#FBECEA;cursor:pointer}
+.hint{font-size:.9rem;font-weight:600;color:#7a4a00;background:#FFF4DC;border:1px solid #F0D48A;border-radius:8px;padding:8px 10px;margin:8px 0 0}
+#walk .w{margin-top:28px;font-size:1.15rem;font-weight:700;color:#8a8a8a;border:1px solid #333;border-radius:10px;padding:10px 16px}
+#locHelp{border:2px solid var(--closed)}
+#locHelp h2{font-size:1.05rem;color:var(--closed);margin-bottom:6px}
+#locHelp ol{padding-left:20px;font-size:.95rem}
+#locHelp li{margin:6px 0}
+#dbg{font:12px/1.3 ui-monospace,monospace;white-space:pre;color:var(--ink-soft);margin:8px 2px;display:none}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="wrap">
+  <header>
+    <div class="brand">Levadinho</div>
+    <h1 id="title">…</h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div id="locHelp" class="card hidden" role="alert">
+    <h2 id="helpTitle"></h2>
+    <ol id="helpSteps"></ol>
+    <button class="btn go" id="helpRetry" style="margin-top:10px"></button>
+  </div>
+
+  <div id="offline" class="offline hidden" role="status"></div>
+
+  <div id="intro" class="card">
+    <p class="how" id="how"></p>
+    <p class="hint" id="introWarn"></p>
+    <button class="btn go" id="startBtn" style="margin-top:12px"></button>
+  </div>
+
+  <div id="guide" class="hidden">
+    <svg id="map" aria-label="Route map"></svg>
+    <div class="status" id="gps"></div>
+    <div class="card" id="now">
+      <div class="lbl" id="nowLbl"></div>
+      <h2 id="nowName"></h2>
+      <p id="nowText"></p>
+    </div>
+    <div class="row"><button class="btn go" id="walkBtn"></button></div>
+    <p class="hint" id="pocketHint"></p>
+    <div class="card hidden" id="testCard">
+      <b>Lock-screen test · recording to the server</b>
+      <p style="font-size:.9rem;margin:4px 0 0">Pocket-mode test: turn on Pocket mode, don't press the side button, phone in your pocket.</p>
+    </div>
+    <div class="card"><ol class="stops" id="stops"></ol></div>
+    <div id="dbg"></div>
+  </div>
+</div>
+
+<div id="walk" aria-label="Pocket mode: press and hold 2 seconds to exit">
+  <div class="k" id="walkK"></div>
+  <div class="n" id="walkN"></div>
+  <div class="d" id="walkD"></div>
+  <div class="w" id="walkWarn"></div>
+  <div class="ring" aria-hidden="true"></div>
+  <div class="x" id="walkX"></div>
+</div>
+<div id="toast" role="status"></div>
+<script src="guide.js"></script>
+</body>
+</html>
