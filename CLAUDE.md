@@ -79,7 +79,8 @@ already in place, and a mock-up of the future usage log.
   let it invent prices, timetables or rules.
 - **Don't scrape SIMplifica** (it's behind a login and reCAPTCHA). Availability and booking
   are to be requested from the Region.
-- Full run instructions and the Meta setup status are in `bot/README.md`.
+- It is **live on +44 7405 754593** with a permanent token, so any phone can use it while it's
+  running. Full run instructions, IDs and the Meta setup status are in `bot/README.md`.
 - `bot/.env`, `bot/levadinho.db`, `bot/*.log` are git-ignored.
 - **Heads-up:** GitHub Pages publishes `bot/`'s source code publicly.
 

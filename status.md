@@ -29,6 +29,29 @@
 - The bot is **off by default**: `bot/start.sh` / `bot/stop.sh`. CLAUDE.md tells Claude to
   ask about starting it at the beginning of each session.
 
+### 2026-09-28
+- **The site moved to https://levadinho-madeira.com/**:
+  - DNS at GoDaddy; GitHub Pages with HTTPS; commit 421ee20.
+  - Email hello@levadinho-madeira.com (Microsoft 365).
+  - Search Console: the new Domain property read the sitemap on the first try (164 pages).
+  - Pending (owner): Namecheap 301 from madeira.maykef.info, then Change of address;
+    Request indexing for key pages.
+- **The bot is LIVE on the real number +44 7405 754593:**
+  - permanent token, avatar and profile set;
+  - pre-filled QR codes in `bot/qr/`;
+  - it answers any phone.
+  - The name only shows in the chat header after business verification, which waits for
+    the company, which waits for Stage 1 clearance.
+- **Cost sheet drafted.** OpEx: virtual number £300/yr, QR £300/yr, domain ~£100/yr,
+  GPU server, hot desk (Funchal ~€150–160/month).
+  - The model needs ~38 GiB of VRAM, so a **48 GB GPU** (L40S / RTX 6000 Ada) is enough for
+    the pilot (~100 simultaneous requests).
+  - The 96 GB class (Hetzner GEX131, €1,199/month) has headroom.
+- **Pending:**
+  - a Levadinho CTA/QR on the website pages;
+  - PR8/PR9 fact discrepancies;
+  - a load test of the bot.
+
 _The snapshot below is from 2026-07-08._
 
 _Snapshot: 2026-07-08. Branch `main`, working tree clean, pushed._
