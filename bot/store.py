@@ -69,6 +69,11 @@ def guide_token_ok(token, route):
     return bool(row) and time.time() - row[0] < GUIDE_TOKEN_TTL
 
 
+def guide_token_user(token):
+    row = _db.execute("SELECT user FROM guide_tokens WHERE token=?", (token or "",)).fetchone()
+    return row[0] if row else None
+
+
 def reset(uid):
     _db.execute("DELETE FROM users WHERE id=?", (uid,))
     _db.execute("DELETE FROM turns WHERE user=?", (uid,))

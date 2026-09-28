@@ -85,7 +85,16 @@ already in place, and a mock-up of the future usage log.
   are to be requested from the Region.
 - It is **live on +44 7405 754593** with a permanent token, so any phone can use it while it's
   running. Full run instructions, IDs and the Meta setup status are in `bot/README.md`.
-- `bot/.env`, `bot/levadinho.db`, `bot/*.log` are git-ignored.
+- **Analytics (since 2026-09-28):** every interaction is kept permanently and pseudonymously
+  in Postgres (`levadinho-db` container, :5433, always on): events, scrubbed conversations,
+  individual GPS fixes. No phone numbers or IPs; the visitor id is an HMAC with
+  `bot/.visitor_key`. See the "Analytics database" section of `bot/README.md`. The nightly
+  backup runs from cron (`bot/db/backup.sh`).
+- **Audio guide:** `bot/guide/` is the GPS audio-guide web app. It has pocket mode, works
+  offline, and is served at `…/levadinho/guide/`. Plan and task list:
+  `WPA_Implementation_Plan.md` (local only, not committed).
+- `bot/.env`, `bot/.visitor_key`, `bot/levadinho.db`, `bot/*.log`, `bot/tracklog/`,
+  `bot/routes_private/` and `bot/.tts/` are git-ignored.
 - **Heads-up:** GitHub Pages publishes `bot/`'s source code publicly.
 
 ## The daily updater (`scripts/update_status.py`)

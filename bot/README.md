@@ -68,6 +68,35 @@ bot/stop.sh    # stops all three, frees the GPU
 - **To reset a phone to "new visitor" for testing,** delete its rows from `users` and `turns`
   in `levadinho.db`.
 
+## Analytics database (T6/T7, since 2026-09-28)
+
+Every interaction is kept **permanently and pseudonymously** in Postgres + PostGIS, in the
+Docker container `levadinho-db` (`127.0.0.1:5433`; data in
+`/mnt/nvme8tb/levadinho_madeira/levadinho-db/`; `DB_URL` in `.env`). It runs always,
+independently of the GPU bot.
+
+- **No phone numbers or IP addresses.** A visitor is `visitor_id` = HMAC-SHA256 of the phone
+  number with the key in `bot/.visitor_key`, which is git-ignored and backed up separately to
+  `/mnt/tank/levadinho_backup/keys/`. For an access or erasure request, recompute the id with
+  `analytics.visitor_id_for(phone)`.
+- **Tables:**
+  - `event`: every interaction;
+  - `conversation_turn`: every message in and out, scrubbed. Rules replace phones, emails,
+    codes and links; then the local model replaces names in the background;
+  - `location_fix`: every GPS point and WhatsApp pin, stored individually;
+  - `visitor`: country from the dialling code, and language;
+  - lookups: `route`, `stop`, `campaign`, `event_type` (the catalogue).
+- **Self-describing:** every table and column has a `COMMENT`, e.g. `\d+ event` in psql.
+- **Wiring:**
+  - `app.py` calls `record()` after each reply, using the `meta` that `brain.handle()` fills
+    (question labels come from the same `classify()` call);
+  - the guide's `/guide/log` also writes to the database;
+  - `analytics.py` is fail-soft: if the database is down, the bot keeps replying.
+- **Setup / maintenance:** `python bot/analytics.py init` (schema + routes/campaigns, idempotent)
+  and `python bot/analytics.py backfill` (imports `bot/tracklog/` test logs).
+- **Backup:** `bot/db/backup.sh` runs at 03:30 from cron → `/mnt/tank/levadinho_backup/db/`,
+  keeping 30 days.
+
 ## Meta setup status (2026-09-28) — LIVE on a real number
 
 - **Meta app:** "Levadinho" (ID 1433947322205284), published. Business portfolio "Levadinho-Madeira".
