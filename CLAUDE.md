@@ -61,7 +61,7 @@ sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
 | `scripts/gen_trail_index.py` | Writes the **static, crawlable** list of all 37 trail links into `#trailBoard` in the four dashboard homepages (`index.html`, `fr/index.html`, …) (between `STATIC-TRAIL-INDEX` markers). `dashboard.js` overwrites the container on load, so JS visitors never see it — it exists so Googlebot can *discover* the spokes. Re-run whenever a trail is added or removed |
 | `scripts/gen_site_nav.py` | Injects the site-wide **nav bar**, **breadcrumbs** (visible + `BreadcrumbList` JSON-LD) and a **"Nearby trails"** block (4 closest trailheads by real GPS distance, from the Visit Madeira index) into every page, between `SITE-NAV*` marker comments. Idempotent; `gen_spokes.py` calls it after regenerating. Re-run whenever a page or trail is added |
-| `.github/workflows/update.yml` | Cron that runs the updater at 04:00 UTC daily |
+| `.github/workflows/update.yml` | Cron that runs the updater 3× daily (22:00, 01:00, 04:00 UTC) so fresh status is live by 06:00 Madeira time despite GitHub's ~4–6 h start delay |
 | `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates for all 164 URLs, is listed in `robots.txt`, and gets its `<lastmod>` bumped by the updater. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
 | `googleea2064b7684c2bab.html` | Google Search Console site-verification token — do not delete |
 | `bot/` | The **Levadinho WhatsApp bot** (trial, PR1 only): Meta Cloud API webhook (`app.py`) → `brain.py` → local Qwen3.6-35B-A3B on vLLM, grounded in `pr1_facts.md` + live `status.json`. See `bot/README.md` |
@@ -89,7 +89,8 @@ already in place, and a mock-up of the future usage log.
 
 ## The daily updater (`scripts/update_status.py`)
 
-Runs at 04:00 UTC via GitHub Actions (`workflow_dispatch` also allows manual
+Runs 3× daily via GitHub Actions (cron 22:00, 01:00 and 04:00 UTC; GitHub starts them
+4–6 h late, so the first lands ~02:15–03:55 UTC, before 06:00 in Madeira) (`workflow_dispatch` also allows manual
 runs from the Actions tab). What it does:
 
 1. Scrapes the official Visit Madeira PR1 page for the status word

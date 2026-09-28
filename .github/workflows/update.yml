@@ -2,13 +2,20 @@ name: Update trail status
 
 on:
   schedule:
-    - cron: "0 4 * * *"    # 04:00 UTC. GitHub queues scheduled runs (median ~2h late,
-                          # sometimes much more), so this is set early to absorb the drift
-                          # and still land before sunrise hikers check.
+    # Goal: fresh status live by 06:00 Madeira time (05:00 UTC in summer, 06:00 in winter).
+    # GitHub starts scheduled runs late: measured 2026-09-03..27, runs cron'd for 04:00 UTC
+    # started 4.2-5.9 h late (median 5.2 h, trending up). So:
+    - cron: "0 22 * * *"   # starts ~02:15-03:55 UTC: the run that beats 06:00 Madeira (>1 h margin)
+    - cron: "0 1 * * *"    # starts ~05:15-06:55 UTC: morning refresh, retry if the first failed
+    - cron: "0 4 * * *"    # starts ~08:15-09:55 UTC: late-morning refresh (IFCN updates in the day)
   workflow_dispatch: {}     # lets you run it manually from the GitHub app anytime
 
 permissions:
   contents: write
+
+concurrency:                # never let two runs race each other's push
+  group: update-status
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -33,4 +40,9 @@ jobs:
           git add status.json sitemap.xml
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Daily status update $(date -u +%F)"
-          git push
+          # main may have moved during the run (3 push rejections in Sept): rebase and retry.
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep $((i * 10))
+          done
+          exit 1
