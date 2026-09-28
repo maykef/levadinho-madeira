@@ -72,7 +72,7 @@ REGION_PLACE = {"summit": "Pico do Areeiro", "north": "Santana", "west": "Rabaç
 CLOUD_REGIONS = {"summit", "west"}
 # Trails that have their own spoke page (the dashboard links to these).
 PAGES = {
-    "PR1": "/",
+    "PR1": "/pr1/",
     "PR6": "/25-fontes/",
     "PR1.2": "/pico-ruivo/",
     "PR9": "/caldeirao-verde/",

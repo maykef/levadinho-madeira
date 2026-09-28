@@ -161,7 +161,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             gt_fact="It's a long mountain drive from the coast, with no shop or reliable signal at most trailheads. Bring water, warm and waterproof layers, and a torch — the weather turns fast up high.",
             cl_h=f'<span class="q">Closed or full?</span> Your options',
             cl=(f"If IFCN closes {code} (weather, landslip, works) or you can't get a slot: <b>reschedule</b> via the SIMplifica call centre before your date — you can move date/time freely, and switch trail only if yours was officially closed. "
-                f"For open alternatives, <a class=\"plain\" href=\"{PREFIX[lang]}/trails/\">check the live board</a>."),
+                f"For open alternatives, <a class=\"plain\" href=\"{PREFIX[lang]}/\">check the live board</a>."),
             kn_h="Before you go",
             kn=[
                 "<b>Booking-only.</b> Walking a paid PR trail without a valid SIMplifica ticket is an infraction, with fines reported up to €250.",
@@ -189,7 +189,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             gt_fact="C'est un long trajet en montagne depuis la côte, sans magasin ni réseau fiable à la plupart des départs. Emportez de l'eau, des couches chaudes et imperméables, et une lampe — la météo change vite en altitude.",
             cl_h=f'<span class="q">Fermé ou complet ?</span> Vos options',
             cl=(f"Si l'IFCN ferme le {code} (météo, glissement, travaux) ou si vous ne trouvez pas de créneau : <b>reprogrammez</b> via le centre d'appels SIMplifica avant votre date — vous pouvez modifier librement date et heure, et changer de sentier uniquement si le vôtre a été officiellement fermé. "
-                f"Pour des alternatives ouvertes, <a class=\"plain\" href=\"{PREFIX[lang]}/trails/\">consultez le tableau en direct</a>."),
+                f"Pour des alternatives ouvertes, <a class=\"plain\" href=\"{PREFIX[lang]}/\">consultez le tableau en direct</a>."),
             kn_h="Avant de partir",
             kn=[
                 "<b>Sur réservation uniquement.</b> Marcher sur un sentier PR payant sans billet SIMplifica valide est une infraction, avec des amendes signalées jusqu'à 250 €.",
@@ -217,7 +217,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             gt_fact="Es ist eine lange Bergfahrt von der Küste, an den meisten Ausgangspunkten ohne Laden oder verlässlichen Empfang. Nehmen Sie Wasser, warme und wasserdichte Kleidung sowie eine Lampe mit — das Wetter schlägt oben schnell um.",
             cl_h=f'<span class="q">Gesperrt oder ausgebucht?</span> Ihre Optionen',
             cl=(f"Wenn die IFCN den {code} sperrt (Wetter, Erdrutsch, Arbeiten) oder Sie keinen Slot bekommen: <b>Umbuchen</b> über das SIMplifica-Callcenter vor Ihrem Termin — Datum und Uhrzeit frei änderbar, den Weg wechseln nur, wenn Ihrer offiziell gesperrt war. "
-                f"Offene Alternativen finden Sie auf der <a class=\"plain\" href=\"{PREFIX[lang]}/trails/\">Live-Tafel</a>."),
+                f"Offene Alternativen finden Sie auf der <a class=\"plain\" href=\"{PREFIX[lang]}/\">Live-Tafel</a>."),
             kn_h="Vor dem Start",
             kn=[
                 "<b>Nur mit Buchung.</b> Einen kostenpflichtigen PR-Weg ohne gültiges SIMplifica-Ticket zu gehen ist ein Verstoß, mit gemeldeten Bußgeldern bis zu 250 €.",
@@ -245,7 +245,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             gt_fact="To długi górski dojazd od wybrzeża, przy większości początków szlaków bez sklepu i pewnego zasięgu. Weź wodę, ciepłe i wodoodporne warstwy oraz latarkę — pogoda w górach zmienia się szybko.",
             cl_h=f'<span class="q">Zamknięta lub pełna?</span> Twoje opcje',
             cl=(f"Jeśli IFCN zamknie {code} (pogoda, osuwisko, prace) lub nie zdobędziesz slotu: <b>przełóż termin</b> przez infolinię SIMplifica przed swoją datą — datę i godzinę zmieniasz dowolnie, a szlak tylko wtedy, gdy twój został oficjalnie zamknięty. "
-                f"Otwarte alternatywy znajdziesz na <a class=\"plain\" href=\"{PREFIX[lang]}/trails/\">tablicy na żywo</a>."),
+                f"Otwarte alternatywy znajdziesz na <a class=\"plain\" href=\"{PREFIX[lang]}/\">tablicy na żywo</a>."),
             kn_h="Zanim wyruszysz",
             kn=[
                 "<b>Wyłącznie na rezerwację.</b> Wejście na płatny szlak PR bez ważnego biletu SIMplifica to wykroczenie, z grzywnami sięgającymi 250 €.",
@@ -419,7 +419,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
   </nav>
   <div class="brand">{BRAND[lang]}</div>
   <h1>{t['h1']}</h1>
-  <p class="sub">{t['sub']} {SEE[lang]} <a href="{P}/trails/">{t['allt']}</a> · <a href="{P}/">PR1</a>.</p>
+  <p class="sub">{t['sub']} {SEE[lang]} <a href="{P}/">{t['allt']}</a> · <a href="{P}/pr1/">PR1</a>.</p>
 </header>
 
 <div class="status-card" id="statusCard" data-trail="{code}">

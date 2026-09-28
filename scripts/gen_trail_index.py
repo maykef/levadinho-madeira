@@ -43,7 +43,7 @@ def localise(page: str, lang: str) -> str:
     """Map an English spoke path onto its `fr/`, `de/` or `pl/` twin."""
     if not lang:
         return page
-    return "/{}/".format(lang) if page == "/" else "/{}{}".format(lang, page)
+    return "/{}{}".format(lang, page)
 
 
 def block(trails: list, lang: str) -> str:
@@ -70,7 +70,7 @@ def main() -> None:
         sys.exit("FATAL: trails with no page, cannot link them: {}".format(missing))
 
     for lang in LANGS:
-        path = ROOT / lang / "trails" / "index.html" if lang else ROOT / "trails" / "index.html"
+        path = ROOT / lang / "index.html" if lang else ROOT / "index.html"
         html = path.read_text()
         new = block(trails, lang)
 
