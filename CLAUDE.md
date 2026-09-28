@@ -90,6 +90,13 @@ already in place, and a mock-up of the future usage log.
   individual GPS fixes. No phone numbers or IPs; the visitor id is an HMAC with
   `bot/.visitor_key`. See the "Analytics database" section of `bot/README.md`. The nightly
   backup runs from cron (`bot/db/backup.sh`).
+- **Containerised stack:** a separate PRIVATE repository, `maykef/levadinho-stack`
+  (local: `/mnt/nvme8tb/levadinho-stack`). It packages the bot, the model, PostGIS, backups
+  and the route builder, with `install.sh` / `uninstall.sh`, a server-move guide
+  (`migrate/`, README) and REQUIREMENTS.md. It is meant for the server if the Region's
+  contract comes. The workstation bot in this repo's `bot/` is still what runs live. The two
+  share nothing, and only one model fits on the GPU at a time. The stack there runs in
+  dry-run.
 - **Audio guide:** `bot/guide/` is the GPS audio-guide web app. It has pocket mode, works
   offline, and is served at `…/levadinho/guide/`. Plan and task list:
   `WPA_Implementation_Plan.md` (local only, not committed).
