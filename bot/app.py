@@ -3,6 +3,8 @@
   GET  /webhook  — Meta's one-time verification handshake (hub.challenge).
   POST /webhook  — incoming messages. Signature-checked, de-duplicated, answered in the
                    background so Meta gets its 200 immediately.
+  GET  /guide/   — the audio-guide web app (guide/), plus each route's data and audio from
+                   routes/ (public) and routes_private/ (needs the visitor's guide token).
 
 Config (bot/.env, never committed):
   WA_TOKEN            access token from the Meta app (WhatsApp → API Setup)
@@ -19,8 +21,12 @@ import logging
 import os
 import urllib.request
 
+import re
+import time
+
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 env_path = os.path.join(HERE, ".env")
@@ -31,6 +37,7 @@ if os.path.exists(env_path):
             os.environ.setdefault(k, v)
 
 import brain  # noqa: E402  (after .env so LLM_URL etc. can be overridden there)
+import geo  # noqa: E402
 import store  # noqa: E402
 
 WA_TOKEN = os.environ.get("WA_TOKEN", "")
@@ -64,6 +71,10 @@ def to_whatsapp(to, msg):
             "action": {"button": msg["button"], "sections": [{
                 "title": "Idioma / Language",
                 "rows": [{"id": f"lang_{code}", "title": label} for code, label in msg["options"]]}]}}}
+    if msg["type"] == "location_request":
+        return {**base, "type": "interactive", "interactive": {
+            "type": "location_request_message", "body": {"text": msg["body"]},
+            "action": {"name": "send_location"}}}
     return {**base, "type": "text", "text": {"body": msg["body"], "preview_url": False}}
 
 
@@ -79,7 +90,10 @@ def process(message):
             out = brain.handle(sender, text=message["text"]["body"])
         elif kind == "interactive" and message["interactive"].get("type") == "list_reply":
             out = brain.handle(sender, choice=message["interactive"]["list_reply"]["id"].removeprefix("lang_"))
-        else:  # voice, photo, location, sticker… not in the trial
+        elif kind == "location":  # a pin (live location never reaches the Cloud API)
+            loc = message["location"]
+            out = brain.handle_location(sender, float(loc["latitude"]), float(loc["longitude"]))
+        else:  # voice, photo, sticker… not in the trial
             lang = (store.get_user(sender) or {}).get("lang") or "en"
             out = [{"type": "text", "body": brain.TEXT_ONLY[lang]}]
     except Exception:
@@ -116,3 +130,51 @@ async def receive(request: Request, background: BackgroundTasks):
 @app.get("/health")
 def health():
     return {"ok": True}
+
+
+# ---------------------------------------------------------------- audio guide
+SAFE = re.compile(r"^[a-z0-9-]+$")
+
+
+def _route_file(rid, rel, token):
+    folder, private = geo.route_dir(rid) if SAFE.match(rid) else (None, None)
+    if not folder or (private and not store.guide_token_ok(token, rid)):
+        raise HTTPException(404)
+    return FileResponse(os.path.join(folder, rel), headers={"Cache-Control": "no-cache"})
+
+
+@app.get("/guide/r/{rid}/route.json")
+def guide_route(rid: str, t: str = ""):
+    return _route_file(rid, "route.json", t)
+
+
+@app.get("/guide/r/{rid}/audio/{lang}/{clip}")
+def guide_audio(rid: str, lang: str, clip: str, t: str = ""):
+    if lang not in brain.LANGS or not re.fullmatch(r"[a-z0-9-]+\.mp3", clip):
+        raise HTTPException(404)
+    return _route_file(rid, f"audio/{lang}/{clip}", t)
+
+
+TRACKLOG = os.path.join(HERE, "tracklog")
+
+
+@app.post("/guide/log")
+async def guide_log(request: Request, r: str = "", t: str = ""):
+    """Lock-screen test: the guide posts GPS fixes, stop/clip events and heartbeats here."""
+    if not SAFE.match(r) or not store.guide_token_ok(t, r):
+        raise HTTPException(404)
+    raw = await request.body()
+    if len(raw) > 256_000:
+        raise HTTPException(413)
+    events = json.loads(raw)
+    folder = os.path.join(TRACKLOG, r)
+    os.makedirs(folder, exist_ok=True)
+    srv = int(time.time() * 1000)
+    with open(os.path.join(folder, f"{t}.jsonl"), "a", encoding="utf-8") as f:
+        for e in events if isinstance(events, list) else []:
+            if isinstance(e, dict):
+                f.write(json.dumps({**e, "srv": srv}, ensure_ascii=False) + "\n")
+    return {"ok": True}
+
+
+app.mount("/guide", StaticFiles(directory=os.path.join(HERE, "guide"), html=True), name="guide")

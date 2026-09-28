@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Bring the Levadinho WhatsApp bot up: model (vLLM) → webhook (uvicorn) → quick tunnel →
-# point Meta's webhook at the new tunnel URL. Check the GPU is free BEFORE running this.
+# Bring the Levadinho WhatsApp bot up: model (vLLM) → webhook + audio guide (uvicorn) →
+# Tailscale Funnel (permanent URL) → point Meta's webhook at it. Check the GPU is free BEFORE running this.
 #   bot/start.sh
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -26,22 +26,19 @@ echo " ok"
 
 # 2. Webhook
 if ! curl -sf localhost:5020/health >/dev/null; then
-  setsid nohup uvicorn app:app --host 127.0.0.1 --port 5020 > app.log 2>&1 & echo $! > app.pid
+  # --no-access-log: the access log would record visitors' IP addresses
+  setsid nohup uvicorn app:app --host 127.0.0.1 --port 5020 --no-access-log > app.log 2>&1 & echo $! > app.pid
   sleep 4
 fi
 curl -sf localhost:5020/health >/dev/null && echo "Webhook ok (:5020)"
 
-# 3. Tunnel (empty config: ~/.cloudflared/config.yml belongs to the epiproc tunnel)
-if [ -f tunnel.pid ] && kill -0 "$(cat tunnel.pid)" 2>/dev/null; then :; else
-  echo "{}" > /tmp/claude-empty-cf.yml
-  setsid nohup cloudflared --config /tmp/claude-empty-cf.yml tunnel --no-autoupdate \
-    --url http://127.0.0.1:5020 > tunnel.log 2>&1 & echo $! > tunnel.pid
-  sleep 15
-fi
-URL=$(grep -oE 'https://[a-z0-9-]+\.trycloudflare\.com' tunnel.log | head -1)
-for _ in $(seq 1 10); do curl -sf "$URL/health" >/dev/null && break; sleep 5; done
-curl -sf "$URL/health" >/dev/null || { echo "Tunnel not reachable: $URL"; exit 1; }
-echo "Tunnel ok: $URL"
+# 3. Public URL: Tailscale Funnel path /levadinho → :5020 (the prefix is stripped). Other apps'
+#    Funnel routes on this machine are left alone.
+URL=https://microscopy-rig-system.tail53cc58.ts.net/levadinho
+tailscale funnel status 2>/dev/null | grep -q '/levadinho proxy http://127.0.0.1:5020' \
+  || tailscale funnel --bg --yes --set-path /levadinho http://127.0.0.1:5020 >/dev/null
+curl -sf "$URL/health" >/dev/null || { echo "Funnel not reachable: $URL"; exit 1; }
+echo "Funnel ok: $URL  (guide: $URL/guide/)"
 
 # 4. Point Meta at it
 curl -s -X POST "https://graph.facebook.com/v23.0/$APP_ID/subscriptions" \

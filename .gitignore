@@ -12,3 +12,8 @@ bot/tunnel.pid
 bot/app.pid
 bot/qr/
 bot/.env.bak*
+
+# guide: TTS venv/voices, private test routes (owner's home area)
+bot/.tts/
+bot/routes_private/
+bot/tracklog/

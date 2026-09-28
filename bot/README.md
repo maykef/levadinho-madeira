@@ -42,7 +42,7 @@ publicly readable at levadinho-madeira.com/bot/. Secrets live only in the git-ig
 ## Running it
 
 ```
-bot/start.sh   # model → webhook → tunnel → re-points Meta's webhook → checks the token
+bot/start.sh   # model → webhook + guide → Tailscale Funnel → points Meta's webhook at it → checks the token
 bot/stop.sh    # stops all three, frees the GPU
 ```
 
@@ -52,10 +52,17 @@ bot/stop.sh    # stops all three, frees the GPU
   to load; answers take about 0.5–1.5 s with thinking disabled.
 - **Webhook:** uvicorn `app:app` on `127.0.0.1:5020`, PID in `app.pid`, log in `app.log`. Each
   incoming message logs its type and the last 4 digits of the sender.
-- **Tunnel:** a Cloudflare quick tunnel with `--config /tmp/claude-empty-cf.yml`. Without it,
-  `~/.cloudflared/config.yml` (the epiproc named tunnel) answers 404. PID in `tunnel.pid`. The
-  URL changes every start, so `start.sh` updates Meta via `POST /{app-id}/subscriptions`
-  with the app token `APP_ID|APP_SECRET`.
+- **Public URL (since 2026-09-28):** Tailscale Funnel, path `/levadinho` → `127.0.0.1:5020`, so
+  the permanent base is `https://microscopy-rig-system.tail53cc58.ts.net/levadinho` (the prefix is
+  stripped before it reaches the app). Meta's webhook is `…/levadinho/webhook`; `start.sh` adds the
+  Funnel route if it's missing and re-points Meta (harmless now the URL never changes). Other apps'
+  Funnel routes on this machine must be left alone. The Cloudflare quick tunnel is retired.
+- **Audio guide:** `…/levadinho/guide/?r=<route>&l=<lang>&t=<token>`. The bot sends this link when
+  a visitor shares a location pin near a route's start (or types "guide"/"guia" to get WhatsApp's
+  "Send location" button). Routes are built by `build_route.py` from a GPX + `source.json` (Piper TTS
+  in the git-ignored `bot/.tts/`). `routes/` is public; `routes_private/` (git-ignored, e.g. the
+  owner's Ely test loop) is served only with a valid guide token. Desk test: add `&sim=1&speed=5`.
+  Plan and task list: `WPA_Implementation_Plan.md` in the repo root.
 - **Never touch** the system `cloudflared.service` (epiproc). Never `pkill -f`/`pgrep -f` a
   pattern that also appears in your own command line (it kills the shell); use the PID files.
 - **To reset a phone to "new visitor" for testing,** delete its rows from `users` and `turns`
@@ -72,7 +79,7 @@ bot/stop.sh    # stops all three, frees the GPU
 - **Token:** a permanent System User token (`levadinho-bot`, id 61595071312731, never
   expires), with `whatsapp_business_messaging` + `whatsapp_business_management`, stored in `.env`.
 - **Webhooks:** the WABA is subscribed to the app (`POST /{WABA}/subscribed_apps`).
-  `start.sh` re-points the app webhook to each new tunnel URL.
+  `start.sh` points the app webhook at the permanent Funnel URL.
 - **WhatsApp profile** (set via the API):
   - the avatar picture;
   - category TRAVEL (registration had set it to GOVT);
