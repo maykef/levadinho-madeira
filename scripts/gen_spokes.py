@@ -344,7 +344,7 @@ def build(lang, code, name, slug, f, linear, typ):
         lic = photo["lic"] + (" (public domain)" if photo["lic"] == "CC0" else "")
         sep = " :" if lang == "fr" else ":"
         footer_extra = (f'\n  <p style="margin-top:6px">{word}{sep} {photo["author"]}, '
-                        f'<a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a>, {lic}, {resized}.</p>')
+                        f'<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener">Wikimedia Commons</a>, {lic}, {resized}.</p>')
     else:
         hero_rule = ".hero{height:130px;background:#20573a}"
         footer_extra = ""
@@ -553,6 +553,10 @@ def main():
     print(f"\nGenerated {len(pages_map)} trails × 4 langs = {len(pages_map)*4} pages")
     for row in summary:
         print("  ", row)
+    # The pages were just rewritten from scratch: put the nav, breadcrumbs and
+    # nearby-trails blocks back (see gen_site_nav.py).
+    import gen_site_nav
+    gen_site_nav.main()
 
 
 if __name__ == "__main__":

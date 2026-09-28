@@ -69,13 +69,17 @@
 
   function card(t, T, lang, showNote) {
     var temp = (t.temp != null) ? " · " + t.temp + "°C" : "";
-    var link = t.page ? '<a class="tlink" href="' + esc(t.page) + '">' + T.today + "</a>" : "";
+    // status.json holds the English path; fr/de/pl boards link to their own spoke.
+    var page = t.page && LANGS[lang] && lang !== "en" ? "/" + lang + t.page : t.page;
+    // Descriptive anchors: the trail name is the link, and the CTA names its trail.
+    var link = page ? '<a class="tlink" href="' + esc(page) + '">' + esc(t.code) + ": " + T.today + "</a>" : "";
+    var tname = page ? '<a class="tname" href="' + esc(page) + '">' : '<span class="tname">';
     var note = showNote ? '<div class="tnote">' + esc(noteFor(t, T, lang)) + "</div>" : "";
     var key = (t.name + " " + t.code).toLowerCase();
     return '<div class="tcard ' + t.status + '" data-status="' + t.status + '" data-key="' + esc(key) +
       '" data-pop="' + (t.popular ? 1 : 0) + '">' +
-      '<div class="trow"><span class="tname">' + esc(t.name) + ' <span class="tcode">' + esc(t.code) +
-      '</span></span><span class="tbadge ' + t.status + '">' + T.badge[t.status] + "</span></div>" +
+      '<div class="trow">' + tname + esc(t.name) + ' <span class="tcode">' + esc(t.code) +
+      "</span>" + (page ? "</a>" : "</span>") + '<span class="tbadge ' + t.status + '">' + T.badge[t.status] + "</span></div>" +
       note +
       '<div class="tmeta"><span class="tfee">€' + esc(t.fee) + temp + "</span>" + link + "</div></div>";
   }

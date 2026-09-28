@@ -58,6 +58,7 @@ sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
 | `scripts/gen_spokes.py` | One-off (re-runnable) generator for the 27 long-tail spokes: scrapes real facts (distance/difficulty/duration/altitude/start-end/route-type) from each trail's official Visit Madeira page, emits en/fr/de/pl pages, and carries a `PHOTOS` map for hero images (17 of 27 have one) |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
 | `scripts/gen_trail_index.py` | Writes the **static, crawlable** list of all 37 trail links into `#trailBoard` in the four `trails/index.html` files (between `STATIC-TRAIL-INDEX` markers). `dashboard.js` overwrites the container on load, so JS visitors never see it — it exists so Googlebot can *discover* the spokes. Re-run whenever a trail is added or removed |
+| `scripts/gen_site_nav.py` | Injects the site-wide **nav bar**, **breadcrumbs** (visible + `BreadcrumbList` JSON-LD) and a **"Nearby trails"** block (4 closest trailheads by real GPS distance, from the Visit Madeira index) into every page, between `SITE-NAV*` marker comments. Idempotent; `gen_spokes.py` calls it after regenerating. Re-run whenever a page or trail is added |
 | `.github/workflows/update.yml` | Cron that runs the updater at 04:00 UTC daily |
 | `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates for all 164 URLs, is listed in `robots.txt`, and gets its `<lastmod>` bumped by the updater. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
 | `googleea2064b7684c2bab.html` | Google Search Console site-verification token — do not delete |
@@ -174,6 +175,11 @@ python scripts/update_status.py
   and the four `/trails/` — Search Console knew 4 URLs out of 164 and indexed
   2. `scripts/gen_trail_index.py` now emits real `<a href>`s for every trail.
   Never let a page's only route in be a JS-injected link.
+- **Site nav, breadcrumbs and "Nearby trails" are generated**, not hand-written:
+  don't edit inside the `SITE-NAV*` markers, change `scripts/gen_site_nav.py` and re-run
+  it. Added from a Screaming Frog audit (2026-09-28) that found the fees and
+  booking pages orphaned and most spokes with only 5 inbound links. Link to pages as
+  `/`, `/fr/` etc., never `index.html` (that creates a duplicate homepage URL).
 - Every page has FAQ `schema.org` JSON-LD in the head — keep it in sync with the
   visible copy when you change facts.
 - Pages cross-link via a "Next steps" list. Keep those links working when adding
