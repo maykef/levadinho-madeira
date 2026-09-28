@@ -4,26 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ============================================================
-     LEVADINHO CONFIG — analytics only.
-     Trail status below is auto-updated daily by GitHub Actions.
-     ============================================================ -->
+<!-- CONFIG — analytics only. Trail data is loaded live from /status.json. -->
 <script>
-const CONFIG = {
-  goatcounterCode: "madeira-levadinho"
-};
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
 </script>
-<!-- ========================= END CONFIG ======================= -->
 
-<title>Ist der PR1 Pico do Areeiro heute geöffnet? Aktueller Status, Sonnenaufgangs-Slots & Lösungen</title>
-<meta name="description" content="Aktueller Status des Wanderwegs PR1 Vereda do Areeiro (Pico do Areeiro nach Pico Ruivo), jeden Morgen aktualisiert. Sonnenaufgang — Aussichtspunkt gratis, Slots ab 07:00 Uhr —, was tun, wenn SIMplifica ausverkauft ist, wie Sie umbuchen und welche Alternativen offen sind.">
+<title>Wanderwege auf Madeira: Welche sind heute geöffnet oder geschlossen? (Live-Status)</title>
+<meta name="description" content="Live-Status (geöffnet / eingeschränkt / geschlossen) für jeden kostenpflichtigen PR-Wanderweg auf Madeira, jeden Morgen anhand des offiziellen IFCN- und Visit-Madeira-Status geprüft. Buchung und Gebühren erfolgen über SIMplifica.">
 
-<!-- SITE_URL: change this ONE base value everywhere (here, getting-back.html, sitemap.xml, robots.txt) when you buy a domain -->
 <link rel="canonical" href="https://levadinho-madeira.com/de/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://levadinho-madeira.com/de/">
-<meta property="og:title" content="Ist der PR1 Pico do Areeiro heute geöffnet? Aktueller Status + Lösungen bei ausverkauften Slots">
-<meta property="og:description" content="Täglicher PR1-Wegestatus aus offiziellen IFCN-Informationen, plus was zu tun ist, wenn SIMplifica ausverkauft ist.">
+<meta property="og:title" content="Wanderwege auf Madeira: heute geöffnet oder geschlossen? Live-Statustafel">
+<meta property="og:description" content="Der Live-Status jedes kostenpflichtigen PR-Wanderwegs, jeden Morgen aus offiziellen Quellen aktualisiert.">
 <meta name="twitter:card" content="summary">
 
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/">
@@ -32,33 +25,15 @@ const CONFIG = {
 <link rel="alternate" hreflang="pl" href="https://levadinho-madeira.com/pl/">
 <link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/">
 
-<script src="/status.js" defer></script>
+<script src="/dashboard.js" defer></script>
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Ist der PR1 vom Pico do Areeiro zum Pico Ruivo heute geöffnet?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Der heutige Status wird oben auf dieser Seite live angezeigt und jeden Morgen anhand offizieller Informationen von IFCN / Visit Madeira aktualisiert. Der Zugang ist über das SIMplifica-Portal kostenpflichtig, und die Gebühr hängt davon ab, welcher Abschnitt geöffnet ist: 4,50 € für den Abschnitt Pico do Areeiro–Pedra Rija oder 10,50 € für die vollständige Einweg-Überquerung zum Pico Ruivo, wenn dieser geöffnet ist. Besucher ab 12 Jahren und jünger sind befreit. Parken kostet 4,00 € pro Stunde."}
-    },
-    {
-      "@type": "Question",
-      "name": "Die PR1-Slots sind auf SIMplifica ausverkauft. Was kann ich tun?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Prüfen Sie zuerst die frühen Morgen-Slots unter der Woche, schauen Sie erneut ins Portal nach freigegebenen Stornierungen, buchen Sie bei einem IFCN-Protokoll-Reiseveranstalter mit eigenem Kontingent oder wandern Sie stattdessen über den Weg PR1.2 von Achada do Teixeira auf den Pico Ruivo."}
-    },
-    {
-      "@type": "Question",
-      "name": "Wie buche ich meine SIMplifica-Wanderbuchung um?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Kontaktieren Sie das SIMplifica-Callcenter vor Ihrem geplanten Datum. Sie können Datum oder Uhrzeit auf demselben Weg ändern. Auf einen anderen Weg können Sie nur wechseln, wenn Ihrer offiziell von IFCN geschlossen wurde."}
-    },
-    {
-      "@type": "Question",
-      "name": "Brauche ich eine Buchung, um den Sonnenaufgang am Pico do Areeiro zu sehen?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Nein — der Aussichtspunkt am Gipfel ist gratis und ohne Buchung zugänglich; das SIMplifica-Ticket gilt nur für den PR1-Weg selbst. Wer den PR1 bei erstem Licht wandern will, bucht den frühesten Einlassslot 07:00–07:30 Uhr (70 Plätze, eingeführt im Juni 2026 wegen der Sonnenaufgangs-Nachfrage, plus 70 weitere um 07:30–08:00 Uhr). Die Gebühr ist dieselbe wie bei jedem anderen Slot: 4,50 € oder 10,50 € je nach geöffnetem Abschnitt. Kommen Sie mindestens eine Stunde vor Sonnenaufgang — die Parkplätze füllen sich."}
-    }
+    {"@type":"Question","name":"Welche Wanderwege auf Madeira sind heute geöffnet?","acceptedAnswer":{"@type":"Answer","text":"Diese Seite zeigt den Live-Status (geöffnet, eingeschränkt oder geschlossen) jedes klassifizierten PR-Wanderwegs, jeden Morgen anhand offizieller Informationen von IFCN / Visit Madeira aktualisiert. Eingeschränkte und geschlossene Wege werden zuerst aufgeführt."}},
+    {"@type":"Question","name":"Muss ich einen Wanderweg auf Madeira trotzdem buchen, wenn er geöffnet ist?","acceptedAnswer":{"@type":"Answer","text":"Ja. Alle klassifizierten PR-Wanderwege erfordern eine vorherige Buchung und Bezahlung über das SIMplifica-Portal — 4,50 € pro Weg oder 10,50 € für den PR1 — auch wenn der Weg geöffnet ist. Kinder unter 12 Jahren sind kostenlos, müssen aber in der Reservierung eingetragen sein."}}
   ]
 }
 </script>
@@ -72,71 +47,82 @@ const CONFIG = {
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  background:var(--paper); color:var(--ink); line-height:1.55;
-  padding:0 0 40px;
-}
-.wrap{
-  max-width:960px; margin:0 auto; padding:0 20px;
-  display:grid; grid-template-columns:minmax(0,1fr) 240px; column-gap:32px; align-items:start;
-}
-.wrap > :not(.livecam){grid-column:1}
-/* Waymark stripe — the yellow/red paint mark hikers see on Madeira rocks */
-.waymark{height:14px;
-  background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%);}
-.waymark.thin{height:8px; margin:28px 0; border-radius:2px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.5; padding:0 0 48px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
 
-header{padding:20px 0 6px}
-.brand{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
-h1{font-size:clamp(26px,7vw,34px); line-height:1.12; font-weight:800; letter-spacing:-.02em; margin:6px 0 2px}
-.sub{color:var(--ink-soft); font-size:15px}
-.langs{display:flex; gap:6px; margin:0 0 4px; list-style:none; padding:0}
-.langs a{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none;
-  color:var(--ink-soft); padding:3px 9px; border:1px solid var(--line); border-radius:999px}
-.langs a[aria-current="page"]{background:var(--ink); color:#fff; border-color:var(--ink)}
+.ribbon{display:flex;gap:2px;overflow:hidden;height:150px}
+.ribbon .pic{flex:1 1 0;min-width:0;position:relative}
+.ribbon .pic.a{background:#20573a url(/img/25fontes.jpg) center/cover}
+.ribbon .pic.b{background:#5f7590 url(/img/areeiro.jpg) center/cover}
+.ribbon .pic.c{background:#9a583a url(/img/saolourenco.jpg) center/cover}
+.ribbon .pic.d{background:#1d5638 url(/img/caldeirao.jpg) center/cover}
+.ribbon .pic.e{background:#48594d url(/img/fanal.jpg) center/cover}
+.ribbon .pic span{position:absolute;left:0;right:0;bottom:0;padding:7px 12px;font-size:12px;font-weight:700;
+  color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent)}
+@media (max-width:640px){.ribbon{height:116px}.ribbon .pic.d,.ribbon .pic.e{display:none}}
 
-.status-card{background:var(--card); border:1px solid var(--line); border-radius:14px;
-  margin-top:18px; overflow:hidden; box-shadow:0 1px 3px rgba(22,52,42,.06)}
-.status-head{display:flex; align-items:center; gap:14px; padding:18px 18px 12px}
-.status-badge{font-size:clamp(30px,9vw,42px); font-weight:900; letter-spacing:-.01em}
-.status-badge.OPEN{color:var(--open)} .status-badge.PARTIAL{color:var(--partial)} .status-badge.CLOSED{color:var(--closed)}
-.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
-.status-dot.OPEN{background:var(--open)} .status-dot.PARTIAL{background:var(--partial)} .status-dot.CLOSED{background:var(--closed)}
-.status-body{padding:0 18px 16px; font-size:15px}
-.status-body p{margin-bottom:8px}
-.status-body .advisory{margin:12px 0 2px; padding:10px 12px; background:#F6F1E4;
-  border-left:4px solid var(--partial); border-radius:0 8px 8px 0; font-size:13px; color:var(--ink-soft)}
-.stamp{border-top:1px dashed var(--line); padding:10px 18px; font-size:13px; color:var(--ink-soft);
-  font-variant-numeric:tabular-nums; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap}
-.stamp b{color:var(--ink)}
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 8px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,6vw,36px);line-height:1.1;font-weight:800;letter-spacing:-.02em;margin:6px 0 4px}
+.sub{color:var(--ink-soft);font-size:15.5px;max-width:64ch}
 
-section{margin-top:30px}
-h2{font-size:20px; font-weight:800; letter-spacing:-.01em; margin-bottom:10px}
-h2 .q{color:var(--way-red)}
-p{margin-bottom:10px; font-size:15.5px}
-ol,ul{padding-left:22px; margin-bottom:10px}
-li{margin-bottom:8px; font-size:15.5px}
-.fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0;
-  font-size:14.5px; margin:12px 0}
+.summary{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:18px 0 8px;
+  padding:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:14px}
+.summary .upd{color:var(--ink-soft)}
+.summary b{font-variant-numeric:tabular-nums}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.dot.OPEN{background:var(--open)}.dot.PARTIAL{background:var(--partial)}.dot.CLOSED{background:var(--closed)}
 
-.livecam{grid-column:2; grid-row:2; align-self:start;
-  margin-top:18px; background:var(--card); border:1px solid var(--line); border-radius:14px;
-  overflow:hidden; box-shadow:0 1px 3px rgba(22,52,42,.06)}
-.livecam .frame{display:flex; justify-content:center; align-items:center; background:#0d1b16; padding:16px}
-.livecam iframe{width:208px; height:156px; max-width:100%; border:0; display:block}
-.livecam .cap{border-top:1px dashed var(--line); padding:10px 14px; font-size:13px; color:var(--ink-soft);
-  display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap}
+.weather{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 14px;margin:0 0 8px;
+  padding:12px 16px;background:#EDF3EE;border:1px solid #D5E4DA;border-radius:12px;font-size:14px}
+.weather .wx{display:flex;flex-direction:column;gap:1px;min-width:0}
+.weather .wx b{font-weight:700;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.weather .wtemp{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
+.weather .wext{font-size:12.5px;color:var(--ink-soft)}
+.weather .wext .alert{color:var(--partial);font-weight:600}
+.weather .note{grid-column:1/-1;color:var(--ink-soft);font-size:13px}
 
-footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line);
-  font-size:12.5px; color:var(--ink-soft)}
+.search{display:flex;gap:8px;margin:12px 0 6px}
+.search input{flex:1;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;background:#fff}
+
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.chip{font-size:13px;font-weight:600;padding:6px 12px;border:1px solid var(--line);border-radius:999px;
+  color:var(--ink-soft);background:#fff;cursor:pointer}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px;flex-wrap:wrap}
+.sec-h h2{font-size:19px;font-weight:800;letter-spacing:-.01em}
+.sec-h .count{font-size:13px;color:var(--ink-soft);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.tcard{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);
+  border-radius:12px;padding:13px 15px;box-shadow:0 1px 2px rgba(22,52,42,.05)}
+.tcard.OPEN{border-left-color:var(--open)}.tcard.PARTIAL{border-left-color:var(--partial)}.tcard.CLOSED{border-left-color:var(--closed)}
+.trow{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.tname{font-weight:750;font-size:15.5px;letter-spacing:-.01em}
+.tcode{font-size:12px;font-weight:700;color:var(--ink-soft);letter-spacing:.05em}
+.tbadge{font-size:12.5px;font-weight:800;letter-spacing:.02em;white-space:nowrap;padding-top:1px}
+.tbadge.OPEN{color:var(--open)}.tbadge.PARTIAL{color:var(--partial)}.tbadge.CLOSED{color:var(--closed)}
+.tmeta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:7px}
+.tnote{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.tfee{font-size:12.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.tlink{font-size:13px;font-weight:700;color:var(--ink);text-decoration:none}
+.compact .tcard{padding:11px 14px}.compact .tnote{display:none}
+.nomatch{color:var(--ink-soft);font-size:15px;margin-top:10px}
+
+.why{margin-top:30px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.why h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.why p{font-size:14.5px;color:var(--ink-soft)}
+.disclaimer{margin-top:16px;padding:12px 16px;background:#FBF4E6;border:1px solid #ECDCBB;border-radius:10px;
+  font-size:12.5px;color:#6b5b34;line-height:1.5}
+.disclaimer b{color:#5a4a25}
+footer{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
 footer a{color:var(--ink-soft)}
-a.plain{color:var(--ink); font-weight:600}
-@media (max-width:760px){
-  .wrap{grid-template-columns:1fr; padding:0 16px}
-  .wrap > *{grid-column:1}
-  .livecam{grid-row:auto}
-}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <!-- SITE-NAV-HEAD:START (generated by scripts/gen_site_nav.py) -->
@@ -163,8 +149,15 @@ a.tname:hover{text-decoration:underline}
 <!-- SITE-NAV-HEAD:END -->
 </head>
 <body>
-
 <div class="waymark" aria-hidden="true"></div>
+
+<div class="ribbon" aria-hidden="true">
+  <div class="pic a"><span>Levada das 25 Fontes</span></div>
+  <div class="pic b"><span>Pico do Areeiro → Pico Ruivo</span></div>
+  <div class="pic c"><span>Ponta de São Lourenço</span></div>
+  <div class="pic d"><span>Caldeirão Verde</span></div>
+  <div class="pic e"><span>Fanal</span></div>
+</div>
 
 <div class="wrap">
 <header>
@@ -176,120 +169,97 @@ a.tname:hover{text-decoration:underline}
   </nav>
 <!-- SITE-NAV:START (generated by scripts/gen_site_nav.py) -->
   <nav class="sitenav" aria-label="Website">
-    <a href="/de/" aria-current="page">PR1 heute</a>
-    <a href="/de/trails/">Alle Wanderwege</a>
+    <a href="/de/" aria-current="page">Alle Wanderwege</a>
+    <a href="/de/pr1/">PR1 heute</a>
     <a href="/de/hiking-fees.html">Gebühren 2026</a>
     <a href="/de/simplifica-from-abroad.html">Buchen aus dem Ausland</a>
     <a href="/de/getting-back.html">Rückweg vom PR1</a>
   </nav>
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Antworten zu Madeiras Wanderwegen</div>
-  <h1>Ist der PR1 heute geöffnet?</h1>
-  <p class="sub">Vereda do Areeiro — Pico do Areeiro → Pico Ruivo. Jeden Morgen anhand des offiziellen IFCN-Status geprüft.</p>
-  <p class="sub" style="margin-top:8px"><a class="plain" href="/de/trails/">▸ Alle Wanderwege Madeiras — heute offen oder gesperrt</a></p>
+  <h1>Wanderwege auf Madeira: heute geöffnet oder geschlossen?</h1>
+  <p class="sub">Jeder kostenpflichtige PR-Wanderweg, jeden Morgen anhand des offiziellen IFCN- / Visit-Madeira-Status geprüft. Buchung &amp; Gebühren erfolgen über SIMplifica. Suchen Sie den PR1? <a class="tlink" href="/de/pr1/">Ist der PR1 heute geöffnet →</a></p>
 </header>
 
-<div class="status-card" id="statusCard">
-  <div class="status-body"><p>Der heutige PR1-Wegestatus wird geladen … falls er nicht erscheint, prüfen Sie die unten verlinkten offiziellen Quellen.</p></div>
+<div class="summary" id="summary"><span class="upd">Der heutige Status wird geladen…</span></div>
+<div class="weather" id="weatherStrip"></div>
+
+<div class="search"><input id="trailSearch" type="search" placeholder="Einen Wanderweg suchen — z. B. 25 Fontes, Pico Ruivo, São Lourenço…" aria-label="Einen Wanderweg suchen"></div>
+<div class="chips" id="chips">
+  <span class="chip on" data-filter="all">Alle</span>
+  <span class="chip" data-filter="OPEN">Geöffnet</span>
+  <span class="chip" data-filter="PARTIAL">Eingeschränkt</span>
+  <span class="chip" data-filter="CLOSED">Geschlossen</span>
+  <span class="chip" data-filter="popular">Am beliebtesten</span>
 </div>
 
-<div class="livecam">
-  <div class="frame">
-    <iframe width="208" height="156" src="https://www.netmadeira.com/webcams/show/netmadeira/pico-do-arieiro"
-            title="Live webcam — Pico do Areeiro summit" loading="lazy" scrolling="no"></iframe>
+<div id="trailBoard"><p class="nomatch">Wanderwege werden geladen…</p>
+    <!-- STATIC-TRAIL-INDEX:START (generated by scripts/gen_trail_index.py) -->
+    <nav class="tindex" aria-label="Alle PR-Wanderwege Madeiras">
+      <h2>Alle PR-Wanderwege Madeiras</h2>
+      <ul>
+      <li><a href="/de/pr1/">PR1 — Vereda do Areeiro</a></li>
+      <li><a href="/de/vereda-da-ilha/">PR1.1 — Vereda da Ilha</a></li>
+      <li><a href="/de/pico-ruivo/">PR1.2 — Vereda do Pico Ruivo</a></li>
+      <li><a href="/de/vereda-da-encumeada/">PR1.3 — Vereda da Encumeada</a></li>
+      <li><a href="/de/vereda-do-urzal/">PR2 — Vereda do Urzal</a></li>
+      <li><a href="/de/vereda-do-burro/">PR3 — Vereda do Burro</a></li>
+      <li><a href="/de/caminho-real-do-monte/">PR3.1 — Caminho Real do Monte</a></li>
+      <li><a href="/de/levada-do-barreiro/">PR4 — Levada do Barreiro</a></li>
+      <li><a href="/de/vereda-das-funduras/">PR5 — Vereda das Funduras</a></li>
+      <li><a href="/de/25-fontes/">PR6 — Levada das 25 Fontes</a></li>
+      <li><a href="/de/levada-do-risco/">PR6.1 — Levada do Risco</a></li>
+      <li><a href="/de/levada-do-alecrim/">PR6.2 — Levada do Alecrim</a></li>
+      <li><a href="/de/vereda-da-lagoa-do-vento/">PR6.3 — Vereda da Lagoa do Vento</a></li>
+      <li><a href="/de/levada-do-moinho/">PR7 — Levada do Moinho</a></li>
+      <li><a href="/de/sao-lourenco/">PR8 — Vereda da Ponta de São Lourenço</a></li>
+      <li><a href="/de/caldeirao-verde/">PR9 — Levada do Caldeirão Verde</a></li>
+      <li><a href="/de/levada-do-furado/">PR10 — Levada do Furado</a></li>
+      <li><a href="/de/balcoes/">PR11 — Vereda dos Balcões</a></li>
+      <li><a href="/de/caminho-real-da-encumeada/">PR12 — Caminho Real da Encumeada</a></li>
+      <li><a href="/de/fanal/">PR13 — Vereda do Fanal</a></li>
+      <li><a href="/de/levada-dos-cedros/">PR14 — Levada dos Cedros</a></li>
+      <li><a href="/de/vereda-da-ribeira-da-janela/">PR15 — Vereda da Ribeira da Janela</a></li>
+      <li><a href="/de/levada-faja-do-rodrigues/">PR16 — Levada Fajã do Rodrigues</a></li>
+      <li><a href="/de/caminho-do-pinaculo-e-folhadal/">PR17 — Caminho do Pináculo e Folhadal</a></li>
+      <li><a href="/de/levada-do-rei/">PR18 — Levada do Rei</a></li>
+      <li><a href="/de/caminho-real-do-paul-do-mar/">PR19 — Caminho Real do Paul do Mar</a></li>
+      <li><a href="/de/vereda-do-jardim-do-mar/">PR20 — Vereda do Jardim do Mar</a></li>
+      <li><a href="/de/caminho-do-norte/">PR21 — Caminho do Norte</a></li>
+      <li><a href="/de/vereda-do-chao-dos-louros/">PR22 — Vereda do Chão dos Louros</a></li>
+      <li><a href="/de/glaciar-de-planalto/">PR27 — Glaciar de Planalto</a></li>
+      <li><a href="/de/vereda-do-tunel-do-cavalo/">PR6.6 — Vereda do Túnel do Cavalo</a></li>
+      <li><a href="/de/levada-da-rocha-vermelha/">PR28 — Levada da Rocha Vermelha</a></li>
+      <li><a href="/de/levada-do-paul-ii-um-caminho-para-todos/">PR6.8 — Levada do Paul II - Um caminho para todos</a></li>
+      <li><a href="/de/levada-velha-do-rabacal/">PR6.4 — Levada Velha do Rabaçal</a></li>
+      <li><a href="/de/vereda-do-pico-fernandes/">PR6.5 — Vereda do Pico Fernandes</a></li>
+      <li><a href="/de/vereda-da-palha-carga/">PR13.1 — Vereda da Palha Carga</a></li>
+      <li><a href="/de/levada-do-caldeirao-verde-um-caminho-para-todos/">PR9.1 — Levada do Caldeirão Verde - um caminho para todos</a></li>
+      </ul>
+    </nav>
+    <!-- STATIC-TRAIL-INDEX:END -->
   </div>
-  <div class="cap">
-    <span>Live-Blick vom Gipfel — Seite neu laden für das aktuelle Bild</span>
-    <span><a class="plain" href="https://www.netmadeira.com/webcams-madeira/pico-do-arieiro" target="_blank" rel="noopener">Vollständige Webcam · NetMadeira ↗</a></span>
-  </div>
+
+<div class="why">
+  <h2>Warum ich das gemacht habe</h2>
+  <p>2026 hat Madeira jeden klassifizierten Weg kostenpflichtig und zeitgebunden über SIMplifica gemacht — und Gebühren, Regeln und Sperrungen ändern sich ständig. Zu viele Besucher stehen vor einem gesperrten Weg oder zahlen zu viel, weil ihr Reiseführer Monate alt war. Also prüfe ich jeden Morgen die offiziellen Quellen und sage Ihnen einfach, was heute gilt.</p>
 </div>
 
-<div class="waymark thin" aria-hidden="true"></div>
-
-<section id="sold-out">
-  <h2><span class="q">Ausverkauft?</span> PR1-Slots auf SIMplifica vergriffen</h2>
-  <p>Der PR1 hat Kapazitätsgrenzen und 30-Minuten-Einlassslots. Die Morgenfenster gehen zuerst weg. In der Reihenfolge dessen, was tatsächlich funktioniert:</p>
-  <ol>
-    <li><b>Versuchen Sie Slots unter der Woche am späten Vormittag.</b> Alle kämpfen um <a class="plain" href="#sunrise">den Sonnenaufgang</a>. 09:00–10:30 Uhr mitten in der Woche ist oft noch Tage nach dem Ausverkauf der Morgen-Slots verfügbar — und Sie umgehen das Parkchaos.</li>
-    <li><b>Prüfen Sie <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">die SIMplifica-Buchungsseite</a> am Vorabend erneut.</b> Stornierungen werden wieder freigegeben. Umgebuchte Reservierungen geben Slots ohne Vorankündigung frei.</li>
-    <li><b>Buchen Sie über einen IFCN-Protokoll-Veranstalter.</b> Lizenzierte Guides halten ein eigenes Kontingent und kümmern sich um die Genehmigung für Sie (ihre Weggebühr ist auf 7 € auf dem PR1 reduziert). Kostet insgesamt mehr, löst aber auch den Transport.</li>
-    <li><b>Erklimmen Sie den Gipfel trotzdem — von der anderen Seite.</b> Der PR1.2 von Achada do Teixeira erreicht den Pico Ruivo (1.862 m, den höchsten Punkt der Insel) in etwa 45–60 Min. pro Richtung. Standardgebühr 4,50 €, eigene Buchung, meist deutlich mehr Verfügbarkeit.</li>
-  </ol>
-  <div class="fact">Der PR1 wird über SIMplifica bezahlt und ist in den 1/3/7-Tage-Mehrtagespässen <b>nicht enthalten</b>. Die Gebühr hängt davon ab, welcher Abschnitt geöffnet ist: <b>4,50 €</b> für den Abschnitt Pico do Areeiro–Pedra Rija oder <b>10,50 €</b> für die vollständige Einweg-Überquerung zum Pico Ruivo, wenn geöffnet. Kinder unter 12 gratis; Parken 4,00 €/Stunde. Prüfen Sie oben den Live-Status für heute.</div>
-</section>
-
-<section id="sunrise">
-  <h2><span class="q">Sonnenaufgang?</span> So machen Sie den PR1 im Morgengrauen</h2>
-  <p>Der Sonnenaufgang über den Wolken am Pico do Areeiro ist der Grund, warum auf Madeira so viele den Wecker auf 4 Uhr stellen. Die Regeln verwirren alle — hier die Kurzfassung:</p>
-  <ul>
-    <li><b>Den Sonnenaufgang vom Aussichtspunkt zu sehen ist gratis.</b> Keine Buchung, keine Gebühr — das SIMplifica-Ticket gilt nur für den PR1-Weg hinter der Kontrollstelle. Hochfahren, den Himmel anschauen, keine Formalitäten.</li>
-    <li><b>Wandern bei erstem Licht braucht den frühesten Slot: 07:00–07:30 Uhr.</b> Eingeführt im Juni 2026 (70 Plätze, plus 70 weitere um 07:30–08:00 Uhr) — genau wegen der Sonnenaufgangs-Nachfrage; vorher begann der Einlass erst um 08:00 Uhr. Gleiche Gebühr wie jedes andere Fenster; einen Sonnenaufgangs-Aufpreis gibt es nicht.</li>
-    <li><b>Passen Sie den Slot an die Jahreszeit an.</b> Die Sonne geht zwischen etwa 06:50 Uhr im Hochsommer und 08:05 Uhr im Winter auf. Im Sommer schauen Sie vom Aussichtspunkt zu und starten um 07:00 Uhr. Im Spätherbst und Winter bringt Sie der 07:00-Slot im Dunkeln auf den Grat — Sonnenaufgang vom Weg selbst, Stirnlampe mitnehmen.</li>
-    <li><b>Das eigentliche Nadelöhr ist das Parken.</b> Kommen Sie mindestens eine Stunde vor Sonnenaufgang: Die Parkplätze füllen sich, Autos säumen die Zufahrtsstraße, und die Polizei sperrt sie manchmal, wenn alles voll ist. Und ziehen Sie sich warm an — vor der Dämmerung kann es auf 1.818 m selbst im August nur wenige Grad haben.</li>
-  </ul>
-  <p><b>Die Variante ohne Auto:</b> Sunrise-Transfer-Minibusse holen Sie gegen 05:00–05:30 Uhr in Funchal/Caniço ab, setzen Sie vor der Dämmerung am Gipfel ab und sammeln Sie nach der Überquerung in Achada do Teixeira wieder ein — das löst Parken und <a class="plain" href="getting-back.html">die Einweg-Rückfahrt</a> auf einmal. Das Wegticket ist meist nicht enthalten: Buchen Sie es selbst, oder gehen Sie mit einem IFCN-Protokoll-Veranstalter (7 €).</p>
-  <div class="fact">Das Fenster 07:00–07:30 Uhr ist als erstes ausverkauft — im Juli–August oft Tage im Voraus. Buchen Sie so früh, wie SIMplifica es erlaubt, und prüfen Sie am Vorabend erneut auf freigegebene Stornierungen.</div>
-</section>
-
-<section id="closed">
-  <h2><span class="q">Geschlossen?</span> Ihre Buchung ist nicht verloren</h2>
-  <p>Wenn IFCN den Weg offiziell schließt (Wetter, Steinschlag, Bauarbeiten), haben Sie Anspruch auf eine Änderung — aber es gibt ein Verfahren:</p>
-  <ol>
-    <li><b>Kontaktieren Sie das SIMplifica-Callcenter vor Ihrem geplanten Datum.</b> Nicht IFCN — die verwalten das Portal nicht.</li>
-    <li>Sie können frei auf ein <b>anderes Datum oder eine andere Uhrzeit auf demselben Weg</b> wechseln.</li>
-    <li>Auf einen <b>anderen Weg können Sie nur wechseln, wenn Ihrer offiziell geschlossen wurde</b> — von den Behörden. Eine Planänderung Ihrerseits zählt nicht.</li>
-  </ol>
-  <p>Offene Alternativen, die sich nicht wie ein Trostpreis anfühlen:</p>
-  <ul>
-    <li><b>PR1.2 Vereda do Pico Ruivo</b> — der Gipfel ohne den Grat. Mittelschwer, auch mit der Familie machbar.</li>
-    <li><b>PR9 Levada do Caldeirão Verde</b> — Tunnel, Wasserfälle, grüne Schlucht. Nehmen Sie eine Stirnlampe mit.</li>
-    <li><b>PR11 Vereda dos Balcões</b> — 3 km, fast eben, weite Talblicke. Der leichte Erfolg an einem nebligen Gipfeltag.</li>
-  </ul>
-</section>
-
-<section id="know">
-  <h2>Drei Dinge, die man zu spät erfährt</h2>
-  <ul>
-    <li><b>Der PR1 ist jetzt Einweg</b> (seit der Wiedereröffnung im April 2026): nur Areeiro → Ruivo. Sie enden in Achada do Teixeira — <a class="plain" href="getting-back.html">planen Sie Ihre Rückfahrt, bevor Sie starten</a>.</li>
-    <li><b>Kein Bargeld, kein Kiosk für den PR1.</b> Die Buchung ist nur online möglich. Ranger kontrollieren die Tickets; Bußgelder liegen bei bis zu 250 €.</li>
-    <li><b>Gipfelwetter ≠ Funchal-Wetter.</b> Auf 1.800 m kann es 10–15 °C kälter sein, mit Nebel, während die Küste sonnig ist. Prüfen Sie die Bergprognose, nicht die für die Stadt.</li>
-  </ul>
-</section>
-
-<!-- SITE-NAV-RELATED:START (generated by scripts/gen_site_nav.py) -->
-<section class="related" id="nearby">
-  <h2>Wanderwege in der Nähe</h2>
-  <p>Die nächstgelegenen Startpunkte — jeweils mit eigenem Live-Status.</p>
-  <ul>
-    <li><a href="/de/vereda-do-burro/">PR3 Vereda do Burro<span>Gleicher Startpunkt</span></a></li>
-    <li><a href="/de/levada-do-barreiro/">PR4 Levada do Barreiro<span>1,1 km entfernt</span></a></li>
-    <li><a href="/de/vereda-da-encumeada/">PR1.3 Vereda da Encumeada<span>3,1 km entfernt</span></a></li>
-    <li><a href="/de/pico-ruivo/">PR1.2 Vereda do Pico Ruivo<span>3,3 km entfernt</span></a></li>
-  </ul>
-</section>
-<!-- SITE-NAV-RELATED:END -->
-<footer>
-  <p>Der Status wird jeden Morgen aus IFCN (ifcn.madeira.gov.pt) und SIMplifica zusammengestellt, mit Gipfelwetter von IPMA (ipma.pt). Unabhängig — nicht mit der Regionalregierung von Madeira verbunden. Die Bedingungen in den Bergen ändern sich schnell; verlassen Sie sich auf dem Weg immer auf Ihr eigenes Urteil.</p>
-</footer>
-
-</div><!-- /wrap -->
+<div class="disclaimer">
+  <b>Haftungsausschluss.</b> Die Informationen auf dieser Website stammen aus sekundären und offiziellen Quellen (IFCN, Visit Madeira, SIMplifica, IPMA) und können unvollständig, verzögert oder fehlerhaft sein. Wir übernehmen keine Verantwortung oder Haftung für Fehler oder für Entscheidungen, die darauf beruhen. Bestätigen Sie den aktuellen Status, die Gebühren und die Buchung stets direkt bei den offiziellen Quellen, bevor Sie aufbrechen, und verlassen Sie sich unterwegs auf Ihr eigenes Urteilsvermögen.
+</div>
+<footer>Der Status wird jeden Morgen aus offiziellen Quellen Madeiras zusammengestellt. Unabhängig — nicht mit der Regionalregierung von Madeira verbunden.</footer>
+<p class="credit" style="max-width:1040px;margin:8px auto 0;padding:0 20px;font-size:11.5px;color:#8a978f">Trail photos: Asurnipal, Krzysztof Popławski, Dietmar Rabich, cudi (<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener" style="color:inherit">Wikimedia Commons</a>, CC BY-SA 4.0 / CC BY 4.0 / CC BY 2.0), resized. <a href="/img/CREDITS.txt" style="color:inherit">Full credits</a>.</p>
+</div>
 
 <script>
-// Render config
 (function(){
-  const c = CONFIG;
-  // --- Self-exclusion: visit the page once with #skipgc appended to the URL
-  // --- on any device you own; that browser is then never counted again.
-  // --- Visit once with #countme to undo.
-  try {
-    if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
-    if (location.hash === '#countme') localStorage.removeItem('gc-skip');
-  } catch(e){}
-  const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
-
-  // GoatCounter pageview script (free analytics — create account at goatcounter.com)
-  if (c.goatcounterCode && !SKIP_ANALYTICS){
-    const s = document.createElement('script');
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
     s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
     s.async = true; s.src = '//gc.zgo.at/count.js';
     document.body.appendChild(s);

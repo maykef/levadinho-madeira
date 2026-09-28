@@ -21,8 +21,9 @@ Before anything else, ask the user: **"Do you want the Levadinho WhatsApp bot up
 **Levadinho** is a static website answering the questions visitors actually ask
 about Madeira's paid, booking-only PR trails. It's a **hub-and-spoke** site:
 
-- **Hub** — `/trails/`, a live "open or closed today?" board for all ~37 trails.
-- **Spokes** — the PR1 flagship (`/`) plus a per-trail page for **every one of the
+- **Hub** — the homepage `/`, a live "open or closed today?" board for all ~37 trails.
+  (It lived at `/trails/` until 2026-09-28; the old `/trails/` URLs are now forwarding stubs.)
+- **Spokes** — the PR1 flagship (`/pr1/`) plus a per-trail page for **every one of the
   ~37 trails**, each with a live status card. **9 are hand-authored** (rich, with
   photo heroes: 25 Fontes, Pico Ruivo, Caldeirão Verde, São Lourenço, Balcões,
   Fanal, Levada do Furado, Levada do Rei, Levada dos Cedros); the other **27 are
@@ -44,20 +45,21 @@ sharing only `/status.json` (data), `/status.js` + `/dashboard.js` (render), and
 
 | File | Purpose |
 |------|---------|
-| `index.html` | English homepage: PR1 live status card, sold-out fixes, rescheduling |
+| `index.html` | English homepage = the live trails dashboard (the hub) |
+| `pr1/` | The PR1 flagship: detailed live status card, sold-out fixes, rescheduling |
 | `getting-back.html` | The one-way problem: getting back from Achada do Teixeira |
 | `simplifica-from-abroad.html` | Booking when the SIMplifica portal won't work from abroad |
 | `hiking-fees.html` | 2026 trail fees, passes, exemptions (as a table) |
-| `fr/`, `de/`, `pl/` | Full French/German/Polish translations of all four pages |
+| `fr/`, `de/`, `pl/` | Full French/German/Polish translations of every page |
 | `status.json` | Live data written daily: PR1 flagship fields (top-level) **plus** `counts`, `regions` (weather) and `trails[]` for the dashboard |
 | `status.js` | Renders a single-trail status card from `status.json`. `#statusCard` with no `data-trail` → the detailed PR1 card; `data-trail="PR6"` → that trail's spoke card from `trails[]`. Localized by `<html lang>` |
 | `dashboard.js` | Renders the trails dashboard (board + weather strip + counts + search/filter) from `status.json`, localized |
-| `trails/` (+ `fr/`,`de/`,`pl/`) | The live "Madeira trails: open or closed today?" dashboard — the hub |
+| `trails/` (+ `fr/`,`de/`,`pl/`) | Forwarding stubs only (meta-refresh + canonical to `/`, `/fr/`…) — GitHub Pages can't 301. Not in the sitemap; don't link to them |
 | `25-fontes/`, `pico-ruivo/`, `caldeirao-verde/`, `sao-lourenco/`, `balcoes/`, `fanal/`, `levada-do-furado/`, `levada-do-rei/`, `levada-dos-cedros/` (each + `fr/`,`de/`,`pl/`) | The **9 hand-authored spoke** pages (PR6, PR1.2, PR9, PR8, PR11, PR13, PR10, PR18, PR14): PR1 shell + bespoke trail content, hero photo, `data-trail` live card, trail-facts sidebar |
 | 27 more trail dirs (e.g. `levada-do-risco/`, `levada-do-moinho/`, …, each + `fr/`,`de/`,`pl/`) | The **generated spokes** — one per remaining PR trail; lightweight, live-status-first, facts scraped from the official page. Written by `scripts/gen_spokes.py`; don't hand-edit — re-run the generator |
 | `scripts/gen_spokes.py` | One-off (re-runnable) generator for the 27 long-tail spokes: scrapes real facts (distance/difficulty/duration/altitude/start-end/route-type) from each trail's official Visit Madeira page, emits en/fr/de/pl pages, and carries a `PHOTOS` map for hero images (17 of 27 have one) |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`) |
-| `scripts/gen_trail_index.py` | Writes the **static, crawlable** list of all 37 trail links into `#trailBoard` in the four `trails/index.html` files (between `STATIC-TRAIL-INDEX` markers). `dashboard.js` overwrites the container on load, so JS visitors never see it — it exists so Googlebot can *discover* the spokes. Re-run whenever a trail is added or removed |
+| `scripts/gen_trail_index.py` | Writes the **static, crawlable** list of all 37 trail links into `#trailBoard` in the four dashboard homepages (`index.html`, `fr/index.html`, …) (between `STATIC-TRAIL-INDEX` markers). `dashboard.js` overwrites the container on load, so JS visitors never see it — it exists so Googlebot can *discover* the spokes. Re-run whenever a trail is added or removed |
 | `scripts/gen_site_nav.py` | Injects the site-wide **nav bar**, **breadcrumbs** (visible + `BreadcrumbList` JSON-LD) and a **"Nearby trails"** block (4 closest trailheads by real GPS distance, from the Visit Madeira index) into every page, between `SITE-NAV*` marker comments. Idempotent; `gen_spokes.py` calls it after regenerating. Re-run whenever a page or trail is added |
 | `.github/workflows/update.yml` | Cron that runs the updater at 04:00 UTC daily |
 | `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates for all 164 URLs, is listed in `robots.txt`, and gets its `<lastmod>` bumped by the updater. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
@@ -122,9 +124,9 @@ runs from the Actions tab). What it does:
   `{"ok": false}`, note-translation → English fallback) so a transient IPMA or
   MyMemory outage never blanks the whole card.
 - The status card is **rendered client-side** by `status.js` from `status.json`
-  — don't hard-code status into any homepage's HTML. To change wording or add a
+  — don't hard-code status into any page's HTML. To change wording or add a
   language, edit the `LANGS` dictionary in `status.js`; to change the data
-  shape, edit the updater and `status.js` together. Each homepage keeps a
+  shape, edit the updater and `status.js` together. Each status page keeps a
   plain-text fallback inside `#statusCard` for no-JS.
 - `scripts/manual_note.txt` (optional, not committed) injects a human-written
   line into the status card (lands in `status.json` as `manual_note`) — for

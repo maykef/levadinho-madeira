@@ -22,7 +22,7 @@ WhatsApp → Meta Cloud API → webhook (app.py, :5020) → brain.py → local L
 - Typing "idioma", "language", "langue", "sprache" or "język" re-opens the picker.
 
 **Grounding:** the model may only use LIVE STATUS and `pr1_facts.md`. Live status always
-wins. Other trails get a link to `/trails/`, and off-topic requests are declined.
+wins. Other trails get a link to the trails board at `/`, and off-topic requests are declined.
 
 ## Files
 

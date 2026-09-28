@@ -51,8 +51,8 @@ MARK = {
 
 # Nav bar entries: key -> (path within the language folder, label per language)
 NAV = [
-    ("home", "/", {"en": "PR1 today", "fr": "PR1 aujourd'hui", "de": "PR1 heute", "pl": "PR1 dziś"}),
-    ("trails", "/trails/", {"en": "All trails", "fr": "Tous les sentiers", "de": "Alle Wanderwege", "pl": "Wszystkie szlaki"}),
+    ("trails", "/", {"en": "All trails", "fr": "Tous les sentiers", "de": "Alle Wanderwege", "pl": "Wszystkie szlaki"}),
+    ("pr1", "/pr1/", {"en": "PR1 today", "fr": "PR1 aujourd'hui", "de": "PR1 heute", "pl": "PR1 dziś"}),
     ("fees", "/hiking-fees.html", {"en": "Fees 2026", "fr": "Tarifs 2026", "de": "Gebühren 2026", "pl": "Opłaty 2026"}),
     ("booking", "/simplifica-from-abroad.html", {"en": "Booking from abroad", "fr": "Réserver depuis l'étranger",
                                                  "de": "Buchen aus dem Ausland", "pl": "Rezerwacja z zagranicy"}),
@@ -62,7 +62,6 @@ NAV = [
 NAV_ARIA = {"en": "Site", "fr": "Site", "de": "Website", "pl": "Serwis"}
 CRUMB_ARIA = {"en": "Breadcrumb", "fr": "Fil d'Ariane", "de": "Brotkrümelnavigation", "pl": "Ścieżka nawigacji"}
 HOME = {"en": "Home", "fr": "Accueil", "de": "Startseite", "pl": "Strona główna"}
-TRAILS = {"en": "Trails", "fr": "Sentiers", "de": "Wanderwege", "pl": "Szlaki"}
 NEARBY = {"en": "Nearby trails", "fr": "Sentiers à proximité", "de": "Wanderwege in der Nähe", "pl": "Szlaki w pobliżu"}
 NEARBY_SUB = {"en": "Closest trailheads — each has its own live status.",
               "fr": "Les départs les plus proches — chacun avec son état en direct.",
@@ -216,17 +215,13 @@ def main():
 
     n = 0
     for lang in LANGS:
-        home = (HOME[lang], href(lang, "/"))
-        trails_crumb = (TRAILS[lang], href(lang, "/trails/"))
+        home = (HOME[lang], href(lang, "/"))   # the homepage is the trails board
         for t in trails:
             name = "{} {}".format(t["code"], t["name"])
-            if t["page"] == "/":   # PR1 is the homepage: no breadcrumb, but it gets neighbours
-                process(file_for(lang, "/"), lang, "home", None, nearest(t))
-            else:
-                process(file_for(lang, t["page"]), lang, None, [home, trails_crumb, (name, href(lang, t["page"]))],
-                        nearest(t))
+            process(file_for(lang, t["page"]), lang, "pr1" if t["page"] == "/pr1/" else None,
+                    [home, (name, href(lang, t["page"]))], nearest(t))
             n += 1
-        process(file_for(lang, "/trails/"), lang, "trails", [home, trails_crumb])
+        process(file_for(lang, "/"), lang, "trails", None)
         for key, p, lbl in NAV[2:]:
             process(file_for(lang, p), lang, key, [home, (lbl[lang], href(lang, p))])
         n += 4
