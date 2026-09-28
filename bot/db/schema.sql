@@ -82,6 +82,12 @@ COMMENT ON COLUMN visitor.first_seen IS 'First interaction with the bot or guide
 COMMENT ON COLUMN visitor.last_seen IS 'Most recent interaction.';
 COMMENT ON COLUMN visitor.country IS 'ISO 3166-1 alpha-2 country of the phone number''s dialling code (source market), e.g. "GB", "PT", "DE".';
 COMMENT ON COLUMN visitor.lang IS 'Language the visitor chose or last wrote in: pt, en, fr, de, pl.';
+ALTER TABLE visitor ADD COLUMN IF NOT EXISTS consent text;
+ALTER TABLE visitor ADD COLUMN IF NOT EXISTS consent_version text;
+ALTER TABLE visitor ADD COLUMN IF NOT EXISTS consent_at timestamptz;
+COMMENT ON COLUMN visitor.consent IS 'Privacy notice: "given" (accepted) or "withdrawn" (declined later, which also stops the service). Rows exist only for visitors who accepted at least once; nothing is recorded while withdrawn. Legal basis of the record: legitimate interest (the notice must be accepted to use the assistant); guide GPS is a separate opt-in.';
+COMMENT ON COLUMN visitor.consent_version IS 'Date of the privacy policy whose notice the visitor accepted (e.g. "2026-09-28").';
+COMMENT ON COLUMN visitor.consent_at IS 'When consent was last given or withdrawn.';
 
 -- ------------------------------------------------------------------ facts
 CREATE TABLE IF NOT EXISTS event (
@@ -220,5 +226,9 @@ INSERT INTO event_type (event_type, channel, description, attributes_schema) VAL
  ('offline_pack', 'guide', 'Offline download finished or failed.', '{"type":"object","properties":{"ok":{"type":"boolean"},"bytes":{"type":"integer"}}}'),
  ('gps_error', 'guide', 'The phone refused or failed to give a position.', '{"type":"object","properties":{"code":{"type":"integer"},"poll":{"type":"boolean"}}}'),
  ('heartbeat', 'guide', 'Guide alive signal every 10 s (diagnostics: audio state, fix count, steps).', '{"type":"object"}'),
- ('guide_other', 'guide', 'Any other guide diagnostic event (original name in attributes.ev).', '{"type":"object","properties":{"ev":{"type":"string"}}}')
+ ('guide_other', 'guide', 'Any other guide diagnostic event (original name in attributes.ev).', '{"type":"object","properties":{"ev":{"type":"string"}}}'),
+ ('consent_given', 'whatsapp', 'The visitor accepted the privacy notice (WhatsApp; count these for "how many accepted"), or chose "share my walk" in the guide (event row channel "guide").', '{"type":"object","properties":{"version":{"type":"string"}}}'),
+ ('consent_withdrawn', 'whatsapp', 'A visitor who had accepted tapped "Don''t accept" (after typing "privacy"). Service stops and nothing more is recorded until they accept again.', '{"type":"object","properties":{"version":{"type":"string"}}}'),
+ ('consent_declined', 'whatsapp', 'ANONYMOUS: a visitor did not accept the privacy notice (count these for "how many did not accept"). No visitor_id, only time and language.', '{"type":"object","properties":{}}'),
+ ('message_unrecorded', 'whatsapp', 'ANONYMOUS: a message from a visitor who has not accepted the notice (yet). No visitor_id, no text, only time and language.', '{"type":"object","properties":{"kind":{"type":"string"}}}')
 ON CONFLICT (event_type) DO UPDATE SET channel = EXCLUDED.channel, description = EXCLUDED.description, attributes_schema = EXCLUDED.attributes_schema;

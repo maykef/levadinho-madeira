@@ -30,8 +30,9 @@ wins. Other trails get a link to the trails board at `/`, and off-topic requests
 |------|---------|
 | `pr1_facts.md` | PR1 knowledge compiled 2026-09-26 from the official page, our site and 2026 guides. It has a "not confirmed" section the bot must not state as fact |
 | `brain.py` | Conversation flow, language handling, prompt, LLM calls. Knows nothing about WhatsApp |
-| `store.py` | SQLite (`levadinho.db`): each visitor's language and state, the last 8 exchanges (24 h TTL), de-duplication of message ids |
+| `store.py` | SQLite (`levadinho.db`): each visitor's language, state and consent choice, the last 8 exchanges (24 h TTL), de-duplication of message ids, guide tokens (30 days) |
 | `chat.py` | Local test chat through the same brain: `python bot/chat.py` (interactive) or `python bot/chat.py "msg1" "msg2"` (scripted). A digit 1–5 answers the picker, `/reset` starts over |
+| `privacy_request.py` | GDPR access / erasure for one phone number (runbook: `db/PRIVACY_REQUESTS.md`) |
 | `app.py` | FastAPI webhook for the Meta Cloud API: GET verification, POST with X-Hub-Signature-256 check, background replies, list-message picker, fallback for non-text messages |
 | `extract_facts.py` → `trail_facts.json` | Facts for all 37 trails (official scrape plus coordinates). **Not used by the trial**; kept for the multi-trail version |
 | `.env` (git-ignored) | `WA_TOKEN`, `WA_PHONE_NUMBER_ID`, `WA_APP_SECRET`, `WA_VERIFY_TOKEN`; optionally `LLM_URL`, `LLM_MODEL`, `STATUS_URL` |
@@ -75,10 +76,30 @@ Docker container `levadinho-db` (`127.0.0.1:5433`; data in
 `/mnt/nvme8tb/levadinho_madeira/levadinho-db/`; `DB_URL` in `.env`). It runs always,
 independently of the GPU bot.
 
+- **Privacy notice first (T13, since 2026-09-28).** Levadinho answers nothing until the
+  visitor taps **Accept** on a short notice (`brain.consent_prompt`, shown after the language
+  pick, or straight away if the first message is a question). A question asked before Accept
+  waits in the working store and is answered right after it. **Don't accept = no service.**
+  - Legal basis: legitimate interest, not consent. Refusing service without acceptance rules
+    consent out (GDPR Art. 7(4)); the policy says so.
+  - Typing "privacy", "privacidade", "confidentialité", "Datenschutz" or "prywatność" shows the
+    notice again; Don't accept then stops both recording and the service.
+  - Before acceptance, or after declining, `app.record()` writes only an anonymous
+    `message_unrecorded` / `consent_declined` event: no visitor id, text or position.
+  - Accepts vs. declines: count `consent_given` vs. `consent_declined` events.
+  - The acceptance is kept in `visitor.consent`, `consent_version` (the policy date,
+    `brain.CONSENT_VERSION`) and `consent_at`.
+  - The audio guide's GPS log is a true opt-in consent, asked in the guide itself. "Start · share my walk" sends the log; "Start without
+    sharing" keeps everything on the phone.
+  - **If the policy changes what is recorded,** bump `CONSENT_VERSION` in `brain.py` and
+    `guide.js` together with the policy date.
+- **Access and erasure requests:** `python bot/privacy_request.py access|erase <phone>`. Runbook in
+  `db/PRIVACY_REQUESTS.md`.
+
 - **No phone numbers or IP addresses.** A visitor is `visitor_id` = HMAC-SHA256 of the phone
   number with the key in `bot/.visitor_key`, which is git-ignored and backed up separately to
-  `/mnt/tank/levadinho_backup/keys/`. For an access or erasure request, recompute the id with
-  `analytics.visitor_id_for(phone)`.
+  `/mnt/tank/levadinho_backup/keys/`. Access and erasure requests recompute the id from the
+  number (`privacy_request.py`).
 - **Tables:**
   - `event`: every interaction;
   - `conversation_turn`: every message in and out, scrubbed. Rules replace phones, emails,
@@ -117,10 +138,10 @@ independently of the GPU bot.
 - **Welcome message:** enabled (`conversational_automation`) and handled in `app.py`
   (`request_welcome` → picker). **Meta never actually sent it in tests**, so the reliable
   path is the QR code with a pre-filled message.
-- **QR codes** (git-ignored, in `bot/qr/` and `/mnt/tank/levadinho_backup/bot/qr/`):
-  - `levadinho-qr-prefilled-avatar.png` / `levadinho-qr-prefilled.png` →
-    `https://wa.me/447405754593?text=Olá Levadinho! 👋`. Generated locally: free, never expire.
-  - `levadinho-qr.png` is a plain `wa.me/447405754593` code, without the pre-filled message.
+- **QR code** (git-ignored): only one is kept (owner, 2026-09-28), `bot/qr/levadinho-qr-prefilled.png`
+  (copy in `~/Downloads/levadinho-qr.png`) → `https://wa.me/447405754593?text=Olá Levadinho! 👋`.
+  Generated locally: free, never expires. Campaign QRs (e.g. `#ely`) were deleted; regenerate one
+  with the `qrcode` package when needed (pre-fill `Olá Levadinho! 👋 #<tag>`).
   - A QR code can't send the first message itself; WhatsApp always requires the user to tap send.
 - **The chat header shows the number, not the name,** until Meta verifies the business
   (Official Business Account or Meta Verified). That needs a registered company, which the
