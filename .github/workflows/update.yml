@@ -2,12 +2,11 @@ name: Update trail status
 
 on:
   schedule:
-    # Goal: fresh status live by 06:00 Madeira time (05:00 UTC in summer, 06:00 in winter).
     # GitHub starts scheduled runs late: measured 2026-09-03..27, runs cron'd for 04:00 UTC
-    # started 4.2-5.9 h late (median 5.2 h, trending up). So:
-    - cron: "0 22 * * *"   # starts ~02:15-03:55 UTC: the run that beats 06:00 Madeira (>1 h margin)
-    - cron: "0 1 * * *"    # starts ~05:15-06:55 UTC: morning refresh, retry if the first failed
-    - cron: "0 4 * * *"    # starts ~08:15-09:55 UTC: late-morning refresh (IFCN updates in the day)
+    # started 4.2-5.9 h late (median 5.2 h). This one starts ~05:15-06:55 UTC.
+    # TODO: move to an exact trigger — update live at 06:00 Madeira with 05:55 weather
+    # (a workflow_dispatch fired on time starts within seconds; the cron can't do that).
+    - cron: "0 1 * * *"
   workflow_dispatch: {}     # lets you run it manually from the GitHub app anytime
 
 permissions:
