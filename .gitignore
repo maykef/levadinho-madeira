@@ -17,3 +17,4 @@ bot/.env.bak*
 bot/.tts/
 bot/routes_private/
 bot/tracklog/
+bot/.visitor_key

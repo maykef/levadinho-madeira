@@ -37,6 +37,7 @@ if os.path.exists(env_path):
             os.environ.setdefault(k, v)
 
 import brain  # noqa: E402  (after .env so LLM_URL etc. can be overridden there)
+import analytics  # noqa: E402  (permanent, pseudonymous record in Postgres; fail-soft)
 import geo  # noqa: E402
 import store  # noqa: E402
 
@@ -82,25 +83,61 @@ def process(message):
     sender = message["from"]
     kind = message.get("type")
     log.info("incoming %s from …%s", kind, sender[-4:])
+    meta = {"events": []}
+    new_visitor = store.get_user(sender) is None
+    in_text, in_kind, pin = None, kind, None
     try:
         if kind == "request_welcome":  # visitor opened the chat for the first time (Meta welcome message)
             store.set_user(sender, state="picking")
             out = [brain.picker()]
         elif kind == "text":
-            out = brain.handle(sender, text=message["text"]["body"])
+            in_text = message["text"]["body"]
+            out = brain.handle(sender, text=in_text, meta=meta)
         elif kind == "interactive" and message["interactive"].get("type") == "list_reply":
-            out = brain.handle(sender, choice=message["interactive"]["list_reply"]["id"].removeprefix("lang_"))
+            in_kind, in_text = "language_choice", message["interactive"]["list_reply"]["id"].removeprefix("lang_")
+            out = brain.handle(sender, choice=in_text, meta=meta)
         elif kind == "location":  # a pin (live location never reaches the Cloud API)
             loc = message["location"]
-            out = brain.handle_location(sender, float(loc["latitude"]), float(loc["longitude"]))
+            pin = (float(loc["latitude"]), float(loc["longitude"]))
+            out = brain.handle_location(sender, *pin, meta=meta)
         else:  # voice, photo, sticker… not in the trial
             lang = (store.get_user(sender) or {}).get("lang") or "en"
+            meta["lang"] = lang
+            meta["events"].append(("non_text_received", {"kind": kind, "lang": lang}))
             out = [{"type": "text", "body": brain.TEXT_ONLY[lang]}]
     except Exception:
         log.exception("failed to handle message from %s", sender[-4:])
         out = [{"type": "text", "body": brain.TEXT_ERROR}]
     for msg in out:
         graph_post(to_whatsapp(sender, msg))
+    record(sender, new_visitor, in_kind, in_text, pin, meta, out)
+
+
+def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
+    """Permanent pseudonymous record of this exchange (analytics.py). Never breaks the reply."""
+    try:
+        lang = meta.get("lang")
+        vid = analytics.touch_visitor(sender, lang)
+        if new_visitor:
+            analytics.event("whatsapp", "conversation_started", vid=vid, lang=lang, first_text_kind=in_kind)
+        analytics.turn(sender, "in", in_kind, in_text, lang=lang, is_question=meta.get("is_question"),
+                       intent=meta.get("intent"), topic=meta.get("topic"), trail=meta.get("trail"),
+                       campaign=meta.get("campaign"), llm_scrub=in_kind == "text")
+        if pin:
+            analytics.fix("whatsapp_pin", *pin, vid=vid)
+        for etype, f in meta["events"]:
+            f = dict(f)
+            analytics.event("whatsapp", etype, vid=vid, session=f.pop("session", None), route=f.pop("route", None),
+                            campaign=f.pop("campaign", None) or meta.get("campaign"), lang=f.pop("lang", lang),
+                            lat=f.pop("lat", None), lon=f.pop("lon", None), **f)
+        ans = meta.get("answer") or {}
+        for msg in out:
+            is_answer = bool(ans) and msg.get("type") == "text"
+            analytics.turn(sender, "out", msg.get("type", "text"), msg.get("body"), lang=lang,
+                           campaign=meta.get("campaign"), latency_ms=ans.get("latency_ms") if is_answer else None,
+                           model=ans.get("model") if is_answer else None, llm_scrub=is_answer)
+    except Exception:
+        log.exception("analytics record failed")
 
 
 @app.get("/webhook")
@@ -159,7 +196,7 @@ TRACKLOG = os.path.join(HERE, "tracklog")
 
 
 @app.post("/guide/log")
-async def guide_log(request: Request, r: str = "", t: str = ""):
+async def guide_log(request: Request, background: BackgroundTasks, r: str = "", t: str = ""):
     """Lock-screen test: the guide posts GPS fixes, stop/clip events and heartbeats here."""
     if not SAFE.match(r) or not store.guide_token_ok(t, r):
         raise HTTPException(404)
@@ -170,10 +207,11 @@ async def guide_log(request: Request, r: str = "", t: str = ""):
     folder = os.path.join(TRACKLOG, r)
     os.makedirs(folder, exist_ok=True)
     srv = int(time.time() * 1000)
+    events = [e for e in events if isinstance(e, dict)] if isinstance(events, list) else []
     with open(os.path.join(folder, f"{t}.jsonl"), "a", encoding="utf-8") as f:
-        for e in events if isinstance(events, list) else []:
-            if isinstance(e, dict):
-                f.write(json.dumps({**e, "srv": srv}, ensure_ascii=False) + "\n")
+        for e in events:
+            f.write(json.dumps({**e, "srv": srv}, ensure_ascii=False) + "\n")
+    background.add_task(analytics.guide_events, store.guide_token_user(t), t, r, events)
     return {"ok": True}
 
 

@@ -201,25 +201,36 @@ def llm(messages, max_tokens=700, schema=None, temperature=0.3):
         return json.load(r)["choices"][0]["message"]["content"].strip()
 
 
+INTENTS = ["status", "booking", "fees", "transport", "weather", "safety", "route_info", "alternatives",
+           "facilities", "other"]
 CLASSIFY_SCHEMA = {
     "type": "object",
     "properties": {"is_question": {"type": "boolean"},
-                   "language": {"type": "string", "enum": ["pt", "en", "fr", "de", "pl", "other"]}},
-    "required": ["is_question", "language"],
+                   "language": {"type": "string", "enum": ["pt", "en", "fr", "de", "pl", "other"]},
+                   "intent": {"type": "string", "enum": INTENTS},
+                   "topic": {"type": "string", "maxLength": 60},
+                   "trail_code": {"type": ["string", "null"]}},
+    "required": ["is_question", "language", "intent", "topic", "trail_code"],
 }
 
 
 def classify(text):
-    """Is this a real question/request for information, and what language is it in?"""
+    """One model call: is it a question, its language, and labels for the analytics record."""
     out = llm([
         {"role": "system", "content":
-            "Classify a WhatsApp message sent to a hiking-trail assistant. "
+            "Classify a WhatsApp message sent to a hiking-trail assistant for Madeira. "
             "is_question = true if the visitor asks something or requests information (even without a question mark); "
             "false for greetings, thanks, emojis or small talk. "
-            "language = the language the message is written in: pt, en, fr, de, pl, or other."},
-        {"role": "user", "content": text}], max_tokens=40, schema=CLASSIFY_SCHEMA, temperature=0)
+            "language = the language the message is written in: pt, en, fr, de, pl, or other. "
+            "intent = what it is about: status (open/closed today), booking (tickets, SIMplifica), fees, transport "
+            "(getting there/back, taxis, buses, parking), weather, safety, route_info (distance, difficulty, time, "
+            "what you see), alternatives (other trails), facilities (toilets, food, water), other. "
+            "topic = a short English label of the specific subject, 2-5 words (e.g. \"sunrise start time\"). "
+            "trail_code = the trail's PR code if one is meant (e.g. \"PR1\"), else null."},
+        {"role": "user", "content": text}], max_tokens=80, schema=CLASSIFY_SCHEMA, temperature=0)
     d = json.loads(out)
-    return d["is_question"], (d["language"] if d["language"] in LANGS else "en")
+    d["lang"] = d["language"] if d["language"] in LANGS else "en"
+    return d
 
 
 FACTS = open(os.path.join(HERE, "pr1_facts.md"), encoding="utf-8").read()
@@ -247,12 +258,16 @@ PR1 KNOWLEDGE
 {facts}
 """
 
-def answer(user, text, lang):
+def answer(user, text, lang, meta=None):
     rule = (f"Write your reply ONLY in {LANG_NAMES[lang]}, whatever language earlier messages used. "
             f"Keep place names (Pico do Areeiro, Achada do Teixeira…) as they are.")
     system = SYSTEM.format(lang_rule=rule, status=status_block(), facts=FACTS)
     msgs = [{"role": "system", "content": system}] + store.history(user) + [{"role": "user", "content": text}]
+    t0 = time.time()
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", llm(msgs))  # WhatsApp bold is *single*
+    if meta is not None:
+        meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL}
+        meta["events"].append(("answer_sent", {"lang": lang, "latency_ms": meta["answer"]["latency_ms"]}))
     store.add_turn(user, text, reply)
     return reply
 
@@ -273,9 +288,12 @@ def ask_location(lang):
     return {"type": "location_request", "body": LOC_ASK[lang]}
 
 
-def guide_link(user, route, lang):
+def guide_link(user, route, lang, meta=None, via=None, campaign=None):
     """→ (personal guide link, route title in the visitor's language)."""
     token = store.new_guide_token(user, route["id"])
+    if meta is not None:
+        meta["events"].append(("guide_link_sent", {"session": token, "route": route["id"], "lang": lang,
+                                                   "campaign": campaign, "via": via}))
     return f"{GUIDE_URL}?r={route['id']}&l={lang}&t={token}", route["title"].get(lang) or route["title"]["en"]
 
 
@@ -283,20 +301,25 @@ def offline_note(rid, lang):
     return OFFLINE_NOTE["pr1" if rid == "pr1" else "other"][lang]
 
 
-def welcome(user, rid, lang):
+def welcome(user, rid, lang, meta=None, campaign=None):
     route = geo.load_route(rid)
     if not route:
         return {"type": "text", "body": INTRO[lang]}
-    link, title = guide_link(user, route, lang)
+    link, title = guide_link(user, route, lang, meta, via="campaign", campaign=campaign)
     return {"type": "text", "body": WELCOME[lang].format(title=title, link=link, note=offline_note(rid, lang))}
 
 
-def handle_location(user, lat, lon):
+def handle_location(user, lat, lon, meta=None):
     """A shared pin → the guide link for the route that starts nearby, or how far PR1 is."""
     lang = (store.get_user(user) or {}).get("lang") or "en"
     route, dist = geo.nearest_route(lat, lon)
+    if meta is not None:
+        meta["lang"] = lang
+        meta["events"].append(("location_shared", {"lat": lat, "lon": lon, "lang": lang,
+                                                   "nearest_route": route and route["id"],
+                                                   "distance_m": None if dist is None else int(dist)}))
     if route and dist <= NEAR_M:
-        link, title = guide_link(user, route, lang)
+        link, title = guide_link(user, route, lang, meta, via="location")
         return [{"type": "text", "body": LOC_NEAR[lang].format(dist=fmt_distance(dist, lang), title=title, link=link,
                                                               note=offline_note(route["id"], lang))}]
     status = str(live_status().get("status", "")).upper()
@@ -305,15 +328,23 @@ def handle_location(user, lat, lon):
     return [{"type": "text", "body": LOC_FAR[lang].format(dist=fmt_distance(far, lang), status=word)}]
 
 
-def handle(user, text=None, choice=None):
-    """Return a list of outgoing messages: {"type": "text", "body": ...} or a picker."""
+def handle(user, text=None, choice=None, meta=None):
+    """Return a list of outgoing messages: {"type": "text", "body": ...} or a picker.
+
+    `meta` (optional dict with an "events" list) is filled with what happened, for the
+    analytics record written by app.py: language, question labels, events."""
+    meta = meta if meta is not None else {"events": []}
+    meta.setdefault("events", [])
     u = store.get_user(user)
 
     if choice in LANGS:  # tapped a row in the picker
         tag = ((u or {}).get("state") or "").partition(":")[2]  # "picking:<campaign tag>" after a campaign QR
         store.set_user(user, lang=choice, state="ready")
+        meta["lang"] = choice
+        meta["events"].append(("language_selected", {"lang": choice, "campaign": tag or None}))
         if tag in CAMPAIGNS:
-            return [welcome(user, CAMPAIGNS[tag], choice)]
+            meta["campaign"] = tag
+            return [welcome(user, CAMPAIGNS[tag], choice, meta, campaign=tag)]
         return [{"type": "text", "body": INTRO[choice]}]
 
     text = (text or "").strip()
@@ -325,6 +356,8 @@ def handle(user, text=None, choice=None):
         tag = re.search(r"#([a-z0-9-]+)", text.lower())
         tag = tag.group(1) if tag and tag.group(1) in CAMPAIGNS else ""
         store.set_user(user, state=f"picking:{tag}" if tag else "picking")
+        meta["campaign"] = tag or None
+        meta["events"].append(("qr_scanned", {"campaign": tag or None}))
         return [picker()]
 
     if text.lower().strip(" !?.") in CHANGE_WORDS:
@@ -334,16 +367,26 @@ def handle(user, text=None, choice=None):
     word = text.lower().strip(" !?.")
     if word in GUIDE_WORDS:  # "guide" / "guia"… → ask for a location pin with WhatsApp's button
         lang = (u or {}).get("lang") or GUIDE_WORDS[word] or "en"
+        meta["lang"] = lang
+        meta["events"].append(("location_requested", {"lang": lang}))
         return [ask_location(lang)]
 
+    c = classify(text)
+    meta.update(lang=c["lang"], is_question=c["is_question"])
+    if c["is_question"]:
+        meta.update(intent=c["intent"], topic=c["topic"], trail=c["trail_code"])
+        meta["events"].append(("question_asked", {"lang": c["lang"], "intent": c["intent"], "topic": c["topic"],
+                                                  "trail_code": c["trail_code"],
+                                                  "trail_status": str(live_status().get("status", ""))}))
+
     if not u or not u.get("lang"):  # first contact, or still hasn't picked
-        is_q, lang = classify(text)
-        if is_q:
-            store.set_user(user, lang=lang, state="ready")
-            return [{"type": "text", "body": answer(user, text, lang)}]
+        if c["is_question"]:
+            store.set_user(user, lang=c["lang"], state="ready")
+            return [{"type": "text", "body": answer(user, text, c["lang"], meta)}]
         store.set_user(user, state="picking")
         return [picker()]
 
     # Questions are answered in the language they're written in; anything else in the chosen one.
-    is_q, lang = classify(text)
-    return [{"type": "text", "body": answer(user, text, lang if is_q else u["lang"])}]
+    lang = c["lang"] if c["is_question"] else u["lang"]
+    meta["lang"] = lang
+    return [{"type": "text", "body": answer(user, text, lang, meta)}]
