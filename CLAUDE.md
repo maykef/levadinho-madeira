@@ -90,6 +90,13 @@ already in place, and a mock-up of the future usage log.
   individual GPS fixes. No phone numbers or IPs; the visitor id is an HMAC with
   `bot/.visitor_key`. See the "Analytics database" section of `bot/README.md`. The nightly
   backup runs from cron (`bot/db/backup.sh`).
+- **Privacy notice (since 2026-09-28):** the bot answers nothing until the visitor taps Accept on
+  a short notice. No acceptance means no service, and only an anonymous count is kept. The chat record's legal basis
+  is legitimate interest; the guide's GPS log is a separate opt-in consent ("share my walk"). The
+  policy is `privacy/` (one page, 5 languages: `#en #pt #fr #de #pl`). **Keep the policy, the
+  consent wording in `brain.py` / `guide.js` and what is actually recorded in sync**, and bump
+  `CONSENT_VERSION` (both files) with the policy date when what's recorded changes. Access and
+  erasure requests: `bot/privacy_request.py`, runbook `bot/db/PRIVACY_REQUESTS.md`.
 - **Containerised stack:** a separate PRIVATE repository, `maykef/levadinho-stack`
   (local: `/mnt/nvme8tb/levadinho-stack`). It packages the bot, the model, PostGIS, backups
   and the route builder, with `install.sh` / `uninstall.sh`, a server-move guide

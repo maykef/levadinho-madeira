@@ -87,6 +87,18 @@ def touch_visitor(phone, lang=None):
     return vid
 
 
+def visitor_known(phone):
+    vid = visitor_id_for(phone)
+    return bool(vid and _exec("SELECT 1 FROM visitor WHERE visitor_id=%s", (vid,), fetch=True))
+
+
+def set_consent(vid, status, version):
+    """Proof of consent (GDPR Art. 7(1)): what the visitor agreed to, and when."""
+    if vid:
+        _exec("UPDATE visitor SET consent=%s, consent_version=%s, consent_at=now() WHERE visitor_id=%s",
+              (status, version, vid))
+
+
 def _point(lat, lon):
     return f"SRID=4326;POINT({float(lon)} {float(lat)})" if lat is not None and lon is not None else None
 
@@ -190,6 +202,7 @@ GUIDE_EVENTS = {
     "manual_play": "clip_manual", "pocket_on": "pocket_mode", "pocket_off": "pocket_mode", "vis": "screen_state",
     "wake_on": "wake_lock", "wake_off": "wake_lock", "wake_fail": "wake_lock", "offline_ok": "offline_pack",
     "offline_fail": "offline_pack", "gps_err": "gps_error", "poll_err": "gps_error", "hb": "heartbeat",
+    "consent": "consent_given",
 }
 
 

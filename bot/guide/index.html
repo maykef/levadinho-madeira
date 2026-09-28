@@ -75,6 +75,8 @@ li.next .num{background:var(--way-yellow);border-color:var(--way-yellow)}
 #locHelp ol{padding-left:20px;font-size:.95rem}
 #locHelp li{margin:6px 0}
 #dbg{font:12px/1.3 ui-monospace,monospace;white-space:pre;color:var(--ink-soft);margin:8px 2px;display:none}
+.consent{font-size:.88rem;color:var(--ink-soft);margin-top:10px}
+.consent a{color:var(--ink)}
 .hidden{display:none!important}
 </style>
 </head>
@@ -98,7 +100,9 @@ li.next .num{background:var(--way-yellow);border-color:var(--way-yellow)}
   <div id="intro" class="card">
     <p class="how" id="how"></p>
     <p class="hint" id="introWarn"></p>
+    <p class="consent hidden" id="consent"></p>
     <button class="btn go" id="startBtn" style="margin-top:12px"></button>
+    <button class="btn alt hidden" id="startLocal"></button>
   </div>
 
   <div id="guide" class="hidden">

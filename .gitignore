@@ -18,3 +18,7 @@ bot/.tts/
 bot/routes_private/
 bot/tracklog/
 bot/.visitor_key
+bot/privacy_exports/
+
+# Local-only drafts (committing publishes them on GitHub Pages)
+DPIA_*.md

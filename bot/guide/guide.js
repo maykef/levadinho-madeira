@@ -33,6 +33,7 @@
 
   const UI = {
     en: {
+      startShare: "Start · share my walk", startLocal: "Start without sharing", consent: "Share this walk with Levadinho? Your positions along the route and how the guide behaves are recorded pseudonymously and linked to your Levadinho chat (never your phone number), to improve the guide and understand how the trails are used. Without sharing, the guide works exactly the same and your position never leaves your phone.", policy: "Privacy policy",
       stops: "{n} stops · {km} km", start: "Start the guide",
       how: "Keep this page open with the screen on while you walk. Each stop plays by itself when you reach it.",
       offDl: "Downloading for offline use… {n}/{N}", offOk: "✓ Ready offline ({mb} MB): the guide now works without signal.", offFail: "⚠ Couldn't download everything for offline use. Tap here to try again.",
@@ -46,6 +47,7 @@
       away: "{d} away", here: "here", played: "played", missed: "missed, tap ▶",
     },
     pt: {
+      startShare: "Começar · partilhar o passeio", startLocal: "Começar sem partilhar", consent: "Partilhar este passeio com o Levadinho? As suas posições ao longo do percurso e o funcionamento do guia ficam registados de forma pseudonimizada, ligados à sua conversa com o Levadinho (nunca o seu número de telefone), para melhorar o guia e perceber como os percursos são usados. Sem partilhar, o guia funciona exatamente igual e a sua posição nunca sai do telemóvel.", policy: "Política de privacidade",
       stops: "{n} paragens · {km} km", start: "Começar o guia",
       how: "Mantenha esta página aberta com o ecrã ligado enquanto caminha. Cada paragem toca sozinha quando lá chegar.",
       offDl: "A descarregar para usar sem rede… {n}/{N}", offOk: "✓ Pronto sem rede ({mb} MB): o guia já funciona sem sinal.", offFail: "⚠ Não foi possível descarregar tudo. Toque aqui para tentar de novo.",
@@ -59,6 +61,7 @@
       away: "a {d}", here: "aqui", played: "ouvida", missed: "perdida, toque em ▶",
     },
     fr: {
+      startShare: "Démarrer · partager ma balade", startLocal: "Démarrer sans partager", consent: "Partager cette balade avec Levadinho ? Vos positions sur le parcours et le fonctionnement du guide sont enregistrés de façon pseudonymisée et reliés à votre conversation avec Levadinho (jamais votre numéro de téléphone), pour améliorer le guide et comprendre l'usage des sentiers. Sans partage, le guide fonctionne exactement pareil et votre position ne quitte jamais votre téléphone.", policy: "Politique de confidentialité",
       stops: "{n} étapes · {km} km", start: "Démarrer le guide",
       how: "Gardez cette page ouverte, écran allumé, pendant la marche. Chaque étape se lance toute seule quand vous y arrivez.",
       offDl: "Téléchargement hors ligne… {n}/{N}", offOk: "✓ Prêt hors ligne ({mb} Mo) : le guide fonctionne sans réseau.", offFail: "⚠ Téléchargement incomplet. Touchez ici pour réessayer.",
@@ -72,6 +75,7 @@
       away: "à {d}", here: "ici", played: "écoutée", missed: "manquée, touchez ▶",
     },
     de: {
+      startShare: "Starten · Tour teilen", startLocal: "Starten ohne Teilen", consent: "Diese Tour mit Levadinho teilen? Deine Positionen entlang der Route und wie der Guide funktioniert werden pseudonymisiert gespeichert und mit deinem Levadinho-Chat verknüpft (nie deine Telefonnummer), um den Guide zu verbessern und die Nutzung der Wege zu verstehen. Ohne Teilen funktioniert der Guide genauso, und dein Standort verlässt nie dein Handy.", policy: "Datenschutzerklärung",
       stops: "{n} Halte · {km} km", start: "Guide starten",
       how: "Lass diese Seite beim Gehen mit eingeschaltetem Bildschirm offen. Jeder Halt spielt von selbst, sobald du ihn erreichst.",
       offDl: "Wird für offline geladen… {n}/{N}", offOk: "✓ Offline bereit ({mb} MB): Der Guide funktioniert jetzt ohne Netz.", offFail: "⚠ Nicht alles konnte geladen werden. Tippe hier, um es erneut zu versuchen.",
@@ -85,6 +89,7 @@
       away: "{d} entfernt", here: "hier", played: "gehört", missed: "verpasst, tippe ▶",
     },
     pl: {
+      startShare: "Start · udostępnij spacer", startLocal: "Start bez udostępniania", consent: "Udostępnić ten spacer Levadinho? Twoje pozycje na trasie i działanie przewodnika są zapisywane w formie pseudonimizowanej i powiązane z Twoją rozmową z Levadinho (nigdy z numerem telefonu), aby ulepszać przewodnik i rozumieć korzystanie ze szlaków. Bez udostępniania przewodnik działa tak samo, a Twoja pozycja nigdy nie opuszcza telefonu.", policy: "Polityka prywatności",
       stops: "{n} przystanków · {km} km", start: "Uruchom przewodnik",
       how: "Podczas marszu trzymaj tę stronę otwartą i ekran włączony. Każdy przystanek odtworzy się sam, gdy do niego dotrzesz.",
       offDl: "Pobieranie do użytku offline… {n}/{N}", offOk: "✓ Gotowe offline ({mb} MB): przewodnik działa teraz bez zasięgu.", offFail: "⚠ Nie udało się pobrać wszystkiego. Dotknij tutaj, aby spróbować ponownie.",
@@ -183,7 +188,10 @@
   let ctx = null, curSrc = null;      // Web Audio: clips play here (not suspended in background, iOS 17.5+)
   const buffers = {};                 // stop id → decoded AudioBuffer
   const blobs = {};                   // stop id → Blob (decoded once the AudioContext exists)
-  const REC = !!tok && !sim;          // lock-screen test: record to the server
+  const REC = !!tok && !sim;          // a bot link: the walk can be recorded to the server…
+  let consent = null;                 // …but only after "share my walk" (null = not chosen yet)
+  const CONSENT_VERSION = "2026-09-28";   // privacy policy date, as in brain.CONSENT_VERSION
+  let pending = [];                   // events logged before the choice; sent only on "share"
 
   // ------------------------------------------------------------ geometry (local metres)
   let lat0, lon0, kx;
@@ -228,7 +236,15 @@
     $("title").textContent = route.title[lang] || route.title.en;
     $("meta").textContent = fmt(T.stops, { n: stops.length, km: (route.length_m / 1000).toFixed(1).replace(".", lang === "en" ? "." : ",") });
     $("how").textContent = T.how;
-    $("startBtn").textContent = T.start;
+    $("startBtn").textContent = REC ? T.startShare : T.start;
+    if (REC) {
+      $("consent").textContent = T.consent + " ";
+      const a = $("consent").appendChild(document.createElement("a"));
+      Object.assign(a, { href: `https://levadinho-madeira.com/privacy/#${lang}`, target: "_blank", rel: "noopener", textContent: T.policy });
+      $("consent").classList.remove("hidden");
+      $("startLocal").textContent = T.startLocal;
+      $("startLocal").classList.remove("hidden");
+    }
     $("walkBtn").textContent = T.walk;
     $("walkX").textContent = T.walkExit;
     $("pocketHint").textContent = T.pocketHint;
@@ -291,8 +307,10 @@
   const saveOutbox = () => { try { localStorage.setItem(OUTBOX_KEY, JSON.stringify(outbox.slice(-5000))); } catch (e) {} };
   let flushing = false;
   function log(ev, data) {
-    if (!REC) return;
-    outbox.push(Object.assign({ ev, t: Date.now(), vis: document.visibilityState, online: navigator.onLine }, data || {}));
+    if (!REC || consent === false) return;
+    const e = Object.assign({ ev, t: Date.now(), vis: document.visibilityState, online: navigator.onLine }, data || {});
+    if (consent === null) { pending.push(e); return; }
+    outbox.push(e);
     saveOutbox();
     flush();
   }
@@ -362,7 +380,15 @@
     return URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
   }
 
-  async function start() {
+  function setConsent(share) {
+    consent = REC && share;
+    if (consent) { outbox.push(...pending); log("consent", { version: CONSENT_VERSION }); }
+    else { outbox.length = 0; saveOutbox(); }   // declined: drop anything not yet sent
+    pending = [];
+  }
+
+  async function start(share) {
+    setConsent(share);
     // Everything audio happens before the first await, inside the tap (iOS requires it).
     try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) {}
     try {                                          // motion permission must be asked inside the tap
@@ -382,7 +408,7 @@
     audio.play().catch(() => {});
     started = true;
     log("start", { ua: navigator.userAgent, audioSession: !!navigator.audioSession, ctx: ctx && ctx.state, lang, audioLang });
-    if (REC) $("testCard").classList.remove("hidden");
+    if (consent) $("testCard").classList.remove("hidden");
     $("intro").classList.add("hidden");
     $("guide").classList.remove("hidden");
     if (debug) $("dbg").style.display = "block";
@@ -736,7 +762,8 @@
   }
 
   // ------------------------------------------------------------ wiring
-  $("startBtn").addEventListener("click", start);
+  $("startBtn").addEventListener("click", () => start(true));
+  $("startLocal").addEventListener("click", () => start(false));
   $("helpRetry").addEventListener("click", retryLocation);
   $("offline").addEventListener("click", () => { if ($("offline").classList.contains("bad")) downloadPack(); });
   addEventListener("online", () => flush());
@@ -748,7 +775,7 @@
   ["touchmove", "click", "dblclick", "contextmenu", "gesturestart"].forEach((ev) => W.addEventListener(ev, (e) => e.preventDefault(), { passive: false }));
   load().then(() => {
     if (!route) return;
-    if (sim && P.has("auto")) start();
+    if (sim && P.has("auto")) start(false);
     else if (!sim) checkPermission();
   });
 })();

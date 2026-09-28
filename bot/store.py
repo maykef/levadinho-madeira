@@ -14,18 +14,27 @@ CREATE TABLE IF NOT EXISTS turns (user TEXT, at REAL, question TEXT, answer TEXT
 CREATE TABLE IF NOT EXISTS seen (msg_id TEXT PRIMARY KEY, at REAL);
 CREATE TABLE IF NOT EXISTS guide_tokens (token TEXT PRIMARY KEY, user TEXT, route TEXT, at REAL);
 """)
+# consent: the privacy notice — None (not answered), "yes" (accepted) or "no" (declined: no service).
+# (consent_asked is a leftover column from the first consent design; unused.)
+for col in ("consent TEXT", "consent_asked REAL"):
+    try:
+        _db.execute(f"ALTER TABLE users ADD COLUMN {col}")
+    except sqlite3.OperationalError:
+        pass  # already there
 GUIDE_TOKEN_TTL = 30 * 24 * 3600  # a guide link keeps working for a month (offline packs, repeat walks)
+USER_FIELDS = ("lang", "state", "consent")
 
 
 def get_user(uid):
-    row = _db.execute("SELECT lang, state FROM users WHERE id=?", (uid,)).fetchone()
-    return {"lang": row[0], "state": row[1]} if row else None
+    row = _db.execute(f"SELECT {', '.join(USER_FIELDS)} FROM users WHERE id=?", (uid,)).fetchone()
+    return dict(zip(USER_FIELDS, row)) if row else None
 
 
 def set_user(uid, **fields):
-    cur = get_user(uid) or {"lang": None, "state": None}
+    cur = get_user(uid) or dict.fromkeys(USER_FIELDS)
     cur.update(fields)
-    _db.execute("INSERT OR REPLACE INTO users VALUES (?,?,?,?)", (uid, cur["lang"], cur["state"], time.time()))
+    _db.execute(f"INSERT OR REPLACE INTO users (id, {', '.join(USER_FIELDS)}, updated) VALUES (?,?,?,?,?)",
+                (uid, *(cur[f] for f in USER_FIELDS), time.time()))
     _db.commit()
 
 
@@ -78,3 +87,12 @@ def reset(uid):
     _db.execute("DELETE FROM users WHERE id=?", (uid,))
     _db.execute("DELETE FROM turns WHERE user=?", (uid,))
     _db.commit()
+
+
+def erase(uid):
+    """Everything held about a phone number here (erasure request). Returns rows deleted per table."""
+    n = {}
+    for table, col in (("users", "id"), ("turns", "user"), ("guide_tokens", "user")):
+        n[table] = _db.execute(f"DELETE FROM {table} WHERE {col}=?", (uid,)).rowcount
+    _db.commit()
+    return n

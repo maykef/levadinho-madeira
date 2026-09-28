@@ -72,6 +72,11 @@ def to_whatsapp(to, msg):
             "action": {"button": msg["button"], "sections": [{
                 "title": "Idioma / Language",
                 "rows": [{"id": f"lang_{code}", "title": label} for code, label in msg["options"]]}]}}}
+    if msg["type"] == "buttons":
+        return {**base, "type": "interactive", "interactive": {
+            "type": "button", "body": {"text": msg["body"]},
+            "action": {"buttons": [{"type": "reply", "reply": {"id": bid, "title": title}}
+                                   for bid, title in msg["buttons"]]}}}
     if msg["type"] == "location_request":
         return {**base, "type": "interactive", "interactive": {
             "type": "location_request_message", "body": {"text": msg["body"]},
@@ -96,6 +101,10 @@ def process(message):
         elif kind == "interactive" and message["interactive"].get("type") == "list_reply":
             in_kind, in_text = "language_choice", message["interactive"]["list_reply"]["id"].removeprefix("lang_")
             out = brain.handle(sender, choice=in_text, meta=meta)
+        elif kind == "interactive" and message["interactive"].get("type") == "button_reply":
+            in_kind = "consent_choice"
+            in_text = message["interactive"]["button_reply"]["id"]
+            out = brain.handle_consent(sender, in_text == "consent_yes", meta=meta)
         elif kind == "location":  # a pin (live location never reaches the Cloud API)
             loc = message["location"]
             pin = (float(loc["latitude"]), float(loc["longitude"]))
@@ -114,15 +123,36 @@ def process(message):
 
 
 def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
-    """Permanent pseudonymous record of this exchange (analytics.py). Never breaks the reply."""
+    """Permanent pseudonymous record of this exchange (analytics.py). Never breaks the reply.
+
+    Only for visitors who accepted the privacy notice (brain.CONSENT_*). Anyone else leaves just an
+    anonymous trace: event type, time and language, no visitor id, no text, no position. That is also
+    how accepts vs. declines are counted (consent_given / consent_declined events)."""
     try:
         lang = meta.get("lang")
+        consent = (store.get_user(sender) or {}).get("consent")
+        types = [etype for etype, _ in meta["events"]]
+        if "consent_withdrawn" in types:  # keep the proof of withdrawal, nothing else
+            vid = analytics.visitor_id_for(sender)
+            analytics.set_consent(vid, "withdrawn", brain.CONSENT_VERSION)
+            analytics.event("whatsapp", "consent_withdrawn", vid=vid, lang=lang, version=brain.CONSENT_VERSION)
+            return
+        if consent != "yes":
+            analytics.event("whatsapp", "consent_declined" if "consent_declined" in types else "message_unrecorded",
+                            lang=lang, **({} if "consent_declined" in types else {"kind": in_kind}))
+            return
+        new_visitor = new_visitor or not analytics.visitor_known(sender)
         vid = analytics.touch_visitor(sender, lang)
+        if "consent_given" in types:
+            analytics.set_consent(vid, "given", brain.CONSENT_VERSION)
         if new_visitor:
             analytics.event("whatsapp", "conversation_started", vid=vid, lang=lang, first_text_kind=in_kind)
         analytics.turn(sender, "in", in_kind, in_text, lang=lang, is_question=meta.get("is_question"),
                        intent=meta.get("intent"), topic=meta.get("topic"), trail=meta.get("trail"),
                        campaign=meta.get("campaign"), llm_scrub=in_kind == "text")
+        if meta.get("resumed_question"):  # asked before Accept, answered right after it
+            analytics.turn(sender, "in", "text", meta["resumed_question"], lang=lang, is_question=True,
+                           intent=meta.get("intent"), topic=meta.get("topic"), trail=meta.get("trail"))
         if pin:
             analytics.fix("whatsapp_pin", *pin, vid=vid)
         for etype, f in meta["events"]:

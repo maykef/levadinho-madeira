@@ -13,6 +13,10 @@ Flow:
   - "idioma" / "language" / "langue" / "sprache" / "język" → picker again.
   - A campaign QR pre-fills "Olá Levadinho! 👋 #<tag>" → picker → welcome + that route's guide link.
   - "guide" / "guia"… → WhatsApp's Send location button; a location pin → the nearby route's link.
+  - Privacy notice: nothing is answered until the visitor taps Accept (after the language pick, or
+    straight away if the first message is a question, which is answered right after Accept). "Don't
+    accept" stops the service; app.py then keeps only an anonymous count. "privacy" / "privacidade"…
+    shows the notice again (Don't accept there = stop recording and stop the service).
 """
 import json
 import os
@@ -146,6 +150,50 @@ STATUS_WORDS = {
     "CLOSED": {"pt": "fechado", "en": "closed", "fr": "fermé", "de": "geschlossen", "pl": "zamknięty"},
 }
 
+# ---------------------------------------------------------------- privacy notice (GDPR)
+# Accepting the notice is a condition of using the assistant: nothing is answered until the visitor
+# taps Accept. The chat record rests on legitimate interest (the privacy policy says so), not on
+# consent; the guide's GPS log is a separate opt-in inside the guide. Declines are counted anonymously.
+CONSENT_VERSION = "2026-09-28"   # date of the privacy policy the visitor accepted
+POLICY_URL = "https://levadinho-madeira.com/privacy/#{lang}"
+PRIVACY_WORDS = {"privacy", "privacidade", "privacité", "confidentialité", "confidentialite", "datenschutz",
+                 "prywatność", "prywatnosc", "rgpd", "gdpr", "dsgvo", "rodo"}
+CONSENT_ASK = {
+    "pt": "Para melhorar o Levadinho e perceber a procura nos percursos, recolhemos alguns dados sobre a forma como o usa. "
+          "Mais informação na nossa política de privacidade: {url}\n\nToque em *Aceitar* para continuar.",
+    "en": "To improve Levadinho and understand demand on the trails, we collect some data about how you use it. "
+          "More in our privacy policy: {url}\n\nTap *Accept* to continue.",
+    "fr": "Pour améliorer Levadinho et comprendre la fréquentation des sentiers, nous collectons certaines données sur votre "
+          "utilisation. Plus d'infos dans notre politique de confidentialité : {url}\n\nTouchez *Accepter* pour continuer.",
+    "de": "Um Levadinho zu verbessern und die Nachfrage auf den Wanderwegen zu verstehen, erfassen wir einige Daten darüber, "
+          "wie du es nutzt. Mehr in unserer Datenschutzerklärung: {url}\n\nTippe auf *Akzeptieren*, um fortzufahren.",
+    "pl": "Aby ulepszać Levadinho i rozumieć ruch na szlakach, zbieramy pewne dane o tym, jak z niego korzystasz. "
+          "Więcej w naszej polityce prywatności: {url}\n\nDotknij *Akceptuję*, aby kontynuować.",
+}
+CONSENT_BUTTONS = {  # WhatsApp reply-button titles: 20 characters at most
+    "pt": ("Aceitar", "Não aceitar"), "en": ("Accept", "Don't accept"), "fr": ("Accepter", "Refuser"),
+    "de": ("Akzeptieren", "Ablehnen"), "pl": ("Akceptuję", "Nie akceptuję"),
+}
+CONSENT_NO = {
+    "pt": "Compreendido. O Levadinho não pode ser usado sem aceitar. Se mudar de ideias, basta escrever-me de novo.",
+    "en": "Understood. Levadinho can't be used without accepting. If you change your mind, just write to me again.",
+    "fr": "C'est noté. Levadinho ne peut pas être utilisé sans accepter. Si vous changez d'avis, écrivez-moi simplement à nouveau.",
+    "de": "Verstanden. Levadinho kann ohne Zustimmung nicht genutzt werden. Wenn du es dir anders überlegst, schreib mir einfach wieder.",
+    "pl": "Rozumiem. Z Levadinho nie można korzystać bez akceptacji. Jeśli zmienisz zdanie, po prostu napisz do mnie ponownie.",
+}
+CONSENT_WITHDRAWN = {
+    "pt": "Feito: nada mais fica registado e o Levadinho deixa de responder até voltar a aceitar. "
+          "Para apagar o que já foi registado, escreva para hello@levadinho-madeira.com.",
+    "en": "Done: nothing more is recorded, and Levadinho stops answering until you accept again. "
+          "To delete what was recorded before, email hello@levadinho-madeira.com.",
+    "fr": "C'est fait : plus rien n'est enregistré, et Levadinho ne répond plus tant que vous n'acceptez pas à nouveau. "
+          "Pour effacer ce qui l'a déjà été, écrivez à hello@levadinho-madeira.com.",
+    "de": "Erledigt: Es wird nichts mehr gespeichert, und Levadinho antwortet erst wieder, wenn du erneut akzeptierst. "
+          "Um bereits Gespeichertes zu löschen, schreib an hello@levadinho-madeira.com.",
+    "pl": "Gotowe: nic więcej nie jest zapisywane, a Levadinho nie odpowiada, dopóki ponownie nie zaakceptujesz. "
+          "Aby usunąć to, co już zapisano, napisz na hello@levadinho-madeira.com.",
+}
+
 TEXT_ERROR = ("Desculpe, algo correu mal. Tente de novo daqui a um minuto. · "
               "Sorry, something went wrong — please try again in a minute.")
 
@@ -277,6 +325,53 @@ def picker():
     return {"type": "list", **PICKER}
 
 
+def consent_prompt(user, lang, pending=""):
+    """The privacy notice with Accept / Don't accept. `pending` is what to do after Accept:
+    "q:<question>" (answer it) or "c:<campaign tag>" (send that route's welcome). A message without
+    one of its own keeps what was already waiting."""
+    state = (store.get_user(user) or {}).get("state") or ""
+    if not pending and state.startswith("notice:"):
+        pending = state.removeprefix("notice:")
+    store.set_user(user, state=f"notice:{pending}")
+    yes, no = CONSENT_BUTTONS[lang]
+    return {"type": "buttons", "body": CONSENT_ASK[lang].format(url=POLICY_URL.format(lang=lang)),
+            "buttons": [("consent_yes", yes), ("consent_no", no)]}
+
+
+def accepted(user):
+    return (store.get_user(user) or {}).get("consent") == "yes"
+
+
+def handle_consent(user, yes, meta=None):
+    """The visitor tapped Accept / Don't accept. app.py reads the new state to decide what to record."""
+    meta = meta if meta is not None else {"events": []}
+    u = store.get_user(user) or {}
+    lang = u.get("lang") or "en"
+    was = u.get("consent")
+    pending = (u.get("state") or "").removeprefix("notice:") if (u.get("state") or "").startswith("notice:") else ""
+    store.set_user(user, consent="yes" if yes else "no", state="ready")
+    meta["lang"] = lang
+    if not yes:
+        meta["events"].append(("consent_withdrawn" if was == "yes" else "consent_declined", {"version": CONSENT_VERSION}))
+        return [{"type": "text", "body": (CONSENT_WITHDRAWN if was == "yes" else CONSENT_NO)[lang]}]
+    meta["events"].append(("consent_given", {"version": CONSENT_VERSION}))
+    if was == "yes":  # re-accepted after typing "privacy": nothing to resume
+        return [{"type": "text", "body": INTRO[lang]}]
+    kind, _, arg = pending.partition(":")
+    if kind == "c" and arg in CAMPAIGNS:
+        meta["campaign"] = arg
+        return [welcome(user, CAMPAIGNS[arg], lang, meta, campaign=arg)]
+    if kind == "q" and arg:  # the question they asked before accepting
+        c = classify(arg)
+        meta.update(is_question=True, intent=c["intent"], topic=c["topic"], trail=c["trail_code"])
+        meta["events"].append(("question_asked", {"lang": c["lang"], "intent": c["intent"], "topic": c["topic"],
+                                                  "trail_code": c["trail_code"],
+                                                  "trail_status": str(live_status().get("status", ""))}))
+        meta["resumed_question"] = arg
+        return [{"type": "text", "body": answer(user, arg, c["lang"], meta)}]
+    return [{"type": "text", "body": INTRO[lang]}]
+
+
 def fmt_distance(m, lang):
     if m < 1000:
         return f"{max(10, round(m, -1)):.0f} m"
@@ -312,6 +407,10 @@ def welcome(user, rid, lang, meta=None, campaign=None):
 def handle_location(user, lat, lon, meta=None):
     """A shared pin → the guide link for the route that starts nearby, or how far PR1 is."""
     lang = (store.get_user(user) or {}).get("lang") or "en"
+    if not accepted(user):
+        meta = meta if meta is not None else {"events": []}
+        meta["lang"] = lang
+        return [consent_prompt(user, lang)]
     route, dist = geo.nearest_route(lat, lon)
     if meta is not None:
         meta["lang"] = lang
@@ -320,8 +419,8 @@ def handle_location(user, lat, lon, meta=None):
                                                    "distance_m": None if dist is None else int(dist)}))
     if route and dist <= NEAR_M:
         link, title = guide_link(user, route, lang, meta, via="location")
-        return [{"type": "text", "body": LOC_NEAR[lang].format(dist=fmt_distance(dist, lang), title=title, link=link,
-                                                              note=offline_note(route["id"], lang))}]
+        return [{"type": "text", "body": LOC_NEAR[lang].format(
+            dist=fmt_distance(dist, lang), title=title, link=link, note=offline_note(route["id"], lang))}]
     status = str(live_status().get("status", "")).upper()
     word = STATUS_WORDS.get(status, {}).get(lang, status.lower() or "?")
     far = geo.distance_m(lat, lon, *AREEIRO)
@@ -342,6 +441,8 @@ def handle(user, text=None, choice=None, meta=None):
         store.set_user(user, lang=choice, state="ready")
         meta["lang"] = choice
         meta["events"].append(("language_selected", {"lang": choice, "campaign": tag or None}))
+        if not accepted(user):
+            return [consent_prompt(user, choice, f"c:{tag}" if tag in CAMPAIGNS else "")]
         if tag in CAMPAIGNS:
             meta["campaign"] = tag
             return [welcome(user, CAMPAIGNS[tag], choice, meta, campaign=tag)]
@@ -364,15 +465,29 @@ def handle(user, text=None, choice=None, meta=None):
         store.set_user(user, state="picking")
         return [picker()]
 
+    if text.lower().strip(" !?.") in PRIVACY_WORDS:
+        return [consent_prompt(user, (u or {}).get("lang") or "en")]
+
     word = text.lower().strip(" !?.")
     if word in GUIDE_WORDS:  # "guide" / "guia"… → ask for a location pin with WhatsApp's button
         lang = (u or {}).get("lang") or GUIDE_WORDS[word] or "en"
         meta["lang"] = lang
+        if not accepted(user):
+            return [consent_prompt(user, lang)]
         meta["events"].append(("location_requested", {"lang": lang}))
         return [ask_location(lang)]
 
     c = classify(text)
     meta.update(lang=c["lang"], is_question=c["is_question"])
+    if not accepted(user):  # nothing is answered before the notice is accepted; a question waits for it
+        if not u or not u.get("lang"):
+            if not c["is_question"]:
+                store.set_user(user, state="picking")
+                return [picker()]
+            store.set_user(user, lang=c["lang"])
+        lang = c["lang"] if c["is_question"] else u["lang"]
+        meta["lang"] = lang
+        return [consent_prompt(user, lang, f"q:{text}" if c["is_question"] else "")]
     if c["is_question"]:
         meta.update(intent=c["intent"], topic=c["topic"], trail=c["trail_code"])
         meta["events"].append(("question_asked", {"lang": c["lang"], "intent": c["intent"], "topic": c["topic"],
