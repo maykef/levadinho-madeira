@@ -132,10 +132,12 @@ runs from the Actions tab. What it does:
    (status; note translated to fr/de/pl via MyMemory with English fallback;
    structured weather; timestamp) **plus** `counts`, `regions`, and `trails[]`
    for the dashboard. PR1's own status/note override the coarse index value with
-   our detailed scrape. Bumps `<lastmod>` in `sitemap.xml`; edits **no HTML** —
+   our detailed scrape. Bumps `<lastmod>` in `sitemap.xml`. The only HTML it touches
+   is the `"dateModified"` value in the `WebPage` JSON-LD of the 4 homepages and 4 PR1
+   pages (a freshness signal, since 2026-09-29). It **never writes status into HTML**:
    per-trail cards render via `status.js`, the dashboard via `dashboard.js`.
-4. The Action commits and pushes only if something changed (`status.json` +
-   `sitemap.xml`).
+4. The Action commits and pushes only if something changed (`status.json`,
+   `sitemap.xml` and those 8 pages).
 
 ### Invariants — do not break these
 
@@ -150,7 +152,10 @@ runs from the Actions tab. What it does:
   `{"ok": false}`, note-translation → English fallback) so a transient IPMA or
   MyMemory outage never blanks the whole card.
 - The status card is **rendered client-side** by `status.js` from `status.json`
-  — don't hard-code status into any page's HTML. To change wording or add a
+  — don't hard-code status into any page's HTML. The no-JS fallback inside each
+  `#statusCard` is a neutral, crawlable sentence ("checked every morning against
+  official Visit Madeira / IFCN information…"), never a status. The source note on
+  every page links Visit Madeira (the actual scrape source), IFCN, SIMplifica and IPMA. To change wording or add a
   language, edit the `LANGS` dictionary in `status.js`; to change the data
   shape, edit the updater and `status.js` together. Each status page keeps a
   plain-text fallback inside `#statusCard` for no-JS.
@@ -227,7 +232,7 @@ Email: hello@levadinho-madeira.com (Microsoft 365 via GoDaddy — don't touch it
 These are the substance of the site; verify against official sources before
 changing them:
 
-- PR1 is **one-way** since the April 2026 reopening: Areeiro → Ruivo only, you
+- PR1 is **one-way** since the May 2026 reopening (1 May; daily from 26 June): Areeiro → Ruivo only, you
   finish at Achada do Teixeira (no bus there).
 - PR1 fee: **€10.50** full traverse, **€4.50** for the Areeiro–Pedra Rija
   section when only that is open. Standard PR trails: **€4.50** (operator €3).

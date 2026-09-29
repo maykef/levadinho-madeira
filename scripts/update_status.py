@@ -8,7 +8,8 @@ Summit weather is the official IPMA observation for the Pico do Areeiro station.
 
 v4 change: instead of rewriting HTML, this writes a single language-neutral
 `status.json`. Every homepage (en/fr/de/pl) renders the status card from it via
-`status.js`, so one data file drives all languages. It also bumps sitemap.xml.
+`status.js`, so one data file drives all languages. It also bumps sitemap.xml
+and the "dateModified" value in the WebPage JSON-LD of the homepages and PR1 pages.
 
 Hard rules:
   1. Badge never contradicts the note. If the official note restricts access
@@ -359,6 +360,27 @@ def bump_sitemap(today):
         open(name, "w").write(s)
 
 
+# Pages whose WebPage JSON-LD carries a "dateModified" freshness signal for search engines. The only
+# HTML the updater touches: that one value, never the status (the badge stays client-side, status.js).
+DATE_MODIFIED_PAGES = ["index.html", "fr/index.html", "de/index.html", "pl/index.html",
+                       "pr1/index.html", "fr/pr1/index.html", "de/pr1/index.html", "pl/pr1/index.html"]
+
+
+def bump_date_modified(when):
+    """Set "dateModified" to this run's time. Degrades gracefully (warns) — it's metadata, not status."""
+    for name in DATE_MODIFIED_PAGES:
+        try:
+            s = open(name, encoding="utf-8").read()
+        except FileNotFoundError:
+            print(f"{name} not found — skipping dateModified", file=sys.stderr)
+            continue
+        new, n = re.subn(r'("dateModified":\s*")[^"]*(")', rf"\g<1>{when}\g<2>", s, count=1)
+        if n != 1:
+            print(f"{name}: no dateModified field — skipped", file=sys.stderr)
+            continue
+        open(name, "w", encoding="utf-8").write(new)
+
+
 def main():
     now = datetime.datetime.now(TZ)
     stamp = now.strftime("%Y-%m-%d %H:%M")
@@ -421,6 +443,7 @@ def main():
         f.write("\n")
 
     bump_sitemap(today)
+    bump_date_modified(now.isoformat(timespec="minutes"))
 
     print(f"PR1={status} | trails={len(trails)} | "
           f"open={counts['OPEN']} partial={counts['PARTIAL']} closed={counts['CLOSED']} | {stamp}")
