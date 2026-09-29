@@ -20,9 +20,10 @@ win over anything written here. Compiled 2026-09-26 from the sources listed at t
 - The hardest part comes last: the climb up to the Pico Ruivo shelter (Casa de Abrigo do
   Pico Ruivo). The shelter sits just below the summit and has basic facilities.
 
-## One-way rule (since the reopening on 27 April 2026)
-- PR1 reopened on 27 April 2026, after about 20 months of reconstruction following the
-  August 2024 wildfire.
+## One-way rule (since the reopening in May 2026)
+- The full PR1 reopened on 1 May 2026 (Fridays to Sundays at first, every day since
+  26 June 2026), after about a year and a half closed following the August 2024 wildfire
+  and the rockfall it caused. Only Areeiro–Pedra Rija was open in the meantime.
 - The full route is ONE-WAY: Pico do Areeiro → Pico Ruivo only. You may not walk back the
   same way, and you may not start from Pico Ruivo.
 - Two ways to do it, per the official page:
@@ -106,8 +107,8 @@ win over anything written here. Compiled 2026-09-26 from the sources listed at t
 ## Not confirmed — do not state as fact
 - Parking price at Pico do Areeiro. Reported as about €4/hour, and elsewhere as €4.50
   via SIMplifica. Say "about €4/hour, check on arrival".
-- A reported "full route Fri–Sun, partial only Mon–Thu" schedule from the first weeks
-  after reopening. The current official page lists both options without day limits.
+- The "full route Fri–Sun, partial only Mon–Thu" schedule applied only from 1 May to
+  25 June 2026; since 26 June the full route is open every day (DN, 31 May 2026).
 - Exact number of tunnels and the daily capacity.
 
 ## Sources
