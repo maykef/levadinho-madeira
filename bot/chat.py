@@ -30,7 +30,7 @@ def send(text):
         return brain.handle_consent(USER, text == "/yes")
     codes = [c for c, _ in brain.PICKER["options"]]
     u = store.get_user(USER)
-    if text.isdigit() and 1 <= int(text) <= 5 and u and u.get("state") == "picking":
+    if text.isdigit() and 1 <= int(text) <= 5 and u and (u.get("state") or "").startswith("picking"):
         return brain.handle(USER, choice=codes[int(text) - 1])
     return brain.handle(USER, text=text)
 

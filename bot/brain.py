@@ -76,7 +76,7 @@ TEXT_ONLY = {
 # ---------------------------------------------------------------- location + audio guide
 GUIDE_URL = os.environ.get("GUIDE_URL", "https://microscopy-rig-system.tail53cc58.ts.net/levadinho/guide/")
 AREEIRO = (32.73549, -16.92880)  # PR1 start, from the official Visit Madeira page (trail_facts.json)
-CAMPAIGNS = {"ely": "ely-test"}  # QR tag → guide route (the 19 Oct demo adds "areeiro": "pr1")
+CAMPAIGNS = {"ely": "ely-test", "areeiro": "pr1"}  # QR tag → guide route
 NEAR_M = 3000  # a route's guide is offered when the visitor is this close to its start
 GUIDE_WORDS = {"guide": None, "audio guide": None, "audioguide": None, "guide audio": "fr",
                "guia": "pt", "guia audio": "pt", "guia áudio": "pt", "audioguia": "pt",

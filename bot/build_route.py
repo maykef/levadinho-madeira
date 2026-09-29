@@ -19,21 +19,28 @@ import wave
 from geo import distance_m
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-VOICES = {"en": "en_GB-alba-medium", "pt": "pt_PT-tugão-medium"}
+VOICES = {"en": "en_GB-alba-medium", "pt": "pt_PT-tugão-medium", "fr": "fr_FR-siwis-medium",
+          "de": "de_DE-thorsten-medium", "pl": "pl_PL-gosia-medium"}
 TEMPLATE = {
     "en": {"stop": "Stop {n} of {N}: {name}.", "next": "Next stop: {name}, in about {dist}."},
     "pt": {"stop": "Paragem {n} de {N}: {name}.", "next": "Próxima paragem: {name}, daqui a cerca de {dist}."},
+    "fr": {"stop": "Arrêt {n} sur {N} : {name}.", "next": "Prochain arrêt : {name}, dans environ {dist}."},
+    "de": {"stop": "Halt {n} von {N}: {name}.", "next": "Nächster Halt: {name}, in etwa {dist}."},
+    "pl": {"stop": "Przystanek {n} z {N}: {name}.", "next": "Następny przystanek: {name}, za około {dist}."},
 }
+# metres / kilometre / kilometres, as they follow the "next" phrase (German dative, Polish genitive after "około")
+UNITS = {"en": ("metres", "kilometre", "kilometres"), "pt": ("metros", "quilómetro", "quilómetros"),
+         "fr": ("mètres", "kilomètre", "kilomètres"), "de": ("Metern", "Kilometer", "Kilometern"),
+         "pl": ("metrów", "kilometra", "kilometrów")}
 
 
 def spoken_distance(m, lang):
+    metres, km1, kms = UNITS[lang]
     if m < 950:
-        m = max(50, round(m / 50) * 50)
-        return f"{m} metres" if lang == "en" else f"{m} metros"
+        return f"{max(50, round(m / 50) * 50)} {metres}"
     km = f"{m / 1000:.1f}".removesuffix(".0")
-    if lang == "en":
-        return f"{km} kilometre" + ("" if km == "1" else "s")
-    return f"{km.replace('.', ',')} quilómetro" + ("" if km == "1" else "s")
+    unit = km1 if km == "1" or (lang == "pl" and "." in km) else kms
+    return f"{km if lang == 'en' else km.replace('.', ',')} {unit}"
 
 
 def read_gpx(path):
