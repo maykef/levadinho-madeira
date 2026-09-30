@@ -16,9 +16,9 @@ Two marker-delimited blocks, replaced in place on every run (idempotent):
   LEVADINHO-CTA-HEAD  before </head>   the block's CSS
   LEVADINHO-CTA       in the body      the block + a GoatCounter click event
 
-A page with no LEVADINHO-CTA markers gets the block just before the first of: the
-"Nearby trails" block, the "More guides" block, <footer>. To place it elsewhere, put
-empty markers there by hand; later runs keep that spot.
+The block goes near the TOP of every page (owner's decision 2026-09-30): right below the
+webcam (PR1), else right below the status card (trail pages), else right below </header>.
+Each run moves it there (TOP_SPOTS).
 
 Tags: same tag in every language (the bot detects the language itself). Trail pages use
 their code (web-pr6, web-pr1-2, ...); guide pages have fixed short tags (TAGS below).
@@ -182,6 +182,27 @@ def put(html, key, body, anchors, path):
     sys.exit("FATAL: no anchor for {} in {}".format(key, path))
 
 
+# Owner, 2026-09-30: the block belongs at the TOP of the page — right below the webcam on
+# PR1, right below the status card on trail pages, otherwise right below the page header.
+# Every run moves it there (any earlier position is removed first).
+TOP_SPOTS = [
+    re.compile(r'<div class="livecam">.*?\n</div>\n', re.S),                      # below the webcam
+    re.compile(r'<div class="status-card" id="statusCard"[^>]*>.*?\n</div>\n', re.S),  # below the status card
+    re.compile(r'</header>\n'),                                                    # below the header
+]
+
+
+def place_top(html, body, path):
+    start, end = MARK["LEVADINHO-CTA"]
+    html = re.sub(r"\n?" + re.escape(start) + r".*?" + re.escape(end) + r"\n?", "\n", html, count=1, flags=re.S)
+    block = "{}\n{}\n{}\n".format(start, body, end)
+    for rx in TOP_SPOTS:
+        m = rx.search(html)
+        if m:
+            return html[:m.end()] + "\n" + block + html[m.end():]
+    sys.exit("FATAL: no top spot for the WhatsApp block in {}".format(path))
+
+
 def pages():
     for p in sorted(ROOT.rglob("*.html")):
         parts = p.relative_to(ROOT).parts
@@ -203,8 +224,7 @@ def main():
         if tags.setdefault((lang, tag), rel) != rel:
             sys.exit("FATAL: tag {} used by both {} and {}".format(tag, tags[(lang, tag)], rel))
         html = put(html, "LEVADINHO-CTA-HEAD", CSS, ["<!-- SITE-NAV-HEAD:START", "</head>"], p)
-        html = put(html, "LEVADINHO-CTA", block_html(lang, tag),
-                   ["<!-- SITE-NAV-RELATED:START", "<!-- SITE-NAV-GUIDES:START", "<footer"], p)
+        html = place_top(html, block_html(lang, tag), p)
         p.write_text(html, encoding="utf-8")
         n += 1
     print("WhatsApp CTA written to {} pages ({} tags)".format(n, len({t for _, t in tags})))
