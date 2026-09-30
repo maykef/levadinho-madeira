@@ -33,7 +33,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"La Levada do Rei est-elle ouverte aujourd'hui ?","acceptedAnswer":{"@type":"Answer","text":"Le statut du jour est affiché en direct en haut de cette page, mis à jour chaque matin à partir des informations officielles de l'IFCN / Visit Madeira. L'accès coûte 4,50 € via le portail SIMplifica ; les enfants de moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation."}},
+    {"@type":"Question","name":"La Levada do Rei est-elle ouverte aujourd'hui ?","acceptedAnswer":{"@type":"Answer","text":"Le statut du jour est affiché en direct en haut de cette page, issu de la liste officielle des avis de l'IFCN, avec sa propre date de « mise à jour ». L'accès coûte 4,50 € via le portail SIMplifica ; les enfants de moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation."}},
     {"@type":"Question","name":"Faut-il réserver pour la Levada do Rei ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Le PR18 exige une réservation à l'avance et un paiement de 4,50 € via SIMplifica. Elle est plus calme que les 25 Fontes mais reste une randonnée populaire en forêt de lauriers, alors réservez à l'avance en été. Les moins de 12 ans et les résidents sont gratuits mais doivent figurer nommément sur la réservation."}},
     {"@type":"Question","name":"Où se garer pour la Levada do Rei ?","acceptedAnswer":{"@type":"Answer","text":"Le sentier démarre à la station de traitement des eaux (ETAR) au-dessus de São Jorge, sur la côte nord. Il n'y a qu'un petit parking au départ, alors arrivez tôt ou partagez une voiture ; il n'y a pas de navette."}},
     {"@type":"Question","name":"Quelle est la longueur de la randonnée de la Levada do Rei ?","acceptedAnswer":{"@type":"Answer","text":"Environ 5,3 km à l'aller (à peu près 10,5 km aller-retour), autour de 3 heures, de difficulté facile à modérée. C'est un aller-retour le long d'une levada presque plate à travers une forêt de lauriers dense jusqu'à la source de Ribeiro Bonito, vous revenez donc par le même chemin."}}
@@ -181,7 +181,7 @@ a.tname:hover{text-decoration:underline}
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Réponses sur les sentiers de Madère</div>
   <h1>La Levada do Rei est-elle ouverte aujourd'hui ?</h1>
-  <p class="sub">Levada do Rei (PR18) — de São Jorge à la source de Ribeiro Bonito, à travers une forêt de lauriers profonde. Vérifié chaque matin par rapport au statut officiel de l'IFCN. Voir <a href="/fr/">tous les sentiers de Madère</a> ou <a href="/fr/pr1/">PR1</a>.</p>
+  <p class="sub">Levada do Rei (PR18) — de São Jorge à la source de Ribeiro Bonito, à travers une forêt de lauriers profonde. Statut issu de la liste officielle des avis de l'IFCN, avec sa propre date de « mise à jour ». Voir <a href="/fr/">tous les sentiers de Madère</a> ou <a href="/fr/pr1/">PR1</a>.</p>
 </header>
 
 <div class="status-card" id="statusCard" data-trail="PR18">
@@ -199,6 +199,13 @@ a.tname:hover{text-decoration:underline}
     <dt>Type</dt><dd>Aller-retour</dd>
     <dt>Tarif</dt><dd>€4.50</dd>
   </dl>
+  <!-- TRAIL-EXTRAS:START (scripts/gen_trail_extras.py) -->
+  <dl style="margin-top:5px">
+    <dt>Tunnels / frontale</dt><dd>Tunnel court · lampe inutile</dd>
+    <dt>Exposition / vertige</dt><dd>Modérée</dd>
+  </dl>
+  <p style="font-size:12px;color:var(--ink-soft);margin:8px 0 0;line-height:1.45">Surtout large et doux, mais le panneau IFCN avertit d'un risque de vertige. Le court tunnel ne demande pas de lampe (guides). Source : <a href="https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr18.jpg" target="_blank" rel="noopener">panneau IFCN au départ du sentier</a> · <a href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html" target="_blank" rel="noopener">liste des sentiers IFCN</a>.</p>
+  <!-- TRAIL-EXTRAS:END -->
 </aside>
 
 <div class="waymark thin" aria-hidden="true"></div>
@@ -266,7 +273,7 @@ a.tname:hover{text-decoration:underline}
 </section>
 <!-- SITE-NAV-RELATED:END -->
 <footer>
-  <p>Statut compilé chaque matin à partir de l'<a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> et de <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, avec la météo de l'<a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.</p>
+  <p>Statut compilé à partir de l'<a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> et de <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, avec la météo de l'<a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.</p>
   <p style="margin-top:6px">Photo : VillageHero, <a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 2.0, redimensionnée.</p>
 </footer>
 </div>

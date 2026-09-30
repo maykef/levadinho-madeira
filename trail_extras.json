@@ -1,0 +1,690 @@
+{
+ "_meta": {
+  "generated_by": "scripts/gen_trail_extras.py",
+  "from": "seo_research/facts/tunnels_exposure.json",
+  "facts_generated": "2026-09-30",
+  "primary_source": "IFCN trailhead information panels ('Atenção / Caution' box), linked from https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html",
+  "schema": "tunnels: true or null (never false: no mention is not proof of no tunnel); torch: yes|no|recommended|null; exposure: low|moderate|high|null; ifcn_warning: vertigo/cliff/torch flags + EN text of the IFCN panel's caution box (null if no panel); source: where the tunnel/exposure values come from; notes: short localised note or null."
+ },
+ "PR1": {
+  "tunnels": true,
+  "torch": "yes",
+  "exposure": "high",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": true,
+   "text_en": "IFCN 2005 PR1 leaflet: tunnels, carry a torch; weather changes, warm layer.",
+   "panel": "https://ifcn.madeira.gov.pt/images/Doc_Artigos/Percursos_Pedestres/PR1.pdf"
+  },
+  "source": {
+   "kind": "leaflet",
+   "url": "https://ifcn.madeira.gov.pt/images/Doc_Artigos/Percursos_Pedestres/PR1.pdf"
+  },
+  "notes": {
+   "en": "Tunnels on the west variant; narrow ridge and steep rock stairs — not for vertigo sufferers.",
+   "pt": "Túneis na variante oeste; crista estreita e escadas íngremes na rocha — não é para quem sofre de vertigens.",
+   "fr": "Tunnels sur la variante ouest ; crête étroite et escaliers raides taillés dans la roche — déconseillé en cas de vertige.",
+   "de": "Tunnel auf der Westvariante; schmaler Grat und steile Felstreppen — nichts für Menschen mit Höhenangst.",
+   "pl": "Tunele na wariancie zachodnim; wąska grań i strome skalne schody — nie dla osób z lękiem wysokości."
+  }
+ },
+ "PR1.1": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing; path may be slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr1.1.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR1.2": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather subject to frequent changes, take warm clothing.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr1.2.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR1.3": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Mountain hike, steep climbs and descents, physical preparation; warm clothing; slippery; carry water.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr1.3.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR2": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing; path may be slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr2.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR3": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "7.2 km; 745 m descent; irregular surface; take care crossing streams in rain; fog.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr3a.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR3.1": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "4.2 km, 640 m descent; crosses 3 roads; narrow irregular 1.3 km section; slippery cobbles.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr3.1a.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR4": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": null,
+  "source": null,
+  "notes": null
+ },
+ "PR5": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing; carry water.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr5.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR6": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "high",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": true,
+   "cliff": false,
+   "torch": false,
+   "text_en": "PR 6 can cause vertigo; do not lean on barriers; section pk 3+300 to 4+100 one direction only.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr6.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr6.jpg"
+  },
+  "notes": {
+   "en": "IFCN panel: PR6 can cause vertigo; don't lean on the barriers. No tunnel on the standard route (the ~800 m tunnel is PR6.6).",
+   "pt": "Painel do IFCN: o PR6 pode causar vertigens; não se apoie nas proteções. Sem túnel no percurso normal (o túnel de ~800 m é o PR6.6).",
+   "fr": "Panneau IFCN : le PR6 peut donner le vertige ; ne vous appuyez pas sur les barrières. Pas de tunnel sur l'itinéraire standard (le tunnel de ~800 m, c'est le PR6.6).",
+   "de": "IFCN-Tafel: Der PR6 kann Schwindel auslösen; nicht auf die Geländer stützen. Kein Tunnel auf der Standardroute (der ~800-m-Tunnel gehört zum PR6.6).",
+   "pl": "Tablica IFCN: PR6 może wywołać zawroty głowy; nie opieraj się o barierki. Na standardowej trasie nie ma tunelu (tunel ~800 m to PR6.6)."
+  }
+ },
+ "PR6.1": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": null,
+  "source": null,
+  "notes": null
+ },
+ "PR6.2": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "low",
+  "tunnel_count": null,
+  "ifcn_warning": null,
+  "source": {
+   "kind": "guides",
+   "url": "https://hikingmadeira.com/blog/hiking-madeira-with-fear-of-heights/"
+  },
+  "notes": {
+   "en": "Guides rate it low-exposure. Its 'heather tunnels' are plant arches, not rock tunnels.",
+   "pt": "Os guias consideram-no pouco exposto. Os «túneis de urze» são arcos de vegetação, não túneis na rocha.",
+   "fr": "Les guides le jugent peu exposé. Ses « tunnels de bruyère » sont des arches végétales, pas des tunnels rocheux.",
+   "de": "Führer stufen ihn als wenig ausgesetzt ein. Die „Heidetunnel“ sind Pflanzenbögen, keine Felstunnel.",
+   "pl": "Przewodniki oceniają ekspozycję jako niską. „Tunele z wrzośca” to roślinne łuki, nie skalne tunele."
+  }
+ },
+ "PR6.3": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": null,
+  "source": null,
+  "notes": null
+ },
+ "PR6.4": {
+  "tunnels": true,
+  "torch": "yes",
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": true,
+   "text_en": "Weather changes, warm clothing. Tunnels on the way, carry a flashlight.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/PR6_4.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/PR6_4.jpg"
+  },
+  "notes": {
+   "en": "IFCN panel: tunnels on the way, carry a flashlight (Túnel das Estrebarias is on a side branch).",
+   "pt": "Painel do IFCN: túneis pelo caminho, leve lanterna (o Túnel das Estrebarias fica num ramal).",
+   "fr": "Panneau IFCN : tunnels sur le parcours, prenez une lampe (le Túnel das Estrebarias est sur un embranchement).",
+   "de": "IFCN-Tafel: Tunnel unterwegs, Lampe mitnehmen (der Túnel das Estrebarias liegt an einem Abzweig).",
+   "pl": "Tablica IFCN: tunele po drodze, weź latarkę (Túnel das Estrebarias leży na odgałęzieniu)."
+  }
+ },
+ "PR6.5": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Fog, disorientation risk, do not leave trail; warm clothing; slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/PR6_5.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR6.6": {
+  "tunnels": true,
+  "torch": "yes",
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": true,
+   "text_en": "Carry a flashlight, there are tunnels along the way.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/pr6.6.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/pr6.6.jpg"
+  },
+  "notes": {
+   "en": "Túnel do Cavalo, about 800 m long (Visit Madeira). IFCN panel: carry a flashlight.",
+   "pt": "Túnel do Cavalo, com cerca de 800 m (Visit Madeira). Painel do IFCN: leve lanterna.",
+   "fr": "Túnel do Cavalo, environ 800 m (Visit Madeira). Panneau IFCN : prenez une lampe.",
+   "de": "Túnel do Cavalo, rund 800 m lang (Visit Madeira). IFCN-Tafel: Lampe mitnehmen.",
+   "pl": "Túnel do Cavalo, ok. 800 m (Visit Madeira). Tablica IFCN: weź latarkę."
+  }
+ },
+ "PR6.8": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "low",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/pr6.8.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/pr6.8.jpg"
+  },
+  "notes": {
+   "en": "Built for accessibility ('Um caminho para todos'), about 1.2 km each way.",
+   "pt": "Preparado para acessibilidade («Um caminho para todos»), cerca de 1,2 km por sentido.",
+   "fr": "Aménagé pour l'accessibilité (« Um caminho para todos »), environ 1,2 km à l'aller.",
+   "de": "Barrierearm angelegt („Um caminho para todos“), rund 1,2 km pro Richtung.",
+   "pl": "Przystosowany dla osób z niepełnosprawnościami („Um caminho para todos”), ok. 1,2 km w jedną stronę."
+  }
+ },
+ "PR7": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Some parts slippery, wear non-slip footwear.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr7.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR8": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "high",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": true,
+   "torch": false,
+   "text_en": "Do not get too close to the cliff-face; unstable ground; carry water.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr8.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr8.jpg"
+  },
+  "notes": {
+   "en": "IFCN panel: keep away from the cliff edge; the ground is unstable in many places.",
+   "pt": "Painel do IFCN: não se aproxime da arriba; o terreno é instável em muitos pontos.",
+   "fr": "Panneau IFCN : ne vous approchez pas du bord de la falaise ; le sol est instable par endroits.",
+   "de": "IFCN-Tafel: Abstand zur Klippenkante halten; der Boden ist vielerorts instabil.",
+   "pl": "Tablica IFCN: nie podchodź do krawędzi klifu; grunt w wielu miejscach jest niestabilny."
+  }
+ },
+ "PR9": {
+  "tunnels": true,
+  "torch": "yes",
+  "exposure": "high",
+  "tunnel_count": 4,
+  "ifcn_warning": {
+   "vertigo": true,
+   "cliff": false,
+   "torch": true,
+   "text_en": "Carry a torch, there are tunnels; path may be slippery; danger of vertigo.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr9.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr9.jpg"
+  },
+  "notes": {
+   "en": "Four rock tunnels (Visit Madeira). IFCN panel: carry a torch; danger of vertigo.",
+   "pt": "Quatro túneis na rocha (Visit Madeira). Painel do IFCN: leve lanterna; perigo de vertigens.",
+   "fr": "Quatre tunnels dans la roche (Visit Madeira). Panneau IFCN : prenez une lampe ; risque de vertige.",
+   "de": "Vier Felstunnel (Visit Madeira). IFCN-Tafel: Lampe mitnehmen; Schwindelgefahr.",
+   "pl": "Cztery skalne tunele (Visit Madeira). Tablica IFCN: weź latarkę; ryzyko zawrotów głowy."
+  }
+ },
+ "PR9.1": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "low",
+  "tunnel_count": null,
+  "ifcn_warning": null,
+  "source": {
+   "kind": "visitmadeira",
+   "url": "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/pr-91-levada-do-caldeirao-verde-um-caminho-para-todos/"
+  },
+  "notes": {
+   "en": "Built for accessibility ('Um caminho para todos'), about 2 km.",
+   "pt": "Preparado para acessibilidade («Um caminho para todos»), cerca de 2 km.",
+   "fr": "Aménagé pour l'accessibilité (« Um caminho para todos »), environ 2 km.",
+   "de": "Barrierearm angelegt („Um caminho para todos“), rund 2 km.",
+   "pl": "Przystosowany dla osób z niepełnosprawnościami („Um caminho para todos”), ok. 2 km."
+  }
+ },
+ "PR10": {
+  "tunnels": true,
+  "torch": "yes",
+  "exposure": "moderate",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": true,
+   "cliff": false,
+   "torch": true,
+   "text_en": "Danger of vertigo. Carry a torch, there are tunnels. Path may be slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr10.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr10.jpg"
+  },
+  "notes": {
+   "en": "IFCN panel: danger of vertigo, and tunnels — carry a torch. Some guides rate the exposure low.",
+   "pt": "Painel do IFCN: perigo de vertigens e túneis — leve lanterna. Alguns guias consideram a exposição baixa.",
+   "fr": "Panneau IFCN : risque de vertige et tunnels — prenez une lampe. Certains guides jugent l'exposition faible.",
+   "de": "IFCN-Tafel: Schwindelgefahr und Tunnel — Lampe mitnehmen. Manche Führer stufen die Ausgesetztheit als gering ein.",
+   "pl": "Tablica IFCN: ryzyko zawrotów głowy i tunele — weź latarkę. Niektóre przewodniki oceniają ekspozycję jako niską."
+  }
+ },
+ "PR11": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "low",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing; path may be slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr11.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr11.jpg"
+  },
+  "notes": {
+   "en": "Wide, easy path; no vertigo warning on the IFCN panel. The Balcões viewpoint has big (fenced) drops.",
+   "pt": "Caminho largo e fácil; sem aviso de vertigens no painel do IFCN. O miradouro dos Balcões tem grandes desníveis (vedados).",
+   "fr": "Chemin large et facile ; pas d'avertissement de vertige sur le panneau IFCN. Le belvédère des Balcões surplombe de grands à-pics (clôturés).",
+   "de": "Breiter, leichter Weg; keine Schwindelwarnung auf der IFCN-Tafel. Am Aussichtspunkt Balcões geht es tief hinab (gesichert).",
+   "pl": "Szeroka, łatwa ścieżka; brak ostrzeżenia o zawrotach głowy na tablicy IFCN. Przy punkcie widokowym Balcões są duże (ogrodzone) urwiska."
+  }
+ },
+ "PR12": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Carry water.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr12.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR13": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "low",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Frequent fog, disorientation risk, do not leave trail; warm clothing.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr13.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr13.jpg"
+  },
+  "notes": {
+   "en": "No vertigo warning on the IFCN panel; the risk here is fog — stay on the trail.",
+   "pt": "Sem aviso de vertigens no painel do IFCN; aqui o risco é o nevoeiro — não saia do trilho.",
+   "fr": "Pas d'avertissement de vertige sur le panneau IFCN ; le risque ici, c'est le brouillard — restez sur le sentier.",
+   "de": "Keine Schwindelwarnung auf der IFCN-Tafel; das Risiko hier ist Nebel — bleiben Sie auf dem Weg.",
+   "pl": "Brak ostrzeżenia o zawrotach głowy na tablicy IFCN; tu ryzykiem jest mgła — nie schodź ze szlaku."
+  }
+ },
+ "PR13.1": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing; slippery, non-slip footwear.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/PR13_1.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR14": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "moderate",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": true,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Danger of vertigo. Path may be slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr14.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr14.jpg"
+  },
+  "notes": {
+   "en": "The IFCN panel warns of vertigo, although guides call it an easy walk.",
+   "pt": "O painel do IFCN alerta para vertigens, embora os guias o considerem um passeio fácil.",
+   "fr": "Le panneau IFCN avertit d'un risque de vertige, même si les guides la jugent facile.",
+   "de": "Die IFCN-Tafel warnt vor Schwindelgefahr, obwohl Führer sie als leichte Wanderung einstufen.",
+   "pl": "Tablica IFCN ostrzega przed zawrotami głowy, choć przewodniki uznają trasę za łatwą."
+  }
+ },
+ "PR15": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": null,
+  "source": null,
+  "notes": null
+ },
+ "PR16": {
+  "tunnels": true,
+  "torch": "yes",
+  "exposure": "high",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": true,
+   "cliff": false,
+   "torch": true,
+   "text_en": "Danger of vertigo. Carry a torch, there are tunnels along the path.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr16.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr16.jpg"
+  },
+  "notes": {
+   "en": "IFCN panel: danger of vertigo; tunnels — carry a torch. The last tunnel is about 1 km long (20–25 min).",
+   "pt": "Painel do IFCN: perigo de vertigens; túneis — leve lanterna. O último túnel tem cerca de 1 km (20–25 min).",
+   "fr": "Panneau IFCN : risque de vertige ; tunnels — prenez une lampe. Le dernier tunnel fait environ 1 km (20–25 min).",
+   "de": "IFCN-Tafel: Schwindelgefahr; Tunnel — Lampe mitnehmen. Der letzte Tunnel ist rund 1 km lang (20–25 Min.).",
+   "pl": "Tablica IFCN: ryzyko zawrotów głowy; tunele — weź latarkę. Ostatni tunel ma ok. 1 km (20–25 min)."
+  }
+ },
+ "PR17": {
+  "tunnels": true,
+  "torch": "yes",
+  "exposure": "high",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": true,
+   "text_en": "Long-distance; physical preparation; weather changes; warm clothing and waterproof; tunnels, carry a torch; slippery in places.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/PR17.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/PR17.jpg"
+  },
+  "notes": {
+   "en": "IFCN panel: tunnels, carry a torch. Guides say it is not for vertigo sufferers.",
+   "pt": "Painel do IFCN: túneis, leve lanterna. Os guias dizem que não é para quem sofre de vertigens.",
+   "fr": "Panneau IFCN : tunnels, prenez une lampe. Selon les guides, déconseillé en cas de vertige.",
+   "de": "IFCN-Tafel: Tunnel, Lampe mitnehmen. Laut Führern nichts für Menschen mit Höhenangst.",
+   "pl": "Tablica IFCN: tunele, weź latarkę. Według przewodników nie dla osób z lękiem wysokości."
+  }
+ },
+ "PR18": {
+  "tunnels": true,
+  "torch": "no",
+  "exposure": "moderate",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": true,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Danger of vertigo. Path may be slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr18.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr18.jpg"
+  },
+  "notes": {
+   "en": "Mostly wide and gentle, but the IFCN panel warns of vertigo. The short tunnel needs no torch (guides).",
+   "pt": "Sobretudo largo e suave, mas o painel do IFCN alerta para vertigens. O túnel curto dispensa lanterna (guias).",
+   "fr": "Surtout large et doux, mais le panneau IFCN avertit d'un risque de vertige. Le court tunnel ne demande pas de lampe (guides).",
+   "de": "Meist breit und sanft, doch die IFCN-Tafel warnt vor Schwindelgefahr. Der kurze Tunnel braucht keine Lampe (Führer).",
+   "pl": "Przeważnie szeroko i łagodnie, ale tablica IFCN ostrzega przed zawrotami głowy. Krótki tunel nie wymaga latarki (przewodniki)."
+  }
+ },
+ "PR19": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": "high",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": true,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Danger of vertigo.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/PR19.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/PR19.jpg"
+  },
+  "notes": {
+   "en": "IFCN panel: danger of vertigo.",
+   "pt": "Painel do IFCN: perigo de vertigens.",
+   "fr": "Panneau IFCN : risque de vertige.",
+   "de": "IFCN-Tafel: Schwindelgefahr.",
+   "pl": "Tablica IFCN: ryzyko zawrotów głowy."
+  }
+ },
+ "PR20": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Path may be slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr20.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR21": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing; slippery; carry water.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr21.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR22": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr22.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR27": {
+  "tunnels": null,
+  "torch": null,
+  "exposure": null,
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": false,
+   "text_en": "Weather changes, warm clothing; fog, disorientation; do not leave the trail.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/PR27.jpg"
+  },
+  "source": null,
+  "notes": null
+ },
+ "PR28": {
+  "tunnels": true,
+  "torch": "yes",
+  "exposure": "moderate",
+  "tunnel_count": null,
+  "ifcn_warning": {
+   "vertigo": false,
+   "cliff": false,
+   "torch": true,
+   "text_en": "Technical and physical particularities; weather changes; warm and waterproof clothing; tunnels, carry a flashlight; slippery.",
+   "panel": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/pr28.jpg"
+  },
+  "source": {
+   "kind": "panel",
+   "url": "https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/paineis/pr28.jpg"
+  },
+  "notes": {
+   "en": "IFCN panel: tunnels (carry a flashlight) and technical sections. The ~1.7 km tunnel is on the Calheta access route, not on PR28.",
+   "pt": "Painel do IFCN: túneis (leve lanterna) e troços técnicos. O túnel de ~1,7 km fica no acesso pela Calheta, não no PR28.",
+   "fr": "Panneau IFCN : tunnels (prenez une lampe) et passages techniques. Le tunnel de ~1,7 km se trouve sur l'accès depuis Calheta, pas sur le PR28.",
+   "de": "IFCN-Tafel: Tunnel (Lampe mitnehmen) und technische Abschnitte. Der ~1,7-km-Tunnel liegt am Zugang von Calheta, nicht am PR28.",
+   "pl": "Tablica IFCN: tunele (weź latarkę) i odcinki techniczne. Tunel ~1,7 km leży na dojściu od Calheta, nie na PR28."
+  }
+ }
+}

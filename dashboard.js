@@ -16,7 +16,9 @@
       wind: "wind", rain: "rain", fog: "likely in cloud",
       today: "Today's status →", nomatch: "No trail matches that.",
       mmnote: "mountain ≠ coast; fog and wind change fast up high.",
-      loading: "Live status is loading… if it doesn't appear, check the official sources below."
+      loading: "Live status is loading… if it doesn't appear, check the official sources below.",
+      xfNoVert: "No vertigo", xfTunnels: "Has tunnels / bring a torch",
+      xfNote: "Only trails with sourced tunnel/vertigo data are shown (mostly IFCN trailhead panels)."
     },
     pt: {
       updated: "verificado", ifcnUpd: "Lista IFCN atualizada", mtime: "(hora da Madeira)",
@@ -30,6 +32,8 @@
       today: "Estado de hoje →", nomatch: "Nenhum percurso corresponde à pesquisa.",
       mmnote: "montanha ≠ costa; o nevoeiro e o vento mudam depressa em altitude.",
       loading: "O estado em direto está a carregar… se não aparecer, consulte as fontes oficiais abaixo.",
+      xfNoVert: "Sem vertigens", xfTunnels: "Com túneis / leve lanterna",
+      xfNote: "Só são mostrados os percursos com dados documentados sobre túneis/vertigens (sobretudo painéis do IFCN).",
       decimalComma: true
     },
     fr: {
@@ -42,7 +46,9 @@
       region: { summit: "Sommet", north: "Nord", west: "Ouest", east: "Est", south: "Côte" },
       wind: "vent", rain: "pluie", fog: "sans doute dans les nuages",
       today: "État du jour →", nomatch: "Aucun sentier ne correspond.",
-      mmnote: "montagne ≠ côte ; le brouillard et le vent changent vite en altitude."
+      mmnote: "montagne ≠ côte ; le brouillard et le vent changent vite en altitude.",
+      xfNoVert: "Sans vertige", xfTunnels: "Tunnels / prenez une lampe",
+      xfNote: "Seuls les sentiers avec des données sourcées sur les tunnels et le vertige sont affichés (surtout les panneaux IFCN)."
     },
     de: {
       updated: "geprüft", ifcnUpd: "IFCN-Liste aktualisiert", mtime: "(Madeira-Zeit)",
@@ -54,7 +60,9 @@
       region: { summit: "Gipfel", north: "Norden", west: "Westen", east: "Osten", south: "Küste" },
       wind: "Wind", rain: "Regen", fog: "wohl in Wolken",
       today: "Heutiger Status →", nomatch: "Kein Weg passt dazu.",
-      mmnote: "Berg ≠ Küste; Nebel und Wind ändern sich oben schnell."
+      mmnote: "Berg ≠ Küste; Nebel und Wind ändern sich oben schnell.",
+      xfNoVert: "Schwindelfrei", xfTunnels: "Mit Tunneln / Lampe mitnehmen",
+      xfNote: "Nur Wege mit belegten Tunnel-/Schwindel-Daten werden angezeigt (meist IFCN-Infotafeln)."
     },
     pl: {
       updated: "sprawdzono", ifcnUpd: "Lista IFCN zaktualizowana", mtime: "(czas Madery)",
@@ -66,7 +74,9 @@
       region: { summit: "Szczyt", north: "Północ", west: "Zachód", east: "Wschód", south: "Wybrzeże" },
       wind: "wiatr", rain: "deszcz", fog: "pewnie we mgle",
       today: "Dzisiejszy status →", nomatch: "Brak pasujących szlaków.",
-      mmnote: "góry ≠ wybrzeże; mgła i wiatr szybko się zmieniają na wysokości."
+      mmnote: "góry ≠ wybrzeże; mgła i wiatr szybko się zmieniają na wysokości.",
+      xfNoVert: "Bez lęku wysokości", xfTunnels: "Z tunelami / weź latarkę",
+      xfNote: "Pokazano tylko szlaki z udokumentowanymi danymi o tunelach i ekspozycji (głównie tablice IFCN)."
     }
   };
 
@@ -90,6 +100,15 @@
     return T.defNote[t.status] || "";
   }
 
+  // Tunnel / exposure data from /trail_extras.json (null = no sourced data).
+  var EXTRAS = null;
+  function xattrs(code) {
+    var x = EXTRAS && EXTRAS[code];
+    if (!x) return ' data-exp="" data-tun=""';
+    var tun = x.tunnels === true || x.torch === "yes" || x.torch === "recommended";
+    return ' data-exp="' + esc(x.exposure || "") + '" data-tun="' + (tun ? "1" : "") + '"';
+  }
+
   function card(t, T, lang, showNote) {
     var temp = (t.temp != null) ? " · " + num(t.temp, T) + "°C" : "";
     // status.json holds the English path; pt/fr/de/pl boards link to their own spoke.
@@ -100,7 +119,7 @@
     var note = showNote ? '<div class="tnote">' + esc(noteFor(t, T, lang)) + "</div>" : "";
     var key = (t.name + " " + t.code).toLowerCase();
     return '<div class="tcard ' + t.status + '" data-status="' + t.status + '" data-key="' + esc(key) +
-      '" data-pop="' + (t.popular ? 1 : 0) + '">' +
+      '" data-pop="' + (t.popular ? 1 : 0) + '"' + xattrs(t.code) + '>' +
       '<div class="trow">' + tname + esc(t.name) + ' <span class="tcode">' + esc(t.code) +
       "</span>" + (page ? "</a>" : "</span>") + '<span class="tbadge ' + t.status + '">' + T.badge[t.status] + "</span></div>" +
       note +
@@ -147,14 +166,17 @@
 
   function wireFilters(T) {
     var search = el("trailSearch"), chips = el("chips");
-    var filter = "all", q = "";
+    var filter = "all", q = "", xf = { novert: false, tunnels: false };
     function apply() {
       var cards = document.querySelectorAll(".tcard"), any = false;
       cards.forEach(function (el2) {
         var okF = filter === "all" || (filter === "popular" ? el2.dataset.pop === "1" : el2.dataset.status === filter);
         var okQ = !q || el2.dataset.key.indexOf(q) !== -1;
-        var show = okF && okQ; el2.hidden = !show; if (show) any = true;
+        // Tunnel / vertigo toggles: trails without sourced data are hidden while one is on.
+        var okX = (!xf.novert || el2.dataset.exp === "low") && (!xf.tunnels || el2.dataset.tun === "1");
+        var show = okF && okQ && okX; el2.hidden = !show; if (show) any = true;
       });
+      var xn = el("xfNote"); if (xn) xn.hidden = !(xf.novert || xf.tunnels);
       // hide a section header whose grid has no visible cards
       document.querySelectorAll(".grid").forEach(function (g) {
         var vis = g.querySelectorAll(".tcard:not([hidden])").length;
@@ -165,19 +187,49 @@
     }
     if (search) search.addEventListener("input", function () { q = search.value.trim().toLowerCase(); apply(); });
     if (chips) chips.addEventListener("click", function (e) {
+      var x = e.target.closest("[data-xf]");
+      if (x) { toggleX(x); return; }
       var b = e.target.closest("[data-filter]"); if (!b) return;
       filter = b.dataset.filter;
-      chips.querySelectorAll(".chip").forEach(function (c) { c.classList.toggle("on", c === b); });
+      chips.querySelectorAll(".chip[data-filter]").forEach(function (c) { c.classList.toggle("on", c === b); });
       apply();
     });
+    function toggleX(x) {
+      var k = x.dataset.xf; xf[k] = !xf[k];
+      x.classList.toggle("on", xf[k]); x.setAttribute("aria-pressed", xf[k] ? "true" : "false");
+      apply();
+    }
+    // Add the two toggles only when /trail_extras.json loaded (fail quietly otherwise).
+    if (chips && EXTRAS && !chips.querySelector("[data-xf]")) {
+      [["novert", T.xfNoVert || LANGS.en.xfNoVert], ["tunnels", T.xfTunnels || LANGS.en.xfTunnels]].forEach(function (p) {
+        var s = document.createElement("span");
+        s.className = "chip"; s.dataset.xf = p[0]; s.textContent = p[1];
+        s.setAttribute("role", "button"); s.setAttribute("tabindex", "0"); s.setAttribute("aria-pressed", "false");
+        s.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleX(s); }
+        });
+        chips.appendChild(s);
+      });
+      var n = document.createElement("p");
+      n.id = "xfNote"; n.hidden = true;
+      n.style.cssText = "font-size:13px;color:#4A5F56;margin:6px 0 0";
+      n.textContent = T.xfNote || LANGS.en.xfNote;
+      chips.insertAdjacentElement("afterend", n);
+    }
   }
 
   var root = el("trailBoard");
   if (!root) return;
   var lang = (document.documentElement.lang || "en").slice(0, 2).toLowerCase();
   var T = LANGS[lang] || LANGS.en;
+  // Optional: tunnel / exposure data. A missing or broken file just means no toggles.
+  var extrasP = fetch("/trail_extras.json", { cache: "no-cache" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .catch(function () { return null; });
   fetch("/status.json", { cache: "no-cache" })
     .then(function (r) { return r.json(); })
-    .then(function (d) { render(d, T, lang); })
+    .then(function (d) {
+      return extrasP.then(function (x) { EXTRAS = (x && typeof x === "object") ? x : null; render(d, T, lang); });
+    })
     .catch(function () { root.innerHTML = '<p style="color:#4A5F56">' + esc(T.loading || LANGS.en.loading) + "</p>"; });
 })();

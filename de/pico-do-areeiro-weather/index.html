@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================= CONFIG — edit as needed ================== -->
+<script>
+const CONFIG = {
+  goatcounterCode: "madeira-levadinho",
+  lastUpdated: "2026-09-30"
+};
+</script>
+<!-- ============================================================ -->
+
+<title>Pico do Arieiro (Areeiro) Webcam &amp; Wetter live: gemessene Werte am Gipfel</title>
+<meta name="description" content="Pico do Arieiro / Pico do Areeiro Webcam live und der neueste gemessene IPMA-Wert am Gipfel: Temperatur, Luftfeuchte, Wind, Unterschied zu Funchal, Sonnenaufgang heute und PR1-Status.">
+
+<link rel="canonical" href="https://levadinho-madeira.com/de/pico-do-areeiro-weather/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://levadinho-madeira.com/de/pico-do-areeiro-weather/">
+<meta property="og:title" content="Pico do Arieiro Webcam &amp; Wetter: gemessen, nicht geraten">
+<meta property="og:description" content="NetMadeira-Webcam live, IPMA-Gipfelmessung vs. Funchal, Sonnenaufgang heute und PR1-Status.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/pico-do-areeiro-weather/">
+<link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/pico-do-areeiro-weather/">
+<link rel="alternate" hreflang="fr" href="https://levadinho-madeira.com/fr/pico-do-areeiro-weather/">
+<link rel="alternate" hreflang="de" href="https://levadinho-madeira.com/de/pico-do-areeiro-weather/">
+<link rel="alternate" hreflang="pl" href="https://levadinho-madeira.com/pl/pico-do-areeiro-weather/">
+<link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/pico-do-areeiro-weather/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "url": "https://levadinho-madeira.com/de/pico-do-areeiro-weather/",
+ "name": "Pico do Arieiro (Areeiro) Webcam & Wetter live: gemessene Werte am Gipfel",
+ "description": "Pico do Arieiro / Pico do Areeiro Webcam live und der neueste gemessene IPMA-Wert am Gipfel: Temperatur, Luftfeuchte, Wind, Unterschied zu Funchal, Sonnenaufgang heute und PR1-Status.",
+ "inLanguage": "de",
+ "dateModified": "2026-09-30",
+ "isPartOf": {
+  "@type": "WebSite",
+  "name": "Levadinho",
+  "url": "https://levadinho-madeira.com/"
+ }
+}
+</script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Gibt es eine Live-Webcam am Pico do Arieiro (Areeiro)?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Ja. NetMadeira betreibt am Gipfel eine Live-Kamera, die zwischen Aussichtspunkt, Beginn des PR1 und den umliegenden Gipfeln schwenkt. Sie ist auf dieser Seite mit dem Einbettungscode von NetMadeira eingebunden; dieselbe Kamera gibt es bei Windy. Manchmal ist sie offline."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Wie viel kälter ist es am Pico do Arieiro als in Funchal?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Oft etwa 10–14 °C, je nach Wetterlage. Am 29.–30. September 2026 maß IPMA am Gipfel 8,8 bis 13,8 °C weniger als in Funchal. Es gab schon Frost (−3,3 °C am 19. März 2026) und Schnee (7. April 2026). Diese Seite zeigt das aktuelle gemessene Wertepaar."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Sehe ich bei Sonnenaufgang ein Wolkenmeer?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Das kann niemand versprechen. Die Passat-Inversion hält die Wolken oft unter den Gipfeln, aber der Pico do Areeiro selbst hat im Schnitt 229 Nebeltage im Jahr. Prüfen Sie vorher Webcam und Luftfeuchte am Gipfel: Unter etwa 90 % ist die Station wahrscheinlich außerhalb der Wolke."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Wann ist Sonnenaufgang am Pico do Arieiro?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Zwischen etwa 06:59 Uhr Mitte Juni und 08:10 Uhr Anfang Januar (Madeira-Zeit), Anfang Oktober gegen 08:00 Uhr. Diese Seite berechnet die heutige Zeit. Vom Gipfel aus erscheint die Sonne bei freiem Osthorizont etwa 6 Minuten früher."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Ist das eine Wettervorhersage?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Nein. Es sind stündlich gemessene Beobachtungen der IPMA-Station Pico do Areeiro. Für eine Prognose nutzen Sie IPMA, Windy oder eine Bergwettervorhersage; die Links stehen auf dieser Seite."
+   }
+  }
+ ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --go:#1FAF54; --card:#FFFFFF; --line:#E3E1D8; --warn:#B3372E;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55;
+  padding:0 16px 40px; max-width:700px; margin:0 auto}
+.waymark{height:14px; margin:0 -16px;
+  background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.waymark.thin{height:8px; margin:28px 0; border-radius:2px}
+header{padding:20px 0 6px}
+.brand{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
+h1{font-size:clamp(25px,6.6vw,32px); line-height:1.14; font-weight:800; letter-spacing:-.02em; margin:6px 0 2px}
+.sub{color:var(--ink-soft); font-size:15px}
+.langs{display:flex; gap:6px; margin:0 0 4px; list-style:none; padding:0}
+.langs a{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none;
+  color:var(--ink-soft); padding:3px 9px; border:1px solid var(--line); border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink); color:#fff; border-color:var(--ink)}
+.alert{background:#EEF5EF; border:1px solid #CFE3D4; border-left:4px solid var(--go);
+  border-radius:0 10px 10px 0; padding:12px 14px; margin-top:16px; font-size:15px}
+section{margin-top:26px}
+h2{font-size:19px; font-weight:800; letter-spacing:-.01em; margin-bottom:8px}
+h3{font-size:16px; font-weight:750; margin:14px 0 4px}
+p{margin-bottom:9px; font-size:15.5px}
+ol,ul{padding-left:22px; margin-bottom:9px}
+li{margin-bottom:7px; font-size:15.5px}
+.tbl-wrap{overflow-x:auto; margin:12px 0; border:1px solid var(--line); border-radius:12px}
+table{border-collapse:collapse; width:100%; font-size:14px; background:var(--card)}
+caption{caption-side:top; text-align:left; font-size:13px; color:var(--ink-soft); padding:10px 14px 0}
+th,td{padding:9px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{background:#F2F1E9; font-weight:750; letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:none}
+td.p{font-variant-numeric:tabular-nums; font-weight:700; white-space:nowrap}
+.fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
+.status-card{background:var(--card); border:1px solid var(--line); border-radius:14px;
+  margin-top:12px; overflow:hidden; box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex; align-items:center; gap:14px; padding:16px 18px 10px}
+.status-badge{font-size:clamp(26px,8vw,36px); font-weight:900; letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)} .status-badge.PARTIAL{color:var(--partial)} .status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)} .status-dot.PARTIAL{background:var(--partial)} .status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 14px; font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line); padding:10px 18px; font-size:13px; color:var(--ink-soft);
+  font-variant-numeric:tabular-nums; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+.wx{background:var(--card); border:1px solid var(--line); border-radius:14px; margin-top:16px; overflow:hidden;
+  box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.wx-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:560px){.wx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{padding:12px 14px; border-bottom:1px solid var(--line); border-right:1px solid var(--line)}
+.tile .k{font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--ink-soft)}
+.tile .v{font-size:26px; font-weight:850; letter-spacing:-.01em; font-variant-numeric:tabular-nums; line-height:1.25}
+.tile .s{font-size:13px; color:var(--ink-soft); line-height:1.35}
+.flags{padding:4px 14px 0}
+.flag{margin:10px 0; padding:9px 12px; border-radius:0 8px 8px 0; font-size:14.5px; background:#F6F1E4; border-left:4px solid var(--partial)}
+.flag.bad{background:#FBECEA; border-left-color:var(--warn)}
+.flag.info{background:#EEF3F5; border-left-color:#4F7A8C}
+.wx-src{padding:10px 14px; font-size:13px; color:var(--ink-soft); border-top:1px dashed var(--line); margin:0}
+.livecam{margin-top:14px; background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden}
+.livecam .frame{display:flex; justify-content:center; align-items:center; background:#0d1b16; padding:16px}
+.livecam iframe{width:208px; height:156px; max-width:100%; border:0; display:block}
+.livecam .cap{border-top:1px dashed var(--line); padding:10px 14px; font-size:13px; color:var(--ink-soft);
+  display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap}
+.faq h3{margin-top:16px}
+.sources{font-size:13px; color:var(--ink-soft)}
+.sources a{color:var(--ink-soft)}
+footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink); font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<!-- SITE-NAV-HEAD:START (generated by scripts/gen_site_nav.py) -->
+<!-- SITE-NAV-HEAD:END -->
+</head>
+<body>
+
+<div class="waymark" aria-hidden="true"></div>
+
+<header>
+  <nav class="langs" aria-label="Sprache">
+    <a href="/pico-do-areeiro-weather/" hreflang="en">EN</a>
+    <a href="/pt/pico-do-areeiro-weather/" hreflang="pt">PT</a>
+    <a href="/fr/pico-do-areeiro-weather/" hreflang="fr">FR</a>
+    <a href="/de/pico-do-areeiro-weather/" hreflang="de" aria-current="page">DE</a>
+    <a href="/pl/pico-do-areeiro-weather/" hreflang="pl">PL</a>
+  </nav>
+<!-- SITE-NAV:START (generated by scripts/gen_site_nav.py) -->
+<!-- SITE-NAV:END -->
+  <div class="brand">Levadinho · Antworten zu Madeiras Wanderwegen</div>
+  <h1>Pico do Arieiro (Areeiro): Webcam und Wetter live</h1>
+  <p class="sub">Was am Gipfel gerade los ist: die Live-Webcam, der neueste <b>gemessene</b> Wert der IPMA-Wetterstation oben (~1.800 m), der Unterschied zu Funchal und der heutige Sonnenaufgang. Wir machen keine Vorhersage; wir zeigen Messwerte und verlinken die Prognosen.</p>
+</header>
+
+<div class="wx" id="wx" aria-live="polite">
+  <div class="wx-grid">
+    <div class="tile"><div class="k">Gipfel jetzt</div><div class="v" id="wxTemp">–</div><div class="s" id="wxTempNote"></div></div>
+    <div class="tile"><div class="k">Funchal jetzt</div><div class="v" id="wxFun">–</div><div class="s" id="wxGap"></div></div>
+    <div class="tile"><div class="k">Luftfeuchte Gipfel</div><div class="v" id="wxHum">–</div><div class="s" id="wxCloud"></div></div>
+    <div class="tile"><div class="k">Wind</div><div class="v" id="wxWind">–</div><div class="s" id="wxWindNote"></div></div>
+    <div class="tile"><div class="k">Sonnenaufgang heute</div><div class="v" id="sunToday">–</div><div class="s" id="sunNote"></div></div>
+    <div class="tile"><div class="k">Sonnenuntergang heute</div><div class="v" id="sunSet">–</div><div class="s" id="sunSetNote"></div></div>
+  </div>
+  <div class="flags" id="wxFlags"></div>
+  <p class="wx-src" id="wxSrc">Die Live-Werte brauchen JavaScript. Die stündlichen Stationsdaten finden Sie auch direkt auf der IPMA-Website (Station „Madeira, Pico do Areeiro“).</p>
+</div>
+<p class="sub" style="margin-top:8px;font-size:13px">Sonnenauf- und -untergang berechnet für den Pico do Areeiro (32,735° N, 16,928° W), Madeira-Zeit, Standardhorizont, auf etwa ±2 Minuten genau. Vom Gipfel aus erscheint die Sonne bei freiem Osthorizont (Meer oder Wolkenoberkante) etwa 6 Minuten früher.</p>
+
+<section id="webcam">
+  <h2>Live-Webcam: Gipfel des Pico do Arieiro</h2>
+  <div class="livecam">
+    <div class="frame">
+      <iframe width="208" height="156" src="https://www.netmadeira.com/webcams/show/netmadeira/pico-do-arieiro"
+              title="Live-Webcam — Gipfel des Pico do Arieiro, von NetMadeira" loading="lazy" scrolling="no"></iframe>
+    </div>
+    <div class="cap">
+      <span>Webcam: NetMadeira · Seite neu laden für ein neues Bild</span>
+      <span><a class="plain" href="https://www.netmadeira.com/webcams-madeira/pico-do-arieiro" target="_blank" rel="noopener">Webcam in voller Größe ↗</a></span>
+    </div>
+  </div>
+  <p style="margin-top:10px">Die Kamera gehört NetMadeira und ist mit deren eigenem <a class="plain" href="https://www.netmadeira.com/webcams-madeira/pico-do-arieiro/partilha" target="_blank" rel="noopener">Einbettungscode</a> eingebunden. Sie schwenkt zwischen dem Aussichtspunkt am Pico do Areeiro, dem Beginn des PR1, Ninho da Manta, Pico do Cidrão und dem Observatorium. Manchmal ist sie offline oder zeigt ein Platzhalterbild; dann helfen die <a class="plain" href="https://www.netmadeira.com/webcams-madeira/pico-do-arieiro/timelapses" target="_blank" rel="noopener">NetMadeira-Zeitraffer</a> oder dieselbe Kamera <a class="plain" href="https://www.windy.com/webcams/1401283880" target="_blank" rel="noopener">bei Windy</a>.</p>
+</section>
+
+<section id="pr1">
+  <h2>Ist der PR1 heute offen?</h2>
+  <div class="status-card" id="statusCard" data-trail="PR1">
+    <div class="status-body"><p>Der PR1-Status stammt aus der offiziellen IFCN-Warnliste und trägt deren eigenes „aktualisiert“-Datum. Er erscheint hier als Live-Anzeige (JavaScript nötig).</p></div>
+  </div>
+  <p style="margin-top:10px">Eine klare Webcam heißt nicht, dass der Weg offen ist, und schlechtes Wetter sperrt ihn nicht automatisch: Das IFCN entscheidet Sperrungen im Einzelfall (<a class="plain" href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/faq-s-taxas-percursos-pedestres-classificados/frequently-asked-questions-fees-classified-walking-routes.html" target="_blank" rel="noopener">IFCN-FAQ 4.2</a>). Details, ausgebuchte Slots und Sonnenaufgangs-Slots: <a class="plain" href="/de/pr1/" target="_blank" rel="noopener">PR1 heute</a>.</p>
+</section>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="clear">
+  <h2>Wann ist es klar? Das Wolkenmeer, ehrlich erklärt</h2>
+  <p>Der Pico do Areeiro gehört zu den nebligsten Orten Madeiras: Im Schnitt gibt es dort <b>229 Nebeltage im Jahr</b> (INMG 1979, zitiert bei <a class="plain" href="https://ponce.sdsu.edu/prada_fog_precipitation.pdf" target="_blank" rel="noopener">Prada et al. 2009</a>). Der Nordost-Passat drückt feuchte Luft gegen die Ost-West-Gebirgskette der Insel; auf der Nordseite bilden sich Wolken, meist zwischen etwa <b>600–800 m und 1.600 m</b>.</p>
+  <p>Eine warme Luftschicht darüber, die <b>Passat-Inversion</b>, deckelt diese Wolken (<a class="plain" href="https://link.springer.com/article/10.1007/s10546-015-0081-1" target="_blank" rel="noopener">Mechanismus</a>). Deshalb können die Gipfel auf rund 1.800 m über einem „Wolkenmeer“ liegen, während Funchal grau ist. Der Gipfel steckt aber auch oft selbst <i>in</i> der Wolke, und niemand misst, wie häufig sich am Areeiro ein Wolkenmeer bildet. Wahrscheinlichkeiten nennen wir deshalb nicht.</p>
+  <ul>
+    <li><b>Faustregel, keine Prognose:</b> Luftfeuchte am Gipfel unter etwa 90 % heißt, die Station ist wahrscheinlich außerhalb der Wolke; 90 % oder mehr heißt meist, sie steckt drin.</li>
+    <li><b>Der echte Test ist die Webcam.</b> Schauen Sie vor der Fahrt nach oben und noch einmal vor dem Start.</li>
+    <li>Oben regnet es viel: rund <b>2.928 mm im Jahr</b> am Areeiro, gegenüber etwa 513 mm in Funchal.</li>
+  </ul>
+</section>
+
+<section id="cold">
+  <h2>Kälte, Frost, Schnee und Wind</h2>
+  <ul>
+    <li><b>Deutlich kälter als in Funchal.</b> In den 24 Stunden unserer Stichprobe (29.–30. September 2026) maß IPMA am Gipfel <b>8,8 bis 13,8 °C weniger</b> als in Funchal, am stärksten um die Morgendämmerung. An Inversionstagen kann der Abstand schrumpfen. Die Kacheln oben zeigen das aktuelle Wertepaar.</li>
+    <li><b>Frost und Schnee kommen vor.</b> Am 19. März 2026 fiel die Temperatur am Gipfel auf <b>−3,3 °C</b> (<a class="plain" href="https://www.dnoticias.pt/2026/3/19/485354-temperaturas-baixam-aos-33o-no-pico-do-areeiro/" target="_blank" rel="noopener">DN</a>), am 7. April 2026 lag Schnee auf den höchsten Gipfeln (<a class="plain" href="https://www.dnoticias.pt/2026/4/7/487436-neve-pinta-de-branco-os-picos-mais-altos/" target="_blank" rel="noopener">DN</a>).</li>
+    <li><b>Wind.</b> Starken Wind markieren wir ab <b>40 km/h</b>. Ein offizielles IFCN-Windlimit gibt es nicht. Der Windsensor am Gipfel fällt oft aus; dann zeigen wir den Wert der tiefer gelegenen IPMA-Station Areeiro, etwa 2 km entfernt.</li>
+    <li>Die IFCN-Tafeln an den Wegen warnen, dass sich das Wetter häufig ändert, und raten zu warmer Kleidung.</li>
+  </ul>
+</section>
+
+<section id="forecast">
+  <h2>Wettervorhersage (machen wir nicht)</h2>
+  <p>Alles oben ist eine Messung oder eine astronomische Berechnung. Für die kommenden Stunden brauchen Sie eine Prognose:</p>
+  <ul>
+    <li><a class="plain" href="https://www.ipma.pt/en/otempo/prev.localidade.hora/" target="_blank" rel="noopener">IPMA-Vorhersage nach Ort</a>: der offizielle portugiesische Wetterdienst (Madeira wählen).</li>
+    <li><a class="plain" href="https://www.ipma.pt/en/otempo/prev-sam/" target="_blank" rel="noopener">IPMA-Wetterwarnungen</a>: gelbe/orange/rote Warnungen für Madeiras Berge.</li>
+    <li><a class="plain" href="https://www.windy.com/32.735/-16.928" target="_blank" rel="noopener">Windy</a> für Wind- und Wolkenmodelle am Gipfel; <a class="plain" href="https://www.mountain-forecast.com/peaks/Pico-do-Arieiro/forecasts/1818" target="_blank" rel="noopener">mountain-forecast.com</a> (Pico do Arieiro, 1.818 m); <a class="plain" href="https://www.meteoblue.com/en/weather/week/pico-do-arieiro_portugal_2271550" target="_blank" rel="noopener">meteoblue</a>.</li>
+  </ul>
+</section>
+
+
+<section class="faq" id="faq">
+  <h2>Wetter am Pico do Arieiro: Fragen</h2>
+  <h3>Gibt es eine Live-Webcam am Pico do Arieiro (Areeiro)?</h3>
+  <p>Ja. NetMadeira betreibt am Gipfel eine Live-Kamera, die zwischen Aussichtspunkt, Beginn des PR1 und den umliegenden Gipfeln schwenkt. Sie ist auf dieser Seite mit dem Einbettungscode von NetMadeira eingebunden; dieselbe Kamera gibt es bei Windy. Manchmal ist sie offline.</p>
+  <h3>Wie viel kälter ist es am Pico do Arieiro als in Funchal?</h3>
+  <p>Oft etwa 10–14 °C, je nach Wetterlage. Am 29.–30. September 2026 maß IPMA am Gipfel 8,8 bis 13,8 °C weniger als in Funchal. Es gab schon Frost (−3,3 °C am 19. März 2026) und Schnee (7. April 2026). Diese Seite zeigt das aktuelle gemessene Wertepaar.</p>
+  <h3>Sehe ich bei Sonnenaufgang ein Wolkenmeer?</h3>
+  <p>Das kann niemand versprechen. Die Passat-Inversion hält die Wolken oft unter den Gipfeln, aber der Pico do Areeiro selbst hat im Schnitt 229 Nebeltage im Jahr. Prüfen Sie vorher Webcam und Luftfeuchte am Gipfel: Unter etwa 90 % ist die Station wahrscheinlich außerhalb der Wolke.</p>
+  <h3>Wann ist Sonnenaufgang am Pico do Arieiro?</h3>
+  <p>Zwischen etwa 06:59 Uhr Mitte Juni und 08:10 Uhr Anfang Januar (Madeira-Zeit), Anfang Oktober gegen 08:00 Uhr. Diese Seite berechnet die heutige Zeit. Vom Gipfel aus erscheint die Sonne bei freiem Osthorizont etwa 6 Minuten früher.</p>
+  <h3>Ist das eine Wettervorhersage?</h3>
+  <p>Nein. Es sind stündlich gemessene Beobachtungen der IPMA-Station Pico do Areeiro. Für eine Prognose nutzen Sie IPMA, Windy oder eine Bergwettervorhersage; die Links stehen auf dieser Seite.</p>
+</section>
+
+<section>
+  <h2>Wie geht es weiter?</h2>
+  <ul>
+    <li><a class="plain" href="/de/pr1/" target="_blank" rel="noopener">Ist der PR1 heute offen?</a>: Live-Status, Sonnenaufgangs-Slots und was tun, wenn alles ausgebucht ist.</li>
+    <li><a class="plain" href="/de/pr1-sunrise-transport/" target="_blank" rel="noopener">Zum Sonnenaufgang auf den Pico do Arieiro</a>: Bus, Transfer, Taxi oder Auto im Vergleich.</li>
+    <li><a class="plain" href="/de/getting-back.html" target="_blank" rel="noopener">Rückweg vom PR1</a>: das Einbahn-Ende in Achada do Teixeira.</li>
+  </ul>
+</section>
+
+<p class="sources" style="margin-top:22px">Quellen: <a href="https://www.ipma.pt/en/otempo/obs.superficie/" rel="noopener">IPMA</a> (Station 1210974 „Madeira, Pico do Areeiro“, Wind-Ersatz 1210973, Funchal 1200522; <a href="https://api.ipma.pt/open-data/observation/meteorology/stations/observations.json" rel="noopener">open data</a>) · <a href="https://www.netmadeira.com/webcams-madeira/pico-do-arieiro" rel="noopener">NetMadeira</a> (Webcam) · <a href="https://ponce.sdsu.edu/prada_fog_precipitation.pdf" rel="noopener">Prada et al. 2009</a> · <a href="https://link.springer.com/article/10.1007/s10546-015-0081-1" rel="noopener">Boundary-Layer Meteorology 2015</a> · <a href="https://www.dnoticias.pt/2026/3/19/485354-temperaturas-baixam-aos-33o-no-pico-do-areeiro/" rel="noopener">DN 19/03/2026</a> · <a href="https://www.dnoticias.pt/2026/4/7/487436-neve-pinta-de-branco-os-picos-mais-altos/" rel="noopener">DN 07/04/2026</a> · <a href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/faq-s-taxas-percursos-pedestres-classificados/frequently-asked-questions-fees-classified-walking-routes.html" rel="noopener">IFCN FAQ</a> · <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a></p>
+
+<footer>
+  <p>Unabhängiger Ratgeber, aktualisiert am <span id="stamp"></span>. Keine Verbindung zu IPMA, NetMadeira oder der Regionalregierung Madeiras. Das Bergwetter ändert sich schnell; die Werte hier sind vergangene Messungen, keine Zusage für die nächste Stunde.</p>
+</footer>
+
+<script>
+
+function sunTimes(p, h0){
+  /* Sunrise equation (NOAA-style), Pico do Areeiro 32.735 N, 16.928 W. p=[y,m,d]. ~±2 min. */
+  var R=Math.PI/180, lat=32.735, lon=-16.928;
+  var jd=Date.UTC(p[0],p[1]-1,p[2],12)/864e5+2440587.5;
+  var n=Math.round(jd-2451545.0+0.0008), js=n-lon/360;
+  var M=(357.5291+0.98560028*js)%360;
+  var C=1.9148*Math.sin(M*R)+0.02*Math.sin(2*M*R)+0.0003*Math.sin(3*M*R);
+  var lam=(M+C+180+102.9372)%360;
+  var jt=2451545+js+0.0053*Math.sin(M*R)-0.0069*Math.sin(2*lam*R);
+  var sd=Math.sin(lam*R)*Math.sin(23.4397*R), cd=Math.cos(Math.asin(sd));
+  var w=Math.acos((Math.sin(h0*R)-Math.sin(lat*R)*sd)/(Math.cos(lat*R)*cd))/R;
+  function ms(j){return (j-2440587.5)*864e5;}
+  return {rise:new Date(ms(jt-w/360)), set:new Date(ms(jt+w/360))};
+}
+function madeiraDate(offsetDays){
+  var d=new Date(Date.now()+offsetDays*864e5);
+  try{
+    var s=new Intl.DateTimeFormat('en-CA',{timeZone:'Atlantic/Madeira',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+    var a=s.split('-').map(Number); if(a.length===3&&!isNaN(a[2])) return a;
+  }catch(e){}
+  return [d.getUTCFullYear(), d.getUTCMonth()+1, d.getUTCDate()];
+}
+function hhmm(d, loc){
+  try{ return new Intl.DateTimeFormat(loc,{timeZone:'Atlantic/Madeira',hour:'2-digit',minute:'2-digit',hour12:false}).format(d); }
+  catch(e){ return d.toISOString().slice(11,16)+' UTC'; }
+}
+
+
+(function(){
+  "use strict";
+  var S = {"summitNote": "IPMA-Station, ~1.800 m", "gapColder": "{n} °C kälter am Gipfel", "gapInversion": "Gipfel so warm wie Funchal oder wärmer (Inversion)", "na": "keine Angabe", "inCloud": "wahrscheinlich in der Wolke", "outCloud": "wahrscheinlich außerhalb der Wolke", "windSummit": "Gipfelstation", "windFallback": "tiefere Station Areeiro (~2 km); Gipfelsensor liefert nichts", "windAny": "IPMA-Stationen am Areeiro", "windNA": "von IPMA derzeit nicht gemeldet", "summitClear": "Gipfel, freier Horizont:", "tomorrow": "morgen", "sunsetNote": "Standardhorizont", "flagWind": "<b>Starker Wind: {n} km/h gemessen.</b> Der Grat des PR1 ist exponiert. Prüfen Sie vor dem Start Wegstatus und Prognose.", "flagCold": "<b>Um den Gefrierpunkt: {n} °C.</b> Reif und Eis auf Stufen und im Schatten möglich. Warme Schichten und Handschuhe mitnehmen.", "flagCloud": "<b>Luftfeuchte {n} %:</b> Der Gipfel steckt gerade sehr wahrscheinlich in der Wolke, also kaum oder keine Sicht. Schauen Sie auf die Webcam.", "flagClear": "<b>Luftfeuchte {n} %:</b> Die Gipfelstation ist wahrscheinlich außerhalb der Wolke. Ob darunter ein Wolkenmeer liegt, zeigt nur die Webcam. Eine Faustregel, keine Prognose.", "srcLive": "Gemessen von IPMA (Station „Madeira, Pico do Areeiro“), Stundenwert von", "srcDaily": "IPMA-Messwert, abgerufen beim letzten Levadinho-Update:", "madeiraTime": "Uhr Madeira-Zeit", "srcIpma": "Beobachtungen, keine Vorhersage.", "locale": "de-DE"};
+  var IPMA = "https://api.ipma.pt/open-data/observation/meteorology/stations/observations.json";
+  var SUMMIT = "1210974", WIND_FALLBACK = "1210973", FUNCHAL = "1200522";
+  var WIND_STRONG = 40, COLD = 3, CLOUD_RH = 90;   /* same wind/cloud thresholds as scripts/update_status.py */
+  function $(id){ return document.getElementById(id); }
+  function put(id, txt){ var e=$(id); if(e) e.textContent = txt; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+  function num(v){ if(v===null||v===undefined||v==="") return null; v=+v; return (isNaN(v)||v<=-98.5)?null:v; }
+  function dday(d){ try { return new Intl.DateTimeFormat(S.locale,{timeZone:"Atlantic/Madeira",day:"numeric",month:"short"}).format(d); } catch(e){ return d.toISOString().slice(0,10); } }
+  function fill(t, n){ return t.replace("{n}", n); }
+
+  /* ---- Sunrise / sunset (computed, no API) ---- */
+  try {
+    var today = madeiraDate(0), tomorrow = madeiraDate(1);
+    var a = sunTimes(today, -0.833), b = sunTimes(today, -2.083), c = sunTimes(tomorrow, -0.833);
+    put("sunToday", hhmm(a.rise, S.locale));
+    put("sunNote", S.summitClear + " " + hhmm(b.rise, S.locale) + " · " + S.tomorrow + " " + hhmm(c.rise, S.locale));
+    put("sunSet", hhmm(a.set, S.locale));
+    put("sunSetNote", S.sunsetNote);
+  } catch(e) {}
+
+  /* ---- Measured weather ---- */
+  var liveShown = false;
+  function show(w){
+    if (w.temp === null || w.temp < -10 || w.temp > 30) return false;
+    put("wxTemp", Math.round(w.temp) + " °C");
+    put("wxTempNote", S.summitNote);
+    if (w.funchal !== null) {
+      put("wxFun", Math.round(w.funchal) + " °C");
+      var gap = Math.round(w.funchal - w.temp);
+      put("wxGap", gap > 0 ? fill(S.gapColder, gap) : S.gapInversion);
+    } else { put("wxFun", "–"); put("wxGap", S.na); }
+    if (w.hum !== null) {
+      put("wxHum", Math.round(w.hum) + " %");
+      put("wxCloud", w.hum >= CLOUD_RH ? S.inCloud : S.outCloud);
+    } else { put("wxHum", "–"); put("wxCloud", S.na); }
+    if (w.wind !== null) {
+      put("wxWind", Math.round(w.wind) + " km/h");
+      put("wxWindNote", w.windFallback === null ? S.windAny : (w.windFallback ? S.windFallback : S.windSummit));
+    } else { put("wxWind", "–"); put("wxWindNote", S.windNA); }
+    var f = "";
+    if (w.wind !== null && w.wind >= WIND_STRONG) f += '<p class="flag bad">' + fill(S.flagWind, Math.round(w.wind)) + "</p>";
+    if (w.temp <= COLD) f += '<p class="flag bad">' + fill(S.flagCold, Math.round(w.temp)) + "</p>";
+    if (w.hum !== null && w.hum >= CLOUD_RH) f += '<p class="flag">' + fill(S.flagCloud, Math.round(w.hum)) + "</p>";
+    else if (w.hum !== null) f += '<p class="flag info">' + fill(S.flagClear, Math.round(w.hum)) + "</p>";
+    $("wxFlags").innerHTML = f;
+    $("wxSrc").innerHTML = w.src;
+    return true;
+  }
+
+  fetch("/status.json", {cache: "no-cache"}).then(function(r){ return r.json(); }).then(function(d){
+    if (liveShown) return;
+    var wx = d.weather || {}, fun = null;
+    (d.regions || []).forEach(function(x){ if (x.key === "south") fun = num(x.temp); });
+    if (!wx.ok) return;
+    show({temp: num(wx.temp_c), hum: num(wx.humidity), wind: num(wx.wind_kmh), windFallback: null,
+          funchal: fun, src: S.srcDaily + " <b>" + esc(d.stamp || "") + "</b> " + S.madeiraTime + ". " + S.srcIpma});
+  }).catch(function(){});
+
+  fetch(IPMA, {cache: "no-cache"}).then(function(r){ return r.json(); }).then(function(obs){
+    var keys = Object.keys(obs).sort().reverse();
+    function latest(id, field){
+      for (var i = 0; i < keys.length; i++) {
+        var rec = obs[keys[i]] && obs[keys[i]][id];
+        if (rec && num(rec[field]) !== null) return {v: num(rec[field]), k: keys[i], rec: rec};
+      }
+      return null;
+    }
+    var t = latest(SUMMIT, "temperatura");
+    if (!t) return;
+    var rh = num(t.rec.humidade), wind = num(t.rec.intensidadeVentoKM), fb = false;
+    if (wind === null) { var w2 = latest(WIND_FALLBACK, "intensidadeVentoKM"); if (w2) { wind = w2.v; fb = true; } }
+    var fun = null, fr = obs[t.k] && obs[t.k][FUNCHAL];
+    if (fr) fun = num(fr.temperatura);
+    if (fun === null) { var f2 = latest(FUNCHAL, "temperatura"); if (f2) fun = f2.v; }
+    var when = new Date(t.k + ":00Z");
+    var ok = show({temp: t.v, hum: rh, wind: wind, windFallback: fb, funchal: fun,
+      src: S.srcLive + " <b>" + hhmm(when, S.locale) + "</b> " + S.madeiraTime + " (" + dday(when) + "). " + S.srcIpma});
+    if (ok) liveShown = true;
+  }).catch(function(){});
+})();
+
+</script>
+<script>
+(function(){
+  const c = CONFIG;
+  try {
+    if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+    if (location.hash === '#countme') localStorage.removeItem('gc-skip');
+  } catch(e){}
+  const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  var st = document.getElementById('stamp'); if (st) st.textContent = c.lastUpdated;
+  if (c.goatcounterCode && !SKIP_ANALYTICS){
+    const s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

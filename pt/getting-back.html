@@ -8,13 +8,13 @@
 <script>
 const CONFIG = {
   goatcounterCode: "madeira-levadinho",
-  lastUpdated: "2026-07-07"
+  lastUpdated: "2026-09-30"
 };
 </script>
 <!-- ============================================================ -->
 
-<title>O PR1 é de sentido único: como regressar da Achada do Teixeira (transfers, táxis, autocarros)</title>
-<meta name="description" content="Desde abril de 2026, o PR1 faz-se em sentido único do Pico do Areeiro ao Pico Ruivo — termina na Achada do Teixeira. Todas as formas realistas de regressar: transfers reservados, táxis de Santana, autocarros e o truque dos dois carros.">
+<title>Como voltar do Pico Ruivo sem carro: Achada do Teixeira (2026)</title>
+<meta name="description" content="O PR1 é de sentido único: termina na Achada do Teixeira, onde não há autocarro. Autocarro para o Pico do Areeiro (3 €), táxis de Santana, preços de táxis e transferes (setembro de 2026) e qual o plano indicado.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/pt/getting-back.html">
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/getting-back.html">
@@ -31,13 +31,43 @@ const CONFIG = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Como volto ao meu carro depois de fazer o PR1 em sentido único?",
-      "acceptedAnswer": {"@type": "Answer", "text": "O PR1 termina agora na Achada do Teixeira, longe do início no Pico do Areeiro. Opções: reservar antecipadamente um transfer para caminhantes, combinar um táxi de Santana, ir com dois carros ou reservar uma visita guiada com transporte nos dois sentidos."}
+      "name": "Há autocarro a partir da Achada do Teixeira?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Não. Nenhum autocarro regular serve a Achada do Teixeira; os autocarros mais próximos estão em Santana. O único autocarro público na zona é o serviço Pico do Areeiro da Horários do Funchal (3 €), que serve o início do PR1, não o fim. Combine um táxi ou transfere para o recolher."
+      }
     },
     {
       "@type": "Question",
-      "name": "Há autocarro na Achada do Teixeira ou no Pico do Areeiro?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Nenhum autocarro público serve diretamente o Pico do Areeiro ou a Achada do Teixeira. As ligações de autocarro mais próximas partem de Santana; um táxi do Pico do Areeiro para o Funchal custa cerca de 70 €."}
+      "name": "Quanto custa um táxi da Achada do Teixeira para o Pico do Areeiro ou o Funchal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Não há tabela oficial. Relatos de 2023–2026 apontam para cerca de 55 € de volta ao Pico do Areeiro e cerca de 70–90 € por táxi até ao Funchal. Reserve com antecedência para uma hora de recolha; a praça de Táxis Santana tem o número +351 291 572 540 (o dos painéis de início de percurso do IFCN)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Há autocarro para o Pico do Areeiro?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim. O serviço Pico do Areeiro da Horários do Funchal parte do Funchal (Teleférico-Término) às 06:00 e às 13:30 todos os dias, exceto a 25 de dezembro, chega às 06:45 e às 14:15, e volta a descer às 12:15 e às 19:00 (18:00 no inverno). A tarifa é de 3,00 €, paga a bordo; os lugares podem ser reservados pelo 291 705 555."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Posso voltar a pé do Pico Ruivo ao Pico do Areeiro?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Não. Desde a reabertura de 1 de maio de 2026 o percurso completo é de sentido único, Pico do Areeiro → Pico Ruivo. Só o troço de 1,2 km Areeiro ↔ Pedra Rija é nos dois sentidos. Do Pico Ruivo desce-se pelo PR1.2 até à Achada do Teixeira."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quanto custa um transfere partilhado para caminhantes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cerca de 40–49 € por pessoa (preços verificados em setembro de 2026), normalmente sem o bilhete do percurso: 10,50 € no SIMplifica, ou 7 € se for um operador com protocolo com o IFCN a reservá-lo."
+      }
     }
   ]
 }
@@ -78,6 +108,13 @@ li{margin-bottom:7px; font-size:15.5px}
 .fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
 footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
 a.plain{color:var(--ink); font-weight:600}
+.tbl{overflow-x:auto; margin:8px 0 12px}
+.dt{width:100%; border-collapse:collapse; font-size:14px; background:var(--card); border:1px solid var(--line)}
+.dt th,.dt td{text-align:left; vertical-align:top; padding:8px 10px; border-bottom:1px solid var(--line)}
+.dt th{background:#F2F1E9; font-size:13px; font-weight:700}
+.faq h3{font-size:16px; font-weight:750; margin:14px 0 4px}
+.src{font-size:13px; color:var(--ink-soft)}
+.src a{color:var(--ink-soft)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <!-- SITE-NAV-HEAD:START (generated by scripts/gen_site_nav.py) -->
@@ -151,55 +188,110 @@ a.tname:hover{text-decoration:underline}
   </nav>
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Respostas sobre os percursos da Madeira</div>
-  <h1>O PR1 é agora de sentido único. Saiba como regressar.</h1>
-  <p class="sub">Desde a reabertura de abril de 2026, o percurso faz-se apenas Pico do Areeiro → Pico Ruivo. Sai da montanha na <b>Achada do Teixeira</b> — um parque de estacionamento sem autocarro, muito longe de onde começou.</p>
+  <h1>Como voltar do Pico Ruivo e da Achada do Teixeira sem carro</h1>
+  <p class="sub">O PR1 faz-se em sentido único, Pico do Areeiro → Pico Ruivo, desde a reabertura de 1 de maio de 2026, e desce-se pelo PR1.2 até à <b>Achada do Teixeira</b>: um parque de estacionamento acima de Santana, sem autocarro e longe do ponto de partida. Preços verificados em setembro de 2026.</p>
 </header>
 
 <div class="alert">
-  <b>Não comece a caminhar sem um plano para o fim.</b> Não há autocarro público na Achada do Teixeira nem no Pico do Areeiro, e a rede de telemóvel em ambos é fraca. Resolva o regresso antes de dar o primeiro passo.
+  <b>Nenhum autocarro serve a Achada do Teixeira, e não é permitido voltar a pé pelo PR1 até ao Pico do Areeiro.</b> Resolva o regresso antes de começar; a rede de telemóvel nos dois extremos é fraca.
 </div>
 
-<section>
-  <h2>As suas opções, ordenadas com franqueza</h2>
+<section id="decide">
+  <h2>Qual o plano indicado para si</h2>
+  <div class="tbl"><table class="dt">
+    <thead><tr><th>A sua situação</th><th>Plano</th><th>Custo aproximado (set. 2026)</th></tr></thead>
+    <tbody>
+      <tr><td>Sem carro, 3–4 pessoas ou orçamento curto</td><td>Autocarro até ao Pico do Areeiro (06:00 a partir do Funchal) + táxi reservado para o recolher na Achada do Teixeira</td><td>3 € por pessoa no autocarro + cerca de 70–90 € por táxi até ao Funchal</td></tr>
+      <tr><td>Sem carro, 1–2 pessoas</td><td>Transfere partilhado para caminhantes: deixa-o no Areeiro e recolhe-o na Achada</td><td>cerca de 40–49 € por pessoa, bilhete do percurso normalmente à parte</td></tr>
+      <tr><td>Grupo até 8 pessoas</td><td>Transfere privado: deixa no Areeiro, recolhe na Achada</td><td>p. ex. 129 € por viatura</td></tr>
+      <tr><td>Carro próprio</td><td>Estacionar no Pico do Areeiro e apanhar um táxi da Achada de volta ao carro</td><td>estacionamento 4 €/h (parque superior) + táxi de cerca de 55 €</td></tr>
+      <tr><td>Sem plano de transporte</td><td>Não fazer a travessia: ida e volta Areeiro ↔ Pedra Rija, ou PR1.2 ida e volta a partir da Achada</td><td>bilhete de 4,50 €</td></tr>
+    </tbody>
+  </table></div>
+</section>
 
+<section id="bus">
+  <h2>O autocarro para o Pico do Areeiro (só para o início)</h2>
+  <p>A Horários do Funchal tem um serviço "Pico do Areeiro" todos os dias, exceto a 25 de dezembro. Serve o <b>início</b> do PR1, não a Achada do Teixeira, por isso resolve só metade do problema.</p>
+  <div class="tbl"><table class="dt">
+    <thead><tr><th>Horário de verão (até 24 out 2026)</th><th>Manhã</th><th>Tarde</th></tr></thead>
+    <tbody>
+      <tr><td>Parte do Funchal, Teleférico-Término (paragem 4A)</td><td>06:00</td><td>13:30</td></tr>
+      <tr><td>Chega ao Pico do Areeiro (rotunda junto ao Radar)</td><td>06:45</td><td>14:15</td></tr>
+      <tr><td>Parte do Pico do Areeiro para o Funchal</td><td>12:15</td><td>19:00 (18:00 a partir de 25 out)</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>Tarifa de 3,00 € por viagem</b>, paga a bordo; não são aceites outros títulos de transporte. 31 lugares.</li>
+    <li><b>Reserva de lugar só por telefone: 291 705 555</b>, entre 7 e 2 dias úteis antes da viagem (seg.–qui. 08:30–12:30 e 14:00–18:00, sex. 08:30–12:30 e 14:00–17:00). Esteja na paragem 15 minutos antes da partida.</li>
+    <li><b>Vaivém no cume</b> entre a paragem CAM Florestal das Serras de Santo António, o parque do Pico do Areeiro e a rotunda junto ao Radar: de 15 em 15 minutos, 06:40–12:15 e 14:10–19:00 (18:00 no inverno), 1,20 €, funciona com pelo menos 4 passageiros.</li>
+  </ul>
+  <p>A chegada às 06:45 é antes do nascer do sol todo o ano (à justa em junho e julho). Serve para começar ao nascer do sol ou para uma ida e volta à Pedra Rija, descendo no autocarro das 12:15. Para a travessia completa continua a precisar de alguém que o recolha na Achada. Mais em <a class="plain" href="/pt/pr1-sunrise-transport/">transporte ao nascer do sol para o Pico do Areeiro</a>.</p>
+</section>
+
+<section id="taxi">
+  <h2>Táxis a partir da Achada do Teixeira</h2>
+  <p>Os táxis não ficam à espera na Achada do Teixeira. Reserve um para uma hora de recolha antes de começar, ou ligue do fim do percurso se tiver rede. Guarde o número antes de partir.</p>
+  <ul>
+    <li><b>Táxis Santana: +351 291 572 540</b> (a praça mais próxima da Achada do Teixeira)</li>
+    <li>Táxis Funchal: +351 291 764 476</li>
+  </ul>
+  <p class="src">Números tal como impressos nos painéis de início de percurso do IFCN (painéis do PR1.1 e PR1.2 para Santana). Não foi verificado se cada linha está hoje em funcionamento.</p>
+  <p><b>O que as pessoas dizem ter pago</b> (relatos de 2023–2026; não há tabela oficial de preços, por isso peça orçamento):</p>
+  <ul>
+    <li>Achada do Teixeira → de volta ao carro no Pico do Areeiro: cerca de 55 € (relato de 2023)</li>
+    <li>Achada do Teixeira → Funchal: cerca de 70–90 € por táxi</li>
+    <li>Funchal → Pico do Areeiro: cerca de 50–70 €</li>
+  </ul>
+</section>
+
+<section id="transfer">
+  <h2>Transferes e outras opções</h2>
   <div class="opt">
-    <h3>Transfer para caminhantes reservado <span class="tag">O melhor para a maioria</span></h3>
-    <p>As empresas de transfer deixam-no no Areeiro para o nascer do sol e vão buscá-lo à Achada do Teixeira a uma hora combinada. Reserve, o mais tardar, na véspera — as recolhas ao nascer do sol esgotam. Assim resolve também, por completo, o problema de não haver lugar para estacionar no Areeiro às 6 da manhã.</p>
+    <h3>Transfere partilhado <span class="tag">1–2 pessoas</span></h3>
+    <p>Um minibus deixa-o no Pico do Areeiro (muitas vezes antes do nascer do sol) e recolhe-o na Achada do Teixeira a uma hora combinada. Cerca de <b>40–49 € por pessoa</b>. O bilhete do percurso costuma ser à parte: 10,50 € no SIMplifica, ou 7 € quando é um operador com protocolo com o IFCN a reservá-lo. Exemplos: Beyond Madeira, Doit Madeira, Pico Transfers, GetToHikes (preços verificados em setembro de 2026). Reserve no máximo na véspera; as recolhas ao nascer do sol esgotam.</p>
   </div>
-
   <div class="opt">
-    <h3>Visita guiada com transporte <span class="tag">Zero logística</span></h3>
-    <p>Os operadores com protocolo com o IFCN juntam a autorização (com desconto, 7 € no PR1), o guia e os dois transfers. É a opção mais cara, mas a única em que o fecho do percurso ou a falta de vagas passa a ser problema de outra pessoa.</p>
+    <h3>Transfere privado <span class="tag">Grupos</span></h3>
+    <p>Uma viatura só para si: deixa no Areeiro e recolhe na Achada. Um vendedor, madeira.best, indica 129 € por viatura até 8 pessoas (preço verificado em setembro de 2026). Dividido por 4–8 pessoas, sai mais barato por pessoa do que os lugares partilhados.</p>
   </div>
-
   <div class="opt">
-    <h3>Táxi de Santana <span class="tag">O plano B</span></h3>
-    <p>A Achada do Teixeira fica acima de Santana. Os táxis não esperam no parque de estacionamento — combine um com antecedência ou ligue do fim do percurso se tiver rede (guarde o número antes de começar). Para ter uma ideia: um táxi entre o Pico do Areeiro e a zona do Funchal custa cerca de 70 €, por isso divida-o se tiver feito amigos na cumeada.</p>
+    <h3>Passeio guiado com transporte <span class="tag">Zero logística</span></h3>
+    <p>Os operadores com protocolo com o IFCN incluem o bilhete (7 € no PR1), o guia e os dois transferes. É a opção mais cara, mas os encerramentos e as vagas esgotadas passam a ser problema deles.</p>
   </div>
-
   <div class="opt">
-    <h3>Dois carros <span class="tag">Só para grupos</span></h3>
-    <p>Deixe um na Achada do Teixeira na véspera ou de madrugada e vá com o outro até ao Areeiro. Custa-lhe uma hora de vaivém, mas nada em dinheiro. Só faz sentido com 4 ou mais pessoas e dois carros de aluguer.</p>
+    <h3>Dois carros <span class="tag">Grupos</span></h3>
+    <p>Deixe um carro na Achada do Teixeira e leve o outro até ao Pico do Areeiro. Custa uma hora de vaivém mais o estacionamento no Areeiro (4 €/h no parque superior).</p>
   </div>
-
-  <div class="opt">
-    <h3>Autocarro — em parte <span class="tag">Exige paciência</span></h3>
-    <p>Nenhum autocarro chega aos inícios dos percursos. Da Achada do Teixeira teria primeiro de descer até <b>Santana</b> (de táxi ou numa longa caminhada pela estrada), de onde partem autocarros para o Funchal — com pouca frequência e devagar (os autocarros rurais da Madeira servem as localidades, não os caminhantes). Encare isto como o plano B do plano B, não como o plano.</p>
-  </div>
-
-  <div class="fact">Fazer o PR1 no sentido inverso para voltar ao carro <b>já não é permitido</b> — a regra do sentido único existe porque os troços estreitos da cumeada não comportam trânsito nos dois sentidos. Há vigilantes no percurso.</div>
+  <div class="fact">Voltar a pé pelo PR1 do Pico Ruivo ao Pico do Areeiro <b>não é permitido</b>: para lá da Pedra Rija o percurso é de sentido único. Há vigilantes no percurso.</div>
 </section>
 
 <div class="waymark thin" aria-hidden="true"></div>
 
-<section>
+<section id="before">
   <h2>Antes de ir</h2>
   <ul>
-    <li>Consulte <a class="plain" href="/pt/pr1/">o estado do PR1 hoje</a> — o percurso fecha depressa com mau tempo, e o seu horário no <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">SIMplifica</a> tem regras para alterações.</li>
-    <li>Guarde uma captura de ecrã da sua autorização. A rede na cumeada não é fiável e os vigilantes verificam mesmo.</li>
-    <li>Combine a hora de recolha com margem: o percurso completo leva oficialmente 3h30, e mais com as paragens para fotografias e a subida final até ao abrigo do Pico Ruivo.</li>
+    <li>Consulte o <a class="plain" href="/pt/pr1/">estado do PR1 hoje</a>. Vem da lista oficial de avisos do IFCN e mostra a data de "atualizado" do próprio IFCN. A sua vaga no <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">SIMplifica</a> tem regras para alterações.</li>
+    <li>Guarde uma captura de ecrã do bilhete. A rede na cumeada é incerta e os vigilantes verificam.</li>
+    <li>Marque a recolha com margem: a Visit Madeira indica cerca de 3 horas do Pico do Areeiro ao Pico Ruivo; conte depois com cerca de uma hora a descer o PR1.2 até à Achada do Teixeira, mais se parar para fotografias.</li>
   </ul>
 </section>
+
+<section id="faq" class="faq">
+  <h2>Perguntas</h2>
+  <h3>Há autocarro a partir da Achada do Teixeira?</h3>
+  <p>Não. Nenhum autocarro regular serve a Achada do Teixeira; os autocarros mais próximos estão em Santana. O único autocarro público na zona é o serviço Pico do Areeiro da Horários do Funchal (3 €), que serve o início do PR1, não o fim. Combine um táxi ou transfere para o recolher.</p>
+  <h3>Quanto custa um táxi da Achada do Teixeira para o Pico do Areeiro ou o Funchal?</h3>
+  <p>Não há tabela oficial. Relatos de 2023–2026 apontam para cerca de 55 € de volta ao Pico do Areeiro e cerca de 70–90 € por táxi até ao Funchal. Reserve com antecedência para uma hora de recolha; a praça de Táxis Santana tem o número +351 291 572 540 (o dos painéis de início de percurso do IFCN).</p>
+  <h3>Há autocarro para o Pico do Areeiro?</h3>
+  <p>Sim. O serviço Pico do Areeiro da Horários do Funchal parte do Funchal (Teleférico-Término) às 06:00 e às 13:30 todos os dias, exceto a 25 de dezembro, chega às 06:45 e às 14:15, e volta a descer às 12:15 e às 19:00 (18:00 no inverno). A tarifa é de 3,00 €, paga a bordo; os lugares podem ser reservados pelo 291 705 555.</p>
+  <h3>Posso voltar a pé do Pico Ruivo ao Pico do Areeiro?</h3>
+  <p>Não. Desde a reabertura de 1 de maio de 2026 o percurso completo é de sentido único, Pico do Areeiro → Pico Ruivo. Só o troço de 1,2 km Areeiro ↔ Pedra Rija é nos dois sentidos. Do Pico Ruivo desce-se pelo PR1.2 até à Achada do Teixeira.</p>
+  <h3>Quanto custa um transfere partilhado para caminhantes?</h3>
+  <p>Cerca de 40–49 € por pessoa (preços verificados em setembro de 2026), normalmente sem o bilhete do percurso: 10,50 € no SIMplifica, ou 7 € se for um operador com protocolo com o IFCN a reservá-lo.</p>
+</section>
+
+<p class="src" style="margin-top:24px">Fontes: <a href="https://www.horariosdofunchal.pt/index.php/viajar/pico-do-areeiro" rel="noopener">Horários do Funchal, serviço Pico do Areeiro</a> · <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">lista de avisos do IFCN</a> · <a href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html" rel="noopener">lista de percursos e painéis do IFCN</a> · <a href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/Port48ISerie027_2026.pdf" rel="noopener">Portaria 48/2026 (taxas)</a> · <a href="https://www.dnoticias.pt/2024/8/13/416104-estacionar-no-pico-do-areeiro-vai-custar-4-euros-por-hora/" rel="noopener">DN sobre o estacionamento no Areeiro</a>. Os preços de táxis e transferes vêm das páginas dos próprios operadores e de relatos de viajantes, verificados em setembro de 2026.</p>
 
 <footer>
   <p>Guia independente, atualizado em <span id="stamp"></span>. Sem ligação ao Governo Regional da Madeira. As informações de transporte mudam — confirme os horários diretamente com os operadores.</p>
