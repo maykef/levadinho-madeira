@@ -97,20 +97,6 @@ CSS = """<style>
 .lvd-cta-qr svg{display:block;width:124px;height:124px}
 .lvd-cta-qr figcaption{font-size:12px;color:var(--ink-soft,#4A5F56);margin-top:4px}
 @media (min-width:720px){.lvd-cta-qr{display:block}}
-/* Two-column pages (PR1, trail pages): on wide screens the block fills the empty top-right
-   cell next to the heading (owner, 2026-09-30); on phones it stays in the flow below the
-   webcam / status card. */
-@media (min-width:761px){
-  .wrap > .lvd-cta.lvd-side{grid-column:2;grid-row:1;align-self:end;margin:18px 0 0;padding:14px 14px 14px 18px;
-    display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:10px;align-items:center}
-  .wrap > .lvd-cta.lvd-side > div{display:contents}
-  .wrap > .lvd-cta.lvd-side h2{grid-column:1 / -1;font-size:16px;margin:0}
-  .wrap > .lvd-cta.lvd-side p{display:none}
-  .wrap > .lvd-cta.lvd-side .lvd-cta-btn{grid-column:1;font-size:13.5px;padding:8px 12px;line-height:1.3;text-align:center}
-  .wrap > .lvd-cta.lvd-side .lvd-cta-qr{grid-column:2}
-  .wrap > .lvd-cta.lvd-side .lvd-cta-qr svg{width:84px;height:84px}
-  .wrap > .lvd-cta.lvd-side .lvd-cta-qr figcaption{font-size:10.5px;line-height:1.2}
-}
 </style>"""
 
 
@@ -163,12 +149,12 @@ def qr_svg(url, label):
             '<rect width="{n}" height="{n}" fill="#fff"/><path fill="#16342A" d="{d}"/></svg>').format(n=n, a=label, d=d)
 
 
-def block_html(lang, tag, side=False):
+def block_html(lang, tag):
     T = TEXT[lang]
     url = wa_url(tag)
     href = url.replace("&", "&amp;")
     return (
-        '<aside class="lvd-cta{side}" aria-labelledby="lvd-cta-h">\n'
+        '<aside class="lvd-cta" aria-labelledby="lvd-cta-h">\n'
         '  <div>\n'
         '    <h2 id="lvd-cta-h">{h}</h2>\n'
         '    <p>{p}</p>\n'
@@ -181,8 +167,7 @@ def block_html(lang, tag, side=False):
         '  a.addEventListener("click",function(){{try{{var g=window.goatcounter;\n'
         '    if(g&&g.count)g.count({{path:"whatsapp-"+a.getAttribute("data-tag"),title:"Levadinho WhatsApp CTA",event:true}});}}catch(e){{}}}});}})();\n'
         '</script>'
-    ).format(h=T["h"], p=T["p"], href=href, tag=tag, btn=T["btn"], svg=qr_svg(url, T["qr"]), cap=T["cap"],
-             side=" lvd-side" if side else "")
+    ).format(h=T["h"], p=T["p"], href=href, tag=tag, btn=T["btn"], svg=qr_svg(url, T["qr"]), cap=T["cap"])
 
 
 def put(html, key, body, anchors, path):
@@ -239,8 +224,7 @@ def main():
         if tags.setdefault((lang, tag), rel) != rel:
             sys.exit("FATAL: tag {} used by both {} and {}".format(tag, tags[(lang, tag)], rel))
         html = put(html, "LEVADINHO-CTA-HEAD", CSS, ["<!-- SITE-NAV-HEAD:START", "</head>"], p)
-        side = 'class="livecam"' in html or '<aside class="facts"' in html
-        html = place_top(html, block_html(lang, tag, side), p)
+        html = place_top(html, block_html(lang, tag), p)
         p.write_text(html, encoding="utf-8")
         n += 1
     print("WhatsApp CTA written to {} pages ({} tags)".format(n, len({t for _, t in tags})))
