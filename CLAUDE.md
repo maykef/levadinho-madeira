@@ -15,6 +15,11 @@ Before anything else, ask the user: **"Do you want the Levadinho WhatsApp bot up
      `read -rsp "Paste WA token: " T && sed -i "s|^WA_TOKEN=.*|WA_TOKEN=$T|" bot/.env && unset T`.
      Then restart the webhook: `bot/stop.sh` stops everything, so for the token alone use `kill $(cat bot/app.pid)` and re-run `bot/start.sh`.
 - **To shut down and free the GPU:** `bot/stop.sh`.
+- **"Restart the bot/server" = full restart:** `bot/stop.sh`, show `nvidia-smi` with the GPU vacated,
+  `bot/start.sh`, show it reloaded. Never a webhook-only restart unless you say so explicitly.
+- **A watchdog** (`bot/watchdog.sh`, cron every 5 min) checks the webhook, the Funnel, Meta's API and the model
+  while `bot/.running` exists, logs to `bot/logs/watchdog.log`, and after 3 failures does a full
+  restart (max once an hour). Old webhook logs are kept in `bot/logs/`.
 
 ## What this is
 

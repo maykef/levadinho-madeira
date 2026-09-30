@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Shut the Levadinho bot down and free the GPU.   bot/stop.sh
 cd "$(dirname "$0")"
+# The watchdog restarts with --keep-running; a manual stop tells it the bot is meant to be off.
+[ "${1:-}" = "--keep-running" ] || rm -f .running
 for f in tunnel.pid app.pid; do
   [ -f "$f" ] && kill "$(cat "$f")" 2>/dev/null && echo "stopped ${f%.pid}"
   rm -f "$f"
