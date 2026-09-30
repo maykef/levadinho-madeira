@@ -29,15 +29,17 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Update status from IFCN / Visit Madeira + Open-Meteo
+      - name: Update status from the IFCN warnings page + IPMA weather
         run: python scripts/update_status.py
 
       - name: Commit and push if changed
         run: |
           git config user.name "levadinho-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add status.json sitemap.xml index.html fr/index.html de/index.html pl/index.html \
-            pr1/index.html fr/pr1/index.html de/pr1/index.html pl/pr1/index.html
+          # status.json + sitemap, plus any page whose dateModified or STATIC-STATUS line changed
+          # (every *.html except the bot's own files).
+          git add status.json sitemap.xml
+          git add -A -- '*.html' ':(exclude)bot/**'
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Daily status update $(date -u +%F)"
           # main may have moved during the run (3 push rejections in Sept): rebase and retry.

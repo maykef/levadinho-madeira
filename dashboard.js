@@ -15,7 +15,22 @@
       region: { summit: "Summit", north: "North", west: "West", east: "East", south: "Coast" },
       wind: "wind", rain: "rain", fog: "likely in cloud",
       today: "Today's status →", nomatch: "No trail matches that.",
-      mmnote: "mountain ≠ coast; fog and wind change fast up high."
+      mmnote: "mountain ≠ coast; fog and wind change fast up high.",
+      loading: "Live status is loading… if it doesn't appear, check the official sources below."
+    },
+    pt: {
+      updated: "Atualizado", mtime: "(hora da Madeira)",
+      open: "abertos", restricted: "condicionados", closed: "fechados",
+      changed: "⚠ Alterações hoje", changedSub: "condicionados e fechados — confirme antes de ir",
+      openToday: "Abertos hoje", openSub: "a reserva continua obrigatória",
+      badge: { OPEN: "ABERTO", PARTIAL: "CONDICIONADO", CLOSED: "FECHADO" },
+      defNote: { PARTIAL: "Acesso condicionado — leia a nota oficial antes de ir.", CLOSED: "Fechado pelo IFCN." },
+      region: { summit: "Cume", north: "Norte", west: "Oeste", east: "Leste", south: "Costa" },
+      wind: "vento", rain: "chuva", fog: "provavelmente dentro das nuvens",
+      today: "Estado de hoje →", nomatch: "Nenhum percurso corresponde à pesquisa.",
+      mmnote: "montanha ≠ costa; o nevoeiro e o vento mudam depressa em altitude.",
+      loading: "O estado em direto está a carregar… se não aparecer, consulte as fontes oficiais abaixo.",
+      decimalComma: true
     },
     fr: {
       updated: "Mis à jour", mtime: "(heure de Madère)",
@@ -61,15 +76,23 @@
     });
   }
   function el(id) { return document.getElementById(id); }
+  // Decimal comma + trailing euro sign where the language expects it (pt).
+  function num(n, T) { return T.decimalComma ? String(n).replace(".", ",") : String(n); }
+  function fee(f, T) { return T.decimalComma ? num(f, T) + " €" : "€" + f; }
 
   function noteFor(t, T, lang) {
-    if (t.note) return (typeof t.note === "string") ? t.note : (t.note[lang] || t.note.en || "");
+    if (t.note) {
+      if (typeof t.note === "string") return t.note;
+      if (t.note[lang]) return t.note[lang];
+      if (t.note.en) return t.note.en;
+      for (var k in t.note) { if (t.note[k]) return t.note[k]; }
+    }
     return T.defNote[t.status] || "";
   }
 
   function card(t, T, lang, showNote) {
-    var temp = (t.temp != null) ? " · " + t.temp + "°C" : "";
-    // status.json holds the English path; fr/de/pl boards link to their own spoke.
+    var temp = (t.temp != null) ? " · " + num(t.temp, T) + "°C" : "";
+    // status.json holds the English path; pt/fr/de/pl boards link to their own spoke.
     var page = t.page && LANGS[lang] && lang !== "en" ? "/" + lang + t.page : t.page;
     // Descriptive anchors: the trail name is the link, and the CTA names its trail.
     var link = page ? '<a class="tlink" href="' + esc(page) + '">' + esc(t.code) + ": " + T.today + "</a>" : "";
@@ -81,7 +104,7 @@
       '<div class="trow">' + tname + esc(t.name) + ' <span class="tcode">' + esc(t.code) +
       "</span>" + (page ? "</a>" : "</span>") + '<span class="tbadge ' + t.status + '">' + T.badge[t.status] + "</span></div>" +
       note +
-      '<div class="tmeta"><span class="tfee">€' + esc(t.fee) + temp + "</span>" + link + "</div></div>";
+      '<div class="tmeta"><span class="tfee">' + esc(fee(t.fee, T)) + temp + "</span>" + link + "</div></div>";
   }
 
   function render(d, T, lang) {
@@ -93,10 +116,10 @@
       '<span><span class="dot CLOSED"></span><b>' + c.CLOSED + "</b> " + T.closed + "</span>";
 
     el("weatherStrip").innerHTML = (d.regions || []).map(function (r) {
-      var t = (r.temp != null) ? r.temp + "°C" : "—";
+      var t = (r.temp != null) ? num(r.temp, T) + "°C" : "—";
       var bits = [];
       if (r.wind != null) bits.push(T.wind + " " + r.wind + " km/h");
-      if (r.rain != null && r.rain > 0) bits.push('<span class="alert">' + T.rain + " " + r.rain + " mm</span>");
+      if (r.rain != null && r.rain > 0) bits.push('<span class="alert">' + T.rain + " " + num(r.rain, T) + " mm</span>");
       if (r.in_cloud) bits.push('<span class="alert">' + T.fog + "</span>");
       return '<div class="wx"><b>' + T.region[r.key] + " · " + esc(r.place) + "</b>" +
         '<span class="wtemp">' + t + "</span>" +
@@ -155,5 +178,5 @@
   fetch("/status.json", { cache: "no-cache" })
     .then(function (r) { return r.json(); })
     .then(function (d) { render(d, T, lang); })
-    .catch(function () { root.innerHTML = '<p style="color:#4A5F56">Live status is loading… if it doesn\'t appear, check the official sources below.</p>'; });
+    .catch(function () { root.innerHTML = '<p style="color:#4A5F56">' + esc(T.loading || LANGS.en.loading) + "</p>"; });
 })();

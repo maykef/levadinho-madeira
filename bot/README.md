@@ -30,12 +30,14 @@ wins. Other trails get a link to the trails board at `/`, and off-topic requests
 |------|---------|
 | `pr1_facts.md` | PR1 knowledge compiled 2026-09-26 from the official page, our site and 2026 guides. It has a "not confirmed" section the bot must not state as fact |
 | `brain.py` | Conversation flow, language handling, prompt, LLM calls. Knows nothing about WhatsApp |
-| `store.py` | SQLite (`levadinho.db`): each visitor's language, state and consent choice, the last 8 exchanges (24 h TTL), de-duplication of message ids, guide tokens (30 days) |
+| `llm_control.py` | Wake-on-demand: is the model up, is the GPU free, `docker start`/`stop levadinho-llm`, the background waiter |
+| `tests/test_wake_on_demand.py` | Offline tests (fake docker/GPU/model/WhatsApp, scratch SQLite): `python bot/tests/test_wake_on_demand.py` |
+| `store.py` | SQLite (`levadinho.db`): each visitor's language, state and consent choice, the last 8 exchanges (24 h TTL), de-duplication of message ids, guide tokens (30 days), messages waiting for the model (`pending`) and each visitor's last message time (`last_inbound`, for WhatsApp's 24 h window) |
 | `chat.py` | Local test chat through the same brain: `python bot/chat.py` (interactive) or `python bot/chat.py "msg1" "msg2"` (scripted). A digit 1–5 answers the picker, `/reset` starts over |
 | `privacy_request.py` | GDPR access / erasure for one phone number (runbook: `db/PRIVACY_REQUESTS.md`) |
 | `app.py` | FastAPI webhook for the Meta Cloud API: GET verification, POST with X-Hub-Signature-256 check, background replies, list-message picker, fallback for non-text messages |
 | `extract_facts.py` → `trail_facts.json` | Facts for all 37 trails (official scrape plus coordinates). **Not used by the trial**; kept for the multi-trail version |
-| `.env` (git-ignored) | `WA_TOKEN`, `WA_PHONE_NUMBER_ID`, `WA_APP_SECRET`, `WA_VERIFY_TOKEN`; optionally `LLM_URL`, `LLM_MODEL`, `STATUS_URL` |
+| `.env` (git-ignored) | `WA_TOKEN`, `WA_PHONE_NUMBER_ID`, `WA_APP_SECRET`, `WA_VERIFY_TOKEN`; optionally `LLM_URL`, `LLM_MODEL`, `STATUS_URL` and the wake-on-demand settings below |
 
 **Heads-up:** GitHub Pages publishes everything in the repo, so this folder's source code is
 publicly readable at levadinho-madeira.com/bot/. Secrets live only in the git-ignored `.env`.
@@ -47,7 +49,9 @@ bot/start.sh   # model → webhook + guide → Tailscale Funnel → points Meta'
 bot/stop.sh    # stops all three, frees the GPU
 ```
 
-**Check the GPU is free before starting.** The model takes about 85 GB. The container has
+**Check the GPU is free before starting.** `start.sh` still starts the model straight away; with
+wake-on-demand (below) it is enough to keep the webhook running and let the model come and go.
+The model takes about 85 GB. The container has
 `--restart no`, so the bot is off after a reboot until started.
 - **Model:** vLLM in Docker `levadinho-llm`, Qwen3.6-35B-A3B-FP8, `127.0.0.1:8001`. Takes about 2 min
   to load; answers take about 0.5–1.5 s with thinking disabled.
@@ -68,6 +72,46 @@ bot/stop.sh    # stops all three, frees the GPU
   pattern that also appears in your own command line (it kills the shell); use the PID files.
 - **To reset a phone to "new visitor" for testing,** delete its rows from `users` and `turns`
   in `levadinho.db`.
+
+## Wake on demand (since 2026-09-30)
+
+The webhook runs all the time; the ~85 GB model runs only while it's needed (`llm_control.py`).
+
+- **A message needs the model** (a free-text question, or classifying a first free-text message)
+  **while it's down:** `brain.llm()` raises `LLMDown`, `app.py` queues the message in `store.py`
+  (`pending`) and replies at once:
+  - **GPU free** (≥ `LLM_GPU_FREE_GB` free): "Levadinho is waking up. Give me about 2 minutes 🥾"
+    (pt/en/fr/de/pl, guessed from the message, else the chosen language), and `docker start
+    levadinho-llm` (or the same `docker run` as `start.sh` if the container doesn't exist);
+  - **GPU busy** (someone else's job): "Levadinho is very busy right now. I'll message you here as
+    soon as I'm free." Nothing is stopped to make room. When the GPU frees, the waiter starts the
+    model and answers.
+  - A visitor gets one notice however many messages they send meanwhile; all are answered in order.
+- **The waiter** (a thread started with the webhook) checks every 5 s: once the model answers it
+  replays the queue. A queued message is answered only inside **WhatsApp's 24-hour window** from the
+  visitor's last message; older ones are dropped and logged (and recorded, if the visitor accepted).
+- **Works without the model:** the picker, the privacy notice and its buttons, the language choice,
+  campaign QRs (guide link), "guide"/"guia" and location pins. Accept tapped while the model sleeps:
+  the acceptance counts at once and the question asked before it is queued.
+- **Idle stop:** after `LLM_IDLE_MIN` minutes without an incoming message (and nothing queued) the
+  waiter runs `docker stop levadinho-llm`. It never stops anything else.
+- **Privacy:** a queued exchange is recorded (`app.record()`, same consent rules) when it's
+  answered or dropped, not before. Queued messages live in the working store for at most 24 h and are
+  covered by `store.erase()`.
+
+| Setting (`.env`) | Default | Meaning |
+|---|---|---|
+| `LLM_ON_DEMAND` | `1` | `0` = old behaviour: the model is started by hand with `start.sh` and never stopped by the webhook |
+| `LLM_AUTO_STOP` | `1` | `1` = stop the idle model whoever started it; `0` = only if the webhook started it (a model started by `start.sh` stays up) |
+| `LLM_IDLE_MIN` | `30` | Idle minutes before the model is stopped; `0` = never |
+| `LLM_GPU_FREE_GB` | `88` | Free GPU memory (GiB) needed to start the model |
+| `LLM_RETRY_S` | `300` | Minimum wait before another start attempt after one that didn't come up |
+
+**Website links** pre-fill `Olá Levadinho! 👋 #web-<page>` (e.g. `#web-pr1`, `#web-fees`). A
+`web-` tag is recorded as the campaign (`qr_scanned` with `source: "web"`, and `campaign_id` on the
+turns and events) but is not a guide route: the visitor gets the normal picker → notice → intro.
+Only `[a-z0-9-]`, at most 44 characters after `#`. Campaign QRs (`#areeiro`, `#ely`) still open their
+route's guide.
 
 ## Analytics database (T6/T7, since 2026-09-28)
 

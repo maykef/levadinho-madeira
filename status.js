@@ -29,6 +29,29 @@
       advisory: "The webcam shows you a snippet of the summit right now — don't assume conditions will stay that way. Pack a good anorak and fleece, carry enough water, and wear adequate footwear.",
       lastChecked: "Last checked:", madeiraTime: "(Madeira time)", source: "Source:"
     },
+    pt: {
+      badge: { OPEN: "ABERTO", PARTIAL: "PARCIAL", CLOSED: "FECHADO" },
+      officialNote: "Nota oficial:",
+      defaultNote: {
+        OPEN: "Apenas num sentido: Pico do Areeiro → Pico Ruivo. Reserve no SIMplifica antes de ir.",
+        PARTIAL: "Acesso condicionado — leia a nota oficial acima antes de planear.",
+        CLOSED: "O percurso está oficialmente fechado. Veja abaixo como reagendar a sua reserva no SIMplifica e as alternativas abertas."
+      },
+      spokeNote: {
+        OPEN: "Aberto hoje — reserve a sua vaga no SIMplifica antes de ir.",
+        PARTIAL: "Acesso condicionado — leia a nota oficial acima antes de planear.",
+        CLOSED: "Oficialmente fechado — veja abaixo como reagendar e as alternativas abertas."
+      },
+      weather: function (w) {
+        if (!w || !w.ok) return "Consulte a previsão para a montanha antes de ir — as condições no cume são muito diferentes das do Funchal.";
+        var cloud = w.in_cloud ? ", provavelmente dentro das nuvens/nevoeiro (humidade " + Math.round(w.humidity) + " %)" : "";
+        var wind = w.wind_strong ? ", vento forte (" + Math.round(w.wind_kmh) + " km/h)" : "";
+        return "Tempo no cume agora: " + Math.round(w.temp_c) + " °C medidos na estação do Pico do Areeiro (~1800 m)" + cloud + wind + " — conte com bastante mais frio e nebulosidade do que no Funchal.";
+      },
+      nearby: function (t) { return "Tempo nas proximidades agora: " + t + " °C — conte com a montanha mais fresca e nublada do que a costa."; },
+      advisory: "A webcam mostra apenas um instante do cume — não assuma que as condições se vão manter. Leve um bom corta-vento impermeável e um polar, água suficiente e calçado adequado.",
+      lastChecked: "Última verificação:", madeiraTime: "(hora da Madeira)", source: "Fonte:"
+    },
     fr: {
       badge: { OPEN: "OUVERT", PARTIAL: "PARTIEL", CLOSED: "FERMÉ" },
       officialNote: "Note officielle :",
@@ -108,7 +131,12 @@
   var lang, L;
   function noteText(note, fallback) {
     if (!note) return fallback;
-    return (typeof note === "string") ? note : (note[lang] || note.en || fallback);
+    if (typeof note === "string") return note;
+    if (note[lang]) return note[lang];
+    if (note.en) return note.en;
+    // Portuguese is the original since 2026-09-30; take any language rather than nothing.
+    for (var k in note) { if (note[k]) return note[k]; }
+    return fallback;
   }
   function stamp(d) {
     return '<div class="stamp"><span>' + L.lastChecked + " <b>" + esc(d.stamp) + "</b> " + L.madeiraTime +
