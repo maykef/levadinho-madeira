@@ -9,15 +9,22 @@
 const CONFIG = { goatcounterCode: "madeira-levadinho" };
 </script>
 
-<title>Madeira trails: which are open or closed today? (live status)</title>
-<meta name="description" content="Open / restricted / closed status for every paid Madeira PR walking trail, from the official IFCN trail-warnings list with IFCN's own “updated” date. Booking and fees are through SIMplifica.">
+<title>Madeira hiking trails open or closed today? Live status</title>
+<meta name="description" content="Live status of every paid Madeira PR hiking trail, from the official IFCN trail-warnings list with IFCN's own date. Check live status, fees and booking.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://levadinho-madeira.com/">
-<meta property="og:title" content="Madeira trails: open or closed today? Live status board">
-<meta property="og:description" content="Every paid PR trail's status, from the official IFCN trail-warnings list, with IFCN's own “updated” date.">
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="Madeira hiking trails open or closed today? Live status">
+<meta property="og:description" content="Live status of every paid Madeira PR hiking trail, from the official IFCN trail-warnings list with IFCN's own date. Check live status, fees and booking.">
+<meta property="og:image" content="https://levadinho-madeira.com/img/pr1-ridge-panorama.jpg">
+<meta property="og:image:alt" content="Hikers on the PR1 ridge between Pico do Areeiro and Pico Ruivo">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<link rel="preload" as="image" href="/img/pride-of-madeira.webp">
+<link rel="preload" as="image" href="/img/pr1-torres-flowers.webp">
 
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/">
 <link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/">
@@ -33,9 +40,9 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
  "@context": "https://schema.org",
  "@type": "WebPage",
  "url": "https://levadinho-madeira.com/",
- "name": "Madeira trails: which are open or closed today? (live status)",
+ "name": "Madeira hiking trails open or closed today? Live status",
  "inLanguage": "en",
- "dateModified": "2026-09-30T14:28+01:00"
+ "dateModified": "2026-09-30T20:05+01:00"
 }
 </script>
 <script type="application/ld+json">
@@ -43,8 +50,30 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Which Madeira trails are open today?","acceptedAnswer":{"@type":"Answer","text":"This page shows the open, restricted or closed status of every classified PR walking trail from the official IFCN trail-warnings list, with IFCN's own “updated” date (IFCN updates the list when conditions change, not daily). Restricted and closed trails are listed first."}},
-    {"@type":"Question","name":"Do I still need to book a Madeira trail if it is open?","acceptedAnswer":{"@type":"Answer","text":"Yes. All classified PR trails require advance booking and payment through the SIMplifica portal — €4.50 per trail, or €10.50 for PR1 — even when the trail is open. Children under 12 are free but must be on the reservation."}}
+    {
+      "@type": "Question",
+      "name": "Which Madeira trails are open today?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This page shows the open, restricted or closed status of every classified PR walking trail from the official IFCN trail-warnings list, with IFCN's own “updated” date (IFCN updates the list when conditions change, not daily). Restricted and closed trails are listed first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I still need to book a Madeira trail if it is open?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, on the classified PR trails managed by IFCN: book and pay in advance on the SIMplifica portal — €4.50 per trail, or €10.50 for PR1 — even when the trail is open. Children under 12 are free but must be on the reservation. A few classified trails (PR3, PR3.1, PR4, PR23) are not on SIMplifica and need no booking."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where can I check if Madeira's trails are open today?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the official IFCN trail-warnings list, which is the source for this board. This page shows the same list trail by trail, with IFCN's own “updated” date, and each trail has its own page with a live status card."
+      }
+    }
   ]
 }
 </script>
@@ -65,11 +94,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 
 .ribbon{display:flex;gap:2px;overflow:hidden;height:150px}
 .ribbon .pic{flex:1 1 0;min-width:0;position:relative}
-.ribbon .pic.a{background:#20573a url(/img/25fontes.jpg) center/cover}
-.ribbon .pic.b{background:#5f7590 url(/img/areeiro.jpg) center/cover}
-.ribbon .pic.c{background:#9a583a url(/img/saolourenco.jpg) center/cover}
-.ribbon .pic.d{background:#1d5638 url(/img/caldeirao.jpg) center/cover}
-.ribbon .pic.e{background:#48594d url(/img/fanal.jpg) center/cover}
+.ribbon .pic.a{background:#5b5a8c url(/img/pride-of-madeira.webp) center/cover}
+.ribbon .pic.b{background:#4f7a3a url(/img/pr1-torres-flowers.webp) center/cover}
+.ribbon .pic.c{background:#5f7590 url(/img/pr1-viewpoint-cloud.webp) center/cover}
+.ribbon .pic.d{background:#20573a url(/img/25fontes.webp) center/cover}
+.ribbon .pic.e{background:#9a583a url(/img/saolourenco.webp) center/cover}
 .ribbon .pic span{position:absolute;left:0;right:0;bottom:0;padding:7px 12px;font-size:12px;font-weight:700;
   color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent)}
 @media (max-width:640px){.ribbon{height:116px}.ribbon .pic.d,.ribbon .pic.e{display:none}}
@@ -129,6 +158,7 @@ h1{font-size:clamp(26px,6vw,36px);line-height:1.1;font-weight:800;letter-spacing
 .why{margin-top:30px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
 .why h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
 .why p{font-size:14.5px;color:var(--ink-soft)}
+.why h3{font-size:15px;font-weight:750;margin:12px 0 2px}
 .disclaimer{margin-top:16px;padding:12px 16px;background:#FBF4E6;border:1px solid #ECDCBB;border-radius:10px;
   font-size:12.5px;color:#6b5b34;line-height:1.5}
 .disclaimer b{color:#5a4a25}
@@ -166,10 +196,10 @@ footer a{color:var(--ink-soft)}
 .related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 @media (max-width:480px){.related ul{grid-template-columns:1fr}}
 .related li{margin:0}
-.related a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+.related li a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
   padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
-.related a:hover{border-color:var(--ink-soft)}
-.related a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related li a:hover{border-color:var(--ink-soft)}
+.related li a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
 .related p{color:var(--ink-soft);font-size:14px}
 .guides{margin-top:22px}
 .guides ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 8px}
@@ -186,11 +216,11 @@ a.tname:hover{text-decoration:underline}
 <div class="waymark" aria-hidden="true"></div>
 
 <div class="ribbon" aria-hidden="true">
-  <div class="pic a"><span>Levada das 25 Fontes</span></div>
+  <div class="pic a"><span>Pride of Madeira · PR1</span></div>
   <div class="pic b"><span>Pico do Areeiro → Pico Ruivo</span></div>
-  <div class="pic c"><span>Ponta de São Lourenço</span></div>
-  <div class="pic d"><span>Caldeirão Verde</span></div>
-  <div class="pic e"><span>Fanal</span></div>
+  <div class="pic c"><span>Vereda do Areeiro (PR1)</span></div>
+  <div class="pic d"><span>Levada das 25 Fontes</span></div>
+  <div class="pic e"><span>Ponta de São Lourenço</span></div>
 </div>
 
 <div class="wrap">
@@ -297,7 +327,6 @@ a.tname:hover{text-decoration:underline}
   <h2>More guides</h2>
   <ul>
     <li><a href="/hiking-fees.html">Madeira hiking fees 2026</a></li>
-    <li><a href="/do-i-need-a-permit/">Do I need a permit for levada walks?</a></li>
     <li><a href="/simplifica-booking/">SIMplifica trail booking, step by step</a></li>
     <li><a href="/simplifica-from-abroad.html">SIMplifica not working from abroad?</a></li>
     <li><a href="/getting-back.html">Getting back from Pico Ruivo without a car</a></li>
@@ -309,16 +338,25 @@ a.tname:hover{text-decoration:underline}
   </ul>
 </nav>
 <!-- SITE-NAV-GUIDES:END -->
+<div class="why faq" id="faq">
+  <h2>Questions</h2>
+  <h3>Which Madeira trails are open today?</h3>
+  <p>This page shows the open, restricted or closed status of every classified PR walking trail from the official IFCN trail-warnings list, with IFCN's own “updated” date (IFCN updates the list when conditions change, not daily). Restricted and closed trails are listed first.</p>
+  <h3>Do I still need to book a Madeira trail if it is open?</h3>
+  <p>Yes, on the classified PR trails managed by IFCN: book and pay in advance on the SIMplifica portal — €4.50 per trail, or €10.50 for PR1 — even when the trail is open. Children under 12 are free but must be on the reservation. A few classified trails (PR3, PR3.1, PR4, PR23) are not on SIMplifica and need no booking.</p>
+  <h3>Where can I check if Madeira's trails are open today?</h3>
+  <p>On the official <a class="tlink" href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN trail-warnings list</a>, which is the source for this board. This page shows the same list trail by trail, with IFCN's own “updated” date, and each trail has its own page with a live status card.</p>
+</div>
 <div class="why">
   <h2>Why I built this</h2>
-  <p>In 2026 Madeira put every classified trail behind paid, timed booking on SIMplifica — and the fees, rules and closures keep changing. Too many visitors turn up to a closed trail or overpay because the guide they read was months out of date. So this site re-reads the official IFCN trail-warnings list every morning and shows it with IFCN's own “updated” date, next to the fees and rules that apply today.</p>
+  <p>In 2026 Madeira put the classified trails managed by IFCN behind paid, timed booking on SIMplifica (a few, such as PR3, PR3.1, PR4 and PR23, <a class="tlink" href="/do-i-need-a-permit/">need no booking</a>) — and the fees, rules and closures keep changing. Too many visitors turn up to a closed trail or overpay because the guide they read was months out of date. So this site checks the official IFCN trail-warnings list daily and shows it with IFCN's own “updated” date, next to the fees and rules that apply today.</p>
 </div>
 
 <div class="disclaimer">
   <b>Disclaimer.</b> The information on this site is compiled from secondary and official sources (IFCN, Visit Madeira, SIMplifica, IPMA) and may be incomplete, delayed or incorrect. We are not responsible or liable for any errors, or for any decision made based on it. Always confirm the current status, fees and booking directly with the official sources before you set out, and use your own judgement on the trail.
 </div>
-<footer>Status from the official IFCN trail-warnings list (re-read every morning; IFCN's own “updated” date is shown). Independent — not affiliated with the Madeira Regional Government.</footer>
-<p class="credit" style="max-width:1040px;margin:8px auto 0;padding:0 20px;font-size:11.5px;color:#8a978f">Trail photos: Asurnipal, Krzysztof Popławski, Dietmar Rabich, cudi (<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener" style="color:inherit">Wikimedia Commons</a>, CC BY-SA 4.0 / CC BY 4.0 / CC BY 2.0), resized. <a href="/img/CREDITS.txt" style="color:inherit">Full credits</a>.</p>
+<footer>Status from the official IFCN trail-warnings list (checked daily; IFCN's own “updated” date is shown). Independent — not affiliated with the Madeira Regional Government.</footer>
+<p class="credit" style="max-width:1040px;margin:8px auto 0;padding:0 20px;font-size:11.5px;color:#8a978f">Trail photos: Maykef (PR1, own photos, © 2026) and Asurnipal (<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener" style="color:inherit">Wikimedia Commons</a>, CC BY-SA 4.0), resized. <a href="/img/CREDITS.txt" style="color:inherit">Full credits</a>.</p>
 </div>
 
 <script>

@@ -8,20 +8,25 @@
 <script>
 const CONFIG = {
   goatcounterCode: "madeira-levadinho",
-  lastUpdated: "2026-07-06"
+  lastUpdated: "2026-09-30"
 };
 </script>
 <!-- ============================================================ -->
 
-<title>SIMplifica ne marche pas depuis l'étranger ? Comment réserver les sentiers de Madère avant de partir</title>
-<meta name="description" content="Le portail SIMplifica refuse souvent de s'ouvrir depuis l'extérieur du Portugal et rejette les numéros de téléphone étrangers. Voici comment s'inscrire avec un e-mail, payer par carte et réserver votre créneau de randonnée à Madère avant de voyager.">
+<title>SIMplifica bloqué depuis l'étranger ? Réserver à Madère</title>
+<meta name="description" content="SIMplifica s'ouvre mal hors du Portugal et rejette les numéros étrangers. Inscrivez-vous par e-mail, payez par carte, réservez. Voir la solution.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/fr/simplifica-from-abroad.html">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://levadinho-madeira.com/fr/simplifica-from-abroad.html">
-<meta property="og:title" content="SIMplifica ne marche pas depuis l'étranger ? Réservez votre sentier de Madère quand même">
-<meta property="og:description" content="Inscrivez-vous avec un e-mail (pas un numéro de téléphone), payez par carte, capturez le QR code. La solution de contournement complète pour réserver des randonnées à Madère depuis l'extérieur du Portugal.">
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="SIMplifica bloqué depuis l'étranger ? Réserver à Madère">
+<meta property="og:description" content="SIMplifica s'ouvre mal hors du Portugal et rejette les numéros étrangers. Inscrivez-vous par e-mail, payez par carte, réservez. Voir la solution.">
+<meta property="og:image" content="https://levadinho-madeira.com/img/og-default.jpg">
+<meta property="og:image:alt" content="Levadinho : état des sentiers de Madère, tarifs et réservation">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
 
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/simplifica-from-abroad.html">
 <link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/simplifica-from-abroad.html">
@@ -38,17 +43,26 @@ const CONFIG = {
     {
       "@type": "Question",
       "name": "Pourquoi le site SIMplifica ne s'ouvre-t-il pas depuis mon pays ?",
-      "acceptedAnswer": {"@type": "Answer", "text": "SIMplifica est parfois inaccessible depuis l'extérieur du Portugal — il peut ne pas se charger ou vous bloquer sur la première page. Essayez un autre navigateur, désactivez tout VPN, ou passez aux données mobiles. Si cela n'aboutit toujours pas, créez votre compte et réservez depuis une connexion portugaise une fois sur place, ou demandez à un opérateur sous protocole IFCN de garder votre créneau."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SIMplifica est parfois inaccessible depuis l'extérieur du Portugal — il charge le premier écran puis n'avance plus. Coupez tout VPN (un nœud de sortie étranger peut aggraver les choses), essayez un autre navigateur, ou passez du Wi-Fi aux données mobiles. Si cela n'aboutit toujours pas, ne perdez pas une soirée dessus : ça marche normalement une fois sur l'île, ou un opérateur peut réserver pour vous."
+      }
     },
     {
       "@type": "Question",
       "name": "SIMplifica n'accepte pas mon numéro de téléphone. Que faire ?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Le portail rejette souvent les numéros de mobile non portugais. Inscrivez-vous avec votre adresse e-mail au lieu d'un numéro de téléphone — le compte et le QR code de votre billet fonctionnent tous deux par e-mail, donc un numéro étranger n'est pas nécessaire."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le portail rejette fréquemment les numéros de mobile non portugais. Choisissez plutôt la voie d'inscription par e-mail que celle par téléphone. Le type de compte est « Pessoa Singular » (particulier). Votre mot de passe doit compter au moins 10 caractères utilisant 3 des 4 types (majuscule, minuscule, chiffre, symbole) — le bouton « suggérer un mot de passe robuste » vous épargne le tracas."
+      }
     },
     {
       "@type": "Question",
       "name": "Puis-je réserver un sentier de Madère après mon arrivée sur l'île ?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Oui, la réservation le jour même est possible s'il reste des créneaux, et le portail est bien plus fiable depuis une connexion locale. Mais les sentiers populaires comme le PR1, le PR6 et le PR9 affichent complet des semaines à l'avance en été et autour de Noël, donc réserver avant de partir est plus sûr pour une date fixe."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui : la réservation pour le jour même ou le lendemain est possible s'il reste des places, et le portail fonctionne normalement depuis une connexion locale. Mais les places sont limitées et les créneaux complets se bloquent : pour une date fixe, mieux vaut réserver avant de partir."
+      }
     }
   ]
 }
@@ -87,6 +101,8 @@ p{margin-bottom:9px; font-size:15.5px}
 ol,ul{padding-left:22px; margin-bottom:9px}
 li{margin-bottom:7px; font-size:15.5px}
 .fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
+.src{font-size:13px; color:var(--ink-soft); margin-top:12px}
+.src a{color:var(--ink-soft)}
 footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
 a.plain{color:var(--ink); font-weight:600}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -121,10 +137,10 @@ a.plain{color:var(--ink); font-weight:600}
 .related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 @media (max-width:480px){.related ul{grid-template-columns:1fr}}
 .related li{margin:0}
-.related a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+.related li a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
   padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
-.related a:hover{border-color:var(--ink-soft)}
-.related a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related li a:hover{border-color:var(--ink-soft)}
+.related li a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
 .related p{color:var(--ink-soft);font-size:14px}
 .guides{margin-top:22px}
 .guides ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 8px}
@@ -187,7 +203,7 @@ a.tname:hover{text-decoration:underline}
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Réponses sentiers Madère</div>
   <h1>SIMplifica ne marche pas depuis l'étranger ?</h1>
-  <p class="sub">Depuis 2026, chaque sentier PR officiel nécessite une réservation via le portail gouvernemental SIMplifica — et ce portail est le plus gros casse-tête pour les visiteurs qui essaient de planifier depuis chez eux.</p>
+  <p class="sub">Depuis 2026, les sentiers PR classés gérés par l'IFCN nécessitent une réservation via le portail gouvernemental SIMplifica (quelques-uns, comme le PR3, le PR3.1, le PR4 et le PR23, <a class="plain" href="/fr/do-i-need-a-permit/">ne demandent pas de réservation</a>) — et ce portail est le plus gros casse-tête pour les visiteurs qui essaient de planifier depuis chez eux.</p>
 </header>
 
 <!-- LEVADINHO-CTA:START (generated by scripts/gen_cta.py) -->
@@ -216,12 +232,12 @@ a.tname:hover{text-decoration:underline}
   <h2>Ce qui coince vraiment — et la solution de contournement</h2>
 
   <div class="opt">
-    <h3>Le site ne se charge pas / vous bloque à la page un <span class="tag">Accès</span></h3>
+    <h3>Pourquoi le site SIMplifica ne s'ouvre-t-il pas depuis mon pays ? <span class="tag">Accès</span></h3>
     <p>SIMplifica est parfois inaccessible depuis l'extérieur du Portugal — il charge le premier écran puis n'avance plus. Coupez tout VPN (un nœud de sortie étranger peut aggraver les choses), essayez un autre navigateur, ou passez du Wi-Fi aux données mobiles. Si cela n'aboutit toujours pas, ne perdez pas une soirée dessus : ça marche normalement une fois sur l'île, ou un opérateur peut réserver pour vous.</p>
   </div>
 
   <div class="opt">
-    <h3>« Numéro de téléphone invalide » à l'inscription <span class="tag">Inscription</span></h3>
+    <h3>SIMplifica n'accepte pas mon numéro de téléphone. Que faire ? <span class="tag">Inscription</span></h3>
     <p>Le portail rejette fréquemment les numéros de mobile non portugais. Choisissez plutôt la voie d'inscription par <b>e-mail</b> que celle par téléphone. Le type de compte est <b>« Pessoa Singular »</b> (particulier). Votre mot de passe doit compter au moins 10 caractères utilisant 3 des 4 types (majuscule, minuscule, chiffre, symbole) — le bouton « suggérer un mot de passe robuste » vous épargne le tracas.</p>
   </div>
 
@@ -237,11 +253,16 @@ a.tname:hover{text-decoration:underline}
   <h2>Réservez avant de partir — la version sereine</h2>
   <ol>
     <li><b>Créez le compte cette semaine</b>, depuis chez vous, sur <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">la page de réservation SIMplifica</a> — pas le matin de la randonnée au départ du sentier sans signal.</li>
-    <li><b>Réservez la date exacte et le créneau d'entrée de 30 minutes.</b> Les sentiers populaires (PR1, PR6 25 Fontes, PR9 Caldeirão Verde) affichent complet des semaines à l'avance en été et autour de Noël.</li>
-    <li><b>Capturez le billet avec QR code.</b> Les gardes le contrôlent au départ du sentier, et il n'y a souvent pas de signal pour recharger votre e-mail.</li>
+    <li><b>Réservez la date exacte et le créneau d'entrée de 30 minutes.</b> Les créneaux ont des places limitées et ceux qui sont complets se bloquent ; à la réouverture du PR1 en mai 2026, les premiers week-ends ont affiché complet le jour même de l'ouverture des réservations.</li>
+    <li><b>Capturez le billet avec QR code.</b> Vous devrez peut-être le montrer sur le sentier, à un équipement de contrôle ou au personnel de l'IFCN qui le demande, et il n'y a souvent pas de signal pour recharger votre e-mail.</li>
     <li><b>Tout le monde dans le groupe figure sur la réservation</b> — y compris les moins de 12 ans (gratuit) et les résidents (gratuit) — sinon toute la réservation peut être refusée.</li>
   </ol>
   <div class="fact">Parcourir un sentier classé par l'IFCN sans billet SIMplifica valide est une infraction administrative (Portaria 801/2025, art. 10 ; DLR 24/2022/M, art. 13) ; la loi prévoit pour les particuliers des amendes de <b>250 € à 2 500 €</b>. Les créneaux le jour même sont possibles s'il en reste, mais une date de voyage fixe est un mauvais moment pour jouer là-dessus.</div>
+  <div class="opt">
+    <h3>Puis-je réserver un sentier de Madère après mon arrivée sur l'île ? <span class="tag">Sur place</span></h3>
+    <p>Oui : la réservation pour le jour même ou le lendemain est possible s'il reste des places, et le portail fonctionne normalement depuis une connexion locale. Mais les places sont limitées et les créneaux complets se bloquent : pour une date fixe, mieux vaut réserver avant de partir.</p>
+  </div>
+  <p class="src"><b>Sources :</b> <a class="plain" href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/faq-s-taxas-percursos-pedestres-classificados/frequently-asked-questions-fees-classified-walking-routes.html" target="_blank" rel="noopener">FAQ de l'IFCN sur les redevances</a> (réservation, créneaux, billets) · <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">Service de réservation SIMplifica</a> · <a class="plain" href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/ISerie-218-Portaria-Taxas.pdf" target="_blank" rel="noopener">Portaria 801/2025</a> · <a class="plain" href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/Port48ISerie027_2026.pdf" target="_blank" rel="noopener">Portaria 48/2026</a> (art. 7, présentation du billet) · <a class="plain" href="https://www.dnoticias.pt/2026/4/29/490203-trilho-entre-pico-do-areeiro-e-pico-ruivo-esgotado-nos-primeiros-fins-de-semana-de-maio/" target="_blank" rel="noopener">DN Madeira, 29/04/2026</a> (PR1 complet). Vérifié le 30/09/2026.</p>
 </section>
 
 <section>
