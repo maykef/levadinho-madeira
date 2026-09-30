@@ -207,7 +207,10 @@ python scripts/update_status.py
 - Each page carries a small `CONFIG` block at the very top. It currently holds
   just `goatcounterCode` (plus `lastUpdated` on the article pages).
 - **Levadinho WhatsApp block on every page** (`scripts/gen_cta.py`, between
-  `LEVADINHO-CTA` markers; not on `privacy/` or the `trails/` stubs): a tap-to-open
+  `LEVADINHO-CTA` markers; not on `privacy/` or the `trails/` stubs). **Placement (owner, 2026-09-30):**
+  full width, directly below the webcam block / status card (the official note), else below the
+  page header. Each run of `gen_cta.py` moves it there. The owner rejected a desktop top-right version,
+  so don't put it back. Contents: a tap-to-open
   `https://wa.me/447405754593?text=Olá Levadinho! 👋 #web-<tag>` link on all screens, plus an
   inline SVG QR code (built with the `qrcode` lib) shown only at ≥720 px with "Scan with your
   phone". Tags are per page and shared by all languages (the bot detects the language):
