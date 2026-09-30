@@ -33,7 +33,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Is the Levada dos Cedros open today?","acceptedAnswer":{"@type":"Answer","text":"Today's status is shown live at the top of this page, updated each morning from official IFCN / Visit Madeira information. Access is €4.50 through the SIMplifica portal; children under 12 and residents are free but must still be on the booking."}},
+    {"@type":"Question","name":"Is the Levada dos Cedros open today?","acceptedAnswer":{"@type":"Answer","text":"Today's status is shown live at the top of this page, taken from the official IFCN warnings list, which carries IFCN's own “updated” date. Access is €4.50 through the SIMplifica portal; children under 12 and residents are free but must still be on the booking."}},
     {"@type":"Question","name":"Do you need to book the Levada dos Cedros?","acceptedAnswer":{"@type":"Answer","text":"Yes. PR14 requires an advance booking and €4.50 payment through SIMplifica. Under-12s and residents are free but must be named on the booking. It is quieter than the Rabaçal trails but still a paid, booking-only PR route."}},
     {"@type":"Question","name":"Where does the Levada dos Cedros start and finish?","acceptedAnswer":{"@type":"Answer","text":"It starts at Fanal, on the Paul da Serra plateau in the west, and descends through the laurel forest to Ribeira da Janela, where it meets the PR15. It is a point-to-point walk, so it does not finish where you parked — arrange a pickup, use two cars, or continue on the PR15 down to the village."}},
     {"@type":"Question","name":"How long is the Levada dos Cedros hike?","acceptedAnswer":{"@type":"Answer","text":"About 7 km one way, roughly 2.5 to 3 hours, graded easy to moderate and mostly downhill through UNESCO laurel forest. The path can be muddy and slippery, and Fanal is often in cloud."}}
@@ -181,7 +181,7 @@ a.tname:hover{text-decoration:underline}
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Madeira trail answers</div>
   <h1>Is the Levada dos Cedros open today?</h1>
-  <p class="sub">Levada dos Cedros (PR14) — from misty Fanal down through the laurel forest to Ribeira da Janela. Checked every morning against official IFCN status. See <a href="/">all Madeira trails</a> or <a href="/pr1/">PR1</a>.</p>
+  <p class="sub">Levada dos Cedros (PR14) — from misty Fanal down through the laurel forest to Ribeira da Janela. Status from the official IFCN warnings list, with IFCN's own “updated” date. See <a href="/">all Madeira trails</a> or <a href="/pr1/">PR1</a>.</p>
 </header>
 
 <div class="status-card" id="statusCard" data-trail="PR14">
@@ -199,6 +199,12 @@ a.tname:hover{text-decoration:underline}
     <dt>Type</dt><dd>Point-to-point</dd>
     <dt>Fee</dt><dd>€4.50</dd>
   </dl>
+  <!-- TRAIL-EXTRAS:START (scripts/gen_trail_extras.py) -->
+  <dl style="margin-top:5px">
+    <dt>Exposure / vertigo</dt><dd>Moderate</dd>
+  </dl>
+  <p style="font-size:12px;color:var(--ink-soft);margin:8px 0 0;line-height:1.45">The IFCN panel warns of vertigo, although guides call it an easy walk. Source: <a href="https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr14.jpg" target="_blank" rel="noopener">IFCN trailhead panel</a> · <a href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html" target="_blank" rel="noopener">IFCN trail list</a>.</p>
+  <!-- TRAIL-EXTRAS:END -->
 </aside>
 
 <div class="waymark thin" aria-hidden="true"></div>
@@ -266,7 +272,7 @@ a.tname:hover{text-decoration:underline}
 </section>
 <!-- SITE-NAV-RELATED:END -->
 <footer>
-  <p>Status compiled each morning from <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> and <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, with weather from <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.</p>
+  <p>Status compiled from <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> and <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, with weather from <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.</p>
   <p style="margin-top:6px">Photo: Rudolphu, <a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, cropped and resized.</p>
 </footer>
 </div>

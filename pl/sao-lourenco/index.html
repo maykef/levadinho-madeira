@@ -33,7 +33,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Czy Ponta de São Lourenço jest dziś otwarte?","acceptedAnswer":{"@type":"Answer","text":"Dzisiejszy status jest wyświetlany na żywo na górze tej strony, aktualizowany każdego ranka na podstawie oficjalnych informacji IFCN / Visit Madeira. Szlak jest często zamknięty w dni z silnym wiatrem, więc sprawdzaj tego samego ranka. Wstęp kosztuje €4.50 przez portal SIMplifica."}},
+    {"@type":"Question","name":"Czy Ponta de São Lourenço jest dziś otwarte?","acceptedAnswer":{"@type":"Answer","text":"Dzisiejszy status jest wyświetlany na żywo na górze tej strony, pochodzi z oficjalnej listy komunikatów IFCN i ma datę „aktualizacji” podaną przez IFCN. Szlak jest często zamknięty w dni z silnym wiatrem, więc sprawdzaj tego samego ranka. Wstęp kosztuje €4.50 przez portal SIMplifica."}},
     {"@type":"Question","name":"Dlaczego São Lourenço się zamyka?","acceptedAnswer":{"@type":"Answer","text":"Półwysep jest w pełni wystawiony na północny wiatr, bez żadnego schronienia, więc IFCN zamyka PR8, gdy wiatr jest silny, ze względów bezpieczeństwa. Jednego dnia może być otwarty, a następnego zamknięty — zawsze sprawdzaj aktualny status w poranek, w który planujesz iść."}},
     {"@type":"Question","name":"Czy trzeba rezerwować São Lourenço?","acceptedAnswer":{"@type":"Answer","text":"Tak. PR8 wymaga wcześniejszej rezerwacji i opłaty €4.50 przez SIMplifica, w 30-minutowym oknie wejścia. Dzieci poniżej 12 lat wchodzą za darmo, ale muszą być ujęte w rezerwacji."}},
     {"@type":"Question","name":"Gdzie zaparkować na São Lourenço?","acceptedAnswer":{"@type":"Answer","text":"Na parkingu Baía d'Abra na samym wschodnim krańcu wyspy (koniec drogi ER214), około 45 minut z Funchal. Szlak zaczyna się tam i prowadzi wzdłuż półwyspu do Casa do Sardinha."}}
@@ -181,7 +181,9 @@ a.tname:hover{text-decoration:underline}
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Odpowiedzi o szlakach Madery</div>
   <h1>Czy Ponta de São Lourenço jest dziś otwarte?</h1>
-  <p class="sub">Vereda da Ponta de São Lourenço (PR8) — z Baía d'Abra wzdłuż dzikiego wschodniego cypla Madery. Zamyka się w dni z silnym wiatrem, więc sprawdzaj tego samego ranka. Sprawdzane każdego ranka względem oficjalnego statusu IFCN. Zobacz <a href="/pl/">wszystkie szlaki Madery</a> lub <a href="/pl/pr1/">PR1</a>.</p>
+  <p class="sub">Vereda da Ponta de São Lourenço (PR8) — z Baía d'Abra wzdłuż dzikiego wschodniego cypla Madery. Zamyka się w dni z silnym wiatrem, więc sprawdzaj tego samego ranka. Status z oficjalnej listy komunikatów IFCN, z datą „aktualizacji” podaną przez IFCN. Zobacz <a href="/pl/">wszystkie szlaki Madery</a> lub <a href="/pl/pr1/">PR1</a>.</p>
+  <!-- PR8-WORKS: IFCN works notice via DN 2026-09-29 (seo_research/facts/best_levadas.md); remove after ~27 Jun 2027 -->
+  <div class="fact" style="margin-top:12px"><b>Prace od 30 września 2026:</b> IFCN modernizuje PR8 przez co najmniej 270 dni (mniej więcej do końca czerwca 2027). Szlak pozostaje otwarty, z niewielkimi oznakowanymi objazdami — kieruj się strzałkami i wskazówkami na miejscu. Źródło: <a class="plain" href="https://www.dnoticias.pt/2026/9/29/507166-vereda-da-ponta-de-sao-lourenco-condicionada-por-nove-meses/" target="_blank" rel="noopener">DN, 29.09.2026</a>, powołujący się na IFCN.</div>
 </header>
 
 <div class="status-card" id="statusCard" data-trail="PR8">
@@ -196,9 +198,15 @@ a.tname:hover{text-decoration:underline}
     <dt>Czas</dt><dd>~2h30</dd>
     <dt>Trudność</dt><dd>Umiarkowana</dd>
     <dt>Wysokość</dt><dd>23–126 m</dd>
-    <dt>Wystawienie</dt><dd>Pełne słońce, brak cienia</dd>
+    <dt>Słońce / cień</dt><dd>Pełne słońce, brak cienia</dd>
     <dt>Opłata</dt><dd>€4.50</dd>
   </dl>
+  <!-- TRAIL-EXTRAS:START (scripts/gen_trail_extras.py) -->
+  <dl style="margin-top:5px">
+    <dt>Ekspozycja / lęk wysokości</dt><dd>Wysoka</dd>
+  </dl>
+  <p style="font-size:12px;color:var(--ink-soft);margin:8px 0 0;line-height:1.45">Tablica IFCN: nie podchodź do krawędzi klifu; grunt w wielu miejscach jest niestabilny. Źródło: <a href="https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr8.jpg" target="_blank" rel="noopener">tablica IFCN na początku szlaku</a> · <a href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html" target="_blank" rel="noopener">lista szlaków IFCN</a>.</p>
+  <!-- TRAIL-EXTRAS:END -->
 </aside>
 
 <div class="waymark thin" aria-hidden="true"></div>
@@ -252,7 +260,7 @@ a.tname:hover{text-decoration:underline}
 </section>
 <!-- SITE-NAV-RELATED:END -->
 <footer>
-  <p>Status opracowywany każdego ranka na podstawie <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> i <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, z pogodą z <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki na wybrzeżu zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
+  <p>Status opracowywany na podstawie <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> i <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, z pogodą z <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki na wybrzeżu zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.</p>
   <p style="margin-top:6px">Zdjęcie: Dietmar Rabich, <a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, przeskalowane.</p>
 </footer>
 </div>

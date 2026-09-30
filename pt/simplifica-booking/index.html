@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================= CONFIG — edit as needed ================== -->
+<script>
+const CONFIG = {
+  goatcounterCode: "madeira-levadinho",
+  lastUpdated: "2026-09-30"
+};
+</script>
+<!-- ============================================================ -->
+
+<title>SIMplifica: reserva de percursos pedestres na Madeira, passo a passo (2026)</title>
+<meta name="description" content="Como reservar um percurso PR da Madeira no SIMplifica: conta, percurso, data, horário de 30 minutos, caminhantes, pagamento e bilhete. Reembolsos, a armadilha da Pedra Rija no PR1 e soluções.">
+
+<link rel="canonical" href="https://levadinho-madeira.com/pt/simplifica-booking/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://levadinho-madeira.com/pt/simplifica-booking/">
+<meta property="og:title" content="Como reservar um percurso pedestre no SIMplifica">
+<meta property="og:description" content="Os passos da reserva, o que pode e não pode alterar, reembolsos só em caso de encerramento oficial e o bilhete do PR1 que não pode ser convertido.">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/simplifica-booking/">
+<link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/simplifica-booking/">
+<link rel="alternate" hreflang="fr" href="https://levadinho-madeira.com/fr/simplifica-booking/">
+<link rel="alternate" hreflang="de" href="https://levadinho-madeira.com/de/simplifica-booking/">
+<link rel="alternate" hreflang="pl" href="https://levadinho-madeira.com/pl/simplifica-booking/">
+<link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/simplifica-booking/">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "url": "https://levadinho-madeira.com/pt/simplifica-booking/",
+  "name": "Como reservar um percurso pedestre no SIMplifica",
+  "description": "Como reservar um percurso PR da Madeira no SIMplifica: conta, percurso, data, horário de 30 minutos, caminhantes, pagamento e bilhete. Reembolsos, a armadilha da Pedra Rija no PR1 e soluções.",
+  "inLanguage": "pt",
+  "dateModified": "2026-09-30",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Levadinho",
+    "url": "https://levadinho-madeira.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Como reservo um percurso no SIMplifica?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Abra o serviço SIMplifica das taxas dos percursos pedestres classificados, inicie sessão ou crie conta, escolha o percurso, a data e um horário de entrada de 30 minutos, inclua todos os caminhantes (também os isentos), pague e guarde o bilhete digital que recebe por e-mail."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Que meios de pagamento aceita o SIMplifica?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multibanco (referência), cartão de crédito e MB WAY."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Posso alterar ou cancelar a minha reserva no SIMplifica?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Não por motivos pessoais: chuva, doença, voo cancelado ou horário perdido significam a perda do valor total. Só quando o IFCN cancela (por exemplo, um encerramento oficial na sua data) pode pedir uma nova data no prazo de um ano ou o reembolso total."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O percurso está encerrado na data que reservei. Como recupero o dinheiro?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Envie um e-mail para helpdesk.ifcn@madeira.gov.pt no prazo de 10 dias úteis a contar da data reservada, com os bilhetes e a fatura. Peça uma nova data e horário, ou o reembolso por transferência bancária (indique IBAN, SWIFT/BIC, nome do titular e morada)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Posso converter um bilhete do PR1 até à Pedra Rija no percurso completo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Não. O bilhete de 4,50 € só cobre Pico do Areeiro–Pedra Rija, ida e volta. Para seguir até ao Pico Ruivo precisa de um novo bilhete de 10,50 €, e o primeiro não é reembolsado."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Com quanto atraso posso chegar ao meu horário?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "O IFCN admite uma tolerância de cerca de 15 minutos antes e depois do horário de entrada, um pouco mais para quem faz percursos seguidos. É uma tolerância, não um direito."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Como obtenho a taxa de 3 ou 7 dias?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ponha todos os percursos na mesma reserva. Não há passe à parte: a combinação mais barata (9 € por dia, 22,50 € por 3 dias, 52,50 € por 7 dias) é aplicada automaticamente. Cada percurso continua a precisar do seu horário, e o PR1 nunca está incluído."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --go:#1FAF54; --card:#FFFFFF; --line:#E3E1D8; --warn:#B3372E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55;
+  padding:0 16px 40px; max-width:640px; margin:0 auto}
+.waymark{height:14px; margin:0 -16px;
+  background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.waymark.thin{height:8px; margin:28px 0; border-radius:2px}
+header{padding:20px 0 6px}
+.brand{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
+h1{font-size:clamp(25px,6.6vw,32px); line-height:1.14; font-weight:800; letter-spacing:-.02em; margin:6px 0 2px}
+.sub{color:var(--ink-soft); font-size:15px}
+.langs{display:flex; gap:6px; margin:0 0 4px; list-style:none; padding:0}
+.langs a{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none;
+  color:var(--ink-soft); padding:3px 9px; border:1px solid var(--line); border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink); color:#fff; border-color:var(--ink)}
+.alert{background:#EEF5EF; border:1px solid #CFE3D4; border-left:4px solid var(--go);
+  border-radius:0 10px 10px 0; padding:12px 14px; margin-top:16px; font-size:15px}
+section{margin-top:26px}
+h2{font-size:19px; font-weight:800; letter-spacing:-.01em; margin-bottom:8px}
+h3{font-size:16px; font-weight:750; margin:14px 0 4px}
+p{margin-bottom:9px; font-size:15.5px}
+ol,ul{padding-left:22px; margin-bottom:9px}
+li{margin-bottom:7px; font-size:15.5px}
+.tbl-wrap{overflow-x:auto; margin:12px 0; border:1px solid var(--line); border-radius:12px}
+table{border-collapse:collapse; width:100%; font-size:14.5px; background:var(--card)}
+caption{caption-side:top; text-align:left; font-size:13px; color:var(--ink-soft); padding:10px 14px 0}
+th,td{padding:9px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{background:#F2F1E9; font-weight:750; letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:none}
+td.c{font-weight:700; white-space:nowrap}
+td.y{font-weight:700; color:var(--ink)}
+td.n{font-weight:700; color:#1B7F3F}
+.fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
+.fact.warn{border-left-color:var(--way-red)}
+.opt{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:12px}
+.opt h3{font-size:16.5px; font-weight:750; margin:0 0 4px; display:flex; justify-content:space-between; gap:10px; align-items:baseline}
+.opt .tag{font-size:12px; font-weight:700; color:var(--ink-soft); letter-spacing:.06em; text-transform:uppercase; white-space:nowrap}
+.opt p:last-child{margin-bottom:0}
+ol.steps li{margin-bottom:11px}
+.src{font-size:13px; color:var(--ink-soft)}
+.src a{color:var(--ink-soft)}
+footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
+a.plain{color:var(--ink); font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<!-- SITE-NAV-HEAD:START (generated by scripts/gen_site_nav.py) -->
+<!-- SITE-NAV-HEAD:END -->
+</head>
+<body>
+
+<div class="waymark" aria-hidden="true"></div>
+
+<header>
+  <nav class="langs" aria-label="Idioma">
+    <a href="/simplifica-booking/" hreflang="en">EN</a>
+    <a href="/pt/simplifica-booking/" hreflang="pt" aria-current="page">PT</a>
+    <a href="/fr/simplifica-booking/" hreflang="fr">FR</a>
+    <a href="/de/simplifica-booking/" hreflang="de">DE</a>
+    <a href="/pl/simplifica-booking/" hreflang="pl">PL</a>
+  </nav>
+<!-- SITE-NAV:START (generated by scripts/gen_site_nav.py) -->
+<!-- SITE-NAV:END -->
+  <div class="brand">Levadinho · Respostas sobre os percursos da Madeira</div>
+  <h1>Como reservar um percurso pedestre no SIMplifica</h1>
+  <p class="sub">Todos os percursos pedestres classificados geridos pelo IFCN exigem reserva com horário no portal SIMplifica da Região. Aqui estão os passos, as regras de alterações e reembolsos, e as armadilhas.</p>
+</header>
+
+<div class="alert">
+  <b>A resposta curta:</b> abra o serviço SIMplifica <i>«Pagamento de Taxas para acesso aos Percursos Pedestres Classificados»</i>, inicie sessão, escolha o percurso, a data e o horário de entrada de 30 minutos, inclua todos os caminhantes (também os isentos), pague e guarde o bilhete digital que recebe por e-mail. Não é possível alterar a reserva por motivos pessoais; só há reembolso quando o IFCN encerra o percurso.
+</div>
+
+<section>
+  <h2>A reserva, passo a passo</h2>
+  <ol class="steps">
+    <li><b>Abra a página do serviço.</b> <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">SIMplifica: taxas dos percursos pedestres</a> (portal: <a class="plain" href="https://simplifica.madeira.gov.pt/" target="_blank" rel="noopener">simplifica.madeira.gov.pt</a>). Em <i>Ver disponibilidade</i> vê os horários disponíveis.</li>
+    <li><b>Inicie sessão ou crie uma conta.</b> A conta é obrigatória mesmo para um só caminhante. Os residentes podem registar-se com o cartão de cidadão. Faça-o em casa, uns dias antes, e não à entrada do percurso.</li>
+    <li><b>Escolha o percurso pelo código PR.</b> O PR1 tem <b>dois produtos diferentes</b>: Pico do Areeiro ↔ Miradouro da Pedra Rija, ida e volta (4,50 €, sem acesso ao Pico Ruivo), ou o percurso completo, só num sentido, Pico do Areeiro → Pico Ruivo (10,50 €, inclui o PR1.1 e o PR1.2).</li>
+    <li><b>Escolha a data e o horário de entrada de 30 minutos e carregue em <i>Solicitar</i>.</b> É possível reservar para o próprio dia ou o dia seguinte, se houver lugares. Um horário esgotado fica bloqueado automaticamente.</li>
+    <li><b>Inclua todos os caminhantes.</b> Crianças até aos 12 anos inclusive, residentes na Madeira e pessoas com incapacidade igual ou superior a 60% (mais um acompanhante) não pagam, mas têm de constar da reserva. O NIF só é necessário se o quiser na fatura.</li>
+    <li><b>Vai fazer vários percursos? Ponha-os todos na mesma reserva.</b> Não há botão de passe: a taxa diária (9 €), de 3 dias (22,50 €) ou de 7 dias (52,50 €) é aplicada automaticamente no fim. Cada percurso continua a ter o seu horário, e o PR1 nunca está incluído.</li>
+    <li><b>Pague.</b> Os meios oficiais são Multibanco (referência), cartão de crédito e MB WAY.</li>
+    <li><b>Guarde o bilhete.</b> Recebe um comprovativo de pagamento e um bilhete digital por e-mail, com a fatura. Mostre-o no percurso, nos equipamentos de controlo ou quando o pessoal do IFCN o pedir. Guarde-o offline ou imprima-o: muitas vezes não há rede nas entradas dos percursos.</li>
+    <li><b>No dia, chegue dentro do seu horário.</b> O IFCN admite uma tolerância de cerca de 15 minutos antes e depois (um pouco mais para quem faz percursos seguidos). É uma tolerância, não um direito. No PR1 completo, comece no Pico do Areeiro e não junto ao portão da Pedra Rija.</li>
+  </ol>
+  <p>Prefere vídeo? O SIMplifica tem um <a class="plain" href="https://simplifica.madeira.gov.pt/arquivo/percursos%20pedestres%20_PT.mp4" target="_blank" rel="noopener">tutorial oficial em português</a> e outro <a class="plain" href="https://simplifica.madeira.gov.pt/arquivo/percursos%20pedestres%20_ING_FINAL.mp4" target="_blank" rel="noopener">em inglês para visitantes</a>.</p>
+</section>
+
+<section>
+  <h2>Alterações, cancelamentos e reembolsos</h2>
+  <ul>
+    <li><b>Não há alterações por motivos pessoais.</b> Chuva, doença, voo cancelado, data errada ou horário perdido: perde o valor total.</li>
+    <li><b>Se o IFCN encerrar o percurso na sua data,</b> envie um e-mail para <a class="plain" href="mailto:helpdesk.ifcn@madeira.gov.pt">helpdesk.ifcn@madeira.gov.pt</a> no prazo de <b>10 dias úteis</b> a contar da data reservada. Peça uma nova data no prazo de um ano (mesmo percurso, mesmo número de pessoas, sujeito a disponibilidade) ou o reembolso total.</li>
+    <li><b>O que enviar:</b> os bilhetes e a fatura, e a nova data e horário pretendidos; ou, para reembolso, um documento bancário com IBAN e SWIFT/BIC, o nome do titular da conta e a sua morada. Os reembolsos são feitos só por transferência bancária.</li>
+    <li><b>Um aviso meteorológico não encerra automaticamente todos os percursos.</b> Só conta o encerramento oficial.</li>
+    <li>O Contact Center do SIMplifica não pode alterar nem reembolsar uma reserva paga.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>PR1: o bilhete da Pedra Rija não pode ser convertido</h2>
+  <div class="fact warn">O bilhete «Pedra Rija» de 4,50 € só cobre Pico do Areeiro ↔ Pedra Rija, ida e volta. <b>Não há conversão nem upgrade</b>: para seguir até ao Pico Ruivo tem de comprar um novo bilhete de 10,50 €, e os 4,50 € não são reembolsados. Veja o <a class="plain" href="/pt/pr1/">estado do PR1 hoje</a> antes de escolher.</div>
+</section>
+
+<section>
+  <h2>Ou deixe um operador reservar por si</h2>
+  <p>Os operadores turísticos com protocolo com o IFCN reservam o percurso por si a uma taxa mais baixa: <b>3 €</b> por percurso e <b>7 €</b> pelo PR1 completo, em vez de 4,50 € e 10,50 €. Os operadores sem protocolo pagam as taxas normais. A Visit Madeira tem uma <a class="plain" href="https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/" target="_blank" rel="noopener">lista de operadores</a> na página de caminhadas. <a class="plain" href="/pt/hiking-fees.html">Todas as taxas de 2026</a>.</p>
+</section>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section>
+  <h2>Resolução de problemas</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Problema</th><th>O que fazer</th></tr></thead>
+      <tbody>
+        <tr><td><b>O portal não abre a partir do estrangeiro ou recusa o seu número de telemóvel</b></td><td>Veja <a class="plain" href="/pt/simplifica-from-abroad.html">SIMplifica a partir do estrangeiro</a>: registe-se com o e-mail, desligue a VPN, experimente os dados móveis ou outro navegador.</td></tr>
+        <tr><td><b>O percurso não aparece na lista</b></td><td>Não é classificado, é gerido por outra entidade (PR3, PR3.1, PR4, PR23) ou está encerrado (FAQ 1.7 do IFCN). Veja <a class="plain" href="/pt/do-i-need-a-permit/">que percursos precisam de reserva</a> e o <a class="plain" href="/pt/">quadro em direto</a>.</td></tr>
+        <tr><td><b>Um horário aparece a cinzento</b></td><td>A lotação desse horário está esgotada. Escolha outro (FAQ 1.8).</td></tr>
+        <tr><td><b>Recebeu um e-mail de «reserva cancelada por inatividade/falta de pagamento», mas tem os bilhetes</b></td><td>Normalmente é uma tentativa anterior que ficou por concluir. Compare os números de referência; se coincidirem com os seus bilhetes, reencaminhe o e-mail ao IFCN.</td></tr>
+        <tr><td><b>Cartão recusado ou erros no portal</b></td><td>O portal não é gerido pelo IFCN. Contacte o Contact Center do SIMplifica: +351 800 29 90 90, WhatsApp +351 926 155 465, <a class="plain" href="mailto:800299090@madeira.gov.pt">800299090@madeira.gov.pt</a> (dias úteis, 9h00–18h00).</td></tr>
+        <tr><td><b>Dúvidas sobre regras, reagendamentos ou reembolsos</b></td><td>IFCN: +351 291 145 590, <a class="plain" href="mailto:helpdesk.ifcn@madeira.gov.pt">helpdesk.ifcn@madeira.gov.pt</a> (dias úteis, 9h00–12h30 e 14h00–17h30).</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Perguntas frequentes</h2>
+  <h3>Como reservo um percurso no SIMplifica?</h3>
+  <p>Abra o serviço SIMplifica das taxas dos percursos pedestres classificados, inicie sessão ou crie conta, escolha o percurso, a data e um horário de entrada de 30 minutos, inclua todos os caminhantes (também os isentos), pague e guarde o bilhete digital que recebe por e-mail.</p>
+  <h3>Que meios de pagamento aceita o SIMplifica?</h3>
+  <p>Multibanco (referência), cartão de crédito e MB WAY.</p>
+  <h3>Posso alterar ou cancelar a minha reserva no SIMplifica?</h3>
+  <p>Não por motivos pessoais: chuva, doença, voo cancelado ou horário perdido significam a perda do valor total. Só quando o IFCN cancela (por exemplo, um encerramento oficial na sua data) pode pedir uma nova data no prazo de um ano ou o reembolso total.</p>
+  <h3>O percurso está encerrado na data que reservei. Como recupero o dinheiro?</h3>
+  <p>Envie um e-mail para helpdesk.ifcn@madeira.gov.pt no prazo de 10 dias úteis a contar da data reservada, com os bilhetes e a fatura. Peça uma nova data e horário, ou o reembolso por transferência bancária (indique IBAN, SWIFT/BIC, nome do titular e morada).</p>
+  <h3>Posso converter um bilhete do PR1 até à Pedra Rija no percurso completo?</h3>
+  <p>Não. O bilhete de 4,50 € só cobre Pico do Areeiro–Pedra Rija, ida e volta. Para seguir até ao Pico Ruivo precisa de um novo bilhete de 10,50 €, e o primeiro não é reembolsado.</p>
+  <h3>Com quanto atraso posso chegar ao meu horário?</h3>
+  <p>O IFCN admite uma tolerância de cerca de 15 minutos antes e depois do horário de entrada, um pouco mais para quem faz percursos seguidos. É uma tolerância, não um direito.</p>
+  <h3>Como obtenho a taxa de 3 ou 7 dias?</h3>
+  <p>Ponha todos os percursos na mesma reserva. Não há passe à parte: a combinação mais barata (9 € por dia, 22,50 € por 3 dias, 52,50 € por 7 dias) é aplicada automaticamente. Cada percurso continua a precisar do seu horário, e o PR1 nunca está incluído.</p>
+</section>
+
+<section>
+  <h2>Próximos passos</h2>
+  <ul>
+    <li><a class="plain" href="/pt/do-i-need-a-permit/">É preciso autorização para fazer levadas?</a>: que caminhadas precisam de reserva e quais são gratuitas.</li>
+    <li><a class="plain" href="/pt/hiking-fees.html">Taxas dos percursos 2026</a>: todos os preços, passes e isenções.</li>
+    <li><a class="plain" href="/pt/simplifica-from-abroad.html">O SIMplifica não funciona a partir do estrangeiro?</a>: as soluções.</li>
+    <li><a class="plain" href="/pt/">Que percursos estão abertos hoje?</a>: confirme antes de pagar um horário.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Fontes</h2>
+  <p class="src"><a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">Página do serviço no SIMplifica</a> (produtos, custos, «Nota informativa 1», contactos) · <a class="plain" href="https://simplifica.madeira.gov.pt/help/Pagamentos" target="_blank" rel="noopener">Ajuda do SIMplifica: pagamentos</a> · <a class="plain" href="https://simplifica.madeira.gov.pt/arquivo/percursos%20pedestres%20_PT.mp4" target="_blank" rel="noopener">Tutorial SIMplifica (PT)</a> · <a class="plain" href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/faq-s-taxas-percursos-pedestres-classificados/frequently-asked-questions-fees-classified-walking-routes.html" target="_blank" rel="noopener">FAQ do IFCN sobre as taxas</a> (atualizadas a 2/06/2026: 1.3–1.8, 2.2–2.4, 3.1–3.9, 5.2, 5.6–5.8) · <a class="plain" href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/Port48ISerie027_2026.pdf" target="_blank" rel="noopener">Portaria n.º 48/2026</a> (art. 4.º, 7.º, 9.º, 11.º, Anexo I) · <a class="plain" href="https://visitmadeira.com/en/blog/visit-madeira/everything-you-need-to-know-about-hiking-in-madeira-in-2026/" target="_blank" rel="noopener">Visit Madeira: caminhadas em 2026</a> (horários de 30 minutos, conta obrigatória). Verificado a 30/09/2026.</p>
+</section>
+
+<footer>
+  <p>Guia independente, atualizado em <span id="stamp"></span>. Sem ligação ao Governo Regional da Madeira, ao IFCN ou ao SIMplifica. As regras e as taxas podem mudar — confirme nas páginas oficiais antes de pagar.</p>
+</footer>
+
+<script>
+(function(){
+  const c = CONFIG;
+  try {
+    if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+    if (location.hash === '#countme') localStorage.removeItem('gc-skip');
+  } catch(e){}
+  const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  document.getElementById('stamp').textContent = c.lastUpdated;
+  if (c.goatcounterCode && !SKIP_ANALYTICS){
+    const s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

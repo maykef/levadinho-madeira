@@ -8,13 +8,13 @@
 <script>
 const CONFIG = {
   goatcounterCode: "madeira-levadinho",
-  lastUpdated: "2026-07-07"
+  lastUpdated: "2026-09-30"
 };
 </script>
 <!-- ============================================================ -->
 
-<title>Le PR1 est en sens unique : comment revenir d'Achada do Teixeira (transferts, taxis, bus)</title>
-<meta name="description" content="Depuis avril 2026, le PR1 se fait en sens unique du Pico do Areeiro au Pico Ruivo — vous terminez à Achada do Teixeira. Toutes les façons réalistes de revenir : transferts réservés à l'avance, taxis depuis Santana, bus et l'astuce des deux voitures.">
+<title>Retour du Pico Ruivo sans voiture : Achada do Teixeira (2026)</title>
+<meta name="description" content="Le PR1 est à sens unique : vous terminez à Achada do Teixeira, où aucun bus ne va. Bus vers le Pico do Areeiro (3 €), taxis de Santana, prix des taxis et navettes vérifiés en septembre 2026, et quel plan choisir.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/fr/getting-back.html">
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/getting-back.html">
@@ -31,13 +31,43 @@ const CONFIG = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Comment revenir à ma voiture après avoir fait le PR1 en sens unique ?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Le PR1 se termine désormais à Achada do Teixeira, loin du départ au Pico do Areeiro. Options : réserver à l'avance un transfert de randonneurs, organiser un taxi depuis Santana, voyager avec deux voitures, ou réserver une visite guidée incluant le transport dans les deux sens."}
+      "name": "Y a-t-il un bus depuis Achada do Teixeira ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Aucun bus régulier ne dessert Achada do Teixeira ; les bus les plus proches sont en bas, à Santana. Le seul bus public du secteur est le service Pico do Areeiro de Horários do Funchal (3 €), qui dessert le départ du PR1, pas l'arrivée. Prévoyez un taxi ou une navette pour vous reprendre."
+      }
     },
     {
       "@type": "Question",
-      "name": "Y a-t-il un bus depuis Achada do Teixeira ou le Pico do Areeiro ?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Aucun bus public ne dessert directement le Pico do Areeiro ni Achada do Teixeira. Les correspondances de bus les plus proches partent de Santana ; un taxi du Pico do Areeiro vers Funchal coûte environ 70 €."}
+      "name": "Combien coûte un taxi d'Achada do Teixeira au Pico do Areeiro ou à Funchal ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Il n'existe pas de grille officielle. Des témoignages de 2023–2026 indiquent environ 55 € pour revenir au Pico do Areeiro et environ 70–90 € par taxi jusqu'à Funchal. Réservez à l'avance pour une heure fixe ; Táxis Santana répond au +351 291 572 540 (numéro des panneaux de départ de l'IFCN)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Y a-t-il un bus pour le Pico do Areeiro ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Oui. Le service Pico do Areeiro de Horários do Funchal part de Funchal (terminus Teleférico) à 06h00 et 13h30 tous les jours sauf le 25 décembre, arrive à 06h45 et 14h15, et redescend à 12h15 et 19h00 (18h00 en hiver). Le trajet coûte 3,00 €, payé à bord ; les places se réservent au 291 705 555."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Peut-on revenir à pied du Pico Ruivo au Pico do Areeiro ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non. Depuis la réouverture du 1er mai 2026, l'itinéraire complet est à sens unique, Pico do Areeiro → Pico Ruivo. Seule la section Areeiro ↔ Pedra Rija (1,2 km) est à double sens. Depuis le Pico Ruivo, on descend par le PR1.2 jusqu'à Achada do Teixeira."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Combien coûte une navette partagée pour randonneurs ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Environ 40–49 € par personne (prix vérifiés en septembre 2026), généralement sans le billet du sentier : 10,50 € sur SIMplifica, ou 7 € si un opérateur ayant un protocole avec l'IFCN le réserve."
+      }
     }
   ]
 }
@@ -78,6 +108,13 @@ li{margin-bottom:7px; font-size:15.5px}
 .fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
 footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
 a.plain{color:var(--ink); font-weight:600}
+.tbl{overflow-x:auto; margin:8px 0 12px}
+.dt{width:100%; border-collapse:collapse; font-size:14px; background:var(--card); border:1px solid var(--line)}
+.dt th,.dt td{text-align:left; vertical-align:top; padding:8px 10px; border-bottom:1px solid var(--line)}
+.dt th{background:#F2F1E9; font-size:13px; font-weight:700}
+.faq h3{font-size:16px; font-weight:750; margin:14px 0 4px}
+.src{font-size:13px; color:var(--ink-soft)}
+.src a{color:var(--ink-soft)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <!-- SITE-NAV-HEAD:START (generated by scripts/gen_site_nav.py) -->
@@ -151,55 +188,110 @@ a.tname:hover{text-decoration:underline}
   </nav>
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Réponses sentiers Madère</div>
-  <h1>Le PR1 est désormais en sens unique. Voici comment revenir.</h1>
-  <p class="sub">Depuis la réouverture d'avril 2026, la randonnée se fait uniquement du Pico do Areeiro → Pico Ruivo. Vous descendez de la montagne à <b>Achada do Teixeira</b> — un parking sans bus, loin de votre point de départ.</p>
+  <h1>Retour du Pico Ruivo et d'Achada do Teixeira sans voiture</h1>
+  <p class="sub">Le PR1 se parcourt à sens unique, Pico do Areeiro → Pico Ruivo, depuis la réouverture du 1er mai 2026, et l'on redescend par le PR1.2 jusqu'à <b>Achada do Teixeira</b> : un parking au-dessus de Santana, sans bus, loin du point de départ. Prix vérifiés en septembre 2026.</p>
 </header>
 
 <div class="alert">
-  <b>Ne commencez pas à marcher sans un plan pour la fin.</b> Il n'y a aucun bus public à Achada do Teixeira ni au Pico do Areeiro. Le signal téléphonique y est capricieux aux deux endroits. Organisez votre retour avant de faire le premier pas.
+  <b>Aucun bus ne dessert Achada do Teixeira, et il est interdit de revenir à pied par le PR1 jusqu'au Pico do Areeiro.</b> Réglez votre retour avant de partir ; le réseau mobile est faible aux deux extrémités.
 </div>
 
-<section>
-  <h2>Vos options, classées honnêtement</h2>
+<section id="decide">
+  <h2>Quel plan vous convient</h2>
+  <div class="tbl"><table class="dt">
+    <thead><tr><th>Votre situation</th><th>Plan</th><th>Coût indicatif (sept. 2026)</th></tr></thead>
+    <tbody>
+      <tr><td>Sans voiture, 3–4 personnes ou petit budget</td><td>Bus jusqu'au Pico do Areeiro (06h00 depuis Funchal) + un taxi réservé pour vous reprendre à Achada do Teixeira</td><td>3 € par personne en bus + environ 70–90 € par taxi jusqu'à Funchal</td></tr>
+      <tr><td>Sans voiture, 1–2 personnes</td><td>Navette partagée pour randonneurs : dépose à l'Areeiro, reprise à Achada</td><td>environ 40–49 € par personne, billet du sentier généralement en sus</td></tr>
+      <tr><td>Groupe jusqu'à 8</td><td>Transfert privé : dépose à l'Areeiro, reprise à Achada</td><td>p. ex. 129 € par véhicule</td></tr>
+      <tr><td>Votre propre voiture</td><td>Se garer au Pico do Areeiro, taxi d'Achada jusqu'à la voiture</td><td>parking 4 €/h (parking supérieur) + taxi d'environ 55 €</td></tr>
+      <tr><td>Aucune solution de transport</td><td>Renoncer à la traversée : aller-retour Areeiro ↔ Pedra Rija, ou PR1.2 aller-retour depuis Achada</td><td>billet de 4,50 €</td></tr>
+    </tbody>
+  </table></div>
+</section>
 
+<section id="bus">
+  <h2>Le bus pour le Pico do Areeiro (le départ seulement)</h2>
+  <p>Horários do Funchal assure un service « Pico do Areeiro » tous les jours sauf le 25 décembre. Il dessert le <b>départ</b> du PR1, pas Achada do Teixeira : il ne règle donc que la moitié du problème.</p>
+  <div class="tbl"><table class="dt">
+    <thead><tr><th>Horaire d'été (jusqu'au 24 oct. 2026)</th><th>Matin</th><th>Après-midi</th></tr></thead>
+    <tbody>
+      <tr><td>Départ de Funchal, terminus Teleférico (arrêt 4A)</td><td>06h00</td><td>13h30</td></tr>
+      <tr><td>Arrivée au Pico do Areeiro (rond-point du Radar)</td><td>06h45</td><td>14h15</td></tr>
+      <tr><td>Départ du Pico do Areeiro vers Funchal</td><td>12h15</td><td>19h00 (18h00 à partir du 25 oct.)</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>Tarif : 3,00 € le trajet</b>, payé à bord ; les autres titres de transport ne sont pas acceptés. 31 places.</li>
+    <li><b>Réservation des places uniquement par téléphone : 291 705 555</b>, de 7 à 2 jours ouvrés avant le trajet (lun.–jeu. 08h30–12h30 et 14h00–18h00, ven. 08h30–12h30 et 14h00–17h00). Soyez à l'arrêt 15 minutes avant le départ.</li>
+    <li><b>Navette du sommet</b> entre l'arrêt CAM Florestal das Serras de Santo António, le parking du Pico do Areeiro et le rond-point du Radar : toutes les 15 minutes, 06h40–12h15 et 14h10–19h00 (18h00 en hiver), 1,20 €, à partir de 4 passagers.</li>
+  </ul>
+  <p>L'arrivée à 06h45 précède le lever du soleil toute l'année (de justesse en juin et juillet). Elle convient pour un départ au lever du soleil, ou pour un aller-retour à Pedra Rija avec le bus de 12h15 pour redescendre. Pour la traversée complète, il faut toujours quelqu'un pour vous reprendre à Achada. Plus d'infos : <a class="plain" href="/fr/pr1-sunrise-transport/">transport au lever du soleil vers le Pico do Areeiro</a>.</p>
+</section>
+
+<section id="taxi">
+  <h2>Taxis depuis Achada do Teixeira</h2>
+  <p>Les taxis n'attendent pas à Achada do Teixeira. Réservez-en un pour une heure fixe avant de partir, ou appelez depuis la fin du sentier si vous avez du réseau. Enregistrez le numéro d'abord.</p>
+  <ul>
+    <li><b>Táxis Santana : +351 291 572 540</b> (la station la plus proche d'Achada do Teixeira)</li>
+    <li>Táxis Funchal : +351 291 764 476</li>
+  </ul>
+  <p class="src">Numéros tels qu'imprimés sur les panneaux de départ de sentier de l'IFCN (panneaux PR1.1 et PR1.2 pour Santana). Nous n'avons pas vérifié que chaque ligne répond aujourd'hui.</p>
+  <p><b>Ce que les gens disent avoir payé</b> (témoignages 2023–2026 ; pas de grille officielle, demandez un devis) :</p>
+  <ul>
+    <li>Achada do Teixeira → retour à votre voiture au Pico do Areeiro : environ 55 € (témoignage de 2023)</li>
+    <li>Achada do Teixeira → Funchal : environ 70–90 € par taxi</li>
+    <li>Funchal → Pico do Areeiro : environ 50–70 €</li>
+  </ul>
+</section>
+
+<section id="transfer">
+  <h2>Navettes et autres options</h2>
   <div class="opt">
-    <h3>Transfert de randonneurs réservé à l'avance <span class="tag">Le meilleur pour la plupart</span></h3>
-    <p>Les compagnies de transfert vous déposent à Areeiro pour le lever du soleil et vous récupèrent à Achada do Teixeira à une heure convenue. Réservez la veille au plus tard — les prises en charge au lever du soleil se remplissent. Cela règle aussi entièrement le problème du « pas de stationnement à Areeiro à 6h ».</p>
+    <h3>Navette partagée <span class="tag">1–2 personnes</span></h3>
+    <p>Un minibus vous dépose au Pico do Areeiro (souvent avant le lever du soleil) et vous reprend à Achada do Teixeira à une heure convenue. Environ <b>40–49 € par personne</b>. Le billet du sentier est généralement en sus : 10,50 € sur SIMplifica, ou 7 € quand un opérateur ayant un protocole avec l'IFCN le réserve. Exemples : Beyond Madeira, Doit Madeira, Pico Transfers, GetToHikes (prix vérifiés en septembre 2026). Réservez au plus tard la veille ; les départs au lever du soleil se remplissent vite.</p>
   </div>
-
   <div class="opt">
-    <h3>Visite guidée avec transport <span class="tag">Zéro logistique</span></h3>
-    <p>Les opérateurs sous protocole IFCN regroupent le permis (réduit à 7 € sur le PR1), le guide et les deux transferts. L'option la plus chère, mais la seule où la fermeture du sentier ou l'épuisement des créneaux devient le problème de quelqu'un d'autre.</p>
+    <h3>Transfert privé <span class="tag">Groupes</span></h3>
+    <p>Un véhicule rien que pour vous : dépose à l'Areeiro, reprise à Achada. Un vendeur, madeira.best, affiche 129 € par véhicule jusqu'à 8 personnes (prix vérifié en septembre 2026). Partagé entre 4 et 8 personnes, il revient moins cher par tête que les places en navette.</p>
   </div>
-
   <div class="opt">
-    <h3>Taxi depuis Santana <span class="tag">La solution de repli</span></h3>
-    <p>Achada do Teixeira se trouve au-dessus de Santana. Les taxis n'attendent pas au parking — organisez-en un à l'avance ou appelez depuis la fin du sentier si vous avez du signal (enregistrez le numéro avant de partir). Pour donner une idée : un taxi entre le Pico do Areeiro et la région de Funchal coûte environ 70 €, alors partagez-le si vous vous êtes fait des amis sur l'arête.</p>
+    <h3>Randonnée guidée avec transport <span class="tag">Zéro logistique</span></h3>
+    <p>Les opérateurs ayant un protocole avec l'IFCN incluent le billet (7 € sur le PR1), le guide et les deux transferts. L'option la plus chère, mais les fermetures et les créneaux complets deviennent leur problème.</p>
   </div>
-
   <div class="opt">
-    <h3>Deux voitures <span class="tag">Groupes uniquement</span></h3>
-    <p>Laissez-en une à Achada do Teixeira la veille au soir ou à l'aube, conduisez l'autre jusqu'à Areeiro. Cela vous coûte une heure de navette mais rien en espèces. Pertinent seulement à partir de 4 personnes et deux locations.</p>
+    <h3>Deux voitures <span class="tag">Groupes</span></h3>
+    <p>Laissez une voiture à Achada do Teixeira et montez avec l'autre au Pico do Areeiro. Comptez une heure de navette plus le parking de l'Areeiro (4 €/h au parking supérieur).</p>
   </div>
-
-  <div class="opt">
-    <h3>Bus — en partie <span class="tag">Patience requise</span></h3>
-    <p>Aucun bus n'atteint les départs de sentier. Depuis Achada do Teixeira, il faudrait d'abord descendre jusqu'à <b>Santana</b> (taxi ou une longue marche sur la route), où des bus circulent vers Funchal — de façon peu fréquente et lente (les bus ruraux de Madère desservent les villages, pas les randonneurs). Considérez cela comme le plan de secours du plan de secours, pas comme le plan.</p>
-  </div>
-
-  <div class="fact">Redescendre le PR1 à l'envers pour revenir à votre voiture n'est <b>plus autorisé</b> — la règle du sens unique existe parce que les sections d'arête étroites ne peuvent pas supporter une circulation à double sens. Des gardes sont présents sur le sentier.</div>
+  <div class="fact">Revenir à pied par le PR1 du Pico Ruivo au Pico do Areeiro est <b>interdit</b> : au-delà de Pedra Rija, l'itinéraire est à sens unique. Des gardes sont sur le sentier.</div>
 </section>
 
 <div class="waymark thin" aria-hidden="true"></div>
 
-<section>
+<section id="before">
   <h2>Avant de partir</h2>
   <ul>
-    <li>Consultez <a class="plain" href="/fr/pr1/">l'état du jour du PR1</a> — le sentier ferme vite par mauvais temps, et votre créneau <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">SIMplifica</a> a des règles de report.</li>
-    <li>Faites une capture d'écran de votre permis. Le signal sur l'arête est peu fiable et les gardes contrôlent bel et bien.</li>
-    <li>Convenez d'une heure de prise en charge avec une marge : l'itinéraire complet prend 3,5 heures officiellement, davantage avec les arrêts photo et la montée finale jusqu'au refuge du Pico Ruivo.</li>
+    <li>Consultez <a class="plain" href="/fr/pr1/">l'état du PR1 aujourd'hui</a>. Il provient de la liste officielle des avis de l'IFCN et affiche la date « mis à jour » de l'IFCN lui-même. Votre créneau <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">SIMplifica</a> a ses propres règles de report.</li>
+    <li>Faites une capture d'écran de votre billet. Le réseau sur la crête est aléatoire et les gardes contrôlent.</li>
+    <li>Fixez l'heure de reprise avec de la marge : Visit Madeira compte environ 3 heures du Pico do Areeiro au Pico Ruivo, puis environ une heure de descente par le PR1.2 jusqu'à Achada do Teixeira, davantage avec les pauses photo.</li>
   </ul>
 </section>
+
+<section id="faq" class="faq">
+  <h2>Questions</h2>
+  <h3>Y a-t-il un bus depuis Achada do Teixeira ?</h3>
+  <p>Non. Aucun bus régulier ne dessert Achada do Teixeira ; les bus les plus proches sont en bas, à Santana. Le seul bus public du secteur est le service Pico do Areeiro de Horários do Funchal (3 €), qui dessert le départ du PR1, pas l'arrivée. Prévoyez un taxi ou une navette pour vous reprendre.</p>
+  <h3>Combien coûte un taxi d'Achada do Teixeira au Pico do Areeiro ou à Funchal ?</h3>
+  <p>Il n'existe pas de grille officielle. Des témoignages de 2023–2026 indiquent environ 55 € pour revenir au Pico do Areeiro et environ 70–90 € par taxi jusqu'à Funchal. Réservez à l'avance pour une heure fixe ; Táxis Santana répond au +351 291 572 540 (numéro des panneaux de départ de l'IFCN).</p>
+  <h3>Y a-t-il un bus pour le Pico do Areeiro ?</h3>
+  <p>Oui. Le service Pico do Areeiro de Horários do Funchal part de Funchal (terminus Teleférico) à 06h00 et 13h30 tous les jours sauf le 25 décembre, arrive à 06h45 et 14h15, et redescend à 12h15 et 19h00 (18h00 en hiver). Le trajet coûte 3,00 €, payé à bord ; les places se réservent au 291 705 555.</p>
+  <h3>Peut-on revenir à pied du Pico Ruivo au Pico do Areeiro ?</h3>
+  <p>Non. Depuis la réouverture du 1er mai 2026, l'itinéraire complet est à sens unique, Pico do Areeiro → Pico Ruivo. Seule la section Areeiro ↔ Pedra Rija (1,2 km) est à double sens. Depuis le Pico Ruivo, on descend par le PR1.2 jusqu'à Achada do Teixeira.</p>
+  <h3>Combien coûte une navette partagée pour randonneurs ?</h3>
+  <p>Environ 40–49 € par personne (prix vérifiés en septembre 2026), généralement sans le billet du sentier : 10,50 € sur SIMplifica, ou 7 € si un opérateur ayant un protocole avec l'IFCN le réserve.</p>
+</section>
+
+<p class="src" style="margin-top:24px">Sources : <a href="https://www.horariosdofunchal.pt/index.php/viajar/pico-do-areeiro" rel="noopener">Horários do Funchal, service Pico do Areeiro</a> · <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">liste des avis de l'IFCN</a> · <a href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html" rel="noopener">liste des sentiers et panneaux de l'IFCN</a> · <a href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/Port48ISerie027_2026.pdf" rel="noopener">Portaria 48/2026 (tarifs)</a> · <a href="https://www.dnoticias.pt/2024/8/13/416104-estacionar-no-pico-do-areeiro-vai-custar-4-euros-por-hora/" rel="noopener">DN sur le parking de l'Areeiro</a>. Les prix des taxis et navettes proviennent des pages des opérateurs et de témoignages de voyageurs, vérifiés en septembre 2026.</p>
 
 <footer>
   <p>Guide indépendant, actualisé le <span id="stamp"></span>. Non affilié au Gouvernement régional de Madère. Les détails de transport changent — confirmez les horaires directement auprès des opérateurs.</p>

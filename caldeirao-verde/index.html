@@ -33,7 +33,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Is the Caldeirão Verde open today?","acceptedAnswer":{"@type":"Answer","text":"Today's status is shown live at the top of this page, updated each morning from official IFCN / Visit Madeira information. Access is €4.50 through the SIMplifica portal, plus about €2.00 per hour parking at Queimadas."}},
+    {"@type":"Question","name":"Is the Caldeirão Verde open today?","acceptedAnswer":{"@type":"Answer","text":"Today's status is shown live at the top of this page, taken from the official IFCN warnings list, which carries IFCN's own “updated” date. Access is €4.50 through the SIMplifica portal, plus about €2.00 per hour parking at Queimadas."}},
     {"@type":"Question","name":"Do you need a torch for the Caldeirão Verde?","acceptedAnswer":{"@type":"Answer","text":"Yes. The trail passes through four tunnels carved into the rock, some long and dripping, so a headtorch or phone torch is essential. The levada edge is also narrow with big drops."}},
     {"@type":"Question","name":"Do you need to book the Caldeirão Verde?","acceptedAnswer":{"@type":"Answer","text":"Yes. PR9 requires an advance booking and €4.50 payment through SIMplifica, in a 30-minute entry slot. Parking at Queimadas is about €2.00 per hour."}},
     {"@type":"Question","name":"Where do you park for the Caldeirão Verde?","acceptedAnswer":{"@type":"Answer","text":"At the Queimadas Forest Park above Santana, on the north of the island — about an hour from Funchal. Parking costs roughly €2.00 per hour and the trail starts at the thatched Queimadas houses."}}
@@ -181,7 +181,7 @@ a.tname:hover{text-decoration:underline}
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Madeira trail answers</div>
   <h1>Is the Caldeirão Verde open today?</h1>
-  <p class="sub">Levada do Caldeirão Verde (PR9) — Queimadas (Santana) to the green cauldron waterfall, through four rock tunnels. Checked every morning against official IFCN status. See <a href="/">all Madeira trails</a> or <a href="/pr1/">PR1</a>.</p>
+  <p class="sub">Levada do Caldeirão Verde (PR9) — Queimadas (Santana) to the green cauldron waterfall, through four rock tunnels. Status from the official IFCN warnings list, with IFCN's own “updated” date. See <a href="/">all Madeira trails</a> or <a href="/pr1/">PR1</a>.</p>
 </header>
 
 <div class="status-card" id="statusCard" data-trail="PR9">
@@ -196,9 +196,15 @@ a.tname:hover{text-decoration:underline}
     <dt>Time</dt><dd>5–6 hours</dd>
     <dt>Difficulty</dt><dd>Moderate</dd>
     <dt>Altitude</dt><dd>872–1,020 m</dd>
-    <dt>Tunnels</dt><dd>4 (torch)</dd>
     <dt>Fee</dt><dd>€4.50</dd>
   </dl>
+  <!-- TRAIL-EXTRAS:START (scripts/gen_trail_extras.py) -->
+  <dl style="margin-top:5px">
+    <dt>Tunnels / headlamp</dt><dd>4 · bring a torch</dd>
+    <dt>Exposure / vertigo</dt><dd>High</dd>
+  </dl>
+  <p style="font-size:12px;color:var(--ink-soft);margin:8px 0 0;line-height:1.45">Four rock tunnels (Visit Madeira). IFCN panel: carry a torch; danger of vertigo. Source: <a href="https://ifcn.madeira.gov.pt/images/FotosArtigos/ActivNatureza/PercPedRecom/Paineis_Net/pr9.jpg" target="_blank" rel="noopener">IFCN trailhead panel</a> · <a href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html" target="_blank" rel="noopener">IFCN trail list</a>.</p>
+  <!-- TRAIL-EXTRAS:END -->
 </aside>
 
 <div class="waymark thin" aria-hidden="true"></div>
@@ -264,7 +270,7 @@ a.tname:hover{text-decoration:underline}
 </section>
 <!-- SITE-NAV-RELATED:END -->
 <footer>
-  <p>Status compiled each morning from <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> and <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, with weather from <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.</p>
+  <p>Status compiled from <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> and <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, with weather from <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.</p>
   <p style="margin-top:6px">Photo: cudi, <a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY 2.0, resized.</p>
 </footer>
 </div>
