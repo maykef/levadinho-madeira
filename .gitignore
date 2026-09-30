@@ -23,3 +23,5 @@ bot/privacy_exports/
 # Local-only drafts (committing publishes them on GitHub Pages)
 DPIA_*.md
 seo_research/
+bot/logs/
+bot/.running

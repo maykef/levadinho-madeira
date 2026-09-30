@@ -118,6 +118,28 @@ turns and events) but is not a guide route: the visitor gets the normal picker â
 Only `[a-z0-9-]`, at most 44 characters after `#`. Campaign QRs (`#areeiro`, `#ely`) still open their
 route's guide.
 
+## Logs and watchdog (since 2026-09-30)
+
+- **`app.log` is never overwritten.** `start.sh` moves the previous one to
+  `logs/app-<last write>.log` and keeps the 60 newest.
+  - **Why:** on 30 Sep an overwrite destroyed the only record of why messages had stopped.
+- **Every Meta delivery is logged:** accepted POSTs, with message and status counts; rejected
+  POSTs, with the reason (bad or missing signature, not JSON); webhook verifications; and
+  "reply delivery FAILED" statuses.
+  - No phone numbers or IPs are logged.
+- **`watchdog.sh`** runs from cron every 5 minutes, only while `.running` exists. `start.sh`
+  creates the flag and `stop.sh` removes it, so a bot you switched off stays off.
+  - **Checks:** the webhook, the public Funnel URL, Meta's API with our token (also catches "API
+    access blocked"), and the model, if its container is running (asleep is normal with
+    wake-on-demand).
+  - **Output:** one line per run in `logs/watchdog.log`.
+  - **Recovery:** after 3 failing runs in a row it does a FULL restart (`stop.sh --keep-running`,
+    GPU logged, `start.sh`, GPU logged), at most once an hour. If another process still holds the
+    GPU after the stop, it starts the webhook only and never the model.
+- **"Restart the bot" always means the full cycle:** `stop.sh`, check that the GPU is empty,
+  `start.sh`, check that it's reloaded. A webhook-only restart is just for code deploys, and must
+  be called that.
+
 ## Analytics database (T6/T7, since 2026-09-28)
 
 Every interaction is kept **permanently and pseudonymously** in Postgres + PostGIS, in the

@@ -248,23 +248,44 @@ def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
 def verify(request: Request):
     q = request.query_params
     if q.get("hub.mode") == "subscribe" and WA_VERIFY_TOKEN and q.get("hub.verify_token") == WA_VERIFY_TOKEN:
+        log.info("webhook verify: accepted")
         return PlainTextResponse(q.get("hub.challenge", ""))
+    log.warning("webhook verify: REJECTED (mode=%s, token %s)", q.get("hub.mode"),
+                "missing" if not q.get("hub.verify_token") else "mismatch")
     raise HTTPException(403)
 
 
 @app.post("/webhook")
 async def receive(request: Request, background: BackgroundTasks):
+    # Every delivery from Meta is logged (counts and outcome only: no phone numbers, no IPs), so a
+    # silent stop — Meta not delivering vs. us rejecting — shows up in app.log. See also watchdog.sh.
     raw = await request.body()
     sig = request.headers.get("X-Hub-Signature-256", "")
     expected = "sha256=" + hmac.new(WA_APP_SECRET.encode(), raw, hashlib.sha256).hexdigest()
     if not WA_APP_SECRET or not hmac.compare_digest(sig, expected):
+        log.warning("webhook POST REJECTED: %s (%d bytes)",
+                    "no app secret configured" if not WA_APP_SECRET else
+                    "no signature header" if not sig else "signature mismatch", len(raw))
         raise HTTPException(401)
-    data = json.loads(raw)
+    try:
+        data = json.loads(raw)
+    except ValueError:
+        log.warning("webhook POST REJECTED: body is not JSON (%d bytes)", len(raw))
+        raise HTTPException(400)
+    n_msg = n_new = n_status = 0
     for entry in data.get("entry", []):
         for change in entry.get("changes", []):
-            for message in change.get("value", {}).get("messages", []):
+            value = change.get("value", {})
+            n_status += len(value.get("statuses", []))
+            for status in value.get("statuses", []):
+                if status.get("status") == "failed":   # Meta couldn't deliver one of OUR replies
+                    log.warning("reply delivery FAILED: %s", json.dumps(status.get("errors", []))[:300])
+            for message in value.get("messages", []):
+                n_msg += 1
                 if store.first_time(message["id"]):
+                    n_new += 1
                     background.add_task(process, message)
+    log.info("webhook POST ok: %d message(s) (%d new), %d status update(s)", n_msg, n_new, n_status)
     return {"ok": True}
 
 

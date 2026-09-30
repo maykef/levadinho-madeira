@@ -24,10 +24,17 @@ for _ in $(seq 1 90); do curl -sf localhost:8001/v1/models >/dev/null && break; 
 curl -sf localhost:8001/v1/models >/dev/null || { echo " FAILED — see: docker logs levadinho-llm"; exit 1; }
 echo " ok"
 
-# 2. Webhook
+# 2. Webhook. The previous app.log is kept (moved to logs/app-<its last write>.log, 60 newest kept):
+#    overwriting it on 30 Sep 2026 destroyed the only record of why messages had stopped arriving.
+mkdir -p logs
+touch .running          # "the bot should be up": the watchdog only acts while this exists (stop.sh removes it)
 if ! curl -sf localhost:5020/health >/dev/null; then
+  if [ -s app.log ]; then
+    mv app.log "logs/app-$(date -r app.log +%Y%m%d-%H%M%S).log"
+    ls -1t logs/app-*.log 2>/dev/null | tail -n +61 | xargs -r rm -f
+  fi
   # --no-access-log: the access log would record visitors' IP addresses
-  setsid nohup uvicorn app:app --host 127.0.0.1 --port 5020 --no-access-log > app.log 2>&1 & echo $! > app.pid
+  setsid nohup uvicorn app:app --host 127.0.0.1 --port 5020 --no-access-log >> app.log 2>&1 & echo $! > app.pid
   sleep 4
 fi
 curl -sf localhost:5020/health >/dev/null && echo "Webhook ok (:5020)"
