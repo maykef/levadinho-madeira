@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+     LEVADINHO CONFIG — analytics only.
+     ============================================================ -->
+<script>
+const CONFIG = {
+  goatcounterCode: "madeira-levadinho"
+};
+</script>
+<!-- ========================= END CONFIG ======================= -->
+
+<title>Page not found · Levadinho</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="This page does not exist. Go to the live Madeira trails board, PR1 status, fees or permit guide.">
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="apple-touch-icon" href="/img/icon-180.png">
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px;
+}
+.wrap{max-width:720px; margin:0 auto; padding:0 20px}
+.waymark{height:14px; background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.waymark.thin{height:8px; margin:28px 0; border-radius:2px}
+header{padding:20px 0 6px}
+.brand{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
+.brand a{color:inherit; text-decoration:none}
+h1{font-size:clamp(26px,7vw,34px); line-height:1.12; font-weight:800; letter-spacing:-.02em; margin:6px 0 2px}
+.sub{color:var(--ink-soft); font-size:15px}
+section{margin-top:26px}
+h2{font-size:20px; font-weight:800; letter-spacing:-.01em; margin-bottom:10px}
+p{margin-bottom:10px; font-size:15.5px}
+ul{padding-left:22px; margin-bottom:10px}
+li{margin-bottom:8px; font-size:15.5px}
+a{color:var(--ink); font-weight:600}
+.langs{list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:8px}
+.langs li{margin:0}
+.langs a{display:inline-block; font-size:14px; text-decoration:none; padding:5px 12px;
+  border:1px solid var(--line); border-radius:999px; background:var(--card)}
+.langs a:hover{border-color:var(--ink-soft)}
+.intl{color:var(--ink-soft); font-size:14.5px}
+.intl p{font-size:14.5px; margin-bottom:4px}
+footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
+footer a{color:var(--ink-soft); font-weight:400}
+@media (max-width:760px){.wrap{padding:0 16px}}
+</style>
+</head>
+<body>
+
+<div class="waymark" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <div class="brand"><a href="/">Levadinho · Madeira trails</a></div>
+  <h1>Page not found</h1>
+  <p class="sub">This trail doesn't exist, or the page has moved. Here is the way back.</p>
+</header>
+
+<section>
+  <h2>Where to next</h2>
+  <ul>
+    <li><a href="/">Is it open today? Live board of all Madeira PR trails</a></li>
+    <li><a href="/pr1/">PR1 Pico do Areeiro → Pico Ruivo status</a></li>
+    <li><a href="/do-i-need-a-permit/">Do I need a permit for levada walks?</a></li>
+    <li><a href="/hiking-fees.html">Madeira hiking fees 2026</a></li>
+  </ul>
+</section>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section class="intl">
+  <p lang="pt">Página não encontrada. <a href="/pt/">Ver os percursos em português</a>.</p>
+  <p lang="fr">Page introuvable. <a href="/fr/">Voir les sentiers en français</a>.</p>
+  <p lang="de">Seite nicht gefunden. <a href="/de/">Zu den Wanderwegen auf Deutsch</a>.</p>
+  <p lang="pl">Nie znaleziono strony. <a href="/pl/">Zobacz szlaki po polsku</a>.</p>
+</section>
+
+<section>
+  <ul class="langs" aria-label="Language">
+    <li><a href="/" hreflang="en">EN</a></li>
+    <li><a href="/pt/" hreflang="pt">PT</a></li>
+    <li><a href="/fr/" hreflang="fr">FR</a></li>
+    <li><a href="/de/" hreflang="de">DE</a></li>
+    <li><a href="/pl/" hreflang="pl">PL</a></li>
+  </ul>
+</section>
+
+<footer>
+  <p>Independent — not affiliated with the Madeira Regional Government. Trail status comes from the official <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN warnings list</a>.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  const c = CONFIG;
+  try {
+    if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+    if (location.hash === '#countme') localStorage.removeItem('gc-skip');
+  } catch(e){}
+  const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP_ANALYTICS){
+    const s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

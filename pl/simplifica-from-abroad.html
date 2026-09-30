@@ -8,20 +8,25 @@
 <script>
 const CONFIG = {
   goatcounterCode: "madeira-levadinho",
-  lastUpdated: "2026-07-06"
+  lastUpdated: "2026-09-30"
 };
 </script>
 <!-- ============================================================ -->
 
-<title>SIMplifica nie działa z zagranicy? Jak zarezerwować szlaki Madery przed wylotem</title>
-<meta name="description" content="Portal SIMplifica często nie otwiera się spoza Portugalii i odrzuca zagraniczne numery telefonów. Oto jak zarejestrować się przez e-mail, zapłacić kartą i zarezerwować miejsce na szlaku Madery przed podróżą.">
+<title>SIMplifica nie działa z zagranicy? Rezerwacja szlaków Madery</title>
+<meta name="description" content="SIMplifica często nie otwiera się spoza Portugalii i odrzuca zagraniczne numery. Zarejestruj się e-mailem, zapłać kartą, zarezerwuj. Zobacz, jak to zrobić.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/pl/simplifica-from-abroad.html">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://levadinho-madeira.com/pl/simplifica-from-abroad.html">
-<meta property="og:title" content="SIMplifica nie działa z zagranicy? Zarezerwuj szlak Madery mimo to">
-<meta property="og:description" content="Zarejestruj się przez e-mail (nie numer telefonu), zapłać kartą, zrób zrzut ekranu kodu QR. Pełne obejście rezerwacji wędrówek po Maderze spoza Portugalii.">
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="SIMplifica nie działa z zagranicy? Rezerwacja szlaków Madery">
+<meta property="og:description" content="SIMplifica często nie otwiera się spoza Portugalii i odrzuca zagraniczne numery. Zarejestruj się e-mailem, zapłać kartą, zarezerwuj. Zobacz, jak to zrobić.">
+<meta property="og:image" content="https://levadinho-madeira.com/img/og-default.jpg">
+<meta property="og:image:alt" content="Levadinho: status szlaków na Maderze, opłaty i rezerwacja">
+<meta property="og:locale" content="pl_PL">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
 
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/simplifica-from-abroad.html">
 <link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/simplifica-from-abroad.html">
@@ -38,17 +43,26 @@ const CONFIG = {
     {
       "@type": "Question",
       "name": "Dlaczego strona SIMplifica nie otwiera się z mojego kraju?",
-      "acceptedAnswer": {"@type": "Answer", "text": "SIMplifica bywa niedostępny spoza Portugalii — może się nie wczytać albo zatrzymać Cię na pierwszej stronie. Spróbuj innej przeglądarki, wyłącz VPN lub przełącz się na dane komórkowe. Jeśli nadal nie da się dokończyć, załóż konto i zarezerwuj z portugalskiego łącza po przyjeździe albo poproś operatora z protokołem IFCN, by przytrzymał dla Ciebie miejsce."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SIMplifica bywa niedostępny spoza Portugalii — wczytuje pierwszy ekran, a potem nie idzie dalej. Wyłącz VPN (zagraniczny węzeł wyjściowy może pogorszyć sprawę), spróbuj innej przeglądarki albo przełącz się z Wi-Fi na dane komórkowe. Jeśli nadal nie da się dokończyć, nie trać na to całego wieczoru: działa normalnie, gdy jesteś już na wyspie, albo operator może zarezerwować za Ciebie."
+      }
     },
     {
       "@type": "Question",
       "name": "SIMplifica nie przyjmuje mojego numeru telefonu. Co robić?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Portal często odrzuca numery komórkowe spoza Portugalii. Zarejestruj się swoim adresem e-mail zamiast numerem telefonu — konto i kod QR biletu działają przez e-mail, więc zagraniczny numer nie jest potrzebny."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Portal często odrzuca numery komórkowe spoza Portugalii. Wybierz ścieżkę rejestracji przez e-mail zamiast przez telefon. Typ konta to „Pessoa Singular” (osoba fizyczna). Twoje hasło musi mieć co najmniej 10 znaków z użyciem 3 z 4 rodzajów (wielkie, małe litery, cyfra, symbol) — przycisk „zaproponuj silne hasło” oszczędza kłopotu."
+      }
     },
     {
       "@type": "Question",
       "name": "Czy mogę zarezerwować szlak Madery po przyjeździe na wyspę?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Tak, rezerwacja tego samego dnia jest możliwa, jeśli zostały miejsca, a portal jest znacznie bardziej niezawodny z lokalnego łącza. Ale popularne szlaki jak PR1, PR6 i PR9 wyprzedają się na tygodnie naprzód latem i wokół świąt, więc rezerwacja przed wylotem jest bezpieczniejsza dla ustalonego terminu."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tak: rezerwacja na ten sam lub następny dzień jest możliwa, jeśli zostały miejsca, a portal działa normalnie z lokalnego łącza. Miejsca są jednak ograniczone, a pełne okna blokowane, więc przy ustalonym terminie bezpieczniej zarezerwować przed wylotem."
+      }
     }
   ]
 }
@@ -87,6 +101,8 @@ p{margin-bottom:9px; font-size:15.5px}
 ol,ul{padding-left:22px; margin-bottom:9px}
 li{margin-bottom:7px; font-size:15.5px}
 .fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
+.src{font-size:13px; color:var(--ink-soft); margin-top:12px}
+.src a{color:var(--ink-soft)}
 footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
 a.plain{color:var(--ink); font-weight:600}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -121,10 +137,10 @@ a.plain{color:var(--ink); font-weight:600}
 .related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 @media (max-width:480px){.related ul{grid-template-columns:1fr}}
 .related li{margin:0}
-.related a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+.related li a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
   padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
-.related a:hover{border-color:var(--ink-soft)}
-.related a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related li a:hover{border-color:var(--ink-soft)}
+.related li a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
 .related p{color:var(--ink-soft);font-size:14px}
 .guides{margin-top:22px}
 .guides ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 8px}
@@ -187,7 +203,7 @@ a.tname:hover{text-decoration:underline}
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Odpowiedzi o szlakach Madery</div>
   <h1>SIMplifica nie działa z zagranicy?</h1>
-  <p class="sub">Od 2026 każdy oficjalny szlak PR wymaga rezerwacji przez rządowy portal SIMplifica — a ten portal to największa bolączka turystów próbujących zaplanować wszystko z domu.</p>
+  <p class="sub">Od 2026 sklasyfikowane szlaki PR zarządzane przez IFCN wymagają rezerwacji przez rządowy portal SIMplifica (kilka, np. PR3, PR3.1, PR4 i PR23, <a class="plain" href="/pl/do-i-need-a-permit/">nie wymaga rezerwacji</a>) — a ten portal to największa bolączka turystów próbujących zaplanować wszystko z domu.</p>
 </header>
 
 <!-- LEVADINHO-CTA:START (generated by scripts/gen_cta.py) -->
@@ -216,12 +232,12 @@ a.tname:hover{text-decoration:underline}
   <h2>Co naprawdę się psuje — i jak to obejść</h2>
 
   <div class="opt">
-    <h3>Strona się nie wczytuje / blokuje na pierwszej stronie <span class="tag">Dostęp</span></h3>
+    <h3>Dlaczego strona SIMplifica nie otwiera się z mojego kraju? <span class="tag">Dostęp</span></h3>
     <p>SIMplifica bywa niedostępny spoza Portugalii — wczytuje pierwszy ekran, a potem nie idzie dalej. Wyłącz VPN (zagraniczny węzeł wyjściowy może pogorszyć sprawę), spróbuj innej przeglądarki albo przełącz się z Wi-Fi na dane komórkowe. Jeśli nadal nie da się dokończyć, nie trać na to całego wieczoru: działa normalnie, gdy jesteś już na wyspie, albo operator może zarezerwować za Ciebie.</p>
   </div>
 
   <div class="opt">
-    <h3>„Nieprawidłowy numer telefonu” przy rejestracji <span class="tag">Rejestracja</span></h3>
+    <h3>SIMplifica nie przyjmuje mojego numeru telefonu. Co robić? <span class="tag">Rejestracja</span></h3>
     <p>Portal często odrzuca numery komórkowe spoza Portugalii. Wybierz ścieżkę rejestracji przez <b>e-mail</b> zamiast przez telefon. Typ konta to <b>„Pessoa Singular”</b> (osoba fizyczna). Twoje hasło musi mieć co najmniej 10 znaków z użyciem 3 z 4 rodzajów (wielkie, małe litery, cyfra, symbol) — przycisk „zaproponuj silne hasło” oszczędza kłopotu.</p>
   </div>
 
@@ -237,11 +253,16 @@ a.tname:hover{text-decoration:underline}
   <h2>Zarezerwuj przed wylotem — wersja na spokojnie</h2>
   <ol>
     <li><b>Załóż konto w tym tygodniu</b>, z domu, na <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">stronie rezerwacji SIMplifica</a> — a nie rano w dniu wędrówki przy początku szlaku, bez zasięgu.</li>
-    <li><b>Zarezerwuj dokładną datę i 30-minutowe okno wejścia.</b> Popularne szlaki (PR1, PR6 25 Fontes, PR9 Caldeirão Verde) wyprzedają się na tygodnie naprzód latem i wokół świąt.</li>
-    <li><b>Zrób zrzut ekranu biletu QR.</b> Strażnicy sprawdzają go przy początku szlaku, a często nie ma zasięgu, by ponownie wczytać e-mail.</li>
+    <li><b>Zarezerwuj dokładną datę i 30-minutowe okno wejścia.</b> Okna mają ograniczoną liczbę miejsc, a pełne są blokowane; gdy PR1 otwarto ponownie w maju 2026, pierwsze weekendy wyprzedały się w dniu startu rezerwacji.</li>
+    <li><b>Zrób zrzut ekranu biletu QR.</b> Może być trzeba pokazać go na szlaku, przy urządzeniu kontrolnym lub na prośbę pracowników IFCN, a często nie ma zasięgu, by ponownie wczytać e-mail.</li>
     <li><b>Wszyscy w grupie muszą być w rezerwacji</b> — w tym dzieci do 12 lat (za darmo) i mieszkańcy (za darmo) — inaczej cała rezerwacja może zostać odrzucona.</li>
   </ol>
   <div class="fact">Przejście szlaku sklasyfikowanego przez IFCN bez ważnego biletu SIMplifica to wykroczenie administracyjne (Portaria 801/2025, art. 10; DLR 24/2022/M, art. 13); przepisy przewidują dla osób fizycznych grzywny od <b>250 € do 2500 €</b>. Miejsca na ten sam dzień są możliwe, jeśli jakieś zostały, ale ustalony termin podróży to zły moment, by zdawać się na łut szczęścia.</div>
+  <div class="opt">
+    <h3>Czy mogę zarezerwować szlak Madery po przyjeździe na wyspę? <span class="tag">Na miejscu</span></h3>
+    <p>Tak: rezerwacja na ten sam lub następny dzień jest możliwa, jeśli zostały miejsca, a portal działa normalnie z lokalnego łącza. Miejsca są jednak ograniczone, a pełne okna blokowane, więc przy ustalonym terminie bezpieczniej zarezerwować przed wylotem.</p>
+  </div>
+  <p class="src"><b>Źródła:</b> <a class="plain" href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/faq-s-taxas-percursos-pedestres-classificados/frequently-asked-questions-fees-classified-walking-routes.html" target="_blank" rel="noopener">FAQ IFCN o opłatach</a> (rezerwacja, okna, bilety) · <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">Usługa rezerwacji w SIMplifica</a> · <a class="plain" href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/ISerie-218-Portaria-Taxas.pdf" target="_blank" rel="noopener">Portaria 801/2025</a> · <a class="plain" href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/Port48ISerie027_2026.pdf" target="_blank" rel="noopener">Portaria 48/2026</a> (art. 7, okazanie biletu) · <a class="plain" href="https://www.dnoticias.pt/2026/4/29/490203-trilho-entre-pico-do-areeiro-e-pico-ruivo-esgotado-nos-primeiros-fins-de-semana-de-maio/" target="_blank" rel="noopener">DN Madeira, 29.04.2026</a> (PR1 wyprzedany). Sprawdzono 30.09.2026.</p>
 </section>
 
 <section>

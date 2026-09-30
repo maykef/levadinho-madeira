@@ -15,7 +15,9 @@ Four marker-delimited blocks, replaced in place on every run (idempotent):
 
   SITE-NAV-HEAD     before </head>   CSS + BreadcrumbList JSON-LD
   SITE-NAV          in <header>      nav bar + breadcrumb trail
-  SITE-NAV-RELATED  before <footer>  4 nearest trails (trail pages only)
+  SITE-NAV-RELATED  before <footer>  4 nearest trails (trail pages only), plus an "In our
+                                     guides" line linking the list pages (HUBS) that cover
+                                     this trail, when any do
   SITE-NAV-GUIDES   before <footer>  "More guides": links to the pages in GUIDES that the
                                      page's own copy doesn't already link (RELATED_GUIDES
                                      picks them per page; the homepage lists all). Empty
@@ -29,8 +31,13 @@ Re-run after `gen_spokes.py` (which calls this itself) or whenever a trail or
 page is added:
 
     python scripts/gen_site_nav.py
+    python scripts/gen_site_nav.py --dry-run [OUTDIR]   # a few sample pages -> OUTDIR, repo untouched
+
+`trail_coords()` is importable (gen_spokes.py uses it); importing this module has no
+side effects.
 """
 
+import functools
 import json
 import math
 import pathlib
@@ -168,6 +175,11 @@ NEARBY_SUB = {"en": "Closest trailheads — each has its own live status.",
               "de": "Die nächstgelegenen Startpunkte — jeweils mit eigenem Live-Status.",
               "pl": "Najbliższe punkty startowe — każdy z własnym stanem na żywo."}
 KM = {"en": "{} km away", "pt": "a {} km", "fr": "à {} km", "de": "{} km entfernt", "pl": "{} km stąd"}
+# List pages that cover individual trails. A trail page links back to each one whose
+# English copy has the trail's badge / static-status marker / a link to its page.
+HUBS = ("best", "easy", "tunnels")
+LISTED = {"en": "In our guides:", "pt": "Nos nossos guias:", "fr": "Dans nos guides :",
+          "de": "In unseren Ratgebern:", "pl": "W naszych poradnikach:"}
 SAME = {"en": "Same trailhead", "pt": "Mesmo ponto de partida", "fr": "Même point de départ", "de": "Gleicher Startpunkt", "pl": "Ten sam punkt startowy"}
 
 
@@ -189,10 +201,10 @@ CSS = """<style>
 .related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 @media (max-width:480px){.related ul{grid-template-columns:1fr}}
 .related li{margin:0}
-.related a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+.related li a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
   padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
-.related a:hover{border-color:var(--ink-soft)}
-.related a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related li a:hover{border-color:var(--ink-soft)}
+.related li a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
 .related p{color:var(--ink-soft);font-size:14px}
 .guides{margin-top:22px}
 .guides ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 8px}
@@ -205,8 +217,10 @@ a.tname:hover{text-decoration:underline}
 </style>"""
 
 
+@functools.lru_cache(maxsize=None)
 def trail_coords():
-    """code -> (lat, lon) of each trailhead, from the Visit Madeira index."""
+    """code -> (lat, lon) of each trailhead, from the Visit Madeira index (e.g. "PR6").
+    Fetched once per process; raises on HTTP errors."""
     r = requests.get(TRAILS_INDEX, headers=UA, timeout=30)
     r.raise_for_status()
     out = {}
@@ -289,24 +303,54 @@ def head_html(crumbs):
         json.dumps(ld, ensure_ascii=False, indent=2))
 
 
-def related_html(lang, near):
+def strip_generated(html):
+    """`html` without the generated blocks (site nav, CTA), so only the page's own copy is left."""
+    for k in MARK:
+        start, end = MARK[k]
+        html = re.sub(re.escape(start) + r".*?" + re.escape(end), "", html, flags=re.S)
+    return re.sub(r"<!--\s*LEVADINHO-CTA:START.*?LEVADINHO-CTA:END\s*-->", "", html, flags=re.S)
+
+
+def hub_listing():
+    """hub key -> (set of trail codes, set of trail paths) mentioned in its English page."""
+    out = {}
+    for k in HUBS:
+        f = file_for("en", GUIDE[k][1])
+        if not f.exists():
+            sys.exit("FATAL: hub page {} not found".format(f))
+        body = strip_generated(f.read_text(encoding="utf-8"))
+        codes = set(re.findall(r'data-(?:code|trail)="([^"]+)"', body))
+        codes |= set(re.findall(r"STATIC-STATUS:([A-Z0-9.]+):START", body))
+        paths = set(re.findall(r'<a\b[^>]*href="(/[^"#?]*)', body))
+        out[k] = (codes, paths)
+    return out
+
+
+def hubs_for(t, listing):
+    """The hub keys whose page covers trail `t` (a status.json trails[] entry), in HUBS order."""
+    return [k for k in HUBS if t["code"] in listing[k][0] or t["page"] in listing[k][1]]
+
+
+def listed_html(lang, hubs):
+    links = " · ".join('<a href="{}">{}</a>'.format(href(lang, GUIDE[k][1]), esc(GUIDE[k][3][lang])) for k in hubs)
+    return '  <p class="listed">{} {}</p>'.format(LISTED[lang], links)
+
+
+def related_html(lang, near, hubs=()):
     items = "\n".join(
         '    <li><a href="{}">{} {}<span>{}</span></a></li>'.format(
             href(lang, t["page"]), esc(t["code"]), esc(t["name"]), dist_label(lang, d))
         for t, d in near
     )
-    return ('<section class="related" id="nearby">\n  <h2>{}</h2>\n  <p>{}</p>\n  <ul>\n{}\n  </ul>\n</section>'
-            .format(NEARBY[lang], NEARBY_SUB[lang], items))
+    listed = "\n" + listed_html(lang, hubs) if hubs else ""
+    return ('<section class="related" id="nearby">\n  <h2>{}</h2>\n  <p>{}</p>\n  <ul>\n{}\n  </ul>{}\n</section>'
+            .format(NEARBY[lang], NEARBY_SUB[lang], items, listed))
 
 
 def guides_html(lang, keys, html):
     """The "More guides" block: descriptive links to the guide pages in `keys`, minus the
     ones the page already links to outside the generated blocks. None if too few remain."""
-    body = html
-    for k in MARK:
-        start, end = MARK[k]
-        body = re.sub(re.escape(start) + r".*?" + re.escape(end), "", body, flags=re.S)
-    body = re.sub(r"<!--\s*LEVADINHO-CTA:START.*?LEVADINHO-CTA:END\s*-->", "", body, flags=re.S)
+    body = strip_generated(html)
     linked = set(re.findall(r'<a\b[^>]*href="([^"#?]+)', body))
     keys = [k for k in keys if href(lang, GUIDE[k][1]) not in linked]
     if len(keys) < N_GUIDES_MIN:
@@ -321,25 +365,46 @@ def drop_block(html, key):
 
 
 SKIPPED = []
+# --dry-run: {repo file: None} for the sample pages; results go to DRY_OUT, the repo is untouched.
+DRY_PAGES = ("25-fontes/index.html", "pt/25-fontes/index.html", "levada-do-risco/index.html",
+             "pico-ruivo/index.html", "de/pr1/index.html", "pl/levada-velha-do-rabacal/index.html")
+DRY_OUT = None
 
 
-def process(path, lang, current, crumbs, near=None, guides=None,
-            header_anchor=r'<nav class="langs"[^>]*>.*?</nav>\n'):
-    if not path.exists():
-        # A language's page may not exist yet -- skip it and say so; re-run once the file is there.
-        SKIPPED.append(str(path.relative_to(ROOT)))
-        return False
-    html = path.read_text(encoding="utf-8")
+def transform(html, path, lang, current, crumbs, near=None, guides=None, hubs=(),
+              header_anchor=r'<nav class="langs"[^>]*>.*?</nav>\n'):
     html = replace_block(html, "SITE-NAV-HEAD", head_html(crumbs), r"</head>", "before", path)
     html = replace_block(html, "SITE-NAV", nav_html(lang, current, crumbs), header_anchor, "after", path)
     if near:
-        html = replace_block(html, "SITE-NAV-RELATED", related_html(lang, near), r"<footer", "before", path)
+        html = replace_block(html, "SITE-NAV-RELATED", related_html(lang, near, hubs), r"<footer", "before", path)
     g = guides_html(lang, RELATED_GUIDES[guides], html) if guides else None
     if g:
         html = replace_block(html, "SITE-NAV-GUIDES", g, r"<footer", "before", path)
     else:
         html = drop_block(html, "SITE-NAV-GUIDES")
-    path.write_text(html, encoding="utf-8")
+    return html
+
+
+def process(path, lang, current, crumbs, near=None, guides=None, hubs=(),
+            header_anchor=r'<nav class="langs"[^>]*>.*?</nav>\n'):
+    rel = str(path.relative_to(ROOT))
+    if DRY_OUT is not None and rel not in DRY_PAGES:
+        return False
+    if not path.exists():
+        # A language's page may not exist yet -- skip it and say so; re-run once the file is there.
+        SKIPPED.append(rel)
+        return False
+    html = path.read_text(encoding="utf-8")
+    args = (path, lang, current, crumbs, near, guides, hubs, header_anchor)
+    out = transform(html, *args)
+    if DRY_OUT is None:
+        path.write_text(out, encoding="utf-8")
+        return True
+    dest = DRY_OUT / rel
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(out, encoding="utf-8")
+    again = transform(out, *args)
+    print("dry-run {} -> {} (second pass {})".format(rel, dest, "identical" if again == out else "DIFFERS"))
     return True
 
 
@@ -364,6 +429,11 @@ def nav_label(key, lang):
 
 
 def main():
+    global DRY_OUT
+    if "--dry-run" in sys.argv:
+        i = sys.argv.index("--dry-run")
+        nxt = sys.argv[i + 1] if len(sys.argv) > i + 1 else None
+        DRY_OUT = pathlib.Path(nxt or "gen_site_nav_dry").resolve()
     trails = json.loads((ROOT / "status.json").read_text())["trails"]
     coords = trail_coords()
     missing = [t["code"] for t in trails if t["code"] not in coords or not t.get("page")]
@@ -374,6 +444,7 @@ def main():
         others = [(o, km(coords[t["code"]], coords[o["code"]])) for o in trails if o["page"] != t["page"]]
         return sorted(others, key=lambda x: x[1])[:N_RELATED]
 
+    listing = hub_listing()
     nav_keys = {k for k, _, _ in NAV}
     n = 0
     for lang in LANGS:
@@ -383,7 +454,8 @@ def main():
             is_pr1 = t["page"] == "/pr1/"
             n += process(file_for(lang, t["page"]), lang, "pr1" if is_pr1 else None,
                          [home, (name, href(lang, t["page"]))], nearest(t),
-                         guides="pr1" if is_pr1 else ("spoke-pr1" if t["code"] == "PR1.2" else "spoke"))
+                         guides="pr1" if is_pr1 else ("spoke-pr1" if t["code"] == "PR1.2" else "spoke"),
+                         hubs=hubs_for(t, listing))
         n += process(file_for(lang, "/"), lang, "trails", None, guides="home")
         for key, p, *_ in GUIDES:
             if key == "pr1":
@@ -391,7 +463,7 @@ def main():
             n += process(file_for(lang, p), lang, key if key in nav_keys else None, crumbs_for(lang, key), guides=key)
     # English-only privacy page: nav bar only, no language switcher to anchor on.
     process(ROOT / "privacy" / "index.html", "en", None, None, header_anchor=r"<header>\n")
-    print("site nav written to {} pages (+ privacy)".format(n))
+    print("site nav written to {} pages{}".format(n, " (dry run, repo untouched)" if DRY_OUT else " (+ privacy)"))
     if SKIPPED:
         print("skipped {} missing page(s) -- re-run once they exist: {}".format(len(SKIPPED), ", ".join(SKIPPED)))
 

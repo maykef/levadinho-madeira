@@ -9,15 +9,22 @@
 const CONFIG = { goatcounterCode: "madeira-levadinho" };
 </script>
 
-<title>Percursos da Madeira: quais estão abertos ou fechados hoje? (estado em direto)</title>
-<meta name="description" content="Estado (aberto / condicionado / fechado) de todos os percursos pedestres PR pagos da Madeira, a partir da lista oficial de avisos do IFCN, com a data de atualização do próprio IFCN. Reservas e taxas no SIMplifica.">
+<title>Percursos pedestres da Madeira abertos ou fechados hoje?</title>
+<meta name="description" content="Estado de todos os percursos PR pagos da Madeira, segundo a lista oficial de avisos do IFCN, com a data do IFCN. Veja o estado, as taxas e as reservas.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/pt/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://levadinho-madeira.com/pt/">
-<meta property="og:title" content="Percursos da Madeira: abertos ou fechados hoje? Quadro de estado em direto">
-<meta property="og:description" content="O estado de todos os percursos PR pagos, a partir da lista oficial de avisos do IFCN, com a data de atualização do próprio IFCN.">
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="Percursos pedestres da Madeira abertos ou fechados hoje?">
+<meta property="og:description" content="Estado de todos os percursos PR pagos da Madeira, segundo a lista oficial de avisos do IFCN, com a data do IFCN. Veja o estado, as taxas e as reservas.">
+<meta property="og:image" content="https://levadinho-madeira.com/img/pr1-ridge-panorama.jpg">
+<meta property="og:image:alt" content="Caminhantes na crista do PR1, entre o Pico do Areeiro e o Pico Ruivo">
+<meta property="og:locale" content="pt_PT">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<link rel="preload" as="image" href="/img/pride-of-madeira.webp">
+<link rel="preload" as="image" href="/img/pr1-torres-flowers.webp">
 
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/">
 <link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/">
@@ -33,9 +40,9 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
  "@context": "https://schema.org",
  "@type": "WebPage",
  "url": "https://levadinho-madeira.com/pt/",
- "name": "Percursos da Madeira: quais estão abertos ou fechados hoje? (estado em direto)",
+ "name": "Percursos pedestres da Madeira abertos ou fechados hoje?",
  "inLanguage": "pt",
- "dateModified": "2026-09-30T14:28+01:00"
+ "dateModified": "2026-09-30T20:05+01:00"
 }
 </script>
 <script type="application/ld+json">
@@ -43,8 +50,30 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Que percursos da Madeira estão abertos hoje?","acceptedAnswer":{"@type":"Answer","text":"Esta página mostra se cada percurso pedestre PR classificado está aberto, condicionado ou fechado, segundo a lista oficial de avisos do IFCN, com a data de atualização do próprio IFCN (o IFCN atualiza a lista quando as condições mudam, não todos os dias). Os percursos condicionados e fechados aparecem primeiro."}},
-    {"@type":"Question","name":"Se o percurso estiver aberto, continuo a precisar de reserva?","acceptedAnswer":{"@type":"Answer","text":"Sim. Todos os percursos PR classificados exigem reserva e pagamento antecipados no portal SIMplifica — 4,50 € por percurso, ou 10,50 € no PR1 — mesmo quando o percurso está aberto. As crianças com menos de 12 anos não pagam, mas têm de constar da reserva."}}
+    {
+      "@type": "Question",
+      "name": "Que percursos da Madeira estão abertos hoje?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Esta página mostra se cada percurso pedestre PR classificado está aberto, condicionado ou fechado, segundo a lista oficial de avisos do IFCN, com a data de atualização do próprio IFCN (o IFCN atualiza a lista quando as condições mudam, não todos os dias). Os percursos condicionados e fechados aparecem primeiro."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Se o percurso estiver aberto, continuo a precisar de reserva?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim, nos percursos PR classificados geridos pelo IFCN: reserve e pague antecipadamente no portal SIMplifica — 4,50 € por percurso, ou 10,50 € no PR1 — mesmo quando o percurso está aberto. As crianças com menos de 12 anos não pagam, mas têm de constar da reserva. Alguns percursos classificados (PR3, PR3.1, PR4, PR23) não estão no SIMplifica e não precisam de reserva."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Onde posso ver se os percursos da Madeira estão abertos hoje?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Na lista oficial de avisos do IFCN, que é a fonte deste quadro. Esta página mostra essa lista percurso a percurso, com a data de atualização do próprio IFCN, e cada percurso tem a sua página com o estado em direto."
+      }
+    }
   ]
 }
 </script>
@@ -65,11 +94,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 
 .ribbon{display:flex;gap:2px;overflow:hidden;height:150px}
 .ribbon .pic{flex:1 1 0;min-width:0;position:relative}
-.ribbon .pic.a{background:#20573a url(/img/25fontes.jpg) center/cover}
-.ribbon .pic.b{background:#5f7590 url(/img/areeiro.jpg) center/cover}
-.ribbon .pic.c{background:#9a583a url(/img/saolourenco.jpg) center/cover}
-.ribbon .pic.d{background:#1d5638 url(/img/caldeirao.jpg) center/cover}
-.ribbon .pic.e{background:#48594d url(/img/fanal.jpg) center/cover}
+.ribbon .pic.a{background:#5b5a8c url(/img/pride-of-madeira.webp) center/cover}
+.ribbon .pic.b{background:#4f7a3a url(/img/pr1-torres-flowers.webp) center/cover}
+.ribbon .pic.c{background:#5f7590 url(/img/pr1-viewpoint-cloud.webp) center/cover}
+.ribbon .pic.d{background:#20573a url(/img/25fontes.webp) center/cover}
+.ribbon .pic.e{background:#9a583a url(/img/saolourenco.webp) center/cover}
 .ribbon .pic span{position:absolute;left:0;right:0;bottom:0;padding:7px 12px;font-size:12px;font-weight:700;
   color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent)}
 @media (max-width:640px){.ribbon{height:116px}.ribbon .pic.d,.ribbon .pic.e{display:none}}
@@ -129,6 +158,7 @@ h1{font-size:clamp(26px,6vw,36px);line-height:1.1;font-weight:800;letter-spacing
 .why{margin-top:30px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
 .why h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
 .why p{font-size:14.5px;color:var(--ink-soft)}
+.why h3{font-size:15px;font-weight:750;margin:12px 0 2px}
 .disclaimer{margin-top:16px;padding:12px 16px;background:#FBF4E6;border:1px solid #ECDCBB;border-radius:10px;
   font-size:12.5px;color:#6b5b34;line-height:1.5}
 .disclaimer b{color:#5a4a25}
@@ -166,10 +196,10 @@ footer a{color:var(--ink-soft)}
 .related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 @media (max-width:480px){.related ul{grid-template-columns:1fr}}
 .related li{margin:0}
-.related a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+.related li a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
   padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
-.related a:hover{border-color:var(--ink-soft)}
-.related a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related li a:hover{border-color:var(--ink-soft)}
+.related li a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
 .related p{color:var(--ink-soft);font-size:14px}
 .guides{margin-top:22px}
 .guides ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 8px}
@@ -186,11 +216,11 @@ a.tname:hover{text-decoration:underline}
 <div class="waymark" aria-hidden="true"></div>
 
 <div class="ribbon" aria-hidden="true">
-  <div class="pic a"><span>Levada das 25 Fontes</span></div>
+  <div class="pic a"><span>Massarocos · PR1</span></div>
   <div class="pic b"><span>Pico do Areeiro → Pico Ruivo</span></div>
-  <div class="pic c"><span>Ponta de São Lourenço</span></div>
-  <div class="pic d"><span>Caldeirão Verde</span></div>
-  <div class="pic e"><span>Fanal</span></div>
+  <div class="pic c"><span>Vereda do Areeiro (PR1)</span></div>
+  <div class="pic d"><span>Levada das 25 Fontes</span></div>
+  <div class="pic e"><span>Ponta de São Lourenço</span></div>
 </div>
 
 <div class="wrap">
@@ -297,7 +327,6 @@ a.tname:hover{text-decoration:underline}
   <h2>Mais guias</h2>
   <ul>
     <li><a href="/pt/hiking-fees.html">Taxas dos percursos pedestres 2026</a></li>
-    <li><a href="/pt/do-i-need-a-permit/">É preciso autorização para fazer levadas?</a></li>
     <li><a href="/pt/simplifica-booking/">Reservar percursos no SIMplifica, passo a passo</a></li>
     <li><a href="/pt/simplifica-from-abroad.html">O SIMplifica não funciona no estrangeiro?</a></li>
     <li><a href="/pt/getting-back.html">Regressar do Pico Ruivo sem carro</a></li>
@@ -309,16 +338,25 @@ a.tname:hover{text-decoration:underline}
   </ul>
 </nav>
 <!-- SITE-NAV-GUIDES:END -->
+<div class="why faq" id="faq">
+  <h2>Perguntas frequentes</h2>
+  <h3>Que percursos da Madeira estão abertos hoje?</h3>
+  <p>Esta página mostra se cada percurso pedestre PR classificado está aberto, condicionado ou fechado, segundo a lista oficial de avisos do IFCN, com a data de atualização do próprio IFCN (o IFCN atualiza a lista quando as condições mudam, não todos os dias). Os percursos condicionados e fechados aparecem primeiro.</p>
+  <h3>Se o percurso estiver aberto, continuo a precisar de reserva?</h3>
+  <p>Sim, nos percursos PR classificados geridos pelo IFCN: reserve e pague antecipadamente no portal SIMplifica — 4,50 € por percurso, ou 10,50 € no PR1 — mesmo quando o percurso está aberto. As crianças com menos de 12 anos não pagam, mas têm de constar da reserva. Alguns percursos classificados (PR3, PR3.1, PR4, PR23) não estão no SIMplifica e não precisam de reserva.</p>
+  <h3>Onde posso ver se os percursos da Madeira estão abertos hoje?</h3>
+  <p>Na <a class="tlink" href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">lista oficial de avisos do IFCN</a>, que é a fonte deste quadro. Esta página mostra essa lista percurso a percurso, com a data de atualização do próprio IFCN, e cada percurso tem a sua página com o estado em direto.</p>
+</div>
 <div class="why">
   <h2>Porque criei este site</h2>
-  <p>Em 2026, a Madeira passou a exigir reserva paga e com horário no SIMplifica para todos os percursos classificados — e as taxas, as regras e os encerramentos estão sempre a mudar. Há demasiados visitantes que chegam a um percurso fechado ou pagam a mais porque o guia que leram estava desatualizado há meses. Por isso, este site relê todas as manhãs a lista oficial de avisos do IFCN e mostra-a com a data de atualização do próprio IFCN, ao lado das taxas e regras em vigor hoje.</p>
+  <p>Em 2026, a Madeira passou a exigir reserva paga e com horário no SIMplifica para os percursos classificados geridos pelo IFCN (alguns, como o PR3, o PR3.1, o PR4 e o PR23, <a class="tlink" href="/pt/do-i-need-a-permit/">não precisam de reserva</a>) — e as taxas, as regras e os encerramentos estão sempre a mudar. Há demasiados visitantes que chegam a um percurso fechado ou pagam a mais porque o guia que leram estava desatualizado há meses. Por isso, este site consulta diariamente a lista oficial de avisos do IFCN e mostra-a com a data de atualização do próprio IFCN, ao lado das taxas e regras em vigor hoje.</p>
 </div>
 
 <div class="disclaimer">
   <b>Aviso.</b> A informação deste site é compilada a partir de fontes oficiais e secundárias (IFCN, Visit Madeira, SIMplifica, IPMA) e pode estar incompleta, atrasada ou incorreta. Não nos responsabilizamos por quaisquer erros nem por decisões tomadas com base nela. Confirme sempre o estado atual, as taxas e a reserva diretamente nas fontes oficiais antes de sair, e use o seu próprio discernimento no percurso.
 </div>
-<footer>Estado a partir da lista oficial de avisos do <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> (relida todas as manhãs; mostramos a data de atualização do próprio IFCN). Reservas: <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>. Tempo: <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Independente — sem ligação ao Governo Regional da Madeira.</footer>
-<p class="credit" style="max-width:1040px;margin:8px auto 0;padding:0 20px;font-size:11.5px;color:#8a978f">Fotografias dos percursos: Asurnipal, Krzysztof Popławski, Dietmar Rabich, cudi (<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener" style="color:inherit">Wikimedia Commons</a>, CC BY-SA 4.0 / CC BY 4.0 / CC BY 2.0), redimensionadas. <a href="/img/CREDITS.txt" style="color:inherit">Créditos completos</a>.</p>
+<footer>Estado a partir da lista oficial de avisos do <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">IFCN</a> (consultada diariamente; mostramos a data de atualização do próprio IFCN). Reservas: <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>. Tempo: <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Independente — sem ligação ao Governo Regional da Madeira.</footer>
+<p class="credit" style="max-width:1040px;margin:8px auto 0;padding:0 20px;font-size:11.5px;color:#8a978f">Fotografias dos percursos: Maykef (PR1, fotografias próprias, © 2026) e Asurnipal (<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener" style="color:inherit">Wikimedia Commons</a>, CC BY-SA 4.0), redimensionadas. <a href="/img/CREDITS.txt" style="color:inherit">Créditos completos</a>.</p>
 </div>
 
 <script>

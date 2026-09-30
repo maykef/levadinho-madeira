@@ -9,15 +9,22 @@
 const CONFIG = { goatcounterCode: "madeira-levadinho" };
 </script>
 
-<title>Wanderwege auf Madeira: Welche sind heute geöffnet oder geschlossen? (Live-Status)</title>
-<meta name="description" content="Status (geöffnet / eingeschränkt / geschlossen) jedes kostenpflichtigen PR-Wanderwegs auf Madeira, aus der offiziellen IFCN-Warnliste mit deren eigenem „aktualisiert“-Datum. Buchung und Gebühren erfolgen über SIMplifica.">
+<title>Madeira Wanderwege aktuell: geöffnet oder gesperrt?</title>
+<meta name="description" content="Aktueller Status aller kostenpflichtigen PR-Wanderwege auf Madeira aus der offiziellen IFCN-Warnliste, mit IFCN-Datum. Status, Gebühren und Buchung prüfen.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/de/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://levadinho-madeira.com/de/">
-<meta property="og:title" content="Wanderwege auf Madeira: heute geöffnet oder geschlossen? Live-Statustafel">
-<meta property="og:description" content="Der Status jedes kostenpflichtigen PR-Wanderwegs, aus der offiziellen IFCN-Warnliste mit deren eigenem Datum.">
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="Madeira Wanderwege aktuell: geöffnet oder gesperrt?">
+<meta property="og:description" content="Aktueller Status aller kostenpflichtigen PR-Wanderwege auf Madeira aus der offiziellen IFCN-Warnliste, mit IFCN-Datum. Status, Gebühren und Buchung prüfen.">
+<meta property="og:image" content="https://levadinho-madeira.com/img/pr1-ridge-panorama.jpg">
+<meta property="og:image:alt" content="Wanderer auf dem PR1-Grat zwischen Pico do Areeiro und Pico Ruivo">
+<meta property="og:locale" content="de_DE">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+<link rel="preload" as="image" href="/img/pride-of-madeira.webp">
+<link rel="preload" as="image" href="/img/pr1-torres-flowers.webp">
 
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/">
 <link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/">
@@ -33,9 +40,9 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
  "@context": "https://schema.org",
  "@type": "WebPage",
  "url": "https://levadinho-madeira.com/de/",
- "name": "Wanderwege auf Madeira: Welche sind heute geöffnet oder geschlossen? (Live-Status)",
+ "name": "Madeira Wanderwege aktuell: geöffnet oder gesperrt?",
  "inLanguage": "de",
- "dateModified": "2026-09-30T14:28+01:00"
+ "dateModified": "2026-09-30T20:05+01:00"
 }
 </script>
 <script type="application/ld+json">
@@ -43,8 +50,30 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Welche Wanderwege auf Madeira sind heute geöffnet?","acceptedAnswer":{"@type":"Answer","text":"Diese Seite zeigt den Status (geöffnet, eingeschränkt oder geschlossen) jedes klassifizierten PR-Wanderwegs aus der offiziellen IFCN-Warnliste, mit deren eigenem „aktualisiert“-Datum (IFCN aktualisiert die Liste, wenn sich die Bedingungen ändern, nicht täglich). Eingeschränkte und geschlossene Wege werden zuerst aufgeführt."}},
-    {"@type":"Question","name":"Muss ich einen Wanderweg auf Madeira trotzdem buchen, wenn er geöffnet ist?","acceptedAnswer":{"@type":"Answer","text":"Ja. Alle klassifizierten PR-Wanderwege erfordern eine vorherige Buchung und Bezahlung über das SIMplifica-Portal — 4,50 € pro Weg oder 10,50 € für den PR1 — auch wenn der Weg geöffnet ist. Kinder unter 12 Jahren sind kostenlos, müssen aber in der Reservierung eingetragen sein."}}
+    {
+      "@type": "Question",
+      "name": "Welche Wanderwege auf Madeira sind heute geöffnet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Diese Seite zeigt den Status (geöffnet, eingeschränkt oder geschlossen) jedes klassifizierten PR-Wanderwegs aus der offiziellen IFCN-Warnliste, mit deren eigenem „aktualisiert“-Datum (IFCN aktualisiert die Liste, wenn sich die Bedingungen ändern, nicht täglich). Eingeschränkte und geschlossene Wege werden zuerst aufgeführt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Muss ich einen Wanderweg auf Madeira trotzdem buchen, wenn er geöffnet ist?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, auf den klassifizierten PR-Wegen, die IFCN verwaltet: vorher über das SIMplifica-Portal buchen und bezahlen — 4,50 € pro Weg oder 10,50 € für den PR1 — auch wenn der Weg geöffnet ist. Kinder unter 12 Jahren sind kostenlos, müssen aber in der Reservierung eingetragen sein. Einige klassifizierte Wege (PR3, PR3.1, PR4, PR23) sind nicht auf SIMplifica und brauchen keine Buchung."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wo kann ich prüfen, ob Madeiras Wanderwege heute geöffnet sind?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In der offiziellen IFCN-Warnliste, der Quelle dieser Übersicht. Diese Seite zeigt die Liste Weg für Weg, mit dem „aktualisiert“-Datum des IFCN, und jeder Weg hat eine eigene Seite mit Live-Status."
+      }
+    }
   ]
 }
 </script>
@@ -65,11 +94,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Ar
 
 .ribbon{display:flex;gap:2px;overflow:hidden;height:150px}
 .ribbon .pic{flex:1 1 0;min-width:0;position:relative}
-.ribbon .pic.a{background:#20573a url(/img/25fontes.jpg) center/cover}
-.ribbon .pic.b{background:#5f7590 url(/img/areeiro.jpg) center/cover}
-.ribbon .pic.c{background:#9a583a url(/img/saolourenco.jpg) center/cover}
-.ribbon .pic.d{background:#1d5638 url(/img/caldeirao.jpg) center/cover}
-.ribbon .pic.e{background:#48594d url(/img/fanal.jpg) center/cover}
+.ribbon .pic.a{background:#5b5a8c url(/img/pride-of-madeira.webp) center/cover}
+.ribbon .pic.b{background:#4f7a3a url(/img/pr1-torres-flowers.webp) center/cover}
+.ribbon .pic.c{background:#5f7590 url(/img/pr1-viewpoint-cloud.webp) center/cover}
+.ribbon .pic.d{background:#20573a url(/img/25fontes.webp) center/cover}
+.ribbon .pic.e{background:#9a583a url(/img/saolourenco.webp) center/cover}
 .ribbon .pic span{position:absolute;left:0;right:0;bottom:0;padding:7px 12px;font-size:12px;font-weight:700;
   color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.55),transparent)}
 @media (max-width:640px){.ribbon{height:116px}.ribbon .pic.d,.ribbon .pic.e{display:none}}
@@ -129,6 +158,7 @@ h1{font-size:clamp(26px,6vw,36px);line-height:1.1;font-weight:800;letter-spacing
 .why{margin-top:30px;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:12px}
 .why h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
 .why p{font-size:14.5px;color:var(--ink-soft)}
+.why h3{font-size:15px;font-weight:750;margin:12px 0 2px}
 .disclaimer{margin-top:16px;padding:12px 16px;background:#FBF4E6;border:1px solid #ECDCBB;border-radius:10px;
   font-size:12.5px;color:#6b5b34;line-height:1.5}
 .disclaimer b{color:#5a4a25}
@@ -166,10 +196,10 @@ footer a{color:var(--ink-soft)}
 .related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 @media (max-width:480px){.related ul{grid-template-columns:1fr}}
 .related li{margin:0}
-.related a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+.related li a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
   padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
-.related a:hover{border-color:var(--ink-soft)}
-.related a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related li a:hover{border-color:var(--ink-soft)}
+.related li a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
 .related p{color:var(--ink-soft);font-size:14px}
 .guides{margin-top:22px}
 .guides ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 8px}
@@ -186,11 +216,11 @@ a.tname:hover{text-decoration:underline}
 <div class="waymark" aria-hidden="true"></div>
 
 <div class="ribbon" aria-hidden="true">
-  <div class="pic a"><span>Levada das 25 Fontes</span></div>
+  <div class="pic a"><span>Stolz von Madeira · PR1</span></div>
   <div class="pic b"><span>Pico do Areeiro → Pico Ruivo</span></div>
-  <div class="pic c"><span>Ponta de São Lourenço</span></div>
-  <div class="pic d"><span>Caldeirão Verde</span></div>
-  <div class="pic e"><span>Fanal</span></div>
+  <div class="pic c"><span>Vereda do Areeiro (PR1)</span></div>
+  <div class="pic d"><span>Levada das 25 Fontes</span></div>
+  <div class="pic e"><span>Ponta de São Lourenço</span></div>
 </div>
 
 <div class="wrap">
@@ -297,7 +327,6 @@ a.tname:hover{text-decoration:underline}
   <h2>Weitere Ratgeber</h2>
   <ul>
     <li><a href="/de/hiking-fees.html">Wandergebühren auf Madeira 2026</a></li>
-    <li><a href="/de/do-i-need-a-permit/">Brauche ich eine Genehmigung für Levada-Wanderungen?</a></li>
     <li><a href="/de/simplifica-booking/">Wanderweg auf SIMplifica buchen, Schritt für Schritt</a></li>
     <li><a href="/de/simplifica-from-abroad.html">SIMplifica funktioniert im Ausland nicht?</a></li>
     <li><a href="/de/getting-back.html">Vom Pico Ruivo ohne Auto zurück</a></li>
@@ -309,16 +338,25 @@ a.tname:hover{text-decoration:underline}
   </ul>
 </nav>
 <!-- SITE-NAV-GUIDES:END -->
+<div class="why faq" id="faq">
+  <h2>Häufige Fragen</h2>
+  <h3>Welche Wanderwege auf Madeira sind heute geöffnet?</h3>
+  <p>Diese Seite zeigt den Status (geöffnet, eingeschränkt oder geschlossen) jedes klassifizierten PR-Wanderwegs aus der offiziellen IFCN-Warnliste, mit deren eigenem „aktualisiert“-Datum (IFCN aktualisiert die Liste, wenn sich die Bedingungen ändern, nicht täglich). Eingeschränkte und geschlossene Wege werden zuerst aufgeführt.</p>
+  <h3>Muss ich einen Wanderweg auf Madeira trotzdem buchen, wenn er geöffnet ist?</h3>
+  <p>Ja, auf den klassifizierten PR-Wegen, die IFCN verwaltet: vorher über das SIMplifica-Portal buchen und bezahlen — 4,50 € pro Weg oder 10,50 € für den PR1 — auch wenn der Weg geöffnet ist. Kinder unter 12 Jahren sind kostenlos, müssen aber in der Reservierung eingetragen sein. Einige klassifizierte Wege (PR3, PR3.1, PR4, PR23) sind nicht auf SIMplifica und brauchen keine Buchung.</p>
+  <h3>Wo kann ich prüfen, ob Madeiras Wanderwege heute geöffnet sind?</h3>
+  <p>In der <a class="tlink" href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">offiziellen IFCN-Warnliste</a>, der Quelle dieser Übersicht. Diese Seite zeigt die Liste Weg für Weg, mit dem „aktualisiert“-Datum des IFCN, und jeder Weg hat eine eigene Seite mit Live-Status.</p>
+</div>
 <div class="why">
   <h2>Warum ich das gemacht habe</h2>
-  <p>2026 hat Madeira jeden klassifizierten Weg kostenpflichtig und zeitgebunden über SIMplifica gemacht — und Gebühren, Regeln und Sperrungen ändern sich ständig. Zu viele Besucher stehen vor einem gesperrten Weg oder zahlen zu viel, weil ihr Reiseführer Monate alt war. Deshalb liest diese Seite jeden Morgen die offizielle IFCN-Warnliste neu ein und zeigt sie mit dem eigenen „aktualisiert“-Datum des IFCN, neben den Gebühren und Regeln, die heute gelten.</p>
+  <p>2026 hat Madeira die von IFCN verwalteten klassifizierten Wege kostenpflichtig und zeitgebunden über SIMplifica gemacht (einige, etwa PR3, PR3.1, PR4 und PR23, <a class="tlink" href="/de/do-i-need-a-permit/">brauchen keine Buchung</a>) — und Gebühren, Regeln und Sperrungen ändern sich ständig. Zu viele Besucher stehen vor einem gesperrten Weg oder zahlen zu viel, weil ihr Reiseführer Monate alt war. Deshalb prüft diese Seite täglich die offizielle IFCN-Warnliste und zeigt sie mit dem eigenen „aktualisiert“-Datum des IFCN, neben den Gebühren und Regeln, die heute gelten.</p>
 </div>
 
 <div class="disclaimer">
   <b>Haftungsausschluss.</b> Die Informationen auf dieser Website stammen aus sekundären und offiziellen Quellen (IFCN, Visit Madeira, SIMplifica, IPMA) und können unvollständig, verzögert oder fehlerhaft sein. Wir übernehmen keine Verantwortung oder Haftung für Fehler oder für Entscheidungen, die darauf beruhen. Bestätigen Sie den aktuellen Status, die Gebühren und die Buchung stets direkt bei den offiziellen Quellen, bevor Sie aufbrechen, und verlassen Sie sich unterwegs auf Ihr eigenes Urteilsvermögen.
 </div>
-<footer>Status aus der offiziellen IFCN-Warnliste (jeden Morgen neu eingelesen; mit dem „aktualisiert“-Datum des IFCN). Unabhängig — nicht mit der Regionalregierung von Madeira verbunden.</footer>
-<p class="credit" style="max-width:1040px;margin:8px auto 0;padding:0 20px;font-size:11.5px;color:#8a978f">Trail photos: Asurnipal, Krzysztof Popławski, Dietmar Rabich, cudi (<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener" style="color:inherit">Wikimedia Commons</a>, CC BY-SA 4.0 / CC BY 4.0 / CC BY 2.0), resized. <a href="/img/CREDITS.txt" style="color:inherit">Full credits</a>.</p>
+<footer>Status aus der offiziellen IFCN-Warnliste (täglich geprüft; mit dem „aktualisiert“-Datum des IFCN). Unabhängig — nicht mit der Regionalregierung von Madeira verbunden.</footer>
+<p class="credit" style="max-width:1040px;margin:8px auto 0;padding:0 20px;font-size:11.5px;color:#8a978f">Fotos der Wege: Maykef (PR1, eigene Fotos, © 2026) und Asurnipal (<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener" style="color:inherit">Wikimedia Commons</a>, CC BY-SA 4.0), verkleinert. <a href="/img/CREDITS.txt" style="color:inherit">Alle Bildnachweise</a>.</p>
 </div>
 
 <script>

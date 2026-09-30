@@ -131,8 +131,34 @@ Madeira-Paul de Serra-Barragem do Pico da Urze-03ASD.jpg — Paul da Serra (PR6.
   Licence: CC BY-SA 4.0
   Source:  https://commons.wikimedia.org/wiki/File:Madeira-Paul_de_Serra-Barragem_do_Pico_da_Urze-03ASD.jpg
 
+og-default.jpg — default link-preview image (crop of pride-of-madeira, photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro), with a Levadinho text band)
+  Author:  Krzysztof Popławski
+  Licence: CC BY 4.0
+  Source:  https://commons.wikimedia.org/wiki/File:G%C3%B3rski_szlak_pieszy_PR1_z_Pico_Arreiro_do_Pico_Ruivo_-_Vereda_do_Areeiro_-_Madeira,_Portugalia,_sierpie%C5%84_2022.jpg
+
 CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
 CC BY-SA 2.0: https://creativecommons.org/licenses/by-sa/2.0/
 CC BY 2.0:    https://creativecommons.org/licenses/by/2.0/
 CC0:          https://creativecommons.org/publicdomain/zero/1.0/
 CC BY 3.0:    https://creativecommons.org/licenses/by/3.0/
+CC BY 4.0:    https://creativecommons.org/licenses/by/4.0/
+
+levadinho-avatar.jpg, levadinho-avatar-full.jpg, icon-180.png, icon-192.png, /favicon.ico: the Levadinho character (owner's own artwork, used for the WhatsApp profile). All rights reserved.
+
+Owner's own photos (PR1, Vereda do Areeiro):
+pr1-areeiro-dome.jpg — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-areeiro-dome.webp — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-ridge-path.jpg — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-ridge-path.webp — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-ridge-panorama.jpg — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-ridge-panorama.webp — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-valley-path.jpg — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-valley-path.webp — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-torres-valley.jpg — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-torres-valley.webp — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-torres-flowers.jpg — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-torres-flowers.webp — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-viewpoint-cloud.jpg — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pr1-viewpoint-cloud.webp — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pride-of-madeira.jpg — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+pride-of-madeira.webp — photo © Maykef 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)

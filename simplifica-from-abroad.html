@@ -8,20 +8,25 @@
 <script>
 const CONFIG = {
   goatcounterCode: "madeira-levadinho",
-  lastUpdated: "2026-07-06"
+  lastUpdated: "2026-09-30"
 };
 </script>
 <!-- ============================================================ -->
 
-<title>SIMplifica won't work from abroad? How to book Madeira trails before you fly</title>
-<meta name="description" content="The SIMplifica portal often won't open from outside Portugal and rejects foreign phone numbers. Here's how to register with email, pay by card, and book your Madeira hiking slot before you travel.">
+<title>SIMplifica not working from abroad? Book Madeira hikes</title>
+<meta name="description" content="SIMplifica often won't load outside Portugal or rejects foreign phone numbers. Register by email, pay by card, book your slot. See the workaround.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/simplifica-from-abroad.html">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://levadinho-madeira.com/simplifica-from-abroad.html">
-<meta property="og:title" content="SIMplifica won't work from abroad? Book your Madeira trail anyway">
-<meta property="og:description" content="Register with email (not a phone number), pay by card, screenshot the QR. The full workaround for booking Madeira hikes from outside Portugal.">
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="SIMplifica not working from abroad? Book Madeira hikes">
+<meta property="og:description" content="SIMplifica often won't load outside Portugal or rejects foreign phone numbers. Register by email, pay by card, book your slot. See the workaround.">
+<meta property="og:image" content="https://levadinho-madeira.com/img/og-default.jpg">
+<meta property="og:image:alt" content="Levadinho: Madeira trail status, fees and booking">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
 
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/simplifica-from-abroad.html">
 <link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/simplifica-from-abroad.html">
@@ -38,17 +43,26 @@ const CONFIG = {
     {
       "@type": "Question",
       "name": "Why won't the SIMplifica website open from my country?",
-      "acceptedAnswer": {"@type": "Answer", "text": "SIMplifica is sometimes unreachable from outside Portugal — it can fail to load or trap you on the first page. Try a different browser, disable any VPN, or switch to mobile data. If it still won't complete, register your account and book from a Portuguese connection once you arrive, or ask an IFCN protocol operator to hold your slot."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SIMplifica is sometimes unreachable from outside Portugal — it loads the first screen then goes nowhere. Turn off any VPN (a foreign exit node can make it worse), try a different browser, or switch from Wi-Fi to mobile data. If it still won't complete, don't waste an evening on it: it works normally once you're on the island, or an operator can book for you."
+      }
     },
     {
       "@type": "Question",
       "name": "SIMplifica won't accept my phone number. What do I do?",
-      "acceptedAnswer": {"@type": "Answer", "text": "The portal often rejects non-Portuguese mobile numbers. Register with your email address instead of a phone number — the account and your ticket QR code both work by email, so a foreign number is not required."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The portal frequently rejects non-Portuguese mobile numbers. Choose the email registration path instead of the phone one. Account type is \"Pessoa Singular\" (individual). Your password needs at least 10 characters using 3 of 4 types (upper, lower, number, symbol) — the \"suggest strong password\" button saves the hassle."
+      }
     },
     {
       "@type": "Question",
       "name": "Can I book a Madeira trail after I arrive on the island?",
-      "acceptedAnswer": {"@type": "Answer", "text": "Yes, same-day booking is possible if slots remain, and the portal is far more reliable from a local connection. But popular trails like PR1, PR6 and PR9 sell out weeks ahead in summer and around Christmas, so booking before you fly is safer for a fixed date."}
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes: same-day and next-day booking is allowed if places remain, and the portal works normally from a local connection. But places are limited and full slots lock, so for a fixed date it is safer to book before you fly."
+      }
     }
   ]
 }
@@ -87,6 +101,8 @@ p{margin-bottom:9px; font-size:15.5px}
 ol,ul{padding-left:22px; margin-bottom:9px}
 li{margin-bottom:7px; font-size:15.5px}
 .fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
+.src{font-size:13px; color:var(--ink-soft); margin-top:12px}
+.src a{color:var(--ink-soft)}
 footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
 a.plain{color:var(--ink); font-weight:600}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -121,10 +137,10 @@ a.plain{color:var(--ink); font-weight:600}
 .related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 @media (max-width:480px){.related ul{grid-template-columns:1fr}}
 .related li{margin:0}
-.related a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+.related li a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
   padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
-.related a:hover{border-color:var(--ink-soft)}
-.related a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related li a:hover{border-color:var(--ink-soft)}
+.related li a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
 .related p{color:var(--ink-soft);font-size:14px}
 .guides{margin-top:22px}
 .guides ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 8px}
@@ -187,7 +203,7 @@ a.tname:hover{text-decoration:underline}
 <!-- SITE-NAV:END -->
   <div class="brand">Levadinho · Madeira trail answers</div>
   <h1>SIMplifica won't work from abroad?</h1>
-  <p class="sub">Since 2026 every official PR trail needs a booking through the government's SIMplifica portal — and that portal is the single biggest headache for visitors trying to plan from home.</p>
+  <p class="sub">Since 2026 the classified PR trails managed by IFCN need a booking through the government's SIMplifica portal (a few, such as PR3, PR3.1, PR4 and PR23, <a class="plain" href="/do-i-need-a-permit/">need no booking</a>) — and that portal is the single biggest headache for visitors trying to plan from home.</p>
 </header>
 
 <!-- LEVADINHO-CTA:START (generated by scripts/gen_cta.py) -->
@@ -216,12 +232,12 @@ a.tname:hover{text-decoration:underline}
   <h2>What actually goes wrong — and the workaround</h2>
 
   <div class="opt">
-    <h3>Site won't load / traps you on page one <span class="tag">Access</span></h3>
+    <h3>Why won't the SIMplifica website open from my country? <span class="tag">Access</span></h3>
     <p>SIMplifica is sometimes unreachable from outside Portugal — it loads the first screen then goes nowhere. Turn off any VPN (a foreign exit node can make it worse), try a different browser, or switch from Wi-Fi to mobile data. If it still won't complete, don't waste an evening on it: it works normally once you're on the island, or an operator can book for you.</p>
   </div>
 
   <div class="opt">
-    <h3>"Invalid phone number" at sign-up <span class="tag">Registration</span></h3>
+    <h3>SIMplifica won't accept my phone number. What do I do? <span class="tag">Registration</span></h3>
     <p>The portal frequently rejects non-Portuguese mobile numbers. Choose the <b>email</b> registration path instead of the phone one. Account type is <b>"Pessoa Singular"</b> (individual). Your password needs at least 10 characters using 3 of 4 types (upper, lower, number, symbol) — the "suggest strong password" button saves the hassle.</p>
   </div>
 
@@ -237,11 +253,16 @@ a.tname:hover{text-decoration:underline}
   <h2>Book before you fly — the calm version</h2>
   <ol>
     <li><b>Create the account this week</b>, from home, on <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">the SIMplifica booking page</a> — not on hike morning at the trailhead with no signal.</li>
-    <li><b>Book the exact date and 30-minute entry slot.</b> Popular trails (PR1, PR6 25 Fontes, PR9 Caldeirão Verde) sell out weeks ahead in summer and around Christmas.</li>
-    <li><b>Screenshot the QR ticket.</b> Rangers check it at the trailhead, and there's often no signal to reload your email.</li>
+    <li><b>Book the exact date and 30-minute entry slot.</b> Slots have limited places and full ones lock; when PR1 reopened in May 2026, its first weekends sold out the day bookings opened.</li>
+    <li><b>Screenshot the QR ticket.</b> You may have to show it on the trail, at control equipment or when IFCN staff ask, and there's often no signal to reload your email.</li>
     <li><b>Everyone in the group goes on the booking</b> — including under-12s (free) and residents (free) — or the whole reservation can be refused.</li>
   </ol>
   <div class="fact">Walking an IFCN classified trail without a valid SIMplifica ticket is an administrative offence (Portaria 801/2025 art. 10; DLR 24/2022/M art. 13); the law sets fines for individuals of <b>€250–€2,500</b>. Same-day slots are possible if any remain, but a fixed travel date is a bad time to gamble on it.</div>
+  <div class="opt">
+    <h3>Can I book a Madeira trail after I arrive on the island? <span class="tag">On the island</span></h3>
+    <p>Yes: same-day and next-day booking is allowed if places remain, and the portal works normally from a local connection. But places are limited and full slots lock, so for a fixed date it is safer to book before you fly.</p>
+  </div>
+  <p class="src"><b>Sources:</b> <a class="plain" href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/faq-s-taxas-percursos-pedestres-classificados/frequently-asked-questions-fees-classified-walking-routes.html" target="_blank" rel="noopener">IFCN fees FAQ</a> (booking, slots, tickets) · <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">SIMplifica booking service</a> · <a class="plain" href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/ISerie-218-Portaria-Taxas.pdf" target="_blank" rel="noopener">Portaria 801/2025</a> · <a class="plain" href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/Port48ISerie027_2026.pdf" target="_blank" rel="noopener">Portaria 48/2026</a> (art. 7, showing your ticket) · <a class="plain" href="https://www.dnoticias.pt/2026/4/29/490203-trilho-entre-pico-do-areeiro-e-pico-ruivo-esgotado-nos-primeiros-fins-de-semana-de-maio/" target="_blank" rel="noopener">DN Madeira, 29 Apr 2026</a> (PR1 sold out). Checked 30 Sep 2026.</p>
 </section>
 
 <section>

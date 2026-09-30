@@ -22,7 +22,7 @@ Each run moves it there (TOP_SPOTS).
 
 Tags: same tag in every language (the bot detects the language itself). Trail pages use
 their code (web-pr6, web-pr1-2, ...); guide pages have fixed short tags (TAGS below).
-Not added to privacy/ or the trails/ redirect stubs. Fails loud on a page it can't tag.
+Not added to privacy/, 404.html or the trails/ redirect stubs. Fails loud on a page it can't tag.
 
     python scripts/gen_cta.py
 """
@@ -208,7 +208,7 @@ def place_top(html, body, path):
 def pages():
     for p in sorted(ROOT.rglob("*.html")):
         parts = p.relative_to(ROOT).parts
-        if parts[0] in SKIP_TOP or p.name.startswith("google"):
+        if parts[0] in SKIP_TOP or p.name.startswith("google") or parts == ("404.html",):
             continue
         if len(parts) > 1 and parts[0] in LANG_DIRS and parts[1] in ("trails", "privacy"):
             continue

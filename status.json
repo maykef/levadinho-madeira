@@ -10,13 +10,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 14.2,
+    "temp_c": 10.3,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 10,
+    "wind_kmh": 22,
     "wind_strong": false
   },
-  "stamp": "2026-09-30 14:28",
+  "stamp": "2026-09-30 20:05",
   "date": "2026-09-30",
   "source": {
     "name": "IFCN",
@@ -32,17 +32,17 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 14,
-      "wind": 10,
-      "rain": 0.2,
+      "temp": 10,
+      "wind": 22,
+      "rain": 0.0,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 18,
+      "temp": 19,
       "wind": null,
-      "rain": 0.1,
+      "rain": 0.0,
       "in_cloud": false
     },
     {
@@ -56,16 +56,16 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 22,
-      "wind": 19,
+      "temp": 23,
+      "wind": 12,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 27,
-      "wind": 5,
+      "temp": 26,
+      "wind": 8,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -78,7 +78,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 14,
+      "temp": 10,
       "page": "/pr1/",
       "note": {
         "pt": "Transitável: Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija. Encerrado/condicionado: Percurso com sentido único entre o Miradouro da Pedra Rija e o Pico Ruivo.",
@@ -112,7 +112,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 14,
+      "temp": 10,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "Encontra-se totalmente transitável o troço compreendido entre a Casa de Abrigo do Pico Ruivo e o Pico Ruivo.",
@@ -129,7 +129,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 18,
+      "temp": 19,
       "page": "/caldeirao-verde/"
     },
     {
@@ -139,7 +139,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 22,
+      "temp": 23,
       "page": "/sao-lourenco/"
     },
     {
@@ -149,7 +149,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 14,
+      "temp": 10,
       "page": "/balcoes/"
     },
     {
@@ -169,7 +169,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/levada-do-furado/"
     },
     {
@@ -179,7 +179,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 18,
+      "temp": 19,
       "page": "/levada-do-rei/"
     },
     {
@@ -199,7 +199,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 19,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -209,7 +209,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -219,7 +219,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -229,7 +229,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/vereda-do-burro/"
     },
     {
@@ -239,7 +239,7 @@
       "fee": "4.50",
       "region": "south",
       "popular": false,
-      "temp": 27,
+      "temp": 26,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -249,7 +249,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "Percurso transitável - está disponível uma ligação sinalizada à Ribeira das Cales, junto ao Centro de Interpretação do Parque Ecológico do Funchal. A versão atual do percurso, entre o Poço da Neve (início do PR4), a Levada do Barreiro e a Ribeira das Cales, encontra-se totalmente sinalizada em ambos os sentidos.",
@@ -266,7 +266,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 19,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -316,7 +316,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "Percurso transitável desde a Boca da Corrida até ao km 3,5.",
@@ -343,7 +343,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -353,7 +353,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/caminho-do-pinaculo-e-folhadal/",
       "note": {
         "pt": "Percurso transitável entre a Encumeada e a Bica da Cana.",
@@ -390,7 +390,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/caminho-do-norte/"
     },
     {
@@ -400,7 +400,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -410,7 +410,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 14,
+      "temp": 10,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -480,7 +480,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 19,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ]
