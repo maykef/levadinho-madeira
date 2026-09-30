@@ -194,12 +194,14 @@ TOP_SPOTS = [
 
 def place_top(html, body, path):
     start, end = MARK["LEVADINHO-CTA"]
-    html = re.sub(r"\n?" + re.escape(start) + r".*?" + re.escape(end) + r"\n?", "\n", html, count=1, flags=re.S)
+    # Remove the old block together with the blank lines around it, so re-runs are byte-identical.
+    html = re.sub(r"\n*" + re.escape(start) + r".*?" + re.escape(end) + r"\n*", "\n", html, count=1, flags=re.S)
     block = "{}\n{}\n{}\n".format(start, body, end)
     for rx in TOP_SPOTS:
         m = rx.search(html)
         if m:
-            return html[:m.end()] + "\n" + block + html[m.end():]
+            rest = html[m.end():].lstrip("\n")
+            return html[:m.end()] + "\n" + block + "\n" + rest
     sys.exit("FATAL: no top spot for the WhatsApp block in {}".format(path))
 
 
