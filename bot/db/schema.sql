@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS campaign (
   description  text,
   created_at   timestamptz NOT NULL DEFAULT now()
 );
-COMMENT ON TABLE campaign IS 'A QR code campaign: the tag in the QR''s pre-filled WhatsApp text (e.g. "#areeiro") tells where the visitor scanned it.';
+COMMENT ON TABLE campaign IS 'A QR code campaign: the tag in the QR''s pre-filled WhatsApp text (e.g. "#areeiro") tells where the visitor scanned it. Website links use "web-<page>" tags (e.g. "web-pr1"), added automatically the first time one is seen, with no route and the description "website page link".';
 COMMENT ON COLUMN campaign.campaign_id IS 'The tag without "#", e.g. "areeiro", "ely".';
 COMMENT ON COLUMN campaign.route_id IS 'The guide route this QR code opens.';
 COMMENT ON COLUMN campaign.description IS 'Where the QR code is placed and what it is for.';
@@ -154,7 +154,7 @@ COMMENT ON COLUMN conversation_turn.visitor_id IS 'Pseudonymous visitor (see vis
 COMMENT ON COLUMN conversation_turn.direction IS '"in" = from the visitor, "out" = from the bot.';
 COMMENT ON COLUMN conversation_turn.msg_kind IS 'WhatsApp message kind: text, location, language_choice, location_request, list, picker, welcome, voice, image, etc.';
 COMMENT ON COLUMN conversation_turn.text_scrubbed IS 'Message text with personal data replaced by tags such as [NAME], [PHONE], [EMAIL], [CODE], [LINK].';
-COMMENT ON COLUMN conversation_turn.scrub_method IS 'How it was scrubbed: "rules" (patterns only) or "rules+llm" (patterns plus the local model removing names).';
+COMMENT ON COLUMN conversation_turn.scrub_method IS 'How it was scrubbed: "rules" (patterns only; the model pass may still be due: analytics.sweep() catches up when the model is up), "rules+llm" (patterns plus the local model removing names) or "rules+llm-rejected" (the model''s version failed the length guard, so the patterns-only text was kept).';
 COMMENT ON COLUMN conversation_turn.lang IS 'Language of this message.';
 COMMENT ON COLUMN conversation_turn.is_question IS 'For incoming text: did the visitor ask something (vs greeting/thanks)?';
 COMMENT ON COLUMN conversation_turn.intent IS 'For questions: what it is about (status, booking, fees, transport, weather, safety, route_info, alternatives, facilities, other).';

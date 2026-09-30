@@ -131,15 +131,15 @@ LOC_NEAR = {
           "Twojej lokalizacji, by odtwarzać każdy przystanek, gdy do niego dotrzesz:\n{link}\n\n{note}\n\nPodczas marszu trzymaj stronę otwartą i użyj *trybu kieszonkowego*: ekran pozostaje włączony w kieszeni.",
 }
 LOC_FAR = {
-    "pt": "📍 Recebido! Está a {dist} do Pico do Areeiro, onde começa o PR1. PR1 hoje: *{status}* (verificação oficial desta manhã).\n\n"
+    "pt": "📍 Recebido! Está a {dist} do Pico do Areeiro, onde começa o PR1. PR1 hoje: *{status}* (segundo a lista oficial do IFCN, atualizada a {updated}).\n\n"
           "O guia áudio começa no início do trilho. Quando lá estiver, envie-me de novo a sua localização (📎 → Localização).",
-    "en": "📍 Got it! You're {dist} from Pico do Areeiro, where PR1 starts. PR1 today: *{status}* (this morning's official check).\n\n"
+    "en": "📍 Got it! You're {dist} from Pico do Areeiro, where PR1 starts. PR1 today: *{status}* (according to IFCN's official list, updated {updated}).\n\n"
           "The audio guide starts at the trailhead. When you're there, send me your location again (📎 → Location).",
-    "fr": "📍 Bien reçu ! Vous êtes à {dist} du Pico do Areeiro, départ du PR1. PR1 aujourd'hui : *{status}* (vérification officielle de ce matin).\n\n"
+    "fr": "📍 Bien reçu ! Vous êtes à {dist} du Pico do Areeiro, départ du PR1. PR1 aujourd'hui : *{status}* (selon la liste officielle de l'IFCN, mise à jour le {updated}).\n\n"
           "Le guide audio démarre au début du sentier. Une fois là-bas, renvoyez-moi votre position (📎 → Position).",
-    "de": "📍 Danke! Du bist {dist} vom Pico do Areeiro entfernt, wo der PR1 beginnt. PR1 heute: *{status}* (offizielle Prüfung von heute Morgen).\n\n"
+    "de": "📍 Danke! Du bist {dist} vom Pico do Areeiro entfernt, wo der PR1 beginnt. PR1 heute: *{status}* (laut der offiziellen IFCN-Liste, aktualisiert am {updated}).\n\n"
           "Der Audioguide startet am Wanderweg. Wenn du dort bist, schick mir deinen Standort nochmal (📎 → Standort).",
-    "pl": "📍 Dzięki! Jesteś {dist} od Pico do Areeiro, gdzie zaczyna się PR1. PR1 dziś: *{status}* (oficjalne sprawdzenie z dzisiejszego ranka).\n\n"
+    "pl": "📍 Dzięki! Jesteś {dist} od Pico do Areeiro, gdzie zaczyna się PR1. PR1 dziś: *{status}* (według oficjalnej listy IFCN, zaktualizowanej {updated}).\n\n"
           "Audioprzewodnik startuje na początku szlaku. Gdy tam będziesz, wyślij mi ponownie swoją lokalizację (📎 → Lokalizacja).",
 }
 # Sent with every guide link: open it while there's signal, so the guide saves itself on the phone.
@@ -277,15 +277,31 @@ def live_status():
     return data
 
 
+def _en(note):
+    """A note is {"pt": original, "en": …, …} (IFCN writes Portuguese) or a plain string: English, else the
+    Portuguese original, else whatever there is."""
+    if not isinstance(note, dict):
+        return note or ""
+    return note.get("en") or note.get("pt") or next((v for v in note.values() if v), "")
+
+
+def ifcn_updated(s=None):
+    """The date IFCN prints on its warnings list ("ATUALIZADO: 14/09/2026"), or None."""
+    s = s if s is not None else live_status()
+    return (s.get("source") or {}).get("updated") or None
+
+
 def status_block():
     s = live_status()
     trails = {t["code"]: t for t in s.get("trails", [])}
-    note = s.get("note", {})
-    note = note.get("en", "") if isinstance(note, dict) else note
+    src = s.get("source") or {}
+    updated = src.get("updated")
     w = s.get("weather", {})
-    lines = [f"Status checked on {s.get('date')} (official Visit Madeira/IFCN data, updated every morning).",
-             f"PR1 today: {s.get('status')}.",
-             f"Official note: {note or 'none'}"]
+    lines = [f"Status source: the official {src.get('name') or 'IFCN'} trail warnings list"
+             + (f" (IFCN list updated {updated})" if updated else " (IFCN's update date not available)")
+             + f"; Levadinho last read it on {s.get('date')}. IFCN does not update the list every day.",
+             f"PR1: {s.get('status')}.",
+             f"Official IFCN note: {_en(s.get('note')) or 'none'}"]
     if s.get("manual_note"):
         lines.append(f"Extra note: {s['manual_note']}")
     if w.get("ok"):
@@ -298,7 +314,8 @@ def status_block():
     for code in ALTERNATIVES:
         t = trails.get(code)
         if t:
-            lines.append(f"Alternative {code} {t['name']}: {t['status']}.")
+            note = _en(t.get("note"))
+            lines.append(f"Alternative {code} {t['name']}: {t['status']}." + (f" Note: {note}" if note else ""))
     return "\n".join(lines)
 
 
@@ -368,7 +385,7 @@ HOW TO ANSWER
 - Never mention which languages you speak or any language rule; just reply naturally.
 - WhatsApp style: short and practical, 2–6 short lines, no headings, no markdown tables. *Bold* sparingly. At most one emoji.
 - Use ONLY the facts in LIVE STATUS and PR1 KNOWLEDGE below. If something isn't there, say you don't know and point to SIMplifica or IFCN. Never invent prices, times, phone numbers, bus routes or rules.
-- LIVE STATUS always wins over PR1 KNOWLEDGE. Today's open/closed state comes only from LIVE STATUS; say it's from this morning's official check.
+- LIVE STATUS always wins over PR1 KNOWLEDGE. The open/closed state comes only from LIVE STATUS. Say it's according to IFCN's official warnings list and give the date IFCN says it was updated (e.g. "according to IFCN's list, updated 14/09/2026"). Never say it was checked this morning or today: IFCN doesn't update the list every day.
 - If PR1 is CLOSED or PARTIAL, say so plainly and suggest an alternative ONLY if LIVE STATUS shows it OPEN.
 - Always remind about the one-way rule and the return from Achada do Teixeira when someone plans the full walk.
 - Booking link: https://simplifica.madeira.gov.pt/services/78-82-259
@@ -511,7 +528,8 @@ def handle_location(user, lat, lon, meta=None):
     status = str(live_status().get("status", "")).upper()
     word = STATUS_WORDS.get(status, {}).get(lang, status.lower() or "?")
     far = geo.distance_m(lat, lon, *AREEIRO)
-    return [{"type": "text", "body": LOC_FAR[lang].format(dist=fmt_distance(far, lang), status=word)}]
+    updated = ifcn_updated() or "?"
+    return [{"type": "text", "body": LOC_FAR[lang].format(dist=fmt_distance(far, lang), status=word, updated=updated)}]
 
 
 def handle(user, text=None, choice=None, meta=None):

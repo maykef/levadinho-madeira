@@ -3,6 +3,10 @@
   python bot/chat.py            # interactive; /reset starts over as a brand-new visitor
   python bot/chat.py "msg" ...  # scripted: each argument is one message (a digit 1-5 answers the picker,
                                 #   "/yes" and "/no" tap the consent buttons)
+
+With wake-on-demand the model may be asleep. The chat doesn't queue anything or start the model:
+it shows the notice the WhatsApp bot would send ("[model down — …]") and carries on.
+LEVADINHO_DB=/some/scratch.db keeps the test visitor out of the live store.
 """
 import sys
 import time
@@ -25,14 +29,30 @@ def show(msgs):
             print(f"\n🤖 {m['body']}")
 
 
+def model_down(text):
+    """What app.py would do (dry): queue the message and send WAKING / BUSY. Here: just say so."""
+    lang = brain.notice_lang(USER, text)
+    return {"type": "text", "body": f"[model down — would queue this message and send the waking-up message:]\n"
+                                    f"{brain.WAKING[lang]}"}
+
+
 def send(text):
-    if text in ("/yes", "/no"):
-        return brain.handle_consent(USER, text == "/yes")
-    codes = [c for c, _ in brain.PICKER["options"]]
-    u = store.get_user(USER)
-    if text.isdigit() and 1 <= int(text) <= 5 and u and (u.get("state") or "").startswith("picking"):
-        return brain.handle(USER, choice=codes[int(text) - 1])
-    return brain.handle(USER, text=text)
+    meta = {"events": []}
+    try:
+        if text in ("/yes", "/no"):
+            out = brain.handle_consent(USER, text == "/yes", meta=meta)
+        else:
+            codes = [c for c, _ in brain.PICKER["options"]]
+            u = store.get_user(USER)
+            if text.isdigit() and 1 <= int(text) <= 5 and u and (u.get("state") or "").startswith("picking"):
+                out = brain.handle(USER, choice=codes[int(text) - 1], meta=meta)
+            else:
+                out = brain.handle(USER, text=text, meta=meta)
+    except brain.LLMDown:
+        return [model_down(text)]
+    if meta.get("deferred_question"):  # accepted while the model sleeps: the waiting question would be queued
+        out = out + [model_down(meta["deferred_question"])]
+    return out
 
 
 def main():

@@ -356,7 +356,7 @@ def note_text(segments, lang=NOTE_SOURCE_LANG, texts=None):
     """Join note segments: 'Label: text. Label: text.' (labels from SECTION_LABEL).
     texts overrides the segment texts (their translations), same order."""
     texts = texts or [t for _st, t in segments]
-    return " ".join(f"{SECTION_LABEL[st][lang]}: {t}" if st else t
+    return " ".join(f"{SECTION_LABEL[st][lang]}{' :' if lang == 'fr' else ':'} {t}" if st else t
                     for (st, _t), t in zip(segments, texts))
 
 

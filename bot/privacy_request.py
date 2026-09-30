@@ -8,7 +8,8 @@ person used, with the country code.
   python bot/privacy_request.py erase  +351912345678   # shows the counts, asks, then deletes
 
 Erase removes: the analytics rows (event, conversation_turn, location_fix, visitor), the
-working store (language, consent, last 24 h of chat, guide links) and the raw guide log files
+working store (language, consent, last 24 h of chat, guide links, messages queued while the model
+was asleep and the time of the last incoming message: store.erase) and the raw guide log files
 of that person's guide links (tracklog/). Anonymous rows (no visitor id) cannot be linked to
 anyone and are not touched. The nightly database backups roll off after 30 days
 (db/backup.sh), which is how the erasure reaches them; the policy promises 30 days.
@@ -50,6 +51,19 @@ def tracklog_files(phone):
             for f in os.listdir(os.path.join(base, r)) if f.removesuffix(".jsonl") in toks]
 
 
+def working_store(phone):
+    """What the working store (store.py, SQLite) holds about this number."""
+    last = store.last_inbound(phone)
+    return {"user": store.get_user(phone), "recent_chat": store.history(phone),
+            "guide_links": len(tokens_for(phone)),
+            # wake-on-demand: messages waiting for the model, and WhatsApp's 24-hour window
+            "queued_messages": [{"at": datetime.fromtimestamp(r["at"], timezone.utc).isoformat(),
+                                 "reason": r["reason"], "message": r["payload"].get("message"),
+                                 "notice_sent": (r["payload"].get("notice") or {}).get("body")}
+                                for r in store.pending_for(phone)],
+            "last_incoming_message_at": datetime.fromtimestamp(last, timezone.utc).isoformat() if last else None}
+
+
 def access(phone, vid):
     with psycopg.connect(os.environ["DB_URL"]) as c, c.cursor() as cur:
         data = {"visitor": rows(cur, "SELECT * FROM visitor WHERE visitor_id=%s", (vid,)),
@@ -61,8 +75,7 @@ def access(phone, vid):
                 "locations": rows(cur, "SELECT occurred_at, source, ST_Y(geom::geometry) AS lat, ST_X(geom::geometry) AS lon, "
                                        "accuracy_m, altitude_m, speed_ms, heading_deg FROM location_fix "
                                        "WHERE visitor_id=%s ORDER BY occurred_at", (vid,))}
-    data["working_store"] = {"user": store.get_user(phone), "recent_chat": store.history(phone),
-                             "guide_links": len(tokens_for(phone))}
+    data["working_store"] = working_store(phone)
     out = os.path.join(HERE, "privacy_exports", f"access-{vid[:8]}-{datetime.now(timezone.utc):%Y%m%d}.json")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
@@ -76,7 +89,9 @@ def erase(phone, vid):
     with psycopg.connect(os.environ["DB_URL"]) as c, c.cursor() as cur:
         counts = {t: cur.execute(f"SELECT count(*) FROM {t} WHERE visitor_id=%s", (vid,)).fetchone()[0] for t in TABLES}
         counts["visitor"] = cur.execute("SELECT count(*) FROM visitor WHERE visitor_id=%s", (vid,)).fetchone()[0]
-        print(f"visitor {vid}: {counts}; working store: {store.get_user(phone)}; guide log files: {len(files)}")
+        ws = working_store(phone)
+        print(f"visitor {vid}: {counts}; working store: {ws['user']}, {len(ws['queued_messages'])} queued "
+              f"message(s), last incoming {ws['last_incoming_message_at']}; guide log files: {len(files)}")
         if input("Delete all of this? Type yes: ").strip() != "yes":
             print("Nothing deleted.")
             return

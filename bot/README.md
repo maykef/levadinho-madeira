@@ -22,18 +22,23 @@ WhatsApp → Meta Cloud API → webhook (app.py, :5020) → brain.py → local L
 - Typing "idioma", "language", "langue", "sprache" or "język" re-opens the picker.
 
 **Grounding:** the model may only use LIVE STATUS and `pr1_facts.md`. Live status always
-wins. Other trails get a link to the trails board at `/`, and off-topic requests are declined.
+wins. The status comes from the **official IFCN warnings list**, which IFCN does not update every
+day: `status_block()` passes `status.json`'s `source.updated` ("IFCN list updated 14/09/2026") and
+the model (and the location reply, `LOC_FAR`) says "according to IFCN's list, updated <date>",
+never "this morning's check". Trail notes are Portuguese originals with translations: the model
+gets the `en` text, else the `pt` original. Other trails get a link to the trails board at `/`, and off-topic requests are declined.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `pr1_facts.md` | PR1 knowledge compiled 2026-09-26 from the official page, our site and 2026 guides. It has a "not confirmed" section the bot must not state as fact |
+| `pr1_facts.md` | PR1 knowledge compiled 2026-09-26, brought in line with the verified research in `seo_research/facts/` on 2026-09-30 (fines €250–€2,500, operator and multi-day rates, the Areeiro bus, Santana taxi, reopening dates, September works). It has a "not confirmed" section the bot must not state as fact |
 | `brain.py` | Conversation flow, language handling, prompt, LLM calls. Knows nothing about WhatsApp |
 | `llm_control.py` | Wake-on-demand: is the model up, is the GPU free, `docker start`/`stop levadinho-llm`, the background waiter |
 | `tests/test_wake_on_demand.py` | Offline tests (fake docker/GPU/model/WhatsApp, scratch SQLite): `python bot/tests/test_wake_on_demand.py` |
+| `tests/test_followups.py` | Offline tests for privacy export/erase of the queue, the chat with the model down, the scrub sweep, `web-*` campaigns, the facts file and the IFCN wording: `python bot/tests/test_followups.py` |
 | `store.py` | SQLite (`levadinho.db`): each visitor's language, state and consent choice, the last 8 exchanges (24 h TTL), de-duplication of message ids, guide tokens (30 days), messages waiting for the model (`pending`) and each visitor's last message time (`last_inbound`, for WhatsApp's 24 h window) |
-| `chat.py` | Local test chat through the same brain: `python bot/chat.py` (interactive) or `python bot/chat.py "msg1" "msg2"` (scripted). A digit 1–5 answers the picker, `/reset` starts over |
+| `chat.py` | Local test chat through the same brain: `python bot/chat.py` (interactive) or `python bot/chat.py "msg1" "msg2"` (scripted). A digit 1–5 answers the picker, `/reset` starts over. With the model asleep it prints "[model down — would queue …]" and the waking-up message instead of crashing (nothing is queued or started). Set `LEVADINHO_DB` to a scratch file to keep the test visitor out of the live store |
 | `privacy_request.py` | GDPR access / erasure for one phone number (runbook: `db/PRIVACY_REQUESTS.md`) |
 | `app.py` | FastAPI webhook for the Meta Cloud API: GET verification, POST with X-Hub-Signature-256 check, background replies, list-message picker, fallback for non-text messages |
 | `extract_facts.py` → `trail_facts.json` | Facts for all 37 trails (official scrape plus coordinates). **Not used by the trial**; kept for the multi-trail version |
@@ -97,7 +102,7 @@ The webhook runs all the time; the ~85 GB model runs only while it's needed (`ll
   waiter runs `docker stop levadinho-llm`. It never stops anything else.
 - **Privacy:** a queued exchange is recorded (`app.record()`, same consent rules) when it's
   answered or dropped, not before. Queued messages live in the working store for at most 24 h and are
-  covered by `store.erase()`.
+  covered by `store.erase()`; `privacy_request.py access` exports them (and the last-incoming time).
 
 | Setting (`.env`) | Default | Meaning |
 |---|---|---|
@@ -147,10 +152,17 @@ independently of the GPU bot.
 - **Tables:**
   - `event`: every interaction;
   - `conversation_turn`: every message in and out, scrubbed. Rules replace phones, emails,
-    codes and links; then the local model replaces names in the background;
+    codes and links; then the local model replaces names in the background. If the model is
+    asleep, the row keeps `scrub_method='rules'` and a **sweep** (in the same background thread)
+    re-scrubs it once `llm_control.is_up()`: every `SCRUB_SWEEP_S` (900 s), every `SCRUB_RETRY_S`
+    (120 s) while a backlog is known, `SCRUB_BATCH` (25) rows at a time. The sweep never wakes the
+    model or delays a reply. It only takes incoming text and the model's answers; a model output
+    that fails the length guard is marked `rules+llm-rejected` and not retried;
   - `location_fix`: every GPS point and WhatsApp pin, stored individually;
   - `visitor`: country from the dialling code, and language;
-  - lookups: `route`, `stop`, `campaign`, `event_type` (the catalogue).
+  - lookups: `route`, `stop`, `campaign`, `event_type` (the catalogue). A `web-*` website tag
+    is added to `campaign` (no route, description "website page link") the first time it's seen,
+    fail-soft like every analytics write.
 - **Self-describing:** every table and column has a `COMMENT`, e.g. `\d+ event` in psql.
 - **Wiring:**
   - `app.py` calls `record()` after each reply, using the `meta` that `brain.handle()` fills

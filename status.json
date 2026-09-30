@@ -3,7 +3,7 @@
   "note": {
     "pt": "Transitável: Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija. Encerrado/condicionado: Percurso com sentido único entre o Miradouro da Pedra Rija e o Pico Ruivo.",
     "en": "Open: Route in both directions between Pico do Areeiro and Miradouro da Pedra Rija. Closed/restricted: One-way route between Pedra Rija Viewpoint and Pico Ruivo.",
-    "fr": "Praticable: Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija. Fermé/restreint: Itinéraire aller simple entre le point de vue de Pedra Rija et Pico Ruivo.",
+    "fr": "Praticable : Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija. Fermé/restreint : Itinéraire aller simple entre le point de vue de Pedra Rija et Pico Ruivo.",
     "de": "Begehbar: Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija. Gesperrt/eingeschränkt: Einbahnstraße zwischen dem Aussichtspunkt Pedra Rija und dem Pico Ruivo.",
     "pl": "Dostępny: Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija. Zamknięty/ograniczony: Trasa w jedną stronę między Pedra Rija Viewpoint i Pico Ruivo."
   },
@@ -16,7 +16,7 @@
     "wind_kmh": 10,
     "wind_strong": false
   },
-  "stamp": "2026-09-30 13:52",
+  "stamp": "2026-09-30 14:28",
   "date": "2026-09-30",
   "source": {
     "name": "IFCN",
@@ -83,7 +83,7 @@
       "note": {
         "pt": "Transitável: Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija. Encerrado/condicionado: Percurso com sentido único entre o Miradouro da Pedra Rija e o Pico Ruivo.",
         "en": "Open: Route in both directions between Pico do Areeiro and Miradouro da Pedra Rija. Closed/restricted: One-way route between Pedra Rija Viewpoint and Pico Ruivo.",
-        "fr": "Praticable: Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija. Fermé/restreint: Itinéraire aller simple entre le point de vue de Pedra Rija et Pico Ruivo.",
+        "fr": "Praticable : Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija. Fermé/restreint : Itinéraire aller simple entre le point de vue de Pedra Rija et Pico Ruivo.",
         "de": "Begehbar: Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija. Gesperrt/eingeschränkt: Einbahnstraße zwischen dem Aussichtspunkt Pedra Rija und dem Pico Ruivo.",
         "pl": "Dostępny: Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija. Zamknięty/ograniczony: Trasa w jedną stronę między Pedra Rija Viewpoint i Pico Ruivo."
       }

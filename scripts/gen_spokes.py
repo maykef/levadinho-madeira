@@ -467,7 +467,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
 </header>
 
 <div class="status-card" id="statusCard" data-trail="{code}">
-  <div class="status-body"><p>{t['loading']}</p></div>
+  <div class="status-body"><p class="static-status"><!-- STATIC-STATUS:{code}:START --><!-- STATIC-STATUS:{code}:END --></p><p>{t['loading']}</p></div>
 </div>
 
 <aside class="facts">
@@ -604,6 +604,10 @@ def main():
     # nearby-trails blocks back (see gen_site_nav.py).
     import gen_site_nav
     gen_site_nav.main()
+    # ...and the Levadinho WhatsApp block (see gen_cta.py). The STATIC-STATUS markers in
+    # each card start empty; the next `python scripts/update_status.py` fills them.
+    import gen_cta
+    gen_cta.main()
 
 
 if __name__ == "__main__":
