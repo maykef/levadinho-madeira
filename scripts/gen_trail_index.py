@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Write a static, crawlable list of every trail into the four dashboards.
+"""Write a static, crawlable list of every trail into the five dashboards.
 
 Why this exists
 ---------------
@@ -33,6 +33,7 @@ END = "<!-- STATIC-TRAIL-INDEX:END -->"
 # no-JS visitors -- dashboard.js replaces the container on a successful load.
 LANGS = {
     "": "All Madeira PR trails",
+    "pt": "Todos os percursos PR da Madeira",
     "fr": "Tous les sentiers PR de Madère",
     "de": "Alle PR-Wanderwege Madeiras",
     "pl": "Wszystkie szlaki PR na Maderze",
@@ -40,7 +41,7 @@ LANGS = {
 
 
 def localise(page: str, lang: str) -> str:
-    """Map an English spoke path onto its `fr/`, `de/` or `pl/` twin."""
+    """Map an English spoke path onto its `pt/`, `fr/`, `de/` or `pl/` twin."""
     if not lang:
         return page
     return "/{}{}".format(lang, page)
@@ -71,6 +72,10 @@ def main() -> None:
 
     for lang in LANGS:
         path = ROOT / lang / "index.html" if lang else ROOT / "index.html"
+        if not path.exists():
+            # e.g. pt/index.html before the Portuguese hub is written -- re-run later.
+            print("{}: missing, skipped (re-run once it exists)".format(path.relative_to(ROOT)))
+            continue
         html = path.read_text()
         new = block(trails, lang)
 

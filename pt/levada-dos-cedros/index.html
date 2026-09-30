@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CONFIG — analytics only. Live status is loaded from /status.json. -->
+<script>
+const CONFIG = { goatcounterCode: "madeira-levadinho" };
+</script>
+
+<title>A Levada dos Cedros está aberta hoje? Estado do PR14, reserva e como chegar</title>
+<meta name="description" content="Estado em direto da Levada dos Cedros (PR14), do Fanal pela Laurissilva até à Ribeira da Janela — está aberta hoje? Como reservar a vaga de 4,50 € no SIMplifica, como chegar pelo Paul da Serra e alternativas abertas.">
+
+<link rel="canonical" href="https://levadinho-madeira.com/pt/levada-dos-cedros/">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://levadinho-madeira.com/pt/levada-dos-cedros/">
+<meta property="og:title" content="A Levada dos Cedros está aberta hoje? Estado em direto, reserva e como chegar">
+<meta property="og:description" content="Levada dos Cedros (PR14), Fanal → Ribeira da Janela: o estado oficial de hoje, como reservar no SIMplifica e a descida pela Laurissilva.">
+<meta property="og:locale" content="pt_PT">
+<meta name="twitter:card" content="summary">
+
+<link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/levada-dos-cedros/">
+<link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/levada-dos-cedros/">
+<link rel="alternate" hreflang="fr" href="https://levadinho-madeira.com/fr/levada-dos-cedros/">
+<link rel="alternate" hreflang="de" href="https://levadinho-madeira.com/de/levada-dos-cedros/">
+<link rel="alternate" hreflang="pl" href="https://levadinho-madeira.com/pl/levada-dos-cedros/">
+<link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/levada-dos-cedros/">
+
+<script src="/status.js" defer></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"A Levada dos Cedros está aberta hoje?","acceptedAnswer":{"@type":"Answer","text":"O estado de hoje é mostrado em direto no topo desta página e atualizado todas as manhãs com base na informação oficial do IFCN / Visit Madeira. O acesso custa 4,50 € através do portal SIMplifica; as crianças com menos de 12 anos e os residentes não pagam, mas têm de constar na reserva."}},
+    {"@type":"Question","name":"É preciso reservar a Levada dos Cedros?","acceptedAnswer":{"@type":"Answer","text":"Sim. O PR14 exige reserva antecipada e o pagamento de 4,50 € no SIMplifica. Os menores de 12 anos e os residentes não pagam, mas têm de constar nominalmente na reserva. É mais tranquilo do que os percursos do Rabaçal, mas continua a ser um PR pago e só com reserva."}},
+    {"@type":"Question","name":"Onde começa e onde acaba a Levada dos Cedros?","acceptedAnswer":{"@type":"Answer","text":"Começa no Fanal, no planalto do Paul da Serra, a oeste, e desce pela Laurissilva até à Ribeira da Janela, onde encontra o PR15. É um percurso linear, por isso não termina onde estacionou — combine uma recolha, use dois carros ou continue pelo PR15 até à freguesia."}},
+    {"@type":"Question","name":"Quanto tempo demora o percurso da Levada dos Cedros?","acceptedAnswer":{"@type":"Answer","text":"Cerca de 7 km só de ida, aproximadamente 2h30 a 3 horas, com dificuldade fácil a moderada e quase sempre a descer pela Laurissilva, Património Mundial da UNESCO. O caminho pode estar enlameado e escorregadio, e o Fanal está muitas vezes coberto de nevoeiro."}}
+  ]
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --card:#FFFFFF; --line:#E3E1D8;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55; padding:0 0 40px}
+.waymark{height:14px;background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.hero{height:210px;background:#20573a url(/img/levada-dos-cedros.jpg) center/cover}
+@media (max-width:640px){.hero{height:150px}}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px;
+  display:grid;grid-template-columns:minmax(0,1fr) 240px;column-gap:32px;align-items:start}
+.wrap > :not(.facts){grid-column:1}
+
+header{padding:18px 0 6px}
+.langs{display:flex;gap:6px;margin:0 0 4px;list-style:none;padding:0}
+.langs a{font-size:12px;font-weight:700;letter-spacing:.04em;text-decoration:none;color:var(--ink-soft);
+  padding:3px 9px;border:1px solid var(--line);border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+h1{font-size:clamp(26px,7vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.sub{color:var(--ink-soft);font-size:15px}
+.sub a{color:var(--ink);font-weight:600}
+
+.status-card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  margin-top:18px;overflow:hidden;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.status-head{display:flex;align-items:center;gap:14px;padding:18px 18px 12px}
+.status-badge{font-size:clamp(30px,9vw,42px);font-weight:900;letter-spacing:-.01em}
+.status-badge.OPEN{color:var(--open)}.status-badge.PARTIAL{color:var(--partial)}.status-badge.CLOSED{color:var(--closed)}
+.status-dot{width:16px;height:16px;border-radius:50%;flex:0 0 auto}
+.status-dot.OPEN{background:var(--open)}.status-dot.PARTIAL{background:var(--partial)}.status-dot.CLOSED{background:var(--closed)}
+.status-body{padding:0 18px 16px;font-size:15px}
+.status-body p{margin-bottom:8px}
+.stamp{border-top:1px dashed var(--line);padding:10px 18px;font-size:13px;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.stamp b{color:var(--ink)}
+
+.facts{grid-column:2;grid-row:2;align-self:start;margin-top:18px;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(22,52,42,.06)}
+.facts h2{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;margin-bottom:8px}
+.facts dl{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:14px;margin:0}
+.facts dt{color:var(--ink-soft)}
+.facts dd{font-weight:650;text-align:right}
+
+section{margin-top:30px}
+h2{font-size:20px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+h2 .q{color:var(--way-red)}
+p{margin-bottom:10px;font-size:15.5px}
+ol,ul{padding-left:22px;margin-bottom:10px}
+li{margin-bottom:8px;font-size:15.5px}
+.fact{background:#F2F1E9;border-left:4px solid var(--way-yellow);padding:10px 14px;border-radius:0 8px 8px 0;font-size:14.5px;margin:12px 0}
+.waymark.thin{height:8px;margin:28px 0;border-radius:2px}
+
+footer{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+footer a{color:var(--ink-soft)}
+a.plain{color:var(--ink);font-weight:600}
+@media (max-width:760px){
+  .wrap{grid-template-columns:1fr;padding:0 16px}
+  .wrap > *{grid-column:1}
+  .facts{grid-row:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<!-- SITE-NAV-HEAD:START (generated by scripts/gen_site_nav.py) -->
+<style>
+.sitenav{display:flex;flex-wrap:wrap;gap:4px 16px;margin:10px 0 8px;font-size:13.5px}
+.sitenav a{color:var(--ink);font-weight:650;text-decoration:none;border-bottom:2px solid transparent;padding-bottom:1px}
+.sitenav a:hover{border-bottom-color:var(--line,#E3E1D8)}
+.sitenav a[aria-current="page"]{border-bottom-color:var(--way-yellow,#E8B71A)}
+.crumbs ol{list-style:none;padding:0;margin:0 0 4px;display:flex;flex-wrap:wrap}
+.crumbs li{margin:0;font-size:12.5px;color:var(--ink-soft)}
+.crumbs li+li::before{content:"\203A";margin:0 7px;color:var(--ink-soft)}
+.crumbs a{color:var(--ink-soft)}
+.related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:480px){.related ul{grid-template-columns:1fr}}
+.related li{margin:0}
+.related a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+  padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
+.related a:hover{border-color:var(--ink-soft)}
+.related a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related p{color:var(--ink-soft);font-size:14px}
+a.tname{color:inherit;text-decoration:none}
+a.tname:hover{text-decoration:underline}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Início",
+      "item": "https://levadinho-madeira.com/pt/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "PR14 Levada dos Cedros",
+      "item": "https://levadinho-madeira.com/pt/levada-dos-cedros/"
+    }
+  ]
+}
+</script>
+<!-- SITE-NAV-HEAD:END -->
+</head>
+<body>
+<div class="waymark" aria-hidden="true"></div>
+<div class="hero" aria-hidden="true"></div>
+
+<div class="wrap">
+<header>
+  <nav class="langs" aria-label="Idioma">
+    <a href="/levada-dos-cedros/" hreflang="en">EN</a>
+    <a href="/pt/levada-dos-cedros/" hreflang="pt" aria-current="page">PT</a>
+    <a href="/fr/levada-dos-cedros/" hreflang="fr">FR</a>
+    <a href="/de/levada-dos-cedros/" hreflang="de">DE</a>
+    <a href="/pl/levada-dos-cedros/" hreflang="pl">PL</a>
+  </nav>
+<!-- SITE-NAV:START (generated by scripts/gen_site_nav.py) -->
+  <nav class="sitenav" aria-label="Site">
+    <a href="/pt/">Todos os percursos</a>
+    <a href="/pt/pr1/">PR1 hoje</a>
+    <a href="/pt/hiking-fees.html">Taxas 2026</a>
+    <a href="/pt/simplifica-from-abroad.html">Reservar do estrangeiro</a>
+    <a href="/pt/getting-back.html">Regressar do PR1</a>
+  </nav>
+  <nav class="crumbs" aria-label="Navegação estrutural">
+    <ol>
+      <li><a href="/pt/">Início</a></li>
+      <li aria-current="page">PR14 Levada dos Cedros</li>
+    </ol>
+  </nav>
+<!-- SITE-NAV:END -->
+  <div class="brand">Levadinho · Respostas sobre os percursos da Madeira</div>
+  <h1>A Levada dos Cedros está aberta hoje?</h1>
+  <p class="sub">Levada dos Cedros (PR14) — do Fanal envolto em nevoeiro, pela Laurissilva, até à Ribeira da Janela. Verificado todas as manhãs com base no estado oficial do IFCN. Veja <a href="/pt/">todos os percursos da Madeira</a> ou o <a href="/pt/pr1/">PR1</a>.</p>
+</header>
+
+<div class="status-card" id="statusCard" data-trail="PR14">
+  <div class="status-body"><p>O estado do percurso é verificado todas as manhãs com base em informação oficial da Visit Madeira / IFCN e mostrado aqui em direto (requer JavaScript). Se não aparecer, consulte as fontes oficiais indicadas abaixo.</p></div>
+</div>
+
+<aside class="facts">
+  <h2>Dados do percurso</h2>
+  <dl>
+    <dt>Distância</dt><dd>~7 km só de ida</dd>
+    <dt>Duração</dt><dd>~2h30–3h</dd>
+    <dt>Dificuldade</dt><dd>Fácil–moderada</dd>
+    <dt>Altitude</dt><dd>~1250 → 800 m</dd>
+    <dt>Trajeto</dt><dd>Fanal → Ribeira da Janela</dd>
+    <dt>Tipo</dt><dd>Linear</dd>
+    <dt>Taxa</dt><dd>4,50 €</dd>
+  </dl>
+</aside>
+
+<div class="waymark thin" aria-hidden="true"></div>
+
+<section id="book">
+  <h2><span class="q">Reserve.</span> O PR14 no SIMplifica</h2>
+  <p>A Levada dos Cedros é um dos passeios mais tranquilos pela Laurissilva — uma descida suave, longe dos percursos mais famosos e concorridos — mas continua a ser um PR pago e só com reserva:</p>
+  <ol>
+    <li><b>Reserve com antecedência a sua <a class="plain" href="https://simplifica.madeira.gov.pt/services/78-82-259" target="_blank" rel="noopener">vaga de 4,50 € no SIMplifica</a>.</b> Os menores de 12 anos e os residentes não pagam, mas têm de constar na reserva. Confirme o estado em direto acima antes de pagar.</li>
+    <li><b>Resolva primeiro o regresso.</b> É um percurso linear (ver abaixo) — decida como vai voltar antes de marcar o dia.</li>
+    <li><b>Ou vá com um operador com protocolo com o IFCN</b> — taxa do percurso mais baixa (3 €) e transporte, o que resolve tanto a longa viagem para oeste como a logística de um percurso só de ida.</li>
+  </ol>
+  <div class="fact">O PR14 paga-se no SIMplifica, com reserva própria e separada, e <b>não está incluído</b> nos passes de vários dias. 4,50 € por pessoa; menores de 12 anos e residentes não pagam, mas contam na reserva.</div>
+</section>
+
+<section id="getting-there">
+  <h2><span class="q">Como chegar.</span> O Fanal e o Paul da Serra</h2>
+  <p>O percurso começa no <b>Fanal</b>, no alto do planalto do <b>Paul da Serra</b>, a oeste — o mesmo local dos famosos tis centenários. É uma longa viagem a partir do Funchal (cerca de 1h15–1h30) por charneca aberta.</p>
+  <ul>
+    <li><b>Estacione no Fanal</b>, onde o caminho da levada desce para a floresta. A estrada do planalto (ER209) é exposta e está muitas vezes <b>mergulhada em nevoeiro</b> — conduza devagar e não conte com a vista.</li>
+    <li><b>É linear e sempre a descer</b>, terminando perto da <b>Ribeira da Janela</b>, onde encontra o <b>PR15</b>. Não volta ao carro a pé sem uma longa subida.</li>
+    <li><b>Regresso:</b> dois carros, um táxi ou recolha marcados com antecedência cá em baixo, uma caminhada guiada com transfer, ou continuar pelo PR15 até à freguesia da Ribeira da Janela, junto à estrada da costa.</li>
+  </ul>
+  <div class="fact">No Paul da Serra não há loja, combustível nem rede fiável. Leve água, roupa quente e impermeável, e uma lanterna — o Fanal está frio e molhado muito mais vezes do que a costa, mesmo no verão.</div>
+</section>
+
+<section id="like">
+  <h2>Como é o percurso</h2>
+  <p>É caminhada em plena floresta no seu melhor: uma levada quase plana, depois em descida suave, pela <b>Laurissilva</b> — a floresta Património Mundial da UNESCO — a escorrer musgo e líquenes, com fetos a invadir o caminho e o canto das aves como único som.</p>
+  <ul>
+    <li><b>Envolvente e muitas vezes com nevoeiro</b> — as nuvens que frustram quem procura miradouros tornam esta floresta mágica.</li>
+    <li><b>Combina naturalmente com o <a class="plain" href="/pt/fanal/">Fanal (PR13)</a></b>, que parte do mesmo local — faça o curto circuito do Fanal para ver as famosas árvores retorcidas e depois desça pelos Cedros.</li>
+    <li><b>Tranquilo.</b> Muito menos gente do que no Rabaçal; se quer a floresta só para si, é aqui.</li>
+  </ul>
+</section>
+
+<section id="closed">
+  <h2><span class="q">Fechado ou esgotado?</span> As suas opções</h2>
+  <p>Se o IFCN fechar o PR14 (mau tempo, queda de árvores, obras) ou se não conseguir vaga:</p>
+  <ul>
+    <li><b>Remarque</b> através do centro de contacto do SIMplifica antes da data — pode mudar livremente a data e a hora, e só pode mudar de percurso se o seu tiver sido oficialmente encerrado.</li>
+    <li><b>Alternativas abertas nas proximidades:</b> <a class="plain" href="/pt/">consulte o quadro em direto</a> — o <a class="plain" href="/pt/fanal/">Fanal (PR13)</a> fica mesmo ali, e as <a class="plain" href="/pt/25-fontes/">25 Fontes (PR6)</a>, no Rabaçal, ficam a pouca distância de carro para sul.</li>
+  </ul>
+</section>
+
+<section id="know">
+  <h2>Três coisas que se descobrem tarde demais</h2>
+  <ul>
+    <li><b>Não é circular.</b> Termina perto da Ribeira da Janela, não no Fanal — resolva o regresso antes de partir, ou terá pela frente uma longa subida a pé pela estrada.</li>
+    <li><b>O Fanal é terra de nevoeiro.</b> No planalto está muitas vezes frio, húmido e com nevoeiro cerrado enquanto o Funchal está ao sol — leve roupa para a chuva e uma lanterna para a floresta sombria e para eventuais túneis.</li>
+    <li><b>O caminho escorrega.</b> Musgo, lama e raízes tornam a descida escorregadia; calçado com boa aderência e bastões ajudam, sobretudo depois da chuva.</li>
+  </ul>
+</section>
+
+<!-- SITE-NAV-RELATED:START (generated by scripts/gen_site_nav.py) -->
+<section class="related" id="nearby">
+  <h2>Percursos próximos</h2>
+  <p>Os pontos de partida mais próximos — cada um com o seu estado em direto.</p>
+  <ul>
+    <li><a href="/pt/vereda-da-palha-carga/">PR13.1 Vereda da Palha Carga<span>a 4,1 km</span></a></li>
+    <li><a href="/pt/levada-velha-do-rabacal/">PR6.4 Levada Velha do Rabaçal<span>a 4,3 km</span></a></li>
+    <li><a href="/pt/vereda-da-ribeira-da-janela/">PR15 Vereda da Ribeira da Janela<span>a 4,4 km</span></a></li>
+    <li><a href="/pt/fanal/">PR13 Vereda do Fanal<span>a 5,3 km</span></a></li>
+  </ul>
+</section>
+<!-- SITE-NAV-RELATED:END -->
+<footer>
+  <p>Estado compilado todas as manhãs a partir da <a href="https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/" rel="noopener">Visit Madeira</a> / <a href="https://ifcn.madeira.gov.pt/" rel="noopener">IFCN</a> e do <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, com meteorologia do <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. Site independente — sem ligação ao Governo Regional da Madeira. Na montanha as condições mudam depressa; no percurso, decida sempre com bom senso.</p>
+  <p style="margin-top:6px">Fotografia: Rudolphu, <a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener">Wikimedia Commons</a>, CC BY-SA 4.0, recortada e redimensionada.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+  var c = CONFIG;
+  try { if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+        if (location.hash === '#countme') localStorage.removeItem('gc-skip'); } catch(e){}
+  var SKIP = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  if (c.goatcounterCode && !SKIP){
+    var s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

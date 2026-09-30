@@ -1,37 +1,86 @@
 #!/usr/bin/env python3
 """
-Levadinho daily status updater (v4).
+Levadinho daily status updater (v5).
 
-Source: the official Visit Madeira PR1 trail page carries the status
-(OPEN / RESTRICTED / CLOSED) and the official warning note as static HTML.
+Status source (since 2026-09-30): the official IFCN warnings page
+"Percursos Pedestres - Avisos" (IFCN_AVISOS). Near its end it lists every
+classified trail under three headings:
+
+    ENCERRADOS/CONDICIONADOS   -> CLOSED
+    PARCIALMENTE TRANSITÁVEIS  -> PARTIAL
+    TRANSITÁVEIS               -> OPEN
+
+each item like "PR 17 Caminho do Pináculo e Folhadal - percurso transitável
+entre a Encumeada e a Bica da Cana". Only those three lists count; the news
+paragraphs above them (some stale, e.g. an old PR10 closure) are ignored.
+
+Mapping rules:
+  * A trail listed under more than one heading (PR1: two-way Areeiro-Pedra Rija
+    section under TRANSITÁVEIS, one-way Pedra Rija-Pico Ruivo section under
+    ENCERRADOS/CONDICIONADOS) -> PARTIAL, with a note joining each item's text,
+    prefixed by its heading ("Transitável: ... Encerrado/condicionado: ...").
+  * The text after the trail name (the "qualifier") becomes the trail's note,
+    whatever the heading (PR6's one-way loop, PR4, PR12, PR17 sections...).
+  * "(Porto Santo)" items are EXCLUDED: their codes (PR1, PR2, PR3) collide
+    with Madeira's, and the board is Madeira-only. Logged.
+  * Items without a PR code are mapped through NON_PR_ALIASES
+    ("Um Caminho para todos Queimadas- Pico das Pedras" -> PR9.1, which is
+    Queimadas - Pico das Pedras in the IFCN table) or skipped with a log line.
+  * Codes IFCN lists that the site has no page for (PR6.7, PR23) are skipped
+    with a log line; the board stays the 37 PAGES trails.
+  * A PAGES trail IFCN omits falls back to the Visit Madeira hiking index
+    (secondary source, fetched only when needed) and is logged. More than
+    MAX_MISSING omissions, or a missing fallback, is fatal.
+
+Notes are the Portuguese originals: note = {"pt": original, "en","fr","de","pl":
+MyMemory machine translations}. A failed translation falls back to the
+Portuguese original. Translations are cached from the previous status.json so
+an unchanged note is not re-translated (MyMemory's free quota is small).
+
+Names come from bot/trail_facts.json (fallback: the IFCN text); lat/lon from
+the same file place each trail in its nearest IPMA weather region.
+
 Summit weather is the official IPMA observation for the Pico do Areeiro station.
-
-v4 change: instead of rewriting HTML, this writes a single language-neutral
-`status.json`. Every homepage (en/fr/de/pl) renders the status card from it via
-`status.js`, so one data file drives all languages. It also bumps sitemap.xml
-and the "dateModified" value in the WebPage JSON-LD of the homepages and PR1 pages.
+Writes status.json, bumps sitemap.xml <lastmod>, the "dateModified" JSON-LD of
+the homepages and PR1 pages, and the text inside any STATIC-STATUS markers
+(write_static_status) -- a plain crawlable line; the live card stays status.js.
 
 Hard rules:
-  1. Badge never contradicts the note. If the official note restricts access
-     ("only", "between", "km 1,2", "restricted", ...), an OPEN badge is
-     downgraded to PARTIAL. A final gate refuses to publish a contradictory
-     status (exit non-zero).
+  1. Badge never contradicts the note. The status comes from the IFCN heading;
+     then, as a safety net, an OPEN trail whose note is restrictive
+     (RESTRICTIVE, English + Portuguese phrases, checked on the Portuguese
+     original and the English translation) is downgraded to PARTIAL -- this
+     is what turns PR17 "percurso transitável entre a Encumeada e a Bica da
+     Cana" (listed as TRANSITÁVEIS, but only part of the 15 km route) into
+     PARTIAL. An informational note on an OPEN trail (PR6's one-way loop,
+     PR1.2 "totalmente transitável") matches no phrase and stays OPEN.
+     assert_not_contradictory() is the final gate on every trail and static
+     line: it exits non-zero rather than publish a green-but-restricted lie.
   2. Weather is the real measured reading from IPMA's Pico do Areeiro station.
      IPMA -99 "missing" fields and temps < -10 C / > 30 C are rejected, and the
      weather object is marked {"ok": false} so the pages show a safe fallback.
-  3. Fail loud. Any status-scrape failure exits non-zero -> red Action ->
-     yesterday's honest status.json stays live instead of garbage.
+  3. Fail loud. Any status-scrape failure (fetch error, a heading or list not
+     found, too few trails, PR1 absent) exits non-zero -> red Action ->
+     yesterday's honest status.json stays live. Weather, note translation,
+     dateModified and the sitemap bump degrade gracefully.
   4. scripts/manual_note.txt (optional) injects a human-written line.
 """
 import datetime
+import glob
+import html as htmllib
 import json
+import os
 import re
 import sys
 import zoneinfo
 
 import requests
 
-TRAIL_PAGE = "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/pr-1-vereda-do-areeiro/"
+IFCN_AVISOS = ("https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos"
+               "&catid=146:avisos")
+# Secondary source, used only for a PAGES trail that IFCN's lists omit.
+TRAILS_INDEX = "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/"
+TRAIL_FACTS = "bot/trail_facts.json"      # names + lat/lon per code (read-only here)
 
 # IPMA official surface observations (keyless open data), keyed by ISO timestamp.
 IPMA_OBS = "https://api.ipma.pt/open-data/observation/meteorology/stations/observations.json"
@@ -43,19 +92,44 @@ WIND_STRONG_KMH = 40.0           # only flag wind when it is genuinely strong
 TEMP_MIN_PLAUSIBLE = -10.0
 TEMP_MAX_PLAUSIBLE = 30.0
 TZ = zoneinfo.ZoneInfo("Atlantic/Madeira")
-UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/4.0; +https://levadinho-madeira.com)"}
+UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/5.0; +https://levadinho-madeira.com)"}
 STATUS_JSON = "status.json"
-TRANSLATE_LANGS = ("fr", "de", "pl")   # note is scraped in English; mirror it into these
+NOTE_SOURCE_LANG = "pt"                        # IFCN notes are Portuguese originals
+TRANSLATE_LANGS = ("en", "fr", "de", "pl")     # mirrored via MyMemory (en is required by bot/brain.py)
+MYMEMORY_MAX_BYTES = 450                       # MyMemory rejects q > 500 bytes; chunk below that
 
-# --- Multi-trail dashboard ---------------------------------------------------
-# The Visit Madeira hiking index embeds every trail as a JSON row
-# ["PR X - Name", lat, lon, n, "img", "url", "", bool, {"label":"Open|Restricted|Closed"}].
-TRAILS_INDEX = "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/"
-TRAIL_RE = re.compile(
+# --- IFCN list parsing ---------------------------------------------------------
+HEADINGS = [   # (regex over the raw HTML, status, heading name for logs)
+    (r">\s*ENCERRADOS\s*/\s*CONDICIONADOS\s*:?\s*<", "CLOSED", "ENCERRADOS/CONDICIONADOS"),
+    (r">\s*PARCIALMENTE\s+TRANSIT(?:Á|&Aacute;)VEIS\s*:?\s*<", "PARTIAL", "PARCIALMENTE TRANSITÁVEIS"),
+    (r">\s*TRANSIT(?:Á|&Aacute;)VEIS\s*:?\s*<", "OPEN", "TRANSITÁVEIS"),
+]
+STATUS_RANK = {"OPEN": 0, "PARTIAL": 1, "CLOSED": 2}
+# Heading labels prefixed to each section of a multi-heading note (PR1). Fixed
+# translations: machine-translating them alone gave "Geschlossen/klimatisiert".
+SECTION_LABEL = {
+    "OPEN": {"pt": "Transitável", "en": "Open", "fr": "Praticable", "de": "Begehbar", "pl": "Dostępny"},
+    "PARTIAL": {"pt": "Parcialmente transitável", "en": "Partly open", "fr": "Partiellement praticable",
+                "de": "Teilweise begehbar", "pl": "Częściowo dostępny"},
+    "CLOSED": {"pt": "Encerrado/condicionado", "en": "Closed/restricted", "fr": "Fermé/restreint",
+               "de": "Gesperrt/eingeschränkt", "pl": "Zamknięty/ograniczony"},
+}
+ITEM_CODE_RE = re.compile(r"^PR\s*(\d+(?:\.\d+)?)\.?\s*[-–]?\s*", re.IGNORECASE)
+PORTO_SANTO_RE = re.compile(r"\(\s*Porto\s+Santo\s*\)", re.IGNORECASE)
+# IFCN items without a PR code -> our code (matched on the accent-folded, lowercased text).
+NON_PR_ALIASES = {
+    "queimadas- pico das pedras": "PR9.1",   # PR9.1 = Queimadas – Pico das Pedras (IFCN table)
+}
+MIN_IFCN_TRAILS = 25      # fewer Madeira trails parsed than this = the page changed -> fatal
+MAX_MISSING = 5           # more PAGES trails absent from IFCN than this -> fatal
+
+# Visit Madeira index rows: ["PR X - Name", lat, lon, n, "img", "url", "", bool, {"label":"..."}].
+VM_TRAIL_RE = re.compile(
     r'\["(PR[^"]+?)",(-?\d+\.\d+),(-?\d+\.\d+),\d+,"[^"]*","[^"]*","[^"]*",'
     r'(?:true|false),\{"label":"([^"]+)"'
 )
-STATUS_MAP = {"Open": "OPEN", "Restricted": "PARTIAL", "Closed": "CLOSED"}
+VM_STATUS_MAP = {"Open": "OPEN", "Restricted": "PARTIAL", "Closed": "CLOSED"}
+
 POPULAR = {"PR1", "PR1.2", "PR6", "PR6.1", "PR8", "PR9", "PR11", "PR13", "PR18"}
 # Regional IPMA stations for the weather strip: (key, station id, lat, lon).
 REGIONS = [
@@ -72,6 +146,7 @@ REGION_PLACE = {"summit": "Pico do Areeiro", "north": "Santana", "west": "Rabaç
 # is just muggy sea air, so no fog flag there.
 CLOUD_REGIONS = {"summit", "west"}
 # Trails that have their own spoke page (the dashboard links to these).
+# This is also the board: exactly these 37 codes are published.
 PAGES = {
     "PR1": "/pr1/",
     "PR6": "/25-fontes/",
@@ -112,9 +187,8 @@ PAGES = {
     "PR9.1": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
 }
 
-# A note is "restrictive" when it limits where/when you may walk. This is the
-# core of rule 1 -- it is what turns the live "Footpath accessible only between
-# Pico do Areeiro and Pedra Rija Belvedere (km 1,2)" note into a PARTIAL badge.
+# A note is "restrictive" when it limits where/when you may walk. Rule 1's
+# safety net: an OPEN trail with such a note becomes PARTIAL.
 #
 # Match *phrases*, never bare words. The earlier version matched a lone "only",
 # "between" or "partial", which on 2026-08-14 began firing on IFCN's rewritten
@@ -123,67 +197,188 @@ PAGES = {
 # trail rather than restricting it. That downgraded PR1 to PARTIAL for 20 days
 # while the official badge read OPEN. Rule 1 exists to stop a "green but
 # restricted" lie; it must not manufacture the inverse.
+#
+# Portuguese: a bare "entre ... e" is NOT restrictive (PR1.2's "totalmente
+# transitável o troço compreendido entre ..." and PR6's one-way loop are
+# informational). "transitável entre/desde/até", "apenas/somente/só entre",
+# "até ao km", "encerrad-", "condicionad-", "interdit-" are.
 RESTRICTIVE = re.compile(
     r"(accessible only|open only|only between|only from|only the section|"
     r"partially closed|temporarily closed|closed section|closed between|"
-    r"not accessible|no access|restricted)",
+    r"not accessible|no access|restricted|passable only|"
+    # Portuguese (IFCN originals)
+    r"transit[aá]vel\s+(?:apenas\s+|somente\s+|s[oó]\s+)?(?:entre|desde|at[eé])\b|"
+    r"\b(?:apenas|somente|s[oó])\s+(?:entre|desde|at[eé]|no\s+tro[cç]o|na\s+sec[cç][aã]o)\b|"
+    r"\bat[eé]\s+ao\s+km\b|\bencerrad[oa]s?\b|\bcondicionad[oa]s?\b|\binterdit[oa]s?\b|"
+    r"\bparcialmente\b)",
     re.IGNORECASE,
 )
 
-# A sentence ends at . ! or ? -- but NOT at the dot inside a decimal, or the
-# whole note truncates at "Pedra Rija Viewpoint (1." as it did live.
+# A sentence ends at . ! or ? -- but NOT at the dot inside a decimal.
 SENTENCE_END = re.compile(r"[.!?](?!\d)(?= |$)")
 
 
-def is_restrictive(note: str) -> bool:
-    """True if the official note limits access -> badge must not read OPEN."""
+def is_restrictive(note) -> bool:
+    """True if a note (str, or {lang: text}) limits access -> badge must not read OPEN.
+    For a dict only the Portuguese original and the English translation are checked."""
+    if isinstance(note, dict):
+        return any(is_restrictive(note.get(k, "")) for k in (NOTE_SOURCE_LANG, "en"))
     return bool(note) and bool(RESTRICTIVE.search(note))
 
 
-def pr1_status():
-    """Return (status, note). status in {OPEN, PARTIAL, CLOSED}.
+def _fold(s):
+    """Lowercase + strip Portuguese accents, for alias matching."""
+    tr = str.maketrans("áàâãéêíóôõúçÁÀÂÃÉÊÍÓÔÕÚÇ", "aaaaeeiooouc" + "aaaaeeiooouc")
+    return s.translate(tr).lower()
 
-    Applies rule 1: an OPEN scraped from the page is downgraded to PARTIAL
-    when the accompanying official note restricts access.
-    """
-    r = requests.get(TRAIL_PAGE, headers=UA, timeout=30)
-    r.raise_for_status()
-    html = r.text
-    html = re.sub(r"(?s)<head.*?</head>", " ", html)
-    html = re.sub(r"(?s)<(script|style)[^>]*>.*?</\1>", " ", html)
-    plain = re.sub(r"<[^>]+>", " ", html)
 
-    a = plain.find("Vereda do Areeiro")
-    if a == -1:
-        sys.exit("FATAL: trail name not found on page")
+LINK_MARK = "\u0000"
 
-    m = re.search(r"\b(OPEN|CLOSED|RESTRICTED)\b", plain[a:])
+
+def _li_text(li_html):
+    """Plain text of one IFCN <li>: tags stripped, entities decoded, whitespace
+    collapsed. A sentence that carries a link ("... ver o MAPA") is dropped,
+    since the link itself can't travel into the note."""
+    s = re.sub(r"(?s)<a\b[^>]*>.*?</a>", LINK_MARK, li_html)
+    s = re.sub(r"(?i)</?(p|br|div)[^>]*>", " ", s)
+    s = re.sub(r"<[^>]+>", "", s)
+    s = htmllib.unescape(s).replace("\xa0", " ")
+    s = re.sub(r"\s+", " ", s).strip()
+    s = re.sub(r"\.(?=[A-ZÁÉÍÓÚ])", ". ", s)          # "sentidos.Trajeto" -> "sentidos. Trajeto"
+    if LINK_MARK in s:
+        parts, start = [], 0
+        for e in SENTENCE_END.finditer(s + " "):
+            parts.append(s[start:e.end()])
+            start = e.end()
+        parts.append(s[start:])
+        s = " ".join(p.strip() for p in parts if p.strip() and LINK_MARK not in p)
+    return s.strip()
+
+
+def _split_item(text):
+    """'PR 17 Caminho do Pináculo e Folhadal - percurso transitável entre ...'
+    -> ('PR17', 'Caminho do Pináculo e Folhadal', 'percurso transitável entre ...').
+    Returns (None, text, '') for an item with no PR code."""
+    m = ITEM_CODE_RE.match(text)
     if not m:
-        sys.exit("FATAL: no status word found after trail name")
-    raw = {"OPEN": "OPEN", "CLOSED": "CLOSED", "RESTRICTED": "PARTIAL"}[m.group(1)]
+        return None, text, ""
+    code = "PR" + m.group(1)
+    rest = text[m.end():].strip()
+    # The name ends at the first spaced hyphen (en dashes belong to names:
+    # "Levada do Paul II – Um caminho para todos").
+    name, _, qual = rest.partition(" - ")
+    qual = qual.strip()
+    if qual.startswith("("):                          # PR6: "(circulação ... Bypass.)"
+        qual = re.sub(r"\)\.?$", "", qual[1:]).strip()
+    if qual and not qual.endswith((".", "!", "?")):
+        qual += "."
+    if qual:
+        qual = qual[0].upper() + qual[1:]
+    return code, name.strip(" -–"), qual
 
-    # Collapse whitespace first so the note can be matched as one flat line
-    # (the official note wraps across several lines in the scraped HTML).
-    window = re.sub(r"\s+", " ", plain[a + m.end(): a + m.end() + 1500])
-    # Find the keyword, then expand to its whole sentence: back to the previous
-    # sentence end, forward to the next one. Both boundaries are decimal-aware.
-    note = ""
-    kw = re.search(r"accessible|closed|restricted|only|between", window, re.IGNORECASE)
-    if kw:
-        starts = [e.end() for e in SENTENCE_END.finditer(window[: kw.start()])]
-        rest = window[starts[-1] if starts else 0:].lstrip()
-        e = SENTENCE_END.search(rest)
-        note = (rest[: e.end()] if e else rest).strip()
-    if "SIMplifica" in note or "payment" in note.lower():
-        note = ""
 
-    # Rule 1: downgrade OPEN -> PARTIAL when the note restricts access.
-    status = raw
-    if status == "OPEN" and is_restrictive(note):
-        status = "PARTIAL"
-        print(f"rule1: downgraded OPEN->PARTIAL because note is restrictive: {note!r}", file=sys.stderr)
+def ifcn_statuses():
+    """Parse the IFCN warnings page -> {code: {"status", "name", "segments"}}.
 
-    return status, note
+    segments = [(section status or None, Portuguese text), ...]: one unlabelled
+    segment per qualifier for a single-heading trail, or one labelled segment per
+    heading for a trail listed under several (PR1). note_text() joins them.
+
+    Fails loud (rule 3) on any fetch or structure problem. Porto Santo items
+    and codes outside PAGES are excluded with a log line.
+    """
+    r = requests.get(IFCN_AVISOS, headers=UA, timeout=30)
+    r.raise_for_status()
+    page = r.text
+
+    upd = re.search(r"ATUALIZADO:\s*(\d{1,2}/\d{1,2}/\d{4})", page)
+    print(f"IFCN avisos page: ATUALIZADO {upd.group(1) if upd else '(no date found)'}", file=sys.stderr)
+
+    # entries[code] = list of (status, label, name, qualifier)
+    entries = {}
+    for pattern, status, label in HEADINGS:
+        hits = list(re.finditer(pattern, page))
+        if len(hits) != 1:
+            sys.exit(f"FATAL: IFCN heading {label!r} found {len(hits)} times (expected 1) — page changed?")
+        ul = re.compile(r"(?s)<ul\b[^>]*>(.*?)</ul>").search(page, hits[0].end())
+        if not ul:
+            sys.exit(f"FATAL: no list after IFCN heading {label!r}")
+        items = re.findall(r"(?s)<li\b[^>]*>(.*?)</li>", ul.group(1))
+        if not items:
+            sys.exit(f"FATAL: empty list under IFCN heading {label!r}")
+        for li in items:
+            text = _li_text(li)
+            if not text:
+                continue
+            if PORTO_SANTO_RE.search(text):
+                print(f"ifcn: skip Porto Santo item ({label}): {text!r}", file=sys.stderr)
+                continue
+            code, name, qual = _split_item(text)
+            if code is None:
+                folded = _fold(text)
+                code = next((c for k, c in NON_PR_ALIASES.items() if k in folded), None)
+                if code is None:
+                    print(f"ifcn: skip item without PR code ({label}): {text!r}", file=sys.stderr)
+                    continue
+                print(f"ifcn: mapped {text!r} -> {code}", file=sys.stderr)
+                name, qual = text, ""
+            if code not in PAGES:
+                print(f"ifcn: skip {code} ({name}) — no page on the site ({label})", file=sys.stderr)
+                continue
+            entries.setdefault(code, []).append((status, label, name, qual))
+
+    if len(entries) < MIN_IFCN_TRAILS:
+        sys.exit(f"FATAL: only {len(entries)} Madeira trails parsed from IFCN — refusing to publish")
+    if "PR1" not in entries:
+        sys.exit("FATAL: PR1 not found in the IFCN lists — refusing to publish")
+
+    out = {}
+    for code, rows in entries.items():
+        statuses = {s for s, *_ in rows}
+        if len(statuses) > 1:
+            # Listed under more than one heading (PR1): some section open, some not.
+            status = "PARTIAL"
+            segments = [(st, qual or name + ".") for st, _label, name, qual in
+                        sorted(rows, key=lambda r: STATUS_RANK[r[0]])]
+        else:
+            status = rows[0][0]
+            segments = [(None, q) for *_x, q in rows if q]
+        out[code] = {"status": status, "name": rows[0][2], "segments": segments}
+    return out
+
+
+def note_text(segments, lang=NOTE_SOURCE_LANG, texts=None):
+    """Join note segments: 'Label: text. Label: text.' (labels from SECTION_LABEL).
+    texts overrides the segment texts (their translations), same order."""
+    texts = texts or [t for _st, t in segments]
+    return " ".join(f"{SECTION_LABEL[st][lang]}: {t}" if st else t
+                    for (st, _t), t in zip(segments, texts))
+
+
+def visit_madeira_statuses():
+    """Secondary source: {code: status} from the Visit Madeira hiking index.
+    Called only when IFCN omits a PAGES trail; fails loud if unusable."""
+    r = requests.get(TRAILS_INDEX, headers=UA, timeout=30)
+    r.raise_for_status()
+    out = {}
+    for m in VM_TRAIL_RE.finditer(r.text):
+        raw = m.group(1)
+        code = raw.split(" - ", 1)[0].replace(" ", "")
+        out.setdefault(code, VM_STATUS_MAP.get(m.group(4), "PARTIAL"))
+    if len(out) < 20:
+        sys.exit(f"FATAL: only {len(out)} trails parsed from the Visit Madeira fallback index")
+    return out
+
+
+def load_trail_facts():
+    """{code: {name, lat, lon, region}} from bot/trail_facts.json. Fatal if absent:
+    without it no trail can be placed in a weather region."""
+    try:
+        with open(TRAIL_FACTS, encoding="utf-8") as f:
+            rows = json.load(f)["trails"]
+    except (OSError, ValueError, KeyError) as e:
+        sys.exit(f"FATAL: cannot read {TRAIL_FACTS}: {e}")
+    return {t["code"]: t for t in rows}
 
 
 def _latest_reading(obs, station_id):
@@ -278,74 +473,144 @@ def _nearest_region(lat, lon):
     return min(REGIONS, key=lambda r: (lat - r[2]) ** 2 + (lon - r[3]) ** 2)[0]
 
 
-def scrape_trails():
-    """Every Madeira PR trail from the Visit Madeira hiking index: code, name,
-    coarse status (OPEN/PARTIAL/CLOSED), fee and nearest weather region. Fails
-    loud if the index can't be parsed (rule 3)."""
-    r = requests.get(TRAILS_INDEX, headers=UA, timeout=30)
-    r.raise_for_status()
-    trails, seen = [], set()
-    for m in TRAIL_RE.finditer(r.text):
-        try:
-            raw = json.loads('"' + m.group(1) + '"')   # decode JSON \uXXXX escapes (São, Balcões, …)
-        except Exception:
-            raw = m.group(1)
-        lat, lon, label = float(m.group(2)), float(m.group(3)), m.group(4)
-        code_part, name = (raw.split(" - ", 1) + [raw])[:2] if " - " in raw else (raw, raw)
-        code = code_part.replace(" ", "")
-        if code in seen:          # the index lists some trails (e.g. PR1) twice
-            continue
-        seen.add(code)
+def build_trails():
+    """The 37-trail board: IFCN status + note (pt), names and regions from
+    trail_facts.json. A PAGES trail IFCN omits takes its status from the Visit
+    Madeira index (logged); more than MAX_MISSING omissions is fatal (rule 3).
+    Returns (trails, {code: note segments})."""
+    ifcn = ifcn_statuses()
+    facts = load_trail_facts()
+    missing = [c for c in PAGES if c not in ifcn]
+    vm = {}
+    if missing:
+        if len(missing) > MAX_MISSING:
+            sys.exit(f"FATAL: IFCN omits {len(missing)} site trails ({', '.join(missing)}) — page changed?")
+        print(f"ifcn: omits {', '.join(missing)} — using the Visit Madeira index for these", file=sys.stderr)
+        vm = visit_madeira_statuses()
+    trails, notes = [], {}
+    for code in PAGES:
+        f = facts.get(code)
+        if not f or f.get("lat") is None:
+            sys.exit(f"FATAL: {code} has no lat/lon in {TRAIL_FACTS}")
+        if code in ifcn:
+            status, segments, name = ifcn[code]["status"], ifcn[code]["segments"], ifcn[code]["name"]
+        elif code in vm:
+            status, segments, name = vm[code], [], f.get("name", code)
+        else:
+            sys.exit(f"FATAL: {code} is in neither IFCN nor the Visit Madeira index")
         trails.append({
             "code": code,
-            "name": name.strip(),
-            "status": STATUS_MAP.get(label, "PARTIAL"),
+            "name": f.get("name") or name,
+            "status": status,
             "fee": "10.50" if code == "PR1" else "4.50",
-            "region": _nearest_region(lat, lon),
+            "region": _nearest_region(float(f["lat"]), float(f["lon"])),
             "popular": code in POPULAR,
         })
-    if len(trails) < 20:
-        sys.exit(f"FATAL: only {len(trails)} trails parsed from hiking index — refusing to publish")
-    return trails
+        if segments:
+            notes[code] = segments
+    return trails, notes
 
 
-def translate_note(note):
-    """Mirror the official English note into each site language via MyMemory
-    (free, keyless). English is always kept; any per-language failure falls back
-    to the English text, so a localized page never shows an empty note. This is
-    machine translation — the engine preserves the proper nouns well, but the
-    English original stays authoritative.
+def _chunks(text, limit=MYMEMORY_MAX_BYTES):
+    """Split text at sentence ends into pieces of <= limit UTF-8 bytes."""
+    pieces, cur = [], ""
+    starts = [0] + [e.end() for e in SENTENCE_END.finditer(text)] + [len(text)]
+    for a, b in zip(starts, starts[1:]):
+        sent = text[a:b]
+        if cur and len((cur + sent).encode()) > limit:
+            pieces.append(cur.strip())
+            cur = ""
+        cur += sent
+    if cur.strip():
+        pieces.append(cur.strip())
+    return pieces
+
+
+def _mymemory(text, lang):
+    """One MyMemory translation pt->lang, or None if unusable."""
+    out = []
+    for piece in _chunks(text):
+        r = requests.get(
+            "https://api.mymemory.translated.net/get",
+            params={"q": piece, "langpair": f"{NOTE_SOURCE_LANG}|{lang}"},
+            headers=UA, timeout=20,
+        ).json()
+        t = (r.get("responseData") or {}).get("translatedText", "").strip()
+        # MyMemory returns UPPERCASE warnings (quota, invalid) instead of text.
+        if r.get("responseStatus") != 200 or not t or "MYMEMORY WARNING" in t.upper() or "INVALID" in t.upper():
+            return None
+        out.append(htmllib.unescape(t))
+    return " ".join(out)
+
+
+def _previous_translations():
+    """{pt original: {lang: text}} from the last status.json, so unchanged notes
+    are not re-translated. A stored text equal to the original (a past fallback)
+    is not reused, so it gets retried."""
+    cache = {}
+    try:
+        with open(STATUS_JSON, encoding="utf-8") as f:
+            old = json.load(f)
+    except (OSError, ValueError):
+        return cache
+    for note in [old.get("note")] + [t.get("note") for t in old.get("trails", [])]:
+        if isinstance(note, dict) and note.get(NOTE_SOURCE_LANG):
+            src = note[NOTE_SOURCE_LANG]
+            cache[src] = {k: v for k, v in note.items() if k in TRANSLATE_LANGS and v and v != src}
+    return cache
+
+
+_TRANSLATION_CACHE = None
+
+
+def translate_note(segments):
+    """Mirror an official Portuguese note (list of segments, see note_text) into
+    each site language via MyMemory (free, keyless); section labels use the fixed
+    SECTION_LABEL translations. Any per-language failure falls back to the
+    Portuguese original, so a page never shows an empty note. Machine translation
+    — the Portuguese original stays authoritative.
     """
-    out = {"en": note}
+    note = note_text(segments) if segments else ""
+    global _TRANSLATION_CACHE
+    if _TRANSLATION_CACHE is None:
+        _TRANSLATION_CACHE = _previous_translations()
+    out = {NOTE_SOURCE_LANG: note}
+    cached = _TRANSLATION_CACHE.get(note, {})
     for lang in TRANSLATE_LANGS:
-        out[lang] = note  # fallback = English original
         if not note:
             out[lang] = ""
             continue
+        if lang in cached:
+            out[lang] = cached[lang]
+            continue
+        out[lang] = note  # fallback = Portuguese original
         try:
-            r = requests.get(
-                "https://api.mymemory.translated.net/get",
-                params={"q": note, "langpair": f"en|{lang}"},
-                headers=UA, timeout=20,
-            ).json()
-            t = (r.get("responseData") or {}).get("translatedText", "").strip()
-            # MyMemory returns UPPERCASE warnings (quota, invalid) instead of text.
-            if r.get("responseStatus") == 200 and t and "WARNING" not in t.upper() and "INVALID" not in t.upper():
-                out[lang] = t
+            texts = [_mymemory(t, lang) for _st, t in segments]
+            if all(texts):
+                out[lang] = note_text(segments, lang, texts)
             else:
-                print(f"note translate {lang}: unusable response, kept English", file=sys.stderr)
+                print(f"note translate {lang}: unusable response, kept Portuguese", file=sys.stderr)
         except Exception as e:
-            print(f"note translate {lang} failed: {e} — kept English", file=sys.stderr)
+            print(f"note translate {lang} failed: {e} — kept Portuguese", file=sys.stderr)
     return out
 
 
-def assert_not_contradictory(status, note):
+def apply_rule1(code, status, note):
+    """Rule 1 safety net: OPEN + restrictive note -> PARTIAL (logged)."""
+    if status == "OPEN" and is_restrictive(note):
+        shown = note.get(NOTE_SOURCE_LANG) if isinstance(note, dict) else note
+        print(f"rule1: {code} downgraded OPEN->PARTIAL because note is restrictive: {shown!r}", file=sys.stderr)
+        return "PARTIAL"
+    return status
+
+
+def assert_not_contradictory(status, note, what="PR1"):
     """Rule 1, final sanity gate: refuse to publish a status whose badge still
-    contradicts its note. Should be unreachable after the downgrade, but if it
+    contradicts its note. Should be unreachable after apply_rule1, but if it
     ever fires we fail loud rather than publish a green-but-restricted lie.
     """
     if status == "OPEN" and is_restrictive(note):
-        sys.exit(f"FATAL: contradictory status refused — OPEN badge with restrictive note: {note!r}")
+        sys.exit(f"FATAL: contradictory status refused for {what} — OPEN badge with restrictive note: {note!r}")
 
 
 def bump_sitemap(today):
@@ -360,10 +625,12 @@ def bump_sitemap(today):
         open(name, "w").write(s)
 
 
-# Pages whose WebPage JSON-LD carries a "dateModified" freshness signal for search engines. The only
-# HTML the updater touches: that one value, never the status (the badge stays client-side, status.js).
-DATE_MODIFIED_PAGES = ["index.html", "fr/index.html", "de/index.html", "pl/index.html",
-                       "pr1/index.html", "fr/pr1/index.html", "de/pr1/index.html", "pl/pr1/index.html"]
+# Pages whose WebPage JSON-LD carries a "dateModified" freshness signal for search engines. Only
+# that one value is touched here (plus STATIC-STATUS markers below); the badge stays client-side.
+# Missing files (e.g. pt/ before it exists) are skipped with a warning.
+DATE_MODIFIED_PAGES = ["index.html", "pt/index.html", "fr/index.html", "de/index.html", "pl/index.html",
+                       "pr1/index.html", "pt/pr1/index.html", "fr/pr1/index.html", "de/pr1/index.html",
+                       "pl/pr1/index.html"]
 
 
 def bump_date_modified(when):
@@ -381,13 +648,130 @@ def bump_date_modified(when):
         open(name, "w", encoding="utf-8").write(new)
 
 
+# --- Static (crawlable) status lines ------------------------------------------------
+# Any page may carry  <!-- STATIC-STATUS:PR6:START -->...<!-- STATIC-STATUS:PR6:END -->
+# (one trail) or  <!-- STATIC-STATUS-BOARD:START -->...<!-- STATIC-STATUS-BOARD:END -->
+# (all-trail counts, used on the homepages). The inner text is replaced by a short
+# plain line in the page's <html lang>. No markers anywhere = no-op.
+STATIC_I18N = {
+    "en": {"on": "Status on {d}:", "st": {"OPEN": "OPEN", "PARTIAL": "PARTLY OPEN", "CLOSED": "CLOSED"},
+           "board": "Trail status on {d}: {o} open, {p} partly open, {c} closed (source: IFCN).",
+           "months": ["January", "February", "March", "April", "May", "June", "July", "August",
+                      "September", "October", "November", "December"], "date": "{day} {month} {year}"},
+    "pt": {"on": "Estado a {d}:", "st": {"OPEN": "ABERTO", "PARTIAL": "PARCIALMENTE ABERTO", "CLOSED": "ENCERRADO"},
+           "board": "Estado dos percursos a {d}: {o} abertos, {p} parcialmente abertos, {c} encerrados (fonte: IFCN).",
+           "months": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
+                      "setembro", "outubro", "novembro", "dezembro"], "date": "{day} de {month} de {year}"},
+    "fr": {"on": "État au {d} :", "st": {"OPEN": "OUVERT", "PARTIAL": "PARTIELLEMENT OUVERT", "CLOSED": "FERMÉ"},
+           "board": "État des sentiers au {d} : {o} ouverts, {p} partiellement ouverts, {c} fermés (source : IFCN).",
+           "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
+                      "septembre", "octobre", "novembre", "décembre"], "date": "{day} {month} {year}"},
+    "de": {"on": "Status am {d}:", "st": {"OPEN": "GEÖFFNET", "PARTIAL": "TEILWEISE GEÖFFNET", "CLOSED": "GESCHLOSSEN"},
+           "board": "Wegstatus am {d}: {o} geöffnet, {p} teilweise geöffnet, {c} geschlossen (Quelle: IFCN).",
+           "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August",
+                      "September", "Oktober", "November", "Dezember"], "date": "{day}. {month} {year}"},
+    "pl": {"on": "Stan na {d}:", "st": {"OPEN": "OTWARTY", "PARTIAL": "CZĘŚCIOWO OTWARTY", "CLOSED": "ZAMKNIĘTY"},
+           "board": "Stan szlaków na {d}: otwarte {o}, częściowo otwarte {p}, zamknięte {c} (źródło: IFCN).",
+           "months": ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia",
+                      "września", "października", "listopada", "grudnia"], "date": "{day} {month} {year}"},
+}
+STATIC_NOTE_MAX = 220
+STATIC_TRAIL_RE = re.compile(r"(<!--\s*STATIC-STATUS:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-STATUS:\2:END\s*-->)", re.S)
+STATIC_BOARD_RE = re.compile(r"(<!--\s*STATIC-STATUS-BOARD:START\s*-->)(.*?)(<!--\s*STATIC-STATUS-BOARD:END\s*-->)", re.S)
+HTML_LANG_RE = re.compile(r"<html[^>]*\blang=[\"']?([a-zA-Z]{2})", re.I)
+
+
+def _short_note(text):
+    """Whole sentences of a note up to STATIC_NOTE_MAX characters (so PR1 keeps both
+    its open and its restricted section); a too-long first sentence is cut with '…'."""
+    if not text:
+        return ""
+    s = ""
+    for e in list(SENTENCE_END.finditer(text)) + [None]:
+        cand = text[: e.end()] if e else text
+        if s and len(cand) > STATIC_NOTE_MAX:
+            break
+        s = cand
+        if len(s) > STATIC_NOTE_MAX:
+            break
+    if len(s) > STATIC_NOTE_MAX:
+        s = s[: STATIC_NOTE_MAX - 1].rsplit(" ", 1)[0] + "…"
+    return s.strip()
+
+
+def static_line(trail, lang, date):
+    """One localized plain line for a trail, e.g. 'Status on 30 September 2026: OPEN — ...'."""
+    L = STATIC_I18N.get(lang, STATIC_I18N["en"])
+    note = trail.get("note") or {}
+    text = note.get(lang) or note.get("en") or note.get(NOTE_SOURCE_LANG) or ""
+    # Rule 1 applies to these lines too.
+    assert_not_contradictory(trail["status"], note, what=f"static line {trail['code']}")
+    line = f"{L['on'].format(d=_fmt_date(date, L))} {L['st'][trail['status']]}"
+    short = _short_note(text)
+    return f"{line} — {short}" if short else line
+
+
+def _fmt_date(date, L):
+    return L["date"].format(day=date.day, month=L["months"][date.month - 1], year=date.year)
+
+
+def write_static_status(data):
+    """Fill every STATIC-STATUS marker pair in the site's *.html (bot/ excluded) with
+    a plain, crawlable status line in the page's language. No-op when no markers
+    exist. Unknown codes are left untouched with a warning. Returns changed files."""
+    date = datetime.date.fromisoformat(data["date"])
+    by_code = {t["code"]: t for t in data["trails"]}
+    changed = []
+    for path in sorted(glob.glob("**/*.html", recursive=True)):
+        if path.split(os.sep)[0] in ("bot", ".git", "node_modules", "seo_research"):
+            continue
+        with open(path, encoding="utf-8") as f:
+            s = f.read()
+        if "STATIC-STATUS" not in s:
+            continue
+        m = HTML_LANG_RE.search(s)
+        lang = m.group(1).lower() if m else "en"
+        L = STATIC_I18N.get(lang, STATIC_I18N["en"])
+
+        def trail_sub(mm):
+            t = by_code.get(mm.group(2))
+            if not t:
+                print(f"{path}: STATIC-STATUS code {mm.group(2)} not on the board — left as is", file=sys.stderr)
+                return mm.group(0)
+            return mm.group(1) + htmllib.escape(static_line(t, lang, date), quote=False) + mm.group(4)
+
+        def board_sub(mm):
+            c = data["counts"]
+            line = L["board"].format(d=_fmt_date(date, L), o=c.get("OPEN", 0),
+                                     p=c.get("PARTIAL", 0), c=c.get("CLOSED", 0))
+            return mm.group(1) + htmllib.escape(line, quote=False) + mm.group(3)
+
+        new = STATIC_BOARD_RE.sub(board_sub, STATIC_TRAIL_RE.sub(trail_sub, s))
+        if new != s:
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(new)
+            changed.append(path)
+    print(f"static status: {len(changed)} page(s) updated", file=sys.stderr)
+    return changed
+
+
 def main():
     now = datetime.datetime.now(TZ)
     stamp = now.strftime("%Y-%m-%d %H:%M")
     today = now.strftime("%Y-%m-%d")
 
-    status, note = pr1_status()
-    note_i18n = translate_note(note)
+    # Status board from IFCN (fails loud on scrape/parse error).
+    trails, notes = build_trails()
+    for t in trails:
+        if t["code"] in notes:
+            t["note"] = translate_note(notes[t["code"]])
+        t["status"] = apply_rule1(t["code"], t["status"], t.get("note"))
+        # Rule 1 final gate before we write anything.
+        assert_not_contradictory(t["status"], t.get("note"), what=t["code"])
+
+    pr1 = next(t for t in trails if t["code"] == "PR1")
+    status = pr1["status"]
+    note_i18n = pr1.get("note") or translate_note([])
 
     try:
         weather = summit_weather()
@@ -401,11 +785,6 @@ def main():
     except FileNotFoundError:
         pass
 
-    # Rule 1 final gate before we write anything.
-    assert_not_contradictory(status, note)
-
-    # Multi-trail board for the dashboard (fails loud on scrape/parse error).
-    trails = scrape_trails()
     try:
         region_wx = _region_weather()
     except Exception as e:
@@ -413,12 +792,9 @@ def main():
         print("regional weather fetch failed:", e, file=sys.stderr)
     for t in trails:
         t["temp"] = region_wx.get(t["region"], _REGION_WX_EMPTY)["temp"]
-        if t["code"] in PAGES:
-            t["page"] = PAGES[t["code"]]
-        if t["code"] == "PR1":
-            # Use our accurate detailed PR1 status + translated note.
-            t["status"] = status
-            t["note"] = note_i18n
+        t["page"] = PAGES[t["code"]]
+        if "note" in t:                       # keep "note" last, as before
+            t["note"] = t.pop("note")
     counts = {"OPEN": 0, "PARTIAL": 0, "CLOSED": 0}
     for t in trails:
         counts[t["status"]] = counts.get(t["status"], 0) + 1
@@ -444,6 +820,7 @@ def main():
 
     bump_sitemap(today)
     bump_date_modified(now.isoformat(timespec="minutes"))
+    write_static_status(data)
 
     print(f"PR1={status} | trails={len(trails)} | "
           f"open={counts['OPEN']} partial={counts['PARTIAL']} closed={counts['CLOSED']} | {stamp}")

@@ -35,12 +35,19 @@ import sys
 import requests
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "scripts"))
-from update_status import TRAILS_INDEX, TRAIL_RE, UA  # noqa: E402
+# The Visit Madeira hiking index and its row pattern (same source as
+# update_status.py; kept local so this script doesn't depend on that module's
+# internal names). Rows: ["PR X - Name", lat, lon, n, "img", "url", "", bool, {"label":"..."}]
+TRAILS_INDEX = "https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/"
+TRAIL_RE = re.compile(
+    r'\["(PR[^"]+?)",(-?\d+\.\d+),(-?\d+\.\d+),\d+,"[^"]*","[^"]*","[^"]*",'
+    r'(?:true|false),\{"label":"([^"]+)"'
+)
+UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/5.0; +https://levadinho-madeira.com)"}
 
 BASE = "https://levadinho-madeira.com"
-LANGS = ("en", "fr", "de", "pl")
-PREFIX = {"en": "", "fr": "/fr", "de": "/de", "pl": "/pl"}
+LANGS = ("en", "pt", "fr", "de", "pl")
+PREFIX = {"en": "", "pt": "/pt", "fr": "/fr", "de": "/de", "pl": "/pl"}
 N_RELATED = 4
 
 MARK = {
@@ -51,24 +58,25 @@ MARK = {
 
 # Nav bar entries: key -> (path within the language folder, label per language)
 NAV = [
-    ("trails", "/", {"en": "All trails", "fr": "Tous les sentiers", "de": "Alle Wanderwege", "pl": "Wszystkie szlaki"}),
-    ("pr1", "/pr1/", {"en": "PR1 today", "fr": "PR1 aujourd'hui", "de": "PR1 heute", "pl": "PR1 dziś"}),
-    ("fees", "/hiking-fees.html", {"en": "Fees 2026", "fr": "Tarifs 2026", "de": "Gebühren 2026", "pl": "Opłaty 2026"}),
-    ("booking", "/simplifica-from-abroad.html", {"en": "Booking from abroad", "fr": "Réserver depuis l'étranger",
+    ("trails", "/", {"en": "All trails", "pt": "Todos os percursos", "fr": "Tous les sentiers", "de": "Alle Wanderwege", "pl": "Wszystkie szlaki"}),
+    ("pr1", "/pr1/", {"en": "PR1 today", "pt": "PR1 hoje", "fr": "PR1 aujourd'hui", "de": "PR1 heute", "pl": "PR1 dziś"}),
+    ("fees", "/hiking-fees.html", {"en": "Fees 2026", "pt": "Taxas 2026", "fr": "Tarifs 2026", "de": "Gebühren 2026", "pl": "Opłaty 2026"}),
+    ("booking", "/simplifica-from-abroad.html", {"en": "Booking from abroad", "pt": "Reservar do estrangeiro", "fr": "Réserver depuis l'étranger",
                                                  "de": "Buchen aus dem Ausland", "pl": "Rezerwacja z zagranicy"}),
-    ("back", "/getting-back.html", {"en": "Getting back from PR1", "fr": "Retour du PR1",
+    ("back", "/getting-back.html", {"en": "Getting back from PR1", "pt": "Regressar do PR1", "fr": "Retour du PR1",
                                     "de": "Rückweg vom PR1", "pl": "Powrót z PR1"}),
 ]
-NAV_ARIA = {"en": "Site", "fr": "Site", "de": "Website", "pl": "Serwis"}
-CRUMB_ARIA = {"en": "Breadcrumb", "fr": "Fil d'Ariane", "de": "Brotkrümelnavigation", "pl": "Ścieżka nawigacji"}
-HOME = {"en": "Home", "fr": "Accueil", "de": "Startseite", "pl": "Strona główna"}
-NEARBY = {"en": "Nearby trails", "fr": "Sentiers à proximité", "de": "Wanderwege in der Nähe", "pl": "Szlaki w pobliżu"}
+NAV_ARIA = {"en": "Site", "pt": "Site", "fr": "Site", "de": "Website", "pl": "Serwis"}
+CRUMB_ARIA = {"en": "Breadcrumb", "pt": "Navegação estrutural", "fr": "Fil d'Ariane", "de": "Brotkrümelnavigation", "pl": "Ścieżka nawigacji"}
+HOME = {"en": "Home", "pt": "Início", "fr": "Accueil", "de": "Startseite", "pl": "Strona główna"}
+NEARBY = {"en": "Nearby trails", "pt": "Percursos próximos", "fr": "Sentiers à proximité", "de": "Wanderwege in der Nähe", "pl": "Szlaki w pobliżu"}
 NEARBY_SUB = {"en": "Closest trailheads — each has its own live status.",
+              "pt": "Os pontos de partida mais próximos — cada um com o seu estado em direto.",
               "fr": "Les départs les plus proches — chacun avec son état en direct.",
               "de": "Die nächstgelegenen Startpunkte — jeweils mit eigenem Live-Status.",
               "pl": "Najbliższe punkty startowe — każdy z własnym stanem na żywo."}
-KM = {"en": "{} km away", "fr": "à {} km", "de": "{} km entfernt", "pl": "{} km stąd"}
-SAME = {"en": "Same trailhead", "fr": "Même point de départ", "de": "Gleicher Startpunkt", "pl": "Ten sam punkt startowy"}
+KM = {"en": "{} km away", "pt": "a {} km", "fr": "à {} km", "de": "{} km entfernt", "pl": "{} km stąd"}
+SAME = {"en": "Same trailhead", "pt": "Mesmo ponto de partida", "fr": "Même point de départ", "de": "Gleicher Startpunkt", "pl": "Ten sam punkt startowy"}
 
 
 def dist_label(lang, d):
@@ -193,13 +201,22 @@ def related_html(lang, near):
             .format(NEARBY[lang], NEARBY_SUB[lang], items))
 
 
+SKIPPED = []
+
+
 def process(path, lang, current, crumbs, near=None, header_anchor=r'<nav class="langs"[^>]*>.*?</nav>\n'):
+    if not path.exists():
+        # A language's page may not exist yet (pt/ is being rolled out page by
+        # page) -- skip it and say so; re-run once the file is there.
+        SKIPPED.append(str(path.relative_to(ROOT)))
+        return False
     html = path.read_text(encoding="utf-8")
     html = replace_block(html, "SITE-NAV-HEAD", head_html(crumbs), r"</head>", "before", path)
     html = replace_block(html, "SITE-NAV", nav_html(lang, current, crumbs), header_anchor, "after", path)
     if near:
         html = replace_block(html, "SITE-NAV-RELATED", related_html(lang, near), r"<footer", "before", path)
     path.write_text(html, encoding="utf-8")
+    return True
 
 
 def main():
@@ -218,16 +235,16 @@ def main():
         home = (HOME[lang], href(lang, "/"))   # the homepage is the trails board
         for t in trails:
             name = "{} {}".format(t["code"], t["name"])
-            process(file_for(lang, t["page"]), lang, "pr1" if t["page"] == "/pr1/" else None,
-                    [home, (name, href(lang, t["page"]))], nearest(t))
-            n += 1
-        process(file_for(lang, "/"), lang, "trails", None)
+            n += process(file_for(lang, t["page"]), lang, "pr1" if t["page"] == "/pr1/" else None,
+                         [home, (name, href(lang, t["page"]))], nearest(t))
+        n += process(file_for(lang, "/"), lang, "trails", None)
         for key, p, lbl in NAV[2:]:
-            process(file_for(lang, p), lang, key, [home, (lbl[lang], href(lang, p))])
-        n += 4
+            n += process(file_for(lang, p), lang, key, [home, (lbl[lang], href(lang, p))])
     # English-only privacy page: nav bar only, no language switcher to anchor on.
     process(ROOT / "privacy" / "index.html", "en", None, None, header_anchor=r"<header>\n")
     print("site nav written to {} pages (+ privacy)".format(n))
+    if SKIPPED:
+        print("skipped {} missing page(s) -- re-run once they exist: {}".format(len(SKIPPED), ", ".join(SKIPPED)))
 
 
 if __name__ == "__main__":

@@ -1,64 +1,65 @@
 {
-  "status": "OPEN",
+  "status": "PARTIAL",
   "note": {
-    "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.2 km + 1.2 km), as a two-way route returning along the same path; or in full, between Pico do Areeiro and Pico Ruivo (6.1 km), on a route that becomes one-way from Pedra Rija Viewpoint onwards, with no possibility of returning along the same path.",
-    "fr": "Le sentier PR1 – Vereda do Areeiro peut être complété de deux manières : partiellement, entre Pico do Areeiro et le point de vue de Pedra Rija (1,2 km + 1,2 km), comme un itinéraire à double sens revenant le long du même chemin ; ou en totalité, entre Pico do Areeiro et Pico Ruivo (6,1 km), sur un itinéraire qui devient à sens unique à partir du point de vue de Pedra Rija, sans possibilité de revenir le long du même chemin.",
-    "de": "Der Wanderweg PR1 – Vereda do Areeiro kann auf zwei Arten absolviert werden: teilweise zwischen dem Pico do Areeiro und dem Aussichtspunkt Pedra Rija (1,2 km + 1,2 km), als zweigleisige Route, die auf demselben Weg zurückkehrt; oder ganz zwischen dem Pico do Areeiro und dem Pico Ruivo (6,1 km), auf einer Route, die ab dem Aussichtspunkt Pedra Rija in eine Richtung führt, ohne die Möglichkeit, auf demselben Weg zurückzukehren.",
-    "pl": "Szlak PR1 – Vereda do Areeiro można ukończyć na dwa sposoby: częściowo między Pico do Areeiro a punktem widokowym Pedra Rija (1,2 km + 1,2 km), jako trasa dwukierunkowa powracająca tą samą ścieżką; lub w całości między Pico do Areeiro a Pico Ruivo (6,1 km), na trasie, która staje się jednokierunkowa od punktu widokowego Pedra Rija, bez możliwości powrotu tą samą ścieżką."
+    "pt": "Transitável: Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija. Encerrado/condicionado: Percurso com sentido único entre o Miradouro da Pedra Rija e o Pico Ruivo.",
+    "en": "Open: Route in both directions between Pico do Areeiro and Miradouro da Pedra Rija. Closed/restricted: One-way route between Pedra Rija Viewpoint and Pico Ruivo.",
+    "fr": "Praticable: Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija. Fermé/restreint: Itinéraire aller simple entre le point de vue de Pedra Rija et Pico Ruivo.",
+    "de": "Begehbar: Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija. Gesperrt/eingeschränkt: Einbahnstraße zwischen dem Aussichtspunkt Pedra Rija und dem Pico Ruivo.",
+    "pl": "Dostępny: Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija. Zamknięty/ograniczony: Trasa w jedną stronę między Pedra Rija Viewpoint i Pico Ruivo."
   },
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 11.0,
-    "humidity": 87,
-    "in_cloud": false,
-    "wind_kmh": 42,
-    "wind_strong": true
+    "temp_c": 14.2,
+    "humidity": 100,
+    "in_cloud": true,
+    "wind_kmh": 10,
+    "wind_strong": false
   },
-  "stamp": "2026-09-29 07:27",
-  "date": "2026-09-29",
+  "stamp": "2026-09-30 13:41",
+  "date": "2026-09-30",
   "counts": {
-    "OPEN": 30,
-    "PARTIAL": 3,
+    "OPEN": 29,
+    "PARTIAL": 4,
     "CLOSED": 4
   },
   "regions": [
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 11,
-      "wind": 42,
-      "rain": 0.0,
-      "in_cloud": false
+      "temp": 14,
+      "wind": 10,
+      "rain": 0.2,
+      "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
       "temp": 18,
       "wind": null,
-      "rain": 0.0,
+      "rain": 0.1,
       "in_cloud": false
     },
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 18,
-      "wind": 5,
+      "temp": 20,
+      "wind": 15,
       "rain": 0.0,
-      "in_cloud": true
+      "in_cloud": false
     },
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 23,
-      "wind": 42,
+      "temp": 22,
+      "wind": 19,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 24,
+      "temp": 27,
       "wind": 5,
       "rain": 0.0,
       "in_cloud": false
@@ -68,98 +69,19 @@
     {
       "code": "PR1",
       "name": "Vereda do Areeiro",
-      "status": "OPEN",
+      "status": "PARTIAL",
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 11,
+      "temp": 14,
       "page": "/pr1/",
       "note": {
-        "en": "The PR1 – Vereda do Areeiro trail can be completed in two ways: partially, between Pico do Areeiro and the Pedra Rija Viewpoint (1.2 km + 1.2 km), as a two-way route returning along the same path; or in full, between Pico do Areeiro and Pico Ruivo (6.1 km), on a route that becomes one-way from Pedra Rija Viewpoint onwards, with no possibility of returning along the same path.",
-        "fr": "Le sentier PR1 – Vereda do Areeiro peut être complété de deux manières : partiellement, entre Pico do Areeiro et le point de vue de Pedra Rija (1,2 km + 1,2 km), comme un itinéraire à double sens revenant le long du même chemin ; ou en totalité, entre Pico do Areeiro et Pico Ruivo (6,1 km), sur un itinéraire qui devient à sens unique à partir du point de vue de Pedra Rija, sans possibilité de revenir le long du même chemin.",
-        "de": "Der Wanderweg PR1 – Vereda do Areeiro kann auf zwei Arten absolviert werden: teilweise zwischen dem Pico do Areeiro und dem Aussichtspunkt Pedra Rija (1,2 km + 1,2 km), als zweigleisige Route, die auf demselben Weg zurückkehrt; oder ganz zwischen dem Pico do Areeiro und dem Pico Ruivo (6,1 km), auf einer Route, die ab dem Aussichtspunkt Pedra Rija in eine Richtung führt, ohne die Möglichkeit, auf demselben Weg zurückzukehren.",
-        "pl": "Szlak PR1 – Vereda do Areeiro można ukończyć na dwa sposoby: częściowo między Pico do Areeiro a punktem widokowym Pedra Rija (1,2 km + 1,2 km), jako trasa dwukierunkowa powracająca tą samą ścieżką; lub w całości między Pico do Areeiro a Pico Ruivo (6,1 km), na trasie, która staje się jednokierunkowa od punktu widokowego Pedra Rija, bez możliwości powrotu tą samą ścieżką."
+        "pt": "Transitável: Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija. Encerrado/condicionado: Percurso com sentido único entre o Miradouro da Pedra Rija e o Pico Ruivo.",
+        "en": "Open: Route in both directions between Pico do Areeiro and Miradouro da Pedra Rija. Closed/restricted: One-way route between Pedra Rija Viewpoint and Pico Ruivo.",
+        "fr": "Praticable: Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija. Fermé/restreint: Itinéraire aller simple entre le point de vue de Pedra Rija et Pico Ruivo.",
+        "de": "Begehbar: Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija. Gesperrt/eingeschränkt: Einbahnstraße zwischen dem Aussichtspunkt Pedra Rija und dem Pico Ruivo.",
+        "pl": "Dostępny: Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija. Zamknięty/ograniczony: Trasa w jedną stronę między Pedra Rija Viewpoint i Pico Ruivo."
       }
-    },
-    {
-      "code": "PR1.1",
-      "name": "Vereda da Ilha",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "north",
-      "popular": false,
-      "temp": 18,
-      "page": "/vereda-da-ilha/"
-    },
-    {
-      "code": "PR1.2",
-      "name": "Vereda do Pico Ruivo",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "summit",
-      "popular": true,
-      "temp": 11,
-      "page": "/pico-ruivo/"
-    },
-    {
-      "code": "PR1.3",
-      "name": "Vereda da Encumeada",
-      "status": "PARTIAL",
-      "fee": "4.50",
-      "region": "summit",
-      "popular": false,
-      "temp": 11,
-      "page": "/vereda-da-encumeada/"
-    },
-    {
-      "code": "PR2",
-      "name": "Vereda do Urzal",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "summit",
-      "popular": false,
-      "temp": 11,
-      "page": "/vereda-do-urzal/"
-    },
-    {
-      "code": "PR3",
-      "name": "Vereda do Burro",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "summit",
-      "popular": false,
-      "temp": 11,
-      "page": "/vereda-do-burro/"
-    },
-    {
-      "code": "PR3.1",
-      "name": "Caminho Real do Monte",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "south",
-      "popular": false,
-      "temp": 24,
-      "page": "/caminho-real-do-monte/"
-    },
-    {
-      "code": "PR4",
-      "name": "Levada do Barreiro",
-      "status": "PARTIAL",
-      "fee": "4.50",
-      "region": "summit",
-      "popular": false,
-      "temp": 11,
-      "page": "/levada-do-barreiro/"
-    },
-    {
-      "code": "PR5",
-      "name": "Vereda das Funduras",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "north",
-      "popular": false,
-      "temp": 18,
-      "page": "/vereda-das-funduras/"
     },
     {
       "code": "PR6",
@@ -168,58 +90,32 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 18,
-      "page": "/25-fontes/"
+      "temp": 20,
+      "page": "/25-fontes/",
+      "note": {
+        "pt": "Circulação controlada num único sentido: Rabaçal – 25 Fontes (ida) pela Levada das 25 Fontes e 25 Fontes – Rabaçal (regresso) pelo troço alternativo, denominado de Bypass.",
+        "en": "Circulation controlled in one direction: Rabaçal – 25 Fontes (one way) by Levada das 25 Fontes and 25 Fontes – Rabaçal (return) by the alternative section, called Bypass.",
+        "fr": "Circulation contrôlée dans un sens : Rabaçal – 25 Fontes (aller simple) par Levada das 25 Fontes et 25 Fontes – Rabaçal (retour) par la section alternative, appelée Bypass.",
+        "de": "Die Zirkulation wird in eine Richtung gesteuert: Rabaçal – 25 Fontes (einfache Fahrt) durch Levada das 25 Fontes und 25 Fontes – Rabaçal (Rückfahrt) durch den alternativen Abschnitt, genannt Bypass.",
+        "pl": "Cyrkulacja kontrolowana w jednym kierunku: Rabaçal – 25 Fontes (w jedną stronę) przez Levada das 25 Fontes i 25 Fontes – Rabaçal (powrót) przez sekcję alternatywną, zwaną Bypass."
+      }
     },
     {
-      "code": "PR6.1",
-      "name": "Levada do Risco",
+      "code": "PR1.2",
+      "name": "Vereda do Pico Ruivo",
       "status": "OPEN",
       "fee": "4.50",
-      "region": "west",
+      "region": "summit",
       "popular": true,
-      "temp": 18,
-      "page": "/levada-do-risco/"
-    },
-    {
-      "code": "PR6.2",
-      "name": "Levada do Alecrim",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "west",
-      "popular": false,
-      "temp": 18,
-      "page": "/levada-do-alecrim/"
-    },
-    {
-      "code": "PR6.3",
-      "name": "Vereda da Lagoa do Vento",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "west",
-      "popular": false,
-      "temp": 18,
-      "page": "/vereda-da-lagoa-do-vento/"
-    },
-    {
-      "code": "PR7",
-      "name": "Levada do Moinho",
-      "status": "CLOSED",
-      "fee": "4.50",
-      "region": "west",
-      "popular": false,
-      "temp": 18,
-      "page": "/levada-do-moinho/"
-    },
-    {
-      "code": "PR8",
-      "name": "Vereda da Ponta de São Lourenço",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "east",
-      "popular": true,
-      "temp": 23,
-      "page": "/sao-lourenco/"
+      "temp": 14,
+      "page": "/pico-ruivo/",
+      "note": {
+        "pt": "Encontra-se totalmente transitável o troço compreendido entre a Casa de Abrigo do Pico Ruivo e o Pico Ruivo.",
+        "en": "The section between the Pico Ruivo Shelter and Pico Ruivo is totally walkable.",
+        "fr": "La section entre l'abri Pico Ruivo et Pico Ruivo est totalement praticable à pied.",
+        "de": "Der Abschnitt zwischen dem Pico Ruivo Shelter und dem Pico Ruivo ist vollständig begehbar.",
+        "pl": "Odcinek między schroniskiem Pico Ruivo a schroniskiem Pico Ruivo jest w pełni przystosowany do spacerów."
+      }
     },
     {
       "code": "PR9",
@@ -232,14 +128,14 @@
       "page": "/caldeirao-verde/"
     },
     {
-      "code": "PR10",
-      "name": "Levada do Furado",
+      "code": "PR8",
+      "name": "Vereda da Ponta de São Lourenço",
       "status": "OPEN",
       "fee": "4.50",
-      "region": "summit",
-      "popular": false,
-      "temp": 11,
-      "page": "/levada-do-furado/"
+      "region": "east",
+      "popular": true,
+      "temp": 22,
+      "page": "/sao-lourenco/"
     },
     {
       "code": "PR11",
@@ -248,18 +144,8 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 11,
+      "temp": 14,
       "page": "/balcoes/"
-    },
-    {
-      "code": "PR12",
-      "name": "Caminho Real da Encumeada",
-      "status": "PARTIAL",
-      "fee": "4.50",
-      "region": "summit",
-      "popular": false,
-      "temp": 11,
-      "page": "/caminho-real-da-encumeada/"
     },
     {
       "code": "PR13",
@@ -268,48 +154,18 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 18,
+      "temp": 20,
       "page": "/fanal/"
     },
     {
-      "code": "PR14",
-      "name": "Levada dos Cedros",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "west",
-      "popular": false,
-      "temp": 18,
-      "page": "/levada-dos-cedros/"
-    },
-    {
-      "code": "PR15",
-      "name": "Vereda da Ribeira da Janela",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "west",
-      "popular": false,
-      "temp": 18,
-      "page": "/vereda-da-ribeira-da-janela/"
-    },
-    {
-      "code": "PR16",
-      "name": "Levada Fajã do Rodrigues",
+      "code": "PR10",
+      "name": "Levada do Furado",
       "status": "OPEN",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
-      "page": "/levada-faja-do-rodrigues/"
-    },
-    {
-      "code": "PR17",
-      "name": "Caminho do Pináculo e Folhadal",
-      "status": "OPEN",
-      "fee": "4.50",
-      "region": "summit",
-      "popular": false,
-      "temp": 11,
-      "page": "/caminho-do-pinaculo-e-folhadal/"
+      "temp": 14,
+      "page": "/levada-do-furado/"
     },
     {
       "code": "PR18",
@@ -322,13 +178,194 @@
       "page": "/levada-do-rei/"
     },
     {
+      "code": "PR14",
+      "name": "Levada dos Cedros",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 20,
+      "page": "/levada-dos-cedros/"
+    },
+    {
+      "code": "PR1.1",
+      "name": "Vereda da Ilha",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "north",
+      "popular": false,
+      "temp": 18,
+      "page": "/vereda-da-ilha/"
+    },
+    {
+      "code": "PR1.3",
+      "name": "Vereda da Encumeada",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 14,
+      "page": "/vereda-da-encumeada/"
+    },
+    {
+      "code": "PR2",
+      "name": "Vereda do Urzal",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 14,
+      "page": "/vereda-do-urzal/"
+    },
+    {
+      "code": "PR3",
+      "name": "Vereda do Burro",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 14,
+      "page": "/vereda-do-burro/"
+    },
+    {
+      "code": "PR3.1",
+      "name": "Caminho Real do Monte",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "south",
+      "popular": false,
+      "temp": 27,
+      "page": "/caminho-real-do-monte/"
+    },
+    {
+      "code": "PR4",
+      "name": "Levada do Barreiro",
+      "status": "PARTIAL",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 14,
+      "page": "/levada-do-barreiro/",
+      "note": {
+        "pt": "Percurso transitável - está disponível uma ligação sinalizada à Ribeira das Cales, junto ao Centro de Interpretação do Parque Ecológico do Funchal. A versão atual do percurso, entre o Poço da Neve (início do PR4), a Levada do Barreiro e a Ribeira das Cales, encontra-se totalmente sinalizada em ambos os sentidos.",
+        "en": "Passable route - a signposted connection to Ribeira das Cales is available, next to the Interpretation Center of the Ecological Park of Funchal. The current version of the route, between Poço da Neve (beginning of PR4), Levada do Barreiro and Ribeira das Cales, is fully marked in both directions.",
+        "fr": "Itinéraire praticable - une connexion signalétique à Ribeira das Cales est disponible, à côté du centre d'interprétation du parc écologique de Funchal. La version actuelle de l'itinéraire, entre Poço da Neve (début du PR4), Levada do Barreiro et Ribeira das Cales, est entièrement balisée dans les deux sens.",
+        "de": "Passierbare Route - eine ausgeschilderte Verbindung nach Ribeira das Cales ist verfügbar, neben dem Interpretationszentrum des Ökologischen Parks von Funchal. Die aktuelle Version der Route zwischen Poço da Neve (Beginn von PR4), Levada do Barreiro und Ribeira das Cales ist in beide Richtungen vollständig markiert.",
+        "pl": "Trasa przejezdna - dostępne jest oznakowane połączenie z Ribeira das Cales, obok Centrum Interpretacji Parku Ekologicznego Funchal. Obecna wersja trasy, pomiędzy Poço da Neve (początek PR4), Levada do Barreiro i Ribeira das Cales, jest w pełni oznaczona w obu kierunkach."
+      }
+    },
+    {
+      "code": "PR5",
+      "name": "Vereda das Funduras",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "north",
+      "popular": false,
+      "temp": 18,
+      "page": "/vereda-das-funduras/"
+    },
+    {
+      "code": "PR6.1",
+      "name": "Levada do Risco",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": true,
+      "temp": 20,
+      "page": "/levada-do-risco/"
+    },
+    {
+      "code": "PR6.2",
+      "name": "Levada do Alecrim",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 20,
+      "page": "/levada-do-alecrim/"
+    },
+    {
+      "code": "PR6.3",
+      "name": "Vereda da Lagoa do Vento",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 20,
+      "page": "/vereda-da-lagoa-do-vento/"
+    },
+    {
+      "code": "PR7",
+      "name": "Levada do Moinho",
+      "status": "CLOSED",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 20,
+      "page": "/levada-do-moinho/"
+    },
+    {
+      "code": "PR12",
+      "name": "Caminho Real da Encumeada",
+      "status": "PARTIAL",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 14,
+      "page": "/caminho-real-da-encumeada/",
+      "note": {
+        "pt": "Percurso transitável desde a Boca da Corrida até ao km 3,5.",
+        "en": "Passable route from Boca da Corrida to km 3.5.",
+        "fr": "Itinéraire praticable de Boca da Corrida au km 3.5.",
+        "de": "Befahrbare Strecke von Boca da Corrida bis km 3.5.",
+        "pl": "Przejezdna trasa z Boca da Corrida do km 3,5."
+      }
+    },
+    {
+      "code": "PR15",
+      "name": "Vereda da Ribeira da Janela",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "west",
+      "popular": false,
+      "temp": 20,
+      "page": "/vereda-da-ribeira-da-janela/"
+    },
+    {
+      "code": "PR16",
+      "name": "Levada Fajã do Rodrigues",
+      "status": "OPEN",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 14,
+      "page": "/levada-faja-do-rodrigues/"
+    },
+    {
+      "code": "PR17",
+      "name": "Caminho do Pináculo e Folhadal",
+      "status": "PARTIAL",
+      "fee": "4.50",
+      "region": "summit",
+      "popular": false,
+      "temp": 14,
+      "page": "/caminho-do-pinaculo-e-folhadal/",
+      "note": {
+        "pt": "Percurso transitável entre a Encumeada e a Bica da Cana.",
+        "en": "Passable route between Encumeada and Bica da Cana.",
+        "fr": "Itinéraire praticable entre Encumeada et Bica da Cana.",
+        "de": "Passierbare Route zwischen Encumeada und Bica da Cana.",
+        "pl": "Przejezdna trasa między Encumeada i Bica da Cana."
+      }
+    },
+    {
       "code": "PR19",
       "name": "Caminho Real do Paul do Mar",
       "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/caminho-real-do-paul-do-mar/"
     },
     {
@@ -338,7 +375,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/vereda-do-jardim-do-mar/"
     },
     {
@@ -348,7 +385,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 14,
       "page": "/caminho-do-norte/"
     },
     {
@@ -358,7 +395,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 14,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -368,7 +405,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 11,
+      "temp": 14,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -378,7 +415,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/vereda-do-tunel-do-cavalo/"
     },
     {
@@ -388,7 +425,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/levada-da-rocha-vermelha/"
     },
     {
@@ -398,7 +435,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/levada-do-paul-ii-um-caminho-para-todos/"
     },
     {
@@ -408,7 +445,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/levada-velha-do-rabacal/"
     },
     {
@@ -418,7 +455,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/vereda-do-pico-fernandes/"
     },
     {
@@ -428,7 +465,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/vereda-da-palha-carga/"
     },
     {

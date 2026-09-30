@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """One-off generator for the long-tail trail spoke pages.
 
-Builds a lightweight, live-status-first spoke page (en/fr/de/pl) for every PR
+Builds a lightweight, live-status-first spoke page (en/pt/fr/de/pl) for every PR
 trail that doesn't already have a hand-authored spoke. Facts (distance,
 difficulty, duration, altitude, start/end) are scraped from each trail's
 official Visit Madeira page so nothing is invented. Long-tail pages use a
@@ -43,7 +43,7 @@ PHOTOS = {
     "PR6.8": {"file": "levada-do-paul-ii-um-caminho-para-todos.jpg", "author": "Asurnipal", "lic": "CC BY-SA 4.0"},
 }
 PHOTO_CREDIT = {
-    "en": ("Photo", "resized"), "fr": ("Photo", "redimensionnée"),
+    "en": ("Photo", "resized"), "pt": ("Foto", "redimensionada"), "fr": ("Photo", "redimensionnée"),
     "de": ("Foto", "verkleinert"), "pl": ("Zdjęcie", "przeskalowane"),
 }
 
@@ -108,39 +108,48 @@ def scrape_facts(url):
 
 # ---- localised strings -------------------------------------------------------
 DIFF = {
-    "Easy":       {"en": "Easy", "fr": "Facile", "de": "Leicht", "pl": "Łatwa"},
-    "Moderate":   {"en": "Moderate", "fr": "Modérée", "de": "Mittel", "pl": "Umiarkowana"},
-    "Difficult":  {"en": "Hard", "fr": "Difficile", "de": "Schwer", "pl": "Trudna"},
-    "Hard":       {"en": "Hard", "fr": "Difficile", "de": "Schwer", "pl": "Trudna"},
+    "Easy":       {"en": "Easy", "pt": "Fácil", "fr": "Facile", "de": "Leicht", "pl": "Łatwa"},
+    "Moderate":   {"en": "Moderate", "pt": "Moderada", "fr": "Modérée", "de": "Mittel", "pl": "Umiarkowana"},
+    "Difficult":  {"en": "Hard", "pt": "Difícil", "fr": "Difficile", "de": "Schwer", "pl": "Trudna"},
+    "Hard":       {"en": "Hard", "pt": "Difícil", "fr": "Difficile", "de": "Schwer", "pl": "Trudna"},
 }
-OAB = {"en": "Out-and-back", "fr": "Aller-retour", "de": "Hin und zurück", "pl": "Tam i z powrotem"}
-P2P = {"en": "Point-to-point", "fr": "Point à point", "de": "Punkt zu Punkt", "pl": "Z punktu do punktu"}
-CIRC = {"en": "Circular", "fr": "Boucle", "de": "Rundweg", "pl": "Pętla"}
+OAB = {"en": "Out-and-back", "pt": "Ida e volta", "fr": "Aller-retour", "de": "Hin und zurück", "pl": "Tam i z powrotem"}
+P2P = {"en": "Point-to-point", "pt": "Linear", "fr": "Point à point", "de": "Punkt zu Punkt", "pl": "Z punktu do punktu"}
+CIRC = {"en": "Circular", "pt": "Circular", "fr": "Boucle", "de": "Rundweg", "pl": "Pętla"}
 TYP = {"oab": OAB, "circ": CIRC, "p2p": P2P}
 LBL = {
-    "distance":   {"en": "Distance", "fr": "Distance", "de": "Distanz", "pl": "Dystans"},
-    "time":       {"en": "Time", "fr": "Durée", "de": "Dauer", "pl": "Czas"},
-    "difficulty": {"en": "Difficulty", "fr": "Difficulté", "de": "Schwierigkeit", "pl": "Trudność"},
-    "altitude":   {"en": "Altitude", "fr": "Altitude", "de": "Höhe", "pl": "Wysokość"},
-    "route":      {"en": "Route", "fr": "Itinéraire", "de": "Strecke", "pl": "Trasa"},
-    "type":       {"en": "Type", "fr": "Type", "de": "Typ", "pl": "Typ"},
-    "fee":        {"en": "Fee", "fr": "Tarif", "de": "Gebühr", "pl": "Opłata"},
-    "facts":      {"en": "Trail facts", "fr": "Infos sur le sentier", "de": "Weg-Fakten", "pl": "Fakty o szlaku"},
-    "hours":      {"en": "h", "fr": "h", "de": "Std.", "pl": "godz."},
+    "distance":   {"en": "Distance", "pt": "Distância", "fr": "Distance", "de": "Distanz", "pl": "Dystans"},
+    "time":       {"en": "Time", "pt": "Duração", "fr": "Durée", "de": "Dauer", "pl": "Czas"},
+    "difficulty": {"en": "Difficulty", "pt": "Dificuldade", "fr": "Difficulté", "de": "Schwierigkeit", "pl": "Trudność"},
+    "altitude":   {"en": "Altitude", "pt": "Altitude", "fr": "Altitude", "de": "Höhe", "pl": "Wysokość"},
+    "route":      {"en": "Route", "pt": "Trajeto", "fr": "Itinéraire", "de": "Strecke", "pl": "Trasa"},
+    "type":       {"en": "Type", "pt": "Tipo", "fr": "Type", "de": "Typ", "pl": "Typ"},
+    "fee":        {"en": "Fee", "pt": "Taxa", "fr": "Tarif", "de": "Gebühr", "pl": "Opłata"},
+    "facts":      {"en": "Trail facts", "pt": "Dados do percurso", "fr": "Infos sur le sentier", "de": "Weg-Fakten", "pl": "Fakty o szlaku"},
+    "hours":      {"en": "h", "pt": "h", "fr": "h", "de": "Std.", "pl": "godz."},
 }
 BRAND = {
     "en": "Levadinho · Madeira trail answers",
+    "pt": "Levadinho · Respostas sobre os percursos da Madeira",
     "fr": "Levadinho · Réponses sur les sentiers de Madère",
     "de": "Levadinho · Antworten zu Madeiras Wanderwegen",
     "pl": "Levadinho · Odpowiedzi o szlakach Madery",
 }
-PREFIX = {"en": "", "fr": "/fr", "de": "/de", "pl": "/pl"}
-SEE = {"en": "See", "fr": "Voir", "de": "Siehe", "pl": "Zobacz"}
+LANGS = ("en", "pt", "fr", "de", "pl")   # switcher / hreflang order
+PREFIX = {"en": "", "pt": "/pt", "fr": "/fr", "de": "/de", "pl": "/pl"}
+SEE = {"en": "See", "pt": "Veja", "fr": "Voir", "de": "Siehe", "pl": "Zobacz"}
+
+
+def pt_g(name):
+    """European Portuguese article forms for a trail name: Vereda/Levada are
+    feminine, Caminho/Glaciar masculine. Returns (Art, art, de+art, adj ending)."""
+    fem = name.split()[0].lower() in ("vereda", "levada")
+    return ("A", "a", "da", "a") if fem else ("O", "o", "do", "o")
 
 
 def T(lang, code, name, f, linear, start, end, typ):
     """Return a dict of every localised text slot for one language."""
-    allt = {"en": "all Madeira trails", "fr": "tous les sentiers de Madère",
+    allt = {"en": "all Madeira trails", "pt": "todos os percursos da Madeira", "fr": "tous les sentiers de Madère",
             "de": "alle Wanderwege Madeiras", "pl": "wszystkie szlaki Madery"}[lang]
     route = f"{start} → {end}" if (linear and start and end) else (start or "—")
     d = {}
@@ -170,7 +179,36 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>It's out-and-back.</b> Turn around with enough time and daylight to walk out the way you came."),
                 "<b>Check the live badge the morning you go.</b> Mountain trails close fast for weather, rockfall or works.",
             ],
-            footer="Status compiled each morning from <a href='https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/' rel='noopener'>Visit Madeira</a> / <a href='https://ifcn.madeira.gov.pt/' rel='noopener'>IFCN</a> and <a href='https://simplifica.madeira.gov.pt/' rel='noopener'>SIMplifica</a>, with weather from <a href='https://www.ipma.pt/' rel='noopener'>IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.",
+            footer="Status compiled each morning from <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> and <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, with weather from <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.",
+        )
+    elif lang == "pt":
+        A, a, da, o = pt_g(name)
+        d.update(
+            title=f"{A} {name} está abert{o} hoje? {name} ({code}): estado e reserva",
+            desc=f"Estado em direto {da} {name} ({code}) — está abert{o} hoje? Como reservar a vaga de 4,50 € no SIMplifica, os dados do percurso e alternativas abertas se estiver fechad{o}.",
+            h1=f"{A} {name} está abert{o} hoje?",
+            sub=f"{name} ({code}) — um percurso PR pago e só com reserva. Verificado todas as manhãs com base no estado oficial do IFCN.",
+            loading="O estado do percurso é verificado todas as manhãs com base na informação oficial da Visit Madeira / IFCN e mostrado aqui como indicador em direto (requer JavaScript). Se não aparecer, consulte as fontes oficiais indicadas abaixo.",
+            book_h=f'<span class="q">Reserve.</span> O {code} no SIMplifica',
+            book=(f"Assim que aparecer como aberto, reserve com antecedência a sua <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">vaga de 4,50 € no SIMplifica</a>. "
+                  f"Menores de 12 anos e residentes não pagam, mas têm de constar nominalmente da reserva. O {code} paga-se numa reserva própria e <b>não está incluído</b> nos passes de vários dias — confirme o estado em direto acima antes de pagar."),
+            gt_h=f'<span class="q">Como chegar.</span> Início e fim',
+            gt=(f"{A} {name} vai de <b>{start}</b> até <b>{end}</b>. É um percurso linear, por isso não termina onde estacionou — trate primeiro do regresso (dois carros, um táxi reservado ou uma caminhada guiada com transporte incluído)."
+                if linear and start and end else
+                f"{A} {name} começa e termina " + (f"em <b>{start}</b>" if start else "no mesmo ponto de partida") + ", por isso regressa pelo mesmo caminho — não há transporte de regresso a organizar."),
+            gt_fact="É uma longa viagem de montanha a partir da costa, sem loja nem rede fiável na maioria dos pontos de partida. Leve água, roupa quente e impermeável e uma lanterna — o tempo muda depressa em altitude.",
+            cl_h=f'<span class="q">Fechado ou esgotado?</span> As suas opções',
+            cl=(f"Se o IFCN fechar o {code} (mau tempo, derrocada, obras) ou se não conseguir vaga: <b>reagende</b> através da linha de apoio do SIMplifica antes da data — pode alterar livremente a data e a hora, e trocar de percurso apenas se o seu tiver sido oficialmente fechado. "
+                f"Para alternativas abertas, <a class=\"plain\" href=\"{PREFIX[lang]}/\">consulte o quadro em direto</a>."),
+            kn_h="Antes de ir",
+            kn=[
+                "<b>Só com reserva.</b> Percorrer um percurso PR pago sem bilhete SIMplifica válido é uma infração, com coimas noticiadas até 250 €.",
+                ("<b>Não é circular.</b> Termina noutro local — trate do regresso antes de partir."
+                 if linear and start and end else
+                 "<b>É de ida e volta.</b> Dê meia-volta com tempo e luz do dia suficientes para regressar pelo mesmo caminho."),
+                "<b>Confirme o indicador em direto na manhã em que for.</b> Os percursos de montanha fecham depressa por mau tempo, queda de pedras ou obras.",
+            ],
+            footer="Estado compilado todas as manhãs a partir da <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> e do <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, com meteorologia do <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Independente — sem ligação ao Governo Regional da Madeira. As condições mudam depressa na montanha; use sempre o seu próprio discernimento no percurso.",
         )
     elif lang == "fr":
         d.update(
@@ -198,7 +236,7 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>C'est un aller-retour.</b> Faites demi-tour avec assez de temps et de lumière pour revenir par le même chemin."),
                 "<b>Vérifiez le badge en direct le matin même.</b> Les sentiers de montagne ferment vite pour météo, chutes de pierres ou travaux.",
             ],
-            footer="Statut compilé chaque matin à partir de <a href='https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/' rel='noopener'>Visit Madeira</a> / <a href='https://ifcn.madeira.gov.pt/' rel='noopener'>IFCN</a> et de <a href='https://simplifica.madeira.gov.pt/' rel='noopener'>SIMplifica</a>, avec la météo de l'<a href='https://www.ipma.pt/' rel='noopener'>IPMA</a>. Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.",
+            footer="Statut compilé chaque matin à partir de <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> et de <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, avec la météo de l'<a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.",
         )
     elif lang == "de":
         d.update(
@@ -226,7 +264,7 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>Hin und zurück.</b> Drehen Sie mit genug Zeit und Tageslicht um, um denselben Weg zurückzugehen."),
                 "<b>Prüfen Sie das Live-Abzeichen am Morgen Ihrer Tour.</b> Bergwege werden schnell wegen Wetter, Steinschlag oder Arbeiten gesperrt.",
             ],
-            footer="Status jeden Morgen aus <a href='https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/' rel='noopener'>Visit Madeira</a> / <a href='https://ifcn.madeira.gov.pt/' rel='noopener'>IFCN</a> und <a href='https://simplifica.madeira.gov.pt/' rel='noopener'>SIMplifica</a> zusammengestellt, mit Wetter von <a href='https://www.ipma.pt/' rel='noopener'>IPMA</a>. Unabhängig — nicht mit der Regionalregierung von Madeira verbunden. Die Bedingungen ändern sich in den Bergen schnell; verlassen Sie sich auf dem Weg immer auf Ihr eigenes Urteil.",
+            footer="Status jeden Morgen aus <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> und <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a> zusammengestellt, mit Wetter von <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Unabhängig — nicht mit der Regionalregierung von Madeira verbunden. Die Bedingungen ändern sich in den Bergen schnell; verlassen Sie sich auf dem Weg immer auf Ihr eigenes Urteil.",
         )
     else:  # pl
         d.update(
@@ -254,7 +292,7 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>Trasa tam i z powrotem.</b> Zawracaj z zapasem czasu i światła, by wrócić tą samą drogą."),
                 "<b>Sprawdź plakietkę na żywo w dniu wyjścia.</b> Górskie szlaki szybko zamyka się z powodu pogody, obrywów lub prac.",
             ],
-            footer="Status zestawiany każdego ranka z <a href='https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/' rel='noopener'>Visit Madeira</a> / <a href='https://ifcn.madeira.gov.pt/' rel='noopener'>IFCN</a> i <a href='https://simplifica.madeira.gov.pt/' rel='noopener'>SIMplifica</a>, z pogodą z <a href='https://www.ipma.pt/' rel='noopener'>IPMA</a>. Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.",
+            footer="Status zestawiany każdego ranka z <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> i <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, z pogodą z <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.",
         )
     d["typ"] = typ
     d["route"] = route
@@ -329,7 +367,7 @@ def facts_rows(lang, f, linear, typ):
     if linear and f.get("start") and f.get("end"):
         rows.append((LBL["route"][lang], f'{f["start"]} → {f["end"]}'))
     rows.append((LBL["type"][lang], typ))
-    rows.append((LBL["fee"][lang], "€4.50"))
+    rows.append((LBL["fee"][lang], "4,50 €" if lang == "pt" else "€4.50"))
     return "".join(f"    <dt>{k}</dt><dd>{v}</dd>\n" for k, v in rows)
 
 
@@ -341,7 +379,7 @@ def build(lang, code, name, slug, f, linear, typ):
         hero_rule = (f".hero{{height:210px;background:#20573a url(/img/{photo['file']}) center/cover}}\n"
                      "@media (max-width:640px){.hero{height:150px}}")
         word, resized = PHOTO_CREDIT[lang]
-        lic = photo["lic"] + (" (public domain)" if photo["lic"] == "CC0" else "")
+        lic = photo["lic"] + ((" (domínio público)" if lang == "pt" else " (public domain)") if photo["lic"] == "CC0" else "")
         sep = " :" if lang == "fr" else ":"
         footer_extra = (f'\n  <p style="margin-top:6px">{word}{sep} {photo["author"]}, '
                         f'<a href="https://commons.wikimedia.org/wiki/Main_Page" target="_blank" rel="noopener">Wikimedia Commons</a>, {lic}, {resized}.</p>')
@@ -351,11 +389,11 @@ def build(lang, code, name, slug, f, linear, typ):
     canon = f"https://levadinho-madeira.com{PREFIX[lang]}/{slug}/"
     alts = "\n".join(
         f'<link rel="alternate" hreflang="{hl}" href="https://levadinho-madeira.com{PREFIX[hl]}/{slug}/">'
-        for hl in ("en", "fr", "de", "pl")
+        for hl in LANGS
     ) + f'\n<link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/{slug}/">'
     langnav = "\n".join(
         f'    <a href="{PREFIX[hl]}/{slug}/" hreflang="{hl}"{" aria-current=\"page\"" if hl==lang else ""}>{hl.upper()}</a>'
-        for hl in ("en", "fr", "de", "pl")
+        for hl in LANGS
     )
     faq = {
         "@context": "https://schema.org", "@type": "FAQPage",
@@ -484,6 +522,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
 
 def _faq_open(lang, name, code):
     return {
+        "pt": "O estado de hoje aparece em direto no topo desta página, atualizado todas as manhãs a partir da informação oficial do IFCN / Visit Madeira. {} {} ({}) é um percurso PR pago e só com reserva; o acesso custa 4,50 € através do portal SIMplifica.".format(pt_g(name)[0], name, code),
         "en": f"Today's status is shown live at the top of this page, updated each morning from official IFCN / Visit Madeira information. {name} ({code}) is a paid, booking-only PR trail; access is €4.50 through the SIMplifica portal.",
         "fr": f"Le statut du jour est affiché en direct en haut de cette page, mis à jour chaque matin à partir des informations officielles de l'IFCN / Visit Madeira. La {name} ({code}) est un sentier PR payant, sur réservation ; l'accès coûte 4,50 € via le portail SIMplifica.",
         "de": f"Der heutige Status wird live oben auf dieser Seite angezeigt und jeden Morgen aus offiziellen IFCN- / Visit-Madeira-Informationen aktualisiert. Die {name} ({code}) ist ein kostenpflichtiger PR-Weg nur mit Buchung; der Zugang kostet 4,50 € über das SIMplifica-Portal.",
@@ -494,6 +533,7 @@ def _faq_open(lang, name, code):
 def _faq_book_q(lang, name):
     return {
         "en": f"Do you need to book the {name}?",
+        "pt": f"É preciso reservar {pt_g(name)[1]} {name}?",
         "fr": f"Faut-il réserver pour la {name} ?",
         "de": f"Muss man die {name} buchen?",
         "pl": f"Czy trzeba rezerwować {name}?",
@@ -502,6 +542,7 @@ def _faq_book_q(lang, name):
 
 def _faq_book_a(lang, code):
     return {
+        "pt": f"Sim. O {code} exige reserva antecipada e pagamento de 4,50 € através do SIMplifica. Menores de 12 anos e residentes não pagam, mas têm de constar nominalmente da reserva.",
         "en": f"Yes. {code} requires an advance booking and €4.50 payment through SIMplifica. Under-12s and residents are free but must still be named on the booking.",
         "fr": f"Oui. Le {code} exige une réservation à l'avance et un paiement de 4,50 € via SIMplifica. Les moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation.",
         "de": f"Ja. Für den {code} sind eine Vorausbuchung und eine Zahlung von 4,50 € über SIMplifica erforderlich. Kinder unter 12 und Einwohner sind frei, müssen aber namentlich in der Buchung stehen.",
@@ -535,22 +576,22 @@ def main():
         linear = kind == "p2p"          # "one-way": you don't finish where you started
         slug = slugify(name)
         pages_map[code] = f"/{slug}/"
-        for lang in ("en", "fr", "de", "pl"):
+        for lang in LANGS:
             d = os.path.join(ROOT, PREFIX[lang].lstrip("/"), slug) if PREFIX[lang] else os.path.join(ROOT, slug)
             os.makedirs(d, exist_ok=True)
             open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(build(lang, code, name, slug, f, linear, TYP[kind][lang]))
-        for lang in ("en", "fr", "de", "pl"):
+        for lang in LANGS:
             loc = f"https://levadinho-madeira.com{PREFIX[lang]}/{slug}/"
             block = [f"  <url>", f"    <loc>{loc}</loc>", f"    <lastmod>2026-07-08</lastmod>",
                      f"    <changefreq>daily</changefreq>", f"    <priority>0.7</priority>"]
-            for hl in ("en", "fr", "de", "pl"):
+            for hl in LANGS:
                 block.append(f'    <xhtml:link rel="alternate" hreflang="{hl}" href="https://levadinho-madeira.com{PREFIX[hl]}/{slug}/"/>')
             block.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/{slug}/"/>')
             block.append("  </url>")
             sitemap_blocks.append("\n".join(block))
         summary.append((code, kind, f.get("distance", "?"), f.get("duration", "?"), f.get("difficulty", "-")))
     json.dump({"pages": pages_map, "sitemap": sitemap_blocks}, open("/tmp/gen_out.json", "w"))
-    print(f"\nGenerated {len(pages_map)} trails × 4 langs = {len(pages_map)*4} pages")
+    print(f"\nGenerated {len(pages_map)} trails × {len(LANGS)} langs = {len(pages_map)*len(LANGS)} pages")
     for row in summary:
         print("  ", row)
     # The pages were just rewritten from scratch: put the nav, breadcrumbs and

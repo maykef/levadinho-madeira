@@ -13,6 +13,11 @@ Flow:
   - "idioma" / "language" / "langue" / "sprache" / "język" → picker again.
   - A campaign QR pre-fills "Olá Levadinho! 👋 #<tag>" → picker → welcome + that route's guide link.
   - "guide" / "guia"… → WhatsApp's Send location button; a location pin → the nearby route's link.
+  - A website link pre-fills "Olá Levadinho! 👋 #web-<page>" → recorded as that campaign (source), but
+    the normal picker → notice → intro flow (no guide link).
+  - The model may be asleep (wake-on-demand, llm_control.py): llm() then raises LLMDown and app.py
+    queues the message and tells the visitor (WAKING / BUSY). Everything that doesn't need the model
+    (picker, notice, language choice, campaign guide links, locations) works without it.
   - Privacy notice: nothing is answered until the visitor taps Accept (after the language pick, or
     straight away if the first message is a question, which is answered right after Accept). "Don't
     accept" stops the service; app.py then keeps only an anonymous count. "privacy" / "privacidade"…
@@ -22,9 +27,11 @@ import json
 import os
 import re
 import time
+import urllib.error
 import urllib.request
 
 import geo
+import llm_control
 import store
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -77,6 +84,15 @@ TEXT_ONLY = {
 GUIDE_URL = os.environ.get("GUIDE_URL", "https://microscopy-rig-system.tail53cc58.ts.net/levadinho/guide/")
 AREEIRO = (32.73549, -16.92880)  # PR1 start, from the official Visit Madeira page (trail_facts.json)
 CAMPAIGNS = {"ely": "ely-test", "areeiro": "pr1"}  # QR tag → guide route
+WEB_TAG = re.compile(r"web-[a-z0-9-]{1,40}")  # website link tags (#web-pr1, #web-fees…): a source, not a route
+
+
+def is_web_tag(tag):
+    return bool(tag) and bool(WEB_TAG.fullmatch(tag))
+
+
+def known_tag(tag):
+    return tag in CAMPAIGNS or is_web_tag(tag)
 NEAR_M = 3000  # a route's guide is offered when the visitor is this close to its start
 GUIDE_WORDS = {"guide": None, "audio guide": None, "audioguide": None, "guide audio": "fr",
                "guia": "pt", "guia audio": "pt", "guia áudio": "pt", "audioguia": "pt",
@@ -194,6 +210,54 @@ CONSENT_WITHDRAWN = {
           "Aby usunąć to, co już zapisano, napisz na hello@levadinho-madeira.com.",
 }
 
+# ---------------------------------------------------------------- wake-on-demand notices
+WAKING = {
+    "pt": "O Levadinho está a acordar. Dê-me cerca de 2 minutos 🥾",
+    "en": "Levadinho is waking up. Give me about 2 minutes 🥾",
+    "fr": "Levadinho se réveille. Laissez-moi environ 2 minutes 🥾",
+    "de": "Levadinho wacht gerade auf. Gib mir etwa 2 Minuten 🥾",
+    "pl": "Levadinho właśnie się budzi. Daj mi około 2 minut 🥾",
+}
+BUSY = {
+    "pt": "O Levadinho está muito ocupado neste momento. Escrevo-lhe aqui assim que estiver livre.",
+    "en": "Levadinho is very busy right now. I'll message you here as soon as I'm free.",
+    "fr": "Levadinho est très occupé en ce moment. Je vous écris ici dès que je suis libre.",
+    "de": "Levadinho ist gerade sehr beschäftigt. Ich schreibe dir hier, sobald ich frei bin.",
+    "pl": "Levadinho jest teraz bardzo zajęty. Napiszę do Ciebie tutaj, gdy tylko będę wolny.",
+}
+_LANG_HINTS = {  # a rough guess, only for the wake/busy notice (the model decides the answer's language)
+    "pt": {"olá", "ola", "está", "esta", "aberto", "hoje", "bilhete", "bilhetes", "obrigado", "obrigada", "trilho",
+           "não", "como", "onde", "quanto", "posso", "percurso", "bom", "dia", "tempo", "você", "vocês"},
+    "en": {"is", "the", "open", "today", "how", "where", "what", "when", "can", "hello", "hi", "ticket", "tickets",
+           "trail", "thanks", "do", "i", "you", "weather", "much"},
+    "fr": {"est", "le", "la", "les", "ouvert", "aujourd'hui", "bonjour", "comment", "où", "quand", "billet",
+           "sentier", "merci", "je", "vous", "combien", "est-ce", "il"},
+    "de": {"ist", "der", "die", "das", "heute", "offen", "geöffnet", "wie", "wo", "wann", "hallo", "danke", "ich",
+           "wanderweg", "karte", "tickets", "kann", "man", "und"},
+    "pl": {"czy", "jest", "dziś", "dzisiaj", "otwarty", "jak", "gdzie", "kiedy", "cześć", "dzień", "dobry",
+           "bilet", "szlak", "dziękuję", "ile", "można", "mogę"},
+}
+
+
+def guess_lang(text):
+    t = (text or "").lower()
+    if re.search(r"[łąęśżźńć]", t):
+        return "pl"
+    if re.search(r"[äöüß]", t):
+        return "de"
+    if re.search(r"[ãõ]", t):
+        return "pt"
+    words = set(re.findall(r"[\w'-]+", t))
+    scores = {lang: len(words & hints) for lang, hints in _LANG_HINTS.items()}
+    best = max(scores, key=scores.get)
+    return best if scores[best] else None
+
+
+def notice_lang(user, text=None):
+    """Language for the wake/busy notice: a guess from the message, else the chosen language, else English."""
+    return guess_lang(text) or (store.get_user(user) or {}).get("lang") or "en"
+
+
 TEXT_ERROR = ("Desculpe, algo correu mal. Tente de novo daqui a um minuto. · "
               "Sorry, something went wrong — please try again in a minute.")
 
@@ -239,14 +303,27 @@ def status_block():
 
 
 # ---------------------------------------------------------------- LLM
+class LLMDown(Exception):
+    """The model isn't running (wake-on-demand): app.py queues the message and wakes it."""
+
+
 def llm(messages, max_tokens=700, schema=None, temperature=0.3):
+    if llm_control.ON_DEMAND and not llm_control.is_up():
+        raise LLMDown()
     body = {"model": LLM_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": temperature,
             "chat_template_kwargs": {"enable_thinking": False}}
     if schema:
         body["response_format"] = {"type": "json_schema", "json_schema": {"name": "out", "schema": schema}}
     req = urllib.request.Request(LLM_URL, data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        return json.load(r)["choices"][0]["message"]["content"].strip()
+    try:
+        with urllib.request.urlopen(req, timeout=120) as r:
+            return json.load(r)["choices"][0]["message"]["content"].strip()
+    except (ConnectionError, urllib.error.URLError) as e:
+        reason = getattr(e, "reason", e)
+        if llm_control.ON_DEMAND and isinstance(reason, ConnectionError):  # refused / reset: it just went down
+            llm_control.mark_down()
+            raise LLMDown() from e
+        raise
 
 
 INTENTS = ["status", "booking", "fees", "transport", "weather", "safety", "route_info", "alternatives",
@@ -361,14 +438,24 @@ def handle_consent(user, yes, meta=None):
     if kind == "c" and arg in CAMPAIGNS:
         meta["campaign"] = arg
         return [welcome(user, CAMPAIGNS[arg], lang, meta, campaign=arg)]
+    if kind == "c" and is_web_tag(arg):  # came from a website link: a source only, no guide link
+        meta["campaign"] = arg
+        return [{"type": "text", "body": INTRO[lang]}]
     if kind == "q" and arg:  # the question they asked before accepting
-        c = classify(arg)
+        try:
+            c = classify(arg)
+            reply = answer(user, arg, c["lang"], meta)
+        except LLMDown:  # the model is asleep: the acceptance stands, app.py queues the question
+            meta["deferred_question"] = arg
+            meta.pop("answer", None)
+            meta["events"] = [e for e in meta["events"] if e[0] != "answer_sent"]
+            return []
         meta.update(is_question=True, intent=c["intent"], topic=c["topic"], trail=c["trail_code"])
         meta["events"].append(("question_asked", {"lang": c["lang"], "intent": c["intent"], "topic": c["topic"],
                                                   "trail_code": c["trail_code"],
                                                   "trail_status": str(live_status().get("status", ""))}))
         meta["resumed_question"] = arg
-        return [{"type": "text", "body": answer(user, arg, c["lang"], meta)}]
+        return [{"type": "text", "body": reply}]
     return [{"type": "text", "body": INTRO[lang]}]
 
 
@@ -441,10 +528,11 @@ def handle(user, text=None, choice=None, meta=None):
         store.set_user(user, lang=choice, state="ready")
         meta["lang"] = choice
         meta["events"].append(("language_selected", {"lang": choice, "campaign": tag or None}))
-        if not accepted(user):
-            return [consent_prompt(user, choice, f"c:{tag}" if tag in CAMPAIGNS else "")]
-        if tag in CAMPAIGNS:
+        if known_tag(tag):
             meta["campaign"] = tag
+        if not accepted(user):
+            return [consent_prompt(user, choice, f"c:{tag}" if known_tag(tag) else "")]
+        if tag in CAMPAIGNS:
             return [welcome(user, CAMPAIGNS[tag], choice, meta, campaign=tag)]
         return [{"type": "text", "body": INTRO[choice]}]
 
@@ -452,13 +540,14 @@ def handle(user, text=None, choice=None, meta=None):
     if not text:
         return [picker()] if not u or not u.get("lang") else []
 
-    # The QR code's pre-filled greeting always (re)opens the picker — also for returning visitors.
-    if "levadinho" in text.lower() and len(text) <= 40 and "?" not in text:
-        tag = re.search(r"#([a-z0-9-]+)", text.lower())
-        tag = tag.group(1) if tag and tag.group(1) in CAMPAIGNS else ""
+    # The QR code's / website link's pre-filled greeting always (re)opens the picker — also for
+    # returning visitors. The #tag doesn't count towards the length limit.
+    tag = re.search(r"#([a-z0-9-]+)", text.lower())
+    if "levadinho" in text.lower() and len(re.sub(r"#[\w-]+", "", text).strip()) <= 40 and "?" not in text:
+        tag = tag.group(1) if tag and known_tag(tag.group(1)) else ""
         store.set_user(user, state=f"picking:{tag}" if tag else "picking")
         meta["campaign"] = tag or None
-        meta["events"].append(("qr_scanned", {"campaign": tag or None}))
+        meta["events"].append(("qr_scanned", {"campaign": tag or None, "source": "web" if is_web_tag(tag) else "qr"}))
         return [picker()]
 
     if text.lower().strip(" !?.") in CHANGE_WORDS:

@@ -11,6 +11,12 @@ Config (bot/.env, never committed):
   WA_PHONE_NUMBER_ID  the bot number's Phone number ID
   WA_APP_SECRET       App settings → Basic → App secret (verifies X-Hub-Signature-256)
   WA_VERIFY_TOKEN     any string you choose; paste the same one into Meta's webhook form
+  LLM_ON_DEMAND, LLM_AUTO_STOP, LLM_IDLE_MIN, LLM_GPU_FREE_GB   wake-on-demand, see llm_control.py
+
+Wake-on-demand: the webhook runs all the time; the model is started when a message needs it and
+stopped when idle. A message that needs the model while it's down is queued (store.py `pending`):
+the visitor gets WAKING (GPU free, model starting) or BUSY (GPU used by another job; we write back
+when it frees, inside WhatsApp's 24-hour window only). The waiter thread replays the queue.
 
 Run:  cd bot && uvicorn app:app --host 127.0.0.1 --port 5020
 """
@@ -39,6 +45,7 @@ if os.path.exists(env_path):
 import brain  # noqa: E402  (after .env so LLM_URL etc. can be overridden there)
 import analytics  # noqa: E402  (permanent, pseudonymous record in Postgres; fail-soft)
 import geo  # noqa: E402
+import llm_control  # noqa: E402
 import store  # noqa: E402
 
 WA_TOKEN = os.environ.get("WA_TOKEN", "")
@@ -84,12 +91,22 @@ def to_whatsapp(to, msg):
     return {**base, "type": "text", "text": {"body": msg["body"], "preview_url": False}}
 
 
-def process(message):
+WINDOW_S = 24 * 3600 - 120  # WhatsApp's customer-service window, with a little margin
+
+
+def process(message, replay=None):
+    """One incoming WhatsApp message → replies + analytics record. `replay` is set when the waiter
+    runs a message that was queued while the model was asleep (the stored pending payload)."""
     sender = message["from"]
     kind = message.get("type")
-    log.info("incoming %s from …%s", kind, sender[-4:])
+    log.info("%s %s from …%s", "replaying" if replay else "incoming", kind, sender[-4:])
     meta = {"events": []}
-    new_visitor = store.get_user(sender) is None
+    if replay is None:
+        llm_control.touch()
+        store.note_inbound(sender)
+        new_visitor = store.get_user(sender) is None
+    else:
+        new_visitor = replay.get("new_visitor", False)
     in_text, in_kind, pin = None, kind, None
     try:
         if kind == "request_welcome":  # visitor opened the chat for the first time (Meta welcome message)
@@ -114,12 +131,69 @@ def process(message):
             meta["lang"] = lang
             meta["events"].append(("non_text_received", {"kind": kind, "lang": lang}))
             out = [{"type": "text", "body": brain.TEXT_ONLY[lang]}]
+    except brain.LLMDown:
+        # Nothing is recorded yet: the exchange is recorded whole when it's replayed (or expires).
+        notice = defer(sender, message, new_visitor, replay)
+        if notice:
+            graph_post(to_whatsapp(sender, notice))
+        return
     except Exception:
         log.exception("failed to handle message from %s", sender[-4:])
         out = [{"type": "text", "body": brain.TEXT_ERROR}]
+    if meta.get("deferred_question"):  # accepted the notice; the question asked before waits for the model
+        synthetic = {"from": sender, "type": "text", "id": f"deferred-{message.get('id', '')}",
+                     "text": {"body": meta["deferred_question"]}}
+        notice = defer(sender, synthetic, False, keep_notice=False)  # the notice is recorded with this exchange
+        out = out + [notice] if notice else out
     for msg in out:
         graph_post(to_whatsapp(sender, msg))
-    record(sender, new_visitor, in_kind, in_text, pin, meta, out)
+    prior = (replay or {}).get("notice")  # the wake/busy notice sent when this message was queued
+    record(sender, new_visitor, in_kind, in_text, pin, meta, ([prior] if prior else []) + out)
+
+
+def defer(sender, message, new_visitor, replay=None, keep_notice=True):
+    """Queue a message that needs the sleeping model; start the model if the GPU has room.
+    → the notice to send now (WAKING / BUSY), or None if this visitor was already told.
+    keep_notice: store the notice with the message, so it's recorded when the message is."""
+    already = store.has_pending(sender) or replay is not None
+    st = llm_control.state()
+    if st == "free":
+        st = llm_control.start()
+    reason = "busy" if st == "busy" else "wake"
+    lang = brain.notice_lang(sender, (message.get("text") or {}).get("body"))
+    notice = None if already else {"type": "text", "body": (brain.BUSY if reason == "busy" else brain.WAKING)[lang]}
+    store.queue_pending(sender, reason, {
+        "message": message, "new_visitor": new_visitor,
+        "notice": (notice if keep_notice else None) if notice else (replay or {}).get("notice")})
+    log.info("queued %s from …%s (%s, model %s)", message.get("type"), sender[-4:], reason, st)
+    return notice
+
+
+def drain(up):
+    """Waiter pass: drop queued messages outside WhatsApp's 24-hour window; if the model is up,
+    replay the rest, oldest first."""
+    for row in store.pending_all():
+        p, user = row["payload"], row["user"]
+        last = store.last_inbound(user) or row["at"]
+        if time.time() - last > WINDOW_S:
+            store.drop_pending(row["id"])
+            log.warning("dropped a queued message from …%s: outside the 24 h window (%s)", user[-4:], row["reason"])
+            msg = p["message"]
+            lang = (store.get_user(user) or {}).get("lang")
+            record(user, p.get("new_visitor", False), msg.get("type"), (msg.get("text") or {}).get("body"), None,
+                   {"events": [], "lang": lang}, [p["notice"]] if p.get("notice") else [])
+            continue
+        if up:
+            store.drop_pending(row["id"])
+            process(p["message"], replay=p)
+
+
+@app.on_event("startup")
+def start_waiter():
+    if llm_control.ON_DEMAND:
+        llm_control.run_waiter(store.has_pending, drain)
+        log.info("wake-on-demand on: model %s, idle stop after %s min (auto-stop %s)",
+                 llm_control.state(), llm_control.IDLE_MIN, llm_control.AUTO_STOP)
 
 
 def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
