@@ -16,8 +16,13 @@
     "wind_kmh": 10,
     "wind_strong": false
   },
-  "stamp": "2026-09-30 13:41",
+  "stamp": "2026-09-30 13:52",
   "date": "2026-09-30",
+  "source": {
+    "name": "IFCN",
+    "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
+    "updated": "14/09/2026"
+  },
   "counts": {
     "OPEN": 29,
     "PARTIAL": 4,

@@ -76,6 +76,7 @@ import zoneinfo
 
 import requests
 
+IFCN_UPDATED = ""   # the "ATUALIZADO: dd/mm/yyyy" date printed on the IFCN page, set by ifcn_statuses()
 IFCN_AVISOS = ("https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos"
                "&catid=146:avisos")
 # Secondary source, used only for a PAGES trail that IFCN's lists omit.
@@ -293,6 +294,10 @@ def ifcn_statuses():
 
     upd = re.search(r"ATUALIZADO:\s*(\d{1,2}/\d{1,2}/\d{4})", page)
     print(f"IFCN avisos page: ATUALIZADO {upd.group(1) if upd else '(no date found)'}", file=sys.stderr)
+    # IFCN is the authority and doesn't update the list daily: publish its own date, in its own
+    # wording, so the site never implies a fresher status than IFCN's ("ATUALIZADO: 14/09/2026").
+    global IFCN_UPDATED
+    IFCN_UPDATED = upd.group(1) if upd else ""
 
     # entries[code] = list of (status, label, name, qualifier)
     entries = {}
@@ -654,24 +659,24 @@ def bump_date_modified(when):
 # (all-trail counts, used on the homepages). The inner text is replaced by a short
 # plain line in the page's <html lang>. No markers anywhere = no-op.
 STATIC_I18N = {
-    "en": {"on": "Status on {d}:", "st": {"OPEN": "OPEN", "PARTIAL": "PARTLY OPEN", "CLOSED": "CLOSED"},
-           "board": "Trail status on {d}: {o} open, {p} partly open, {c} closed (source: IFCN).",
+    "en": {"on": "Official IFCN list (updated {d}):", "st": {"OPEN": "OPEN", "PARTIAL": "PARTLY OPEN", "CLOSED": "CLOSED"},
+           "board": "Official IFCN list (updated {d}): {o} trails open, {p} partly open, {c} closed.",
            "months": ["January", "February", "March", "April", "May", "June", "July", "August",
                       "September", "October", "November", "December"], "date": "{day} {month} {year}"},
-    "pt": {"on": "Estado a {d}:", "st": {"OPEN": "ABERTO", "PARTIAL": "PARCIALMENTE ABERTO", "CLOSED": "ENCERRADO"},
-           "board": "Estado dos percursos a {d}: {o} abertos, {p} parcialmente abertos, {c} encerrados (fonte: IFCN).",
+    "pt": {"on": "Lista oficial do IFCN (atualizado: {d}):", "st": {"OPEN": "ABERTO", "PARTIAL": "PARCIALMENTE ABERTO", "CLOSED": "ENCERRADO"},
+           "board": "Lista oficial do IFCN (atualizado: {d}): {o} percursos abertos, {p} parcialmente abertos, {c} encerrados.",
            "months": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
                       "setembro", "outubro", "novembro", "dezembro"], "date": "{day} de {month} de {year}"},
-    "fr": {"on": "État au {d} :", "st": {"OPEN": "OUVERT", "PARTIAL": "PARTIELLEMENT OUVERT", "CLOSED": "FERMÉ"},
-           "board": "État des sentiers au {d} : {o} ouverts, {p} partiellement ouverts, {c} fermés (source : IFCN).",
+    "fr": {"on": "Liste officielle de l'IFCN (mise à jour : {d}) :", "st": {"OPEN": "OUVERT", "PARTIAL": "PARTIELLEMENT OUVERT", "CLOSED": "FERMÉ"},
+           "board": "Liste officielle de l'IFCN (mise à jour : {d}) : {o} sentiers ouverts, {p} partiellement ouverts, {c} fermés.",
            "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
                       "septembre", "octobre", "novembre", "décembre"], "date": "{day} {month} {year}"},
-    "de": {"on": "Status am {d}:", "st": {"OPEN": "GEÖFFNET", "PARTIAL": "TEILWEISE GEÖFFNET", "CLOSED": "GESCHLOSSEN"},
-           "board": "Wegstatus am {d}: {o} geöffnet, {p} teilweise geöffnet, {c} geschlossen (Quelle: IFCN).",
+    "de": {"on": "Offizielle IFCN-Liste (aktualisiert: {d}):", "st": {"OPEN": "GEÖFFNET", "PARTIAL": "TEILWEISE GEÖFFNET", "CLOSED": "GESCHLOSSEN"},
+           "board": "Offizielle IFCN-Liste (aktualisiert: {d}): {o} Wege geöffnet, {p} teilweise geöffnet, {c} geschlossen.",
            "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August",
                       "September", "Oktober", "November", "Dezember"], "date": "{day}. {month} {year}"},
-    "pl": {"on": "Stan na {d}:", "st": {"OPEN": "OTWARTY", "PARTIAL": "CZĘŚCIOWO OTWARTY", "CLOSED": "ZAMKNIĘTY"},
-           "board": "Stan szlaków na {d}: otwarte {o}, częściowo otwarte {p}, zamknięte {c} (źródło: IFCN).",
+    "pl": {"on": "Oficjalna lista IFCN (aktualizacja: {d}):", "st": {"OPEN": "OTWARTY", "PARTIAL": "CZĘŚCIOWO OTWARTY", "CLOSED": "ZAMKNIĘTY"},
+           "board": "Oficjalna lista IFCN (aktualizacja: {d}): otwarte {o}, częściowo otwarte {p}, zamknięte {c}.",
            "months": ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia",
                       "września", "października", "listopada", "grudnia"], "date": "{day} {month} {year}"},
 }
@@ -712,6 +717,10 @@ def static_line(trail, lang, date):
 
 
 def _fmt_date(date, L):
+    """IFCN's own "ATUALIZADO" date (dd/mm/yyyy, as IFCN prints it) when known — the site never
+    implies a fresher status than the authority's; otherwise our check date."""
+    if IFCN_UPDATED:
+        return IFCN_UPDATED
     return L["date"].format(day=date.day, month=L["months"][date.month - 1], year=date.year)
 
 
@@ -809,6 +818,8 @@ def main():
         "weather": weather,
         "stamp": stamp,
         "date": today,
+        # The official source and the date IFCN itself last updated its list (not our check time).
+        "source": {"name": "IFCN", "url": IFCN_AVISOS, "updated": IFCN_UPDATED},
         # Added for the dashboard (dashboard.js).
         "counts": counts,
         "regions": regions,

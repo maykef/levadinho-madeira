@@ -6,7 +6,7 @@
 
   var LANGS = {
     en: {
-      updated: "Updated", mtime: "(Madeira time)",
+      updated: "checked", ifcnUpd: "IFCN list updated", mtime: "(Madeira time)",
       open: "open", restricted: "restricted", closed: "closed",
       changed: "⚠ Changed today", changedSub: "restricted & closed — check before you go",
       openToday: "Open today", openSub: "booking still required",
@@ -19,7 +19,7 @@
       loading: "Live status is loading… if it doesn't appear, check the official sources below."
     },
     pt: {
-      updated: "Atualizado", mtime: "(hora da Madeira)",
+      updated: "verificado", ifcnUpd: "Lista IFCN atualizada", mtime: "(hora da Madeira)",
       open: "abertos", restricted: "condicionados", closed: "fechados",
       changed: "⚠ Alterações hoje", changedSub: "condicionados e fechados — confirme antes de ir",
       openToday: "Abertos hoje", openSub: "a reserva continua obrigatória",
@@ -33,7 +33,7 @@
       decimalComma: true
     },
     fr: {
-      updated: "Mis à jour", mtime: "(heure de Madère)",
+      updated: "vérifié", ifcnUpd: "Liste IFCN mise à jour", mtime: "(heure de Madère)",
       open: "ouverts", restricted: "restreints", closed: "fermés",
       changed: "⚠ Changements aujourd'hui", changedSub: "restreints & fermés — à vérifier avant de partir",
       openToday: "Ouverts aujourd'hui", openSub: "réservation toujours obligatoire",
@@ -45,7 +45,7 @@
       mmnote: "montagne ≠ côte ; le brouillard et le vent changent vite en altitude."
     },
     de: {
-      updated: "Aktualisiert", mtime: "(Madeira-Zeit)",
+      updated: "geprüft", ifcnUpd: "IFCN-Liste aktualisiert", mtime: "(Madeira-Zeit)",
       open: "offen", restricted: "eingeschränkt", closed: "gesperrt",
       changed: "⚠ Heute geändert", changedSub: "eingeschränkt & gesperrt — vor dem Start prüfen",
       openToday: "Heute offen", openSub: "Buchung weiterhin erforderlich",
@@ -57,7 +57,7 @@
       mmnote: "Berg ≠ Küste; Nebel und Wind ändern sich oben schnell."
     },
     pl: {
-      updated: "Zaktualizowano", mtime: "(czas Madery)",
+      updated: "sprawdzono", ifcnUpd: "Lista IFCN zaktualizowana", mtime: "(czas Madery)",
       open: "otwarte", restricted: "ograniczone", closed: "zamknięte",
       changed: "⚠ Zmiany dzisiaj", changedSub: "ograniczone i zamknięte — sprawdź przed wyjściem",
       openToday: "Otwarte dzisiaj", openSub: "rezerwacja nadal wymagana",
@@ -110,7 +110,8 @@
   function render(d, T, lang) {
     var c = d.counts || { OPEN: 0, PARTIAL: 0, CLOSED: 0 };
     el("summary").innerHTML =
-      '<span class="upd">' + T.updated + " <b>" + esc(d.stamp) + "</b> " + T.mtime + "</span>" +
+      '<span class="upd">' + ((d.source || {}).updated ? T.ifcnUpd + " <b>" + esc(d.source.updated) + "</b> · " : "") +
+        T.updated + " " + esc(d.stamp) + " " + T.mtime + "</span>" +
       '<span><span class="dot OPEN"></span><b>' + c.OPEN + "</b> " + T.open + "</span>" +
       '<span><span class="dot PARTIAL"></span><b>' + c.PARTIAL + "</b> " + T.restricted + "</span>" +
       '<span><span class="dot CLOSED"></span><b>' + c.CLOSED + "</b> " + T.closed + "</span>";
