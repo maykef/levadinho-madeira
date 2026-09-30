@@ -159,7 +159,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             desc=f"Live status for the {name} ({code}) — is it open today? How to book the €4.50 SIMplifica slot, the trail facts, and open alternatives if it's closed.",
             h1=f"Is the {name} open today?",
             sub=f"{name} ({code}) — a paid, booking-only PR trail. Checked every morning against official IFCN status.",
-            loading="Trail status is checked every morning against official Visit Madeira / IFCN information and shown here as a live badge (it needs JavaScript). If it doesn't appear, check the official sources linked below.",
+            loading="Trail status comes from the official IFCN warnings list, which IFCN updates when conditions change and dates itself (\"updated\"). It is shown here as a live badge (it needs JavaScript). If it doesn't appear, check the official sources linked below.",
             book_h=f'<span class="q">Book it.</span> {code} on SIMplifica',
             book=(f"Once it shows open, book your <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">€4.50 slot on SIMplifica</a> in advance. "
                   f"Under-12s and residents are free but must still be named on the booking. {code} is paid on its own separate booking and <b>not included</b> in the multi-day passes — check the live status above before you pay."),
@@ -179,7 +179,7 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>It's out-and-back.</b> Turn around with enough time and daylight to walk out the way you came."),
                 "<b>Check the live badge the morning you go.</b> Mountain trails close fast for weather, rockfall or works.",
             ],
-            footer="Status compiled each morning from <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> and <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, with weather from <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.",
+            footer="Status compiled each morning from <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> and <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, with weather from <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.",
         )
     elif lang == "pt":
         A, a, da, o = pt_g(name)
@@ -188,7 +188,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             desc=f"Estado em direto {da} {name} ({code}) — está abert{o} hoje? Como reservar a vaga de 4,50 € no SIMplifica, os dados do percurso e alternativas abertas se estiver fechad{o}.",
             h1=f"{A} {name} está abert{o} hoje?",
             sub=f"{name} ({code}) — um percurso PR pago e só com reserva. Verificado todas as manhãs com base no estado oficial do IFCN.",
-            loading="O estado do percurso é verificado todas as manhãs com base na informação oficial da Visit Madeira / IFCN e mostrado aqui como indicador em direto (requer JavaScript). Se não aparecer, consulte as fontes oficiais indicadas abaixo.",
+            loading="O estado do percurso vem da lista oficial de avisos do IFCN, que o IFCN atualiza quando as condições mudam e data (\"atualizado\"). É mostrado aqui em direto (requer JavaScript). Se não aparecer, consulte as fontes oficiais indicadas abaixo.",
             book_h=f'<span class="q">Reserve.</span> O {code} no SIMplifica',
             book=(f"Assim que aparecer como aberto, reserve com antecedência a sua <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">vaga de 4,50 € no SIMplifica</a>. "
                   f"Menores de 12 anos e residentes não pagam, mas têm de constar nominalmente da reserva. O {code} paga-se numa reserva própria e <b>não está incluído</b> nos passes de vários dias — confirme o estado em direto acima antes de pagar."),
@@ -208,7 +208,7 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>É de ida e volta.</b> Dê meia-volta com tempo e luz do dia suficientes para regressar pelo mesmo caminho."),
                 "<b>Confirme o indicador em direto na manhã em que for.</b> Os percursos de montanha fecham depressa por mau tempo, queda de pedras ou obras.",
             ],
-            footer="Estado compilado todas as manhãs a partir da <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> e do <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, com meteorologia do <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Independente — sem ligação ao Governo Regional da Madeira. As condições mudam depressa na montanha; use sempre o seu próprio discernimento no percurso.",
+            footer="Estado compilado todas as manhãs a partir do <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> e do <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, com meteorologia do <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Independente — sem ligação ao Governo Regional da Madeira. As condições mudam depressa na montanha; use sempre o seu próprio discernimento no percurso.",
         )
     elif lang == "fr":
         d.update(
@@ -216,7 +216,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             desc=f"Statut en direct de la {name} ({code}) — est-elle ouverte aujourd'hui ? Comment réserver le créneau SIMplifica à 4,50 €, les infos du sentier et les alternatives ouvertes.",
             h1=f"La {name} est-elle ouverte aujourd'hui ?",
             sub=f"{name} ({code}) — un sentier PR payant, sur réservation. Vérifié chaque matin par rapport au statut officiel de l'IFCN.",
-            loading="L'état du sentier est vérifié chaque matin d'après les informations officielles de Visit Madeira / IFCN et affiché ici sous forme de badge en direct (JavaScript requis). S'il n'apparaît pas, consultez les sources officielles indiquées ci-dessous.",
+            loading="L'état du sentier provient de la liste officielle des avis de l'IFCN, que l'IFCN met à jour quand les conditions changent et qu'il date lui-même (« mise à jour »). Il s'affiche ici en direct (JavaScript requis). S'il n'apparaît pas, consultez les sources officielles indiquées ci-dessous.",
             book_h=f'<span class="q">Réservez.</span> Le {code} sur SIMplifica',
             book=(f"Une fois indiqué ouvert, réservez à l'avance votre <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">créneau à 4,50 € sur SIMplifica</a>. "
                   f"Les moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation. Le {code} se paie sur sa propre réservation distincte et n'est <b>pas inclus</b> dans les forfaits de plusieurs jours — vérifiez le statut en direct ci-dessus avant de payer."),
@@ -236,7 +236,7 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>C'est un aller-retour.</b> Faites demi-tour avec assez de temps et de lumière pour revenir par le même chemin."),
                 "<b>Vérifiez le badge en direct le matin même.</b> Les sentiers de montagne ferment vite pour météo, chutes de pierres ou travaux.",
             ],
-            footer="Statut compilé chaque matin à partir de <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> et de <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, avec la météo de l'<a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.",
+            footer="Statut compilé chaque matin à partir de l'<a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> et de <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, avec la météo de l'<a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.",
         )
     elif lang == "de":
         d.update(
@@ -244,7 +244,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             desc=f"Live-Status der {name} ({code}) — heute geöffnet? Wie man den 4,50-€-Slot auf SIMplifica bucht, die Weg-Fakten und offene Alternativen.",
             h1=f"Ist die {name} heute geöffnet?",
             sub=f"{name} ({code}) — ein kostenpflichtiger PR-Weg, nur mit Buchung. Jeden Morgen gegen den offiziellen IFCN-Status geprüft.",
-            loading="Der Wegestatus wird jeden Morgen anhand offizieller Informationen von Visit Madeira / IFCN geprüft und hier als Live-Anzeige dargestellt (dafür ist JavaScript nötig). Falls sie nicht erscheint, prüfen Sie die unten verlinkten offiziellen Quellen.",
+            loading="Der Wegestatus stammt aus der offiziellen Hinweisliste des IFCN, die das IFCN bei Änderungen aktualisiert und selbst datiert („aktualisiert“). Er wird hier live angezeigt (dafür ist JavaScript nötig). Falls er nicht erscheint, prüfen Sie die unten verlinkten offiziellen Quellen.",
             book_h=f'<span class="q">Buchen.</span> Der {code} auf SIMplifica',
             book=(f"Sobald er als geöffnet angezeigt wird, buchen Sie Ihren <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">4,50-€-Slot auf SIMplifica</a> im Voraus. "
                   f"Kinder unter 12 und Einwohner sind frei, müssen aber trotzdem namentlich in der Buchung stehen. Der {code} wird als eigene, gesonderte Buchung bezahlt und ist <b>nicht</b> in den Mehrtagespässen enthalten — prüfen Sie den Live-Status oben, bevor Sie bezahlen."),
@@ -264,7 +264,7 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>Hin und zurück.</b> Drehen Sie mit genug Zeit und Tageslicht um, um denselben Weg zurückzugehen."),
                 "<b>Prüfen Sie das Live-Abzeichen am Morgen Ihrer Tour.</b> Bergwege werden schnell wegen Wetter, Steinschlag oder Arbeiten gesperrt.",
             ],
-            footer="Status jeden Morgen aus <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> und <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a> zusammengestellt, mit Wetter von <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Unabhängig — nicht mit der Regionalregierung von Madeira verbunden. Die Bedingungen ändern sich in den Bergen schnell; verlassen Sie sich auf dem Weg immer auf Ihr eigenes Urteil.",
+            footer="Status jeden Morgen aus <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> und <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a> zusammengestellt, mit Wetter von <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Unabhängig — nicht mit der Regionalregierung von Madeira verbunden. Die Bedingungen ändern sich in den Bergen schnell; verlassen Sie sich auf dem Weg immer auf Ihr eigenes Urteil.",
         )
     else:  # pl
         d.update(
@@ -272,7 +272,7 @@ def T(lang, code, name, f, linear, start, end, typ):
             desc=f"Status na żywo {name} ({code}) — czy jest dziś otwarta? Jak zarezerwować slot za 4,50 € w SIMplifica, fakty o szlaku i otwarte alternatywy.",
             h1=f"Czy {name} jest dziś otwarta?",
             sub=f"{name} ({code}) — płatny szlak PR, wyłącznie na rezerwację. Sprawdzany każdego ranka względem oficjalnego statusu IFCN.",
-            loading="Stan szlaku sprawdzamy każdego ranka na podstawie oficjalnych informacji Visit Madeira / IFCN i pokazujemy tutaj na żywo (wymaga JavaScriptu). Jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.",
+            loading="Stan szlaku pochodzi z oficjalnej listy komunikatów IFCN, którą IFCN aktualizuje, gdy zmieniają się warunki, i sam datuje („aktualizacja”). Jest pokazywany tutaj na żywo (wymaga JavaScriptu). Jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.",
             book_h=f'<span class="q">Zarezerwuj.</span> {code} w SIMplifica',
             book=(f"Gdy pokaże się jako otwarty, zarezerwuj z wyprzedzeniem swój <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">slot za 4,50 € w SIMplifica</a>. "
                   f"Dzieci poniżej 12 lat i mieszkańcy są bezpłatnie, ale i tak muszą być imiennie w rezerwacji. {code} jest płatny jako osobna rezerwacja i <b>nie jest wliczony</b> w karnety wielodniowe — sprawdź status na żywo powyżej, zanim zapłacisz."),
@@ -292,7 +292,7 @@ def T(lang, code, name, f, linear, start, end, typ):
                  "<b>Trasa tam i z powrotem.</b> Zawracaj z zapasem czasu i światła, by wrócić tą samą drogą."),
                 "<b>Sprawdź plakietkę na żywo w dniu wyjścia.</b> Górskie szlaki szybko zamyka się z powodu pogody, obrywów lub prac.",
             ],
-            footer="Status zestawiany każdego ranka z <a href=\"https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/\" rel=\"noopener\">Visit Madeira</a> / <a href=\"https://ifcn.madeira.gov.pt/\" rel=\"noopener\">IFCN</a> i <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, z pogodą z <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.",
+            footer="Status zestawiany każdego ranka z <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> i <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, z pogodą z <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.",
         )
     d["typ"] = typ
     d["route"] = route

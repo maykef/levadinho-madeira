@@ -27,7 +27,7 @@
       },
       nearby: function (t) { return "Nearby weather now: " + t + "°C — expect the mountains cooler and cloudier than the coast."; },
       advisory: "The webcam shows you a snippet of the summit right now — don't assume conditions will stay that way. Pack a good anorak and fleece, carry enough water, and wear adequate footwear.",
-      lastChecked: "Last checked:", madeiraTime: "(Madeira time)", source: "Source:"
+      ifcnUpdated: "Official IFCN list · updated:", lastChecked: "Checked by Levadinho:", madeiraTime: "(Madeira time)", source: "Source:"
     },
     pt: {
       badge: { OPEN: "ABERTO", PARTIAL: "PARCIAL", CLOSED: "FECHADO" },
@@ -50,7 +50,7 @@
       },
       nearby: function (t) { return "Tempo nas proximidades agora: " + t + " °C — conte com a montanha mais fresca e nublada do que a costa."; },
       advisory: "A webcam mostra apenas um instante do cume — não assuma que as condições se vão manter. Leve um bom corta-vento impermeável e um polar, água suficiente e calçado adequado.",
-      lastChecked: "Última verificação:", madeiraTime: "(hora da Madeira)", source: "Fonte:"
+      ifcnUpdated: "Lista oficial do IFCN · atualizado:", lastChecked: "Verificado pelo Levadinho:", madeiraTime: "(hora da Madeira)", source: "Fonte:"
     },
     fr: {
       badge: { OPEN: "OUVERT", PARTIAL: "PARTIEL", CLOSED: "FERMÉ" },
@@ -73,7 +73,7 @@
       },
       nearby: function (t) { return "Météo à proximité : " + t + " °C — attendez-vous à des montagnes plus fraîches et nuageuses que la côte."; },
       advisory: "La webcam ne montre qu'un aperçu du sommet à l'instant — ne supposez pas que les conditions resteront les mêmes. Emportez un bon anorak et une polaire, assez d'eau, et portez des chaussures adaptées.",
-      lastChecked: "Dernière vérification :", madeiraTime: "(heure de Madère)", source: "Source :"
+      ifcnUpdated: "Liste officielle de l'IFCN · mise à jour :", lastChecked: "Vérifié par Levadinho :", madeiraTime: "(heure de Madère)", source: "Source :"
     },
     de: {
       badge: { OPEN: "OFFEN", PARTIAL: "TEILWEISE", CLOSED: "GESPERRT" },
@@ -96,7 +96,7 @@
       },
       nearby: function (t) { return "Wetter in der Nähe: " + t + " °C — in den Bergen kühler und wolkiger als an der Küste."; },
       advisory: "Die Webcam zeigt nur einen Moment des Gipfels — gehen Sie nicht davon aus, dass die Bedingungen so bleiben. Nehmen Sie einen guten Anorak und Fleece mit, genügend Wasser und tragen Sie geeignetes Schuhwerk.",
-      lastChecked: "Zuletzt geprüft:", madeiraTime: "(Madeira-Zeit)", source: "Quelle:"
+      ifcnUpdated: "Offizielle IFCN-Liste · aktualisiert:", lastChecked: "Von Levadinho geprüft:", madeiraTime: "(Madeira-Zeit)", source: "Quelle:"
     },
     pl: {
       badge: { OPEN: "OTWARTY", PARTIAL: "CZĘŚCIOWO", CLOSED: "ZAMKNIĘTY" },
@@ -119,7 +119,7 @@
       },
       nearby: function (t) { return "Pogoda w pobliżu: " + t + " °C — w górach chłodniej i bardziej pochmurno niż na wybrzeżu."; },
       advisory: "Kamera pokazuje tylko chwilowy widok szczytu — nie zakładaj, że warunki się nie zmienią. Zabierz dobrą kurtkę i polar, wystarczająco wody i włóż odpowiednie obuwie.",
-      lastChecked: "Ostatnie sprawdzenie:", madeiraTime: "(czas Madery)", source: "Źródło:"
+      ifcnUpdated: "Oficjalna lista IFCN · aktualizacja:", lastChecked: "Sprawdzone przez Levadinho:", madeiraTime: "(czas Madery)", source: "Źródło:"
     }
   };
 
@@ -139,8 +139,11 @@
     return fallback;
   }
   function stamp(d) {
-    return '<div class="stamp"><span>' + L.lastChecked + " <b>" + esc(d.stamp) + "</b> " + L.madeiraTime +
-      "</span><span>" + L.source + " IFCN / Visit Madeira · IPMA</span></div>";
+    // IFCN is the authority and updates its list when it chooses: show its own date first,
+    // in its own dd/mm/yyyy form, then when we last checked it.
+    var src = d.source || {}, upd = src.updated ? L.ifcnUpdated + " <b>" + esc(src.updated) + "</b> · " : "";
+    return '<div class="stamp"><span>' + upd + L.lastChecked + " " + esc(d.stamp) + " " + L.madeiraTime +
+      "</span><span>" + L.source + ' <a href="' + esc(src.url || "https://ifcn.madeira.gov.pt/") + '" rel="noopener">IFCN</a> · IPMA</span></div>';
   }
 
   function render(d, L) {
