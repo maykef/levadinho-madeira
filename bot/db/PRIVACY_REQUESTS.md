@@ -29,7 +29,8 @@ python bot/privacy_request.py erase +351912345678
 
 It shows the counts and asks for `yes`, then deletes:
 - the analytics rows (`event`, `conversation_turn`, `location_fix`, `visitor`);
-- the working store (language, consent, last 24 h of chat, guide links);
+- the working store (language, consent, last 24 h of chat, guide links, messages queued while the
+  model was asleep, and the time of the last incoming message);
 - the raw guide log files of that person's guide links (`bot/tracklog/`).
 
 Anonymous rows (`consent_declined`, `message_unrecorded`: no visitor id) can't be linked to anyone

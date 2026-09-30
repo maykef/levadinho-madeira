@@ -121,6 +121,11 @@ def pending_all():
     return [{"id": i, "user": u, "at": at, "reason": r, "payload": json.loads(p)} for i, u, at, r, p in rows]
 
 
+def pending_for(uid):
+    """One visitor's queued messages, oldest first (for an access request)."""
+    return [r for r in pending_all() if r["user"] == uid]
+
+
 def drop_pending(pid):
     _db.execute("DELETE FROM pending WHERE id=?", (pid,))
     _db.commit()

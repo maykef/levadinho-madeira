@@ -6,7 +6,8 @@ This module is the permanent record, and it never stores a phone number or an IP
     from the data. The same visitor gets the same id every day; for an access/erasure
     request, recompute it from the phone number (visitor_id_for).
   - conversation text is scrubbed: patterns first (phones, emails, links, codes), then the
-    local model replaces people's names, in a background thread so replies aren't delayed.
+    local model replaces people's names, in a background thread so replies aren't delayed. While the
+    model sleeps (wake-on-demand) that pass waits; a sweep catches up once it's up (sweep()).
 Fail-soft: if the database is down, the bot keeps working and the event is skipped (logged).
 
   python bot/analytics.py init       # apply db/schema.sql, sync routes/stops/campaigns
@@ -111,6 +112,7 @@ def _ts(ms):
 def event(channel, event_type, phone=None, vid=None, occurred=None, session=None, route=None, stop=None,
           campaign=None, lang=None, lat=None, lon=None, **attrs):
     vid = vid or visitor_id_for(phone)
+    ensure_campaign(campaign)
     _exec("""INSERT INTO event (occurred_at, channel, event_type, visitor_id, session_id, route_id, stop_id,
                                 campaign_id, lang, country, geom, attributes)
              VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,(SELECT country FROM visitor WHERE visitor_id=%s),%s,%s)""",
@@ -165,26 +167,118 @@ def scrub_llm(text):
 
 
 _scrub_q = queue.Queue()
+# The model sleeps most of the time (wake-on-demand, llm_control.py). A turn queued while it's down keeps its
+# rules-only text; a sweep re-scrubs such rows once the model is up again. The sweep never wakes the model,
+# and runs every SCRUB_SWEEP_S (every SCRUB_RETRY_S while a backlog is known), SCRUB_BATCH rows at a time.
+SCRUB_SWEEP_S = float(os.environ.get("SCRUB_SWEEP_S", "900"))
+SCRUB_RETRY_S = float(os.environ.get("SCRUB_RETRY_S", "120"))
+SCRUB_BATCH = int(os.environ.get("SCRUB_BATCH", "25"))
+_sweep = {"at": 0.0, "backlog": True}  # backlog: rows may be waiting (True at start: catch up after a restart)
+# Rows that should get the model pass: what turn() queues (incoming text, and the model's answers).
+# "rules+llm-rejected" = the model's version failed the length guard; the rules-only text was kept (not retried).
+SWEEP_SQL = """SELECT turn_id, text_scrubbed FROM conversation_turn
+               WHERE scrub_method = 'rules' AND text_scrubbed ~ '[A-Za-zÀ-ž]{2}'
+                 AND ((direction = 'in' AND msg_kind = 'text') OR (direction = 'out' AND model IS NOT NULL))
+               ORDER BY turn_id LIMIT %s"""
+
+
+def _model_up():
+    try:
+        import llm_control  # lazy: it opens the working store
+        return not llm_control.ON_DEMAND or llm_control.is_up()
+    except Exception:
+        return False
+
+
+def _scrub_one(turn_id, text):
+    """Model pass on one turn. Raises if the model can't be reached (the row stays 'rules')."""
+    clean = scrub_llm(text)
+    if clean is not None:
+        _exec("UPDATE conversation_turn SET text_scrubbed=%s, scrub_method='rules+llm' WHERE turn_id=%s",
+              (clean, turn_id))
+    else:
+        _exec("UPDATE conversation_turn SET scrub_method='rules+llm-rejected' WHERE turn_id=%s", (turn_id,))
+
+
+def sweep(limit=SCRUB_BATCH):
+    """Re-scrub turns left rules-only because the model was asleep. Only while the model is up.
+    → number of rows done."""
+    _sweep["at"] = time.time()
+    if not DB_URL or not _model_up():
+        return 0
+    rows = _exec(SWEEP_SQL, (limit,), fetch=True)
+    if rows is None:  # database down
+        return 0
+    done = 0
+    for turn_id, text in rows:
+        try:
+            _scrub_one(turn_id, text)
+            done += 1
+        except Exception:
+            log.info("scrub sweep stopped: model unavailable (%s rows done)", done)
+            _sweep["backlog"] = True
+            return done
+    _sweep["backlog"] = len(rows) >= limit
+    if done:
+        log.info("scrub sweep: %s turns re-scrubbed with the model", done)
+    return done
+
+
+def _sweep_due():
+    return time.time() - _sweep["at"] >= (SCRUB_RETRY_S if _sweep["backlog"] else SCRUB_SWEEP_S)
+
+
+def _scrub_step(timeout):
+    """One worker step: a queued turn if there is one, then the sweep when it's due."""
+    try:
+        turn_id, text = _scrub_q.get(timeout=timeout)
+    except queue.Empty:
+        turn_id = None
+    if turn_id is not None:
+        if _model_up():
+            try:
+                _scrub_one(turn_id, text)
+            except Exception:
+                log.warning("LLM scrub failed for turn %s; the sweep retries it later", turn_id)
+                _sweep["backlog"] = True
+        else:  # asleep: don't wait for it, the sweep catches up once it's up
+            _sweep["backlog"] = True
+    if _sweep_due():
+        sweep()
 
 
 def _scrub_worker():
     while True:
-        turn_id, text = _scrub_q.get()
         try:
-            clean = scrub_llm(text)
-            if clean is not None:
-                _exec("UPDATE conversation_turn SET text_scrubbed=%s, scrub_method='rules+llm' WHERE turn_id=%s",
-                      (clean, turn_id))
+            _scrub_step(timeout=min(SCRUB_RETRY_S, SCRUB_SWEEP_S))
         except Exception:
-            log.warning("LLM scrub failed for turn %s; rules-only text kept", turn_id)
+            log.exception("scrub worker step failed")
+            time.sleep(5)
 
 
 threading.Thread(target=_scrub_worker, daemon=True).start()
 
 
+# ---------------------------------------------------------------- campaigns
+WEB_TAG = re.compile(r"web-[a-z0-9-]{1,40}")  # same as brain.WEB_TAG: website link tags (#web-pr1 …)
+_campaigns_known = set()
+
+
+def ensure_campaign(tag):
+    """A website link tag (web-*) seen for the first time → a campaign row (no route), so reports can join
+    events and turns to it. QR campaigns are registered by init() from brain.CAMPAIGNS. Fail-soft."""
+    if not tag or tag in _campaigns_known or not WEB_TAG.fullmatch(tag):
+        return
+    rows = _exec("""INSERT INTO campaign (campaign_id, route_id, description) VALUES (%s, NULL, 'website page link')
+                    ON CONFLICT (campaign_id) DO NOTHING RETURNING 1""", (tag,), fetch=True)
+    if rows is not None:  # inserted or already there; None = database down, try again next time
+        _campaigns_known.add(tag)
+
+
 def turn(phone, direction, kind, text=None, lang=None, is_question=None, intent=None, topic=None, trail=None,
          campaign=None, latency_ms=None, model=None, llm_scrub=True):
     vid = visitor_id_for(phone)
+    ensure_campaign(campaign)
     clean = scrub_rules(text) if text else None
     rows = _exec("""INSERT INTO conversation_turn (visitor_id, direction, msg_kind, text_scrubbed, scrub_method, lang,
                       is_question, intent, topic, trail_code, campaign_id, latency_ms, model)

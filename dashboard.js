@@ -17,7 +17,7 @@
       today: "Today's status →", nomatch: "No trail matches that.",
       mmnote: "mountain ≠ coast; fog and wind change fast up high.",
       loading: "Live status is loading… if it doesn't appear, check the official sources below.",
-      xfNoVert: "No vertigo", xfTunnels: "Has tunnels / bring a torch",
+      xfNoVert: "No vertigo", xfTunnels: "Has tunnels",
       xfNote: "Only trails with sourced tunnel/vertigo data are shown (mostly IFCN trailhead panels)."
     },
     pt: {
@@ -32,7 +32,7 @@
       today: "Estado de hoje →", nomatch: "Nenhum percurso corresponde à pesquisa.",
       mmnote: "montanha ≠ costa; o nevoeiro e o vento mudam depressa em altitude.",
       loading: "O estado em direto está a carregar… se não aparecer, consulte as fontes oficiais abaixo.",
-      xfNoVert: "Sem vertigens", xfTunnels: "Com túneis / leve lanterna",
+      xfNoVert: "Sem vertigens", xfTunnels: "Com túneis",
       xfNote: "Só são mostrados os percursos com dados documentados sobre túneis/vertigens (sobretudo painéis do IFCN).",
       decimalComma: true
     },
@@ -47,7 +47,7 @@
       wind: "vent", rain: "pluie", fog: "sans doute dans les nuages",
       today: "État du jour →", nomatch: "Aucun sentier ne correspond.",
       mmnote: "montagne ≠ côte ; le brouillard et le vent changent vite en altitude.",
-      xfNoVert: "Sans vertige", xfTunnels: "Tunnels / prenez une lampe",
+      xfNoVert: "Sans vertige", xfTunnels: "Avec tunnels",
       xfNote: "Seuls les sentiers avec des données sourcées sur les tunnels et le vertige sont affichés (surtout les panneaux IFCN)."
     },
     de: {
@@ -61,7 +61,7 @@
       wind: "Wind", rain: "Regen", fog: "wohl in Wolken",
       today: "Heutiger Status →", nomatch: "Kein Weg passt dazu.",
       mmnote: "Berg ≠ Küste; Nebel und Wind ändern sich oben schnell.",
-      xfNoVert: "Schwindelfrei", xfTunnels: "Mit Tunneln / Lampe mitnehmen",
+      xfNoVert: "Ohne Schwindelgefahr", xfTunnels: "Mit Tunneln",
       xfNote: "Nur Wege mit belegten Tunnel-/Schwindel-Daten werden angezeigt (meist IFCN-Infotafeln)."
     },
     pl: {
@@ -75,7 +75,7 @@
       wind: "wiatr", rain: "deszcz", fog: "pewnie we mgle",
       today: "Dzisiejszy status →", nomatch: "Brak pasujących szlaków.",
       mmnote: "góry ≠ wybrzeże; mgła i wiatr szybko się zmieniają na wysokości.",
-      xfNoVert: "Bez lęku wysokości", xfTunnels: "Z tunelami / weź latarkę",
+      xfNoVert: "Bez lęku wysokości", xfTunnels: "Z tunelami",
       xfNote: "Pokazano tylko szlaki z udokumentowanymi danymi o tunelach i ekspozycji (głównie tablice IFCN)."
     }
   };
