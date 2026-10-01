@@ -198,6 +198,17 @@ independently of the GPU bot.
 
 ## Meta setup status (2026-09-28) — LIVE on a real number
 
+> **BANNED since 2026-09-30 ~16:12 (still banned on 2026-10-01 18:17).** Meta's API reports the phone
+> number `status: BANNED`, WABA error 141014 "The WABA is banned", `account_review_status: REJECTED`,
+> business not verified. A banned account gets **no webhook deliveries** (the sender sees a single grey
+> tick) although the verify handshake still succeeds, so the bot looks up but silent. The owner
+> submitted an appeal on 2026-09-30 (business.facebook.com/accountquality); the payment-method error
+> 141006 that Meta also listed disappeared on 2026-10-01. **Before restarting anything when the bot is
+> silent, ask Meta:**
+> `set -a; . bot/.env; set +a; curl -s "https://graph.facebook.com/v23.0/$WA_PHONE_NUMBER_ID?fields=status,health_status" -H "Authorization: Bearer $WA_TOKEN"`
+> Restarts neither cause nor fix this. Everything below describes the account as it was before the ban.
+
+
 - **Meta app:** "Levadinho" (ID 1433947322205284), published. Business portfolio "Levadinho-Madeira".
   - Privacy policy: https://levadinho-madeira.com/privacy/ (contact hello@levadinho-madeira.com).
 - **Bot number: +44 7405 754593** (UK virtual mobile).
