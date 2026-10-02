@@ -2,6 +2,31 @@
 
 Guidance for Claude Code when working in this repository.
 
+## ▶ First thing, once per day — the daily SEO report sequence
+
+**Once per calendar day**, at the start of the first session, ask: **"Do you want the full daily
+report sequence?"** Ask it in the same message as the bot question below.
+- **Once a day only:** run `cat reports/.asked 2>/dev/null`. If it holds today's date (`date +%F`), don't ask.
+  Otherwise ask, then write today's date into it (`date +%F > reports/.asked`) whatever the answer.
+- **No** → carry on.
+- **Yes** → run the sequence:
+  1. **Data:** check `reports/data/daily_sweep.log` for today's run (cron 05:30 runs `reports/daily_sweep.sh`).
+     If it's missing, ask the owner to type `! bash reports/daily_sweep.sh` (about 20 min). Claude can't run it,
+     because the Firecrawl key lives in another project's env file that auto mode won't let Claude load.
+  2. **Search Console:** ask the owner for today's exports (Performance → last 7 days and last 28 days:
+     Queries, Pages, Countries, Devices, Chart). Save them to `google_search_console/<date>_last7d/` (or `_last28d/`).
+  3. **Build:** `python3 reports/build_daily.py` → `reports/data/<date>/auto_summary.md` (rankings from Funchal
+     vs the previous day, share of expected clicks per language, competitor movers and new top-3 entrants,
+     new autocomplete terms we don't track, Search Console, Lighthouse).
+  4. **Write `reports/<date>_daily_report.md`:** what changed, Levadinho's positions, the competitors' ranking,
+     new search terms we're missing, what Search Console shows, then **proposed fixes** (ranked by impact,
+     each tied to a keyword and a page, all 5 languages). **Never edit pages until the owner approves the fixes.**
+  - `reports/`, `google_search_console/` and `seo_research/` are git-ignored: never commit them (GitHub Pages
+    would publish them).
+  - Tracked keywords: `seo_research/keywords/keywords_v2.json` (146 = 13 core + 81 from autocomplete, × 5
+    languages). Funchal is the primary location. Add new keywords there when the report finds them.
+  - Cost: about 290 Firecrawl credits a day (+ about 180 on Mondays for the home-country check).
+
 ## ▶ At the start of every session — ask about the Levadinho bot
 
 Before anything else, ask the user: **"Do you want the Levadinho WhatsApp bot up and running?"**
@@ -64,6 +89,8 @@ Hosted on **GitHub Pages**, in **five languages** (en at the root; `pt/`, `fr/`,
 | `simplifica-booking/` | SIMplifica booking step by step: tickets, the PR1 two-section trap, refunds, errors |
 | `pico-do-areeiro-weather/` | Pico do Areeiro weather: webcam + measured IPMA summit reading, PR1 card |
 | `pr1-sunrise-transport/` | Getting to Areeiro for sunrise: public bus, shuttle, taxi, own car + parking |
+| `pr1-one-way/` | "Is PR1 one-way?": direction, what's two-way, tickets, getting back (added 2026-10-02 from the competitor report: beyondmadeira's dedicated page ranks top 3) |
+| `free-walks/` | "Free walks in Madeira: no ticket needed": which walks need no SIMplifica ticket (added 2026-10-02 for "ohne Gebühr" / "non payante" searches) |
 | `best-levada-walks/` | Best levada walks, each with a live badge + STATIC-STATUS line |
 | `easy-levadas-no-vertigo/` | Easy levadas ranked by sourced exposure (IFCN panels), live badges |
 | `levadas-with-tunnels/` | Which levadas have tunnels / need a torch (sourced table), live badges |
@@ -82,7 +109,7 @@ Hosted on **GitHub Pages**, in **five languages** (en at the root; `pt/`, `fr/`,
 | `scripts/gen_trail_index.py` | Writes the **static, crawlable** list of all 37 trail links into `#trailBoard` in the five dashboard homepages (`index.html`, `fr/index.html`, …) (between `STATIC-TRAIL-INDEX` markers). `dashboard.js` overwrites the container on load, so JS visitors never see it — it exists so Googlebot can *discover* the spokes. Re-run whenever a trail is added or removed |
 | `scripts/gen_site_nav.py` | Injects the site-wide **nav bar** (6 links), **breadcrumbs** (visible + `BreadcrumbList` JSON-LD), a **"Nearby trails"** block (4 closest trailheads by real GPS distance, from the Visit Madeira index) on trail pages, and a **"More guides"** block (`SITE-NAV-GUIDES`: descriptive links to the guide pages, per-page list in `RELATED_GUIDES`, skipping pages the copy already links) into every page, between `SITE-NAV*` marker comments. Guide pages are registered in `GUIDES`. Since 2026-09-30 trail pages also get an **"In our guides"** line (links to best / easy / tunnels when those pages mention the trail). `trail_coords()` is importable. `--dry-run [OUTDIR]` writes sample pages outside the repo. Idempotent; `gen_spokes.py` calls it after regenerating. Re-run whenever a page or trail is added |
 | `.github/workflows/update.yml` | Cron that runs the updater daily at 01:00 UTC (GitHub starts it ~4–6 h late); commits `status.json`, `sitemap.xml` and changed `*.html` (static status lines, `dateModified`), never `bot/` |
-| `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates (en, pt, fr, de, pl, x-default) for all 240 URLs (48 pages × 5 languages), is listed in `robots.txt`, and gets its `<lastmod>` bumped by the updater. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
+| `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates (en, pt, fr, de, pl, x-default) for all 250 URLs (50 pages × 5 languages), is listed in `robots.txt`, and gets its `<lastmod>` bumped by the updater. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
 | `googleea2064b7684c2bab.html` | Google Search Console site-verification token — do not delete |
 | `404.html`, `favicon.ico`, `img/icon-180.png`, `img/icon-192.png` | Custom not-found page (noindex, no CTA/nav, served by GitHub Pages automatically) and the favicon / touch icons rendered from the Levadinho avatar. Every page links the two icons in its head |
 | `img/*.webp`, `img/og-default.jpg` | Every hero JPEG has a `.webp` twin used in the CSS background (with a `<link rel=preload>`); the JPEG stays for `og:image`. Pages without a hero use `og-default.jpg` (Pride of Madeira, owner photo). Owner's own PR1 photos (`pr1-*.jpg`, `pride-of-madeira.jpg`) are credited in `img/CREDITS.txt` |
@@ -217,7 +244,7 @@ python scripts/update_status.py
   inline SVG QR code (built with the `qrcode` lib) shown only at ≥720 px with "Scan with your
   phone". Tags are per page and shared by all languages (the bot detects the language):
   `web-home`, `web-pr1`, `web-fees`, `web-abroad`, `web-back`, `web-permit`, `web-booking`,
-  `web-weather`, `web-sunrise`, `web-best`, `web-easy`, `web-tunnels`, and `web-<trail code>`
+  `web-weather`, `web-sunrise`, `web-oneway`, `web-free`, `web-best`, `web-easy`, `web-tunnels`, and `web-<trail code>`
   on spokes (`web-pr6`, `web-pr1-2`, …). `bot/brain.py` records any `web-[a-z0-9-]{1,40}` tag
   as the source, not a guide route. A click fires a GoatCounter event `whatsapp-<tag>`
   (only when GoatCounter loaded). Don't hand-edit inside the markers; a new page needs a tag

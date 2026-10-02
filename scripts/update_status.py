@@ -507,7 +507,7 @@ def build_trails():
             "code": code,
             "name": f.get("name") or name,
             "status": status,
-            "fee": "10.50" if code == "PR1" else "4.50",
+            "fee": None if code in NO_IFCN_FEE else ("10.50" if code == "PR1" else "4.50"),
             "region": _nearest_region(float(f["lat"]), float(f["lon"])),
             "popular": code in POPULAR,
         })
@@ -630,6 +630,11 @@ def bump_sitemap(today):
         open(name, "w").write(s)
 
 
+# Classified PR trails managed by a body other than IFCN (IFCN trail list, ENTIDADE GESTORA column):
+# not on SIMplifica, no IFCN fee (IFCN FAQ 1.7). Their "fee" is null; dashboard.js shows "No IFCN fee".
+NO_IFCN_FEE = {"PR3", "PR3.1", "PR4", "PR23"}
+
+
 # Pages whose WebPage JSON-LD carries a "dateModified" freshness signal for search engines. Only
 # that one value is touched here (plus STATIC-STATUS markers below); the badge stays client-side.
 # Missing files (e.g. pt/ before it exists) are skipped with a warning.
@@ -651,6 +656,26 @@ def bump_date_modified(when):
             print(f"{name}: no dateModified field — skipped", file=sys.stderr)
             continue
         open(name, "w", encoding="utf-8").write(new)
+
+
+def refresh_description_dates(updated):
+    """Write IFCN's own "updated" date (dd/mm/yyyy) into the meta/og descriptions of the status
+    pages (DATE_MODIFIED_PAGES), e.g. "(updated 14/09/2026)" / "(Stand 14.09.2026)": a crawlable
+    freshness signal that stays honest because it is IFCN's date, not ours. Only a dd/mm/yyyy or
+    dd.mm.yyyy date inside those content="" attributes is touched. Degrades gracefully."""
+    if not re.fullmatch(r"\d{2}/\d{2}/\d{4}", updated or ""):
+        print(f"IFCN date {updated!r} not dd/mm/yyyy — descriptions left as they are", file=sys.stderr)
+        return
+    for name in DATE_MODIFIED_PAGES:
+        try:
+            s = open(name, encoding="utf-8").read()
+        except FileNotFoundError:
+            continue
+        date = updated.replace("/", ".") if name.startswith(("de/", "pl/")) else updated
+        new = re.sub(r'(<meta (?:name="description"|property="og:description"|name="twitter:description") content="[^"]*?)'
+                     r'\d{2}[./]\d{2}[./]\d{4}', lambda m: m.group(1) + date, s)
+        if new != s:
+            open(name, "w", encoding="utf-8").write(new)
 
 
 # --- Static (crawlable) status lines ------------------------------------------------
@@ -831,6 +856,7 @@ def main():
 
     bump_sitemap(today)
     bump_date_modified(now.isoformat(timespec="minutes"))
+    refresh_description_dates(IFCN_UPDATED)
     write_static_status(data)
 
     print(f"PR1={status} | trails={len(trails)} | "

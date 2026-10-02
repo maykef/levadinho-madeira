@@ -282,6 +282,71 @@ def map_block(lang, n, geo, f):
             f'  <p style="font-size:12px;color:var(--ink-soft);margin:4px 0 0">{note}</p>\n')
 
 
+# Classified PR trails managed by a body other than IFCN (IFCN trail list, ENTIDADE GESTORA): not on
+# SIMplifica and no IFCN fee (IFCN FAQ 1.7). Their pages must never say "paid, booking-only, €4.50".
+NO_IFCN_FEE = {"PR3": "Câmara Municipal do Funchal", "PR3.1": "Câmara Municipal do Funchal",
+               "PR4": "Câmara Municipal do Funchal"}
+IFCN_FAQ = ("https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/"
+            "faq-s-taxas-percursos-pedestres-classificados/frequently-asked-questions-fees-classified-walking-routes.html")
+NOFEE_ROW = {"en": "No IFCN fee", "pt": "Sem taxa IFCN", "fr": "Sans taxe IFCN", "de": "Keine IFCN-Gebühr", "pl": "Bez opłaty IFCN"}
+
+
+def no_fee_texts(lang, code, name, full, body):
+    """Override every booking/fee slot for a trail in NO_IFCN_FEE."""
+    faq = f'<a class="plain" href="{IFCN_FAQ}" target="_blank" rel="noopener">IFCN FAQ 1.7</a>'
+    free = f'<a class="plain" href="{PREFIX[lang]}/free-walks/">'
+    board = f'<a class="plain" href="{PREFIX[lang]}/">'
+    if lang == "en":
+        return dict(
+            sub=f"Today's status is shown live below, taken from the official IFCN warnings list, which carries IFCN's own “updated” date. {full} ({code}) is a classified PR trail managed by the {body}, not by IFCN: it is not on SIMplifica and carries no IFCN fee.",
+            book_h=f"Do you need to book the {name}?",
+            book=f"No. {code} is managed by the {body}, so it is not on the SIMplifica booking portal and there is no IFCN fee ({faq}). We found no charge of its own. If your walk joins an IFCN-managed PR trail, that stretch needs a SIMplifica ticket. More in {free}free walks in Madeira</a>.",
+            cl_h=f"What if {code} is closed?",
+            cl=f"If {code} shows closed, don't walk it: closures apply to everyone, ticket or not. For open alternatives, {board}check the live board</a>.",
+            kn0=f"<b>No ticket needed.</b> SIMplifica booking and the IFCN fee apply only to trails managed by IFCN; {code} is managed by the {body} ({faq}).",
+            desc=[f"Is the {name} ({code}) open today? Live status from the official IFCN list. Run by Funchal council: no SIMplifica ticket, no IFCN fee.",
+                  f"Is the {name} ({code}) open today? Live IFCN status. Run by Funchal council: no SIMplifica ticket and no IFCN fee."])
+    if lang == "pt":
+        return dict(
+            sub=f"O estado de hoje aparece em direto abaixo, com base na lista oficial de avisos do IFCN, com a data de «atualizado» do próprio IFCN. O percurso {full} ({code}) é um PR classificado gerido pela {body}, não pelo IFCN: não está no SIMplifica e não tem taxa do IFCN.",
+            book_h=f"É preciso reservar o percurso {name}?",
+            book=f"Não. O {code} é gerido pela {body}, por isso não está no portal de reservas SIMplifica e não tem taxa do IFCN ({faq}). Não encontrámos nenhuma cobrança própria. Se o seu percurso entrar num PR gerido pelo IFCN, esse troço precisa de bilhete SIMplifica. Mais em {free}trilhos gratuitos na Madeira</a>.",
+            cl_h=f"E se o {code} estiver encerrado?",
+            cl=f"Se o {code} aparecer como encerrado, não o percorra: os encerramentos aplicam-se a todos, com ou sem bilhete. Para alternativas abertas, {board}consulte o quadro em direto</a>.",
+            kn0=f"<b>Sem bilhete.</b> A reserva no SIMplifica e a taxa do IFCN aplicam-se só aos percursos geridos pelo IFCN; o {code} é gerido pela {body} ({faq}).",
+            desc=[f"O percurso {name} ({code}) está aberto hoje? Estado em direto da lista oficial do IFCN. Gerido pela Câmara do Funchal: sem bilhete nem taxa IFCN.",
+                  f"O {name} ({code}) está aberto hoje? Estado em direto do IFCN. Gerido pela Câmara do Funchal: sem bilhete SIMplifica nem taxa IFCN."])
+    if lang == "fr":
+        return dict(
+            sub=f"Le statut du jour est affiché en direct ci-dessous, issu de la liste officielle des avis de l'IFCN, avec sa propre date de « mise à jour ». Le sentier {full} ({code}) est un PR classé géré par la {body}, pas par l'IFCN : il n'est pas sur SIMplifica et n'a pas de taxe IFCN.",
+            book_h=f"Faut-il réserver le sentier {name} ?",
+            book=f"Non. Le {code} est géré par la {body} : il n'est pas sur le portail de réservation SIMplifica et n'a pas de taxe IFCN ({faq}). Nous n'avons trouvé aucun tarif propre. Si votre itinéraire rejoint un PR géré par l'IFCN, ce tronçon demande un billet SIMplifica. Plus d'infos : {free}randonnées gratuites à Madère</a>.",
+            cl_h=f"Et si le {code} est fermé ?",
+            cl=f"Si le {code} est indiqué fermé, ne l'empruntez pas : les fermetures valent pour tous, avec ou sans billet. Pour des alternatives ouvertes, {board}consultez le tableau en direct</a>.",
+            kn0=f"<b>Pas de billet.</b> La réservation SIMplifica et la taxe IFCN ne concernent que les sentiers gérés par l'IFCN ; le {code} est géré par la {body} ({faq}).",
+            desc=[f"Le sentier {name} ({code}) est-il ouvert aujourd'hui ? Statut en direct selon l'IFCN. Géré par la mairie de Funchal : sans billet ni taxe IFCN.",
+                  f"{name} ({code}) ouvert aujourd'hui ? Statut en direct selon l'IFCN. Géré par la mairie de Funchal : pas de billet SIMplifica ni de taxe IFCN."])
+    if lang == "de":
+        return dict(
+            sub=f"Der heutige Status wird unten live angezeigt und stammt aus der offiziellen Hinweisliste des IFCN, mit dessen eigenem „aktualisiert“-Datum. Der Weg {full} ({code}) ist ein klassifizierter PR-Weg der {body}, nicht des IFCN: Er steht nicht auf SIMplifica und kostet keine IFCN-Gebühr.",
+            book_h=f"Muss man den {name} buchen?",
+            book=f"Nein. Der {code} wird von der {body} verwaltet, steht daher nicht im Buchungsportal SIMplifica und kostet keine IFCN-Gebühr ({faq}). Eine eigene Gebühr haben wir nicht gefunden. Führt Ihre Route auf einen vom IFCN verwalteten PR-Weg, braucht dieser Abschnitt ein SIMplifica-Ticket. Mehr unter {free}Wandern auf Madeira ohne Gebühr</a>.",
+            cl_h=f"Was, wenn der {code} gesperrt ist?",
+            cl=f"Zeigt der {code} gesperrt, gehen Sie ihn nicht: Sperrungen gelten für alle, mit oder ohne Ticket. Für offene Alternativen {board}die Live-Übersicht prüfen</a>.",
+            kn0=f"<b>Kein Ticket nötig.</b> SIMplifica-Buchung und IFCN-Gebühr gelten nur für vom IFCN verwaltete Wege; der {code} gehört zur {body} ({faq}).",
+            desc=[f"Ist der {name} ({code}) heute geöffnet? Live-Status laut offizieller IFCN-Liste. Von der Stadt Funchal verwaltet: ohne Ticket und ohne IFCN-Gebühr.",
+                  f"{name} ({code}) heute geöffnet? Live-Status laut IFCN. Von der Stadt Funchal verwaltet: kein SIMplifica-Ticket, keine IFCN-Gebühr."])
+    return dict(
+        sub=f"Dzisiejszy status jest pokazywany na żywo poniżej, pochodzi z oficjalnej listy komunikatów IFCN i ma datę „aktualizacji” podaną przez IFCN. {full} ({code}) to sklasyfikowany szlak PR zarządzany przez {body}, a nie przez IFCN: nie ma go w SIMplifica i nie ma opłaty IFCN.",
+        book_h=f"Czy {name} trzeba rezerwować?",
+        book=f"Nie. {code} zarządza {body}, więc szlaku nie ma w portalu rezerwacji SIMplifica i nie ma opłaty IFCN ({faq}). Nie znaleźliśmy też własnej opłaty. Jeśli trasa wchodzi na szlak PR zarządzany przez IFCN, ten odcinek wymaga biletu SIMplifica. Więcej: {free}darmowe szlaki na Maderze</a>.",
+        cl_h=f"Co jeśli {code} jest zamknięty?",
+        cl=f"Jeśli {code} jest oznaczony jako zamknięty, nie wchodź na niego: zamknięcia dotyczą wszystkich, z biletem lub bez. Otwarte alternatywy znajdziesz na {board}tablicy na żywo</a>.",
+        kn0=f"<b>Bez biletu.</b> Rezerwacja w SIMplifica i opłata IFCN dotyczą tylko szlaków zarządzanych przez IFCN; {code} zarządza {body} ({faq}).",
+        desc=[f"Czy {name} ({code}) jest dziś otwarty? Status na żywo z oficjalnej listy IFCN. Zarządza nim gmina Funchal: bez biletu SIMplifica i bez opłaty IFCN.",
+              f"Czy {name} ({code}) jest dziś otwarty? Status na żywo wg IFCN. Szlak gminy Funchal: bez biletu SIMplifica i bez opłaty IFCN."])
+
+
 def T(lang, code, name, full, f, linear, start, end, typ):
     """Return a dict of every localised text slot for one language. `name` is
     the short name (headings, copy), `full` the official name (subtitle)."""
@@ -423,6 +488,13 @@ def T(lang, code, name, full, f, linear, start, end, typ):
             footer="Status zestawiany z <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> i <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, z pogodą z <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.",
         )
     d["title"], d["desc"] = titles(lang, code, name)
+    if code in NO_IFCN_FEE:
+        nf = no_fee_texts(lang, code, name, full, NO_IFCN_FEE[code])
+        d["desc"] = fit(nf.pop("desc"), 120, 155)
+        d["kn"][0] = nf.pop("kn0")
+        d.update(nf)
+        d["title"] = d["title"].replace(" & booking", "").replace(" e reserva", "").replace(" et réservation", "") \
+            .replace(" ? Réservation", " ?").replace(" & Buchung", "").replace(" i rezerwacja", "")
     d["typ"] = typ
     d["route"] = route
     d["allt"] = allt
@@ -483,7 +555,7 @@ a.plain{color:var(--ink);font-weight:600}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}"""
 
 
-def facts_rows(lang, f, linear, typ):
+def facts_rows(lang, f, linear, typ, code=None):
     rows = []
     if f.get("distance"):
         rows.append((LBL["distance"][lang], f["distance"]))
@@ -496,7 +568,7 @@ def facts_rows(lang, f, linear, typ):
     if linear and f.get("start") and f.get("end"):
         rows.append((LBL["route"][lang], f'{f["start"]} → {f["end"]}'))
     rows.append((LBL["type"][lang], typ))
-    rows.append((LBL["fee"][lang], "4,50 €" if lang == "pt" else "€4.50"))
+    rows.append((LBL["fee"][lang], NOFEE_ROW[lang] if code in NO_IFCN_FEE else ("4,50 €" if lang == "pt" else "€4.50")))
     return "".join(f"    <dt>{k}</dt><dd>{v}</dd>\n" for k, v in rows)
 
 
@@ -617,7 +689,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
 :root{{
   --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
   --way-yellow:#E8B71A; --way-red:#BE3A2B;
-  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+  --open:#1E7A45; --partial:#946000; --closed:#B3372E;
   --card:#FFFFFF; --line:#E3E1D8;
 }}
 {CSS}
@@ -645,7 +717,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
 <aside class="facts">
   <h2>{LBL['facts'][lang]}</h2>
   <dl>
-{facts_rows(lang, f, linear, t['typ'])}  </dl>
+{facts_rows(lang, f, linear, t['typ'], code)}  </dl>
 {gen_trail_extras.facts_block(code, lang, EXTRAS)}{map_block(lang, name, geo, f)}</aside>
 
 <div class="waymark thin" aria-hidden="true"></div>
