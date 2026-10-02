@@ -10,13 +10,14 @@ report sequence?"** Ask it in the same message as the bot question below.
   Otherwise ask, then write today's date into it (`date +%F > reports/.asked`) whatever the answer.
 - **No** → carry on.
 - **Yes** → run the sequence:
-  1. **Data:** check `reports/data/daily_sweep.log` for today's run (cron 05:30 runs `reports/daily_sweep.sh`).
-     If it's missing, ask the owner to type `! bash reports/daily_sweep.sh` (about 20 min). Claude can't run it,
-     because the Firecrawl key lives in another project's env file that auto mode won't let Claude load.
+  1. **Data:** ask the owner to type `! bash reports/daily_sweep.sh` (about 20 min; there is NO cron job, by the
+     owner's choice). Claude can't run it itself: the Firecrawl key lives in another project's env file that auto
+     mode won't let Claude load. Keep the command exactly that short (long `!` commands wrap and break over
+     Remote Control). Check `reports/data/daily_sweep.log` for the "done" line before building.
   2. **Search Console:** ask the owner for today's exports (Performance → last 7 days and last 28 days:
      Queries, Pages, Countries, Devices, Chart). Save them to `google_search_console/<date>_last7d/` (or `_last28d/`).
   3. **Build:** `python3 reports/build_daily.py` → `reports/data/<date>/auto_summary.md` (rankings from Funchal
-     vs the previous day, share of expected clicks per language, competitor movers and new top-3 entrants,
+     vs the previous run, share of expected clicks per language, competitor movers and new top-3 entrants,
      new autocomplete terms we don't track, Search Console, Lighthouse).
   4. **Write `reports/<date>_daily_report.md`:** what changed, Levadinho's positions, the competitors' ranking,
      new search terms we're missing, what Search Console shows, then **proposed fixes** (ranked by impact,
@@ -25,7 +26,7 @@ report sequence?"** Ask it in the same message as the bot question below.
     would publish them).
   - Tracked keywords: `seo_research/keywords/keywords_v2.json` (146 = 13 core + 81 from autocomplete, × 5
     languages). Funchal is the primary location. Add new keywords there when the report finds them.
-  - Cost: about 290 Firecrawl credits a day (+ about 180 on Mondays for the home-country check).
+  - Cost: about 290 Firecrawl credits per run (+ about 180 when run on a Monday, for the home-country check).
 
 ## ▶ At the start of every session — ask about the Levadinho bot
 
