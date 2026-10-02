@@ -369,7 +369,7 @@ a.tname:hover{text-decoration:underline}
 </section>
 
 <footer>
-  <p>Unabhängiger Ratgeber, aktualisiert am <span id="stamp"></span>. Nicht mit der Regionalregierung von Madeira, IFCN oder SIMplifica verbunden. Regeln und Gebühren können sich ändern — prüfen Sie die offiziellen Seiten, bevor Sie zahlen.</p>
+  <p>Der Status stammt aus der <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">offiziellen IFCN-Warnliste</a>. Buchung über <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, Gipfelwetter von <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. <a href="/privacy/#de">Datenschutzerklärung</a></p>
 </footer>
 
 <script>
@@ -410,7 +410,7 @@ a.tname:hover{text-decoration:underline}
     if (location.hash === '#countme') localStorage.removeItem('gc-skip');
   } catch(e){}
   const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
-  document.getElementById('stamp').textContent = c.lastUpdated;
+  var st = document.getElementById('stamp'); if (st) st.textContent = c.lastUpdated;
   if (c.goatcounterCode && !SKIP_ANALYTICS){
     const s = document.createElement('script');
     s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';

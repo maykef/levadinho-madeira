@@ -408,7 +408,7 @@ a.tname:hover{text-decoration:underline}
 </nav>
 <!-- SITE-NAV-GUIDES:END -->
 <footer>
-  <p>Guia independente, atualizado em <span id="stamp"></span>. Sem ligação ao Governo Regional da Madeira, ao IFCN ou ao SIMplifica. As regras e as taxas podem mudar — confirme nas páginas oficiais antes de pagar.</p>
+  <p>O estado vem da <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">lista oficial de avisos do IFCN</a>. Reservas no <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, tempo no cume do <a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. <a href="/privacy/#pt">Política de privacidade</a></p>
 </footer>
 
 <script>
@@ -419,7 +419,7 @@ a.tname:hover{text-decoration:underline}
     if (location.hash === '#countme') localStorage.removeItem('gc-skip');
   } catch(e){}
   const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
-  document.getElementById('stamp').textContent = c.lastUpdated;
+  var st = document.getElementById('stamp'); if (st) st.textContent = c.lastUpdated;
   if (c.goatcounterCode && !SKIP_ANALYTICS){
     const s = document.createElement('script');
     s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';

@@ -275,7 +275,7 @@ a.tname:hover{text-decoration:underline}
 </section>
 
 <footer>
-  <p>Guide indépendant, actualisé le <span id="stamp"></span>. Non affilié au Gouvernement régional de Madère ni à SIMplifica. Le portail et ses règles changent — confirmez toujours la procédure en vigueur sur simplifica.madeira.gov.pt.</p>
+  <p>L'état provient de la <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">liste officielle des avis de l'IFCN</a>. Réservation via <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, météo du sommet fournie par l'<a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. <a href="/privacy/#fr">Politique de confidentialité</a></p>
 </footer>
 
 <script>
@@ -286,7 +286,7 @@ a.tname:hover{text-decoration:underline}
     if (location.hash === '#countme') localStorage.removeItem('gc-skip');
   } catch(e){}
   const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
-  document.getElementById('stamp').textContent = c.lastUpdated;
+  var st = document.getElementById('stamp'); if (st) st.textContent = c.lastUpdated;
   if (c.goatcounterCode && !SKIP_ANALYTICS){
     const s = document.createElement('script');
     s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
