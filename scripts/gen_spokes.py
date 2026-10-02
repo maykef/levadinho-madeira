@@ -378,7 +378,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                  "<b>It's out-and-back.</b> Turn around with enough time and daylight to walk out the way you came."),
                 "<b>Check the live badge the morning you go.</b> Mountain trails close fast for weather, rockfall or works.",
             ],
-            footer="Status compiled from <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> and <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, with weather from <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Independent — not affiliated with the Madeira Regional Government. Conditions change fast in the mountains; always use your own judgement on the trail.",
+            footer="Status comes from the official <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN warnings list</a>. Booking via <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, summit weather from <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. <a href=\"/privacy/#en\">Privacy policy</a>",
         )
     elif lang == "pt":
         A, a, da, o = pt_g(name)
@@ -405,7 +405,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                  "<b>É de ida e volta.</b> Dê meia-volta com tempo e luz do dia suficientes para regressar pelo mesmo caminho."),
                 "<b>Confirme o indicador em direto na manhã em que for.</b> Os percursos de montanha fecham depressa por mau tempo, queda de pedras ou obras.",
             ],
-            footer="Estado compilado a partir do <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> e do <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, com meteorologia do <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Independente — sem ligação ao Governo Regional da Madeira. As condições mudam depressa na montanha; use sempre o seu próprio discernimento no percurso.",
+            footer="O estado vem da <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">lista oficial de avisos do IFCN</a>. Reservas no <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, tempo no cume do <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. <a href=\"/privacy/#pt\">Política de privacidade</a>",
         )
     elif lang == "fr":
         fA, fa, fpr, fe = fr_g(name)
@@ -432,7 +432,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                  "<b>C'est un aller-retour.</b> Faites demi-tour avec assez de temps et de lumière pour revenir par le même chemin."),
                 "<b>Vérifiez le badge en direct le matin même.</b> Les sentiers de montagne ferment vite pour météo, chutes de pierres ou travaux.",
             ],
-            footer="Statut compilé à partir de l'<a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> et de <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, avec la météo de l'<a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Indépendant — non affilié au Gouvernement régional de Madère. Les conditions changent vite en montagne ; fiez-vous toujours à votre propre jugement sur le sentier.",
+            footer="L'état provient de la <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">liste officielle des avis de l'IFCN</a>. Réservation via <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, météo du sommet fournie par l'<a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. <a href=\"/privacy/#fr\">Politique de confidentialité</a>",
         )
     elif lang == "de":
         dA, da_, dpr, dacc = de_g(name)
@@ -459,7 +459,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                  "<b>Hin und zurück.</b> Drehen Sie mit genug Zeit und Tageslicht um, um denselben Weg zurückzugehen."),
                 "<b>Prüfen Sie das Live-Abzeichen am Morgen Ihrer Tour.</b> Bergwege werden schnell wegen Wetter, Steinschlag oder Arbeiten gesperrt.",
             ],
-            footer="Status aus <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> und <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a> zusammengestellt, mit Wetter von <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Unabhängig — nicht mit der Regionalregierung von Madeira verbunden. Die Bedingungen ändern sich in den Bergen schnell; verlassen Sie sich auf dem Weg immer auf Ihr eigenes Urteil.",
+            footer="Der Status stammt aus der <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">offiziellen IFCN-Warnliste</a>. Buchung über <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, Gipfelwetter von <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. <a href=\"/privacy/#de\">Datenschutzerklärung</a>",
         )
     else:  # pl
         d.update(
@@ -485,7 +485,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                  "<b>Trasa tam i z powrotem.</b> Zawracaj z zapasem czasu i światła, by wrócić tą samą drogą."),
                 "<b>Sprawdź plakietkę na żywo w dniu wyjścia.</b> Górskie szlaki szybko zamyka się z powodu pogody, obrywów lub prac.",
             ],
-            footer="Status zestawiany z <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">IFCN</a> i <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, z pogodą z <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. Niezależny — niepowiązany z Rządem Regionalnym Madery. Warunki w górach zmieniają się szybko; na szlaku zawsze kieruj się własnym osądem.",
+            footer="Stan pochodzi z <a href=\"https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos\" rel=\"noopener\">oficjalnej listy ostrzeżeń IFCN</a>. Rezerwacja przez <a href=\"https://simplifica.madeira.gov.pt/\" rel=\"noopener\">SIMplifica</a>, pogoda na szczycie z <a href=\"https://www.ipma.pt/\" rel=\"noopener\">IPMA</a>. <a href=\"/privacy/#pl\">Polityka prywatności</a>",
         )
     d["title"], d["desc"] = titles(lang, code, name)
     if code in NO_IFCN_FEE:
