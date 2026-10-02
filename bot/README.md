@@ -213,7 +213,7 @@ independently of the GPU bot.
   - Privacy policy: https://levadinho-madeira.com/privacy/ (contact hello@levadinho-madeira.com).
 - **Bot number: +44 7405 754593** (UK virtual mobile).
   - Phone number ID `1252178464655857`, WABA "Levadinho Madeira" `1087386100886727`.
-  - Status CONNECTED, display name "Levadinho Madeira" approved, messaging tier 250.
+  - Status CONNECTED, display name "Levadinho Madeira" approved, messaging tier 250 (before the ban; on 2026-10-02 `health_status` reported the display name as NOT approved — cause unknown).
   - **Open to any phone.**
 - **Token:** a permanent System User token (`levadinho-bot`, id 61595071312731, never
   expires), with `whatsapp_business_messaging` + `whatsapp_business_management`, stored in `.env`.
