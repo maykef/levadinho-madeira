@@ -6,6 +6,7 @@
 
   var LANGS = {
     en: {
+      nofee: "No IFCN fee",
       updated: "checked", ifcnUpd: "IFCN list updated", mtime: "(Madeira time)",
       open: "open", restricted: "restricted", closed: "closed",
       changed: "⚠ Changed today", changedSub: "restricted & closed — check before you go",
@@ -21,6 +22,7 @@
       xfNote: "Only trails with sourced tunnel/vertigo data are shown (mostly IFCN trailhead panels)."
     },
     pt: {
+      nofee: "Sem taxa IFCN",
       updated: "verificado", ifcnUpd: "Lista IFCN atualizada", mtime: "(hora da Madeira)",
       open: "abertos", restricted: "condicionados", closed: "fechados",
       changed: "⚠ Alterações hoje", changedSub: "condicionados e fechados — confirme antes de ir",
@@ -37,6 +39,7 @@
       decimalComma: true
     },
     fr: {
+      nofee: "Sans taxe IFCN",
       updated: "vérifié", ifcnUpd: "Liste IFCN mise à jour", mtime: "(heure de Madère)",
       open: "ouverts", restricted: "restreints", closed: "fermés",
       changed: "⚠ Changements aujourd'hui", changedSub: "restreints & fermés — à vérifier avant de partir",
@@ -51,6 +54,7 @@
       xfNote: "Seuls les sentiers avec des données sourcées sur les tunnels et le vertige sont affichés (surtout les panneaux IFCN)."
     },
     de: {
+      nofee: "Keine IFCN-Gebühr",
       updated: "geprüft", ifcnUpd: "IFCN-Liste aktualisiert", mtime: "(Madeira-Zeit)",
       open: "offen", restricted: "eingeschränkt", closed: "gesperrt",
       changed: "⚠ Heute geändert", changedSub: "eingeschränkt & gesperrt — vor dem Start prüfen",
@@ -65,6 +69,7 @@
       xfNote: "Nur Wege mit belegten Tunnel-/Schwindel-Daten werden angezeigt (meist IFCN-Infotafeln)."
     },
     pl: {
+      nofee: "Bez opłaty IFCN",
       updated: "sprawdzono", ifcnUpd: "Lista IFCN zaktualizowana", mtime: "(czas Madery)",
       open: "otwarte", restricted: "ograniczone", closed: "zamknięte",
       changed: "⚠ Zmiany dzisiaj", changedSub: "ograniczone i zamknięte — sprawdź przed wyjściem",
@@ -88,7 +93,8 @@
   function el(id) { return document.getElementById(id); }
   // Decimal comma + trailing euro sign where the language expects it (pt).
   function num(n, T) { return T.decimalComma ? String(n).replace(".", ",") : String(n); }
-  function fee(f, T) { return T.decimalComma ? num(f, T) + " €" : "€" + f; }
+  // fee null = classified PR run by another body (e.g. Funchal council): no IFCN fee, not on SIMplifica.
+  function fee(f, T) { if (f == null) return T.nofee; return T.decimalComma ? num(f, T) + " €" : "€" + f; }
 
   function noteFor(t, T, lang) {
     if (t.note) {

@@ -51,6 +51,8 @@ TAGS = {
     "simplifica-booking/index.html": "web-booking",
     "pico-do-areeiro-weather/index.html": "web-weather",
     "pr1-sunrise-transport/index.html": "web-sunrise",
+    "pr1-one-way/index.html": "web-oneway",
+    "free-walks/index.html": "web-free",
     "best-levada-walks/index.html": "web-best",
     "easy-levadas-no-vertigo/index.html": "web-easy",
     "levadas-with-tunnels/index.html": "web-tunnels",
