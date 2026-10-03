@@ -138,6 +138,12 @@ GUIDES = [
      {"en": "Free walks in Madeira: no ticket needed", "pt": "Trilhos gratuitos na Madeira: sem bilhete",
       "fr": "Randonnées gratuites à Madère : sans billet", "de": "Wandern auf Madeira ohne Gebühr und ohne Ticket",
       "pl": "Darmowe szlaki na Maderze: bez biletu"}),
+    ("bus", "/levadas-by-bus/", None,
+     {"en": "Levadas by bus", "pt": "Levadas de autocarro", "fr": "Levadas en bus", "de": "Levadas mit dem Bus",
+      "pl": "Lewady autobusem"},
+     {"en": "Levadas by bus from Funchal: which trails", "pt": "Levadas de autocarro a partir do Funchal",
+      "fr": "Levadas en bus depuis Funchal : quels sentiers", "de": "Levadas mit dem Bus ab Funchal",
+      "pl": "Lewady autobusem z Funchal: które szlaki"}),
     ("best", "/best-levada-walks/", None,
      {"en": "Best levada walks", "pt": "Melhores levadas", "fr": "Meilleures levadas", "de": "Schönste Levadas",
       "pl": "Najpiękniejsze lewady"},
@@ -159,20 +165,21 @@ GUIDE = {g[0]: g for g in GUIDES}
 # Which guides each page links to in its "More guides" block (targets the page already
 # links to in its own copy are dropped, so the block never repeats a "Next steps" link).
 RELATED_GUIDES = {
-    "home": ["pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels"],
+    "home": ["pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus"],
     "pr1": ["oneway", "sunrise", "weather", "back", "booking", "fees", "permit"],
     "fees": ["permit", "free", "booking", "abroad", "best", "pr1"],
     "permit": ["free", "booking", "fees", "best", "easy", "tunnels"],
     "booking": ["abroad", "permit", "fees", "pr1", "best"],
     "abroad": ["booking", "permit", "fees", "pr1"],
-    "back": ["oneway", "sunrise", "weather", "pr1", "booking"],
-    "sunrise": ["weather", "back", "oneway", "pr1", "booking"],
+    "back": ["bus", "oneway", "sunrise", "weather", "pr1", "booking"],
+    "sunrise": ["weather", "back", "bus", "oneway", "pr1", "booking"],
     "weather": ["pr1", "sunrise", "back", "best"],
-    "best": ["easy", "tunnels", "permit", "booking", "fees"],
+    "best": ["easy", "tunnels", "bus", "permit", "booking", "fees"],
     "easy": ["best", "tunnels", "free", "permit", "booking"],
     "tunnels": ["best", "easy", "permit", "booking"],
     "oneway": ["back", "sunrise", "pr1", "booking", "fees"],
-    "free": ["permit", "fees", "booking", "easy", "best"],
+    "free": ["permit", "fees", "booking", "easy", "best", "bus"],
+    "bus": ["back", "sunrise", "free", "best", "easy", "booking"],
     "spoke": ["best", "easy", "tunnels", "booking", "fees", "permit"],
     "spoke-pr1": ["pr1", "oneway", "back", "sunrise", "weather", "booking", "fees"],   # PR1.2 Pico Ruivo
 }
@@ -191,7 +198,7 @@ NEARBY_SUB = {"en": "Closest trailheads — each has its own live status.",
 KM = {"en": "{} km away", "pt": "a {} km", "fr": "à {} km", "de": "{} km entfernt", "pl": "{} km stąd"}
 # List pages that cover individual trails. A trail page links back to each one whose
 # English copy has the trail's badge / static-status marker / a link to its page.
-HUBS = ("best", "easy", "tunnels")
+HUBS = ("best", "easy", "tunnels", "bus")
 LISTED = {"en": "In our guides:", "pt": "Nos nossos guias:", "fr": "Dans nos guides :",
           "de": "In unseren Ratgebern:", "pl": "W naszych poradnikach:"}
 SAME = {"en": "Same trailhead", "pt": "Mesmo ponto de partida", "fr": "Même point de départ", "de": "Gleicher Startpunkt", "pl": "Ten sam punkt startowy"}
