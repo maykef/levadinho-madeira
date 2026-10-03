@@ -71,7 +71,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
     },
     {
       "@type": "Question",
-      "name": "Vereda das Funduras : quelle météo maintenant ?",
+      "name": "Vereda das Funduras (PR5) : quelle météo maintenant ?",
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "La carte d'état ci-dessus affiche le dernier relevé mesuré par la station IPMA de Santana, la station régionale la plus proche du sentier : température, vent et risque d'être dans les nuages. En montagne, attendez-vous à plus frais et plus nuageux qu'à Funchal."
@@ -275,6 +275,13 @@ a.tname:hover{text-decoration:underline}
 }
 </script>
 <!-- SITE-NAV-HEAD:END -->
+<!-- FTAB-HEAD:START (scripts/gen_trail_polish.py) -->
+<style>
+.facts table.ftab{width:100%;border-collapse:collapse;font-size:14px;margin:0}
+.facts table.ftab th{font-weight:400;color:var(--ink-soft);text-align:left;padding:2.5px 10px 2.5px 0;vertical-align:top}
+.facts table.ftab td{font-weight:650;text-align:right;padding:2.5px 0;vertical-align:top}
+</style>
+<!-- FTAB-HEAD:END -->
 </head>
 <body>
 <div class="waymark" aria-hidden="true"></div>
@@ -331,17 +338,17 @@ a.tname:hover{text-decoration:underline}
 <!-- LEVADINHO-CTA:END -->
 
 <aside class="facts">
-  <h2>Infos sur le sentier</h2>
-  <dl>
-    <dt>Distance</dt><dd>8.7 km</dd>
-    <dt>Durée</dt><dd>3 h</dd>
-    <dt>Difficulté</dt><dd>Modérée</dd>
-    <dt>Altitude</dt><dd>186–624 m</dd>
-    <dt>Itinéraire</dt><dd>Miradouro da Portela → Maroços</dd>
-    <dt>Type</dt><dd>Point à point</dd>
-    <dt>Tarif</dt><dd>€4.50</dd>
-  </dl>
-  <h2 style="margin-top:14px">Point de départ</h2>
+  <h2>Infos sur le sentier PR5</h2>
+  <table class="ftab">
+    <tr><th scope="row">Distance</th><td>8.7 km</td></tr>
+    <tr><th scope="row">Durée</th><td>3 h</td></tr>
+    <tr><th scope="row">Difficulté</th><td>Modérée</td></tr>
+    <tr><th scope="row">Altitude</th><td>186–624 m</td></tr>
+    <tr><th scope="row">Itinéraire</th><td>Miradouro da Portela → Maroços</td></tr>
+    <tr><th scope="row">Type</th><td>Point à point</td></tr>
+    <tr><th scope="row">Tarif</th><td>€4.50</td></tr>
+  </table>
+  <h2 style="margin-top:14px">Point de départ du PR5</h2>
   <iframe loading="lazy" title="Carte du point de départ : Vereda das Funduras" src="https://www.openstreetmap.org/export/embed.html?bbox=-16.83545,32.74147,-16.81545,32.75347&amp;layer=mapnik&amp;marker=32.74747,-16.82545" style="width:100%;height:170px;border:1px solid var(--line);border-radius:8px"></iframe>
   <p style="font-size:13px;margin:6px 0 0"><a class="plain" href="https://www.openstreetmap.org/?mlat=32.74747&amp;mlon=-16.82545#map=15/32.74747/-16.82545" target="_blank" rel="noopener">Ouvrir dans OpenStreetMap</a> · <a class="plain" href="https://www.google.com/maps?q=32.74747,-16.82545" target="_blank" rel="noopener">Google Maps</a></p>
   <p style="font-size:12px;color:var(--ink-soft);margin:4px 0 0">Emplacement du départ selon l'index des sentiers de Visit Madeira.</p>
@@ -362,7 +369,7 @@ a.tname:hover{text-decoration:underline}
 
 <!-- BUS:START (scripts/gen_bus.py) -->
 <section id="bus">
-  <h2>En bus</h2>
+  <h2>PR5 en bus</h2>
   <p><b>Aller.</b> Les lignes 53 et 78 (nouveau n° 825) passent par Portela, mais leurs fiches n'indiquent aucune heure à Portela : demandez l'heure de passage à la CAM ou prenez un taxi.</p>
   <p><b>Retour.</b> La balade se termine à Maroços, d'où un bus repart vers Funchal. Ligne 156 (CAM, nouveau n° 704), Maroços → Funchal. Du lundi au vendredi : 15:30 → 16:45, 17:00 → 18:30, 19:00 → 20:15, 21:10 → 22:20. Samedi : 11:30 → 13:00, 12:45 → 14:00, 22:35 → 23:45. Dimanches et jours fériés : 15:45 → 17:00, 19:40 → 20:55, 22:35 → 23:45.</p>
   <p style="font-size:13px;color:var(--ink-soft);margin-top:8px">Horaires tels qu'imprimés sur les fiches des transporteurs publiées sur <a href="https://siga.madeira.gov.pt/horarios" rel="noopener">SIGA</a>, le site des transports publics de la Région ; les heures aux arrêts intermédiaires sont approximatives. Pas de bus le 25 décembre. Vérifiez avant de partir.</p>
@@ -370,7 +377,7 @@ a.tname:hover{text-decoration:underline}
 <!-- BUS:END -->
 
 <section id="weather">
-  <h2>Vereda das Funduras : quelle météo maintenant ?</h2>
+  <h2>Vereda das Funduras (PR5) : quelle météo maintenant ?</h2>
   <p>La carte d'état ci-dessus affiche le dernier relevé mesuré par la station IPMA de Santana, la station régionale la plus proche du sentier : température, vent et risque d'être dans les nuages. En montagne, attendez-vous à plus frais et plus nuageux qu'à Funchal.</p>
   <p class="static-weather"><!-- STATIC-WEATHER:PR5:START -->Météo près du sentier (station IPMA Santana, 3 octobre 2026 06:56) : 16 °C.<!-- STATIC-WEATHER:PR5:END --></p>
   <p class="wx-warn">Avis météo officiels pour la montagne de Madère : <a href="https://www.ipma.pt/en/otempo/prev-sam/?p=MRM" rel="noopener">IPMA</a>.</p>

@@ -72,7 +72,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
     },
     {
       "@type": "Question",
-      "name": "What's the weather at Vereda do Burro now?",
+      "name": "What's the weather at Vereda do Burro (PR3) now?",
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "The status card above shows the latest measured reading from the IPMA Pico do Areeiro station, the regional weather station nearest the trail: temperature, wind and whether it is likely in cloud. Expect the mountains cooler and cloudier than Funchal."
@@ -277,6 +277,13 @@ a.tname:hover{text-decoration:underline}
 }
 </script>
 <!-- SITE-NAV-HEAD:END -->
+<!-- FTAB-HEAD:START (scripts/gen_trail_polish.py) -->
+<style>
+.facts table.ftab{width:100%;border-collapse:collapse;font-size:14px;margin:0}
+.facts table.ftab th{font-weight:400;color:var(--ink-soft);text-align:left;padding:2.5px 10px 2.5px 0;vertical-align:top}
+.facts table.ftab td{font-weight:650;text-align:right;padding:2.5px 0;vertical-align:top}
+</style>
+<!-- FTAB-HEAD:END -->
 </head>
 <body>
 <div class="waymark" aria-hidden="true"></div>
@@ -333,17 +340,17 @@ a.tname:hover{text-decoration:underline}
 <!-- LEVADINHO-CTA:END -->
 
 <aside class="facts">
-  <h2>Trail facts</h2>
-  <dl>
-    <dt>Distance</dt><dd>7.2 km</dd>
-    <dt>Time</dt><dd>2:40 h</dd>
-    <dt>Difficulty</dt><dd>Easy</dd>
-    <dt>Altitude</dt><dd>1130–1805 m</dd>
-    <dt>Route</dt><dd>Pico do Areeiro → Ribeira das Cales - Funchal Ecological Park Welcome Centre</dd>
-    <dt>Type</dt><dd>Point-to-point</dd>
-    <dt>Fee</dt><dd>No IFCN fee</dd>
-  </dl>
-  <h2 style="margin-top:14px">Trailhead</h2>
+  <h2>PR3 trail facts</h2>
+  <table class="ftab">
+    <tr><th scope="row">Distance</th><td>7.2 km</td></tr>
+    <tr><th scope="row">Time</th><td>2:40 h</td></tr>
+    <tr><th scope="row">Difficulty</th><td>Easy</td></tr>
+    <tr><th scope="row">Altitude</th><td>1130–1805 m</td></tr>
+    <tr><th scope="row">Route</th><td>Pico do Areeiro → Ribeira das Cales - Funchal Ecological Park Welcome Centre</td></tr>
+    <tr><th scope="row">Type</th><td>Point-to-point</td></tr>
+    <tr><th scope="row">Fee</th><td>No IFCN fee</td></tr>
+  </table>
+  <h2 style="margin-top:14px">PR3 trailhead</h2>
   <iframe loading="lazy" title="Map of the Vereda do Burro trailhead" src="https://www.openstreetmap.org/export/embed.html?bbox=-16.93882,32.72893,-16.91882,32.74093&amp;layer=mapnik&amp;marker=32.73493,-16.92882" style="width:100%;height:170px;border:1px solid var(--line);border-radius:8px"></iframe>
   <p style="font-size:13px;margin:6px 0 0"><a class="plain" href="https://www.openstreetmap.org/?mlat=32.73493&amp;mlon=-16.92882#map=15/32.73493/-16.92882" target="_blank" rel="noopener">Open in OpenStreetMap</a> · <a class="plain" href="https://www.google.com/maps?q=32.73493,-16.92882" target="_blank" rel="noopener">Google Maps</a></p>
   <p style="font-size:12px;color:var(--ink-soft);margin:4px 0 0">Trailhead location from the Visit Madeira trail index.</p>
@@ -363,7 +370,7 @@ a.tname:hover{text-decoration:underline}
 </section>
 
 <section id="weather">
-  <h2>What's the weather at Vereda do Burro now?</h2>
+  <h2>What's the weather at Vereda do Burro (PR3) now?</h2>
   <p>The status card above shows the latest measured reading from the IPMA Pico do Areeiro station, the regional weather station nearest the trail: temperature, wind and whether it is likely in cloud. Expect the mountains cooler and cloudier than Funchal.</p>
   <p class="static-weather"><!-- STATIC-WEATHER:PR3:START -->Weather near the trail (IPMA Pico do Areeiro station, 3 October 2026 06:56): 6 °C, wind 23 km/h, likely in cloud.<!-- STATIC-WEATHER:PR3:END --></p>
   <p class="wx-warn">Official weather warnings for the Madeira mountains: <a href="https://www.ipma.pt/en/otempo/prev-sam/?p=MRM" rel="noopener">IPMA</a>.</p>

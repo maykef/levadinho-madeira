@@ -72,7 +72,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
     },
     {
       "@type": "Question",
-      "name": "Levada do Risco: jaka jest teraz pogoda?",
+      "name": "Levada do Risco (PR6.1): jaka jest teraz pogoda?",
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Karta stanu powyżej pokazuje ostatni pomiar ze stacji IPMA Rabaçal, najbliższej regionalnej stacji pogodowej: temperaturę, wiatr i to, czy szlak jest prawdopodobnie w chmurach. W górach jest chłodniej i bardziej pochmurno niż w Funchal."
@@ -277,6 +277,13 @@ a.tname:hover{text-decoration:underline}
 }
 </script>
 <!-- SITE-NAV-HEAD:END -->
+<!-- FTAB-HEAD:START (scripts/gen_trail_polish.py) -->
+<style>
+.facts table.ftab{width:100%;border-collapse:collapse;font-size:14px;margin:0}
+.facts table.ftab th{font-weight:400;color:var(--ink-soft);text-align:left;padding:2.5px 10px 2.5px 0;vertical-align:top}
+.facts table.ftab td{font-weight:650;text-align:right;padding:2.5px 0;vertical-align:top}
+</style>
+<!-- FTAB-HEAD:END -->
 <!-- WEBCAM-HEAD:START (scripts/gen_webcam.py) -->
 <style>
 .tcam{margin-top:22px}
@@ -350,16 +357,16 @@ a.tname:hover{text-decoration:underline}
 <!-- WEBCAM:END -->
 
 <aside class="facts">
-  <h2>Fakty o szlaku</h2>
-  <dl>
-    <dt>Dystans</dt><dd>1.5 km (3 km round trip)</dd>
-    <dt>Czas</dt><dd>2 h</dd>
-    <dt>Trudność</dt><dd>Łatwa</dd>
-    <dt>Wysokość</dt><dd>1000–1288 m</dd>
-    <dt>Typ</dt><dd>Tam i z powrotem</dd>
-    <dt>Opłata</dt><dd>€4.50</dd>
-  </dl>
-  <h2 style="margin-top:14px">Początek szlaku</h2>
+  <h2>Fakty o szlaku PR6.1</h2>
+  <table class="ftab">
+    <tr><th scope="row">Dystans</th><td>1.5 km (3 km round trip)</td></tr>
+    <tr><th scope="row">Czas</th><td>2 h</td></tr>
+    <tr><th scope="row">Trudność</th><td>Łatwa</td></tr>
+    <tr><th scope="row">Wysokość</th><td>1000–1288 m</td></tr>
+    <tr><th scope="row">Typ</th><td>Tam i z powrotem</td></tr>
+    <tr><th scope="row">Opłata</th><td>€4.50</td></tr>
+  </table>
+  <h2 style="margin-top:14px">Początek szlaku PR6.1</h2>
   <iframe loading="lazy" title="Mapa początku szlaku: Levada do Risco" src="https://www.openstreetmap.org/export/embed.html?bbox=-17.14399,32.74905,-17.12399,32.76105&amp;layer=mapnik&amp;marker=32.75505,-17.13399" style="width:100%;height:170px;border:1px solid var(--line);border-radius:8px"></iframe>
   <p style="font-size:13px;margin:6px 0 0"><a class="plain" href="https://www.openstreetmap.org/?mlat=32.75505&amp;mlon=-17.13399#map=15/32.75505/-17.13399" target="_blank" rel="noopener">Otwórz w OpenStreetMap</a> · <a class="plain" href="https://www.google.com/maps?q=32.75505,-17.13399" target="_blank" rel="noopener">Mapy Google</a></p>
   <p style="font-size:12px;color:var(--ink-soft);margin:4px 0 0">Położenie początku szlaku według indeksu szlaków Visit Madeira.</p>
@@ -380,13 +387,13 @@ a.tname:hover{text-decoration:underline}
 
 <!-- BUS:START (scripts/gen_bus.py) -->
 <section id="bus">
-  <h2>Autobusem</h2>
+  <h2>PR6.1 autobusem</h2>
   <p>Żaden autobus publiczny nie dojeżdża do Rabaçal: żadna z linii w SIGA nie obsługuje płaskowyżu Paul da Serra ani Fanalu. Potrzebny jest samochód, taksówka lub transfer. Z parkingu Rabaçal przy ER110 gmina Calheta prowadzi bus wahadłowy do domu Rabaçal (płatność gotówką).</p>
 </section>
 <!-- BUS:END -->
 
 <section id="weather">
-  <h2>Levada do Risco: jaka jest teraz pogoda?</h2>
+  <h2>Levada do Risco (PR6.1): jaka jest teraz pogoda?</h2>
   <p>Karta stanu powyżej pokazuje ostatni pomiar ze stacji IPMA Rabaçal, najbliższej regionalnej stacji pogodowej: temperaturę, wiatr i to, czy szlak jest prawdopodobnie w chmurach. W górach jest chłodniej i bardziej pochmurno niż w Funchal.</p>
   <p class="static-weather"><!-- STATIC-WEATHER:PR6.1:START -->Pogoda przy szlaku (stacja IPMA Rabaçal, 3 października 2026 06:56): 16 °C, wiatr 17 km/h.<!-- STATIC-WEATHER:PR6.1:END --></p>
   <p class="wx-warn">Oficjalne ostrzeżenia pogodowe dla gór Madery: <a href="https://www.ipma.pt/en/otempo/prev-sam/?p=MRM" rel="noopener">IPMA</a>.</p>

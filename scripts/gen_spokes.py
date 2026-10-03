@@ -961,6 +961,9 @@ def main():
     import gen_webcam
     gen_webcam.main()
     # ...and complete the TouristAttraction blocks (description, address, image; see gen_schema.py).
+    # ...trail code in the headings and the facts list as a table (see gen_trail_polish.py).
+    import gen_trail_polish
+    gen_trail_polish.main()
     import gen_schema
     gen_schema.main()
 

@@ -57,7 +57,7 @@ const CONFIG = {
   "@type": "TouristAttraction",
   "name": "Vereda do Areeiro (PR1)",
   "alternateName": "PR1",
-  "description": "Vereda do Areeiro (PR1), oficjalny szlak pieszy (PR) na Maderze w Portugalii.",
+  "description": "Vereda do Areeiro (PR1), oficjalny szlak pieszy (PR) na Maderze w Portugalii. Długość: 6,1 km. Trudność: Średnia.",
   "url": "https://levadinho-madeira.com/pl/pr1/",
   "image": "https://levadinho-madeira.com/img/pr1-areeiro-dome.jpg",
   "touristType": "Hikers",
@@ -79,7 +79,34 @@ const CONFIG = {
     "@type": "GeoCoordinates",
     "latitude": 32.73549,
     "longitude": -16.9288
-  }
+  },
+  "additionalProperty": [
+    {
+      "@type": "PropertyValue",
+      "name": "Dystans",
+      "value": "6,1 km"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Czas",
+      "value": "ok. 3 godzin"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Trudność",
+      "value": "Średnia"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Wysokość",
+      "value": "1491–1857 m"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Kierunek",
+      "value": "Jednokierunkowy za Pedra Rija"
+    }
+  ]
 }
 </script>
 <script type="application/ld+json">
@@ -276,6 +303,15 @@ a.tname:hover{text-decoration:underline}
 }
 </script>
 <!-- SITE-NAV-HEAD:END -->
+<!-- PR1-FACTS-HEAD:START -->
+<style>
+.pr1facts table{width:100%;border-collapse:collapse;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.pr1facts th{font-weight:400;color:var(--ink-soft);text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;width:40%}
+.pr1facts td{font-weight:650;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.pr1facts tr:last-child th,.pr1facts tr:last-child td{border-bottom:0}
+.pr1facts .src{font-size:13px;color:var(--ink-soft);margin-top:8px}
+</style>
+<!-- PR1-FACTS-HEAD:END -->
 </head>
 <body>
 
@@ -343,6 +379,23 @@ a.tname:hover{text-decoration:underline}
     if(g&&g.count)g.count({path:"whatsapp-"+a.getAttribute("data-tag"),title:"Levadinho WhatsApp CTA",event:true});}catch(e){}});})();
 </script>
 <!-- LEVADINHO-CTA:END -->
+
+<!-- PR1-FACTS:START -->
+<section id="facts" class="pr1facts">
+  <h2>Fakty o szlaku PR1</h2>
+  <table>
+      <tr><th scope="row">Dystans</th><td>6,1 km, Pico do Areeiro → Pico Ruivo</td></tr>
+      <tr><th scope="row">Zejście do Achada do Teixeira</th><td>ok. 2,8 km szlakiem PR1.2</td></tr>
+      <tr><th scope="row">Czas</th><td>ok. 3 godzin do Pico Ruivo; ok. 4 godzin w sumie</td></tr>
+      <tr><th scope="row">Trudność</th><td>Średnia</td></tr>
+      <tr><th scope="row">Wysokość</th><td>1491–1857 m</td></tr>
+      <tr><th scope="row">Kierunek</th><td>Jednokierunkowy za Pedra Rija (Areeiro ↔ Pedra Rija, 1,2 km, w obie strony)</td></tr>
+      <tr><th scope="row">Opłata</th><td>10,50 € cała trasa · 4,50 € tylko Areeiro–Pedra Rija</td></tr>
+      <tr><th scope="row">Tunele</th><td>Tak, weź czołówkę</td></tr>
+  </table>
+  <p class="src">Dystans, czas, trudność i wysokość: <a class="plain" href="https://visitmadeira.com/en/what-to-do/nature-seekers/activities/hiking/pr-1-vereda-do-areeiro/" target="_blank" rel="noopener">strona PR1 w Visit Madeira</a>. Kierunek: <a class="plain" href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" target="_blank" rel="noopener">IFCN</a>. Opłaty: SIMplifica i Portaria 48/2026.</p>
+</section>
+<!-- PR1-FACTS:END -->
 
 <section id="one-way">
   <h2><span class="q">Czy PR1 jest jednokierunkowy?</span> Tak, za Pedra Rija</h2>

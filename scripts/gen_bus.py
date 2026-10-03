@@ -228,7 +228,8 @@ def section(code, lang):
         body.append(f"  <p><b>{T['there'][lang]}</b> {render_block(t['there'], lang)}</p>")
         body.append(f"  <p><b>{T['back'][lang]}</b> {render_block(t['back'], lang)}</p>")
         body.append(f'  <p style="font-size:13px;color:var(--ink-soft);margin-top:8px">{T["src"][lang]}</p>')
-    return f'<section id="bus">\n  <h2>{T["h"][lang]}</h2>\n' + "\n".join(body) + "\n</section>\n"
+    h = T["h"][lang]
+    return f'<section id="bus">\n  <h2>{code} {h[0].lower()}{h[1:]}</h2>\n' + "\n".join(body) + "\n</section>\n"
 
 
 def main():
