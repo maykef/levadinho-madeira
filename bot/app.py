@@ -1,8 +1,10 @@
-"""Levadinho WhatsApp webhook (Meta Cloud API).
+"""Levadinho WhatsApp webhook (Meta Cloud API, and the Twilio WhatsApp Sandbox).
 
   GET  /webhook  — Meta's one-time verification handshake (hub.challenge).
   POST /webhook  — incoming messages. Signature-checked, de-duplicated, answered in the
                    background so Meta gets its 200 immediately.
+  POST /twilio   — the same for the Twilio WhatsApp Sandbox (X-Twilio-Signature, form-encoded,
+                   empty TwiML back at once). See twilio_wa.py.
   GET  /guide/   — the audio-guide web app (guide/), plus each route's data and audio from
                    routes/ (public) and routes_private/ (needs the visitor's guide token).
 
@@ -11,6 +13,7 @@ Config (bot/.env, never committed):
   WA_PHONE_NUMBER_ID  the bot number's Phone number ID
   WA_APP_SECRET       App settings → Basic → App secret (verifies X-Hub-Signature-256)
   WA_VERIFY_TOKEN     any string you choose; paste the same one into Meta's webhook form
+  TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WA_FROM, TWILIO_WEBHOOK_URL   Twilio sandbox, see twilio_wa.py
   LLM_ON_DEMAND, LLM_AUTO_STOP, LLM_IDLE_MIN, LLM_GPU_FREE_GB   wake-on-demand, see llm_control.py
 
 Wake-on-demand: the webhook runs all the time; the model is started when a message needs it and
@@ -31,7 +34,7 @@ import re
 import time
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.responses import FileResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -47,6 +50,7 @@ import analytics  # noqa: E402  (permanent, pseudonymous record in Postgres; fai
 import geo  # noqa: E402
 import llm_control  # noqa: E402
 import store  # noqa: E402
+import twilio_wa  # noqa: E402
 
 WA_TOKEN = os.environ.get("WA_TOKEN", "")
 WA_PHONE_NUMBER_ID = os.environ.get("WA_PHONE_NUMBER_ID", "")
@@ -91,15 +95,28 @@ def to_whatsapp(to, msg):
     return {**base, "type": "text", "text": {"body": msg["body"], "preview_url": False}}
 
 
+def send(message, msg):
+    """One of brain's messages → the visitor, on the channel `message` came in on."""
+    if message.get("channel") == "twilio":
+        twilio_wa.send(message["from"], msg)
+    else:
+        graph_post(to_whatsapp(message["from"], msg))
+
+
 WINDOW_S = 24 * 3600 - 120  # WhatsApp's customer-service window, with a little margin
 
 
 def process(message, replay=None):
     """One incoming WhatsApp message → replies + analytics record. `replay` is set when the waiter
-    runs a message that was queued while the model was asleep (the stored pending payload)."""
+    runs a message that was queued while the model was asleep (the stored pending payload).
+    A Twilio message ("channel": "twilio") arrives in the same shape (twilio_wa.normalise); a typed
+    answer to its plain-text picker / notice is turned into the list / button reply here."""
+    if message.get("channel") == "twilio" and replay is None:
+        message = twilio_wa.interpret(message)
     sender = message["from"]
     kind = message.get("type")
-    log.info("%s %s from …%s", "replaying" if replay else "incoming", kind, sender[-4:])
+    log.info("%s %s from …%s%s", "replaying" if replay else "incoming", kind, sender[-4:],
+             " (twilio)" if message.get("channel") == "twilio" else "")
     meta = {"events": []}
     if replay is None:
         llm_control.touch()
@@ -135,18 +152,19 @@ def process(message, replay=None):
         # Nothing is recorded yet: the exchange is recorded whole when it's replayed (or expires).
         notice = defer(sender, message, new_visitor, replay)
         if notice:
-            graph_post(to_whatsapp(sender, notice))
+            send(message, notice)
         return
     except Exception:
         log.exception("failed to handle message from %s", sender[-4:])
         out = [{"type": "text", "body": brain.TEXT_ERROR}]
     if meta.get("deferred_question"):  # accepted the notice; the question asked before waits for the model
         synthetic = {"from": sender, "type": "text", "id": f"deferred-{message.get('id', '')}",
-                     "text": {"body": meta["deferred_question"]}}
+                     "text": {"body": meta["deferred_question"]},
+                     **({"channel": message["channel"]} if message.get("channel") else {})}
         notice = defer(sender, synthetic, False, keep_notice=False)  # the notice is recorded with this exchange
         out = out + [notice] if notice else out
     for msg in out:
-        graph_post(to_whatsapp(sender, msg))
+        send(message, msg)
     prior = (replay or {}).get("notice")  # the wake/busy notice sent when this message was queued
     record(sender, new_visitor, in_kind, in_text, pin, meta, ([prior] if prior else []) + out)
 
@@ -287,6 +305,23 @@ async def receive(request: Request, background: BackgroundTasks):
                     background.add_task(process, message)
     log.info("webhook POST ok: %d message(s) (%d new), %d status update(s)", n_msg, n_new, n_status)
     return {"ok": True}
+
+
+@app.post("/twilio")
+async def twilio_receive(request: Request, background: BackgroundTasks):
+    # Twilio times the webhook out at 15 s: answer with empty TwiML at once, reply in the background
+    # through the REST API (twilio_wa.send). Logged like /webhook: outcome only, no numbers or IPs.
+    form = dict((await request.form()).items())
+    why = twilio_wa.check_signature(form, request.headers.get("X-Twilio-Signature", ""))
+    if why:
+        log.warning("twilio POST REJECTED: %s (%d field(s))", why, len(form))
+        raise HTTPException(403)
+    message = twilio_wa.normalise(form)
+    new = bool(message["from"] and message["id"]) and store.first_time(message["id"])
+    if new:
+        background.add_task(process, message)
+    log.info("twilio POST ok: %s (%s)", message["type"], "new" if new else "duplicate or empty")
+    return Response("<Response/>", media_type="application/xml")
 
 
 @app.get("/health")

@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # Bring the Levadinho WhatsApp bot up: model (vLLM) → webhook + audio guide (uvicorn) →
 # Tailscale Funnel (permanent URL) → point Meta's webhook at it. Check the GPU is free BEFORE running this.
+# With the Twilio sandbox configured (TWILIO_* in .env, see README "Twilio sandbox") the Meta steps
+# only warn: the endpoint for Twilio's console is $URL/twilio.
 #   bot/start.sh
 set -euo pipefail
 cd "$(dirname "$0")"
 set -a; . ./.env; set +a
 APP_ID=1433947322205284
+TWILIO=""
+[ -n "${TWILIO_ACCOUNT_SID:-}" ] && [ -n "${TWILIO_AUTH_TOKEN:-}" ] && [ -n "${TWILIO_WA_FROM:-}" ] && TWILIO=1
 
 # 1. Model
 if ! docker ps --format '{{.Names}}' | grep -qx levadinho-llm; then
@@ -51,11 +55,21 @@ echo "Funnel ok: $URL  (guide: $URL/guide/)"
 curl -s -X POST "https://graph.facebook.com/v23.0/$APP_ID/subscriptions" \
   --data-urlencode "object=whatsapp_business_account" \
   --data-urlencode "callback_url=$URL/webhook" \
-  --data-urlencode "verify_token=$WA_VERIFY_TOKEN" \
+  --data-urlencode "verify_token=${WA_VERIFY_TOKEN:-}" \
   --data-urlencode "fields=messages" \
-  --data-urlencode "access_token=$APP_ID|$WA_APP_SECRET" | grep -q '"success":true' \
+  --data-urlencode "access_token=$APP_ID|${WA_APP_SECRET:-}" | grep -q '"success":true' \
   && echo "Meta webhook → $URL/webhook" || echo "WARNING: couldn't update Meta webhook — paste $URL/webhook in the dashboard"
 
-# 5. The test access token expires every 24 h
-code=$(curl -s -o /dev/null -w '%{http_code}' "https://graph.facebook.com/v23.0/$WA_PHONE_NUMBER_ID" -H "Authorization: Bearer $WA_TOKEN")
-[ "$code" = 200 ] && echo "Access token ok" || echo "WARNING: access token rejected ($code) — generate a new one in Meta and update WA_TOKEN in bot/.env"
+# 5. The Meta access token (with Twilio configured, a rejected token is only a warning)
+code=$(curl -s -o /dev/null -w '%{http_code}' "https://graph.facebook.com/v23.0/${WA_PHONE_NUMBER_ID:-}" -H "Authorization: Bearer ${WA_TOKEN:-}")
+if [ "$code" = 200 ]; then echo "Access token ok"
+elif [ -n "$TWILIO" ]; then echo "WARNING: Meta access token rejected ($code) — not fatal, the Twilio sandbox is configured"
+else echo "WARNING: access token rejected ($code) — generate a new one in Meta and update WA_TOKEN in bot/.env"; fi
+
+# 6. Twilio sandbox: credentials (passed to curl on stdin, never on the command line) and the endpoint
+if [ -n "$TWILIO" ]; then
+  code=$(printf 'user = "%s:%s"\n' "$TWILIO_ACCOUNT_SID" "$TWILIO_AUTH_TOKEN" | curl -s -K - -o /dev/null -w '%{http_code}' \
+    "https://api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID.json")
+  [ "$code" = 200 ] && echo "Twilio credentials ok" || echo "WARNING: Twilio rejected the credentials ($code) — check TWILIO_ACCOUNT_SID / TWILIO_AUTH_TOKEN in bot/.env"
+  echo "Twilio sandbox webhook (\"When a message comes in\", POST): ${TWILIO_WEBHOOK_URL:-$URL/twilio}"
+fi

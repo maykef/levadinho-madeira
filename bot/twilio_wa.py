@@ -1,0 +1,183 @@
+"""Twilio WhatsApp Sandbox channel (since 2026-10-02: Meta banned the WhatsApp Business account).
+
+app.py's POST /twilio checks the signature, turns Twilio's form into the same message dict the Meta
+webhook hands to process() (normalise), and answers through here (send). brain.py is unchanged:
+
+  - The sender id is the number as digits only ("447795966209"), exactly like Meta's `from`, so the
+    working store, the HMAC visitor id and privacy_request.py find the same visitor on both channels.
+  - The message dict carries "channel": "twilio" (a Meta message has no channel key = "meta"). It is
+    kept in the pending queue, so a reply replayed after the model wakes goes out on the same channel.
+  - The sandbox can't send interactive messages: the language list and the Accept / Don't accept
+    buttons become plain text with typed replies (render), and a typed reply is turned back into the
+    list_reply / button_reply the Meta path gets (interpret), so process() runs the same branches.
+  - "join bark-wood" (the sandbox join phrase) is a first contact: the picker, like Meta's
+    request_welcome. "join bark-wood #web-<page>" becomes the website greeting, so the tag is recorded.
+
+Config (bot/.env): TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WA_FROM, TWILIO_WEBHOOK_URL.
+"""
+import logging
+import os
+import re
+import unicodedata
+
+import brain
+import store
+
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "")
+TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN", "")
+TWILIO_WA_FROM = os.environ.get("TWILIO_WA_FROM", "whatsapp:+14155238886")
+# Twilio signs the URL it posts to, i.e. the public one: the Funnel strips /levadinho, so the app
+# itself sees /twilio and can't rebuild it from the request.
+TWILIO_WEBHOOK_URL = os.environ.get("TWILIO_WEBHOOK_URL",
+                                    "https://microscopy-rig-system.tail53cc58.ts.net/levadinho/twilio")
+MAX_CHARS = 1500  # WhatsApp via Twilio caps a body at 1,600; longer replies go out as several messages
+
+log = logging.getLogger("levadinho")
+
+# The privacy notice's last paragraph ("Tap *Accept* to continue.") without the buttons: the words to
+# type instead. The decline words are brain's "Don't accept" button labels, so a visitor can still
+# refuse or (after typing "privacy") withdraw.
+ACCEPT_WORDS = "ACEITO / ACCEPT / ACCEPTER / AKZEPTIEREN / AKCEPTUJĘ"
+DECLINE_WORDS = " / ".join(no.upper() for _, no in brain.CONSENT_BUTTONS.values())
+REPLY_ACCEPT = {
+    "pt": f"Responda *{ACCEPT_WORDS}* para continuar, ou {DECLINE_WORDS} para recusar.",
+    "en": f"Reply *{ACCEPT_WORDS}* to continue, or {DECLINE_WORDS} to decline.",
+    "fr": f"Répondez *{ACCEPT_WORDS}* pour continuer, ou {DECLINE_WORDS} pour refuser.",
+    "de": f"Antworte *{ACCEPT_WORDS}*, um fortzufahren, oder {DECLINE_WORDS}, um abzulehnen.",
+    "pl": f"Odpowiedz *{ACCEPT_WORDS}*, aby kontynuować, lub {DECLINE_WORDS}, aby odmówić.",
+}
+
+
+def fold(text):
+    """Lower case, no accents, no emoji or punctuation: "AKCEPTUJĘ!" → "akceptuje"."""
+    t = unicodedata.normalize("NFKD", (text or "").lower())
+    t = "".join(ch for ch in t if not unicodedata.combining(ch))
+    return " ".join(re.sub(r"[^\w' ]", " ", t).split())
+
+
+LANG_REPLIES = {str(i): code for i, code in enumerate(brain.LANGS, 1)}
+LANG_REPLIES.update({fold(name): code for code, name in brain.LANGS.items()})
+LANG_REPLIES.update({code: code for code in brain.LANGS})
+ACCEPT = {fold(w) for w in ACCEPT_WORDS.split(" / ")} | {"aceitar"}
+ACCEPT |= {fold(yes) for yes, _ in brain.CONSENT_BUTTONS.values()}
+DECLINE = {fold(w) for w in DECLINE_WORDS.split(" / ")} | {"nao aceito", "dont accept", "don t accept"}  # ’ from a phone keyboard
+
+
+def configured():
+    return bool(TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN and TWILIO_WA_FROM)
+
+
+def check_signature(form, signature):
+    """→ None if X-Twilio-Signature matches, else why not (for the log)."""
+    from twilio.request_validator import RequestValidator
+    if not TWILIO_AUTH_TOKEN:
+        return "no auth token configured"
+    if not signature:
+        return "no signature header"
+    if not RequestValidator(TWILIO_AUTH_TOKEN).validate(TWILIO_WEBHOOK_URL, form, signature):
+        return "signature mismatch"
+    return None
+
+
+def normalise(form):
+    """Twilio's form fields → the Meta-shaped message dict process() takes."""
+    body = (form.get("Body") or "").strip()
+    m = {"from": re.sub(r"\D", "", form.get("From", "")), "id": form.get("MessageSid", ""),
+         "channel": "twilio", "profile_name": form.get("ProfileName") or None}
+    if form.get("Latitude") and form.get("Longitude"):
+        m.update(type="location", location={"latitude": form["Latitude"], "longitude": form["Longitude"]})
+    elif body.lower().startswith("join "):  # the sandbox join phrase: a first contact, no question
+        tag = re.search(r"#([a-z0-9-]+)", body.lower())
+        if tag:
+            m.update(type="text", text={"body": f"Olá Levadinho! 👋 #{tag.group(1)}"})
+        else:
+            m.update(type="request_welcome")
+    elif body:
+        m.update(type="text", text={"body": body})
+    elif int(form.get("NumMedia") or 0):
+        m.update(type=(form.get("MediaContentType0") or "media").split("/")[0])  # "audio", "image"…
+    else:
+        m.update(type="unsupported")
+    return m
+
+
+def interpret(message):
+    """A typed answer to the plain-text picker or notice → the list_reply / button_reply Meta sends."""
+    if message.get("type") != "text":
+        return message
+    word = fold(message["text"]["body"])
+    state = (store.get_user(message["from"]) or {}).get("state") or ""
+    if state.startswith("picking") and word in LANG_REPLIES:
+        return {**message, "type": "interactive", "interactive": {
+            "type": "list_reply", "list_reply": {"id": f"lang_{LANG_REPLIES[word]}"}}}
+    if state.startswith("notice:") and (word in ACCEPT or word in DECLINE):
+        return {**message, "type": "interactive", "interactive": {
+            "type": "button_reply", "button_reply": {"id": "consent_yes" if word in ACCEPT else "consent_no"}}}
+    return message
+
+
+def render(msg):
+    """brain's message dict → plain text (the sandbox has no list, buttons or location request)."""
+    if msg["type"] == "list":
+        return msg["body"] + "\n\n" + " · ".join(f"{i} {brain.LANGS[code]}" for i, (code, _) in enumerate(msg["options"], 1))
+    if msg["type"] == "buttons":
+        ids = [bid for bid, _ in msg["buttons"]]
+        if ids == ["consent_yes", "consent_no"]:
+            yes = msg["buttons"][0][1]
+            lang = next((code for code, (y, _) in brain.CONSENT_BUTTONS.items() if y == yes), "en")
+            return msg["body"].rsplit("\n\n", 1)[0] + "\n\n" + REPLY_ACCEPT[lang]
+        return msg["body"] + "\n\n" + "\n".join(f"{i} {title}" for i, (_, title) in enumerate(msg["buttons"], 1))
+    if msg["type"] == "location_request":
+        return msg["body"] + "\n📎 → 📍"
+    return msg["body"]
+
+
+def split(text, limit=MAX_CHARS):
+    """Cut a reply into pieces of at most `limit` characters, on paragraph boundaries where possible
+    (then lines, then words, then a hard cut)."""
+    if len(text) <= limit:
+        return [text]
+    for sep in ("\n\n", "\n", " "):
+        if sep in text:
+            break
+    else:
+        return [text[i:i + limit] for i in range(0, len(text), limit)]
+    parts, cur = [], ""
+    for piece in text.split(sep):
+        if len(piece) > limit:
+            if cur:
+                parts.append(cur)
+                cur = ""
+            parts.extend(split(piece, limit))
+        elif not cur:
+            cur = piece
+        elif len(cur) + len(sep) + len(piece) <= limit:
+            cur += sep + piece
+        else:
+            parts.append(cur)
+            cur = piece
+    if cur:
+        parts.append(cur)
+    return parts
+
+
+_client_cache = []
+
+
+def _client():
+    if not _client_cache:
+        from twilio.rest import Client
+        _client_cache.append(Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN))
+    return _client_cache[0]
+
+
+def send(to, msg):
+    """One of brain's messages → the visitor (digits-only number), in as many pieces as it takes, in order."""
+    for part in split(render(msg)):
+        try:
+            sid = _client().messages.create(from_=TWILIO_WA_FROM, to=f"whatsapp:+{to}", body=part).sid
+            log.info("Twilio sent %s", sid)
+        except Exception as e:  # TwilioRestException carries the HTTP status, Twilio's code and its message
+            log.error("Twilio API %s: %s %s", getattr(e, "status", "?"), getattr(e, "code", ""),
+                      getattr(e, "msg", None) or e)
+            return
