@@ -3,8 +3,8 @@
 
 Levadinho (the bot in bot/) only works on WhatsApp, so every page hands the visitor
 over with:
-  - a tap-to-open wa.me link (all screens), pre-filled with
-        "Olá Levadinho! 👋 #web-<tag>"
+  - a tap-to-open wa.me/<WA_NUMBER> link (all screens), pre-filled with
+        "<WA_PREFIX> #web-<tag>"   (e.g. "Olá Levadinho! 👋 #web-pr1")
     where the per-page tag tells the bot's analytics which page converted
     (bot/brain.py treats any `web-[a-z0-9-]{1,40}` tag as a source, not a guide route);
   - an inline SVG QR code of the same link, shown only on wider screens (a desktop
@@ -35,8 +35,18 @@ import urllib.parse
 import qrcode
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-PHONE = "447405754593"          # Levadinho's WhatsApp number (+44 7405 754593)
-GREETING = "Olá Levadinho! 👋 #{tag}"
+
+# WhatsApp number (digits only) and pre-filled text of the CTA link; " #web-<tag>" is appended.
+# Meta number (active):
+WA_NUMBER = "447405754593"      # +44 7405 754593
+WA_PREFIX = "Olá Levadinho! 👋"
+# Twilio WhatsApp Sandbox (bot/README.md "Twilio sandbox"): comment the two lines above, uncomment
+# these two and re-run. The visitor then sends "join bark-wood #web-<tag>"; the bot treats it as a
+# first contact and records the tag.
+# WA_NUMBER = "14155238886"     # +1 415 523 8886, the sandbox's shared number
+# WA_PREFIX = "join bark-wood"
+
+GREETING = WA_PREFIX + " #{tag}"
 LANG_DIRS = ("pt", "fr", "de", "pl")
 SKIP_TOP = {"bot", "seo_research", ".claude", ".git", "https___madeira", "privacy", "trails", "img", "scripts", "node_modules"}
 
@@ -121,7 +131,7 @@ def tag_for(rel, html):
 
 
 def wa_url(tag):
-    return "https://wa.me/{}?text={}".format(PHONE, urllib.parse.quote(GREETING.format(tag=tag), safe=""))
+    return "https://wa.me/{}?text={}".format(WA_NUMBER, urllib.parse.quote(GREETING.format(tag=tag), safe=""))
 
 
 _QR = {}

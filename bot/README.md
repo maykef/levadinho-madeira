@@ -40,9 +40,13 @@ gets the `en` text, else the `pt` original. Other trails get a link to the trail
 | `store.py` | SQLite (`levadinho.db`): each visitor's language, state and consent choice, the last 8 exchanges (24 h TTL), de-duplication of message ids, guide tokens (30 days), messages waiting for the model (`pending`) and each visitor's last message time (`last_inbound`, for WhatsApp's 24 h window) |
 | `chat.py` | Local test chat through the same brain: `python bot/chat.py` (interactive) or `python bot/chat.py "msg1" "msg2"` (scripted). A digit 1–5 answers the picker, `/reset` starts over. With the model asleep it prints "[model down — would queue …]" and the waking-up message instead of crashing (nothing is queued or started). Set `LEVADINHO_DB` to a scratch file to keep the test visitor out of the live store |
 | `privacy_request.py` | GDPR access / erasure for one phone number (runbook: `db/PRIVACY_REQUESTS.md`) |
-| `app.py` | FastAPI webhook for the Meta Cloud API: GET verification, POST with X-Hub-Signature-256 check, background replies, list-message picker, fallback for non-text messages |
+| `app.py` | FastAPI webhook for the Meta Cloud API: GET verification, POST with X-Hub-Signature-256 check, background replies, list-message picker, fallback for non-text messages. Also `POST /twilio` (Twilio sandbox, below) |
+| `twilio_wa.py` | The Twilio WhatsApp Sandbox channel: signature check, form → message dict, plain-text picker / notice and typed replies, split + send through Twilio's REST API |
+| `tests/test_twilio.py` | pytest, offline: `python -m pytest bot/tests/test_twilio.py -q` (signed / bad-signature posts, the normalised message, background send, the plain-text flow, queued replay, the 1,500-character split) |
+| `twilio_env.sh` | Asks for the Twilio Account SID and Auth Token without echoing them (`read -rsp`) and rewrites the four `TWILIO_*` lines in `.env` (mode 600). Run it in a real terminal: Claude Code's `!` prompt has no TTY, so the script refuses |
+| `requirements.txt`, `.env.example` | The webhook's Python packages (installed in the miniforge base Python) and every `.env` key, without values |
 | `extract_facts.py` → `trail_facts.json` | Facts for all 37 trails (official scrape plus coordinates). **Not used by the trial**; kept for the multi-trail version |
-| `.env` (git-ignored) | `WA_TOKEN`, `WA_PHONE_NUMBER_ID`, `WA_APP_SECRET`, `WA_VERIFY_TOKEN`; optionally `LLM_URL`, `LLM_MODEL`, `STATUS_URL` and the wake-on-demand settings below |
+| `.env` (git-ignored) | `WA_TOKEN`, `WA_PHONE_NUMBER_ID`, `WA_APP_SECRET`, `WA_VERIFY_TOKEN`; the `TWILIO_*` keys; optionally `LLM_URL`, `LLM_MODEL`, `STATUS_URL` and the wake-on-demand settings below |
 
 **Heads-up:** GitHub Pages publishes everything in the repo, so this folder's source code is
 publicly readable at levadinho-madeira.com/bot/. Secrets live only in the git-ignored `.env`.
@@ -195,6 +199,67 @@ independently of the GPU bot.
   and `python bot/analytics.py backfill` (imports `bot/tracklog/` test logs).
 - **Backup:** `bot/db/backup.sh` runs at 03:30 from cron → `/mnt/tank/levadinho_backup/db/`,
   keeping 30 days.
+
+## Twilio sandbox (since 2026-10-02)
+
+Meta banned the WhatsApp Business account (below), so for the 19 October demo the bot also answers
+on the **Twilio WhatsApp Sandbox**. The Meta path (`/webhook`) is untouched and works again as soon as
+Meta lifts the ban; both can run at once.
+
+```
+WhatsApp → Twilio sandbox (+1 415 523 8886) → POST …/levadinho/twilio (app.py) → same process() / brain.py
+         ← Twilio REST API (twilio_wa.send) ←───────────────────────────────────┘
+```
+
+- **Endpoint:** `https://microscopy-rig-system.tail53cc58.ts.net/levadinho/twilio` (the Funnel strips
+  `/levadinho`, so uvicorn sees `/twilio`). Save it in Twilio console → Messaging → Try it out → Send a
+  WhatsApp message → Sandbox settings → "When a message comes in", method POST.
+- **How it differs from Meta:**
+  - Twilio posts a form (`From`, `Body`, `ProfileName`, `MessageSid`, `NumMedia`, `Latitude`/`Longitude`),
+    signed with `X-Twilio-Signature` over the **public** URL (`TWILIO_WEBHOOK_URL`); a bad signature gets 403.
+  - `twilio_wa.normalise()` turns it into the dict the Meta path hands to `process()`, with
+    `"channel": "twilio"` (a Meta message has no `channel` = Meta). The sender is the number as digits
+    only, like Meta's, so the working store, the HMAC visitor id, the analytics, the privacy notice,
+    `web-<tag>` sources and `privacy_request.py` all behave the same. `brain.py` is unchanged.
+  - The webhook answers an empty `<Response/>` at once (Twilio gives up after 15 s) and replies in the
+    background through the REST API. Replies over 1,500 characters go out as several messages, cut on
+    paragraph boundaries. Each send logs Twilio's message SID; errors are logged as `Twilio API <status>`.
+  - **No buttons or lists.** The picker is sent as text ending `1 Português · 2 English · 3 Français ·
+    4 Deutsch · 5 Polski`; the visitor types the digit or the language. The privacy notice is the same
+    text and policy link, with its last line replaced by "Reply *ACEITO / ACCEPT / ACCEPTER / AKZEPTIEREN /
+    AKCEPTUJĘ* to continue, or NÃO ACEITAR / DON'T ACCEPT / REFUSER / ABLEHNEN / NIE AKCEPTUJĘ to decline"
+    (in the visitor's language; the decline words are brain's Don't-accept button labels). Any of those
+    words is accepted, case- and accent-insensitive. Declining works like the button: no service, or a
+    withdrawal after "privacy". `CONSENT_VERSION` is recorded exactly as with the button. "guide" asks for a pin with "📎 → 📍" instead of the button.
+  - **`join bark-wood`** (or any message starting `join `) counts as a first contact with no question:
+    the picker, as for Meta's `request_welcome`. `join bark-wood #web-<tag>` becomes the website greeting,
+    so the tag is recorded as the source.
+- **`.env`:** `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WA_FROM=whatsapp:+14155238886`,
+  `TWILIO_WEBHOOK_URL` (see `.env.example`). With the SID, token and FROM all set, `start.sh` only warns about a
+  rejected Meta token (and checks the Twilio credentials), and the watchdog skips the Meta check
+  (`meta=skipped:twilio` in `logs/watchdog.log`, also `skipped:no-token` when `WA_TOKEN` is empty).
+- **Status (2026-10-02):** the webhook runs with the Twilio config; local `/health` and the Funnel
+  `/levadinho/health` answer 200 and an unsigned `POST /twilio` gets 403. The first sends (12:04) failed
+  with **401 / 20003 "Primary compliance profile is not approved"**: an account-level KYC check in
+  Twilio's Trust Hub, not a code problem. The owner submitted the verification and the first reply went
+  out at 12:16 (`Twilio sent SM…`, HTTP 201). A reply that fails this way is lost, not queued: the
+  visitor must send the message again.
+- **Log noise:** the `twilio` library logs every request (URL with the Account SID, response headers)
+  at INFO into `app.log`. No token is written, but `logging.getLogger("twilio.http_client").setLevel(logging.WARNING)`
+  in `app.py` would silence it (not done yet).
+- **Switching the website CTA:** in `scripts/gen_cta.py` comment the Meta `WA_NUMBER` / `WA_PREFIX`
+  pair, uncomment the sandbox pair (`14155238886`, `join bark-wood`), run `python scripts/gen_cta.py`
+  and commit the pages. The links then pre-fill `join bark-wood #web-<tag>`. Reverse to switch back.
+- **Sandbox limits:**
+  - one **shared** number (+1 415 523 8886) that shows as "Twilio", not Levadinho;
+  - every phone must first send the **join phrase** `join bark-wood`;
+  - after **72 h without a message** the phone drops out of the sandbox and must send the join phrase again;
+  - **no interactive messages** (lists, buttons, location request), and the usual 24 h window for replies;
+  - delivery to international numbers is **not guaranteed**: test the demo phones in advance.
+  - Unverified: whether Twilio passes the join message on to the webhook or answers it itself. If it
+    keeps it, the `#web-<tag>` is lost and the visitor's next message starts the normal flow. On
+    2026-10-02 the first two test messages reached the webhook as ordinary text and no bare
+    `join bark-wood` arrived (it would log `twilio POST ok: request_welcome`); still unconfirmed.
 
 ## Meta setup status (2026-09-28) — LIVE on a real number
 

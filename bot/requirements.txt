@@ -1,0 +1,9 @@
+# The webhook's Python packages (installed in /home/microscopy-rig/miniforge3, the Python start.sh uses).
+# build_route.py additionally needs piper-tts and lameenc (in the git-ignored bot/.tts/ venv).
+# python-multipart: form posts (Twilio); twilio: sandbox signature check + sends; psycopg, phonenumbers: analytics.
+fastapi
+uvicorn
+python-multipart
+twilio
+psycopg[binary]
+phonenumbers

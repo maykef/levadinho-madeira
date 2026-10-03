@@ -2,31 +2,45 @@
 
 Guidance for Claude Code when working in this repository.
 
-## ▶ First thing, once per day — the daily SEO report sequence
+## ▶ Saturdays — the weekly SEO report sequence
 
-**Once per calendar day**, at the start of the first session, ask: **"Do you want the full daily
-report sequence?"** Ask it in the same message as the bot question below.
-- **Once a day only:** run `cat reports/.asked 2>/dev/null`. If it holds today's date (`date +%F`), don't ask.
-  Otherwise ask, then write today's date into it (`date +%F > reports/.asked`) whatever the answer.
+**Once a week, on Saturdays** (owner, 2026-10-03: Firecrawl credits are limited to 1,000–1,500), at the start of
+the first Saturday session, ask: **"Do you want the weekly report sequence?"** Ask it in the same message as the
+bot question below. Don't ask on other days.
+- **Once only:** run `date +%u` (6 = Saturday) and `cat reports/.asked 2>/dev/null`. Ask only on a Saturday whose
+  date (`date +%F`) isn't already in `.asked`; then write it there (`date +%F > reports/.asked`) whatever the answer.
 - **No** → carry on.
 - **Yes** → run the sequence:
   1. **Data:** ask the owner to type `! bash reports/daily_sweep.sh` (about 20 min; there is NO cron job, by the
      owner's choice). Claude can't run it itself: the Firecrawl key lives in another project's env file that auto
      mode won't let Claude load. Keep the command exactly that short (long `!` commands wrap and break over
      Remote Control). Check `reports/data/daily_sweep.log` for the "done" line before building.
-  2. **Search Console:** ask the owner for today's exports (Performance → last 7 days and last 28 days:
-     Queries, Pages, Countries, Devices, Chart). Save them to `google_search_console/<date>_last7d/` (or `_last28d/`).
+  2. **Search Console (automatic since 2026-10-03):** the sweep runs `reports/gsc_pull.py`, which reads the Search
+     Console API (free, no credits) and writes `google_search_console/<date>_last7d/`, `_last28d/` and
+     `last24h/<date>_all/` (hourly, last 24 h, Pacific time) in the web-export CSV format (countries as ISO codes).
+     Auth: service account `gsc-reader@levadinho-gsc.iam.gserviceaccount.com` (Google Cloud project `levadinho-gsc`,
+     Restricted user on the `sc-domain:levadinho-madeira.com` property), key at `~/.config/levadinho/gsc-key.json`
+     (chmod 600; never copy it into the repo). Claude can run the pull itself on any day. The 7/28-day views lag
+     2–3 days; the 24-hour view is near real time. No manual exports needed unless the pull fails.
   3. **Build:** `python3 reports/build_daily.py` → `reports/data/<date>/auto_summary.md` (rankings from Funchal
      vs the previous run, share of expected clicks per language, competitor movers and new top-3 entrants,
      new autocomplete terms we don't track, Search Console, Lighthouse).
-  4. **Write `reports/<date>_daily_report.md`:** what changed, Levadinho's positions, the competitors' ranking,
+  4. **Write `reports/<date>_weekly_report.md`:** what changed, Levadinho's positions, the competitors' ranking,
      new search terms we're missing, what Search Console shows, then **proposed fixes** (ranked by impact,
      each tied to a keyword and a page, all 5 languages). **Never edit pages until the owner approves the fixes.**
   - `reports/`, `google_search_console/` and `seo_research/` are git-ignored: never commit them (GitHub Pages
     would publish them).
   - Tracked keywords: `seo_research/keywords/keywords_v2.json` (146 = 13 core + 81 from autocomplete, × 5
     languages). Funchal is the primary location. Add new keywords there when the report finds them.
-  - Cost: about 290 Firecrawl credits per run (+ about 180 when run on a Monday, for the home-country check).
+  - Cost: about 290 Firecrawl credits per run (146 searches × 2 credits at 10 results). The Monday
+    home-country check (`fc_multi.py`, ~180 credits) was dropped on 2026-10-03. Don't cut results below 10:
+    we rank 8–12, so a 5-result search hides us.
+  - **Credit hard stop (owner, 2026-10-03):** `seo_research/fc_budget.py`. Every Firecrawl script calls
+    `fc_budget.precheck(n)` before a run (refuses to start a run that can't finish) and `fc_budget.charge()` before
+    each search. It stops (exit 3, "FIRECRAWL HARD STOP" in the log) when Firecrawl's own balance would fall below 50,
+    when our ledger (`seo_research/fc_ledger.jsonl`) shows more than 1,450 spent this billing period, or when the
+    balance can't be read. The Firecrawl key is shared with another project, so the live balance is the real guard.
+    Balance: `! python3 seo_research/fc_budget.py`. Any new Firecrawl script must use it; never bypass it.
 
 ## ▶ At the start of every session — ask about the Levadinho bot
 
@@ -92,6 +106,7 @@ Hosted on **GitHub Pages**, in **five languages** (en at the root; `pt/`, `fr/`,
 | `pr1-sunrise-transport/` | Getting to Areeiro for sunrise: public bus, shuttle, taxi, own car + parking |
 | `pr1-one-way/` | "Is PR1 one-way?": direction, what's two-way, tickets, getting back (added 2026-10-02 from the competitor report: beyondmadeira's dedicated page ranks top 3) |
 | `free-walks/` | "Free walks in Madeira: no ticket needed": which walks need no SIMplifica ticket (added 2026-10-02 for "ohne Gebühr" / "non payante" searches) |
+| `levadas-by-bus/` | "Levadas by bus": which trails you can reach from Funchal by public bus (there and back / bus + taxi / one end only / no bus), first bus there and last bus back per day type, live badges. Generated by `scripts/gen_bus_hub.py` (added 2026-10-03, Gemini idea); don't hand-edit |
 | `best-levada-walks/` | Best levada walks, each with a live badge + STATIC-STATUS line |
 | `easy-levadas-no-vertigo/` | Easy levadas ranked by sourced exposure (IFCN panels), live badges |
 | `levadas-with-tunnels/` | Which levadas have tunnels / need a torch (sourced table), live badges |
@@ -103,14 +118,17 @@ Hosted on **GitHub Pages**, in **five languages** (en at the root; `pt/`, `fr/`,
 | `trails/` (+ `pt/`,`fr/`,`de/`,`pl/`) | Forwarding stubs only (meta-refresh + canonical to `/`, `/fr/`…) — GitHub Pages can't 301. Not in the sitemap; don't link to them |
 | `25-fontes/`, `pico-ruivo/`, `caldeirao-verde/`, `sao-lourenco/`, `balcoes/`, `fanal/`, `levada-do-furado/`, `levada-do-rei/`, `levada-dos-cedros/` (each + `pt/`,`fr/`,`de/`,`pl/`) | The **9 hand-authored spoke** pages (PR6, PR1.2, PR9, PR8, PR11, PR13, PR10, PR18, PR14): PR1 shell + bespoke trail content, hero photo, `data-trail` live card, trail-facts sidebar |
 | 27 more trail dirs (e.g. `levada-do-risco/`, `levada-do-moinho/`, …, each + `pt/`,`fr/`,`de/`,`pl/`) | The **generated spokes** — one per remaining PR trail; lightweight, live-status-first, facts scraped from the official page. Written by `scripts/gen_spokes.py`; don't hand-edit — re-run the generator |
-| `scripts/gen_spokes.py` | One-off (re-runnable) generator for the 27 long-tail spokes: scrapes real facts (distance/difficulty/duration/altitude/start-end/route-type) from each trail's official Visit Madeira page, emits en/pt/fr/de/pl pages, and carries a `PHOTOS` map for hero images (17 of 27 have one). Since 2026-09-30 it also writes short titles (≤60 chars, `SHORT_NAMES` overrides), a 120–155-char description with a CTA, four visible question headings that double as the FAQ schema, `og:image` (hero JPEG or `/img/og-default.jpg`), the `.webp` hero + preload, a `TouristAttraction` JSON-LD with trailhead geo (via `gen_site_nav.trail_coords()`) and a lazy OpenStreetMap trailhead block. `--dry-run CODE OUTDIR` renders one trail outside the repo. Calls `gen_site_nav.py` and `gen_cta.py` at the end; the STATIC-STATUS markers it writes start empty until the next updater run |
+| `scripts/gen_spokes.py` | One-off (re-runnable) generator for the 27 long-tail spokes: scrapes real facts (distance/difficulty/duration/altitude/start-end/route-type) from each trail's official Visit Madeira page, emits en/pt/fr/de/pl pages, and carries a `PHOTOS` map for hero images (17 of 27 have one). Since 2026-09-30 it also writes short titles (≤60 chars, `SHORT_NAMES` overrides; since 2026-10-03 they start with the code + "Madeira", e.g. "PR9.1 Madeira: …", because people on the island search the bare code), a 120–155-char description with a CTA, four visible question headings that double as the FAQ schema, `og:image` (hero JPEG or `/img/og-default.jpg`), the `.webp` hero + preload, a `TouristAttraction` JSON-LD with trailhead geo (via `gen_site_nav.trail_coords()`) and a lazy OpenStreetMap trailhead block. `--dry-run CODE OUTDIR` renders one trail outside the repo. Calls `gen_site_nav.py` and `gen_cta.py` at the end; the STATIC-STATUS markers it writes start empty until the next updater run |
 | `scripts/update_status.py` | Daily status scraper/updater (Python 3.12, `requests`); also fills the STATIC-STATUS markers |
 | `scripts/gen_trail_extras.py` | Builds `trail_extras.json` from the sourced facts file; `--patch-hand` refreshes the TRAIL-EXTRAS rows on the hand-authored spokes. Needs the local `seo_research/` folder |
 | `scripts/gen_cta.py` | Writes the **Levadinho WhatsApp block** (CSS in `LEVADINHO-CTA-HEAD`, block in `LEVADINHO-CTA` markers) into every page except `privacy/`, `404.html` and the `trails/` stubs. Idempotent; re-run when a page is added |
+| `scripts/gen_bus.py` | Writes the **"By bus"** section (getting there / getting back) on 22 trail pages × 5 languages, between `BUS:START/END` markers after `#getting-there`. Times are curated in the script from the operators' timetables on SIGA (transcribed in `seo_research/facts/bus/*.json`; misprints flagged SUSPECT there and left out); no-bus notes for the Rabaçal / Paul da Serra / Fanal trails; Queimadas = bus to Santana + taxi. Both line numbers shown ("113 (new no. 702)"). Called by `gen_spokes.py`; idempotent. Balcões, Furado and the getting-back page have hand-written CAM sections instead |
+| `scripts/gen_webcam.py` | Writes the **"Is the car park full? Live webcam"** block (NetMadeira share-code iframe, class `tcam`, between `WEBCAM:START/END` + `WEBCAM-HEAD` markers) right after the WhatsApp block on PR1.2 Pico Ruivo (Achada do Teixeira cam) and PR6 / PR6.1 / PR6.2 (Rabaçal cam), and after `#taxi` on the getting-back page; 5 languages. Only cams verified (2026-10-03, timelapse frames) to show the car park: the Arieiro cam faces the valley, PR6.3/6.4/6.8 start 1–2.4 km from the Rabaçal car park. Called by `gen_spokes.py`; idempotent |
+| `scripts/gen_bus_hub.py` | Writes `/levadas-by-bus/` (5 languages) from `gen_bus.py`'s `TRAILS` plus PR10/PR11 (`EXTRA`, CAM Santana sheet); copies each trail's STATIC-STATUS line from its page, then runs `gen_site_nav.py` and `gen_cta.py`. Leaves a page untouched when its copy hasn't changed. **Re-run it whenever the bus data in `gen_bus.py` changes.** The hub is in `HUBS` in `gen_site_nav.py`, so every trail it lists gets an "In our guides: Levadas by bus" link |
 | `scripts/gen_trail_index.py` | Writes the **static, crawlable** list of all 37 trail links into `#trailBoard` in the five dashboard homepages (`index.html`, `fr/index.html`, …) (between `STATIC-TRAIL-INDEX` markers). `dashboard.js` overwrites the container on load, so JS visitors never see it — it exists so Googlebot can *discover* the spokes. Re-run whenever a trail is added or removed |
 | `scripts/gen_site_nav.py` | Injects the site-wide **nav bar** (6 links), **breadcrumbs** (visible + `BreadcrumbList` JSON-LD), a **"Nearby trails"** block (4 closest trailheads by real GPS distance, from the Visit Madeira index) on trail pages, and a **"More guides"** block (`SITE-NAV-GUIDES`: descriptive links to the guide pages, per-page list in `RELATED_GUIDES`, skipping pages the copy already links) into every page, between `SITE-NAV*` marker comments. Guide pages are registered in `GUIDES`. Since 2026-09-30 trail pages also get an **"In our guides"** line (links to best / easy / tunnels when those pages mention the trail). `trail_coords()` is importable. `--dry-run [OUTDIR]` writes sample pages outside the repo. Idempotent; `gen_spokes.py` calls it after regenerating. Re-run whenever a page or trail is added |
 | `.github/workflows/update.yml` | Cron that runs the updater daily at 01:00 UTC (GitHub starts it ~4–6 h late); commits `status.json`, `sitemap.xml` and changed `*.html` (static status lines, `dateModified`), never `bot/` |
-| `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates (en, pt, fr, de, pl, x-default) for all 250 URLs (50 pages × 5 languages), is listed in `robots.txt`, and gets its `<lastmod>` bumped by the updater. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
+| `sitemap.xml`, `robots.txt` | SEO. `sitemap.xml` carries hreflang alternates (en, pt, fr, de, pl, x-default) for all 250 URLs (50 pages × 5 languages), is listed in `robots.txt`, and gets `<lastmod>` bumped by the updater only for pages that changed. A `sitemap_index.xml` wrapper existed briefly as a workaround for Search Console's stored `/sitemap.xml` entry being stuck on "Couldn't fetch"; it was deleted on 2026-09-07 — don't re-add references to it without re-adding the file |
 | `googleea2064b7684c2bab.html` | Google Search Console site-verification token — do not delete |
 | `404.html`, `favicon.ico`, `img/icon-180.png`, `img/icon-192.png` | Custom not-found page (noindex, no CTA/nav, served by GitHub Pages automatically) and the favicon / touch icons rendered from the Levadinho avatar. Every page links the two icons in its head |
 | `img/*.webp`, `img/og-default.jpg` | Every hero JPEG has a `.webp` twin used in the CSS background (with a `<link rel=preload>`); the JPEG stays for `og:image`. Pages without a hero use `og-default.jpg` (Pride of Madeira, owner photo). Owner's own PR1 photos (`pr1-*.jpg`, `pride-of-madeira.jpg`) are credited in `img/CREDITS.txt` |
@@ -134,8 +152,14 @@ already in place, and a mock-up of the future usage log.
   let it invent prices, timetables or rules.
 - **Don't scrape SIMplifica** (it's behind a login and reCAPTCHA). Availability and booking
   are to be requested from the Region.
-- It is **live on +44 7405 754593** with a permanent token, so any phone can use it while it's
+- It was **live on +44 7405 754593** (Meta has banned that account since 2026-09-30; see the README) with a permanent token, so any phone could use it while it was
   running. Full run instructions, IDs and the Meta setup status are in `bot/README.md`.
+- **Twilio WhatsApp Sandbox (since 2026-10-02, Meta account banned):** `POST …/levadinho/twilio`
+  (`bot/twilio_wa.py`), plain-text picker/notice, `join bark-wood`. Credentials go into `bot/.env` with
+  `bash bot/twilio_env.sh` (real terminal only). Replies go out since the Twilio KYC passed (2026-10-02;
+  before that every send was 401 / 20003). The website CTA still points at the Meta number: switching it
+  is the `WA_NUMBER` / `WA_PREFIX` pair in `scripts/gen_cta.py` plus a re-run, only when the owner asks.
+  See "Twilio sandbox" in `bot/README.md`.
 - **Analytics (since 2026-09-28):** every interaction is kept permanently and pseudonymously
   in Postgres (`levadinho-db` container, :5433, always on): events, scrubbed conversations,
   individual GPS fixes. No phone numbers or IPs; the visitor id is an HMAC with
@@ -189,11 +213,14 @@ runs from the Actions tab. What it does:
    `< -10 °C` / `> 30 °C` are rejected → generic fallback line.
 3. Reads five regional IPMA stations, then writes `status.json`: the PR1 flagship
    fields (status; note; structured weather; timestamp) **plus** `counts`, `regions`,
-   `trails[]` and `source` for the dashboard. Bumps `<lastmod>` in `sitemap.xml` and the
-   `"dateModified"` of the `WebPage` JSON-LD on the 5 homepages and 5 PR1 pages.
+   `trails[]` and `source` for the dashboard. **Since 2026-10-03 dates are honest:** only pages whose
+   content changed in the run get today's `<lastmod>` in `sitemap.xml` and a new `"dateModified"` in
+   their `WebPage` JSON-LD (every trail page has one now; the weather line changes them daily). Never
+   go back to bumping every page: Google ignores a lastmod that is always "today".
 4. **Static (crawlable) status lines:** fills every `<!-- STATIC-STATUS:<CODE>:START/END -->`
    pair (one trail: "Official IFCN list (updated 14/09/2026): OPEN — note") and every
-   `<!-- STATIC-STATUS-BOARD:START/END -->` pair (all-trail counts) in the site's HTML, in
+   `<!-- STATIC-STATUS-BOARD:START/END -->` pair (all-trail counts plus, since 2026-10-03, the names of closed and partly open trails) and, since 2026-10-03, every `<!-- STATIC-WEATHER:<CODE>:START/END -->` pair in trail
+   cards (the trail's regional IPMA station reading at run time) in the site's HTML, in
    the page's `<html lang>`. They sit in each trail's `#statusCard` fallback (hand-authored
    spokes, `/pr1/`, and the weather/sunrise pages; generated spokes via `gen_spokes.py`),
    in the 5 homepages' summary, and next to each trail on the list pages
@@ -250,6 +277,15 @@ python scripts/update_status.py
   as the source, not a guide route. A click fires a GoatCounter event `whatsapp-<tag>`
   (only when GoatCounter loaded). Don't hand-edit inside the markers; a new page needs a tag
   in `TAGS` (the script fails loud otherwise).
+- **Footer (owner, 2026-10-02):** every page except `privacy/` ends with the same sentence in its
+  language, with four links: "Status comes from the official [IFCN warnings list]. Booking via
+  [SIMplifica], summit weather from [IPMA]. [Privacy policy]" (the last links `/privacy/#<lang>`).
+  PT "O estado vem da lista oficial de avisos do IFCN. Reservas no SIMplifica, tempo no cume do IPMA.
+  Política de privacidade"; FR/DE/PL likewise (see any page). It replaced the longer
+  "Independent — not affiliated…" footer; the photo-credit line under it stays. "Summit weather" is
+  used on every page, by the owner's choice. The generated spokes take it from the `footer=` strings
+  in `scripts/gen_spokes.py`, so change those too. Guide pages null-check `#stamp` before setting
+  `lastUpdated`, since the old footer that held it is gone.
 - Analytics is **GoatCounter**, loaded only when not self-excluded. Visiting any
   page with `#skipgc` sets a localStorage flag so your own device is never
   counted; `#countme` undoes it.

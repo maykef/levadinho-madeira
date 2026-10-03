@@ -6,7 +6,8 @@
 # Each run appends ONE line to logs/watchdog.log:
 #   webhook  local /health                      (uvicorn alive)
 #   funnel   public https://…/levadinho/health  (Tailscale Funnel route → webhook)
-#   meta     Graph API with our token           (token valid, app not blocked — "API access blocked")
+#   meta     Graph API with our token           (token valid, app not blocked — "API access blocked");
+#            skipped when WA_TOKEN is empty or the Twilio sandbox is configured (TWILIO_* in .env)
 #   model    /v1/models, only if the levadinho-llm container is running
 #            (with wake-on-demand a stopped container is normal: it wakes on the next message)
 # After 3 consecutive failing runs it does a FULL restart (stop.sh --keep-running, GPU shown, start.sh,
@@ -27,11 +28,17 @@ now() { date '+%Y-%m-%d %H:%M:%S'; }
 code() { curl -s -o /dev/null -m 10 -w '%{http_code}' "$@"; }
 webhook=$(code http://127.0.0.1:5020/health)
 funnel=$(code "$URL/health")
-meta_body=$(curl -s -m 15 "https://graph.facebook.com/v23.0/$WA_PHONE_NUMBER_ID?fields=id" -H "Authorization: Bearer $WA_TOKEN")
-if echo "$meta_body" | grep -q '"id"'; then meta=ok
-else meta="FAIL:$(echo "$meta_body" | python3 -c 'import json,sys
+if [ -z "${WA_TOKEN:-}" ] || { [ -n "${TWILIO_ACCOUNT_SID:-}" ] && [ -n "${TWILIO_AUTH_TOKEN:-}" ]; }; then
+  # Meta's account is banned and replies go through Twilio: a dead token mustn't trigger restarts.
+  # The reason shows in this run's log line (meta=skipped:no-token / meta=skipped:twilio).
+  meta="skipped:$([ -z "${WA_TOKEN:-}" ] && echo no-token || echo twilio)"
+else
+  meta_body=$(curl -s -m 15 "https://graph.facebook.com/v23.0/${WA_PHONE_NUMBER_ID:-}?fields=id" -H "Authorization: Bearer $WA_TOKEN")
+  if echo "$meta_body" | grep -q '"id"'; then meta=ok
+  else meta="FAIL:$(echo "$meta_body" | python3 -c 'import json,sys
 try: e=json.load(sys.stdin).get("error",{}); print(str(e.get("code"))+" "+e.get("message","")[:60])
 except Exception: print("no answer")' 2>/dev/null)"; fi
+fi
 if docker ps --format '{{.Names}}' | grep -qx levadinho-llm; then
   model=$(code http://127.0.0.1:8001/v1/models)
 else
@@ -43,11 +50,11 @@ fails=0; last_restart=0
 bad=()
 [ "$webhook" = 200 ] || bad+=("webhook=$webhook")
 [ "$funnel" = 200 ] || bad+=("funnel=$funnel")
-[ "$meta" = ok ] || bad+=("meta=$meta")
+[ "$meta" = ok ] || [ "${meta%%:*}" = skipped ] || bad+=("meta=$meta")
 [ "$model" = 200 ] || [ "$model" = asleep ] || bad+=("model=$model")
 
 if [ ${#bad[@]} -eq 0 ]; then
-  echo "$(now) ok   webhook=200 funnel=200 meta=ok model=$model" >> "$LOG"
+  echo "$(now) ok   webhook=200 funnel=200 meta=$meta model=$model" >> "$LOG"
   echo "0 $last_restart" > "$STATE"
   exit 0
 fi
