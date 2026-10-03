@@ -249,10 +249,25 @@ def weather_qa(lang, name, place):
             "i bardziej pochmurno niż w Funchal.")
 
 
+# IPMA's official weather warnings, "Madeira - Mountain" region (pt / en pages only).
+WARN = {"en": ("Official weather warnings for the Madeira mountains:", "en"),
+        "pt": ("Avisos meteorológicos oficiais para a montanha da Madeira:", "pt"),
+        "fr": ("Avis météo officiels pour la montagne de Madère :", "en"),
+        "de": ("Offizielle Wetterwarnungen für die Berge Madeiras:", "en"),
+        "pl": ("Oficjalne ostrzeżenia pogodowe dla gór Madery:", "en")}
+
+
+def warnings_p(lang):
+    label, il = WARN[lang]
+    return (f'  <p class="wx-warn">{htmllib.escape(label, quote=False)} <a href="https://www.ipma.pt/{il}/otempo/prev-sam/?p=MRM" '
+            f'rel="noopener">IPMA</a>.</p>\n')
+
+
 def weather_section(lang, name, code, place):
     h, a = weather_qa(lang, name, place)
     return (f'<section id="weather">\n  <h2>{htmllib.escape(h, quote=False)}</h2>\n  <p>{htmllib.escape(a, quote=False)}</p>\n'
-            f'  <p class="static-weather"><!-- STATIC-WEATHER:{code}:START --><!-- STATIC-WEATHER:{code}:END --></p>\n</section>\n\n')
+            f'  <p class="static-weather"><!-- STATIC-WEATHER:{code}:START --><!-- STATIC-WEATHER:{code}:END --></p>\n'
+            + warnings_p(lang) + '</section>\n\n')
 
 
 def webpage_ld(name, url, lang):
@@ -659,7 +674,9 @@ def attraction(lang, code, full, canon, f, linear, typ, geo, image):
         if v:
             props.append({"@type": "PropertyValue", "name": k, "value": v})
     o = {"@context": "https://schema.org", "@type": "TouristAttraction",
-         "name": f"{full} ({code})", "url": canon, "touristType": "Hikers", "isAccessibleForFree": False}
+         "name": f"{full} ({code})", "alternateName": code, "url": canon, "touristType": "Hikers",
+         # PR3 / PR3.1 / PR4 / PR23 are run by other bodies: no IFCN fee, no SIMplifica ticket.
+         "isAccessibleForFree": code in NO_IFCN_FEE}
     if image:
         o["image"] = image
     if geo:
