@@ -960,6 +960,9 @@ def main():
     # ...and the car-park webcams (see gen_webcam.py).
     import gen_webcam
     gen_webcam.main()
+    # ...and complete the TouristAttraction blocks (description, address, image; see gen_schema.py).
+    import gen_schema
+    gen_schema.main()
 
 
 if __name__ == "__main__":
