@@ -25,7 +25,7 @@
         var wind = w.wind_strong ? ", strong wind (" + Math.round(w.wind_kmh) + " km/h)" : "";
         return "Summit weather now: " + Math.round(w.temp_c) + "°C measured at the Pico do Areeiro station (~1,800 m)" + cloud + wind + " — expect it far colder and cloudier than Funchal.";
       },
-      nearby: function (t) { return "Nearby weather now: " + t + "°C — expect the mountains cooler and cloudier than the coast."; },
+      nearby: function (r) { return "Weather near the trail (IPMA " + esc(r.place) + " station): " + r.temp + "°C" + (r.wind != null ? ", wind " + r.wind + " km/h" : "") + (r.in_cloud ? ", likely in cloud" : "") + (r.rain ? ", rain " + r.rain + " mm in the last hour" : "") + " — expect the mountains cooler and cloudier than the coast."; },
       advisory: "The webcam shows you a snippet of the summit right now — don't assume conditions will stay that way. Pack a good anorak and fleece, carry enough water, and wear adequate footwear.",
       ifcnUpdated: "Official IFCN list · updated:", lastChecked: "Checked by Levadinho:", madeiraTime: "(Madeira time)", source: "Source:"
     },
@@ -48,7 +48,7 @@
         var wind = w.wind_strong ? ", vento forte (" + Math.round(w.wind_kmh) + " km/h)" : "";
         return "Tempo no cume agora: " + Math.round(w.temp_c) + " °C medidos na estação do Pico do Areeiro (~1800 m)" + cloud + wind + " — conte com bastante mais frio e nebulosidade do que no Funchal.";
       },
-      nearby: function (t) { return "Tempo nas proximidades agora: " + t + " °C — conte com a montanha mais fresca e nublada do que a costa."; },
+      nearby: function (r) { return "Tempo perto do percurso (estação IPMA " + esc(r.place) + "): " + r.temp + " °C" + (r.wind != null ? ", vento " + r.wind + " km/h" : "") + (r.in_cloud ? ", provavelmente dentro das nuvens" : "") + (r.rain ? ", chuva " + r.rain + " mm na última hora" : "") + " — conte com a montanha mais fresca e nublada do que a costa."; },
       advisory: "A webcam mostra apenas um instante do cume — não assuma que as condições se vão manter. Leve um bom corta-vento impermeável e um polar, água suficiente e calçado adequado.",
       ifcnUpdated: "Lista oficial do IFCN · atualizado:", lastChecked: "Verificado pelo Levadinho:", madeiraTime: "(hora da Madeira)", source: "Fonte:"
     },
@@ -71,7 +71,7 @@
         var wind = w.wind_strong ? ", vent fort (" + Math.round(w.wind_kmh) + " km/h)" : "";
         return "Météo au sommet : " + Math.round(w.temp_c) + " °C mesurés à la station du Pico do Areeiro (~1 800 m)" + cloud + wind + " — attendez-vous à bien plus froid et nuageux qu'à Funchal.";
       },
-      nearby: function (t) { return "Météo à proximité : " + t + " °C — attendez-vous à des montagnes plus fraîches et nuageuses que la côte."; },
+      nearby: function (r) { return "Météo près du sentier (station IPMA " + esc(r.place) + ") : " + r.temp + " °C" + (r.wind != null ? ", vent " + r.wind + " km/h" : "") + (r.in_cloud ? ", probablement dans les nuages" : "") + (r.rain ? ", pluie " + r.rain + " mm sur la dernière heure" : "") + " — attendez-vous à des montagnes plus fraîches et nuageuses que la côte."; },
       advisory: "La webcam ne montre qu'un aperçu du sommet à l'instant — ne supposez pas que les conditions resteront les mêmes. Emportez un bon anorak et une polaire, assez d'eau, et portez des chaussures adaptées.",
       ifcnUpdated: "Liste officielle de l'IFCN · mise à jour :", lastChecked: "Vérifié par Levadinho :", madeiraTime: "(heure de Madère)", source: "Source :"
     },
@@ -94,7 +94,7 @@
         var wind = w.wind_strong ? ", starker Wind (" + Math.round(w.wind_kmh) + " km/h)" : "";
         return "Gipfelwetter jetzt: " + Math.round(w.temp_c) + " °C gemessen an der Station Pico do Areeiro (~1.800 m)" + cloud + wind + " — rechnen Sie mit deutlich kälterem und wolkigerem Wetter als in Funchal.";
       },
-      nearby: function (t) { return "Wetter in der Nähe: " + t + " °C — in den Bergen kühler und wolkiger als an der Küste."; },
+      nearby: function (r) { return "Wetter am Weg (IPMA-Station " + esc(r.place) + "): " + r.temp + " °C" + (r.wind != null ? ", Wind " + r.wind + " km/h" : "") + (r.in_cloud ? ", wahrscheinlich in Wolken" : "") + (r.rain ? ", Regen " + r.rain + " mm in der letzten Stunde" : "") + " — in den Bergen kühler und wolkiger als an der Küste."; },
       advisory: "Die Webcam zeigt nur einen Moment des Gipfels — gehen Sie nicht davon aus, dass die Bedingungen so bleiben. Nehmen Sie einen guten Anorak und Fleece mit, genügend Wasser und tragen Sie geeignetes Schuhwerk.",
       ifcnUpdated: "Offizielle IFCN-Liste · aktualisiert:", lastChecked: "Von Levadinho geprüft:", madeiraTime: "(Madeira-Zeit)", source: "Quelle:"
     },
@@ -117,7 +117,7 @@
         var wind = w.wind_strong ? ", silny wiatr (" + Math.round(w.wind_kmh) + " km/h)" : "";
         return "Pogoda na szczycie: " + Math.round(w.temp_c) + " °C zmierzone na stacji Pico do Areeiro (~1800 m)" + cloud + wind + " — spodziewaj się znacznie zimniej i bardziej pochmurno niż w Funchal.";
       },
-      nearby: function (t) { return "Pogoda w pobliżu: " + t + " °C — w górach chłodniej i bardziej pochmurno niż na wybrzeżu."; },
+      nearby: function (r) { return "Pogoda przy szlaku (stacja IPMA " + esc(r.place) + "): " + r.temp + " °C" + (r.wind != null ? ", wiatr " + r.wind + " km/h" : "") + (r.in_cloud ? ", prawdopodobnie w chmurach" : "") + (r.rain ? ", deszcz " + r.rain + " mm w ostatniej godzinie" : "") + " — w górach chłodniej i bardziej pochmurno niż na wybrzeżu."; },
       advisory: "Kamera pokazuje tylko chwilowy widok szczytu — nie zakładaj, że warunki się nie zmienią. Zabierz dobrą kurtkę i polar, wystarczająco wody i włóż odpowiednie obuwie.",
       ifcnUpdated: "Oficjalna lista IFCN · aktualizacja:", lastChecked: "Sprawdzone przez Levadinho:", madeiraTime: "(czas Madery)", source: "Źródło:"
     }
@@ -165,7 +165,8 @@
     var st = (t.status === "OPEN" || t.status === "CLOSED") ? t.status : "PARTIAL";
     var note = t.note ? noteText(t.note, L.spokeNote[st]) : L.spokeNote[st];
     var body = "<p>" + esc(note) + "</p>";
-    if (t.temp != null) body += "<p>" + L.nearby(t.temp) + "</p>";
+    var r = (d.regions || []).find(function (x) { return x.key === t.region; });
+    if (r && r.temp != null) body += "<p>" + L.nearby(r) + "</p>";
     return '<div class="status-head"><span class="status-dot ' + st + '"></span>' +
       '<span class="status-badge ' + st + '">' + L.badge[st] + "</span></div>" +
       '<div class="status-body">' + body + "</div>" + stamp(d);

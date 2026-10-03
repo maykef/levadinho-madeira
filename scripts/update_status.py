@@ -705,9 +705,19 @@ STATIC_I18N = {
            "months": ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia",
                       "września", "października", "listopada", "grudnia"], "date": "{day} {month} {year}"},
 }
+# Trail cards also carry  <!-- STATIC-WEATHER:PR6:START -->...<!-- STATIC-WEATHER:PR6:END -->: the measured
+# IPMA reading of the trail's regional station at run time (crawlable "weather near the trail").
+STATIC_WX_I18N = {
+    "en": ("Weather near the trail (IPMA {place} station, {when}): {t} °C", ", wind {w} km/h", ", likely in cloud", ", rain {r} mm in the last hour"),
+    "pt": ("Tempo perto do percurso (estação IPMA {place}, {when}): {t} °C", ", vento {w} km/h", ", provavelmente dentro das nuvens", ", chuva {r} mm na última hora"),
+    "fr": ("Météo près du sentier (station IPMA {place}, {when}) : {t} °C", ", vent {w} km/h", ", probablement dans les nuages", ", pluie {r} mm sur la dernière heure"),
+    "de": ("Wetter am Weg (IPMA-Station {place}, {when}): {t} °C", ", Wind {w} km/h", ", wahrscheinlich in Wolken", ", Regen {r} mm in der letzten Stunde"),
+    "pl": ("Pogoda przy szlaku (stacja IPMA {place}, {when}): {t} °C", ", wiatr {w} km/h", ", prawdopodobnie w chmurach", ", deszcz {r} mm w ostatniej godzinie"),
+}
 STATIC_NOTE_MAX = 220
 STATIC_TRAIL_RE = re.compile(r"(<!--\s*STATIC-STATUS:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-STATUS:\2:END\s*-->)", re.S)
 STATIC_BOARD_RE = re.compile(r"(<!--\s*STATIC-STATUS-BOARD:START\s*-->)(.*?)(<!--\s*STATIC-STATUS-BOARD:END\s*-->)", re.S)
+STATIC_WX_RE = re.compile(r"(<!--\s*STATIC-WEATHER:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-WEATHER:\2:END\s*-->)", re.S)
 HTML_LANG_RE = re.compile(r"<html[^>]*\blang=[\"']?([a-zA-Z]{2})", re.I)
 
 
@@ -741,6 +751,23 @@ def static_line(trail, lang, date):
     return f"{line} — {short}" if short else line
 
 
+def static_weather_line(region, lang, date, hhmm):
+    """'Weather near the trail (IPMA Santana station, 3 October 2026 06:10): 15 °C, wind 9 km/h.' or ''."""
+    if not region or region.get("temp") is None:
+        return ""
+    head, wind, cloud, rain = STATIC_WX_I18N.get(lang, STATIC_WX_I18N["en"])
+    L = STATIC_I18N.get(lang, STATIC_I18N["en"])
+    when = L["date"].format(day=date.day, month=L["months"][date.month - 1], year=date.year) + " " + hhmm
+    line = head.format(place=region["place"], when=when, t=region["temp"])
+    if region.get("wind") is not None:
+        line += wind.format(w=region["wind"])
+    if region.get("in_cloud"):
+        line += cloud
+    if region.get("rain"):
+        line += rain.format(r=str(region["rain"]).replace(".", "," if lang != "en" else "."))
+    return line + "."
+
+
 def _fmt_date(date, L):
     """IFCN's own "ATUALIZADO" date (dd/mm/yyyy, as IFCN prints it) when known — the site never
     implies a fresher status than the authority's; otherwise our check date."""
@@ -755,13 +782,15 @@ def write_static_status(data):
     exist. Unknown codes are left untouched with a warning. Returns changed files."""
     date = datetime.date.fromisoformat(data["date"])
     by_code = {t["code"]: t for t in data["trails"]}
+    regions = {r["key"]: r for r in data.get("regions", [])}
+    hhmm = (data.get("stamp") or "")[-5:]
     changed = []
     for path in sorted(glob.glob("**/*.html", recursive=True)):
         if path.split(os.sep)[0] in ("bot", ".git", "node_modules", "seo_research"):
             continue
         with open(path, encoding="utf-8") as f:
             s = f.read()
-        if "STATIC-STATUS" not in s:
+        if "STATIC-STATUS" not in s and "STATIC-WEATHER" not in s:
             continue
         m = HTML_LANG_RE.search(s)
         lang = m.group(1).lower() if m else "en"
@@ -780,7 +809,12 @@ def write_static_status(data):
                                      p=c.get("PARTIAL", 0), c=c.get("CLOSED", 0))
             return mm.group(1) + htmllib.escape(line, quote=False) + mm.group(3)
 
-        new = STATIC_BOARD_RE.sub(board_sub, STATIC_TRAIL_RE.sub(trail_sub, s))
+        def wx_sub(mm):
+            t = by_code.get(mm.group(2))
+            r = regions.get(t["region"]) if t else None
+            return mm.group(1) + htmllib.escape(static_weather_line(r, lang, date, hhmm), quote=False) + mm.group(4)
+
+        new = STATIC_WX_RE.sub(wx_sub, STATIC_BOARD_RE.sub(board_sub, STATIC_TRAIL_RE.sub(trail_sub, s)))
         if new != s:
             with open(path, "w", encoding="utf-8") as f:
                 f.write(new)

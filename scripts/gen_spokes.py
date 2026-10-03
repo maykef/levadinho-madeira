@@ -220,28 +220,31 @@ def titles(lang, code, n):
     dA, da_, _, _ = de_g(n)
     c = code
     if lang == "en":
-        t = [f"{n} ({c}): open today? Status & booking", f"{n} ({c}): open today? Status", f"{n} ({c}): open today?"]
+        # Trail code + "Madeira" first (2026-10-03): people on the island search the bare code ("pr9.1", "pr18 madeira").
+        t = [f"{c} Madeira: {n}, open today? Booking", f"{c} Madeira: {n}, open today?", f"{c} Madeira: {n} open today?",
+             f"{c}: {n}, open today?", f"{c}: {n} open?"]
         d = [f"Is the {n} ({c}) open today? Status from the official IFCN warnings list. Check live status, fees and booking on SIMplifica.",
              f"Is the {n} ({c}) open today? From the official IFCN list. Check live status, fees and booking on SIMplifica."]
     elif lang == "pt":
-        t = [f"{n} ({c}): está abert{o} hoje? Estado e reserva", f"{n} ({c}): abert{o} hoje? Estado e reserva",
-             f"{n} ({c}): está abert{o} hoje?", f"{n} ({c}): abert{o} hoje?"]
+        t = [f"{c} Madeira: {n} está abert{o} hoje? Reserva", f"{c} Madeira: {n} está abert{o} hoje?",
+             f"{c} Madeira: {n}, abert{o} hoje?", f"{c}: {n}, abert{o} hoje?", f"{c}: {n} abert{o}?"]
         d = [f"{A} {n} ({c}) está abert{o} hoje? Estado segundo a lista oficial de avisos do IFCN. Veja o estado em direto, as taxas e a reserva no SIMplifica.",
              f"{A} {n} ({c}) está abert{o} hoje? Estado segundo a lista oficial do IFCN. Veja o estado em direto, taxas e reserva no SIMplifica.",
              f"{A} {n} ({c}) está abert{o} hoje? Segundo a lista oficial do IFCN. Estado em direto, taxas e reserva no SIMplifica."]
     elif lang == "fr":
-        t = [f"{n} ({c}) : ouvert{fe} aujourd'hui ? Statut et réservation", f"{n} ({c}) : ouvert{fe} aujourd'hui ? Réservation",
-             f"{n} ({c}) : ouvert{fe} aujourd'hui ?"]
+        t = [f"{c} Madère : {n}, ouvert{fe} aujourd'hui ? Réservation", f"{c} Madère : {n}, ouvert{fe} aujourd'hui ?",
+             f"{c} Madère : {n} ouvert{fe} ?", f"{c} : {n}, ouvert{fe} aujourd'hui ?", f"{c} : {n} ouvert{fe} ?"]
         d = [f"{fA} {n} ({c}) est-{fpr} ouvert{fe} aujourd'hui ? Selon la liste officielle des avis de l'IFCN. Statut en direct, tarifs et réservation sur SIMplifica.",
              f"{fA} {n} ({c}) est-{fpr} ouvert{fe} aujourd'hui ? Selon la liste officielle de l'IFCN. Statut en direct, tarifs et réservation sur SIMplifica.",
              f"{fA} {n} ({c}) ouvert{fe} aujourd'hui ? Selon la liste officielle de l'IFCN. Statut en direct, tarifs, réservation sur SIMplifica."]
     elif lang == "de":
-        t = [f"{n} ({c}): heute geöffnet? Status & Buchung", f"{n} ({c}): heute geöffnet? Status", f"{n} ({c}): heute geöffnet?"]
+        t = [f"{c} Madeira: {n} heute geöffnet? Buchung", f"{c} Madeira: {n} heute geöffnet?",
+             f"{c}: {n} heute geöffnet?", f"{c}: {n} geöffnet?"]
         d = [f"Ist {da_} {n} ({c}) heute geöffnet? Status laut offizieller Hinweisliste des IFCN. Live-Status, Gebühren und Buchung auf SIMplifica prüfen.",
              f"Ist {da_} {n} ({c}) heute geöffnet? Laut offizieller IFCN-Liste. Live-Status, Gebühren und Buchung auf SIMplifica prüfen."]
     else:  # pl
-        t = [f"{n} ({c}): czy jest dziś otwarta? Status i rezerwacja", f"{n} ({c}): czy dziś otwarta? Status i rezerwacja",
-             f"{n} ({c}): dziś otwarta? Status i rezerwacja", f"{n} ({c}): czy dziś otwarta?", f"{n} ({c}): dziś otwarta?"]
+        t = [f"{c} Madera: {n} – czy dziś otwarta? Rezerwacja", f"{c} Madera: {n} – czy dziś otwarta?",
+             f"{c} Madera: {n} – dziś otwarta?", f"{c}: {n} – dziś otwarta?", f"{c}: {n} – otwarta?"]
         d = [f"Czy {n} ({c}) jest dziś otwarta? Status z oficjalnej listy komunikatów IFCN. Sprawdź status na żywo, opłaty i rezerwację w SIMplifica.",
              f"Czy {n} ({c}) jest dziś otwarta? Wg oficjalnej listy IFCN. Sprawdź status na żywo, opłaty i rezerwację w SIMplifica."]
     return fit(t), fit(d, 120, 155)
@@ -494,7 +497,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         d["kn"][0] = nf.pop("kn0")
         d.update(nf)
         d["title"] = d["title"].replace(" & booking", "").replace(" e reserva", "").replace(" et réservation", "") \
-            .replace(" ? Réservation", " ?").replace(" & Buchung", "").replace(" i rezerwacja", "")
+            .replace(" ? Réservation", " ?").replace(" & Buchung", "").replace(" i rezerwacja", "") \
+            .replace("? Booking", "?").replace("? Reserva", "?").replace("? Buchung", "?").replace("? Rezerwacja", "?")
     d["typ"] = typ
     d["route"] = route
     d["allt"] = allt
@@ -711,7 +715,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
 </header>
 
 <div class="status-card" id="statusCard" data-trail="{code}">
-  <div class="status-body"><p class="static-status"><!-- STATIC-STATUS:{code}:START --><!-- STATIC-STATUS:{code}:END --></p><p>{t['loading']}</p></div>
+  <div class="status-body"><p class="static-status"><!-- STATIC-STATUS:{code}:START --><!-- STATIC-STATUS:{code}:END --></p><p class="static-weather"><!-- STATIC-WEATHER:{code}:START --><!-- STATIC-WEATHER:{code}:END --></p><p>{t['loading']}</p></div>
 </div>
 
 <aside class="facts">
