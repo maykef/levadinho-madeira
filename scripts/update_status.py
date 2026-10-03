@@ -748,6 +748,10 @@ STATIC_BOARD_LISTS = {
     "fr": ("Fermés : {}.", "Partiellement ouverts : {}."), "de": ("Geschlossen: {}.", "Teilweise geöffnet: {}."),
     "pl": ("Zamknięte: {}.", "Częściowo otwarte: {}."),
 }
+# Trail pages' meta description starts with the live IFCN status (2026-10-03), e.g.
+# "IFCN 14/09/2026: OPEN. Is the Levada do Rei open today? ..." — the prefix is replaced on every run.
+DESC_STATUS_RE = re.compile(r'(<meta name="description" content=")(?:IFCN \d{2}[./]\d{2}[./]\d{4}: [^."]+\. )?')
+TRAIL_CARD_RE = re.compile(r'id="statusCard"[^>]*data-trail="([^"]+)"')
 STATIC_NOTE_MAX = 220
 STATIC_TRAIL_RE = re.compile(r"(<!--\s*STATIC-STATUS:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-STATUS:\2:END\s*-->)", re.S)
 STATIC_BOARD_RE = re.compile(r"(<!--\s*STATIC-STATUS-BOARD:START\s*-->)(.*?)(<!--\s*STATIC-STATUS-BOARD:END\s*-->)", re.S)
@@ -853,6 +857,13 @@ def write_static_status(data):
             return mm.group(1) + htmllib.escape(static_weather_line(r, lang, date, hhmm), quote=False) + mm.group(4)
 
         new = STATIC_WX_RE.sub(wx_sub, STATIC_BOARD_RE.sub(board_sub, STATIC_TRAIL_RE.sub(trail_sub, s)))
+        card = TRAIL_CARD_RE.search(new)
+        if card and card.group(1) in by_code and IFCN_UPDATED and "STATIC-WEATHER" in new:  # trail pages only
+            t = by_code[card.group(1)]
+            assert_not_contradictory(t["status"], t.get("note") or {}, what=f"description {t['code']}")
+            d = IFCN_UPDATED.replace("/", ".") if lang in ("de", "pl") else IFCN_UPDATED
+            prefix = f"IFCN {d}: {L['st'][t['status']]}. "
+            new = DESC_STATUS_RE.sub(lambda mm: mm.group(1) + prefix, new, count=1)
         if new != s:
             with open(path, "w", encoding="utf-8") as f:
                 f.write(new)
