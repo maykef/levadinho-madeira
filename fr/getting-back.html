@@ -195,6 +195,14 @@ a.tname:hover{text-decoration:underline}
 }
 </script>
 <!-- SITE-NAV-HEAD:END -->
+<!-- WEBCAM-HEAD:START (scripts/gen_webcam.py) -->
+<style>
+.tcam{margin-top:22px}
+.tcam-frame{display:flex;justify-content:center;align-items:center;background:#0d1b16;padding:16px;border-radius:12px 12px 0 0;margin-top:10px}
+.tcam-frame iframe{width:208px;height:156px;max-width:100%;border:0;display:block}
+.tcam-cap{border:1px solid var(--line,#E3E1D8);border-top:0;border-radius:0 0 12px 12px;padding:9px 14px;font-size:13px;color:var(--ink-soft,#4A5F56);background:var(--card,#fff)}
+</style>
+<!-- WEBCAM-HEAD:END -->
 </head>
 <body>
 
@@ -298,6 +306,15 @@ a.tname:hover{text-decoration:underline}
     <li>Funchal → Pico do Areeiro : environ 50–70 €</li>
   </ul>
 </section>
+
+<!-- WEBCAM:START (scripts/gen_webcam.py) -->
+<section id="webcam" class="tcam">
+  <h2>Webcam en direct à Achada do Teixeira</h2>
+  <p>La webcam de NetMadeira à Achada do Teixeira donne sur le parking où finit le PR1, là où vous retrouvez votre taxi ou votre chauffeur. Regardez si le haut est dans les nuages avant de partir.</p>
+  <div class="tcam-frame"><iframe width="208" height="156" src="https://www.netmadeira.com/webcams/show/netmadeira/achada-do-teixeira" title="Webcam en direct — parking de Achada do Teixeira, par NetMadeira" loading="lazy" scrolling="no"></iframe></div>
+  <p class="tcam-cap">Webcam : NetMadeira, intégrée avec son code de partage. Rechargez la page pour la dernière image ; la caméra est parfois hors ligne. <a class="plain" href="https://www.netmadeira.com/webcams-madeira/achada-do-teixeira" target="_blank" rel="noopener">Webcam en grand ↗</a></p>
+</section>
+<!-- WEBCAM:END -->
 
 <section id="bus-santana">
   <h2>Moins cher : un taxi jusqu'à Santana, puis le bus</h2>

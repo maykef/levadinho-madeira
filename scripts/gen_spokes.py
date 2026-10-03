@@ -957,6 +957,9 @@ def main():
     # ...and the "By bus" sections from the operators' timetables (see gen_bus.py).
     import gen_bus
     gen_bus.main()
+    # ...and the car-park webcams (see gen_webcam.py).
+    import gen_webcam
+    gen_webcam.main()
 
 
 if __name__ == "__main__":
