@@ -274,6 +274,14 @@ a.tname:hover{text-decoration:underline}
 }
 </script>
 <!-- SITE-NAV-HEAD:END -->
+<!-- WEBCAM-HEAD:START (scripts/gen_webcam.py) -->
+<style>
+.tcam{margin-top:22px}
+.tcam-frame{display:flex;justify-content:center;align-items:center;background:#0d1b16;padding:16px;border-radius:12px 12px 0 0;margin-top:10px}
+.tcam-frame iframe{width:208px;height:156px;max-width:100%;border:0;display:block}
+.tcam-cap{border:1px solid var(--line,#E3E1D8);border-top:0;border-radius:0 0 12px 12px;padding:9px 14px;font-size:13px;color:var(--ink-soft,#4A5F56);background:var(--card,#fff)}
+</style>
+<!-- WEBCAM-HEAD:END -->
 </head>
 <body>
 <div class="waymark" aria-hidden="true"></div>
@@ -328,6 +336,15 @@ a.tname:hover{text-decoration:underline}
     if(g&&g.count)g.count({path:"whatsapp-"+a.getAttribute("data-tag"),title:"Levadinho WhatsApp CTA",event:true});}catch(e){}});})();
 </script>
 <!-- LEVADINHO-CTA:END -->
+
+<!-- WEBCAM:START (scripts/gen_webcam.py) -->
+<section id="webcam" class="tcam">
+  <h2>O parque da Achada do Teixeira está cheio? Webcam em direto</h2>
+  <p>A webcam da NetMadeira na Achada do Teixeira mostra o parque de estacionamento onde começa o PR1.2 e termina o PR1. Veja-a antes de subir: dá para ver quantos carros lá estão e se o início do percurso está dentro das nuvens.</p>
+  <div class="tcam-frame"><iframe width="208" height="156" src="https://www.netmadeira.com/webcams/show/netmadeira/achada-do-teixeira" title="Webcam em direto — parque de Achada do Teixeira, da NetMadeira" loading="lazy" scrolling="no"></iframe></div>
+  <p class="tcam-cap">Webcam: NetMadeira, incorporada com o código de partilha. Recarregue a página para a imagem mais recente; por vezes a câmara está desligada. <a class="plain" href="https://www.netmadeira.com/webcams-madeira/achada-do-teixeira" target="_blank" rel="noopener">Webcam em tamanho maior ↗</a></p>
+</section>
+<!-- WEBCAM:END -->
 
 <aside class="facts">
   <h2>Dados do percurso</h2>
