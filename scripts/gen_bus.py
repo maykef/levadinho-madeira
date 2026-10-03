@@ -178,7 +178,8 @@ def sentence(item, lang):
     return t.format(p=esc(args[0]), h=args[0]) if args else t
 
 
-def render_seg(s, lang):
+def line_label(s, lang):
+    """"CAM line 113 (new no. 702)" etc., lower-case first letter as in running text."""
     if s["n"] == "Santana":
         line = {"en": "CAM's Santana-line buses", "pt": "autocarros da rede Santana da CAM", "fr": "bus du réseau Santana de la CAM",
                 "de": "CAM-Busse des Santana-Netzes", "pl": "autobusy sieci Santana firmy CAM"}[lang]
@@ -187,6 +188,11 @@ def render_seg(s, lang):
         if s["new"]:
             nx = T["new"][lang].format(x=s["new"]).strip()[1:-1]  # "new no. 702"
             line = line[:-1] + f", {nx})" if line.endswith(")") else line + f" ({nx})"
+    return line
+
+
+def render_seg(s, lang):
+    line = line_label(s, lang)
     head = f"{line[0].upper() + line[1:]}, {esc(s['a'])} → {esc(s['b'])}"
     if s["deps"]:
         head += " (" + T["deps"][lang].format(a=esc(s["a"])) + ")"

@@ -53,6 +53,7 @@ TAGS = {
     "pr1-sunrise-transport/index.html": "web-sunrise",
     "pr1-one-way/index.html": "web-oneway",
     "free-walks/index.html": "web-free",
+    "levadas-by-bus/index.html": "web-bus",
     "best-levada-walks/index.html": "web-best",
     "easy-levadas-no-vertigo/index.html": "web-easy",
     "levadas-with-tunnels/index.html": "web-tunnels",
