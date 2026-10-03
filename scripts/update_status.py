@@ -618,16 +618,43 @@ def assert_not_contradictory(status, note, what="PR1"):
         sys.exit(f"FATAL: contradictory status refused for {what} — OPEN badge with restrictive note: {note!r}")
 
 
-def bump_sitemap(today):
-    """Bump every <lastmod> to today. Skipped if the sitemap is absent."""
-    for name in ("sitemap.xml",):
-        try:
-            s = open(name).read()
-        except FileNotFoundError:
-            print(f"{name} not found — skipping lastmod bump", file=sys.stderr)
-            continue
-        s = re.sub(r"<lastmod>[^<]*</lastmod>", f"<lastmod>{today}</lastmod>", s)
-        open(name, "w").write(s)
+def site_pages():
+    """Every published *.html (bot/, seo_research/ etc. excluded)."""
+    return [p for p in sorted(glob.glob("**/*.html", recursive=True))
+            if p.split(os.sep)[0] not in ("bot", ".git", "node_modules", "seo_research")]
+
+
+def snapshot():
+    """{path: content} of every page, taken before this run writes anything."""
+    return {p: open(p, encoding="utf-8").read() for p in site_pages()}
+
+
+def changed_pages(before):
+    return [p for p in site_pages() if before.get(p) != open(p, encoding="utf-8").read()]
+
+
+def _url_to_file(loc):
+    path = re.sub(r"^https?://[^/]+/", "", loc)
+    return path + "index.html" if path == "" or path.endswith("/") else path
+
+
+def bump_sitemap(today, changed):
+    """Set <lastmod> to today only for URLs whose page changed in this run (2026-10-03: a lastmod that
+    is always "today" teaches Google to ignore it). Skipped if the sitemap is absent."""
+    changed = set(changed)
+    try:
+        s = open("sitemap.xml").read()
+    except FileNotFoundError:
+        print("sitemap.xml not found — skipping lastmod bump", file=sys.stderr)
+        return
+
+    def url_sub(m):
+        block = m.group(0)
+        loc = re.search(r"<loc>([^<]+)</loc>", block)
+        if loc and _url_to_file(loc.group(1)) in changed:
+            block = re.sub(r"<lastmod>[^<]*</lastmod>", f"<lastmod>{today}</lastmod>", block)
+        return block
+    open("sitemap.xml", "w").write(re.sub(r"<url>.*?</url>", url_sub, s, flags=re.S))
 
 
 # Classified PR trails managed by a body other than IFCN (IFCN trail list, ENTIDADE GESTORA column):
@@ -635,17 +662,18 @@ def bump_sitemap(today):
 NO_IFCN_FEE = {"PR3", "PR3.1", "PR4", "PR23"}
 
 
-# Pages whose WebPage JSON-LD carries a "dateModified" freshness signal for search engines. Only
-# that one value is touched here (plus STATIC-STATUS markers below); the badge stays client-side.
-# Missing files (e.g. pt/ before it exists) are skipped with a warning.
+# Status pages whose meta descriptions carry IFCN's "updated" date (refresh_description_dates).
+# "dateModified" is no longer tied to this list: bump_date_modified() sets it on every page whose
+# content changed in the run. Missing files are skipped.
 DATE_MODIFIED_PAGES = ["index.html", "pt/index.html", "fr/index.html", "de/index.html", "pl/index.html",
                        "pr1/index.html", "pt/pr1/index.html", "fr/pr1/index.html", "de/pr1/index.html",
                        "pl/pr1/index.html"]
 
 
-def bump_date_modified(when):
-    """Set "dateModified" to this run's time. Degrades gracefully (warns) — it's metadata, not status."""
-    for name in DATE_MODIFIED_PAGES:
+def bump_date_modified(when, changed):
+    """Set "dateModified" to this run's time on every page whose content changed in this run
+    (2026-10-03; it was a fixed list of 10 pages bumped daily). Degrades gracefully (warns)."""
+    for name in changed:
         try:
             s = open(name, encoding="utf-8").read()
         except FileNotFoundError:
@@ -653,7 +681,6 @@ def bump_date_modified(when):
             continue
         new, n = re.subn(r'("dateModified":\s*")[^"]*(")', rf"\g<1>{when}\g<2>", s, count=1)
         if n != 1:
-            print(f"{name}: no dateModified field — skipped", file=sys.stderr)
             continue
         open(name, "w", encoding="utf-8").write(new)
 
@@ -713,6 +740,13 @@ STATIC_WX_I18N = {
     "fr": ("Météo près du sentier (station IPMA {place}, {when}) : {t} °C", ", vent {w} km/h", ", probablement dans les nuages", ", pluie {r} mm sur la dernière heure"),
     "de": ("Wetter am Weg (IPMA-Station {place}, {when}): {t} °C", ", Wind {w} km/h", ", wahrscheinlich in Wolken", ", Regen {r} mm in der letzten Stunde"),
     "pl": ("Pogoda przy szlaku (stacja IPMA {place}, {when}): {t} °C", ", wiatr {w} km/h", ", prawdopodobnie w chmurach", ", deszcz {r} mm w ostatniej godzinie"),
+}
+# Board line, 2026-10-03: also name the closed / partly open trails (crawlable answer to
+# "percursos encerrados madeira", "madère sentier fermé", "które szlaki zamknięte").
+STATIC_BOARD_LISTS = {
+    "en": ("Closed: {}.", "Partly open: {}."), "pt": ("Encerrados: {}.", "Parcialmente abertos: {}."),
+    "fr": ("Fermés : {}.", "Partiellement ouverts : {}."), "de": ("Geschlossen: {}.", "Teilweise geöffnet: {}."),
+    "pl": ("Zamknięte: {}.", "Częściowo otwarte: {}."),
 }
 STATIC_NOTE_MAX = 220
 STATIC_TRAIL_RE = re.compile(r"(<!--\s*STATIC-STATUS:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-STATUS:\2:END\s*-->)", re.S)
@@ -807,6 +841,10 @@ def write_static_status(data):
             c = data["counts"]
             line = L["board"].format(d=_fmt_date(date, L), o=c.get("OPEN", 0),
                                      p=c.get("PARTIAL", 0), c=c.get("CLOSED", 0))
+            for st, fmt in zip(("CLOSED", "PARTIAL"), STATIC_BOARD_LISTS.get(lang, STATIC_BOARD_LISTS["en"])):
+                names = [f"{t['name']} ({t['code']})" for t in data["trails"] if t["status"] == st]
+                if names:
+                    line += " " + fmt.format(", ".join(names))
             return mm.group(1) + htmllib.escape(line, quote=False) + mm.group(3)
 
         def wx_sub(mm):
@@ -888,10 +926,13 @@ def main():
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write("\n")
 
-    bump_sitemap(today)
-    bump_date_modified(now.isoformat(timespec="minutes"))
+    before = snapshot()
     refresh_description_dates(IFCN_UPDATED)
     write_static_status(data)
+    changed = changed_pages(before)
+    bump_date_modified(now.isoformat(timespec="minutes"), changed)
+    bump_sitemap(today, changed)
+    print(f"dates: {len(changed)} page(s) changed -> dateModified + sitemap lastmod", file=sys.stderr)
 
     print(f"PR1={status} | trails={len(trails)} | "
           f"open={counts['OPEN']} partial={counts['PARTIAL']} closed={counts['CLOSED']} | {stamp}")

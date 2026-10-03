@@ -126,8 +126,9 @@
     var key = (t.name + " " + t.code).toLowerCase();
     return '<div class="tcard ' + t.status + '" data-status="' + t.status + '" data-key="' + esc(key) +
       '" data-pop="' + (t.popular ? 1 : 0) + '"' + xattrs(t.code) + '>' +
-      '<div class="trow">' + tname + esc(t.name) + ' <span class="tcode">' + esc(t.code) +
-      "</span>" + (page ? "</a>" : "</span>") + '<span class="tbadge ' + t.status + '">' + T.badge[t.status] + "</span></div>" +
+      // Code first (2026-10-03): matches the trail-page titles and the bare-code searches ("pr9.1").
+      '<div class="trow">' + tname + '<span class="tcode">' + esc(t.code) + "</span> " + esc(t.name) +
+      (page ? "</a>" : "</span>") + '<span class="tbadge ' + t.status + '">' + T.badge[t.status] + "</span></div>" +
       note +
       '<div class="tmeta"><span class="tfee">' + esc(fee(t.fee, T)) + temp + "</span>" + link + "</div></div>";
   }

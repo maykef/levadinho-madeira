@@ -204,6 +204,63 @@ def de_g(name):
     return ("Die", "die", "Sie", "die") if fem else ("Der", "der", "Er", "den")
 
 
+import datetime as _dt, zoneinfo as _zi
+GENERATED_AT = _dt.datetime.now(_zi.ZoneInfo("Atlantic/Madeira")).isoformat(timespec="minutes")
+
+
+def region_place(code):
+    """IPMA station place of a trail's weather region (status.json trails[].region), or None."""
+    from update_status import REGION_PLACE
+    try:
+        trails = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "status.json")))["trails"]
+    except (OSError, ValueError, KeyError):
+        return None
+    r = next((t.get("region") for t in trails if t["code"] == code), None)
+    return REGION_PLACE.get(r)
+
+
+def weather_qa(lang, name, place):
+    """(heading, answer) for the "weather now?" question on trail pages (2026-10-03): people on the
+    island search "<trail> weather / tempo / météo / Wetter / pogoda". The answer is static (the FAQ
+    schema must match the visible text); the measured reading is the STATIC-WEATHER line under it."""
+    if lang == "en":
+        return (f"What's the weather at {name} now?",
+                f"The status card above shows the latest measured reading from the IPMA {place} station, the regional "
+                "weather station nearest the trail: temperature, wind and whether it is likely in cloud. Expect the "
+                "mountains cooler and cloudier than Funchal.")
+    if lang == "pt":
+        return (f"Como está o tempo n{pt_g(name)[1]} {name} agora?",
+                f"O cartão de estado acima mostra a última leitura medida pela estação do IPMA em {place}, a estação "
+                "regional mais próxima do percurso: temperatura, vento e se é provável estar dentro das nuvens. Conte "
+                "com a montanha mais fresca e nublada do que o Funchal.")
+    if lang == "fr":
+        return (f"{name} : quelle météo maintenant ?",
+                f"La carte d'état ci-dessus affiche le dernier relevé mesuré par la station IPMA de {place}, la station "
+                "régionale la plus proche du sentier : température, vent et risque d'être dans les nuages. En montagne, "
+                "attendez-vous à plus frais et plus nuageux qu'à Funchal.")
+    if lang == "de":
+        return (f"{name}: Wie ist das Wetter jetzt?",
+                f"Die Statuskarte oben zeigt den letzten Messwert der IPMA-Station {place}, der nächstgelegenen "
+                "regionalen Wetterstation: Temperatur, Wind und ob der Weg wahrscheinlich in Wolken liegt. In den "
+                "Bergen ist es kühler und wolkiger als in Funchal.")
+    return (f"{name}: jaka jest teraz pogoda?",
+            f"Karta stanu powyżej pokazuje ostatni pomiar ze stacji IPMA {place}, najbliższej regionalnej stacji "
+            "pogodowej: temperaturę, wiatr i to, czy szlak jest prawdopodobnie w chmurach. W górach jest chłodniej "
+            "i bardziej pochmurno niż w Funchal.")
+
+
+def weather_section(lang, name, code, place):
+    h, a = weather_qa(lang, name, place)
+    return (f'<section id="weather">\n  <h2>{htmllib.escape(h, quote=False)}</h2>\n  <p>{htmllib.escape(a, quote=False)}</p>\n'
+            f'  <p class="static-weather"><!-- STATIC-WEATHER:{code}:START --><!-- STATIC-WEATHER:{code}:END --></p>\n</section>\n\n')
+
+
+def webpage_ld(name, url, lang):
+    """WebPage JSON-LD carrying "dateModified" (bumped by update_status.py when the page's content changes)."""
+    return {"@context": "https://schema.org", "@type": "WebPage", "name": name, "url": url,
+            "inLanguage": lang, "dateModified": GENERATED_AT}
+
+
 def fit(cands, lo=0, hi=60):
     """First candidate whose plain-text length is within [lo, hi]; else the
     shortest one (titles) — callers keep the list ordered longest-first."""
@@ -650,6 +707,12 @@ def build(lang, code, full, slug, f, linear, typ, geo=None):
             for q, a in ((t["h1"], t["sub"]), (t["book_h"], t["book"]), (t["gt_h"], t["gt"]), (t["cl_h"], t["cl"]))
         ],
     }
+    place = region_place(code)
+    wx_section = ""
+    if place:
+        wq, wa = weather_qa(lang, name, place)
+        faq["mainEntity"].append({"@type": "Question", "name": wq, "acceptedAnswer": {"@type": "Answer", "text": wa}})
+        wx_section = weather_section(lang, name, code, place)
     ta = attraction(lang, code, full, canon, f, linear, typ, geo, og_img if photo else None)
     know = "\n".join(f"    <li>{b}</li>" for b in t["kn"])
     P = PREFIX[lang]
@@ -687,6 +750,9 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
 </script>
 <script type="application/ld+json">
 {json.dumps(ta, ensure_ascii=False, indent=2)}
+</script>
+<script type="application/ld+json">
+{json.dumps(webpage_ld(t['title'], canon, lang), ensure_ascii=False, indent=2)}
 </script>
 
 <style>
@@ -737,7 +803,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
   <div class="fact">{t['gt_fact']}</div>
 </section>
 
-<section id="closed">
+{wx_section}<section id="closed">
   <h2>{t['cl_h']}</h2>
   <p>{t['cl']}</p>
 </section>
