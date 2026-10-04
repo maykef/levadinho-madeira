@@ -310,11 +310,23 @@ def test_brain_ifcn():
     b = brain.status_block()
     check("IFCN list updated 14/09/2026" in b and "warnings list" in b, "status_block: IFCN source + updated date")
     check("every morning" not in b and "Visit Madeira" not in b, "status_block: no 'every morning' claim")
-    check("Official IFCN note: Open: Areeiro–Pedra Rija." in b, "PR1 note: English")
-    check("PR1.2 Vereda do Pico Ruivo: OPEN. Note: Aberto só de manhã." in b, "trail note: pt fallback")
-    check("PR11 Vereda dos Balcões: OPEN. Note: Restricted." in b, "trail note: en preferred")
-    check("PR9 Levada do Caldeirão Verde: CLOSED." in b and "PR9 Levada do Caldeirão Verde: CLOSED. Note" not in b,
-          "trail without a note")
+    check("PR1.2 | Vereda do Pico Ruivo | OPEN (Aberto só de manhã.)" in b, "trail note: pt fallback")
+    check("PR11 | Vereda dos Balcões | OPEN (Restricted.)" in b, "trail note: en preferred")
+    check("PR9 | Levada do Caldeirão Verde | CLOSED |" in b, "trail without a note")
+    s2 = dict(STATUS, trails=[{"code": "PR1", "name": "Vereda do Areeiro", "status": "PARTIAL"}] + STATUS["trails"])
+    brain.live_status = lambda: s2
+    check("PR1 | Vereda do Areeiro | PARTIAL (Open: Areeiro–Pedra Rija.)" in brain.status_block(),
+          "PR1 note: English, from the top-level note")
+    brain.live_status = lambda: STATUS
+    # every trail is covered: the table has facts, the question picks the right pages
+    check("6.1 km" in brain.status_block() or "PR1 |" not in brain.status_block(), "table carries official facts")
+    for q, code in [("Is PR6.1 open?", "PR6.1"), ("Balcões by bus?", "PR11"), ("Ist die Levada das 25 Fontes offen?", "PR6"),
+                    ("Czy Pico Ruivo jest otwarte?", "PR1.2"), ("levada do caldeirão verde - um caminho para todos", "PR9.1")]:
+        check(code in brain.pick_context("t-ctx", q, {})[0], f"pick_context: {q} → {code}")
+    check("tunnels" in brain.pick_context("t-ctx", "Do I need a torch for Caldeirão Verde?", {})[1], "torch → tunnels guide")
+    check(brain.pick_context("t-ctx", "Which levadas can I do without a car?", {})[1] == ["bus"], "no car → bus guide")
+    check(brain.pick_context("t-ctx", "Is Levada dos Tornos open?", {"trail_code": "PR14"})[0] == [],
+          "classifier's trail guess ignored (Tornos is not PR14)")
     check(brain._en("plain") == "plain" and brain._en({"fr": "x"}) == "x" and brain._en(None) == "", "_en fallbacks")
     STATUS["source"] = {}
     check("update date not available" in brain.status_block(), "no source.updated: says so")

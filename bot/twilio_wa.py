@@ -7,14 +7,18 @@ webhook hands to process() (normalise), and answers through here (send). brain.p
     working store, the HMAC visitor id and privacy_request.py find the same visitor on both channels.
   - The message dict carries "channel": "twilio" (a Meta message has no channel key = "meta"). It is
     kept in the pending queue, so a reply replayed after the model wakes goes out on the same channel.
-  - The sandbox can't send interactive messages: the language list and the Accept / Don't accept
-    buttons become plain text with typed replies (render), and a typed reply is turned back into the
-    list_reply / button_reply the Meta path gets (interpret), so process() runs the same branches.
+  - Menus (since 2026-10-04, own sender +44 7455 718697): the language list and the Accept / Don't accept
+    buttons go out as Twilio Content templates (twilio_content.py → twilio_content.json): a tappable
+    list-picker and quick-reply buttons. A tap comes back as ListId / ButtonPayload and is turned into the
+    list_reply / button_reply the Meta path gets (normalise). Without the templates (or if a send fails)
+    they become plain text with typed replies (render), and a typed reply is turned back the same way
+    (interpret), so process() runs the same branches.
   - "join bark-wood" (the sandbox join phrase) is a first contact: the picker, like Meta's
     request_welcome. "join bark-wood #web-<page>" becomes the website greeting, so the tag is recorded.
 
 Config (bot/.env): TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WA_FROM, TWILIO_WEBHOOK_URL.
 """
+import json
 import logging
 import os
 import re
@@ -30,6 +34,11 @@ TWILIO_WA_FROM = os.environ.get("TWILIO_WA_FROM", "whatsapp:+14155238886")
 # itself sees /twilio and can't rebuild it from the request.
 TWILIO_WEBHOOK_URL = os.environ.get("TWILIO_WEBHOOK_URL",
                                     "https://microscopy-rig-system.tail53cc58.ts.net/levadinho/twilio")
+CONTENT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "twilio_content.json")
+try:
+    CONTENT = json.load(open(CONTENT_FILE))  # template name → Content SID (HX…)
+except (OSError, ValueError):
+    CONTENT = {}
 MAX_CHARS = 1500  # WhatsApp via Twilio caps a body at 1,600; longer replies go out as several messages
 
 log = logging.getLogger("levadinho")
@@ -84,7 +93,11 @@ def normalise(form):
     body = (form.get("Body") or "").strip()
     m = {"from": re.sub(r"\D", "", form.get("From", "")), "id": form.get("MessageSid", ""),
          "channel": "twilio", "profile_name": form.get("ProfileName") or None}
-    if form.get("Latitude") and form.get("Longitude"):
+    if form.get("ListId"):  # a tap on the language list-picker
+        m.update(type="interactive", interactive={"type": "list_reply", "list_reply": {"id": form["ListId"]}})
+    elif form.get("ButtonPayload"):  # a tap on a quick-reply button (Accept / Don't accept)
+        m.update(type="interactive", interactive={"type": "button_reply", "button_reply": {"id": form["ButtonPayload"]}})
+    elif form.get("Latitude") and form.get("Longitude"):
         m.update(type="location", location={"latitude": form["Latitude"], "longitude": form["Longitude"]})
     elif body.lower().startswith("join "):  # the sandbox join phrase: a first contact, no question
         tag = re.search(r"#([a-z0-9-]+)", body.lower())
@@ -171,8 +184,31 @@ def _client():
     return _client_cache[0]
 
 
+def content(msg):
+    """brain's list / consent buttons → (Content SID, variables) for the tappable menu, or None."""
+    if msg["type"] == "list" and CONTENT.get("levadinho_lang_picker"):
+        return CONTENT["levadinho_lang_picker"], None
+    if msg["type"] == "buttons" and [bid for bid, _ in msg["buttons"]] == ["consent_yes", "consent_no"]:
+        yes = msg["buttons"][0][1]
+        lang = next((code for code, (y, _) in brain.CONSENT_BUTTONS.items() if y == yes), "en")
+        if CONTENT.get(f"levadinho_consent_{lang}") and len(msg["body"]) <= 1000:
+            return CONTENT[f"levadinho_consent_{lang}"], {"1": msg["body"]}
+    return None
+
+
 def send(to, msg):
     """One of brain's messages → the visitor (digits-only number), in as many pieces as it takes, in order."""
+    menu = content(msg)
+    if menu:
+        sid, variables = menu
+        try:
+            kw = {"content_variables": json.dumps(variables)} if variables else {}
+            log.info("Twilio sent %s (menu %s)", _client().messages.create(
+                from_=TWILIO_WA_FROM, to=f"whatsapp:+{to}", content_sid=sid, **kw).sid, sid)
+            return
+        except Exception as e:  # fall back to the typed-reply text below
+            log.error("Twilio menu %s failed (%s %s); sending text", sid, getattr(e, "code", ""),
+                      getattr(e, "msg", None) or e)
     for part in split(render(msg)):
         try:
             sid = _client().messages.create(from_=TWILIO_WA_FROM, to=f"whatsapp:+{to}", body=part).sid

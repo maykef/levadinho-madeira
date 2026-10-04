@@ -1,3 +1,4 @@
+import json
 """Offline tests for the Twilio WhatsApp Sandbox route (app.py POST /twilio, twilio_wa.py). No model,
 no Twilio, no Postgres: brain is mocked where the reply matters, Twilio's client is a fake, the SQLite
 store is a scratch file and analytics writes nothing.
@@ -32,8 +33,8 @@ class FakeTwilio:
         self.sent = []
         self.messages = self
 
-    def create(self, from_, to, body):
-        self.sent.append({"from_": from_, "to": to, "body": body})
+    def create(self, from_, to, body=None, **kw):
+        self.sent.append({"from_": from_, "to": to, "body": body, **kw} if kw else {"from_": from_, "to": to, "body": body})
         return type("Msg", (), {"sid": f"SM{len(self.sent):032d}"})()
 
 
@@ -44,6 +45,7 @@ def tw(monkeypatch):
     monkeypatch.setattr(twilio_wa, "TWILIO_WEBHOOK_URL", URL)
     monkeypatch.setattr(twilio_wa, "TWILIO_WA_FROM", "whatsapp:+14155238886")
     monkeypatch.setattr(twilio_wa, "_client", lambda: fake)
+    monkeypatch.setattr(twilio_wa, "CONTENT", {})  # plain-text menus unless a test sets the templates
     monkeypatch.setattr(app, "record", lambda *a, **k: None)
     monkeypatch.setattr(app, "graph_post", lambda payload: pytest.fail("Meta send on the Twilio channel"))
     store.reset(PHONE)
@@ -202,3 +204,33 @@ def test_queued_while_model_asleep_replays_on_twilio(tw, monkeypatch):
     assert tw.sent[-1] == {"from_": "whatsapp:+14155238886", "to": f"whatsapp:+{PHONE}",
                            "body": "ANSWER to: Is PR1 open today?"}
     assert not store.has_pending(PHONE)
+
+
+MENUS = {"levadinho_lang_picker": "HXlist", **{f"levadinho_consent_{l}": f"HXok{l}" for l in brain.LANGS}}
+
+
+def test_tappable_menus_flow(tw, monkeypatch):
+    """With the Content templates: picker = list-picker, notice = quick-reply buttons; taps come back as
+    ListId / ButtonPayload and run the same branches as Meta's list_reply / button_reply."""
+    monkeypatch.setattr(twilio_wa, "CONTENT", MENUS)
+    post(form("Olá Levadinho! 👋 #web-home"))
+    assert tw.sent[-1]["content_sid"] == "HXlist" and tw.sent[-1]["body"] is None
+    post(form("🇬🇧 English", ListId="lang_en", ListTitle="🇬🇧 English"))
+    assert store.get_user(PHONE)["lang"] == "en"
+    m = tw.sent[-1]
+    assert m["content_sid"] == "HXoken" and "https://levadinho-madeira.com/privacy/#en" in json.loads(m["content_variables"])["1"]
+    post(form("Accept", ButtonPayload="consent_yes", ButtonText="Accept"))
+    assert tw.sent[-1]["body"] == brain.INTRO["en"] and store.get_user(PHONE)["consent"] == "yes"
+
+
+def test_menu_send_failure_falls_back_to_text(tw, monkeypatch):
+    monkeypatch.setattr(twilio_wa, "CONTENT", MENUS)
+
+    def create(from_, to, body=None, **kw):
+        if kw:
+            raise RuntimeError("63016")
+        tw.sent.append({"from_": from_, "to": to, "body": body})
+        return type("Msg", (), {"sid": "SMx"})()
+    monkeypatch.setattr(tw, "create", create)
+    post(form("join bark-wood"))
+    assert tw.sent[-1]["body"].endswith("1 Português · 2 English · 3 Français · 4 Deutsch · 5 Polski")

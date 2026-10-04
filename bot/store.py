@@ -45,9 +45,11 @@ def set_user(uid, **fields):
     _db.commit()
 
 
-def history(uid):
+def history(uid, since=0.0):
+    """The visitor's last exchanges, oldest first. `since` (epoch) leaves out older turns, e.g. replies written
+    under an older knowledge scope that the model would otherwise copy."""
     rows = _db.execute("SELECT question, answer FROM turns WHERE user=? AND at>? ORDER BY at DESC LIMIT ?",
-                       (uid, time.time() - HISTORY_TTL, HISTORY_TURNS)).fetchall()
+                       (uid, max(time.time() - HISTORY_TTL, since), HISTORY_TURNS)).fetchall()
     msgs = []
     for q, a in reversed(rows):
         msgs += [{"role": "user", "content": q}, {"role": "assistant", "content": a}]

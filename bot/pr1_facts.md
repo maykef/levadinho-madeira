@@ -1,6 +1,6 @@
 # PR1 Vereda do Areeiro — knowledge for the Levadinho trial bot
 
-Scope: the trial bot covers PR1 only. The open/closed status and the official note are NOT
+Scope: the curated PR1 detail (the bot covers every trail; the others come from kb.json). The open/closed status and the official note are NOT
 in this file. They come live from status.json at answer time and always win over anything
 written here.
 

@@ -1,4 +1,4 @@
-"""Levadinho trial brain — PR1 only.
+"""Levadinho brain: every PR trail on Madeira (since 2026-10-04; PR1 only before).
 
 Turns one incoming visitor message into the bot's outgoing messages. It knows nothing
 about WhatsApp: app.py (the webhook) and chat.py (local test chat) both call handle().
@@ -27,6 +27,7 @@ import json
 import os
 import re
 import time
+import unicodedata
 import urllib.error
 import urllib.request
 
@@ -45,40 +46,39 @@ LANGS = {"pt": "Português", "en": "English", "fr": "Français", "de": "Deutsch"
 LANG_NAMES = {"pt": "European Portuguese", "en": "English", "fr": "French", "de": "German", "pl": "Polish"}
 FLAGS = {"pt": "🇵🇹", "en": "🇬🇧", "fr": "🇫🇷", "de": "🇩🇪", "pl": "🇵🇱"}
 CHANGE_WORDS = {"idioma", "lingua", "língua", "language", "langue", "sprache", "język", "jezyk"}
-ALTERNATIVES = ("PR1.2", "PR11", "PR9")  # the fallbacks pr1_facts.md suggests
 
 PICKER = {
     "body": "Olá! Hello! Bonjour! Hallo! Cześć! 👋\n"
-            "Sou o Levadinho, o seu guia do PR1 Vereda do Areeiro.\n"
+            "Sou o Levadinho, o seu guia dos percursos pedestres da Madeira.\n"
             "Escolha o seu idioma · Choose your language",
     "button": "Idioma / Language",
     "options": [(code, f"{FLAGS[code]} {name}") for code, name in LANGS.items()],
 }
 
 INTRO = {
-    "pt": "Ótimo! Sou o Levadinho 🥾 Pergunte-me o que quiser sobre o PR1 Vereda do Areeiro: "
-          "se está aberto hoje, bilhetes e reservas, como voltar de Achada do Teixeira, o nascer do sol, o tempo lá em cima.\n\n"
-          "Por exemplo: «O PR1 está aberto hoje?»",
-    "en": "Great! I'm Levadinho 🥾 Ask me anything about the PR1 Vereda do Areeiro: "
-          "whether it's open today, tickets and booking, getting back from Achada do Teixeira, sunrise, the weather up top.\n\n"
-          "For example: \"Is PR1 open today?\"",
-    "fr": "Parfait ! Je suis Levadinho 🥾 Posez-moi vos questions sur le PR1 Vereda do Areeiro : "
-          "ouvert aujourd'hui ?, billets et réservation, le retour depuis Achada do Teixeira, le lever du soleil, la météo au sommet.\n\n"
-          "Par exemple : « Le PR1 est-il ouvert aujourd'hui ? »",
-    "de": "Super! Ich bin Levadinho 🥾 Frag mich alles zum PR1 Vereda do Areeiro: "
-          "ob er heute offen ist, Tickets und Buchung, die Rückkehr von Achada do Teixeira, Sonnenaufgang, das Wetter oben.\n\n"
-          "Zum Beispiel: „Ist der PR1 heute offen?“",
-    "pl": "Świetnie! Jestem Levadinho 🥾 Zapytaj mnie o wszystko na temat PR1 Vereda do Areeiro: "
-          "czy jest dziś otwarty, bilety i rezerwacja, powrót z Achada do Teixeira, wschód słońca, pogoda na szczycie.\n\n"
-          "Na przykład: „Czy PR1 jest dziś otwarty?”",
+    "pt": "Ótimo! Sou o Levadinho 🥾 Pergunte-me o que quiser sobre os percursos pedestres da Madeira: "
+          "se estão abertos hoje, bilhetes e reservas, taxas, autocarros de ida e volta, túneis e vertigens, o tempo lá em cima.\n\n"
+          "Por exemplo: «A Levada das 25 Fontes está aberta hoje?»",
+    "en": "Great! I'm Levadinho 🥾 Ask me anything about Madeira's walking trails: "
+          "whether they're open today, tickets and booking, fees, buses there and back, tunnels and vertigo, the weather up top.\n\n"
+          "For example: \"Is the 25 Fontes levada open today?\"",
+    "fr": "Parfait ! Je suis Levadinho 🥾 Posez-moi vos questions sur les sentiers de randonnée de Madère : "
+          "ouverts aujourd'hui ?, billets et réservation, tarifs, bus aller et retour, tunnels et vertige, la météo en altitude.\n\n"
+          "Par exemple : « La levada des 25 Fontes est-elle ouverte aujourd'hui ? »",
+    "de": "Super! Ich bin Levadinho 🥾 Frag mich alles zu Madeiras Wanderwegen: "
+          "ob sie heute offen sind, Tickets und Buchung, Gebühren, Busse hin und zurück, Tunnel und Schwindelgefahr, das Wetter oben.\n\n"
+          "Zum Beispiel: „Ist die Levada das 25 Fontes heute offen?“",
+    "pl": "Świetnie! Jestem Levadinho 🥾 Zapytaj mnie o wszystko na temat szlaków pieszych na Maderze: "
+          "czy są dziś otwarte, bilety i rezerwacja, opłaty, autobusy tam i z powrotem, tunele i lęk wysokości, pogoda w górach.\n\n"
+          "Na przykład: „Czy lewada 25 Fontes jest dziś otwarta?”",
 }
 
 TEXT_ONLY = {
-    "pt": "Por agora só consigo ler mensagens de texto ✍️ Escreva-me a sua pergunta sobre o PR1.",
-    "en": "For now I can only read text messages ✍️ Type your question about PR1.",
-    "fr": "Pour l'instant je ne lis que les messages texte ✍️ Écrivez-moi votre question sur le PR1.",
-    "de": "Im Moment kann ich nur Textnachrichten lesen ✍️ Schreib mir deine Frage zum PR1.",
-    "pl": "Na razie czytam tylko wiadomości tekstowe ✍️ Napisz mi pytanie o PR1.",
+    "pt": "Por agora só consigo ler mensagens de texto ✍️ Escreva-me a sua pergunta.",
+    "en": "For now I can only read text messages ✍️ Type your question.",
+    "fr": "Pour l'instant je ne lis que les messages texte ✍️ Écrivez-moi votre question.",
+    "de": "Im Moment kann ich nur Textnachrichten lesen ✍️ Schreib mir deine Frage.",
+    "pl": "Na razie czytam tylko wiadomości tekstowe ✍️ Napisz mi pytanie.",
 }
 # ---------------------------------------------------------------- location + audio guide
 GUIDE_URL = os.environ.get("GUIDE_URL", "https://microscopy-rig-system.tail53cc58.ts.net/levadinho/guide/")
@@ -212,11 +212,11 @@ CONSENT_WITHDRAWN = {
 
 # ---------------------------------------------------------------- wake-on-demand notices
 WAKING = {
-    "pt": "O Levadinho está a acordar. Dê-me cerca de 2 minutos 🥾",
-    "en": "Levadinho is waking up. Give me about 2 minutes 🥾",
-    "fr": "Levadinho se réveille. Laissez-moi environ 2 minutes 🥾",
-    "de": "Levadinho wacht gerade auf. Gib mir etwa 2 Minuten 🥾",
-    "pl": "Levadinho właśnie się budzi. Daj mi około 2 minut 🥾",
+    "pt": "O Levadinho está a carregar. Responderá em breve.",
+    "en": "Levadinho is loading. It will reply shortly.",
+    "fr": "Levadinho est en cours de chargement. Il répondra sous peu.",
+    "de": "Levadinho wird geladen. Die Antwort folgt in Kürze.",
+    "pl": "Levadinho się uruchamia. Odpowie wkrótce.",
 }
 BUSY = {
     "pt": "O Levadinho está muito ocupado neste momento. Escrevo-lhe aqui assim que estiver livre.",
@@ -292,30 +292,42 @@ def ifcn_updated(s=None):
 
 
 def status_block():
+    """Today's status of every trail (IFCN list), the PR1 summit reading and the regional weather."""
     s = live_status()
-    trails = {t["code"]: t for t in s.get("trails", [])}
     src = s.get("source") or {}
     updated = src.get("updated")
     w = s.get("weather", {})
     lines = [f"Status source: the official {src.get('name') or 'IFCN'} trail warnings list"
              + (f" (IFCN list updated {updated})" if updated else " (IFCN's update date not available)")
              + f"; Levadinho last read it on {s.get('date')}. IFCN does not update the list every day.",
-             f"PR1: {s.get('status')}.",
-             f"Official IFCN note: {_en(s.get('note')) or 'none'}"]
+             f"Counts: {', '.join(f'{k} {v}' for k, v in (s.get('counts') or {}).items())}."]
     if s.get("manual_note"):
-        lines.append(f"Extra note: {s['manual_note']}")
+        lines.append(f"Extra note (PR1): {s['manual_note']}")
     if w.get("ok"):
-        wx = f"Measured at the Pico do Areeiro station (IPMA): {w.get('temp_c')} °C, humidity {w.get('humidity')}%, wind {w.get('wind_kmh')} km/h"
+        wx = f"Measured at the Pico do Areeiro summit station (IPMA): {w.get('temp_c')} °C, humidity {w.get('humidity')}%, wind {w.get('wind_kmh')} km/h"
         if w.get("in_cloud"):
             wx += ", summit most likely inside cloud/fog"
         lines.append(wx + ".")
     else:
         lines.append("Summit weather reading unavailable today.")
-    for code in ALTERNATIVES:
-        t = trails.get(code)
-        if t:
-            note = _en(t.get("note"))
-            lines.append(f"Alternative {code} {t['name']}: {t['status']}." + (f" Note: {note}" if note else ""))
+    regions = s.get("regions") or []
+    if regions:
+        lines.append("Regional IPMA stations (region: place, °C, wind km/h, rain mm): " + "; ".join(
+            f"{r['key']}: {r['place']} {r.get('temp')} °C, wind {r.get('wind') if r.get('wind') is not None else 'n/a'}, "
+            f"rain {r.get('rain')}" + (", likely in cloud" if r.get("in_cloud") else "") for r in regions) + ".")
+    lines.append("")
+    lines.append("Every trail (code | name | TODAY'S STATUS + official note | distance | time | difficulty | type | "
+                 "start → end | region | fee on your own | our page):")
+    for t in s.get("trails", []):
+        f = TRAIL_FACTS.get(t["code"], {})
+        note = _en(t.get("note")) or (_en(s.get("note")) if t["code"] == "PR1" else "")
+        fee = f"€{t['fee']}" if t.get("fee") else "no IFCN fee listed"
+        dist = f.get("distance") or "?"
+        alt = f" ({f['alt_min_m']}–{f['alt_max_m']} m)" if f.get("alt_min_m") and f.get("alt_max_m") else ""
+        lines.append(" | ".join([t["code"], t["name"], t["status"] + (f" ({note})" if note else ""), dist,
+                                 f.get("duration") or "?", (f.get("difficulty") or "?") + alt, f.get("type") or "?",
+                                 f"{f.get('start') or '?'} → {f.get('end') or '?'}", t.get("region") or "?", fee,
+                                 SITE + (t.get("page") or "/")]))
     return "\n".join(lines)
 
 
@@ -375,40 +387,160 @@ def classify(text):
     return d
 
 
-FACTS = open(os.path.join(HERE, "pr1_facts.md"), encoding="utf-8").read()
+# ---------------------------------------------------------------- knowledge
+SITE = "https://levadinho-madeira.com"
+FACTS = open(os.path.join(HERE, "pr1_facts.md"), encoding="utf-8").read()  # curated PR1 detail
+TRAIL_FACTS = {t["code"]: t for t in json.load(open(os.path.join(HERE, "trail_facts.json"), encoding="utf-8"))["trails"]}
+KB = json.load(open(os.path.join(HERE, "kb.json"), encoding="utf-8"))  # site pages as text (build_kb.py)
+MAX_TRAILS, MAX_GUIDES = 3, 3
+# Chat history from before this moment is ignored: replies written when the bot covered PR1 only ("I only cover
+# PR1…") were copied word for word by the model. Move it forward whenever the bot's scope or rules change.
+HISTORY_SINCE = 1791126000.0  # 2026-10-04 16:00 Europe/London
 
-SYSTEM = """You are Levadinho, a friendly, knowledgeable old Madeiran mountain guide who helps visitors on WhatsApp with ONE trail: the PR1 Vereda do Areeiro (Pico do Areeiro → Pico Ruivo) on Madeira.
+
+def _norm(t):
+    t = unicodedata.normalize("NFKD", (t or "").lower())
+    return re.sub(r"\s+", " ", "".join(ch for ch in t if not unicodedata.combining(ch)))
+
+
+def _aliases():
+    """normalized name → code: full names, plus the distinctive part ("risco", "25 fontes") when it is unique."""
+    full, short = {}, {}
+    for code, t in TRAIL_FACTS.items():
+        name = _norm(t["name"])
+        full[name] = code
+        core = re.sub(r"^(levada|vereda|caminho real|caminho)( (do|da|dos|das|de))? ", "", name.split(" - ")[0]).strip()
+        short.setdefault(core, []).append(code)
+    out = {k: v[0] for k, v in short.items() if len(v) == 1 and len(k) >= 3 and k not in {"norte", "ilha", "monte"}}
+    out.update(full)
+    out.update({"sao lourenco": "PR8", "vinte e cinco fontes": "PR6", "pico ruivo": "PR1.2", "areeiro": "PR1",
+                "caldeirao verde": "PR9"})
+    return sorted(out.items(), key=lambda kv: -len(kv[0]))
+
+
+ALIASES = _aliases()
+CODE_RE = re.compile(r"\bpr\s?-?(\d{1,2}(?:[.,]\d)?)\b")
+# topic words (accent-free, lower case) → guide page; checked as substrings of the normalized question
+TOPIC_WORDS = {
+    "abroad": ["abroad", "estrangeiro", "etranger", "ausland", "zagranic", "card", "cartao", "carte", "karte", "karta",
+               "error", "erro", "erreur", "fehler", "blad", "payment", "pagamento", "paiement", "zahlung", "platnos"],
+    "permit": ["permit", "licen", "autoriza", "permis", "genehmigung", "pozwolen"],
+    "free": ["free", "gratis", "gratuit", "sem bilhete", "kostenlos", "ohne gebuhr", "darmow", "bezplat", "non payant",
+             "no ticket", "without a ticket"],
+    "sunrise": ["sunrise", "nascer do sol", "lever du soleil", "sonnenaufgang", "wschod"],
+    "oneway": ["one-way", "one way", "sentido unico", "sens unique", "einbahn", "jednokierun", "reverse", "backwards",
+               "inverso", "a l'envers", "ruckwarts", "w druga strone"],
+    "tunnels": ["tunnel", "tunel", "torch", "lanterna", "headlamp", "lampe", "latark", "czolowk"],
+    "easy": ["vertig", "exposure", "exposto", "schwindel", "lek wysok", "easy", "facil", "kids", "child", "crianca",
+             "enfant", "kinder", "dzieci", "family", "familia", "famille", "rodzin"],
+    "best": ["best", "recommend", "melhor", "recomend", "meilleur", "conseill", "beste", "empfehl", "najlepsz", "polec"],
+    "bus": ["bus", "autocarro", "onibus", "autobus", "without a car", "no car", "sem carro", "sans voiture", "ohne auto",
+            "bez samochodu"],
+    "booking": ["book", "reserv", "simplifica", "buch", "rezerw", "ticket", "bilhete", "billet", "bilet"],
+}
+PR1_GUIDES = {"sunrise", "oneway", "back", "weather"}
+
+
+def trails_in(text):
+    t = _norm(text)
+    codes = [f"PR{m.replace(',', '.')}" for m in CODE_RE.findall(t)]
+    for alias, code in ALIASES:
+        if re.search(rf"(?<!\w){re.escape(alias)}(?!\w)", t):
+            codes.append(code)
+            t = t.replace(alias, " ")
+    return [c for c in dict.fromkeys(codes) if c in KB["trails"]]
+
+
+def pick_context(user, text, c=None):
+    """→ (trail codes, guide keys) whose pages go with this question."""
+    c = c or {}
+    trails = trails_in(text)  # not the classifier's trail_code: it guesses (e.g. "PR1" for Levada do Moinho)
+    if not trails:  # a follow-up ("and how do I get there by bus?"): the trail from the last question that named one
+        for m in reversed(store.history(user, HISTORY_SINCE)):
+            if m["role"] == "user" and (trails := trails_in(m["content"])):
+                break
+    trails = trails[:MAX_TRAILS]
+    t, intent = _norm(text), c.get("intent")
+    g = [k for k, words in TOPIC_WORDS.items() if any(w in t for w in words)]
+    if intent == "booking":
+        g.append("booking")
+    if intent == "alternatives":
+        g.append("best")
+    pr1ish = not trails or any(x in ("PR1", "PR1.2") for x in trails)
+    if intent == "transport" and pr1ish and ("PR1" in trails or "PR1.2" in trails):
+        g.insert(0, "back")
+    if intent == "transport" and not trails:
+        g.append("bus")
+    if intent == "weather" and pr1ish:
+        g.append("weather")
+    if trails:  # the trail page already has its own bus, booking and exposure sections; an island-wide list
+        # would only pull the answer away from the trail's own "Nearby trails"
+        g = [k for k in g if k not in ("bus", "booking", "easy", "best") or intent == "booking" and k == "booking"]
+    if not pr1ish:
+        g = [k for k in g if k not in PR1_GUIDES]
+    if "bus" in g:  # a "by bus" question: the bus guide is the answer; a second list only distracts
+        g = [k for k in g if k not in ("best", "easy")]
+    return trails, [k for k in dict.fromkeys(g) if k in KB["guides"]][:MAX_GUIDES]
+
+
+def detail_block(trails, guides):
+    parts = []
+    for code in trails:
+        if code == "PR1":
+            parts.append(f"### PR1 Vereda do Areeiro (curated knowledge; page {SITE}/pr1/)\n{FACTS}")
+        else:
+            k = KB["trails"][code]
+            parts.append(f"### {code} {k['name']} (our page {k['url']})\n{k['text']}")
+    for key in guides:
+        k = KB["guides"][key]
+        parts.append(f"### Guide: {k['url']}\n{k['text']}")
+    return "\n\n".join(parts) or "(no trail or topic page matched this question: use the table and the general rules)"
+
+
+SYSTEM = """You are Levadinho, a friendly, knowledgeable old Madeiran mountain guide who helps visitors on WhatsApp with Madeira's official PR walking trails (the classified "Percursos Recomendados" on Madeira island, listed in the TRAIL TABLE below).
 
 LANGUAGE: {lang_rule}
 
 HOW TO ANSWER
 - Never mention which languages you speak or any language rule; just reply naturally.
-- WhatsApp style: short and practical, 2–6 short lines, no headings, no markdown tables. *Bold* sparingly. At most one emoji.
-- Use ONLY the facts in LIVE STATUS and PR1 KNOWLEDGE below. If something isn't there, say you don't know and point to SIMplifica or IFCN. Never invent prices, times, phone numbers, bus routes or rules.
-- LIVE STATUS always wins over PR1 KNOWLEDGE. The open/closed state comes only from LIVE STATUS. Say it's according to IFCN's official warnings list and give the date IFCN says it was updated (e.g. "according to IFCN's list, updated 14/09/2026"). Never say it was checked this morning or today: IFCN doesn't update the list every day.
-- If PR1 is CLOSED or PARTIAL, say so plainly and suggest an alternative ONLY if LIVE STATUS shows it OPEN.
-- Always remind about the one-way rule and the return from Achada do Teixeira when someone plans the full walk.
-- Booking link: https://simplifica.madeira.gov.pt/services/78-82-259
-- Other trails: you only cover PR1 in this trial. Say so kindly and point to https://levadinho-madeira.com/ for the status of every trail. Never guess other trails' codes, distances or status.
+- Your earlier replies in this chat may be out of date. If one contradicts the rules or facts below, follow the rules and facts below and don't repeat it.
+- WhatsApp style: short and practical, 2–8 short lines, no headings, no markdown tables. *Bold* sparingly. At most one emoji.
+- Use ONLY the facts in LIVE STATUS, TRAIL TABLE, GENERAL RULES and DETAILS below. If something isn't there, say you don't know and point to SIMplifica, IFCN or the trail's page on our site. Never invent prices, times, distances, phone numbers, bus routes or rules, and never guess a fact about one trail from another.
+- Today's open/closed state comes ONLY from the TRAIL TABLE status (the official IFCN list). Say it's according to IFCN's official warnings list and give the date IFCN says it was updated (e.g. "according to IFCN's list, updated 14/09/2026"). Never say it was checked this morning or today: IFCN doesn't update the list every day. The DETAILS are web pages that mention a "live badge" or "status card above": ignore those phrases; you have the status in the table.
+- If a trail is CLOSED or PARTIAL, say so plainly with the official note, and suggest alternatives ONLY among trails the table shows OPEN (nearby ones from the same region or the page's "Nearby trails" list are best).
+- Bus questions: give the stops, line numbers and departure times exactly as written in DETAILS for the day the visitor means (or all day types if they don't say), listing EVERY trip given there: count them and check none is missing. Name a line number only if DETAILS print it next to that trip; otherwise say "CAM's Santana-line buses" (or the operator) without a number. Mention that times at intermediate stops are approximate and to check before travelling. If DETAILS say there is no bus, say so. Never make up a connection: a trail has a bus only if its own page or the "Levadas by bus" guide says so, and "which walks can I do without a car" is answered from that guide's lists (there and back / bus + taxi / one end only).
+- Copy facts exactly as the table or DETAILS give them: difficulty, distance, time, altitude, fees, which end of a walk a bus or taxi serves. Never soften or upgrade them (a "Moderate" trail is not "easy"; a page that warns of vertigo means you must not say it has no difficult sections).
+- "Easy" recommendations: only trails whose difficulty is Easy in the table or DETAILS; mention any exposure/vertigo warning the DETAILS give. "Near <place>": only trails whose start is at or next to that place, or the page's "Nearby trails" list; otherwise say which region they are in instead of calling them near. When suggesting a trail "nearby" or "instead", pick ONLY from that trail's "Nearby trails" list in DETAILS (and only ones the table shows OPEN); never a trail from another region.
+- PR1: always remind about the one-way rule and the return from Achada do Teixeira when someone plans the full walk.
+- Booking: SIMplifica, online only: https://simplifica.madeira.gov.pt/services/78-82-259
+- When useful, end with one link: the trail's page on our site (from the table) or the guide page you used.
+- A trail that isn't in the table (an unclassified levada, Porto Santo, another island): say you cover Madeira's official PR trails, and use only what GENERAL RULES say about walks outside them.
 - Off-topic requests (not Madeira hiking/visiting): politely decline in one line.
-- Safety first: never encourage walking a closed trail, going without a ticket, or walking PR1 in reverse.
+- Safety first: never encourage walking a closed trail or section, going without a ticket, or walking PR1 in reverse.
 
 LIVE STATUS
 {status}
 
-PR1 KNOWLEDGE
-{facts}
+GENERAL RULES (fees, exemptions, refunds, fines; from our fees page)
+{general}
+
+DETAILS (pages that match this question)
+{details}
 """
 
-def answer(user, text, lang, meta=None):
+
+def answer(user, text, lang, meta=None, c=None):
     rule = (f"Write your reply ONLY in {LANG_NAMES[lang]}, whatever language earlier messages used. "
-            f"Keep place names (Pico do Areeiro, Achada do Teixeira…) as they are.")
-    system = SYSTEM.format(lang_rule=rule, status=status_block(), facts=FACTS)
-    msgs = [{"role": "system", "content": system}] + store.history(user) + [{"role": "user", "content": text}]
+            f"Keep place and trail names (Pico do Areeiro, Levada das 25 Fontes…) as they are.")
+    trails, guides = pick_context(user, text, c)
+    system = SYSTEM.format(lang_rule=rule, status=status_block(), general=KB["guides"]["fees"]["text"],
+                           details=detail_block(trails, guides))
+    msgs = [{"role": "system", "content": system}] + store.history(user, HISTORY_SINCE) + [{"role": "user", "content": text}]
     t0 = time.time()
-    reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", llm(msgs))  # WhatsApp bold is *single*
+    reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", llm(msgs, temperature=0))  # WhatsApp bold is *single*; 0 = stick to the facts
     if meta is not None:
-        meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL}
+        meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
+                          "context": {"trails": trails, "guides": guides}}
         meta["events"].append(("answer_sent", {"lang": lang, "latency_ms": meta["answer"]["latency_ms"]}))
     store.add_turn(user, text, reply)
     return reply
@@ -461,7 +593,7 @@ def handle_consent(user, yes, meta=None):
     if kind == "q" and arg:  # the question they asked before accepting
         try:
             c = classify(arg)
-            reply = answer(user, arg, c["lang"], meta)
+            reply = answer(user, arg, c["lang"], meta, c)
         except LLMDown:  # the model is asleep: the acceptance stands, app.py queues the question
             meta["deferred_question"] = arg
             meta.pop("answer", None)
@@ -604,11 +736,11 @@ def handle(user, text=None, choice=None, meta=None):
     if not u or not u.get("lang"):  # first contact, or still hasn't picked
         if c["is_question"]:
             store.set_user(user, lang=c["lang"], state="ready")
-            return [{"type": "text", "body": answer(user, text, c["lang"], meta)}]
+            return [{"type": "text", "body": answer(user, text, c["lang"], meta, c)}]
         store.set_user(user, state="picking")
         return [picker()]
 
     # Questions are answered in the language they're written in; anything else in the chosen one.
     lang = c["lang"] if c["is_question"] else u["lang"]
     meta["lang"] = lang
-    return [{"type": "text", "body": answer(user, text, lang, meta)}]
+    return [{"type": "text", "body": answer(user, text, lang, meta, c)}]
