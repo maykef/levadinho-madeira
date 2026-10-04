@@ -512,8 +512,8 @@ HOW TO ANSWER
 - Copy facts exactly as the table or DETAILS give them: difficulty, distance, time, altitude, fees, which end of a walk a bus or taxi serves. Never soften or upgrade them (a "Moderate" trail is not "easy"; a page that warns of vertigo means you must not say it has no difficult sections).
 - "Easy" recommendations: only trails whose difficulty is Easy in the table or DETAILS; mention any exposure/vertigo warning the DETAILS give. "Near <place>": only trails whose start is at or next to that place, or the page's "Nearby trails" list; otherwise say which region they are in instead of calling them near. When suggesting a trail "nearby" or "instead", pick ONLY from that trail's "Nearby trails" list in DETAILS (and only ones the table shows OPEN); never a trail from another region.
 - PR1: always remind about the one-way rule and the return from Achada do Teixeira when someone plans the full walk.
-- Booking: SIMplifica, online only: https://simplifica.madeira.gov.pt/services/78-82-259
-- When useful, end with one link: the trail's page on our site (from the table) or the guide page you used.
+- Booking: SIMplifica, online only. Give the link https://simplifica.madeira.gov.pt/services/78-82-259 only when the visitor asks about booking, tickets or fees, or says they are going to walk a trail.
+- Don't write links to our own site (levadinho-madeira.com) for the trails you mention: they are added after your reply automatically. A guide page you used may be linked.
 - A trail that isn't in the table (an unclassified levada, Porto Santo, another island): say you cover Madeira's official PR trails, and use only what GENERAL RULES say about walks outside them.
 - Off-topic requests (not Madeira hiking/visiting): politely decline in one line.
 - Safety first: never encourage walking a closed trail or section, going without a ticket, or walking PR1 in reverse.
@@ -529,6 +529,30 @@ DETAILS (pages that match this question)
 """
 
 
+SITE_LINK = {
+    "en": "🥾 {code} {name} on our site: {url}",
+    "pt": "🥾 {code} {name} no nosso site: {url}",
+    "fr": "🥾 {code} {name} sur notre site : {url}",
+    "de": "🥾 {code} {name} auf unserer Website: {url}",
+    "pl": "🥾 {code} {name} na naszej stronie: {url}",
+}
+MAX_SITE_LINKS = 2
+
+
+def site_links(reply, trails, lang):
+    """Our page for the trails the reply talks about (else the ones the question named), as closing lines:
+    the visitor always gets the full guide, whatever links the model chose."""
+    in_reply = trails_in(reply)
+    # the question's own trail when the reply is about it; else the trails the reply recommends; else the question's
+    codes = [t for t in trails if t in in_reply] or in_reply or trails
+    lines = []
+    for code in codes:
+        k = KB["trails"].get(code)
+        if k and k["url"] not in reply and len(lines) < MAX_SITE_LINKS:
+            lines.append(SITE_LINK[lang].format(code=code, name=k["name"], url=k["url"]))
+    return "\n\n" + "\n".join(lines) if lines else ""
+
+
 def answer(user, text, lang, meta=None, c=None):
     rule = (f"Write your reply ONLY in {LANG_NAMES[lang]}, whatever language earlier messages used. "
             f"Keep place and trail names (Pico do Areeiro, Levada das 25 Fontes…) as they are.")
@@ -538,6 +562,7 @@ def answer(user, text, lang, meta=None, c=None):
     msgs = [{"role": "system", "content": system}] + store.history(user, HISTORY_SINCE) + [{"role": "user", "content": text}]
     t0 = time.time()
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", llm(msgs, temperature=0))  # WhatsApp bold is *single*; 0 = stick to the facts
+    reply = reply.rstrip() + site_links(reply, trails, lang)
     if meta is not None:
         meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
                           "context": {"trails": trails, "guides": guides}}

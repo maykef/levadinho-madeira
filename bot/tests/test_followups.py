@@ -325,6 +325,12 @@ def test_brain_ifcn():
         check(code in brain.pick_context("t-ctx", q, {})[0], f"pick_context: {q} → {code}")
     check("tunnels" in brain.pick_context("t-ctx", "Do I need a torch for Caldeirão Verde?", {})[1], "torch → tunnels guide")
     check(brain.pick_context("t-ctx", "Which levadas can I do without a car?", {})[1] == ["bus"], "no car → bus guide")
+    r = "From Ribeiro Frio, PR10 Levada do Furado is open. Book here: https://simplifica.madeira.gov.pt/services/78-82-259"
+    check(brain.site_links(r, ["PR11"], "en").endswith("🥾 PR10 Levada do Furado on our site: https://levadinho-madeira.com/levada-do-furado/"),
+          "site link: the trail the reply talks about")
+    check(brain.site_links("See https://levadinho-madeira.com/balcoes/", ["PR11"], "pt") == "", "site link: not twice")
+    check("no nosso site: https://levadinho-madeira.com/balcoes/" in brain.site_links("Sim.", ["PR11"], "pt"),
+          "site link: the question's trail when the reply names none")
     check(brain.pick_context("t-ctx", "Is Levada dos Tornos open?", {"trail_code": "PR14"})[0] == [],
           "classifier's trail guess ignored (Tornos is not PR14)")
     check(brain._en("plain") == "plain" and brain._en({"fr": "x"}) == "x" and brain._en(None) == "", "_en fallbacks")
