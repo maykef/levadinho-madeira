@@ -37,9 +37,10 @@ import qrcode
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 # WhatsApp number (digits only) and pre-filled text of the CTA link; " #web-<tag>" is appended.
-# Meta number (active):
-WA_NUMBER = "447405754593"      # +44 7405 754593
+# Levadinho's own WhatsApp sender on Twilio (active since 2026-10-04):
+WA_NUMBER = "447455718697"      # +44 7455 718697
 WA_PREFIX = "Olá Levadinho! 👋"
+# The Meta number +44 7405 754593 ("447405754593") was banned by Meta on 2026-09-30.
 # Twilio WhatsApp Sandbox (bot/README.md "Twilio sandbox"): comment the two lines above, uncomment
 # these two and re-run. The visitor then sends "join bark-wood #web-<tag>"; the bot treats it as a
 # first contact and records the tag.
