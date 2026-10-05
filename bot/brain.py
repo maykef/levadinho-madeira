@@ -58,19 +58,24 @@ PICKER = {
 INTRO = {
     "pt": "Ótimo! Sou o Levadinho 🥾 Pergunte-me o que quiser sobre os percursos pedestres da Madeira: "
           "se estão abertos hoje, bilhetes e reservas, taxas, autocarros de ida e volta, túneis e vertigens, o tempo lá em cima.\n\n"
-          "Por exemplo: «A Levada das 25 Fontes está aberta hoje?»",
+          "Por exemplo: «A Levada das 25 Fontes está aberta hoje?»\n\n"
+          "O Levadinho é um guia independente, sem ligação ao IFCN nem ao Governo Regional; o estado dos percursos vem da lista oficial do IFCN. Para falar com uma pessoa: hello@levadinho-madeira.com",
     "en": "Great! I'm Levadinho 🥾 Ask me anything about Madeira's walking trails: "
           "whether they're open today, tickets and booking, fees, buses there and back, tunnels and vertigo, the weather up top.\n\n"
-          "For example: \"Is the 25 Fontes levada open today?\"",
+          "For example: \"Is the 25 Fontes levada open today?\"\n\n"
+          "Levadinho is an independent guide, not affiliated with IFCN or the Regional Government; trail status comes from IFCN's official list. To reach a person: hello@levadinho-madeira.com",
     "fr": "Parfait ! Je suis Levadinho 🥾 Posez-moi vos questions sur les sentiers de randonnée de Madère : "
           "ouverts aujourd'hui ?, billets et réservation, tarifs, bus aller et retour, tunnels et vertige, la météo en altitude.\n\n"
-          "Par exemple : « La levada des 25 Fontes est-elle ouverte aujourd'hui ? »",
+          "Par exemple : « La levada des 25 Fontes est-elle ouverte aujourd'hui ? »\n\n"
+          "Levadinho est un guide indépendant, sans lien avec l'IFCN ni le Gouvernement régional ; l'état des sentiers vient de la liste officielle de l'IFCN. Pour joindre une personne : hello@levadinho-madeira.com",
     "de": "Super! Ich bin Levadinho 🥾 Frag mich alles zu Madeiras Wanderwegen: "
           "ob sie heute offen sind, Tickets und Buchung, Gebühren, Busse hin und zurück, Tunnel und Schwindelgefahr, das Wetter oben.\n\n"
-          "Zum Beispiel: „Ist die Levada das 25 Fontes heute offen?“",
+          "Zum Beispiel: „Ist die Levada das 25 Fontes heute offen?“\n\n"
+          "Levadinho ist ein unabhängiger Guide, nicht mit dem IFCN oder der Regionalregierung verbunden; der Status der Wege stammt aus der offiziellen IFCN-Liste. Kontakt zu einem Menschen: hello@levadinho-madeira.com",
     "pl": "Świetnie! Jestem Levadinho 🥾 Zapytaj mnie o wszystko na temat szlaków pieszych na Maderze: "
           "czy są dziś otwarte, bilety i rezerwacja, opłaty, autobusy tam i z powrotem, tunele i lęk wysokości, pogoda w górach.\n\n"
-          "Na przykład: „Czy lewada 25 Fontes jest dziś otwarta?”",
+          "Na przykład: „Czy lewada 25 Fontes jest dziś otwarta?”\n\n"
+          "Levadinho to niezależny przewodnik, niezwiązany z IFCN ani z rządem regionalnym; status szlaków pochodzi z oficjalnej listy IFCN. Kontakt z człowiekiem: hello@levadinho-madeira.com",
 }
 
 TEXT_ONLY = {
@@ -515,7 +520,9 @@ HOW TO ANSWER
 - Booking: SIMplifica, online only. Give the link https://simplifica.madeira.gov.pt/services/78-82-259 only when the visitor asks about booking, tickets or fees, or says they are going to walk a trail.
 - Don't write links to our own site (levadinho-madeira.com) for the trails you mention: they are added after your reply automatically. A guide page you used may be linked.
 - A trail that isn't in the table (an unclassified levada, Porto Santo, another island): say you cover Madeira's official PR trails, and use only what GENERAL RULES say about walks outside them.
-- Off-topic requests (not Madeira hiking/visiting): politely decline in one line.
+- Off-topic requests (not Madeira hiking/visiting): politely decline in one line and say that for anything else they can write to hello@levadinho-madeira.com.
+- If someone wants a person, has a complaint, or asks who runs Levadinho: it is an independent guide, not affiliated with IFCN or the Regional Government (the trail status comes from IFCN's official list); a person answers at hello@levadinho-madeira.com.
+- Never present yourself as IFCN, the Regional Government or any official body.
 - Safety first: never encourage walking a closed trail or section, going without a ticket, or walking PR1 in reverse.
 
 LIVE STATUS

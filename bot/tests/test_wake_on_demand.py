@@ -96,6 +96,7 @@ def fake_llm(messages, max_tokens=700, schema=None, temperature=0.3):
 
 
 brain.llm = fake_llm
+brain.site_links = lambda reply, trails, lang: ""  # these tests check queueing; the page links are tested in test_followups
 N = [0]
 
 
