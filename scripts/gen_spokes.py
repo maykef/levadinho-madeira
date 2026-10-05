@@ -954,6 +954,9 @@ def main():
     # each card start empty; the next `python scripts/update_status.py` fills them.
     import gen_cta
     gen_cta.main()
+    # ...and the owner's footer line (see gen_owner.py).
+    import gen_owner
+    gen_owner.main()
     # ...and the "By bus" sections from the operators' timetables (see gen_bus.py).
     import gen_bus
     gen_bus.main()

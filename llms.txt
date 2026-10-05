@@ -1,0 +1,41 @@
+# Levadinho
+
+> Live status of Madeira's official PR walking trails (open, partly open or closed), with the 2026 fees, SIMplifica booking, buses and how to get back, in English, Portuguese, French, German and Polish. An independent personal project of Mayke De Freitas Santos; not affiliated with IFCN or the Regional Government of Madeira.
+
+Trail status comes from IFCN's official trail-warnings list. Our job checks it every day, but IFCN itself updates the list irregularly, so always quote IFCN's own "updated" date (`source.updated` in status.json), not our check time. Summit and regional weather are measured readings from IPMA stations. Booking is online only, on SIMplifica.
+
+## Machine-readable data
+
+- [status.json](https://levadinho-madeira.com/status.json): the live board, rewritten daily. Prefer it over parsing the HTML.
+  - `source`: `name` ("IFCN"), `url` (the official warnings list), `updated` (IFCN's own "updated" date, dd/mm/yyyy).
+  - `date`, `stamp`: when our job last checked (Madeira time, Atlantic/Madeira).
+  - `counts`: number of trails per status (`OPEN`, `PARTIAL`, `CLOSED`).
+  - `trails[]`: one object per trail. `code` (e.g. "PR6"), `name`, `status` (`OPEN` | `PARTIAL` | `CLOSED`; a trail with a restricted section is `PARTIAL`, never `OPEN`), `note` (IFCN's note: `pt` is the original, `en`/`fr`/`de`/`pl` are machine translations), `fee` (euros as a string, e.g. "4.50"; `null` = no IFCN fee), `page` (path of the trail's page on this site, English; prefix `/pt`, `/fr`, `/de` or `/pl` for the other languages), `region` (key into `regions`), `temp` (°C at that region's station), `popular` (shown first on the board).
+  - `regions[]`: IPMA station readings: `key` (summit, north, west, east, south), `place`, `temp` (°C), `wind` (km/h), `rain` (mm in the last hour), `in_cloud` (humidity-derived).
+  - Top level `status`, `note`, `weather`, `manual_note`: the PR1 (Vereda do Areeiro) flagship card; `weather` is the measured Pico do Areeiro summit reading (`temp_c`, `humidity`, `in_cloud`, `wind_kmh`, `wind_strong`; `ok: false` = no valid reading).
+- [trail_extras.json](https://levadinho-madeira.com/trail_extras.json): tunnels, torch and exposure (vertigo) per trail, from IFCN's trailhead panels. `null` means no sourced data, not "no tunnel".
+
+## Key pages
+
+- [Live board: which trails are open today](https://levadinho-madeira.com/)
+- [PR1 Vereda do Areeiro: status, one-way rule, sunrise](https://levadinho-madeira.com/pr1/)
+- [Is PR1 one-way?](https://levadinho-madeira.com/pr1-one-way/)
+- [Hiking fees 2026](https://levadinho-madeira.com/hiking-fees.html)
+- [SIMplifica booking, step by step](https://levadinho-madeira.com/simplifica-booking/)
+- [Booking from abroad](https://levadinho-madeira.com/simplifica-from-abroad.html)
+- [Do I need a permit?](https://levadinho-madeira.com/do-i-need-a-permit/)
+- [Free walks: no ticket needed](https://levadinho-madeira.com/free-walks/)
+- [Getting back from Pico Ruivo without a car](https://levadinho-madeira.com/getting-back.html)
+- [Levadas by bus from Funchal](https://levadinho-madeira.com/levadas-by-bus/)
+- [PR1 sunrise transport](https://levadinho-madeira.com/pr1-sunrise-transport/)
+- [Pico do Areeiro weather and webcams](https://levadinho-madeira.com/pico-do-areeiro-weather/)
+- [Best levada walks](https://levadinho-madeira.com/best-levada-walks/)
+- [Easy levadas without vertigo](https://levadinho-madeira.com/easy-levadas-no-vertigo/)
+- [Levadas with tunnels](https://levadinho-madeira.com/levadas-with-tunnels/)
+
+Every trail has its own page: the `page` field in status.json. Every page exists in five languages: `/` (English), `/pt/`, `/fr/`, `/de/`, `/pl/` + the same path.
+
+## Optional
+
+- [Sitemap (all pages, all languages)](https://levadinho-madeira.com/sitemap.xml)
+- [Privacy policy](https://levadinho-madeira.com/privacy/)

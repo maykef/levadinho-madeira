@@ -47,10 +47,28 @@ def localise(page: str, lang: str) -> str:
     return "/{}{}".format(lang, page)
 
 
+# Status word after each link (2026-10-05), so a crawler that doesn't run dashboard.js still
+# sees every trail's status. Filled here from status.json and refreshed daily by
+# update_status.py (same words as the STATIC-STATUS lines).
+STATUS_WORD = {
+    "": {"OPEN": "OPEN", "PARTIAL": "PARTLY OPEN", "CLOSED": "CLOSED"},
+    "pt": {"OPEN": "ABERTO", "PARTIAL": "PARCIALMENTE ABERTO", "CLOSED": "ENCERRADO"},
+    "fr": {"OPEN": "OUVERT", "PARTIAL": "PARTIELLEMENT OUVERT", "CLOSED": "FERMÉ"},
+    "de": {"OPEN": "GEÖFFNET", "PARTIAL": "TEILWEISE GEÖFFNET", "CLOSED": "GESCHLOSSEN"},
+    "pl": {"OPEN": "OTWARTY", "PARTIAL": "CZĘŚCIOWO OTWARTY", "CLOSED": "ZAMKNIĘTY"},
+}
+
+
+def badge(t: dict, lang: str) -> str:
+    word = STATUS_WORD[lang].get(t.get("status"), "")
+    return "<!-- STATIC-BADGE:{c}:START -->{w}<!-- STATIC-BADGE:{c}:END -->".format(
+        c=t["code"], w=": " + word if word else "")
+
+
 def block(trails: list, lang: str) -> str:
     items = "\n".join(
-        '      <li><a href="{}">{} — {}</a></li>'.format(
-            localise(t["page"], lang), t["code"], t["name"]
+        '      <li><a href="{}">{} — {}</a>{}</li>'.format(
+            localise(t["page"], lang), t["code"], t["name"], badge(t, lang)
         )
         for t in trails
     )

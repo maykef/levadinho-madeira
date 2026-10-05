@@ -333,13 +333,13 @@ def main():
                 continue
         f.write_text(new, encoding="utf-8")
         print("wrote", f.relative_to(ROOT))
-    for s in ("gen_site_nav.py", "gen_cta.py"):
+    for s in ("gen_site_nav.py", "gen_cta.py", "gen_owner.py"):
         subprocess.run([sys.executable, str(ROOT / "scripts" / s)], check=True, cwd=ROOT)
 
 
 def strip_generated(h):
-    """The page minus the blocks gen_site_nav / gen_cta insert, to compare with a fresh render."""
-    h = re.sub(r"<!-- (SITE-NAV[A-Z-]*|LEVADINHO-CTA[A-Z-]*):START.*?<!-- \1:END -->\n?", "", h, flags=re.S)
+    """The page minus the blocks gen_site_nav / gen_cta / gen_owner insert, to compare with a fresh render."""
+    h = re.sub(r"<!-- (SITE-NAV[A-Z-]*|LEVADINHO-CTA[A-Z-]*|OWNER-[A-Z]+):START.*?<!-- \1:END -->\n?", "", h, flags=re.S)
     return h
 
 

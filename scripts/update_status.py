@@ -729,6 +729,8 @@ TRAIL_CARD_RE = re.compile(r'id="statusCard"[^>]*data-trail="([^"]+)"')
 STATIC_NOTE_MAX = 220
 STATIC_TRAIL_RE = re.compile(r"(<!--\s*STATIC-STATUS:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-STATUS:\2:END\s*-->)", re.S)
 STATIC_BOARD_RE = re.compile(r"(<!--\s*STATIC-STATUS-BOARD:START\s*-->)(.*?)(<!--\s*STATIC-STATUS-BOARD:END\s*-->)", re.S)
+# Status word after each link in the homepages' static trail list (gen_trail_index.py), 2026-10-05.
+STATIC_BADGE_RE = re.compile(r"(<!--\s*STATIC-BADGE:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-BADGE:\2:END\s*-->)", re.S)
 STATIC_WX_RE = re.compile(r"(<!--\s*STATIC-WEATHER:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-WEATHER:\2:END\s*-->)", re.S)
 HTML_LANG_RE = re.compile(r"<html[^>]*\blang=[\"']?([a-zA-Z]{2})", re.I)
 
@@ -802,7 +804,7 @@ def write_static_status(data):
             continue
         with open(path, encoding="utf-8") as f:
             s = f.read()
-        if "STATIC-STATUS" not in s and "STATIC-WEATHER" not in s:
+        if "STATIC-STATUS" not in s and "STATIC-WEATHER" not in s and "STATIC-BADGE" not in s:
             continue
         m = HTML_LANG_RE.search(s)
         lang = m.group(1).lower() if m else "en"
@@ -830,7 +832,15 @@ def write_static_status(data):
             r = regions.get(t["region"]) if t else None
             return mm.group(1) + htmllib.escape(static_weather_line(r, lang, date, hhmm), quote=False) + mm.group(4)
 
+        def badge_sub(mm):
+            t = by_code.get(mm.group(2))
+            if not t:
+                return mm.group(0)
+            assert_not_contradictory(t["status"], t.get("note") or {}, what=f"badge {t['code']}")
+            return mm.group(1) + htmllib.escape(": " + L["st"][t["status"]], quote=False) + mm.group(4)
+
         new = STATIC_WX_RE.sub(wx_sub, STATIC_BOARD_RE.sub(board_sub, STATIC_TRAIL_RE.sub(trail_sub, s)))
+        new = STATIC_BADGE_RE.sub(badge_sub, new)
         card = TRAIL_CARD_RE.search(new)
         if card and card.group(1) in by_code and IFCN_UPDATED and "STATIC-WEATHER" in new:  # trail pages only
             t = by_code[card.group(1)]
