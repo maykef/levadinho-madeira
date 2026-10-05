@@ -3,25 +3,28 @@
 Turns one incoming visitor message into the bot's outgoing messages. It knows nothing
 about WhatsApp: app.py (the webhook) and chat.py (local test chat) both call handle().
 
-Flow:
-  - New visitor, first message is a question → answer it in the language it is written
-    in (PT/EN/FR/DE/PL; anything else → English).
-  - New visitor, anything else (e.g. the QR's pre-filled "Olá Levadinho!") → language picker.
-  - Picker reply → save the language, send the intro.
-  - Known visitor → every question is answered in the language it is written in (English
-    if not one of the five); the saved language is used for everything else.
+Flow (owner, 2026-10-05):
+  - Greetings ("Hello!", "Olá", a website link's pre-filled "Hello Levadinho! 👋 #web-<page>") need no model.
+    The language comes from the greeting (a website link's greeting is in the page's language) or from the
+    message; the language menu is sent only when it can't be told (e.g. the general QR's Portuguese
+    "Olá Levadinho!"), and only once.
+  - Privacy notice: nothing is answered until the visitor taps Accept. Anything that isn't a greeting waits
+    for it (question or not) and is answered right after Accept; with nothing waiting, one short line (ASK).
+    A message waiting for Accept starts loading the model (app.py), so the answer comes quickly.
+  - Getting from A to B (transport intent, no starting point given): first "where are you staying?"
+    (ASK_BASE); the town is kept (store "base") and given to the model as "(Staying in: …)". The answer
+    gets the sourced taxi table (transport_facts.md) and never names a business that isn't in the facts.
+  - A website link's #web-<page> is kept as the visitor's source (store "source", analytics campaign); its
+    guide (or trail) is used when a question names none.
+  - Known visitor → every question is answered in the language it is written in (English if not one of
+    the five); the saved language is used for everything else.
   - "idioma" / "language" / "langue" / "sprache" / "język" → picker again.
   - A campaign QR pre-fills "Olá Levadinho! 👋 #<tag>" → picker → welcome + that route's guide link.
   - "guide" / "guia"… → WhatsApp's Send location button; a location pin → the nearby route's link.
-  - A website link pre-fills "Olá Levadinho! 👋 #web-<page>" → recorded as that campaign (source), but
-    the normal picker → notice → intro flow (no guide link).
   - The model may be asleep (wake-on-demand, llm_control.py): llm() then raises LLMDown and app.py
-    queues the message and tells the visitor (WAKING / BUSY). Everything that doesn't need the model
-    (picker, notice, language choice, campaign guide links, locations) works without it.
-  - Privacy notice: nothing is answered until the visitor taps Accept (after the language pick, or
-    straight away if the first message is a question, which is answered right after Accept). "Don't
-    accept" stops the service; app.py then keeps only an anonymous count. "privacy" / "privacidade"…
-    shows the notice again (Don't accept there = stop recording and stop the service).
+    queues the message and tells the visitor (WAKING / BUSY).
+  - "Don't accept" stops the service; app.py then keeps only an anonymous count. "privacy" /
+    "privacidade"… shows the notice again (Don't accept there = stop recording and stop the service).
 """
 import json
 import os
@@ -55,29 +58,6 @@ PICKER = {
     "options": [(code, f"{FLAGS[code]} {name}") for code, name in LANGS.items()],
 }
 
-INTRO = {
-    "pt": "Ótimo! Sou o Levadinho 🥾 Pergunte-me o que quiser sobre os percursos pedestres da Madeira: "
-          "se estão abertos hoje, bilhetes e reservas, taxas, autocarros de ida e volta, túneis e vertigens, o tempo lá em cima.\n\n"
-          "Por exemplo: «A Levada das 25 Fontes está aberta hoje?»\n\n"
-          "O Levadinho é um guia independente, sem ligação ao IFCN nem ao Governo Regional; o estado dos percursos vem da lista oficial do IFCN. Para falar com uma pessoa: hello@levadinho-madeira.com",
-    "en": "Great! I'm Levadinho 🥾 Ask me anything about Madeira's walking trails: "
-          "whether they're open today, tickets and booking, fees, buses there and back, tunnels and vertigo, the weather up top.\n\n"
-          "For example: \"Is the 25 Fontes levada open today?\"\n\n"
-          "Levadinho is an independent guide, not affiliated with IFCN or the Regional Government; trail status comes from IFCN's official list. To reach a person: hello@levadinho-madeira.com",
-    "fr": "Parfait ! Je suis Levadinho 🥾 Posez-moi vos questions sur les sentiers de randonnée de Madère : "
-          "ouverts aujourd'hui ?, billets et réservation, tarifs, bus aller et retour, tunnels et vertige, la météo en altitude.\n\n"
-          "Par exemple : « La levada des 25 Fontes est-elle ouverte aujourd'hui ? »\n\n"
-          "Levadinho est un guide indépendant, sans lien avec l'IFCN ni le Gouvernement régional ; l'état des sentiers vient de la liste officielle de l'IFCN. Pour joindre une personne : hello@levadinho-madeira.com",
-    "de": "Super! Ich bin Levadinho 🥾 Frag mich alles zu Madeiras Wanderwegen: "
-          "ob sie heute offen sind, Tickets und Buchung, Gebühren, Busse hin und zurück, Tunnel und Schwindelgefahr, das Wetter oben.\n\n"
-          "Zum Beispiel: „Ist die Levada das 25 Fontes heute offen?“\n\n"
-          "Levadinho ist ein unabhängiger Guide, nicht mit dem IFCN oder der Regionalregierung verbunden; der Status der Wege stammt aus der offiziellen IFCN-Liste. Kontakt zu einem Menschen: hello@levadinho-madeira.com",
-    "pl": "Świetnie! Jestem Levadinho 🥾 Zapytaj mnie o wszystko na temat szlaków pieszych na Maderze: "
-          "czy są dziś otwarte, bilety i rezerwacja, opłaty, autobusy tam i z powrotem, tunele i lęk wysokości, pogoda w górach.\n\n"
-          "Na przykład: „Czy lewada 25 Fontes jest dziś otwarta?”\n\n"
-          "Levadinho to niezależny przewodnik, niezwiązany z IFCN ani z rządem regionalnym; status szlaków pochodzi z oficjalnej listy IFCN. Kontakt z człowiekiem: hello@levadinho-madeira.com",
-}
-
 TEXT_ONLY = {
     "pt": "Por agora só consigo ler mensagens de texto ✍️ Escreva-me a sua pergunta.",
     "en": "For now I can only read text messages ✍️ Type your question.",
@@ -85,6 +65,58 @@ TEXT_ONLY = {
     "de": "Im Moment kann ich nur Textnachrichten lesen ✍️ Schreib mir deine Frage.",
     "pl": "Na razie czytam tylko wiadomości tekstowe ✍️ Napisz mi pytanie.",
 }
+# After Accept with nothing waiting (owner, 2026-10-05: the long intro was useless): one short line.
+ASK = {
+    "pt": "Obrigado! Em que posso ajudar? 🥾",
+    "en": "Thanks! What would you like to know? 🥾",
+    "fr": "Merci ! Que voulez-vous savoir ? 🥾",
+    "de": "Danke! Was möchtest du wissen? 🥾",
+    "pl": "Dziękuję! Co chcesz wiedzieć? 🥾",
+}
+# Getting from A to B: ask first where the visitor is staying (owner, 2026-10-05). A town or area is enough.
+ASK_BASE = {
+    "pt": "Para lhe indicar a melhor forma, onde está alojado (ou vai ficar)? Basta a localidade, por exemplo Funchal, Caniço ou Santana.",
+    "en": "To give you the best way, where are you staying (or planning to stay)? The town or area is enough, e.g. Funchal, Caniço or Santana.",
+    "fr": "Pour vous indiquer le meilleur moyen, où logez-vous (ou allez-vous loger) ? La ville suffit, par exemple Funchal, Caniço ou Santana.",
+    "de": "Damit ich dir den besten Weg nennen kann: Wo übernachtest du (oder wirst du übernachten)? Der Ort genügt, z. B. Funchal, Caniço oder Santana.",
+    "pl": "Żebym mógł wskazać najlepszy sposób: gdzie nocujesz (lub będziesz nocować)? Wystarczy miejscowość, np. Funchal, Caniço albo Santana.",
+}
+# Greetings (typed, or a website link's pre-filled text): words → language. A greeting alone is not a request.
+# Keep in step with scripts/gen_cta.py WA_PREFIX.
+GREETING_LANG = {"ola": "pt", "bom dia": "pt", "boa tarde": "pt", "boa noite": "pt", "oi": "pt",
+                 "hello": "en", "hi": "en", "hey": "en", "good morning": "en", "good afternoon": "en", "good evening": "en",
+                 "bonjour": "fr", "bonsoir": "fr", "salut": "fr",
+                 "hallo": "de", "guten tag": "de", "guten morgen": "de", "moin": "de", "servus": "de",
+                 "czesc": "pl", "dzien dobry": "pl", "witam": "pl", "hej": "pl"}
+GREETING_FILLER = {"levadinho", "there", "again", "o", "a"}
+# Website page tag → the guide or trail its visitors most likely mean (used when the question names neither).
+SOURCE_GUIDE = {"web-sunrise": "sunrise", "web-back": "back", "web-oneway": "oneway", "web-weather": "weather",
+                "web-booking": "booking", "web-abroad": "abroad", "web-permit": "permit", "web-free": "free",
+                "web-bus": "bus", "web-best": "best", "web-easy": "easy", "web-tunnels": "tunnels"}
+
+
+def is_greeting(text):
+    """Only greeting words (and the bot's name, #tags, emoji, punctuation): nothing to answer yet."""
+    if _norm(text).startswith("join "):  # Twilio sandbox: "join <code> [#web-…]" is a first contact
+        return True
+    t = re.sub(r"#[\w-]+", " ", _norm(text))
+    t = re.sub(r"[^\w\s]", " ", t)
+    t = " " + re.sub(r"\s+", " ", t).strip() + " "
+    if not t.strip():
+        return True
+    for g in sorted(GREETING_LANG, key=len, reverse=True):
+        t = t.replace(f" {g} ", " ")
+    return all(w in GREETING_FILLER for w in t.split())
+
+
+def greeting_lang(text):
+    t = " " + re.sub(r"\s+", " ", re.sub(r"[^\w\s]", " ", re.sub(r"#[\w-]+", " ", _norm(text)))).strip() + " "
+    for g in sorted(GREETING_LANG, key=len, reverse=True):
+        if f" {g} " in t:
+            return GREETING_LANG[g]
+    return None
+
+
 # ---------------------------------------------------------------- location + audio guide
 GUIDE_URL = os.environ.get("GUIDE_URL", "https://microscopy-rig-system.tail53cc58.ts.net/levadinho/guide/")
 AREEIRO = (32.73549, -16.92880)  # PR1 start, from the official Visit Madeira page (trail_facts.json)
@@ -368,8 +400,10 @@ CLASSIFY_SCHEMA = {
                    "language": {"type": "string", "enum": ["pt", "en", "fr", "de", "pl", "other"]},
                    "intent": {"type": "string", "enum": INTENTS},
                    "topic": {"type": "string", "maxLength": 60},
-                   "trail_code": {"type": ["string", "null"]}},
-    "required": ["is_question", "language", "intent", "topic", "trail_code"],
+                   "trail_code": {"type": ["string", "null"]},
+                   "origin": {"type": ["string", "null"], "maxLength": 60},
+                   "destination": {"type": ["string", "null"], "maxLength": 60}},
+    "required": ["is_question", "language", "intent", "topic", "trail_code", "origin", "destination"],
 }
 
 
@@ -385,10 +419,15 @@ def classify(text):
             "(getting there/back, taxis, buses, parking), weather, safety, route_info (distance, difficulty, time, "
             "what you see), alternatives (other trails), facilities (toilets, food, water), other. "
             "topic = a short English label of the specific subject, 2-5 words (e.g. \"sunrise start time\"). "
-            "trail_code = the trail's PR code if one is meant (e.g. \"PR1\"), else null."},
+            "trail_code = the trail's PR code if one is meant (e.g. \"PR1\"), else null. "
+            "origin = for transport: the town or place the visitor says they start from or are staying in "
+            "(e.g. \"Funchal\", \"the airport\"), else null. "
+            "destination = for transport: the place they want to get to (e.g. \"Pico do Areeiro\"), else null."},
         {"role": "user", "content": text}], max_tokens=80, schema=CLASSIFY_SCHEMA, temperature=0)
     d = json.loads(out)
     d["lang"] = d["language"] if d["language"] in LANGS else "en"
+    d.setdefault("origin", None)
+    d.setdefault("destination", None)
     return d
 
 
@@ -397,6 +436,7 @@ SITE = "https://levadinho-madeira.com"
 FACTS = open(os.path.join(HERE, "pr1_facts.md"), encoding="utf-8").read()  # curated PR1 detail
 TRAIL_FACTS = {t["code"]: t for t in json.load(open(os.path.join(HERE, "trail_facts.json"), encoding="utf-8"))["trails"]}
 KB = json.load(open(os.path.join(HERE, "kb.json"), encoding="utf-8"))  # site pages as text (build_kb.py)
+TRANSPORT = open(os.path.join(HERE, "transport_facts.md"), encoding="utf-8").read()  # taxis, transfers (sourced)
 MAX_TRAILS, MAX_GUIDES = 3, 3
 # Chat history from before this moment is ignored: replies written when the bot covered PR1 only ("I only cover
 # PR1…") were copied word for word by the model. Move it forward whenever the bot's scope or rules change.
@@ -464,9 +504,15 @@ def pick_context(user, text, c=None):
         for m in reversed(store.history(user, HISTORY_SINCE)):
             if m["role"] == "user" and (trails := trails_in(m["content"])):
                 break
+    source = (store.get_user(user) or {}).get("source") or ""
+    if not trails and re.fullmatch(r"web-pr[0-9-]+", source):  # asked from a trail's page: that trail
+        code = "PR" + source.removeprefix("web-pr").replace("-", ".")
+        trails = [code] if code in KB["trails"] else []
     trails = trails[:MAX_TRAILS]
     t, intent = _norm(text), c.get("intent")
     g = [k for k, words in TOPIC_WORDS.items() if any(w in t for w in words)]
+    if not trails and SOURCE_GUIDE.get(source):  # asked from a guide page: that guide first
+        g.insert(0, SOURCE_GUIDE[source])
     if intent == "booking":
         g.append("booking")
     if intent == "alternatives":
@@ -488,8 +534,8 @@ def pick_context(user, text, c=None):
     return trails, [k for k in dict.fromkeys(g) if k in KB["guides"]][:MAX_GUIDES]
 
 
-def detail_block(trails, guides):
-    parts = []
+def detail_block(trails, guides, transport=False):
+    parts = [f"### Getting around (taxis, transfers, buses)\n{TRANSPORT}"] if transport else []
     for code in trails:
         if code == "PR1":
             parts.append(f"### PR1 Vereda do Areeiro (curated knowledge; page {SITE}/pr1/)\n{FACTS}")
@@ -523,6 +569,8 @@ HOW TO ANSWER
 - Off-topic requests (not Madeira hiking/visiting): politely decline in one line and say that for anything else they can write to hello@levadinho-madeira.com.
 - If someone wants a person, has a complaint, or asks who runs Levadinho: it is an independent guide, not affiliated with IFCN or the Regional Government (the trail status comes from IFCN's official list); a person answers at hello@levadinho-madeira.com.
 - Never present yourself as IFCN, the Regional Government or any official body.
+- Never name or recommend a private company: no transfer, tour or guiding company, hotel, shop or restaurant, even when DETAILS mention one by name (owner's rule: no referrals). The only contacts you may give are the official taxi numbers and taxismadeira.pt from the taxi facts, and official bodies (IFCN, SIMplifica, Visit Madeira). For transfers: say hotels and private transfer companies can arrange one, without naming any, and give the bus and taxi options. Indicative transfer prices from DETAILS are fine.
+- Getting from A to B: start from where the visitor is staying ("Staying in: …" in their message, or what they said earlier). Give the public bus only if DETAILS show one from there (with its times); otherwise say there is no bus from there in our information. Give the taxi number for that town, or the nearest town in the taxi table, saying the numbers are as printed on IFCN's trailhead panels; for Funchal also mention online booking at taxismadeira.pt. Taxi fares: there is no official table, so tell them to ask for a quote.
 - Safety first: never encourage walking a closed trail or section, going without a ticket, or walking PR1 in reverse.
 
 LIVE STATUS
@@ -546,12 +594,14 @@ SITE_LINK = {
 MAX_SITE_LINKS = 2
 
 
-def site_links(reply, trails, lang):
+def site_links(reply, trails, lang, named=None):
     """Our page for the trails the reply talks about (else the ones the question named), as closing lines:
-    the visitor always gets the full guide, whatever links the model chose."""
+    the visitor always gets the full guide, whatever links the model chose. A trail only remembered from an
+    earlier message (pick_context's follow-up guess) gets a link only if the reply talks about it."""
     in_reply = trails_in(reply)
+    named = trails if named is None else named
     # the question's own trail when the reply is about it; else the trails the reply recommends; else the question's
-    codes = [t for t in trails if t in in_reply] or in_reply or trails
+    codes = [t for t in trails if t in in_reply] or in_reply or named
     lines = []
     for code in codes:
         k = KB["trails"].get(code)
@@ -564,12 +614,20 @@ def answer(user, text, lang, meta=None, c=None):
     rule = (f"Write your reply ONLY in {LANG_NAMES[lang]}, whatever language earlier messages used. "
             f"Keep place and trail names (Pico do Areeiro, Levada das 25 Fontes…) as they are.")
     trails, guides = pick_context(user, text, c)
+    transport = (c or {}).get("intent") == "transport" or bool(re.search(
+        r"taxi|táxi|transfer|transfe|bus|autocarro|shuttle|navette|lift|boleia", _norm(text)))
     system = SYSTEM.format(lang_rule=rule, status=status_block(), general=KB["guides"]["fees"]["text"],
-                           details=detail_block(trails, guides))
+                           details=detail_block(trails, guides, transport))
+    source = (store.get_user(user) or {}).get("source") or ""
+    page = KB["guides"].get(SOURCE_GUIDE.get(source, ""), {}).get("url")
+    if page:  # opened the chat from one of our guide pages
+        system += (f"\nTHE VISITOR CAME FROM OUR PAGE {page}. When their question leaves the destination or the "
+                   "subject open, assume it is that page's subject, say so in a few words, and include the public "
+                   "bus option from that page's DETAILS if it has one.\n")
     msgs = [{"role": "system", "content": system}] + store.history(user, HISTORY_SINCE) + [{"role": "user", "content": text}]
     t0 = time.time()
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", llm(msgs, temperature=0))  # WhatsApp bold is *single*; 0 = stick to the facts
-    reply = reply.rstrip() + site_links(reply, trails, lang)
+    reply = reply.rstrip() + site_links(reply, trails, lang, named=trails_in(text))
     if meta is not None:
         meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
                           "context": {"trails": trails, "guides": guides}}
@@ -601,7 +659,8 @@ def accepted(user):
 
 
 def handle_consent(user, yes, meta=None):
-    """The visitor tapped Accept / Don't accept. app.py reads the new state to decide what to record."""
+    """The visitor tapped Accept / Don't accept. app.py reads the new state to decide what to record.
+    After Accept, what they wrote before is answered straight away; with nothing waiting, one short line."""
     meta = meta if meta is not None else {"events": []}
     u = store.get_user(user) or {}
     lang = u.get("lang") or "en"
@@ -614,18 +673,18 @@ def handle_consent(user, yes, meta=None):
         return [{"type": "text", "body": (CONSENT_WITHDRAWN if was == "yes" else CONSENT_NO)[lang]}]
     meta["events"].append(("consent_given", {"version": CONSENT_VERSION}))
     if was == "yes":  # re-accepted after typing "privacy": nothing to resume
-        return [{"type": "text", "body": INTRO[lang]}]
+        return [{"type": "text", "body": ASK[lang]}]
     kind, _, arg = pending.partition(":")
     if kind == "c" and arg in CAMPAIGNS:
         meta["campaign"] = arg
         return [welcome(user, CAMPAIGNS[arg], lang, meta, campaign=arg)]
     if kind == "c" and is_web_tag(arg):  # came from a website link: a source only, no guide link
         meta["campaign"] = arg
-        return [{"type": "text", "body": INTRO[lang]}]
-    if kind == "q" and arg:  # the question they asked before accepting
+        return [{"type": "text", "body": ASK[lang]}]
+    if kind == "q" and arg:  # what they wrote before accepting
         try:
             c = classify(arg)
-            reply = answer(user, arg, c["lang"], meta, c)
+            reply = respond(user, arg, c["lang"], meta, c)
         except LLMDown:  # the model is asleep: the acceptance stands, app.py queues the question
             meta["deferred_question"] = arg
             meta.pop("answer", None)
@@ -637,7 +696,20 @@ def handle_consent(user, yes, meta=None):
                                                   "trail_status": str(live_status().get("status", ""))}))
         meta["resumed_question"] = arg
         return [{"type": "text", "body": reply}]
-    return [{"type": "text", "body": INTRO[lang]}]
+    return [{"type": "text", "body": ASK[lang]}]
+
+
+def respond(user, text, lang, meta, c):
+    """Answer a request. Getting from A to B: first ask where the visitor is staying (owner, 2026-10-05),
+    unless the message gives both ends ("bus from Funchal to Pico do Areeiro") or they told us before.
+    "Transfer from the airport" has no end: where they stay is the destination."""
+    base = (store.get_user(user) or {}).get("base")
+    if c.get("intent") == "transport" and not (c.get("origin") and c.get("destination")):
+        if not base:
+            store.set_user(user, state=f"base:{lang}:{text}")
+            return ASK_BASE[lang]
+        text = f"{text}\n(Staying in: {base})"
+    return answer(user, text, lang, meta, c)
 
 
 def fmt_distance(m, lang):
@@ -667,7 +739,7 @@ def offline_note(rid, lang):
 def welcome(user, rid, lang, meta=None, campaign=None):
     route = geo.load_route(rid)
     if not route:
-        return {"type": "text", "body": INTRO[lang]}
+        return {"type": "text", "body": ASK[lang]}
     link, title = guide_link(user, route, lang, meta, via="campaign", campaign=campaign)
     return {"type": "text", "body": WELCOME[lang].format(title=title, link=link, note=offline_note(rid, lang))}
 
@@ -700,37 +772,67 @@ def handle(user, text=None, choice=None, meta=None):
     """Return a list of outgoing messages: {"type": "text", "body": ...} or a picker.
 
     `meta` (optional dict with an "events" list) is filled with what happened, for the
-    analytics record written by app.py: language, question labels, events."""
+    analytics record written by app.py: language, question labels, events.
+
+    Before Accept nothing needs the model: greetings are recognised by their words, the language from the
+    greeting or the message, and anything that isn't a greeting waits for Accept and is then answered. The
+    language menu is sent only when the language can't be told, and only once."""
     meta = meta if meta is not None else {"events": []}
     meta.setdefault("events", [])
     u = store.get_user(user)
+    state = (u or {}).get("state") or ""
 
     if choice in LANGS:  # tapped a row in the picker
-        tag = ((u or {}).get("state") or "").partition(":")[2]  # "picking:<campaign tag>" after a campaign QR
+        rest = state.partition(":")[2]  # "picking:<campaign tag>" or "picking:q:<message waiting>"
+        tag = rest if known_tag(rest) else ""
+        waiting = rest if rest.startswith("q:") else ""
         store.set_user(user, lang=choice, state="ready")
         meta["lang"] = choice
         meta["events"].append(("language_selected", {"lang": choice, "campaign": tag or None}))
         if known_tag(tag):
             meta["campaign"] = tag
         if not accepted(user):
-            return [consent_prompt(user, choice, f"c:{tag}" if known_tag(tag) else "")]
+            return [consent_prompt(user, choice, waiting or (f"c:{tag}" if known_tag(tag) else ""))]
         if tag in CAMPAIGNS:
             return [welcome(user, CAMPAIGNS[tag], choice, meta, campaign=tag)]
-        return [{"type": "text", "body": INTRO[choice]}]
+        return [{"type": "text", "body": ASK[choice]}]
 
     text = (text or "").strip()
     if not text:
         return [picker()] if not u or not u.get("lang") else []
 
-    # The QR code's / website link's pre-filled greeting always (re)opens the picker — also for
-    # returning visitors. The #tag doesn't count towards the length limit.
-    tag = re.search(r"#([a-z0-9-]+)", text.lower())
-    if "levadinho" in text.lower() and len(re.sub(r"#[\w-]+", "", text).strip()) <= 40 and "?" not in text:
-        tag = tag.group(1) if tag and known_tag(tag.group(1)) else ""
-        store.set_user(user, state=f"picking:{tag}" if tag else "picking")
+    m = re.search(r"#([a-z0-9-]+)", text.lower())
+    tag = m.group(1) if m and known_tag(m.group(1)) else ""
+    if is_greeting(text):
         meta["campaign"] = tag or None
-        meta["events"].append(("qr_scanned", {"campaign": tag or None, "source": "web" if is_web_tag(tag) else "qr"}))
-        return [picker()]
+        if tag in CAMPAIGNS:  # a campaign QR: picker → welcome + that route's guide link
+            store.set_user(user, state=f"picking:{tag}")
+            meta["campaign"] = tag
+            meta["events"].append(("qr_scanned", {"campaign": tag, "source": "qr"}))
+            return [picker()]
+        if tag:  # a website link: the page is the source; its greeting is in the page's language
+            store.set_user(user, source=tag)
+            meta["campaign"] = tag
+            meta["events"].append(("qr_scanned", {"campaign": tag, "source": "web"}))
+        # The greeting's language counts when the visitor typed it or it came from a website page; the
+        # general QR's Portuguese "Olá Levadinho!" says nothing about the visitor's language.
+        g = greeting_lang(text) if (tag or "levadinho" not in text.lower()) else None
+        known = (u or {}).get("lang")
+        if not accepted(user):
+            if g and (g != known or not state.startswith("notice:")):
+                store.set_user(user, lang=g)
+                meta["lang"] = g
+                return [consent_prompt(user, g)]
+            if known or g:
+                return [] if state.startswith("notice:") else [consent_prompt(user, known or g)]
+            if state.startswith("picking") and not tag:
+                return []  # the menu is already on screen
+            store.set_user(user, state=f"picking:{tag}" if tag else "picking")
+            return [picker()]
+        lang = g or known or "en"
+        store.set_user(user, lang=lang, state="ready")
+        meta["lang"] = lang
+        return [{"type": "text", "body": ASK[lang]}]
 
     if text.lower().strip(" !?.") in CHANGE_WORDS:
         store.set_user(user, state="picking")
@@ -748,31 +850,37 @@ def handle(user, text=None, choice=None, meta=None):
         meta["events"].append(("location_requested", {"lang": lang}))
         return [ask_location(lang)]
 
+    if not accepted(user):  # nothing is answered before the notice is accepted; what they wrote waits for it
+        waiting = state.partition(":")[2] if state.startswith(("notice:q:", "picking:q:")) else ""
+        waiting = f"{waiting}\n{text}" if waiting else f"q:{text}"
+        meta["warm_up"] = True  # app.py starts the model now, so the answer is quick after Accept
+        lang = guess_lang(text) or (u or {}).get("lang")
+        if lang:
+            store.set_user(user, lang=lang)
+            meta["lang"] = lang
+            return [consent_prompt(user, lang, waiting)]
+        store.set_user(user, state=f"picking:{waiting}")
+        return [] if state.startswith("picking") else [picker()]
+
+    if state.startswith("base:"):  # the answer to "where are you staying?"
+        _, lang, original = state.split(":", 2)
+        if "?" not in text and len(text) <= 60:
+            c = classify(original)  # before any change, so a replay after LLMDown starts from the same state
+            store.set_user(user, base=text, state="ready")
+            meta.update(lang=lang, is_question=True, intent=c["intent"], topic=c["topic"], trail=c["trail_code"])
+            return [{"type": "text", "body": answer(user, f"{original}\n(Staying in: {text})", lang, meta, c)}]
+        store.set_user(user, state="ready")  # a new question instead: carry on with it
+
     c = classify(text)
     meta.update(lang=c["lang"], is_question=c["is_question"])
-    if not accepted(user):  # nothing is answered before the notice is accepted; a question waits for it
-        if not u or not u.get("lang"):
-            if not c["is_question"]:
-                store.set_user(user, state="picking")
-                return [picker()]
-            store.set_user(user, lang=c["lang"])
-        lang = c["lang"] if c["is_question"] else u["lang"]
-        meta["lang"] = lang
-        return [consent_prompt(user, lang, f"q:{text}" if c["is_question"] else "")]
     if c["is_question"]:
         meta.update(intent=c["intent"], topic=c["topic"], trail=c["trail_code"])
         meta["events"].append(("question_asked", {"lang": c["lang"], "intent": c["intent"], "topic": c["topic"],
                                                   "trail_code": c["trail_code"],
                                                   "trail_status": str(live_status().get("status", ""))}))
-
-    if not u or not u.get("lang"):  # first contact, or still hasn't picked
-        if c["is_question"]:
-            store.set_user(user, lang=c["lang"], state="ready")
-            return [{"type": "text", "body": answer(user, text, c["lang"], meta, c)}]
-        store.set_user(user, state="picking")
-        return [picker()]
-
+    if not u or not u.get("lang"):
+        store.set_user(user, lang=c["lang"], state="ready")
     # Questions are answered in the language they're written in; anything else in the chosen one.
-    lang = c["lang"] if c["is_question"] else u["lang"]
+    lang = c["lang"] if c["is_question"] or not (u or {}).get("lang") else u["lang"]
     meta["lang"] = lang
-    return [{"type": "text", "body": answer(user, text, lang, meta, c)}]
+    return [{"type": "text", "body": respond(user, text, lang, meta, c)}]

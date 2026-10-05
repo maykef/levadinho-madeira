@@ -23,13 +23,15 @@ CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT);
 """)
 # consent: the privacy notice — None (not answered), "yes" (accepted) or "no" (declined: no service).
 # (consent_asked is a leftover column from the first consent design; unused.)
-for col in ("consent TEXT", "consent_asked REAL"):
+# source: the website page tag (#web-…) the visitor came from; base: the town/area they said they are staying in
+# (asked before transport answers, 2026-10-05). Both go with the user row (erase / reset / export).
+for col in ("consent TEXT", "consent_asked REAL", "source TEXT", "base TEXT"):
     try:
         _db.execute(f"ALTER TABLE users ADD COLUMN {col}")
     except sqlite3.OperationalError:
         pass  # already there
 GUIDE_TOKEN_TTL = 30 * 24 * 3600  # a guide link keeps working for a month (offline packs, repeat walks)
-USER_FIELDS = ("lang", "state", "consent")
+USER_FIELDS = ("lang", "state", "consent", "source", "base")
 
 
 def get_user(uid):
@@ -40,7 +42,8 @@ def get_user(uid):
 def set_user(uid, **fields):
     cur = get_user(uid) or dict.fromkeys(USER_FIELDS)
     cur.update(fields)
-    _db.execute(f"INSERT OR REPLACE INTO users (id, {', '.join(USER_FIELDS)}, updated) VALUES (?,?,?,?,?)",
+    _db.execute(f"INSERT OR REPLACE INTO users (id, {', '.join(USER_FIELDS)}, updated) "
+                f"VALUES ({', '.join('?' * (len(USER_FIELDS) + 2))})",
                 (uid, *(cur[f] for f in USER_FIELDS), time.time()))
     _db.commit()
 

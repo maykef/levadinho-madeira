@@ -4,7 +4,7 @@
 Levadinho (the bot in bot/) only works on WhatsApp, so every page hands the visitor
 over with:
   - a tap-to-open wa.me/<WA_NUMBER> link (all screens), pre-filled with
-        "<WA_PREFIX> #web-<tag>"   (e.g. "Olá Levadinho! 👋 #web-pr1")
+        "<WA_PREFIX[lang]> #web-<tag>"   (e.g. "Hello Levadinho! 👋 #web-pr1" on an English page)
     where the per-page tag tells the bot's analytics which page converted
     (bot/brain.py treats any `web-[a-z0-9-]{1,40}` tag as a source, not a guide route);
   - an inline SVG QR code of the same link, shown only on wider screens (a desktop
@@ -20,7 +20,7 @@ The block goes near the TOP of every page (owner's decision 2026-09-30): right b
 webcam (PR1), else right below the status card (trail pages), else right below </header>.
 Each run moves it there (TOP_SPOTS).
 
-Tags: same tag in every language (the bot detects the language itself). Trail pages use
+Tags: same tag in every language (the bot reads the language from the greeting). Trail pages use
 their code (web-pr6, web-pr1-2, ...); guide pages have fixed short tags (TAGS below).
 Not added to privacy/, 404.html or the trails/ redirect stubs. Fails loud on a page it can't tag.
 
@@ -39,7 +39,10 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # WhatsApp number (digits only) and pre-filled text of the CTA link; " #web-<tag>" is appended.
 # Levadinho's own WhatsApp sender on Twilio (active since 2026-10-04):
 WA_NUMBER = "447455718697"      # +44 7455 718697
-WA_PREFIX = "Olá Levadinho! 👋"
+# The greeting is in the page's language (owner, 2026-10-05): the bot reads its language from it and skips
+# the language menu. Keep these words in brain.GREETING_LANG.
+WA_PREFIX = {"pt": "Olá Levadinho! 👋", "en": "Hello Levadinho! 👋", "fr": "Bonjour Levadinho ! 👋",
+             "de": "Hallo Levadinho! 👋", "pl": "Cześć Levadinho! 👋"}
 # The Meta number +44 7405 754593 ("447405754593") was banned by Meta on 2026-09-30.
 # Twilio WhatsApp Sandbox (bot/README.md "Twilio sandbox"): comment the two lines above, uncomment
 # these two and re-run. The visitor then sends "join bark-wood #web-<tag>"; the bot treats it as a
@@ -47,7 +50,7 @@ WA_PREFIX = "Olá Levadinho! 👋"
 # WA_NUMBER = "14155238886"     # +1 415 523 8886, the sandbox's shared number
 # WA_PREFIX = "join bark-wood"
 
-GREETING = WA_PREFIX + " #{tag}"
+GREETING = "{prefix} #{tag}"
 LANG_DIRS = ("pt", "fr", "de", "pl")
 SKIP_TOP = {"bot", "seo_research", ".claude", ".git", "https___madeira", "privacy", "trails", "img", "scripts", "node_modules"}
 
@@ -131,8 +134,9 @@ def tag_for(rel, html):
     return None
 
 
-def wa_url(tag):
-    return "https://wa.me/{}?text={}".format(WA_NUMBER, urllib.parse.quote(GREETING.format(tag=tag), safe=""))
+def wa_url(tag, lang="en"):
+    prefix = WA_PREFIX[lang] if isinstance(WA_PREFIX, dict) else WA_PREFIX
+    return "https://wa.me/{}?text={}".format(WA_NUMBER, urllib.parse.quote(GREETING.format(prefix=prefix, tag=tag), safe=""))
 
 
 _QR = {}
@@ -165,7 +169,7 @@ def qr_svg(url, label):
 
 def block_html(lang, tag):
     T = TEXT[lang]
-    url = wa_url(tag)
+    url = wa_url(tag, lang)
     href = url.replace("&", "&amp;")
     return (
         '<aside class="lvd-cta" aria-labelledby="lvd-cta-h">\n'

@@ -14,7 +14,7 @@ webhook hands to process() (normalise), and answers through here (send). brain.p
     they become plain text with typed replies (render), and a typed reply is turned back the same way
     (interpret), so process() runs the same branches.
   - "join bark-wood" (the sandbox join phrase) is a first contact: the picker, like Meta's
-    request_welcome. "join bark-wood #web-<page>" becomes the website greeting, so the tag is recorded.
+    request_welcome. "join bark-wood #web-<page>" becomes a language-neutral greeting with that tag (picker; the tag is recorded).
 
 Config (bot/.env): TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_WA_FROM, TWILIO_WEBHOOK_URL.
 """
@@ -102,7 +102,8 @@ def normalise(form):
     elif body.lower().startswith("join "):  # the sandbox join phrase: a first contact, no question
         tag = re.search(r"#([a-z0-9-]+)", body.lower())
         if tag:
-            m.update(type="text", text={"body": f"Olá Levadinho! 👋 #{tag.group(1)}"})
+            # no greeting word: the join phrase says nothing about the visitor's language, so the picker
+            m.update(type="text", text={"body": f"Levadinho! 👋 #{tag.group(1)}"})
         else:
             m.update(type="request_welcome")
     elif body:

@@ -57,6 +57,17 @@ WA_PHONE_NUMBER_ID = os.environ.get("WA_PHONE_NUMBER_ID", "")
 WA_APP_SECRET = os.environ.get("WA_APP_SECRET", "")
 WA_VERIFY_TOKEN = os.environ.get("WA_VERIFY_TOKEN", "")
 GRAPH = "https://graph.facebook.com/v23.0"
+# The owner's own phones (owner, 2026-10-05): digits only, comma-separated, in bot/.env (never committed).
+# A test number is never recorded in the analytics database or the guide logs; its working store is wiped
+# when it writes after TEST_FRESH_S of silence, and at once when it sends "reset".
+TEST_NUMBERS = {"".join(ch for ch in n if ch.isdigit()) for n in os.environ.get("TEST_NUMBERS", "").split(",") if n.strip()}
+TEST_FRESH_S = 3600
+TEST_RESET_WORDS = {"reset", "/reset"}
+TEST_RESET_DONE = "🧪 Test number: everything about you is erased. Your next message starts as a new visitor."
+
+
+def is_test(sender):
+    return bool(sender) and sender in TEST_NUMBERS
 
 log = logging.getLogger("levadinho")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -118,6 +129,16 @@ def process(message, replay=None):
     log.info("%s %s from …%s%s", "replaying" if replay else "incoming", kind, sender[-4:],
              " (twilio)" if message.get("channel") == "twilio" else "")
     meta = {"events": []}
+    if replay is None and is_test(sender):
+        last = store.last_inbound(sender)
+        if kind == "text" and message["text"]["body"].strip().lower() in TEST_RESET_WORDS:
+            store.erase(sender)
+            log.info("test number …%s: erased on request", sender[-4:])
+            send(message, {"type": "text", "body": TEST_RESET_DONE})
+            return
+        if last and time.time() - last > TEST_FRESH_S:
+            store.erase(sender)
+            log.info("test number …%s: new session, working store erased", sender[-4:])
     if replay is None:
         llm_control.touch()
         store.note_inbound(sender)
@@ -157,6 +178,11 @@ def process(message, replay=None):
     except Exception:
         log.exception("failed to handle message from %s", sender[-4:])
         out = [{"type": "text", "body": brain.TEXT_ERROR}]
+    if meta.get("warm_up") and llm_control.ON_DEMAND:  # a message waits for Accept: load the model meanwhile
+        try:
+            llm_control.start()
+        except Exception:
+            log.exception("warm-up start failed")
     if meta.get("deferred_question"):  # accepted the notice; the question asked before waits for the model
         synthetic = {"from": sender, "type": "text", "id": f"deferred-{message.get('id', '')}",
                      "text": {"body": meta["deferred_question"]},
@@ -220,6 +246,8 @@ def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
     Only for visitors who accepted the privacy notice (brain.CONSENT_*). Anyone else leaves just an
     anonymous trace: event type, time and language, no visitor id, no text, no position. That is also
     how accepts vs. declines are counted (consent_given / consent_declined events)."""
+    if is_test(sender):  # the owner's test phones leave nothing in the analytics database
+        return
     try:
         lang = meta.get("lang")
         consent = (store.get_user(sender) or {}).get("consent")
@@ -364,6 +392,8 @@ async def guide_log(request: Request, background: BackgroundTasks, r: str = "", 
     if len(raw) > 256_000:
         raise HTTPException(413)
     events = json.loads(raw)
+    if is_test(store.guide_token_user(t)):  # a test phone's walk: neither the log file nor the database
+        return {"ok": True}
     folder = os.path.join(TRACKLOG, r)
     os.makedirs(folder, exist_ok=True)
     srv = int(time.time() * 1000)

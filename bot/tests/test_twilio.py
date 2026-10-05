@@ -117,11 +117,11 @@ def test_location_and_media_normalise():
 def test_join_is_first_contact_and_keeps_web_tag():
     assert twilio_wa.normalise(form("join bark-wood"))["type"] == "request_welcome"
     m = twilio_wa.normalise(form("join bark-wood #web-pr1"))
-    assert m["type"] == "text" and m["text"]["body"] == "Olá Levadinho! 👋 #web-pr1"
+    assert m["type"] == "text" and m["text"]["body"] == "Levadinho! 👋 #web-pr1"
 
 
 def test_plain_text_picker_and_notice_flow(tw):
-    """join → numbered picker → "2" → notice with the typed Accept line → "accept" → intro. No model needed."""
+    """join → numbered picker → "2" → notice with the typed Accept line → "accept" → short line. No model needed."""
     post(form("join bark-wood #web-fees"))
     assert tw.sent[-1]["body"].endswith("1 Português · 2 English · 3 Français · 4 Deutsch · 5 Polski")
     assert store.get_user(PHONE)["state"] == "picking:web-fees"
@@ -135,7 +135,7 @@ def test_plain_text_picker_and_notice_flow(tw):
     assert store.get_user(PHONE)["lang"] == "en"
 
     post(form("Akceptuję!"))
-    assert tw.sent[-1]["body"] == brain.INTRO["en"]
+    assert tw.sent[-1]["body"] == brain.ASK["en"]
     assert store.get_user(PHONE)["consent"] == "yes"
 
 
@@ -213,14 +213,14 @@ def test_tappable_menus_flow(tw, monkeypatch):
     """With the Content templates: picker = list-picker, notice = quick-reply buttons; taps come back as
     ListId / ButtonPayload and run the same branches as Meta's list_reply / button_reply."""
     monkeypatch.setattr(twilio_wa, "CONTENT", MENUS)
-    post(form("Olá Levadinho! 👋 #web-home"))
+    post(form("Olá Levadinho! 👋"))  # the general QR: its Portuguese greeting says nothing about the language
     assert tw.sent[-1]["content_sid"] == "HXlist" and tw.sent[-1]["body"] is None
     post(form("🇬🇧 English", ListId="lang_en", ListTitle="🇬🇧 English"))
     assert store.get_user(PHONE)["lang"] == "en"
     m = tw.sent[-1]
     assert m["content_sid"] == "HXoken" and "https://levadinho-madeira.com/privacy/#en" in json.loads(m["content_variables"])["1"]
     post(form("Accept", ButtonPayload="consent_yes", ButtonText="Accept"))
-    assert tw.sent[-1]["body"] == brain.INTRO["en"] and store.get_user(PHONE)["consent"] == "yes"
+    assert tw.sent[-1]["body"] == brain.ASK["en"] and store.get_user(PHONE)["consent"] == "yes"
 
 
 def test_menu_send_failure_falls_back_to_text(tw, monkeypatch):

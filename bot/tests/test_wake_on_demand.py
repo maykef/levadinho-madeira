@@ -96,7 +96,7 @@ def fake_llm(messages, max_tokens=700, schema=None, temperature=0.3):
 
 
 brain.llm = fake_llm
-brain.site_links = lambda reply, trails, lang: ""  # these tests check queueing; the page links are tested in test_followups
+brain.site_links = lambda reply, trails, lang, named=None: ""  # these tests check queueing; the page links are tested in test_followups
 N = [0]
 
 
@@ -176,29 +176,28 @@ def _raises(fn):
 
 
 def test_down_gpu_free_new_visitor():
+    """Before Accept nothing needs the model: a question gets the notice at once and the model starts loading;
+    after Accept the question waits for the model (WAKING) and is answered when it's up."""
     reset()
     u = "351910000001"
     store.reset(u)
     app.process(msg(u, "Is PR1 open today?"))
     b = bodies()
-    check(b == [brain.WAKING["en"]], f"down+free: WAKING (en) sent immediately {b}")
-    check("docker start levadinho-llm" in host.cmds and host.running, "down+free: docker start issued")
-    check(store.get_flag(llm_control.FLAG) == "webhook", "down+free: started-by-webhook flag set")
+    check(b == ["<NOTICE>"], f"down+free: privacy notice at once, no model needed {b}")
+    check("docker start levadinho-llm" in host.cmds and host.running, "down+free: model warm-up started")
+    check(store.get_user(u)["state"].startswith("notice:q:"), "question waits for Accept")
     app.process(msg(u, "And the weather?"))
-    check(bodies() == [], "second message while waking: no second notice")
-    check(len(store.pending_all()) == 2, "both messages queued")
-    tick()
-    check(bodies() == [] and len(store.pending_all()) == 2, "still loading: nothing replayed")
+    check(bodies() == ["<NOTICE>"], "second message before Accept: notice again, both waiting")
+    check(store.get_user(u)["state"] == "notice:q:Is PR1 open today?\nAnd the weather?", "both questions kept")
     check(not any(r[0] == "turn" for r in recorded), "nothing recorded before acceptance")
+    app.process(button(u, True))
+    b = bodies()
+    check(b == [brain.WAKING["en"]] and len(store.pending_all()) == 1, f"Accept while loading → WAKING, queued {b}")
     model["up"] = True
     tick()
     b = bodies()
-    check(b == ["<NOTICE>", "<NOTICE>"] and not store.pending_all(),
-          f"model up: queue replayed in order → privacy notice (not accepted yet) {b}")
-    check(store.get_user(u)["state"].startswith("notice:q:"), "question waits for Accept")
-    app.process(button(u, True))
-    b = bodies()
-    check(len(b) == 1 and b[0].startswith("ANSWER to:"), f"Accept → the waiting question answered {b}")
+    check(len(b) == 1 and b[0].startswith("ANSWER to: Is PR1 open today?") and not store.pending_all(),
+          f"model up → the waiting questions answered {b}")
 
 
 def test_down_gpu_busy_callback():
@@ -246,23 +245,23 @@ def test_callback_expiry():
 
 
 def test_web_tag_flow():
+    """A website link's greeting is in the page's language: straight to the notice in that language
+    (no menu, no model); the page is kept as the source; Accept → the short line, no guide link."""
     reset()
     u = "351910000004"
     store.reset(u)
-    for text, tag in (("Olá Levadinho! 👋 #web-pr1", "web-pr1"),
-                      ("Olá Levadinho! 👋 #web-simplifica-from-abroad", "web-simplifica-from-abroad")):
+    for text, tag, lang in (("Olá Levadinho! 👋 #web-pr1", "web-pr1", "pt"),
+                            ("Hello Levadinho! 👋 #web-sunrise", "web-sunrise", "en"),
+                            ("Cześć Levadinho! 👋 #web-simplifica-from-abroad", "web-simplifica-from-abroad", "pl")):
         store.reset(u)
         meta = {"events": []}
         out = brain.handle(u, text=text, meta=meta)  # model is DOWN: must not need it
-        check(out[0]["type"] == "list" and meta["campaign"] == tag, f"{tag}: picker, campaign recorded")
+        check(out[0]["type"] == "buttons" and meta["campaign"] == tag, f"{tag}: notice at once, campaign recorded")
+        check(store.get_user(u)["lang"] == lang and store.get_user(u)["source"] == tag, f"{tag}: language {lang}, source kept")
         check(meta["events"][0] == ("qr_scanned", {"campaign": tag, "source": "web"}), f"{tag}: qr_scanned source=web")
         meta = {"events": []}
-        out = brain.handle(u, choice="pt", meta=meta)
-        check(out[0]["type"] == "buttons" and meta["campaign"] == tag, f"{tag}: language → privacy notice, campaign kept")
-        meta = {"events": []}
         out = brain.handle_consent(u, True, meta=meta)
-        check(out == [{"type": "text", "body": brain.INTRO["pt"]}] and meta["campaign"] == tag,
-              f"{tag}: Accept → normal intro (no guide link), campaign on the record")
+        check(out == [{"type": "text", "body": brain.ASK[lang]}], f"{tag}: Accept → short line")
         check(not any(e[0] == "guide_link_sent" for e in meta["events"]), f"{tag}: no guide link")
     meta = {"events": []}
     brain.handle(u, text="Olá Levadinho! 👋 #bogus", meta=meta)
@@ -352,6 +351,40 @@ def test_guess_lang():
              "Le PR1 est-il ouvert aujourd'hui ?": "fr", "Czy PR1 jest dziś otwarty?": "pl"}
     check(all(brain.guess_lang(t) == l for t, l in cases.items()), "notice language guess for 5 languages")
 
+
+
+def test_owner_test_number_leaves_nothing():
+    """bot/.env TEST_NUMBERS (owner, 2026-10-05): nothing recorded in analytics; "reset" erases the working
+    store at once; after an hour of silence the next message starts as a new visitor."""
+    reset()
+    u = "447000000099"
+    store.reset(u)
+    app.TEST_NUMBERS.add(u)
+    try:
+        model["up"] = True
+        app.process(msg(u, "Hello!"))
+        app.process(button(u, True))
+        app.process(msg(u, "Is PR1 open today?"))
+        b = bodies()
+        check(b[0] == "<NOTICE>" and b[-1].startswith("ANSWER to:"), f"test number: normal conversation {b}")
+        check(recorded == [], f"test number: nothing in analytics {recorded}")
+        check(store.get_user(u)["consent"] == "yes", "test number: working store used during the session")
+        app.process(msg(u, "reset"))
+        check(bodies() == [app.TEST_RESET_DONE] and store.get_user(u) is None and store.history(u) == [],
+              "reset: erased at once, told so")
+        app.process(msg(u, "Hello!"))
+        store._db.execute("UPDATE last_inbound SET at = at - 7200 WHERE user = ?", (u,))
+        store.set_user(u, consent="yes", base="Funchal")
+        store._db.commit()
+        app.process(msg(u, "Hello!"))
+        check(store.get_user(u)["consent"] is None and store.get_user(u)["base"] is None,
+              "after an hour of silence: starts as a new visitor")
+        check(recorded == [], "still nothing in analytics")
+        app.process(msg("447000000098", "Hello!"))  # not a test number: recorded as before
+        check(recorded != [], "other numbers still recorded")
+    finally:
+        app.TEST_NUMBERS.discard(u)
+        model["up"] = False
 
 if __name__ == "__main__":
     for name, fn in list(globals().items()):

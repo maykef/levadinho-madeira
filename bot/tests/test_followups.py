@@ -140,8 +140,8 @@ def test_chat_model_down():
     store.reset(chat.USER)
     model["up"] = False
     out = chat.send("Ist der PR1 heute offen?")
-    check(len(out) == 1 and "[model down" in out[0]["body"] and brain.WAKING["de"] in out[0]["body"],
-          "chat: question with the model down → dry waking-up message (de), no crash")
+    check(len(out) == 1 and out[0]["type"] == "buttons" and store.get_user(chat.USER)["lang"] == "de",
+          "chat: question with the model down → notice in German, no model needed, no crash")
     check(not store.pending_all() or all(r["user"] != chat.USER for r in store.pending_all()),
           "chat: nothing queued")
     store.reset(chat.USER)

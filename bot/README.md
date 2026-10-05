@@ -116,11 +116,23 @@ The webhook runs all the time; the ~85 GB model runs only while it's needed (`ll
 | `LLM_GPU_FREE_GB` | `88` | Free GPU memory (GiB) needed to start the model |
 | `LLM_RETRY_S` | `300` | Minimum wait before another start attempt after one that didn't come up |
 
-**Website links** pre-fill `Olá Levadinho! 👋 #web-<page>` (e.g. `#web-pr1`, `#web-fees`). A
-`web-` tag is recorded as the campaign (`qr_scanned` with `source: "web"`, and `campaign_id` on the
-turns and events) but is not a guide route: the visitor gets the normal picker → notice → intro.
-Only `[a-z0-9-]`, at most 44 characters after `#`. Campaign QRs (`#areeiro`, `#ely`) still open their
-route's guide.
+**Website links** pre-fill a greeting in the page's language plus the page tag: `Hello Levadinho! 👋 #web-pr1`
+(EN), `Olá …` (PT), `Bonjour … !` (FR), `Hallo …` (DE), `Cześć …` (PL); see `WA_PREFIX` in `scripts/gen_cta.py`.
+The bot takes the language from that greeting, so website visitors go straight to the privacy notice (no
+language menu). The tag is kept as the visitor's source (`source` in the store, `campaign_id` in analytics)
+and its guide or trail is used when a question names none. Campaign QRs (`#areeiro`, `#ely`) still get the
+menu and then open their route's guide.
+
+**Test phones (owner, 2026-10-05):** `TEST_NUMBERS` in `.env` (digits, comma-separated). Those numbers are
+never recorded in the analytics database or guide logs; the working store is wiped when they write after an
+hour of silence, and at once when they send `reset`. Test: `test_owner_test_number_leaves_nothing`.
+
+**First contact (owner, 2026-10-05):** greetings need no model; anything that isn't a greeting waits for
+Accept and is answered right after it (a waiting message starts loading the model); with nothing waiting,
+Accept gets one short line. The language menu goes out only when the language can't be told, and only once.
+A getting-from-A-to-B request first asks where the visitor is staying (the town is kept as `base`); the
+answer uses `transport_facts.md` (official taxi numbers from IFCN's panels, Visit Madeira's contacts) and
+never names a business that isn't in the facts. Tests: `tests/test_first_contact.py`.
 
 ## Logs and watchdog (since 2026-09-30)
 
