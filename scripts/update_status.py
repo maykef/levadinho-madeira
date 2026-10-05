@@ -662,14 +662,6 @@ def bump_sitemap(today, changed):
 NO_IFCN_FEE = {"PR3", "PR3.1", "PR4", "PR23"}
 
 
-# Status pages whose meta descriptions carry IFCN's "updated" date (refresh_description_dates).
-# "dateModified" is no longer tied to this list: bump_date_modified() sets it on every page whose
-# content changed in the run. Missing files are skipped.
-DATE_MODIFIED_PAGES = ["index.html", "pt/index.html", "fr/index.html", "de/index.html", "pl/index.html",
-                       "pr1/index.html", "pt/pr1/index.html", "fr/pr1/index.html", "de/pr1/index.html",
-                       "pl/pr1/index.html"]
-
-
 def bump_date_modified(when, changed):
     """Set "dateModified" to this run's time on every page whose content changed in this run
     (2026-10-03; it was a fixed list of 10 pages bumped daily). Degrades gracefully (warns)."""
@@ -683,26 +675,6 @@ def bump_date_modified(when, changed):
         if n != 1:
             continue
         open(name, "w", encoding="utf-8").write(new)
-
-
-def refresh_description_dates(updated):
-    """Write IFCN's own "updated" date (dd/mm/yyyy) into the meta/og descriptions of the status
-    pages (DATE_MODIFIED_PAGES), e.g. "(updated 14/09/2026)" / "(Stand 14.09.2026)": a crawlable
-    freshness signal that stays honest because it is IFCN's date, not ours. Only a dd/mm/yyyy or
-    dd.mm.yyyy date inside those content="" attributes is touched. Degrades gracefully."""
-    if not re.fullmatch(r"\d{2}/\d{2}/\d{4}", updated or ""):
-        print(f"IFCN date {updated!r} not dd/mm/yyyy — descriptions left as they are", file=sys.stderr)
-        return
-    for name in DATE_MODIFIED_PAGES:
-        try:
-            s = open(name, encoding="utf-8").read()
-        except FileNotFoundError:
-            continue
-        date = updated.replace("/", ".") if name.startswith(("de/", "pl/")) else updated
-        new = re.sub(r'(<meta (?:name="description"|property="og:description"|name="twitter:description") content="[^"]*?)'
-                     r'\d{2}[./]\d{2}[./]\d{4}', lambda m: m.group(1) + date, s)
-        if new != s:
-            open(name, "w", encoding="utf-8").write(new)
 
 
 # --- Static (crawlable) status lines ------------------------------------------------
@@ -749,8 +721,10 @@ STATIC_BOARD_LISTS = {
     "pl": ("Zamknięte: {}.", "Częściowo otwarte: {}."),
 }
 # Trail pages' meta description starts with the live IFCN status (2026-10-03), e.g.
-# "IFCN 14/09/2026: OPEN. Is the Levada do Rei open today? ..." — the prefix is replaced on every run.
-DESC_STATUS_RE = re.compile(r'(<meta name="description" content=")(?:IFCN \d{2}[./]\d{2}[./]\d{4}: [^."]+\. )?')
+# "IFCN: OPEN. Is the Levada do Rei open today? ..." — the prefix is replaced on every run.
+# No date in any description (owner, 2026-10-05): IFCN's "updated" date can be weeks old and made the
+# snippets look stale in search results. The dated (pre-2026-10-05) prefix is still matched so it gets replaced.
+DESC_STATUS_RE = re.compile(r'(<meta name="description" content=")(?:IFCN(?: \d{2}[./]\d{2}[./]\d{4})?: [^."]+\. )?')
 TRAIL_CARD_RE = re.compile(r'id="statusCard"[^>]*data-trail="([^"]+)"')
 STATIC_NOTE_MAX = 220
 STATIC_TRAIL_RE = re.compile(r"(<!--\s*STATIC-STATUS:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-STATUS:\2:END\s*-->)", re.S)
@@ -861,8 +835,7 @@ def write_static_status(data):
         if card and card.group(1) in by_code and IFCN_UPDATED and "STATIC-WEATHER" in new:  # trail pages only
             t = by_code[card.group(1)]
             assert_not_contradictory(t["status"], t.get("note") or {}, what=f"description {t['code']}")
-            d = IFCN_UPDATED.replace("/", ".") if lang in ("de", "pl") else IFCN_UPDATED
-            prefix = f"IFCN {d}: {L['st'][t['status']]}. "
+            prefix = f"IFCN: {L['st'][t['status']]}. "
             new = DESC_STATUS_RE.sub(lambda mm: mm.group(1) + prefix, new, count=1)
         if new != s:
             with open(path, "w", encoding="utf-8") as f:
@@ -938,7 +911,6 @@ def main():
         f.write("\n")
 
     before = snapshot()
-    refresh_description_dates(IFCN_UPDATED)
     write_static_status(data)
     changed = changed_pages(before)
     bump_date_modified(now.isoformat(timespec="minutes"), changed)
