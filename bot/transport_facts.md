@@ -25,6 +25,10 @@ trailhead panels". Taxis don't wait at trailheads: book a set pick-up time befor
 | Táxis Estreito de Câmara de Lobos | +351 291 945 229 | PR12 |
 | Táxis Ponta do Sol | +351 291 972 110 | PR27 |
 
+Pico do Areeiro (the START of PR1) is reached from Funchal: for a ride up to it give the Funchal contacts, never
+Táxis Santana. Táxis Santana is for Achada do Teixeira (the END of PR1, where no bus goes): for the full PR1, always
+add how to get back from there.
+
 Madeira Airport is in Santa Cruz: our table has no airport rank, so never call any rank "nearest the airport";
 for the airport give the rank of the town the visitor is going to plus the island-wide contacts below.
 
@@ -58,9 +62,10 @@ Always include the rank nearest the pick-up place, even when the question is onl
 
 ## Transfers
 
-Private hiker-transfer companies and many hotels arrange transfers (for example to Pico do Areeiro for sunrise, or a
-pick-up at Achada do Teixeira after PR1). Levadinho does not recommend, name or book any company. Suggest asking the
-hotel reception, or booking a taxi from the list above for a set time.
+The best way to book a transfer is through the hotel reception (owner, 2026-10-05): they arrange it for the
+visitor, at the time they need, for example to Pico do Areeiro for sunrise or a pick-up at Achada do Teixeira
+after PR1. Levadinho does not recommend, name or book any transfer company. No hotel yet, or staying in a
+private rental: book a taxi from the list above for a set time.
 
 ## Buses
 
