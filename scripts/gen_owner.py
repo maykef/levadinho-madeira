@@ -4,7 +4,7 @@
 Writes, between marker comments (idempotent, re-run any time):
   * OWNER-LINE  -- a last line inside every page's <footer>, in the page's language:
                    "This is a personal project of Mayke De Freitas Santos, 2026. All Rights Reserved.
-                   Enquiries: info at levadinho-madeira dot com" (address spelled out on purpose).
+                   Enquiries: hello at levadinho-madeira dot com" (address spelled out on purpose).
   * OWNER-SIG   -- the owner's name under "Why I built this" on the five homepages.
   * OWNER-SCHEMA -- a WebSite + Person JSON-LD block in the head of the five homepages.
 
@@ -23,11 +23,11 @@ NAME = "Mayke De Freitas Santos"
 SKIP = ("bot", "seo_research", "reports", "google_search_console", "trails", ".git", ".claude")
 
 LINE = {
-    "en": f"This is a personal project of {NAME}, 2026. All Rights Reserved. Enquiries: info at levadinho-madeira dot com",
-    "pt": f"Este é um projeto pessoal de {NAME}, 2026. Todos os direitos reservados. Contactos: info arroba levadinho-madeira ponto com",
-    "fr": f"Ceci est un projet personnel de {NAME}, 2026. Tous droits réservés. Contact : info arobase levadinho-madeira point com",
-    "de": f"Dies ist ein privates Projekt von {NAME}, 2026. Alle Rechte vorbehalten. Anfragen: info at levadinho-madeira Punkt com",
-    "pl": f"To prywatny projekt {NAME}, 2026. Wszelkie prawa zastrzeżone. Kontakt: info małpa levadinho-madeira kropka com",
+    "en": f"This is a personal project of {NAME}, 2026. All Rights Reserved. Enquiries: hello at levadinho-madeira dot com",
+    "pt": f"Este é um projeto pessoal de {NAME}, 2026. Todos os direitos reservados. Contactos: hello arroba levadinho-madeira ponto com",
+    "fr": f"Ceci est un projet personnel de {NAME}, 2026. Tous droits réservés. Contact : hello arobase levadinho-madeira point com",
+    "de": f"Dies ist ein privates Projekt von {NAME}, 2026. Alle Rechte vorbehalten. Anfragen: hello at levadinho-madeira Punkt com",
+    "pl": f"To prywatny projekt {NAME}, 2026. Wszelkie prawa zastrzeżone. Kontakt: hello małpa levadinho-madeira kropka com",
 }
 HOMES = {"index.html": "en", "pt/index.html": "pt", "fr/index.html": "fr", "de/index.html": "de", "pl/index.html": "pl"}
 HOME_URL = {"en": "/", "pt": "/pt/", "fr": "/fr/", "de": "/de/", "pl": "/pl/"}
