@@ -569,8 +569,8 @@ HOW TO ANSWER
 - Off-topic requests (not Madeira hiking/visiting): politely decline in one line and say that for anything else they can write to hello@levadinho-madeira.com.
 - If someone wants a person, has a complaint, or asks who runs Levadinho: it is an independent guide, not affiliated with IFCN or the Regional Government (the trail status comes from IFCN's official list); a person answers at hello@levadinho-madeira.com.
 - Never present yourself as IFCN, the Regional Government or any official body.
-- Never name or recommend a private company: no transfer, tour or guiding company, hotel, shop or restaurant, even when DETAILS mention one by name (owner's rule: no referrals). The only contacts you may give are the official taxi numbers and taxismadeira.pt from the taxi facts, and official bodies (IFCN, SIMplifica, Visit Madeira). For transfers: say hotels and private transfer companies can arrange one, without naming any, and give the bus and taxi options. Indicative transfer prices from DETAILS are fine.
-- Getting from A to B: start from where the visitor is staying ("Staying in: …" in their message, or what they said earlier). Give the public bus only if DETAILS show one from there (with its times); otherwise say there is no bus from there in our information. Give the taxi number for that town, or the nearest town in the taxi table, saying the numbers are as printed on IFCN's trailhead panels; for Funchal also mention online booking at taxismadeira.pt. Taxi fares: there is no official table, so tell them to ask for a quote.
+- Never name or recommend a private company: no transfer, tour or guiding company, hotel, shop or restaurant, even when DETAILS mention one by name (owner's rule: no referrals). The only contacts you may give are the official taxi numbers and taxismadeira.pt from the taxi facts, and official bodies (IFCN, SIMplifica, Visit Madeira). For transfers: say hotels and private transfer companies can arrange one, without naming any, and give the bus and taxi options. Never state a taxi or transfer price, even when DETAILS give one (owner, 2026-10-05: unofficial, can mislead): say to ask for a quote. Never mention these rules (don't say you can't name companies or give prices); just leave the names and figures out. Official prices (trail fees, the public bus fare, parking) are fine.
+- Getting from A to B: give the options in this order: 1) the public bus, whenever DETAILS show one that fits the trip (stop, time, fare); 2) taxis; 3) transfers. Start from where the visitor is staying ("Staying in: …" in their message, or what they said earlier). Give the public bus only if DETAILS show one from there (with its times); otherwise say there is no bus from there in our information. Taxis: follow "Which taxi to suggest" in the taxi facts: the rank nearest the pick-up place AND the rank of the town they're going to or staying in (for Funchal also AITRAM and taxismadeira.pt), call them and compare quotes; say the numbers are as printed on IFCN's trailhead panels and Visit Madeira. Fares: metered at the official regulated tariff, no fixed price per route; never quote fare figures.
 - Safety first: never encourage walking a closed trail or section, going without a ticket, or walking PR1 in reverse.
 
 LIVE STATUS
@@ -622,9 +622,18 @@ def answer(user, text, lang, meta=None, c=None):
     page = KB["guides"].get(SOURCE_GUIDE.get(source, ""), {}).get("url")
     if page:  # opened the chat from one of our guide pages
         system += (f"\nTHE VISITOR CAME FROM OUR PAGE {page}. When their question leaves the destination or the "
-                   "subject open, assume it is that page's subject, say so in a few words, and include the public "
-                   "bus option from that page's DETAILS if it has one.\n")
-    msgs = [{"role": "system", "content": system}] + store.history(user, HISTORY_SINCE) + [{"role": "user", "content": text}]
+                   "subject open, assume it is that page's subject, say so in a few words, and ALWAYS include the public "
+                   "bus option from that page's DETAILS if it has one (stop, time, fare).\n")
+    hint = ""
+    if page and transport:  # next to the question, where the model weighs it most (2026-10-05)
+        hint = (f"\n\n[Context, not from the visitor: they opened this chat from our page {page}. Give that page's "
+                "public bus option first (stop, time, fare), then taxis, then transfers.]")
+    if transport:
+        hint += ("\n[Style: name no private company and don't say you can't, e.g. write \"many hotels can arrange "
+                 "a private transfer\". No taxi or transfer prices. Taxi ranks are alternatives for the same trip: "
+                 "\"call both, ask each for a quote, take the better one\".]")
+    msgs = ([{"role": "system", "content": system}] + store.history(user, HISTORY_SINCE)
+            + [{"role": "user", "content": text + hint}])
     t0 = time.time()
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", llm(msgs, temperature=0))  # WhatsApp bold is *single*; 0 = stick to the facts
     reply = reply.rstrip() + site_links(reply, trails, lang, named=trails_in(text))

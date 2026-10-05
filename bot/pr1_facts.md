@@ -76,8 +76,8 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
   - A pre-booked hiker transfer: drop-off at Areeiro, pick-up at Achada do Teixeira. Best for most people.
   - A guided tour with transport from an IFCN protocol operator.
   - A taxi, arranged in advance (taxis don't wait at the car park). **Táxis Santana: +351 291 572 540**
-    (the number on IFCN's trailhead panels). Reported prices, not official: about €70–90 Achada do
-    Teixeira → Funchal; say "ask for a quote".
+    (the number on IFCN's trailhead panels); going back to Funchal, also the Funchal taxi contacts (see the
+    taxi facts) and compare quotes. Fares are metered at the official tariff; say "ask for a quote".
   - Two cars, one left at each end. Only sensible for groups.
 - Emergency: 112.
 
@@ -145,8 +145,8 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
 - In autumn and winter the 07:00 slot puts you on the ridge in the dark, so bring a headlamp.
 - Parking is the bottleneck. Arrive at least an hour before sunrise. The lots fill, and
   police sometimes close the access road. Roadside parking on the ER103 is prohibited.
-- Sunrise hiker transfers pick up in Funchal/Caniço around 05:00–06:30. Shared transfers cost
-  about €40–49 per person (Sept 2026, sellers' prices); the trail ticket is usually extra.
+- Sunrise hiker transfers pick up in Funchal/Caniço around 05:00–06:30. Prices vary by seller: never
+  quote one, say to ask for a quote; the trail ticket is usually extra.
 - About 35–50 min drive from Funchal.
 - The Areeiro café opens 09:00, so it is closed at sunrise.
 
@@ -174,7 +174,7 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
 - Parking at Pico do Areeiro: about €4/hour at the upper car park (first 15 min free) is
   reported by two sources; €2/hour at the lower car park is only an announcement. Say "about
   €4/hour at the top car park, check on arrival". Any daily cap is unverified.
-- Taxi prices: only reports, no official table. Always "ask for a quote".
+- Taxi fares: metered at the official regulated tariff (IMT-RAM convention, in force from 1 Jan 2026); no fixed price per route, and the exact 2026 figures are not confirmed, so never quote them. Always "ask for a quote" and a receipt.
 - Whether the Santana taxi line is staffed at any given time.
 - Exact number of tunnels and the daily capacity.
 - The Pico Ruivo shelter and Achada do Teixeira café opening hours (a single, undated report:
