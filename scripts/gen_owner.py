@@ -3,8 +3,8 @@
 
 Writes, between marker comments (idempotent, re-run any time):
   * OWNER-LINE  -- a last line inside every page's <footer>, in the page's language:
-                   "This is a personal project of Mayke De Freitas Santos, 2026. All Rights Reserved.
-                   Enquiries: hello at levadinho-madeira dot com" (address spelled out on purpose).
+                   "This is a personal project of © Mayke De Freitas Santos 2026. All Rights Reserved.
+                   Enquiries: hello@levadinho-madeira.com" (a mailto link).
   * OWNER-SIG   -- the owner's name under "Why I built this" on the five homepages.
   * OWNER-SCHEMA -- a WebSite + Person JSON-LD block in the head of the five homepages.
 
@@ -22,12 +22,13 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 NAME = "Mayke De Freitas Santos"
 SKIP = ("bot", "seo_research", "reports", "google_search_console", "trails", ".git", ".claude")
 
+MAIL = '<a href="mailto:hello@levadinho-madeira.com" style="color:inherit">hello@levadinho-madeira.com</a>'
 LINE = {
-    "en": f"This is a personal project of {NAME}, 2026. All Rights Reserved. Enquiries: hello at levadinho-madeira dot com",
-    "pt": f"Este é um projeto pessoal de {NAME}, 2026. Todos os direitos reservados. Contactos: hello arroba levadinho-madeira ponto com",
-    "fr": f"Ceci est un projet personnel de {NAME}, 2026. Tous droits réservés. Contact : hello arobase levadinho-madeira point com",
-    "de": f"Dies ist ein privates Projekt von {NAME}, 2026. Alle Rechte vorbehalten. Anfragen: hello at levadinho-madeira Punkt com",
-    "pl": f"To prywatny projekt {NAME}, 2026. Wszelkie prawa zastrzeżone. Kontakt: hello małpa levadinho-madeira kropka com",
+    "en": f"This is a personal project of © {NAME} 2026. All Rights Reserved. Enquiries: {MAIL}",
+    "pt": f"Este é um projeto pessoal de © {NAME} 2026. Todos os direitos reservados. Contactos: {MAIL}",
+    "fr": f"Ceci est un projet personnel de © {NAME} 2026. Tous droits réservés. Contact : {MAIL}",
+    "de": f"Dies ist ein privates Projekt von © {NAME} 2026. Alle Rechte vorbehalten. Anfragen: {MAIL}",
+    "pl": f"To prywatny projekt © {NAME} 2026. Wszelkie prawa zastrzeżone. Kontakt: {MAIL}",
 }
 HOMES = {"index.html": "en", "pt/index.html": "pt", "fr/index.html": "fr", "de/index.html": "de", "pl/index.html": "pl"}
 HOME_URL = {"en": "/", "pt": "/pt/", "fr": "/fr/", "de": "/de/", "pl": "/pl/"}
