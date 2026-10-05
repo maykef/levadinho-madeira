@@ -682,25 +682,27 @@ def bump_date_modified(when, changed):
 # (one trail) or  <!-- STATIC-STATUS-BOARD:START -->...<!-- STATIC-STATUS-BOARD:END -->
 # (all-trail counts, used on the homepages). The inner text is replaced by a short
 # plain line in the page's <html lang>. No markers anywhere = no-op.
+# No dates on the site (owner, 2026-10-05): IFCN's "updated" date was weeks old and Google printed it in front of
+# the snippets. status.json keeps it as data (source.updated); the pages never show it.
 STATIC_I18N = {
-    "en": {"on": "Official IFCN list (updated {d}):", "st": {"OPEN": "OPEN", "PARTIAL": "PARTLY OPEN", "CLOSED": "CLOSED"},
-           "board": "Official IFCN list (updated {d}): {o} trails open, {p} partly open, {c} closed.",
+    "en": {"on": "Official IFCN list:", "st": {"OPEN": "OPEN", "PARTIAL": "PARTLY OPEN", "CLOSED": "CLOSED"},
+           "board": "Official IFCN list: {o} trails open, {p} partly open, {c} closed.",
            "months": ["January", "February", "March", "April", "May", "June", "July", "August",
                       "September", "October", "November", "December"], "date": "{day} {month} {year}"},
-    "pt": {"on": "Lista oficial do IFCN (atualizado: {d}):", "st": {"OPEN": "ABERTO", "PARTIAL": "PARCIALMENTE ABERTO", "CLOSED": "ENCERRADO"},
-           "board": "Lista oficial do IFCN (atualizado: {d}): {o} percursos abertos, {p} parcialmente abertos, {c} encerrados.",
+    "pt": {"on": "Lista oficial do IFCN:", "st": {"OPEN": "ABERTO", "PARTIAL": "PARCIALMENTE ABERTO", "CLOSED": "ENCERRADO"},
+           "board": "Lista oficial do IFCN: {o} percursos abertos, {p} parcialmente abertos, {c} encerrados.",
            "months": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
                       "setembro", "outubro", "novembro", "dezembro"], "date": "{day} de {month} de {year}"},
-    "fr": {"on": "Liste officielle de l'IFCN (mise à jour : {d}) :", "st": {"OPEN": "OUVERT", "PARTIAL": "PARTIELLEMENT OUVERT", "CLOSED": "FERMÉ"},
-           "board": "Liste officielle de l'IFCN (mise à jour : {d}) : {o} sentiers ouverts, {p} partiellement ouverts, {c} fermés.",
+    "fr": {"on": "Liste officielle de l'IFCN :", "st": {"OPEN": "OUVERT", "PARTIAL": "PARTIELLEMENT OUVERT", "CLOSED": "FERMÉ"},
+           "board": "Liste officielle de l'IFCN : {o} sentiers ouverts, {p} partiellement ouverts, {c} fermés.",
            "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
                       "septembre", "octobre", "novembre", "décembre"], "date": "{day} {month} {year}"},
-    "de": {"on": "Offizielle IFCN-Liste (aktualisiert: {d}):", "st": {"OPEN": "GEÖFFNET", "PARTIAL": "TEILWEISE GEÖFFNET", "CLOSED": "GESCHLOSSEN"},
-           "board": "Offizielle IFCN-Liste (aktualisiert: {d}): {o} Wege geöffnet, {p} teilweise geöffnet, {c} geschlossen.",
+    "de": {"on": "Offizielle IFCN-Liste:", "st": {"OPEN": "GEÖFFNET", "PARTIAL": "TEILWEISE GEÖFFNET", "CLOSED": "GESCHLOSSEN"},
+           "board": "Offizielle IFCN-Liste: {o} Wege geöffnet, {p} teilweise geöffnet, {c} geschlossen.",
            "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August",
                       "September", "Oktober", "November", "Dezember"], "date": "{day}. {month} {year}"},
-    "pl": {"on": "Oficjalna lista IFCN (aktualizacja: {d}):", "st": {"OPEN": "OTWARTY", "PARTIAL": "CZĘŚCIOWO OTWARTY", "CLOSED": "ZAMKNIĘTY"},
-           "board": "Oficjalna lista IFCN (aktualizacja: {d}): otwarte {o}, częściowo otwarte {p}, zamknięte {c}.",
+    "pl": {"on": "Oficjalna lista IFCN:", "st": {"OPEN": "OTWARTY", "PARTIAL": "CZĘŚCIOWO OTWARTY", "CLOSED": "ZAMKNIĘTY"},
+           "board": "Oficjalna lista IFCN: otwarte {o}, częściowo otwarte {p}, zamknięte {c}.",
            "months": ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia",
                       "września", "października", "listopada", "grudnia"], "date": "{day} {month} {year}"},
 }
@@ -770,8 +772,7 @@ def static_weather_line(region, lang, date, hhmm):
     if not region or region.get("temp") is None:
         return ""
     head, wind, cloud, rain = STATIC_WX_I18N.get(lang, STATIC_WX_I18N["en"])
-    L = STATIC_I18N.get(lang, STATIC_I18N["en"])
-    when = L["date"].format(day=date.day, month=L["months"][date.month - 1], year=date.year) + " " + hhmm
+    when = hhmm  # the reading's time only: no dates on the site (owner, 2026-10-05)
     line = head.format(place=region["place"], when=when, t=region["temp"])
     if region.get("wind") is not None:
         line += wind.format(w=region["wind"])

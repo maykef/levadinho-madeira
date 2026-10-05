@@ -2,12 +2,12 @@
 
 > Live status of Madeira's official PR walking trails (open, partly open or closed), with the 2026 fees, SIMplifica booking, buses and how to get back, in English, Portuguese, French, German and Polish. An independent personal project of Mayke De Freitas Santos; not affiliated with IFCN or the Regional Government of Madeira.
 
-Trail status comes from IFCN's official trail-warnings list. Our job checks it every day, but IFCN itself updates the list irregularly, so always quote IFCN's own "updated" date (`source.updated` in status.json), not our check time. Summit and regional weather are measured readings from IPMA stations. Booking is online only, on SIMplifica.
+Trail status comes from IFCN's official trail-warnings list, which our job checks every day; IFCN updates the list when conditions change. Summit and regional weather are measured readings from IPMA stations. Booking is online only, on SIMplifica.
 
 ## Machine-readable data
 
 - [status.json](https://levadinho-madeira.com/status.json): the live board, rewritten daily. Prefer it over parsing the HTML.
-  - `source`: `name` ("IFCN"), `url` (the official warnings list), `updated` (IFCN's own "updated" date, dd/mm/yyyy).
+  - `source`: `name` ("IFCN"), `url` (the official warnings list), `updated` (IFCN's own "updated" date, dd/mm/yyyy; kept as data, not shown on the pages).
   - `date`, `stamp`: when our job last checked (Madeira time, Atlantic/Madeira).
   - `counts`: number of trails per status (`OPEN`, `PARTIAL`, `CLOSED`).
   - `trails[]`: one object per trail. `code` (e.g. "PR6"), `name`, `status` (`OPEN` | `PARTIAL` | `CLOSED`; a trail with a restricted section is `PARTIAL`, never `OPEN`), `note` (IFCN's note: `pt` is the original, `en`/`fr`/`de`/`pl` are machine translations), `fee` (euros as a string, e.g. "4.50"; `null` = no IFCN fee), `page` (path of the trail's page on this site, English; prefix `/pt`, `/fr`, `/de` or `/pl` for the other languages), `region` (key into `regions`), `temp` (°C at that region's station), `popular` (shown first on the board).

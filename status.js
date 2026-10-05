@@ -139,11 +139,10 @@
     return fallback;
   }
   function stamp(d) {
-    // IFCN is the authority and updates its list when it chooses: show its own date first,
-    // in its own dd/mm/yyyy form, then when we last checked it.
-    var src = d.source || {}, upd = src.updated ? L.ifcnUpdated + " <b>" + esc(src.updated) + "</b> · " : "";
-    return '<div class="stamp"><span>' + upd + L.lastChecked + " " + esc(d.stamp) + " " + L.madeiraTime +
-      "</span><span>" + L.source + ' <a href="' + esc(src.url || "https://ifcn.madeira.gov.pt/") + '" rel="noopener">IFCN</a> · IPMA</span></div>';
+    // No dates (owner, 2026-10-05): IFCN's "updated" date is often weeks old and made the site look stale.
+    var src = d.source || {};
+    return '<div class="stamp"><span>' + L.source + ' <a href="' + esc(src.url || "https://ifcn.madeira.gov.pt/") +
+      '" rel="noopener">IFCN</a> · IPMA</span></div>';
   }
 
   function render(d, L) {

@@ -373,7 +373,7 @@ def no_fee_texts(lang, code, name, full, body):
     board = f'<a class="plain" href="{PREFIX[lang]}/">'
     if lang == "en":
         return dict(
-            sub=f"Today's status is shown live below, taken from the official IFCN warnings list, which carries IFCN's own “updated” date. {full} ({code}) is a classified PR trail managed by the {body}, not by IFCN: it is not on SIMplifica and carries no IFCN fee.",
+            sub=f"Today's status is shown live below, taken from the official IFCN warnings list. {full} ({code}) is a classified PR trail managed by the {body}, not by IFCN: it is not on SIMplifica and carries no IFCN fee.",
             book_h=f"Do you need to book the {name}?",
             book=f"No. {code} is managed by the {body}, so it is not on the SIMplifica booking portal and there is no IFCN fee ({faq}). We found no charge of its own. If your walk joins an IFCN-managed PR trail, that stretch needs a SIMplifica ticket. More in {free}free walks in Madeira</a>.",
             cl_h=f"What if {code} is closed?",
@@ -383,7 +383,7 @@ def no_fee_texts(lang, code, name, full, body):
                   f"Is the {name} ({code}) open today? Live IFCN status. Run by Funchal council: no SIMplifica ticket and no IFCN fee."])
     if lang == "pt":
         return dict(
-            sub=f"O estado de hoje aparece em direto abaixo, com base na lista oficial de avisos do IFCN, com a data de «atualizado» do próprio IFCN. O percurso {full} ({code}) é um PR classificado gerido pela {body}, não pelo IFCN: não está no SIMplifica e não tem taxa do IFCN.",
+            sub=f"O estado de hoje aparece em direto abaixo, com base na lista oficial de avisos do IFCN. O percurso {full} ({code}) é um PR classificado gerido pela {body}, não pelo IFCN: não está no SIMplifica e não tem taxa do IFCN.",
             book_h=f"É preciso reservar o percurso {name}?",
             book=f"Não. O {code} é gerido pela {body}, por isso não está no portal de reservas SIMplifica e não tem taxa do IFCN ({faq}). Não encontrámos nenhuma cobrança própria. Se o seu percurso entrar num PR gerido pelo IFCN, esse troço precisa de bilhete SIMplifica. Mais em {free}trilhos gratuitos na Madeira</a>.",
             cl_h=f"E se o {code} estiver encerrado?",
@@ -393,7 +393,7 @@ def no_fee_texts(lang, code, name, full, body):
                   f"O {name} ({code}) está aberto hoje? Estado em direto do IFCN. Gerido pela Câmara do Funchal: sem bilhete SIMplifica nem taxa IFCN."])
     if lang == "fr":
         return dict(
-            sub=f"Le statut du jour est affiché en direct ci-dessous, issu de la liste officielle des avis de l'IFCN, avec sa propre date de « mise à jour ». Le sentier {full} ({code}) est un PR classé géré par la {body}, pas par l'IFCN : il n'est pas sur SIMplifica et n'a pas de taxe IFCN.",
+            sub=f"Le statut du jour est affiché en direct ci-dessous, issu de la liste officielle des avis de l'IFCN. Le sentier {full} ({code}) est un PR classé géré par la {body}, pas par l'IFCN : il n'est pas sur SIMplifica et n'a pas de taxe IFCN.",
             book_h=f"Faut-il réserver le sentier {name} ?",
             book=f"Non. Le {code} est géré par la {body} : il n'est pas sur le portail de réservation SIMplifica et n'a pas de taxe IFCN ({faq}). Nous n'avons trouvé aucun tarif propre. Si votre itinéraire rejoint un PR géré par l'IFCN, ce tronçon demande un billet SIMplifica. Plus d'infos : {free}randonnées gratuites à Madère</a>.",
             cl_h=f"Et si le {code} est fermé ?",
@@ -403,7 +403,7 @@ def no_fee_texts(lang, code, name, full, body):
                   f"{name} ({code}) ouvert aujourd'hui ? Statut en direct selon l'IFCN. Géré par la mairie de Funchal : pas de billet SIMplifica ni de taxe IFCN."])
     if lang == "de":
         return dict(
-            sub=f"Der heutige Status wird unten live angezeigt und stammt aus der offiziellen Hinweisliste des IFCN, mit dessen eigenem „aktualisiert“-Datum. Der Weg {full} ({code}) ist ein klassifizierter PR-Weg der {body}, nicht des IFCN: Er steht nicht auf SIMplifica und kostet keine IFCN-Gebühr.",
+            sub=f"Der heutige Status wird unten live angezeigt und stammt aus der offiziellen Hinweisliste des IFCN. Der Weg {full} ({code}) ist ein klassifizierter PR-Weg der {body}, nicht des IFCN: Er steht nicht auf SIMplifica und kostet keine IFCN-Gebühr.",
             book_h=f"Muss man den {name} buchen?",
             book=f"Nein. Der {code} wird von der {body} verwaltet, steht daher nicht im Buchungsportal SIMplifica und kostet keine IFCN-Gebühr ({faq}). Eine eigene Gebühr haben wir nicht gefunden. Führt Ihre Route auf einen vom IFCN verwalteten PR-Weg, braucht dieser Abschnitt ein SIMplifica-Ticket. Mehr unter {free}Wandern auf Madeira ohne Gebühr</a>.",
             cl_h=f"Was, wenn der {code} gesperrt ist?",
@@ -412,7 +412,7 @@ def no_fee_texts(lang, code, name, full, body):
             desc=[f"Ist der {name} ({code}) heute geöffnet? Live-Status laut offizieller IFCN-Liste. Von der Stadt Funchal verwaltet: ohne Ticket und ohne IFCN-Gebühr.",
                   f"{name} ({code}) heute geöffnet? Live-Status laut IFCN. Von der Stadt Funchal verwaltet: kein SIMplifica-Ticket, keine IFCN-Gebühr."])
     return dict(
-        sub=f"Dzisiejszy status jest pokazywany na żywo poniżej, pochodzi z oficjalnej listy komunikatów IFCN i ma datę „aktualizacji” podaną przez IFCN. {full} ({code}) to sklasyfikowany szlak PR zarządzany przez {body}, a nie przez IFCN: nie ma go w SIMplifica i nie ma opłaty IFCN.",
+        sub=f"Dzisiejszy status jest pokazywany na żywo poniżej, pochodzi z oficjalnej listy komunikatów IFCN. {full} ({code}) to sklasyfikowany szlak PR zarządzany przez {body}, a nie przez IFCN: nie ma go w SIMplifica i nie ma opłaty IFCN.",
         book_h=f"Czy {name} trzeba rezerwować?",
         book=f"Nie. {code} zarządza {body}, więc szlaku nie ma w portalu rezerwacji SIMplifica i nie ma opłaty IFCN ({faq}). Nie znaleźliśmy też własnej opłaty. Jeśli trasa wchodzi na szlak PR zarządzany przez IFCN, ten odcinek wymaga biletu SIMplifica. Więcej: {free}darmowe szlaki na Maderze</a>.",
         cl_h=f"Co jeśli {code} jest zamknięty?",
@@ -432,8 +432,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
     if lang == "en":
         d.update(
             h1=f"Is the {name} open today?",
-            sub=f"Today's status is shown live below, taken from the official IFCN warnings list, which carries IFCN's own “updated” date. {full} ({code}) is a paid, booking-only PR trail; access is €4.50 through the SIMplifica portal.",
-            loading="Trail status comes from the official IFCN warnings list, which IFCN updates when conditions change and dates itself (\"updated\"). It is shown here as a live badge (it needs JavaScript). If it doesn't appear, check the official sources linked below.",
+            sub=f"Today's status is shown live below, taken from the official IFCN warnings list. {full} ({code}) is a paid, booking-only PR trail; access is €4.50 through the SIMplifica portal.",
+            loading="Trail status comes from the official IFCN warnings list, which IFCN updates when conditions change. It is shown here as a live badge (it needs JavaScript). If it doesn't appear, check the official sources linked below.",
             book_h=f"Do you need to book the {name}?",
             book=(f"Yes. {code} is booking-only: once it shows open, book your <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">€4.50 slot on SIMplifica</a> in advance. "
                   f"Under-12s and residents are free but must still be named on the booking. {code} is paid on its own separate booking and <b>not included</b> in the multi-day passes — check the live status above before you pay."),
@@ -459,8 +459,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         A, a, da, o = pt_g(name)
         d.update(
             h1=f"{A} {name} está abert{o} hoje?",
-            sub=f"O estado de hoje aparece em direto abaixo, com base na lista oficial de avisos do IFCN, com a data de «atualizado» do próprio IFCN. {pt_g(full)[0]} {full} ({code}) é um percurso PR pago e só com reserva; o acesso custa 4,50 € através do portal SIMplifica.",
-            loading="O estado do percurso vem da lista oficial de avisos do IFCN, que o IFCN atualiza quando as condições mudam e data (\"atualizado\"). É mostrado aqui em direto (requer JavaScript). Se não aparecer, consulte as fontes oficiais indicadas abaixo.",
+            sub=f"O estado de hoje aparece em direto abaixo, com base na lista oficial de avisos do IFCN. {pt_g(full)[0]} {full} ({code}) é um percurso PR pago e só com reserva; o acesso custa 4,50 € através do portal SIMplifica.",
+            loading="O estado do percurso vem da lista oficial de avisos do IFCN, que o IFCN atualiza quando as condições mudam. É mostrado aqui em direto (requer JavaScript). Se não aparecer, consulte as fontes oficiais indicadas abaixo.",
             book_h=f"É preciso reservar {a} {name}?",
             book=(f"Sim. O {code} só se faz com reserva: assim que aparecer como aberto, reserve com antecedência a sua <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">vaga de 4,50 € no SIMplifica</a>. "
                   f"Menores de 12 anos e residentes não pagam, mas têm de constar nominalmente da reserva. O {code} paga-se numa reserva própria e <b>não está incluído</b> nos passes de vários dias — confirme o estado em direto acima antes de pagar."),
@@ -486,8 +486,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         fA, fa, fpr, fe = fr_g(name)
         d.update(
             h1=f"{fA} {name} est-{fpr} ouvert{fe} aujourd'hui ?",
-            sub=f"Le statut du jour est affiché en direct ci-dessous, issu de la liste officielle des avis de l'IFCN, avec sa propre date de « mise à jour ». {fr_g(full)[0]} {full} ({code}) est un sentier PR payant, sur réservation ; l'accès coûte 4,50 € via le portail SIMplifica.",
-            loading="L'état du sentier provient de la liste officielle des avis de l'IFCN, que l'IFCN met à jour quand les conditions changent et qu'il date lui-même (« mise à jour »). Il s'affiche ici en direct (JavaScript requis). S'il n'apparaît pas, consultez les sources officielles indiquées ci-dessous.",
+            sub=f"Le statut du jour est affiché en direct ci-dessous, issu de la liste officielle des avis de l'IFCN. {fr_g(full)[0]} {full} ({code}) est un sentier PR payant, sur réservation ; l'accès coûte 4,50 € via le portail SIMplifica.",
+            loading="L'état du sentier provient de la liste officielle des avis de l'IFCN, que l'IFCN met à jour quand les conditions changent. Il s'affiche ici en direct (JavaScript requis). S'il n'apparaît pas, consultez les sources officielles indiquées ci-dessous.",
             book_h=f"Faut-il réserver {fa} {name} ?",
             book=(f"Oui. Le {code} se fait uniquement sur réservation : une fois indiqué ouvert, réservez à l'avance votre <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">créneau à 4,50 € sur SIMplifica</a>. "
                   f"Les moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation. Le {code} se paie sur sa propre réservation distincte et n'est <b>pas inclus</b> dans les forfaits de plusieurs jours — vérifiez le statut en direct ci-dessus avant de payer."),
@@ -513,8 +513,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         dA, da_, dpr, dacc = de_g(name)
         d.update(
             h1=f"Ist {da_} {name} heute geöffnet?",
-            sub=f"Der heutige Status wird unten live angezeigt und stammt aus der offiziellen Hinweisliste des IFCN, mit dessen eigenem „aktualisiert“-Datum. {de_g(full)[0]} {full} ({code}) ist ein kostenpflichtiger PR-Weg nur mit Buchung; der Zugang kostet 4,50 € über das SIMplifica-Portal.",
-            loading="Der Wegestatus stammt aus der offiziellen Hinweisliste des IFCN, die das IFCN bei Änderungen aktualisiert und selbst datiert („aktualisiert“). Er wird hier live angezeigt (dafür ist JavaScript nötig). Falls er nicht erscheint, prüfen Sie die unten verlinkten offiziellen Quellen.",
+            sub=f"Der heutige Status wird unten live angezeigt und stammt aus der offiziellen Hinweisliste des IFCN. {de_g(full)[0]} {full} ({code}) ist ein kostenpflichtiger PR-Weg nur mit Buchung; der Zugang kostet 4,50 € über das SIMplifica-Portal.",
+            loading="Der Wegestatus stammt aus der offiziellen Hinweisliste des IFCN, die das IFCN bei Änderungen aktualisiert. Er wird hier live angezeigt (dafür ist JavaScript nötig). Falls er nicht erscheint, prüfen Sie die unten verlinkten offiziellen Quellen.",
             book_h=f"Muss man {dacc} {name} buchen?",
             book=(f"Ja. Der {code} ist nur mit Buchung begehbar: Sobald er als geöffnet angezeigt wird, buchen Sie Ihren <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">4,50-€-Slot auf SIMplifica</a> im Voraus. "
                   f"Kinder unter 12 und Einwohner sind frei, müssen aber trotzdem namentlich in der Buchung stehen. Der {code} wird als eigene, gesonderte Buchung bezahlt und ist <b>nicht</b> in den Mehrtagespässen enthalten — prüfen Sie den Live-Status oben, bevor Sie bezahlen."),
@@ -539,8 +539,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
     else:  # pl
         d.update(
             h1=f"Czy {name} jest dziś otwarta?",
-            sub=f"Dzisiejszy status jest pokazywany na żywo poniżej, pochodzi z oficjalnej listy komunikatów IFCN i ma datę „aktualizacji” podaną przez IFCN. {full} ({code}) to płatny szlak PR wyłącznie na rezerwację; wstęp kosztuje 4,50 € przez portal SIMplifica.",
-            loading="Stan szlaku pochodzi z oficjalnej listy komunikatów IFCN, którą IFCN aktualizuje, gdy zmieniają się warunki, i sam datuje („aktualizacja”). Jest pokazywany tutaj na żywo (wymaga JavaScriptu). Jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.",
+            sub=f"Dzisiejszy status jest pokazywany na żywo poniżej, pochodzi z oficjalnej listy komunikatów IFCN. {full} ({code}) to płatny szlak PR wyłącznie na rezerwację; wstęp kosztuje 4,50 € przez portal SIMplifica.",
+            loading="Stan szlaku pochodzi z oficjalnej listy komunikatów IFCN, którą IFCN aktualizuje, gdy zmieniają się warunki. Jest pokazywany tutaj na żywo (wymaga JavaScriptu). Jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.",
             book_h=f"Czy trzeba rezerwować {name}?",
             book=(f"Tak. {code} jest wyłącznie na rezerwację: gdy pokaże się jako otwarty, zarezerwuj z wyprzedzeniem swój <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">slot za 4,50 € w SIMplifica</a>. "
                   f"Dzieci poniżej 12 lat i mieszkańcy są bezpłatnie, ale i tak muszą być imiennie w rezerwacji. {code} jest płatny jako osobna rezerwacja i <b>nie jest wliczony</b> w karnety wielodniowe — sprawdź status na żywo powyżej, zanim zapłacisz."),

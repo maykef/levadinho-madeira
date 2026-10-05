@@ -136,8 +136,6 @@
   function render(d, T, lang) {
     var c = d.counts || { OPEN: 0, PARTIAL: 0, CLOSED: 0 };
     el("summary").innerHTML =
-      '<span class="upd">' + ((d.source || {}).updated ? T.ifcnUpd + " <b>" + esc(d.source.updated) + "</b> · " : "") +
-        T.updated + " " + esc(d.stamp) + " " + T.mtime + "</span>" +
       '<span><span class="dot OPEN"></span><b>' + c.OPEN + "</b> " + T.open + "</span>" +
       '<span><span class="dot PARTIAL"></span><b>' + c.PARTIAL + "</b> " + T.restricted + "</span>" +
       '<span><span class="dot CLOSED"></span><b>' + c.CLOSED + "</b> " + T.closed + "</span>";
