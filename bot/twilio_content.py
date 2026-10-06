@@ -22,7 +22,7 @@ import brain  # noqa: E402
 
 OUT = os.path.join(HERE, "twilio_content.json")
 API = "https://content.twilio.com/v1/Content"
-VERSION = "v1"
+VERSION = "v3"
 
 
 def _req(method, url, body=None):
@@ -47,7 +47,10 @@ def wanted():
     yield f"levadinho_lang_picker_{VERSION}", {
         "language": "en",
         "types": {"twilio/list-picker": {"body": p["body"], "button": p["button"],
-                                         "items": [{"id": f"lang_{code}", "item": label} for code, label in p["options"]]},
+                                         "items": [{"id": f"lang_{code}", "item": label, "description": p["notes"][code]}
+                                                   for code, label in p["options"]]
+                                                  + [{"id": p["decline"][0], "item": p["decline"][1],
+                                                      "description": p["decline"][2]}]},
                   "twilio/text": {"body": p["body"]}}}
     for lang, (yes, no) in brain.CONSENT_BUTTONS.items():
         yield f"levadinho_consent_{lang}_{VERSION}", {

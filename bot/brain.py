@@ -50,12 +50,27 @@ LANG_NAMES = {"pt": "European Portuguese", "en": "English", "fr": "French", "de"
 FLAGS = {"pt": "🇵🇹", "en": "🇬🇧", "fr": "🇫🇷", "de": "🇩🇪", "pl": "🇵🇱"}
 CHANGE_WORDS = {"idioma", "lingua", "língua", "language", "langue", "sprache", "język", "jezyk"}
 
+# The first message when the language is unknown (owner, 2026-10-05): the privacy notice and the language menu in
+# one. Choosing a language is accepting the notice; the last row declines. Keep it in sync with privacy/.
 PICKER = {
     "body": "Olá! Hello! Bonjour! Hallo! Cześć! 👋\n"
-            "Sou o Levadinho, o seu guia dos percursos pedestres da Madeira.\n"
-            "Escolha o seu idioma · Choose your language",
-    "button": "Idioma / Language",
+            "Sou o Levadinho, o seu guia dos percursos pedestres da Madeira · "
+            "I'm Levadinho, your guide to Madeira's trails.\n\n"
+            "🔒 Para melhorar o Levadinho recolhemos alguns dados sobre a forma como o usa · "
+            "To improve Levadinho we collect some data about how you use it · "
+            "Nous collectons certaines données sur votre utilisation · "
+            "Wir erfassen einige Daten zu deiner Nutzung · "
+            "Zbieramy pewne dane o tym, jak korzystasz z usługi.\n"
+            "https://levadinho-madeira.com/privacy/\n\n"
+            "Escolha o seu idioma para aceitar e continuar · Pick your language to accept and continue.",
+    "button": "Aceitar · Accept",
     "options": [(code, f"{FLAGS[code]} {name}") for code, name in LANGS.items()],
+    "notes": {  # the row descriptions (72 characters at most)
+        "pt": "Aceito · continuar em português", "en": "I accept · continue in English",
+        "fr": "J'accepte · continuer en français", "de": "Ich akzeptiere · weiter auf Deutsch",
+        "pl": "Akceptuję · dalej po polsku",
+    },
+    "decline": ("consent_no", "✖ Não aceito · Decline", "Não aceito · I don't accept"),
 }
 
 TEXT_ONLY = {
@@ -67,11 +82,11 @@ TEXT_ONLY = {
 }
 # After Accept with nothing waiting (owner, 2026-10-05: the long intro was useless): one short line.
 ASK = {
-    "pt": "Obrigado! Em que posso ajudar? 🥾",
-    "en": "Thanks! What would you like to know? 🥾",
-    "fr": "Merci ! Que voulez-vous savoir ? 🥾",
-    "de": "Danke! Was möchtest du wissen? 🥾",
-    "pl": "Dziękuję! Co chcesz wiedzieć? 🥾",
+    "pt": "Obrigado! Como posso ajudar hoje? 🥾",
+    "en": "Thanks! How may I help you today? 🥾",
+    "fr": "Merci ! Comment puis-je vous aider aujourd'hui ? 🥾",
+    "de": "Danke! Wie kann ich dir heute helfen? 🥾",
+    "pl": "Dziękuję! W czym mogę dziś pomóc? 🥾",
 }
 # Getting from A to B: ask first where the visitor is staying (owner, 2026-10-05). A town or area is enough.
 ASK_BASE = {
@@ -800,8 +815,9 @@ def handle(user, text=None, choice=None, meta=None):
         meta["events"].append(("language_selected", {"lang": choice, "campaign": tag or None}))
         if known_tag(tag):
             meta["campaign"] = tag
-        if not accepted(user):
-            return [consent_prompt(user, choice, waiting or (f"c:{tag}" if known_tag(tag) else ""))]
+        if not accepted(user):  # the menu is also the privacy notice: choosing a language accepts it
+            store.set_user(user, state="notice:" + (waiting or (f"c:{tag}" if known_tag(tag) else "")))
+            return handle_consent(user, True, meta)
         if tag in CAMPAIGNS:
             return [welcome(user, CAMPAIGNS[tag], choice, meta, campaign=tag)]
         return [{"type": "text", "body": ASK[choice]}]
@@ -814,6 +830,7 @@ def handle(user, text=None, choice=None, meta=None):
     tag = m.group(1) if m and known_tag(m.group(1)) else ""
     if is_greeting(text):
         meta["campaign"] = tag or None
+        meta["warm_up"] = True  # a first hello: load the model now, so the first question is answered quickly
         if tag in CAMPAIGNS:  # a campaign QR: picker → welcome + that route's guide link
             store.set_user(user, state=f"picking:{tag}")
             meta["campaign"] = tag
@@ -863,13 +880,11 @@ def handle(user, text=None, choice=None, meta=None):
         waiting = state.partition(":")[2] if state.startswith(("notice:q:", "picking:q:")) else ""
         waiting = f"{waiting}\n{text}" if waiting else f"q:{text}"
         meta["warm_up"] = True  # app.py starts the model now, so the answer is quick after Accept
-        lang = guess_lang(text) or (u or {}).get("lang")
-        if lang:
-            store.set_user(user, lang=lang)
-            meta["lang"] = lang
-            return [consent_prompt(user, lang, waiting)]
-        store.set_user(user, state=f"picking:{waiting}")
-        return [] if state.startswith("picking") else [picker()]
+        # Never silent (owner, 2026-10-05: a bot that says nothing looks hung): a language we can't tell → English.
+        lang = guess_lang(text) or (u or {}).get("lang") or "en"
+        store.set_user(user, lang=lang)
+        meta["lang"] = lang
+        return [consent_prompt(user, lang, waiting)]
 
     if state.startswith("base:"):  # the answer to "where are you staying?"
         _, lang, original = state.split(":", 2)

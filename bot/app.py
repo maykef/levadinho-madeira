@@ -93,7 +93,9 @@ def to_whatsapp(to, msg):
             "body": {"text": msg["body"]},
             "action": {"button": msg["button"], "sections": [{
                 "title": "Idioma / Language",
-                "rows": [{"id": f"lang_{code}", "title": label} for code, label in msg["options"]]}]}}}
+                "rows": [{"id": f"lang_{code}", "title": label, "description": msg["notes"][code]}
+                         for code, label in msg["options"]]
+                        + [{"id": msg["decline"][0], "title": msg["decline"][1], "description": msg["decline"][2]}]}]}}}
     if msg["type"] == "buttons":
         return {**base, "type": "interactive", "interactive": {
             "type": "button", "body": {"text": msg["body"]},
@@ -153,6 +155,9 @@ def process(message, replay=None):
         elif kind == "text":
             in_text = message["text"]["body"]
             out = brain.handle(sender, text=in_text, meta=meta)
+        elif kind == "interactive" and message["interactive"].get("list_reply", {}).get("id") == "consent_no":
+            in_kind, in_text = "consent_choice", "consent_no"  # the menu's "Decline" row
+            out = brain.handle_consent(sender, False, meta=meta)
         elif kind == "interactive" and message["interactive"].get("type") == "list_reply":
             in_kind, in_text = "language_choice", message["interactive"]["list_reply"]["id"].removeprefix("lang_")
             out = brain.handle(sender, choice=in_text, meta=meta)

@@ -121,21 +121,16 @@ def test_join_is_first_contact_and_keeps_web_tag():
 
 
 def test_plain_text_picker_and_notice_flow(tw):
-    """join → numbered picker → "2" → notice with the typed Accept line → "accept" → short line. No model needed."""
+    """join → numbered menu (notice + languages) → "2" → accepted, short line. No model needed."""
     post(form("join bark-wood #web-fees"))
-    assert tw.sent[-1]["body"].endswith("1 Português · 2 English · 3 Français · 4 Deutsch · 5 Polski")
+    assert tw.sent[-1]["body"].endswith("1 Português · 2 English · 3 Français · 4 Deutsch · 5 Polski · 6 ✖ Não aceito · Decline")
     assert store.get_user(PHONE)["state"] == "picking:web-fees"
 
-    post(form("2"))
-    notice = tw.sent[-1]["body"]
-    assert "https://levadinho-madeira.com/privacy/#en" in notice
-    assert notice.endswith("Reply *ACEITO / ACCEPT / ACCEPTER / AKZEPTIEREN / AKCEPTUJĘ* to continue, "
-                           "or NÃO ACEITAR / DON'T ACCEPT / REFUSER / ABLEHNEN / NIE AKCEPTUJĘ to decline.")
-    assert "Tap *Accept*" not in notice
-    assert store.get_user(PHONE)["lang"] == "en"
+    assert "https://levadinho-madeira.com/privacy/" in tw.sent[-1]["body"]  # the menu is the notice
 
-    post(form("Akceptuję!"))
+    post(form("2"))  # choosing a language accepts the notice
     assert tw.sent[-1]["body"] == brain.ASK["en"]
+    assert store.get_user(PHONE)["lang"] == "en"
     assert store.get_user(PHONE)["consent"] == "yes"
 
 
@@ -215,12 +210,19 @@ def test_tappable_menus_flow(tw, monkeypatch):
     monkeypatch.setattr(twilio_wa, "CONTENT", MENUS)
     post(form("Olá Levadinho! 👋"))  # the general QR: its Portuguese greeting says nothing about the language
     assert tw.sent[-1]["content_sid"] == "HXlist" and tw.sent[-1]["body"] is None
-    post(form("🇬🇧 English", ListId="lang_en", ListTitle="🇬🇧 English"))
-    assert store.get_user(PHONE)["lang"] == "en"
-    m = tw.sent[-1]
-    assert m["content_sid"] == "HXoken" and "https://levadinho-madeira.com/privacy/#en" in json.loads(m["content_variables"])["1"]
-    post(form("Accept", ButtonPayload="consent_yes", ButtonText="Accept"))
-    assert tw.sent[-1]["body"] == brain.ASK["en"] and store.get_user(PHONE)["consent"] == "yes"
+    post(form("🇬🇧 English", ListId="lang_en", ListTitle="🇬🇧 English"))  # one tap: language + Accept
+    assert store.get_user(PHONE)["lang"] == "en" and store.get_user(PHONE)["consent"] == "yes"
+    assert tw.sent[-1]["body"] == brain.ASK["en"]
+
+
+def test_menu_decline_row(tw, monkeypatch):
+    monkeypatch.setattr(twilio_wa, "CONTENT", MENUS)
+    post(form("Olá Levadinho! 👋"))
+    post(form("✖ Não aceito · Decline", ListId="consent_no"))
+    assert store.get_user(PHONE)["consent"] == "no" and tw.sent[-1]["body"] == brain.CONSENT_NO["en"]
+    post(form("Olá Levadinho! 👋"))
+    post(form("6"))  # the typed menu's last row
+    assert store.get_user(PHONE)["consent"] == "no"
 
 
 def test_menu_send_failure_falls_back_to_text(tw, monkeypatch):
@@ -233,4 +235,4 @@ def test_menu_send_failure_falls_back_to_text(tw, monkeypatch):
         return type("Msg", (), {"sid": "SMx"})()
     monkeypatch.setattr(tw, "create", create)
     post(form("join bark-wood"))
-    assert tw.sent[-1]["body"].endswith("1 Português · 2 English · 3 Français · 4 Deutsch · 5 Polski")
+    assert tw.sent[-1]["body"].endswith("1 Português · 2 English · 3 Français · 4 Deutsch · 5 Polski · 6 ✖ Não aceito · Decline")

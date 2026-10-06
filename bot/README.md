@@ -17,6 +17,17 @@ WhatsApp → Meta Cloud API → webhook (app.py, :5020) → brain.py → local L
 - **First contact:** if the message is a question, answer it in the language it's written in
   (PT/EN/FR/DE/PL, or English for anything else). Otherwise, e.g. the QR code's pre-filled
   "Olá Levadinho!", send the 5-language picker (a WhatsApp list message).
+- **Privacy + language in one menu (2026-10-05, owner: "first the privacy as a menu, then the language"):**
+  `brain.PICKER` is one list: the multilingual privacy text and the policy link, then "Pick your language to
+  accept and continue". Each language row ("I accept · continue in English") accepts the notice and sets the
+  language in one tap; the last row, `consent_no` "✖ Não aceito · Decline", declines. On Twilio it is the
+  `levadinho_lang_picker_v3` Content template (`twilio_content.py`, `twilio_content.json`); typed, the decline
+  word or the last row's number counts as `consent_no`.
+- **Never silent:** after a greeting ("Hello Levadinho!", `meta["warm_up"]`) the bot answers with the follow-up
+  question "Thanks! How may I help you today? 🥾" (5 languages, `ASK`), so the chat never looks hung. Unknown
+  language → the English notice.
+- **Twilio sender** `XEdff0fa9f3e11eb25f57ecf2e007eba1c` has `fallback_url` = the same `/levadinho/twilio`
+  URL (a lost tap came back as Twilio error 11220 on the Funnel, 2026-10-05).
 - **After that:** every question is answered in its own language (English if not one of the
   five). Anything that isn't a question gets a reply in the chosen language.
 - Typing "idioma", "language", "langue", "sprache" or "język" re-opens the picker.

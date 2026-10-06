@@ -121,6 +121,9 @@ def interpret(message):
         return message
     word = fold(message["text"]["body"])
     state = (store.get_user(message["from"]) or {}).get("state") or ""
+    if state.startswith("picking") and (word in DECLINE or word == str(len(brain.LANGS) + 1)):  # the menu's last row
+        return {**message, "type": "interactive", "interactive": {
+            "type": "list_reply", "list_reply": {"id": "consent_no"}}}
     if state.startswith("picking") and word in LANG_REPLIES:
         return {**message, "type": "interactive", "interactive": {
             "type": "list_reply", "list_reply": {"id": f"lang_{LANG_REPLIES[word]}"}}}
@@ -133,7 +136,8 @@ def interpret(message):
 def render(msg):
     """brain's message dict → plain text (the sandbox has no list, buttons or location request)."""
     if msg["type"] == "list":
-        return msg["body"] + "\n\n" + " · ".join(f"{i} {brain.LANGS[code]}" for i, (code, _) in enumerate(msg["options"], 1))
+        rows = [f"{i} {brain.LANGS[code]}" for i, (code, _) in enumerate(msg["options"], 1)]
+        return msg["body"] + "\n\n" + " · ".join(rows + [f"{len(rows) + 1} {msg['decline'][1]}"])
     if msg["type"] == "buttons":
         ids = [bid for bid, _ in msg["buttons"]]
         if ids == ["consent_yes", "consent_no"]:

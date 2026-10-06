@@ -274,17 +274,17 @@ def test_no_llm_paths_while_down():
     store.reset(u)
     app.process(msg(u, type="request_welcome"))
     app.process(msg(u, "Olá Levadinho! 👋 #ely"))
-    app.process(pick(u, "en"))
-    app.process(button(u, True))
+    app.process(pick(u, "en"))  # the menu is also the notice: choosing a language accepts it
     b = bodies()
-    check(b[:3] == ["<PICKER>", "<PICKER>", "<NOTICE>"] and "?r=ely-test" in b[3],
-          f"campaign QR → picker → notice → guide link, model down {b[:3]}")
+    check(b[:2] == ["<PICKER>", "<PICKER>"] and "?r=ely-test" in b[2],
+          f"campaign QR → menu → guide link, model down {b[:3]}")
     app.process(msg(u, "guia"))
     app.process(msg(u, type="location", location={"latitude": 32.7355, "longitude": -16.9288}))
     b = bodies()
     check(b[0] == "<location_request_message>" and "📍" in b[1],
           "guide word + location pin handled with the model down")
-    check(not store.pending_all() and "docker start levadinho-llm" not in host.cmds, "nothing queued, model not woken")
+    # Since 2026-10-05 a first hello starts loading the model (warm-up), but nothing waits for it.
+    check(not store.pending_all(), "nothing queued with the model down")
 
 
 def test_deferred_question_after_accept():

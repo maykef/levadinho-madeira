@@ -102,13 +102,19 @@ def test_old_portuguese_link_then_english():
 
 
 def test_menu_at_most_once():
-    """The general QR's Portuguese greeting: the menu (language unknown). Later messages don't repeat it."""
+    """The general QR's Portuguese greeting: the menu (language unknown) with the privacy notice. Later
+    greetings don't repeat it; picking a language accepts; the line after Accept asks how it can help."""
     fresh()
-    assert kinds(brain.handle(U, text="Olá Levadinho! 👋")) == ["list"]
+    out = brain.handle(U, text="Olá Levadinho! 👋")
+    assert kinds(out) == ["list"] and "/privacy/" in out[0]["body"]  # the menu is also the privacy notice
     assert brain.handle(U, text="Olá Levadinho! 👋") == []
-    assert brain.handle(U, text="¿Qué tal?") == []  # not one of our languages: still waiting for the menu
     out = brain.handle(U, choice="en")
-    assert kinds(out) == ["buttons"]
+    assert out == [{"type": "text", "body": brain.ASK["en"]}] and store.get_user(U)["consent"] == "yes"
+    assert "How may I help you today?" in brain.ASK["en"]
+    fresh()
+    brain.handle(U, text="Olá Levadinho! 👋")
+    out = brain.handle(U, text="¿Qué tal?")  # not one of our languages: never silent, the English notice
+    assert kinds(out) == ["buttons"] and "#en" in out[0]["body"]
     out = brain.handle_consent(U, True)
     assert out[0]["body"] == "ANSWER to: ¿Qué tal?"  # what they wrote is answered after Accept
 
