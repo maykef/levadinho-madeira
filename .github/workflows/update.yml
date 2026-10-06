@@ -48,3 +48,20 @@ jobs:
             sleep $((i * 10))
           done
           exit 1
+
+      # IndexNow (LLM audit item C, 2026-10-05): tell Bing & co. which pages really changed this run
+      # (update_status.py wrote them to indexnow_urls.txt; the weather reading doesn't count). Wait until
+      # GitHub Pages serves this run's status.json, so the engines fetch the new pages. Never fails the run.
+      - name: Ping IndexNow with the changed pages
+        if: success()
+        continue-on-error: true
+        run: |
+          test -s indexnow_urls.txt || { echo "IndexNow: nothing changed"; exit 0; }
+          want=$(python -c "import json;print(json.load(open('status.json'))['stamp'])")
+          for i in $(seq 1 20); do
+            live=$(curl -fsS "https://levadinho-madeira.com/status.json?nocache=$RANDOM" | python -c "import json,sys;print(json.load(sys.stdin)['stamp'])" || true)
+            [ "$live" = "$want" ] && break
+            sleep 30
+          done
+          [ "$live" = "$want" ] || { echo "IndexNow: Pages not updated after 10 min, skipped"; exit 0; }
+          python scripts/indexnow.py

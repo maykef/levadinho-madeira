@@ -29,3 +29,6 @@ bot/logs/
 bot/.running
 google_search_console/
 reports/
+
+# IndexNow: URLs changed in the last updater run (scripts/indexnow.py reads it; never committed)
+indexnow_urls.txt

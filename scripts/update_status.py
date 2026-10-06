@@ -629,8 +629,14 @@ def snapshot():
     return {p: open(p, encoding="utf-8").read() for p in site_pages()}
 
 
+def _stable(html):
+    """The page without the weather reading, which changes on every run by design (2026-10-05, LLM audit item B):
+    a new temperature is not a new page, so it no longer moves dateModified, <lastmod> or IndexNow."""
+    return STATIC_WX_RE.sub("", html)
+
+
 def changed_pages(before):
-    return [p for p in site_pages() if before.get(p) != open(p, encoding="utf-8").read()]
+    return [p for p in site_pages() if _stable(before.get(p, "")) != _stable(open(p, encoding="utf-8").read())]
 
 
 def _url_to_file(loc):
@@ -660,6 +666,18 @@ def bump_sitemap(today, changed):
 # Classified PR trails managed by a body other than IFCN (IFCN trail list, ENTIDADE GESTORA column):
 # not on SIMplifica, no IFCN fee (IFCN FAQ 1.7). Their "fee" is null; dashboard.js shows "No IFCN fee".
 NO_IFCN_FEE = {"PR3", "PR3.1", "PR4", "PR23"}
+
+
+def write_indexnow_urls(changed):
+    """The URLs of the pages that really changed this run, for scripts/indexnow.py (the Action pings them after
+    GitHub Pages has published). Git-ignored, never committed; an empty file means nothing to ping."""
+    urls = []
+    for p in changed:
+        p = p.replace(os.sep, "/")
+        url = "https://levadinho-madeira.com/" + (p[: -len("index.html")] if p.endswith("index.html") else p)
+        urls.append(url)
+    with open("indexnow_urls.txt", "w", encoding="utf-8") as f:
+        f.write("".join(u + "\n" for u in urls))
 
 
 def bump_date_modified(when, changed):
@@ -734,6 +752,60 @@ STATIC_BOARD_RE = re.compile(r"(<!--\s*STATIC-STATUS-BOARD:START\s*-->)(.*?)(<!-
 # Status word after each link in the homepages' static trail list (gen_trail_index.py), 2026-10-05.
 STATIC_BADGE_RE = re.compile(r"(<!--\s*STATIC-BADGE:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-BADGE:\2:END\s*-->)", re.S)
 STATIC_WX_RE = re.compile(r"(<!--\s*STATIC-WEATHER:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-WEATHER:\2:END\s*-->)", re.S)
+# The answer to "Is X open today?" (2026-10-05, LLM audit item A): one plain sentence per trail page, between
+# <!-- STATIC-ANSWER:<CODE>:START/END --> markers in the page lead and in the visible FAQ answer, and the same
+# words (no markers) at the start of the FAQ JSON-LD answer, so the FAQ stays verbatim. No dates (owner, 2026-10-05).
+STATIC_ANSWER_I18N = {
+    "en": "{name} ({code}) is {st} on IFCN's official trail-warnings list.",
+    "pt": "{name} ({code}): {st} na lista oficial de avisos do IFCN.",
+    "fr": "{name} ({code}) : {st} sur la liste officielle des avis de l'IFCN.",
+    "de": "{name} ({code}): {st} laut der offiziellen Hinweisliste des IFCN.",
+    "pl": "{name} ({code}): {st} według oficjalnej listy komunikatów IFCN.",
+}
+STATIC_ANSWER_RE = re.compile(r"(<!--\s*STATIC-ANSWER:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-ANSWER:\2:END\s*-->)", re.S)
+LD_JSON_RE = re.compile(r'(<script type="application/ld\+json">)(.*?)(</script>)', re.S)
+
+
+def answer_sentence(trail, lang):
+    """'Levada do Risco (PR6.1) is OPEN on IFCN's official trail-warnings list.' in the page language."""
+    lang = lang if lang in STATIC_ANSWER_I18N else "en"
+    assert_not_contradictory(trail["status"], trail.get("note") or {}, what=f"answer {trail['code']}")  # Rule 1
+    L = STATIC_I18N[lang]
+    return STATIC_ANSWER_I18N[lang].format(name=trail["name"], code=trail["code"], st=L["st"][trail["status"]])
+
+
+def answer_any_status_re(trail, lang):
+    """The answer sentence with whatever status word it carried before (to find it in the JSON-LD)."""
+    lang = lang if lang in STATIC_ANSWER_I18N else "en"
+    head, tail = STATIC_ANSWER_I18N[lang].format(name=trail["name"], code=trail["code"], st="\0").split("\0")
+    words = "|".join(re.escape(w) for w in sorted(STATIC_I18N[lang]["st"].values(), key=len, reverse=True))
+    return re.compile(re.escape(head) + "(?:" + words + ")" + re.escape(tail))
+
+
+def sync_answers(html, lang, by_code):
+    """Fill the STATIC-ANSWER markers and put the same sentence (any previous status word) in the FAQ JSON-LD,
+    so the FAQ answer stays verbatim with the visible one."""
+    codes = {m.group(2) for m in STATIC_ANSWER_RE.finditer(html)}
+    if not codes:
+        return html
+    def answer_sub(mm):
+        t = by_code.get(mm.group(2))
+        return mm.group(0) if not t else mm.group(1) + htmllib.escape(answer_sentence(t, lang), quote=False) + mm.group(4)
+    html = STATIC_ANSWER_RE.sub(answer_sub, html)
+    for code in codes:
+        t = by_code.get(code)
+        if not t:
+            continue
+        rx, new = answer_any_status_re(t, lang), answer_sentence(t, lang)
+        found = [0]
+        def ld_sub(mm):
+            body, n = rx.subn(new.replace("\\", "\\\\"), mm.group(2))
+            found[0] += n
+            return mm.group(1) + body + mm.group(3)
+        html = LD_JSON_RE.sub(ld_sub, html)  # 0 matches = the sentence is only in the lead, not in a FAQ answer
+    return html
+
+
 HTML_LANG_RE = re.compile(r"<html[^>]*\blang=[\"']?([a-zA-Z]{2})", re.I)
 
 
@@ -805,7 +877,7 @@ def write_static_status(data):
             continue
         with open(path, encoding="utf-8") as f:
             s = f.read()
-        if "STATIC-STATUS" not in s and "STATIC-WEATHER" not in s and "STATIC-BADGE" not in s:
+        if not any(k in s for k in ("STATIC-STATUS", "STATIC-WEATHER", "STATIC-BADGE", "STATIC-ANSWER")):
             continue
         m = HTML_LANG_RE.search(s)
         lang = m.group(1).lower() if m else "en"
@@ -842,6 +914,7 @@ def write_static_status(data):
 
         new = STATIC_WX_RE.sub(wx_sub, STATIC_BOARD_RE.sub(board_sub, STATIC_TRAIL_RE.sub(trail_sub, s)))
         new = STATIC_BADGE_RE.sub(badge_sub, new)
+        new = sync_answers(new, lang, by_code)
         card = TRAIL_CARD_RE.search(new)
         if card and card.group(1) in by_code and IFCN_UPDATED and "STATIC-WEATHER" in new:  # trail pages only
             t = by_code[card.group(1)]
@@ -927,6 +1000,7 @@ def main():
     bump_date_modified(now.isoformat(timespec="minutes"), changed)
     bump_sitemap(today, changed)
     print(f"dates: {len(changed)} page(s) changed -> dateModified + sitemap lastmod", file=sys.stderr)
+    write_indexnow_urls(changed)
 
     print(f"PR1={status} | trails={len(trails)} | "
           f"open={counts['OPEN']} partial={counts['PARTIAL']} closed={counts['CLOSED']} | {stamp}")
