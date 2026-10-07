@@ -160,13 +160,24 @@ GUIDES = [
      {"en": "Levadas with tunnels: when to bring a torch", "pt": "Levadas com túneis: quando levar lanterna",
       "fr": "Levadas à tunnels : quand prendre une lampe", "de": "Levadas mit Tunneln: wann Sie eine Lampe brauchen",
       "pl": "Lewady z tunelami: kiedy zabrać latarkę"}),
+    ("closures", "/trail-closures/", None,
+     {"en": "Trail closures", "pt": "Percursos encerrados", "fr": "Sentiers fermés", "de": "Gesperrte Wege",
+      "pl": "Zamknięte szlaki"},
+     {"en": "Which Madeira trails are closed today?", "pt": "Que percursos estão encerrados hoje?",
+      "fr": "Quels sentiers sont fermés aujourd'hui ?", "de": "Welche Wanderwege sind heute gesperrt?",
+      "pl": "Które szlaki są dziś zamknięte?"}),
+    ("about", "/about/", None,
+     {"en": "About", "pt": "Sobre", "fr": "À propos", "de": "Über uns", "pl": "O nas"},
+     {"en": "About Levadinho: sources and method", "pt": "Sobre o Levadinho: fontes e método",
+      "fr": "À propos de Levadinho : sources et méthode", "de": "Über Levadinho: Quellen und Methode",
+      "pl": "O Levadinho: źródła i metoda"}),
 ]
 GUIDE = {g[0]: g for g in GUIDES}
 # Which guides each page links to in its "More guides" block (targets the page already
 # links to in its own copy are dropped, so the block never repeats a "Next steps" link).
 RELATED_GUIDES = {
-    "home": ["pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus"],
-    "pr1": ["oneway", "sunrise", "weather", "back", "booking", "fees", "permit"],
+    "home": ["closures", "pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus"],
+    "pr1": ["oneway", "sunrise", "weather", "back", "booking", "fees", "permit", "closures"],
     "fees": ["permit", "free", "booking", "abroad", "best", "pr1"],
     "permit": ["free", "booking", "fees", "best", "easy", "tunnels"],
     "booking": ["abroad", "permit", "fees", "pr1", "best"],
@@ -174,13 +185,15 @@ RELATED_GUIDES = {
     "back": ["bus", "oneway", "sunrise", "weather", "pr1", "booking"],
     "sunrise": ["weather", "back", "bus", "oneway", "pr1", "booking"],
     "weather": ["pr1", "sunrise", "back", "best"],
-    "best": ["easy", "tunnels", "bus", "permit", "booking", "fees"],
+    "best": ["easy", "tunnels", "bus", "closures", "permit", "booking", "fees"],
     "easy": ["best", "tunnels", "free", "permit", "booking"],
     "tunnels": ["best", "easy", "permit", "booking"],
     "oneway": ["back", "sunrise", "pr1", "booking", "fees"],
     "free": ["permit", "fees", "booking", "easy", "best", "bus"],
     "bus": ["back", "sunrise", "free", "best", "easy", "booking"],
-    "spoke": ["best", "easy", "tunnels", "booking", "fees", "permit"],
+    "closures": ["pr1", "best", "fees", "booking", "permit", "about"],
+    "about": ["closures", "pr1", "fees", "booking", "permit", "best"],
+    "spoke": ["closures", "best", "easy", "tunnels", "booking", "fees", "permit"],
     "spoke-pr1": ["pr1", "oneway", "back", "sunrise", "weather", "booking", "fees"],   # PR1.2 Pico Ruivo
 }
 GUIDES_H = {"en": "More guides", "pt": "Mais guias", "fr": "Autres guides", "de": "Weitere Ratgeber", "pl": "Więcej poradników"}

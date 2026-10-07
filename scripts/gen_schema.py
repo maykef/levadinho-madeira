@@ -8,6 +8,11 @@ Adds, without touching the existing facts:
   - "address" (PostalAddress: Madeira, PT) and "containedInPlace" (Madeira);
   - "image": the page's og:image when the block has none (hero photo or /img/og-default.jpg).
 Keys are re-ordered into one fixed order so the output is stable. Idempotent; gen_spokes.py calls it last.
+
+Entity links (LLM audit item G, 2026-10-07), on every page (not only trail pages):
+  - TouristAttraction gets "@id": <page url>#trail;
+  - every WebPage gets "isPartOf" -> the site (#website, defined on the homepages by gen_owner.py),
+    "publisher" -> the owner (#owner) and, on trail pages, "about" -> the page's #trail.
 """
 import glob, json, os, re
 
@@ -22,7 +27,10 @@ SENT = {
     "de": ("{n}, ein klassifizierter Wanderweg (PR) auf Madeira, Portugal.", " Länge: {d}.", " Schwierigkeit: {x}."),
     "pl": ("{n}, oficjalny szlak pieszy (PR) na Maderze w Portugalii.", " Długość: {d}.", " Trudność: {x}."),
 }
-ORDER = ["@context", "@type", "name", "alternateName", "description", "url", "image", "touristType",
+BASE = "https://levadinho-madeira.com"
+WEBPAGE_LINKS = {"isPartOf": {"@id": BASE + "/#website"}, "publisher": {"@id": BASE + "/#owner"}}
+ANY_LD_RE = re.compile(r'(<script type="application/ld\+json">\s*)(.*?)(\s*</script>)', re.S)
+ORDER = ["@context", "@type", "@id", "name", "alternateName", "description", "url", "image", "touristType",
          "isAccessibleForFree", "address", "containedInPlace", "geo", "additionalProperty"]
 ADDRESS = {"@type": "PostalAddress", "addressRegion": "Madeira", "addressCountry": "PT"}
 PLACE = {"@type": "AdministrativeArea", "name": "Madeira",
@@ -38,6 +46,8 @@ def complete(o, lang, og_image):
     o["address"], o["containedInPlace"] = ADDRESS, PLACE
     if "image" not in o and og_image:
         o["image"] = og_image
+    if o.get("url"):
+        o["@id"] = o["url"] + "#trail"
     return {k: o[k] for k in ORDER if k in o} | {k: v for k, v in o.items() if k not in ORDER}
 
 
@@ -63,6 +73,36 @@ def main():
         if new != h:
             open(f, "w", encoding="utf-8").write(new); n += 1
     print(f"TouristAttraction completed on {n} page(s)")
+    print(f"WebPage entity links on {link_webpages()} page(s)")
+
+
+def link_webpages():
+    """isPartOf / publisher on every WebPage block; about -> #trail where the page has a TouristAttraction."""
+    n = 0
+    for f in sorted(glob.glob("**/*.html", recursive=True)):
+        if f.split(os.sep)[0] in ("bot", "seo_research", "reports", "google_search_console", ".claude", "node_modules"):
+            continue
+        h = open(f, encoding="utf-8").read()
+        if '"WebPage"' not in h:
+            continue
+        trail = re.search(r'"@type":\s*"TouristAttraction"', h) is not None
+
+        def fix(mm):
+            try:
+                o = json.loads(mm.group(2))
+            except ValueError:
+                return mm.group(0)
+            if not isinstance(o, dict) or o.get("@type") != "WebPage":
+                return mm.group(0)
+            o.update(WEBPAGE_LINKS)
+            if trail and o.get("url"):
+                o["about"] = {"@id": o["url"] + "#trail"}
+            return mm.group(1) + json.dumps(o, ensure_ascii=False, indent=1) + mm.group(3)
+
+        new = ANY_LD_RE.sub(fix, h)
+        if new != h:
+            open(f, "w", encoding="utf-8").write(new); n += 1
+    return n
 
 
 if __name__ == "__main__":

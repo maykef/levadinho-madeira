@@ -444,7 +444,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         d.update(
             h1=f"Is the {name} open today?",
             sub=f"{ANS} It is a paid, booking-only PR trail; access is €4.50 through the SIMplifica portal.",
-            loading="Trail status comes from the official IFCN warnings list, which IFCN updates when conditions change. It is shown here as a live badge (it needs JavaScript). If it doesn't appear, check the official sources linked below.",
+            loading="Trail status comes from the official IFCN warnings list, which IFCN updates when conditions change. The official sources are linked below.",
             book_h=f"Do you need to book the {name}?",
             book=(f"Yes. {code} is booking-only: once it shows open, book your <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">€4.50 slot on SIMplifica</a> in advance. "
                   f"Under-12s and residents are free but must still be named on the booking. {code} is paid on its own separate booking and <b>not included</b> in the multi-day passes — check the live status above before you pay."),
@@ -471,7 +471,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         d.update(
             h1=f"{A} {name} está abert{o} hoje?",
             sub=f"{ANS} É um percurso PR pago e só com reserva; o acesso custa 4,50 € através do portal SIMplifica.",
-            loading="O estado do percurso vem da lista oficial de avisos do IFCN, que o IFCN atualiza quando as condições mudam. É mostrado aqui em direto (requer JavaScript). Se não aparecer, consulte as fontes oficiais indicadas abaixo.",
+            loading="O estado do percurso vem da lista oficial de avisos do IFCN, que o IFCN atualiza quando as condições mudam. As fontes oficiais estão indicadas abaixo.",
             book_h=f"É preciso reservar {a} {name}?",
             book=(f"Sim. O {code} só se faz com reserva: assim que aparecer como aberto, reserve com antecedência a sua <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">vaga de 4,50 € no SIMplifica</a>. "
                   f"Menores de 12 anos e residentes não pagam, mas têm de constar nominalmente da reserva. O {code} paga-se numa reserva própria e <b>não está incluído</b> nos passes de vários dias — confirme o estado em direto acima antes de pagar."),
@@ -498,7 +498,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         d.update(
             h1=f"{fA} {name} est-{fpr} ouvert{fe} aujourd'hui ?",
             sub=f"{ANS} C'est un sentier PR payant, sur réservation ; l'accès coûte 4,50 € via le portail SIMplifica.",
-            loading="L'état du sentier provient de la liste officielle des avis de l'IFCN, que l'IFCN met à jour quand les conditions changent. Il s'affiche ici en direct (JavaScript requis). S'il n'apparaît pas, consultez les sources officielles indiquées ci-dessous.",
+            loading="L'état du sentier provient de la liste officielle des avis de l'IFCN, que l'IFCN met à jour quand les conditions changent. Les sources officielles sont indiquées ci-dessous.",
             book_h=f"Faut-il réserver {fa} {name} ?",
             book=(f"Oui. Le {code} se fait uniquement sur réservation : une fois indiqué ouvert, réservez à l'avance votre <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">créneau à 4,50 € sur SIMplifica</a>. "
                   f"Les moins de 12 ans et les résidents sont gratuits mais doivent tout de même figurer sur la réservation. Le {code} se paie sur sa propre réservation distincte et n'est <b>pas inclus</b> dans les forfaits de plusieurs jours — vérifiez le statut en direct ci-dessus avant de payer."),
@@ -525,7 +525,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         d.update(
             h1=f"Ist {da_} {name} heute geöffnet?",
             sub=f"{ANS} Es ist ein kostenpflichtiger PR-Weg nur mit Buchung; der Zugang kostet 4,50 € über das SIMplifica-Portal.",
-            loading="Der Wegestatus stammt aus der offiziellen Hinweisliste des IFCN, die das IFCN bei Änderungen aktualisiert. Er wird hier live angezeigt (dafür ist JavaScript nötig). Falls er nicht erscheint, prüfen Sie die unten verlinkten offiziellen Quellen.",
+            loading="Der Wegestatus stammt aus der offiziellen Hinweisliste des IFCN, die das IFCN bei Änderungen aktualisiert. Die offiziellen Quellen sind unten verlinkt.",
             book_h=f"Muss man {dacc} {name} buchen?",
             book=(f"Ja. Der {code} ist nur mit Buchung begehbar: Sobald er als geöffnet angezeigt wird, buchen Sie Ihren <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">4,50-€-Slot auf SIMplifica</a> im Voraus. "
                   f"Kinder unter 12 und Einwohner sind frei, müssen aber trotzdem namentlich in der Buchung stehen. Der {code} wird als eigene, gesonderte Buchung bezahlt und ist <b>nicht</b> in den Mehrtagespässen enthalten — prüfen Sie den Live-Status oben, bevor Sie bezahlen."),
@@ -551,7 +551,7 @@ def T(lang, code, name, full, f, linear, start, end, typ):
         d.update(
             h1=f"Czy {name} jest dziś otwarta?",
             sub=f"{ANS} To płatny szlak PR wyłącznie na rezerwację; wstęp kosztuje 4,50 € przez portal SIMplifica.",
-            loading="Stan szlaku pochodzi z oficjalnej listy komunikatów IFCN, którą IFCN aktualizuje, gdy zmieniają się warunki. Jest pokazywany tutaj na żywo (wymaga JavaScriptu). Jeśli się nie pojawi, sprawdź oficjalne źródła podane poniżej.",
+            loading="Stan szlaku pochodzi z oficjalnej listy komunikatów IFCN, którą IFCN aktualizuje, gdy zmieniają się warunki. Oficjalne źródła podano poniżej.",
             book_h=f"Czy trzeba rezerwować {name}?",
             book=(f"Tak. {code} jest wyłącznie na rezerwację: gdy pokaże się jako otwarty, zarezerwuj z wyprzedzeniem swój <a class=\"plain\" href=\"https://simplifica.madeira.gov.pt/services/78-82-259\" target=\"_blank\" rel=\"noopener\">slot za 4,50 € w SIMplifica</a>. "
                   f"Dzieci poniżej 12 lat i mieszkańcy są bezpłatnie, ale i tak muszą być imiennie w rezerwacji. {code} jest płatny jako osobna rezerwacja i <b>nie jest wliczony</b> w karnety wielodniowe — sprawdź status na żywo powyżej, zanim zapłacisz."),

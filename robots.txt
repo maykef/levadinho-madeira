@@ -1,4 +1,24 @@
+# Levadinho: every page is open to search engines and AI assistants (owner, 2026-10-07).
+# Machine-readable editions for AI assistants and agents:
+#   llms.txt        https://levadinho-madeira.com/llms.txt       (what the site is, today's board, key facts)
+#   llms-full.txt   https://levadinho-madeira.com/llms-full.txt  (plus one entry per trail)
+#   status.json     https://levadinho-madeira.com/status.json    (live board, rewritten daily)
+#   Status changes  https://levadinho-madeira.com/trail-status.xml (RSS)
+#   Daily history   https://levadinho-madeira.com/history/status-daily.jsonl
+
 User-agent: *
+Allow: /
+
+# AI search and assistant fetchers that cite their sources: explicitly welcome.
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: DuckAssistBot
+User-agent: Bingbot
+User-agent: Googlebot
 Allow: /
 
 Sitemap: https://levadinho-madeira.com/sitemap.xml

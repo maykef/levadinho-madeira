@@ -6,7 +6,8 @@ Writes, between marker comments (idempotent, re-run any time):
                    "This is a personal project of © Mayke De Freitas Santos 2026. All Rights Reserved.
                    Enquiries: hello@levadinho-madeira.com" (a mailto link).
   * OWNER-SIG   -- the owner's name under "Why I built this" on the five homepages.
-  * OWNER-SCHEMA -- a WebSite + Person JSON-LD block in the head of the five homepages.
+  * OWNER-SCHEMA -- a WebSite + Person JSON-LD block in the head of the five homepages (the WebSite carries the
+                   site_entity.ENTITY sentence as its description) and the RSS link to trail-status.xml.
 
 Called by gen_spokes.py and gen_bus_hub.py after they rewrite pages. Skips bot/, the
 trails/ forwarding stubs and the local-only folders.
@@ -17,6 +18,10 @@ trails/ forwarding stubs and the local-only folders.
 import json
 import pathlib
 import re
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from site_entity import ENTITY  # noqa: E402  (the one-sentence description, LLM audit item G)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 NAME = "Mayke De Freitas Santos"
@@ -30,6 +35,8 @@ LINE = {
     "de": f"Dies ist ein privates Projekt von © {NAME} 2026. Alle Rechte vorbehalten. Anfragen: {MAIL}",
     "pl": f"To prywatny projekt © {NAME} 2026. Wszelkie prawa zastrzeżone. Kontakt: {MAIL}",
 }
+ABOUT = {"en": ("/about/", "About Levadinho"), "pt": ("/pt/about/", "Sobre o Levadinho"), "fr": ("/fr/about/", "À propos"),
+         "de": ("/de/about/", "Über Levadinho"), "pl": ("/pl/about/", "O Levadinho")}   # footer link (LLM audit item H)
 HOMES = {"index.html": "en", "pt/index.html": "pt", "fr/index.html": "fr", "de/index.html": "de", "pl/index.html": "pl"}
 HOME_URL = {"en": "/", "pt": "/pt/", "fr": "/fr/", "de": "/de/", "pl": "/pl/"}
 BASE = "https://levadinho-madeira.com"
@@ -58,11 +65,15 @@ def schema(lang):
         "@context": "https://schema.org",
         "@graph": [
             {"@type": "WebSite", "@id": BASE + "/#website", "name": "Levadinho", "alternateName": "Levadinho Madeira",
-             "url": BASE + HOME_URL[lang], "inLanguage": lang, "publisher": {"@id": BASE + "/#owner"}},
+             "url": BASE + HOME_URL[lang], "inLanguage": lang, "description": ENTITY[lang],
+             "about": {"@type": "Place", "name": "Madeira", "containedInPlace": {"@type": "Country", "name": "Portugal"}},
+             "publisher": {"@id": BASE + "/#owner"}},
             {"@type": "Person", "@id": BASE + "/#owner", "name": NAME, "url": BASE + "/"},
         ],
     }
-    return '\n<script type="application/ld+json">\n' + json.dumps(data, ensure_ascii=False, indent=1) + "\n</script>\n"
+    rss = (f'\n<link rel="alternate" type="application/rss+xml" title="Madeira trail status changes" '
+           f'href="{BASE}/trail-status.xml">')
+    return rss + '\n<script type="application/ld+json">\n' + json.dumps(data, ensure_ascii=False, indent=1) + "\n</script>\n"
 
 
 def main():
@@ -77,7 +88,8 @@ def main():
         m = re.search(r"<html[^>]*\blang=[\"']?([a-zA-Z]{2})", s)
         lang = (m.group(1).lower() if m else "en")
         lang = lang if lang in LINE else "en"
-        new = put(s, "OWNER-LINE", f'<span class="owner" style="display:block;margin-top:6px">{LINE[lang]}</span>',
+        about = f' · <a href="{ABOUT[lang][0]}" style="color:inherit">{ABOUT[lang][1]}</a>'
+        new = put(s, "OWNER-LINE", f'<span class="owner" style="display:block;margin-top:6px">{LINE[lang]}{about}</span>',
                   r"</footer>")
         if str(rel) in HOMES:
             new = put(new, "OWNER-SIG", f'<p class="sig" style="text-align:right;font-style:italic">— {NAME}</p>',

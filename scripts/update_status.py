@@ -733,6 +733,33 @@ STATIC_WX_I18N = {
     "de": ("Wetter am Weg (IPMA-Station {place}, {when}): {t} °C", ", Wind {w} km/h", ", wahrscheinlich in Wolken", ", Regen {r} mm in der letzten Stunde"),
     "pl": ("Pogoda przy szlaku (stacja IPMA {place}, {when}): {t} °C", ", wiatr {w} km/h", ", prawdopodobnie w chmurach", ", deszcz {r} mm w ostatniej godzinie"),
 }
+# The weather page's summit reading (LLM audit item D, 2026-10-07): <!-- STATIC-WEATHER:SUMMIT:START/END --> in
+# #wxSrc, so a crawler without JavaScript reads the measured figures instead of "–". The page script replaces it live.
+STATIC_SUMMIT_I18N = {
+    "en": ("Last measured reading, Pico do Areeiro summit (IPMA station, {when}): {t} °C", ", humidity {h}%", ", wind {w} km/h", ", likely in cloud"),
+    "pt": ("Última leitura medida no cume do Pico do Areeiro (estação IPMA, {when}): {t} °C", ", humidade {h}%", ", vento {w} km/h", ", provavelmente dentro das nuvens"),
+    "fr": ("Dernière mesure au sommet du Pico do Areeiro (station IPMA, {when}) : {t} °C", ", humidité {h} %", ", vent {w} km/h", ", probablement dans les nuages"),
+    "de": ("Letzter Messwert am Gipfel des Pico do Areeiro (IPMA-Station, {when}): {t} °C", ", Luftfeuchte {h} %", ", Wind {w} km/h", ", wahrscheinlich in Wolken"),
+    "pl": ("Ostatni pomiar na szczycie Pico do Areeiro (stacja IPMA, {when}): {t} °C", ", wilgotność {h}%", ", wiatr {w} km/h", ", prawdopodobnie w chmurach"),
+}
+
+
+def static_summit_line(weather, lang, hhmm):
+    """The measured summit reading as one sentence, or '' when IPMA had no valid reading."""
+    if not weather or not weather.get("ok") or weather.get("temp_c") is None:
+        return ""
+    head, hum, wind, cloud = STATIC_SUMMIT_I18N.get(lang, STATIC_SUMMIT_I18N["en"])
+    t = str(weather["temp_c"]) if lang == "en" else str(weather["temp_c"]).replace(".", ",")
+    line = head.format(when=hhmm, t=t)
+    if weather.get("humidity") is not None:
+        line += hum.format(h=weather["humidity"])
+    if weather.get("wind_kmh") is not None:
+        line += wind.format(w=weather["wind_kmh"])
+    if weather.get("in_cloud"):
+        line += cloud
+    return line + "."
+
+
 # Board line, 2026-10-03: also name the closed / partly open trails (crawlable answer to
 # "percursos encerrados madeira", "madère sentier fermé", "które szlaki zamknięte").
 STATIC_BOARD_LISTS = {
@@ -764,6 +791,38 @@ STATIC_ANSWER_I18N = {
 }
 STATIC_ANSWER_RE = re.compile(r"(<!--\s*STATIC-ANSWER:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-ANSWER:\2:END\s*-->)", re.S)
 LD_JSON_RE = re.compile(r'(<script type="application/ld\+json">)(.*?)(</script>)', re.S)
+# /trail-closures/ (2026-10-07, LLM audit item F): a table of the trails that are closed or partly open today, with
+# IFCN's note in the page language. No dates (owner's rule); the dated history is in trail-status.xml / history/.
+STATIC_CLOSURES_RE = re.compile(r"(<!--\s*STATIC-CLOSURES:START\s*-->)(.*?)(<!--\s*STATIC-CLOSURES:END\s*-->)", re.S)
+CLOSURES_I18N = {
+    "en": ("Trail", "Status", "IFCN's note", "No trail is closed or partly open on IFCN's list right now."),
+    "pt": ("Percurso", "Estado", "Nota do IFCN", "Neste momento nenhum percurso está encerrado ou parcialmente aberto na lista do IFCN."),
+    "fr": ("Sentier", "État", "Note de l'IFCN", "Aucun sentier n'est fermé ni partiellement ouvert sur la liste de l'IFCN en ce moment."),
+    "de": ("Weg", "Status", "Hinweis des IFCN", "Derzeit ist kein Weg auf der IFCN-Liste gesperrt oder teilweise geöffnet."),
+    "pl": ("Szlak", "Stan", "Nota IFCN", "Obecnie żaden szlak na liście IFCN nie jest zamknięty ani częściowo otwarty."),
+}
+LANG_PREFIX = {"en": "", "pt": "/pt", "fr": "/fr", "de": "/de", "pl": "/pl"}
+
+
+def closures_table(data, lang):
+    """The closed / partly open trails as an HTML table in the page language (Rule 1 gate on every row)."""
+    th_trail, th_st, th_note, none = CLOSURES_I18N.get(lang, CLOSURES_I18N["en"])
+    L = STATIC_I18N.get(lang, STATIC_I18N["en"])
+    rows = []
+    for st in ("CLOSED", "PARTIAL"):
+        for t in data["trails"]:
+            if t["status"] != st:
+                continue
+            note = t.get("note") or {}
+            assert_not_contradictory(t["status"], note, what=f"closures {t['code']}")
+            text = note.get(lang) or note.get("en") or note.get(NOTE_SOURCE_LANG) or ""
+            href = LANG_PREFIX.get(lang, "") + t["page"]
+            rows.append(f'<tr><td><a href="{href}">{htmllib.escape(t["name"])} ({t["code"]})</a></td>'
+                        f'<td><b>{L["st"][st]}</b></td><td>{htmllib.escape(text) or "—"}</td></tr>')
+    if not rows:
+        return f"<p>{none}</p>"
+    return (f'<div class="tbl-wrap"><table><thead><tr><th>{th_trail}</th><th>{th_st}</th><th>{th_note}</th></tr></thead>'
+            f'<tbody>{"".join(rows)}</tbody></table></div>')
 
 
 def answer_sentence(trail, lang):
@@ -877,7 +936,7 @@ def write_static_status(data):
             continue
         with open(path, encoding="utf-8") as f:
             s = f.read()
-        if not any(k in s for k in ("STATIC-STATUS", "STATIC-WEATHER", "STATIC-BADGE", "STATIC-ANSWER")):
+        if not any(k in s for k in ("STATIC-STATUS", "STATIC-WEATHER", "STATIC-BADGE", "STATIC-ANSWER", "STATIC-CLOSURES")):
             continue
         m = HTML_LANG_RE.search(s)
         lang = m.group(1).lower() if m else "en"
@@ -901,6 +960,8 @@ def write_static_status(data):
             return mm.group(1) + htmllib.escape(line, quote=False) + mm.group(3)
 
         def wx_sub(mm):
+            if mm.group(2) == "SUMMIT":
+                return mm.group(1) + htmllib.escape(static_summit_line(data.get("weather"), lang, hhmm), quote=False) + mm.group(4)
             t = by_code.get(mm.group(2))
             r = regions.get(t["region"]) if t else None
             return mm.group(1) + htmllib.escape(static_weather_line(r, lang, date, hhmm), quote=False) + mm.group(4)
@@ -915,6 +976,7 @@ def write_static_status(data):
         new = STATIC_WX_RE.sub(wx_sub, STATIC_BOARD_RE.sub(board_sub, STATIC_TRAIL_RE.sub(trail_sub, s)))
         new = STATIC_BADGE_RE.sub(badge_sub, new)
         new = sync_answers(new, lang, by_code)
+        new = STATIC_CLOSURES_RE.sub(lambda mm: mm.group(1) + closures_table(data, lang) + mm.group(3), new)
         card = TRAIL_CARD_RE.search(new)
         if card and card.group(1) in by_code and IFCN_UPDATED and "STATIC-WEATHER" in new:  # trail pages only
             t = by_code[card.group(1)]
@@ -1001,6 +1063,15 @@ def main():
     bump_sitemap(today, changed)
     print(f"dates: {len(changed)} page(s) changed -> dateModified + sitemap lastmod", file=sys.stderr)
     write_indexnow_urls(changed)
+
+    # Machine-readable editions (owner, 2026-10-07): history line, RSS of changes, llms.txt / llms-full.txt.
+    # Derived from the data just written, so they degrade gracefully: a failure here never blocks the status.
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import gen_ai_feeds
+        gen_ai_feeds.run(data)
+    except Exception as e:
+        print("ai feeds failed (status.json is still written):", e, file=sys.stderr)
 
     print(f"PR1={status} | trails={len(trails)} | "
           f"open={counts['OPEN']} partial={counts['PARTIAL']} closed={counts['CLOSED']} | {stamp}")

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ================= CONFIG — edit as needed ================== -->
+<script>
+const CONFIG = {
+  goatcounterCode: "madeira-levadinho",
+  lastUpdated: ""
+};
+</script>
+<!-- ============================================================ -->
+
+<title>À propos de Levadinho : qui, et d&#x27;où viennent les données</title>
+<meta name="description" content="Qui fait Levadinho et d&#x27;où viennent l&#x27;état des sentiers de Madère, les tarifs, la météo et les bus. Lisez nos sources et notre méthode avant de partir.">
+
+<link rel="canonical" href="https://levadinho-madeira.com/fr/about/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://levadinho-madeira.com/fr/about/">
+<meta property="og:title" content="À propos de Levadinho : qui, et d&#x27;où viennent les données">
+<meta property="og:description" content="Qui fait Levadinho et d&#x27;où viennent l&#x27;état des sentiers de Madère, les tarifs, la météo et les bus. Lisez nos sources et notre méthode avant de partir.">
+<meta property="og:image" content="https://levadinho-madeira.com/img/og-default.jpg">
+<meta property="og:image:alt" content="Levadinho : état des sentiers de Madère, tarifs et réservation">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/img/icon-180.png">
+
+<link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/about/">
+<link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/about/">
+<link rel="alternate" hreflang="fr" href="https://levadinho-madeira.com/fr/about/">
+<link rel="alternate" hreflang="de" href="https://levadinho-madeira.com/de/about/">
+<link rel="alternate" hreflang="pl" href="https://levadinho-madeira.com/pl/about/">
+<link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/about/">
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "AboutPage",
+ "url": "https://levadinho-madeira.com/fr/about/",
+ "name": "À propos de Levadinho : qui, et d'où viennent les données",
+ "description": "Qui fait Levadinho et d'où viennent l'état des sentiers de Madère, les tarifs, la météo et les bus. Lisez nos sources et notre méthode avant de partir.",
+ "inLanguage": "fr",
+ "dateModified": "2026-10-07T09:32+01:00",
+ "isPartOf": {
+  "@id": "https://levadinho-madeira.com/#website"
+ },
+ "publisher": {
+  "@id": "https://levadinho-madeira.com/#owner"
+ }
+}
+</script>
+
+<style>
+:root{
+  --paper:#FAFAF7; --ink:#16342A; --ink-soft:#4A5F56;
+  --way-yellow:#E8B71A; --way-red:#BE3A2B;
+  --go:#1FAF54; --card:#FFFFFF; --line:#E3E1D8; --warn:#B3372E;
+  --open:#1E7A45; --partial:#C07A0A; --closed:#B3372E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper); color:var(--ink); line-height:1.55;
+  padding:0 16px 40px; max-width:680px; margin:0 auto}
+.waymark{height:14px; margin:0 -16px;
+  background:linear-gradient(180deg,var(--way-yellow) 0 50%,var(--way-red) 50% 100%)}
+.waymark.thin{height:8px; margin:28px 0; border-radius:2px}
+header{padding:20px 0 6px}
+.brand{font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
+h1{font-size:clamp(25px,6.6vw,32px); line-height:1.14; font-weight:800; letter-spacing:-.02em; margin:6px 0 2px}
+.sub{color:var(--ink-soft); font-size:15px}
+.langs{display:flex; gap:6px; margin:0 0 4px; list-style:none; padding:0}
+.langs a{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.04em; text-decoration:none;
+  color:var(--ink-soft); padding:3px 9px; border:1px solid var(--line); border-radius:999px}
+.langs a[aria-current="page"]{background:var(--ink); color:#fff; border-color:var(--ink)}
+.alert{background:#EEF5EF; border:1px solid #CFE3D4; border-left:4px solid var(--go);
+  border-radius:0 10px 10px 0; padding:12px 14px; margin-top:16px; font-size:15px}
+section{margin-top:26px}
+h2{font-size:19px; font-weight:800; letter-spacing:-.01em; margin-bottom:8px}
+h3{font-size:16px; font-weight:750; margin:14px 0 4px}
+p{margin-bottom:9px; font-size:15.5px}
+ol,ul{padding-left:22px; margin-bottom:9px}
+li{margin-bottom:7px; font-size:15.5px}
+.tbl-wrap{overflow-x:auto; margin:12px 0; border:1px solid var(--line); border-radius:12px}
+table{border-collapse:collapse; width:100%; font-size:14px; background:var(--card)}
+caption{caption-side:top; text-align:left; font-size:13px; color:var(--ink-soft); padding:10px 14px 0}
+th,td{padding:9px 10px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+thead th{background:#F2F1E9; font-weight:750; letter-spacing:.01em}
+tbody tr:last-child td{border-bottom:none}
+td.w{font-weight:700; min-width:130px}
+td.w > .tbadge{display:block; margin-top:3px}
+td.w .ovl{display:block; margin-top:3px; font-size:12.5px; font-weight:700; color:var(--ink-soft)}
+td.s{font-size:13px; white-space:nowrap}
+.fact{background:#F2F1E9; border-left:4px solid var(--way-yellow); padding:10px 14px; border-radius:0 8px 8px 0; font-size:14.5px; margin:12px 0}
+.fact.warn{border-left-color:var(--way-red)}
+.opt{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:12px}
+.opt h3{font-size:16.5px; font-weight:750; margin:0 0 4px; display:flex; justify-content:space-between; gap:10px; align-items:baseline}
+.opt p:last-child{margin-bottom:0}
+.tbadge{font-size:12.5px; font-weight:800; letter-spacing:.02em; white-space:nowrap; color:var(--ink-soft)}
+.tbadge.OPEN{color:var(--open)} .tbadge.PARTIAL{color:var(--partial)} .tbadge.CLOSED{color:var(--closed)}
+.tbadge[title]{cursor:help; text-decoration:underline dotted}
+.static-status{display:block; font-size:13px; color:var(--ink-soft); margin-top:6px}
+.static-status:empty{display:none}
+.src{font-size:13px; color:var(--ink-soft)}
+.src a{color:var(--ink-soft)}
+footer{margin-top:40px; padding-top:14px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft)}
+a.plain{color:var(--ink); font-weight:600}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<!-- LEVADINHO-CTA-HEAD:START (generated by scripts/gen_cta.py) -->
+<style>
+.lvd-cta{display:flex;gap:20px;align-items:center;justify-content:space-between;margin:26px 0 8px;padding:16px 18px 16px 20px;
+  background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:12px;position:relative;overflow:hidden}
+.lvd-cta::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+  background:linear-gradient(180deg,var(--way-yellow,#E8B71A) 0 50%,var(--way-red,#BE3A2B) 50% 100%)}
+.lvd-cta h2{font-size:18px;margin:0 0 4px}
+.lvd-cta p{margin:0 0 12px;color:var(--ink-soft,#4A5F56);font-size:14.5px}
+.lvd-cta-btn{display:inline-block;background:var(--ink,#16342A);color:#fff !important;text-decoration:none;font-weight:700;
+  font-size:15px;padding:10px 16px;border-radius:999px}
+.lvd-cta-btn:hover{background:#0f261e}
+.lvd-cta-qr{display:none;margin:0;text-align:center;flex:0 0 auto}
+.lvd-cta-qr svg{display:block;width:124px;height:124px}
+.lvd-cta-qr figcaption{font-size:12px;color:var(--ink-soft,#4A5F56);margin-top:4px}
+@media (min-width:720px){.lvd-cta-qr{display:block}}
+</style>
+<!-- LEVADINHO-CTA-HEAD:END -->
+<!-- SITE-NAV-HEAD:START (generated by scripts/gen_site_nav.py) -->
+<style>
+.sitenav{display:flex;flex-wrap:wrap;gap:4px 16px;margin:10px 0 8px;font-size:13.5px}
+.sitenav a{color:var(--ink);font-weight:650;text-decoration:none;border-bottom:2px solid transparent;padding-bottom:1px}
+.sitenav a:hover{border-bottom-color:var(--line,#E3E1D8)}
+.sitenav a[aria-current="page"]{border-bottom-color:var(--way-yellow,#E8B71A)}
+.crumbs ol{list-style:none;padding:0;margin:0 0 4px;display:flex;flex-wrap:wrap}
+.crumbs li{margin:0;font-size:12.5px;color:var(--ink-soft)}
+.crumbs li+li::before{content:"\203A";margin:0 7px;color:var(--ink-soft)}
+.crumbs a{color:var(--ink-soft)}
+.related ul{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:480px){.related ul{grid-template-columns:1fr}}
+.related li{margin:0}
+.related li a{display:block;height:100%;background:var(--card,#fff);border:1px solid var(--line,#E3E1D8);border-radius:10px;
+  padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14.5px;line-height:1.3}
+.related li a:hover{border-color:var(--ink-soft)}
+.related li a span{display:block;margin-top:3px;font-weight:400;font-size:12.5px;color:var(--ink-soft)}
+.related p{color:var(--ink-soft);font-size:14px}
+.guides{margin-top:22px}
+.guides ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px 8px}
+.guides li{margin:0}
+.guides a{display:inline-block;border:1px solid var(--line,#E3E1D8);border-radius:999px;padding:5px 11px;font-size:13.5px;
+  font-weight:650;color:var(--ink);text-decoration:none;background:var(--card,#fff)}
+.guides a:hover{border-color:var(--ink-soft)}
+a.tname{color:inherit;text-decoration:none}
+a.tname:hover{text-decoration:underline}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Accueil",
+      "item": "https://levadinho-madeira.com/fr/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "À propos",
+      "item": "https://levadinho-madeira.com/fr/about/"
+    }
+  ]
+}
+</script>
+<!-- SITE-NAV-HEAD:END -->
+</head>
+<body>
+
+<div class="waymark" aria-hidden="true"></div>
+
+<header>
+  <nav class="langs" aria-label="Langue">
+    <a href="/about/" hreflang="en">EN</a>
+    <a href="/pt/about/" hreflang="pt">PT</a>
+    <a href="/fr/about/" hreflang="fr" aria-current="page">FR</a>
+    <a href="/de/about/" hreflang="de">DE</a>
+    <a href="/pl/about/" hreflang="pl">PL</a>
+  </nav>
+<!-- SITE-NAV:START (generated by scripts/gen_site_nav.py) -->
+  <nav class="sitenav" aria-label="Site">
+    <a href="/fr/">Tous les sentiers</a>
+    <a href="/fr/pr1/">PR1 aujourd'hui</a>
+    <a href="/fr/hiking-fees.html">Tarifs 2026</a>
+    <a href="/fr/simplifica-booking/">Réserver</a>
+    <a href="/fr/getting-back.html">Retour du PR1</a>
+    <a href="/fr/best-levada-walks/">Meilleures levadas</a>
+  </nav>
+  <nav class="crumbs" aria-label="Fil d'Ariane">
+    <ol>
+      <li><a href="/fr/">Accueil</a></li>
+      <li aria-current="page">À propos</li>
+    </ol>
+  </nav>
+<!-- SITE-NAV:END -->
+  <div class="brand">Levadinho · Réponses sentiers Madère</div>
+  <h1>À propos de Levadinho</h1>
+  <p class="sub">Un guide indépendant des sentiers de randonnée officiels de Madère : ce qu'il est, d'où vient chaque donnée, et ce qu'il n'est pas.</p>
+</header>
+
+<!-- LEVADINHO-CTA:START (generated by scripts/gen_cta.py) -->
+<aside class="lvd-cta" aria-labelledby="lvd-cta-h">
+  <div>
+    <h2 id="lvd-cta-h">Demandez à Levadinho sur WhatsApp</h2>
+    <p>Levadinho fonctionne uniquement sur WhatsApp — questions sur les sentiers, la réservation, le retour, dans votre langue.</p>
+    <a class="lvd-cta-btn" href="https://wa.me/447455718697?text=Bonjour%20Levadinho%20%21%20%F0%9F%91%8B%20%23web-about" target="_blank" rel="noopener" data-tag="web-about">Discuter avec Levadinho sur WhatsApp</a>
+  </div>
+  <figure class="lvd-cta-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" role="img" aria-label="QR code qui ouvre une conversation WhatsApp avec Levadinho" shape-rendering="crispEdges"><rect width="41" height="41" fill="#fff"/><path fill="#16342A" d="M2 2h7v1h-7zM10 2h1v1h-1zM12 2h1v1h-1zM14 2h3v1h-3zM19 2h1v1h-1zM22 2h3v1h-3zM27 2h2v1h-2zM32 2h7v1h-7zM2 3h1v1h-1zM8 3h1v1h-1zM11 3h3v1h-3zM16 3h1v1h-1zM18 3h2v1h-2zM22 3h1v1h-1zM26 3h2v1h-2zM32 3h1v1h-1zM38 3h1v1h-1zM2 4h1v1h-1zM4 4h3v1h-3zM8 4h1v1h-1zM12 4h1v1h-1zM14 4h1v1h-1zM16 4h1v1h-1zM19 4h2v1h-2zM23 4h1v1h-1zM25 4h1v1h-1zM29 4h2v1h-2zM32 4h1v1h-1zM34 4h3v1h-3zM38 4h1v1h-1zM2 5h1v1h-1zM4 5h3v1h-3zM8 5h1v1h-1zM10 5h1v1h-1zM12 5h2v1h-2zM15 5h1v1h-1zM17 5h1v1h-1zM20 5h2v1h-2zM24 5h1v1h-1zM26 5h2v1h-2zM32 5h1v1h-1zM34 5h3v1h-3zM38 5h1v1h-1zM2 6h1v1h-1zM4 6h3v1h-3zM8 6h1v1h-1zM10 6h2v1h-2zM14 6h1v1h-1zM17 6h2v1h-2zM20 6h1v1h-1zM24 6h4v1h-4zM29 6h1v1h-1zM32 6h1v1h-1zM34 6h3v1h-3zM38 6h1v1h-1zM2 7h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h1v1h-1zM14 7h1v1h-1zM21 7h2v1h-2zM24 7h1v1h-1zM26 7h1v1h-1zM28 7h1v1h-1zM32 7h1v1h-1zM38 7h1v1h-1zM2 8h7v1h-7zM10 8h1v1h-1zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM22 8h1v1h-1zM24 8h1v1h-1zM26 8h1v1h-1zM28 8h1v1h-1zM30 8h1v1h-1zM32 8h7v1h-7zM10 9h1v1h-1zM12 9h2v1h-2zM15 9h4v1h-4zM20 9h2v1h-2zM23 9h2v1h-2zM26 9h1v1h-1zM29 9h1v1h-1zM2 10h1v1h-1zM6 10h1v1h-1zM8 10h4v1h-4zM13 10h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM20 10h4v1h-4zM26 10h1v1h-1zM30 10h6v1h-6zM38 10h1v1h-1zM3 11h5v1h-5zM9 11h1v1h-1zM13 11h1v1h-1zM19 11h4v1h-4zM27 11h2v1h-2zM30 11h1v1h-1zM33 11h3v1h-3zM37 11h1v1h-1zM3 12h1v1h-1zM5 12h4v1h-4zM11 12h1v1h-1zM16 12h2v1h-2zM20 12h3v1h-3zM27 12h3v1h-3zM33 12h3v1h-3zM3 13h1v1h-1zM5 13h1v1h-1zM7 13h1v1h-1zM9 13h3v1h-3zM14 13h2v1h-2zM17 13h3v1h-3zM22 13h2v1h-2zM26 13h1v1h-1zM28 13h1v1h-1zM32 13h3v1h-3zM36 13h2v1h-2zM2 14h1v1h-1zM6 14h1v1h-1zM8 14h3v1h-3zM12 14h5v1h-5zM18 14h2v1h-2zM21 14h3v1h-3zM28 14h5v1h-5zM36 14h3v1h-3zM2 15h1v1h-1zM5 15h3v1h-3zM10 15h3v1h-3zM14 15h2v1h-2zM17 15h1v1h-1zM20 15h2v1h-2zM23 15h5v1h-5zM29 15h1v1h-1zM34 15h2v1h-2zM37 15h1v1h-1zM2 16h2v1h-2zM6 16h5v1h-5zM13 16h1v1h-1zM16 16h5v1h-5zM22 16h2v1h-2zM25 16h1v1h-1zM28 16h2v1h-2zM31 16h1v1h-1zM33 16h4v1h-4zM2 17h1v1h-1zM4 17h1v1h-1zM9 17h1v1h-1zM12 17h1v1h-1zM14 17h2v1h-2zM18 17h1v1h-1zM20 17h1v1h-1zM22 17h2v1h-2zM25 17h1v1h-1zM28 17h1v1h-1zM31 17h1v1h-1zM33 17h2v1h-2zM36 17h1v1h-1zM7 18h2v1h-2zM10 18h1v1h-1zM13 18h1v1h-1zM15 18h2v1h-2zM20 18h1v1h-1zM23 18h3v1h-3zM27 18h1v1h-1zM29 18h1v1h-1zM31 18h1v1h-1zM33 18h1v1h-1zM35 18h4v1h-4zM2 19h1v1h-1zM4 19h2v1h-2zM7 19h1v1h-1zM10 19h4v1h-4zM18 19h6v1h-6zM27 19h6v1h-6zM34 19h1v1h-1zM37 19h1v1h-1zM2 20h1v1h-1zM5 20h5v1h-5zM11 20h3v1h-3zM15 20h1v1h-1zM18 20h1v1h-1zM21 20h2v1h-2zM28 20h2v1h-2zM31 20h1v1h-1zM36 20h1v1h-1zM2 21h3v1h-3zM9 21h1v1h-1zM11 21h4v1h-4zM19 21h1v1h-1zM22 21h2v1h-2zM26 21h1v1h-1zM29 21h2v1h-2zM34 21h1v1h-1zM36 21h2v1h-2zM3 22h1v1h-1zM5 22h1v1h-1zM8 22h1v1h-1zM11 22h1v1h-1zM13 22h2v1h-2zM16 22h4v1h-4zM23 22h2v1h-2zM28 22h1v1h-1zM32 22h2v1h-2zM36 22h1v1h-1zM4 23h2v1h-2zM7 23h1v1h-1zM10 23h1v1h-1zM14 23h2v1h-2zM17 23h1v1h-1zM19 23h2v1h-2zM22 23h6v1h-6zM29 23h1v1h-1zM33 23h2v1h-2zM2 24h2v1h-2zM5 24h2v1h-2zM8 24h1v1h-1zM10 24h1v1h-1zM13 24h2v1h-2zM16 24h2v1h-2zM19 24h1v1h-1zM24 24h6v1h-6zM32 24h5v1h-5zM2 25h2v1h-2zM6 25h1v1h-1zM10 25h2v1h-2zM15 25h1v1h-1zM17 25h1v1h-1zM20 25h1v1h-1zM22 25h2v1h-2zM25 25h1v1h-1zM27 25h3v1h-3zM31 25h4v1h-4zM36 25h2v1h-2zM3 26h1v1h-1zM5 26h5v1h-5zM11 26h1v1h-1zM14 26h1v1h-1zM16 26h1v1h-1zM19 26h3v1h-3zM28 26h1v1h-1zM33 26h1v1h-1zM35 26h3v1h-3zM2 27h1v1h-1zM4 27h3v1h-3zM10 27h1v1h-1zM12 27h2v1h-2zM19 27h1v1h-1zM21 27h1v1h-1zM26 27h3v1h-3zM30 27h2v1h-2zM34 27h2v1h-2zM5 28h2v1h-2zM8 28h1v1h-1zM10 28h1v1h-1zM12 28h1v1h-1zM14 28h2v1h-2zM17 28h2v1h-2zM20 28h4v1h-4zM26 28h1v1h-1zM28 28h1v1h-1zM30 28h1v1h-1zM32 28h1v1h-1zM34 28h3v1h-3zM10 29h1v1h-1zM12 29h2v1h-2zM15 29h6v1h-6zM22 29h4v1h-4zM28 29h2v1h-2zM31 29h4v1h-4zM36 29h1v1h-1zM38 29h1v1h-1zM2 30h5v1h-5zM8 30h1v1h-1zM10 30h3v1h-3zM19 30h1v1h-1zM21 30h1v1h-1zM23 30h3v1h-3zM28 30h1v1h-1zM30 30h5v1h-5zM36 30h1v1h-1zM38 30h1v1h-1zM10 31h2v1h-2zM15 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM25 31h2v1h-2zM30 31h1v1h-1zM34 31h1v1h-1zM38 31h1v1h-1zM2 32h7v1h-7zM10 32h2v1h-2zM13 32h2v1h-2zM16 32h5v1h-5zM23 32h4v1h-4zM28 32h1v1h-1zM30 32h1v1h-1zM32 32h1v1h-1zM34 32h1v1h-1zM2 33h1v1h-1zM8 33h1v1h-1zM13 33h3v1h-3zM18 33h1v1h-1zM20 33h1v1h-1zM24 33h1v1h-1zM26 33h3v1h-3zM30 33h1v1h-1zM34 33h4v1h-4zM2 34h1v1h-1zM4 34h3v1h-3zM8 34h1v1h-1zM10 34h1v1h-1zM12 34h4v1h-4zM18 34h1v1h-1zM22 34h1v1h-1zM24 34h1v1h-1zM26 34h2v1h-2zM30 34h7v1h-7zM38 34h1v1h-1zM2 35h1v1h-1zM4 35h3v1h-3zM8 35h1v1h-1zM11 35h1v1h-1zM14 35h3v1h-3zM18 35h1v1h-1zM22 35h1v1h-1zM24 35h1v1h-1zM27 35h1v1h-1zM29 35h1v1h-1zM31 35h3v1h-3zM36 35h2v1h-2zM2 36h1v1h-1zM4 36h3v1h-3zM8 36h1v1h-1zM11 36h2v1h-2zM14 36h1v1h-1zM16 36h1v1h-1zM19 36h2v1h-2zM23 36h1v1h-1zM25 36h1v1h-1zM28 36h1v1h-1zM31 36h2v1h-2zM36 36h2v1h-2zM2 37h1v1h-1zM8 37h1v1h-1zM12 37h1v1h-1zM16 37h2v1h-2zM19 37h2v1h-2zM23 37h1v1h-1zM26 37h1v1h-1zM28 37h4v1h-4zM34 37h1v1h-1zM36 37h2v1h-2zM2 38h7v1h-7zM10 38h1v1h-1zM12 38h1v1h-1zM14 38h1v1h-1zM18 38h2v1h-2zM21 38h1v1h-1zM23 38h2v1h-2zM28 38h1v1h-1zM32 38h2v1h-2zM36 38h3v1h-3z"/></svg><figcaption>Scannez avec votre téléphone</figcaption></figure>
+</aside>
+<script>
+(function(){var a=document.querySelector(".lvd-cta-btn");if(!a)return;
+  a.addEventListener("click",function(){try{var g=window.goatcounter;
+    if(g&&g.count)g.count({path:"whatsapp-"+a.getAttribute("data-tag"),title:"Levadinho WhatsApp CTA",event:true});}catch(e){}});})();
+</script>
+<!-- LEVADINHO-CTA:END -->
+
+<section>
+  <h2>Ce qu'est Levadinho</h2>
+  <p>Levadinho est un site et un assistant WhatsApp indépendants qui indiquent si chacun des sentiers de randonnée officiels (PR) de Madère est ouvert, partiellement ouvert ou fermé, d'après la liste officielle des avis de l'IFCN, avec les tarifs 2026, les étapes de réservation sur SIMplifica et comment s'y rendre et en revenir en bus ou en taxi. C'est un projet personnel de Mayke De Freitas Santos, sans lien avec l'IFCN ni avec le Gouvernement régional de Madère.</p>
+  <p>Posez votre question à Levadinho sur WhatsApp, gratuitement, dans votre langue : <a class="plain" href="https://wa.me/447455718697?text=Bonjour%20Levadinho%20%21%20%F0%9F%91%8B%20%23web-about" target="_blank" rel="noopener">+44 7455 718697</a>.</p>
+</section>
+
+<section>
+  <h2>D'où viennent les données</h2>
+<ul><li><b>État des sentiers :</b> <a class="plain" href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" target="_blank" rel="noopener">la liste officielle des avis de l'IFCN</a>. Un programme la lit chaque matin. Les sentiers fermés ou soumis à restriction apparaissent comme fermés ; un sentier dont un tronçon est fermé ou restreint apparaît comme partiellement ouvert, jamais comme ouvert. L'IFCN met la liste à jour quand les conditions changent, pas à jour fixe.</li><li><b>Météo :</b> mesures des stations de l'IPMA (sommet du Pico do Areeiro et quatre stations régionales). Ce sont des mesures, pas des prévisions.</li><li><b>Tarifs et règles :</b> Portaria 801/2025 modifiée par la Portaria 48/2026, DLR 24/2022/M, la FAQ de l'IFCN et SIMplifica.</li><li><b>Caractéristiques des sentiers :</b> la page officielle Visit Madeira de chaque sentier et les panneaux de l'IFCN au départ.</li><li><b>Bus :</b> les horaires imprimés des opérateurs (Horários do Funchal et les horaires SIGA), tous les départs.</li></ul>
+  <p>Chaque page se termine par une courte liste de ses sources.</p>
+</section>
+
+<section>
+  <h2>Ce que Levadinho n'est pas</h2>
+  <p>Ce n'est ni l'IFCN, ni SIMplifica, ni le Gouvernement régional, et il ne vend pas de billets : la réservation se fait uniquement sur <a class="plain" href="https://simplifica.madeira.gov.pt/" target="_blank" rel="noopener">SIMplifica</a>. Aucun lien d'affiliation, aucune commission. Si notre page et une source officielle divergent, c'est la source officielle qui fait foi : dites-le-nous.</p>
+</section>
+
+<section>
+  <h2>Données pour applications et assistants IA</h2>
+  <p>Les mêmes informations sont publiées sous forme de données, libres d'usage avec un lien vers nous : <a class="plain" href="/status.json">status.json</a> · <a class="plain" href="/llms.txt">llms.txt</a> · <a class="plain" href="/llms-full.txt">llms-full.txt</a> · <a class="plain" href="/trail-status.xml">RSS</a> · <a class="plain" href="/history/status-daily.jsonl">history (JSON Lines)</a>.</p>
+</section>
+
+<section>
+  <h2>Contact</h2>
+  <p>Levadinho est un projet personnel de Mayke De Freitas Santos. Corrections et questions : <a class="plain" href="mailto:hello@levadinho-madeira.com">hello@levadinho-madeira.com</a>.</p>
+</section>
+
+<!-- SITE-NAV-GUIDES:START (generated by scripts/gen_site_nav.py) -->
+<nav class="guides" aria-label="Autres guides">
+  <h2>Autres guides</h2>
+  <ul>
+    <li><a href="/fr/trail-closures/">Quels sentiers sont fermés aujourd'hui ?</a></li>
+    <li><a href="/fr/pr1/">Le PR1 est-il ouvert aujourd'hui ?</a></li>
+    <li><a href="/fr/hiking-fees.html">Tarifs des randonnées à Madère 2026</a></li>
+    <li><a href="/fr/simplifica-booking/">Réserver un sentier sur SIMplifica, pas à pas</a></li>
+    <li><a href="/fr/do-i-need-a-permit/">Faut-il un permis pour les levadas ?</a></li>
+    <li><a href="/fr/best-levada-walks/">Les meilleures levadas de Madère</a></li>
+  </ul>
+</nav>
+<!-- SITE-NAV-GUIDES:END -->
+<footer>
+  <p>L'état provient de la <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">liste officielle des avis de l'IFCN</a>. Réservation via <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, météo du sommet fournie par l'<a href="https://www.ipma.pt/" rel="noopener">IPMA</a>. <a href="/privacy/#fr">Politique de confidentialité</a></p>
+<!-- OWNER-LINE:START (generated by scripts/gen_owner.py) --><span class="owner" style="display:block;margin-top:6px">Ceci est un projet personnel de © Mayke De Freitas Santos 2026. Tous droits réservés. Contact : <a href="mailto:hello@levadinho-madeira.com" style="color:inherit">hello@levadinho-madeira.com</a> · <a href="/fr/about/" style="color:inherit">À propos</a></span><!-- OWNER-LINE:END --></footer>
+
+<script>
+(function(){
+  const c = CONFIG;
+  try {
+    if (location.hash === '#skipgc') localStorage.setItem('gc-skip','1');
+    if (location.hash === '#countme') localStorage.removeItem('gc-skip');
+  } catch(e){}
+  const SKIP_ANALYTICS = (function(){ try { return localStorage.getItem('gc-skip')==='1'; } catch(e){ return false; } })();
+  var st = document.getElementById('stamp'); if (st) st.textContent = c.lastUpdated;
+  if (c.goatcounterCode && !SKIP_ANALYTICS){
+    const s = document.createElement('script');
+    s.dataset.goatcounter = 'https://' + c.goatcounterCode + '.goatcounter.com/count';
+    s.async = true; s.src = '//gc.zgo.at/count.js';
+    document.body.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>

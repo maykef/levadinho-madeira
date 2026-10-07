@@ -52,7 +52,7 @@ WA_PREFIX = {"pt": "Olá Levadinho! 👋", "en": "Hello Levadinho! 👋", "fr": 
 
 GREETING = "{prefix} #{tag}"
 LANG_DIRS = ("pt", "fr", "de", "pl")
-SKIP_TOP = {"bot", "seo_research", ".claude", ".git", "https___madeira", "privacy", "trails", "img", "scripts", "node_modules"}
+SKIP_TOP = {"bot", "seo_research", ".claude", ".git", "https___madeira", "privacy", "trails", "img", "scripts", "node_modules", "reports", "google_search_console", "history"}
 
 # Page (path inside its language folder) -> tag. Trail pages are tagged from their data-trail code.
 TAGS = {
@@ -71,6 +71,8 @@ TAGS = {
     "best-levada-walks/index.html": "web-best",
     "easy-levadas-no-vertigo/index.html": "web-easy",
     "levadas-with-tunnels/index.html": "web-tunnels",
+    "trail-closures/index.html": "web-closures",
+    "about/index.html": "web-about",
 }
 WEB_TAG = re.compile(r"web-[a-z0-9-]{1,40}")   # must match bot/brain.py
 
