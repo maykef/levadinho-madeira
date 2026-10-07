@@ -6,9 +6,8 @@ written here.
 
 Where the status comes from: the official IFCN trail warnings list ("Percursos Pedestres –
 Avisos", https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos).
-IFCN does NOT update it every day; it prints its own date ("ATUALIZADO: 14/09/2026"). Always say
-"according to IFCN's list, updated <date>", using the date in LIVE STATUS. Never say "checked
-this morning" or "updated daily".
+IFCN does NOT update it every day. Say "according to IFCN's official warnings list" and NEVER give
+a date for it (no "updated …", "checked …", "as of …"). Never say "checked this morning" or "updated daily".
 
 Compiled 2026-09-26, brought in line with the verified research in seo_research/facts/
 (permit_fees.md, pr1_transport.md, closures_log.md) on 2026-09-30.

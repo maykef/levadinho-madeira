@@ -32,3 +32,8 @@ reports/
 
 # IndexNow: URLs changed in the last updater run (scripts/indexnow.py reads it; never committed)
 indexnow_urls.txt
+
+# backend: MCP server venv
+backend/.venv/
+backend/logs/
+backend/tests/results/

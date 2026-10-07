@@ -296,10 +296,10 @@ def test_facts():
     for s in ("€250 to €2,500", "Portaria 801/2025 art. 10", "24/2022/M", "art. 13", "**€7**", "**€9**",
               "**€22.50**", "**€52.50**", "PR1 is never included", "06:00", "06:45", "12:15", "19:00",
               "€3.00 per trip", "291 705 555", "+351 291 572 540", "**1 May 2026**", "26 June 2026",
-              "14–17 and 21–22", "ATUALIZADO", "according to IFCN's list, updated", "No bus serves Achada do Teixeira",
+              "14–17 and 21–22", "NEVER give\na date", "No bus serves Achada do Teixeira",
               "without a ticket", "Not confirmed"):
         check(s in f, f"facts: {s}")
-    for s in ("fines reported up to €250", "NO public bus at Achada do Teixeira or at Pico do Areeiro",
+    for s in ("ATUALIZADO", "according to IFCN's list, updated", "fines reported up to €250", "NO public bus at Achada do Teixeira or at Pico do Areeiro",
               "Watching sunrise from the Pico do Areeiro viewpoint is free", "Contact the SIMplifica call centre"):
         check(s not in f, f"facts: stale claim gone: {s}")
     check(brain.FACTS == f, "brain loads the facts file")
@@ -308,7 +308,7 @@ def test_facts():
 # ---------------------------------------------------------------- 5. brain IFCN wording
 def test_brain_ifcn():
     b = brain.status_block()
-    check("IFCN list updated 14/09/2026" in b and "warnings list" in b, "status_block: IFCN source + updated date")
+    check("14/09/2026" not in b and "updated" not in b and "warnings list" in b, "status_block: IFCN source, no date")
     check("every morning" not in b and "Visit Madeira" not in b, "status_block: no 'every morning' claim")
     check("PR1.2 | Vereda do Pico Ruivo | OPEN (Aberto só de manhã.)" in b, "trail note: pt fallback")
     check("PR11 | Vereda dos Balcões | OPEN (Restricted.)" in b, "trail note: en preferred")
@@ -335,17 +335,17 @@ def test_brain_ifcn():
           "classifier's trail guess ignored (Tornos is not PR14)")
     check(brain._en("plain") == "plain" and brain._en({"fr": "x"}) == "x" and brain._en(None) == "", "_en fallbacks")
     STATUS["source"] = {}
-    check("update date not available" in brain.status_block(), "no source.updated: says so")
+    check("date" not in brain.status_block().split("\n")[0].replace("Never give any date", ""), "no source.updated: no date talk")
     STATUS["source"] = {"name": "IFCN", "updated": "14/09/2026"}
-    check("say it's from this morning" not in brain.SYSTEM and "Never say it was checked this morning" in brain.SYSTEM and "IFCN's official warnings list" in brain.SYSTEM
-          and "updated 14/09/2026" in brain.SYSTEM, "SYSTEM: cite IFCN's updated date, not this morning")
+    check("say it's from this morning" not in brain.SYSTEM and "never say it was checked this morning" in brain.SYSTEM.lower() and "IFCN's official warnings list" in brain.SYSTEM
+          and "NEVER give a date" in brain.SYSTEM and "14/09/2026" not in brain.SYSTEM, "SYSTEM: cite IFCN, never a date")
     for lang, s in brain.LOC_FAR.items():
-        check("{updated}" in s and "IFCN" in s, f"LOC_FAR[{lang}] cites IFCN + date")
+        check("{updated}" not in s and "IFCN" in s, f"LOC_FAR[{lang}] cites IFCN, no date")
     u = "351920000002"
     store.reset(u)
     store.set_user(u, lang="pt", state="ready", consent="yes")
     out = brain.handle_location(u, 32.65, -16.91)  # Funchal: far from PR1
-    check("14/09/2026" in out[0]["body"] and "IFCN" in out[0]["body"] and "parcialmente aberto" in out[0]["body"],
+    check("14/09/2026" not in out[0]["body"] and "IFCN" in out[0]["body"] and "parcialmente aberto" in out[0]["body"],
           f"far location reply (pt): {out[0]['body'][:120]}")
 
 

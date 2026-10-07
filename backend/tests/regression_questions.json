@@ -1,0 +1,349 @@
+{
+ "about": "Regression set for the tools-only bot (phase 3). must = regexes the answer has to match (case-insensitive), must_not = regexes it must not match. Scored automatically; read the answers too. Status-dependent answers depend on IFCN's list on the day. must_not entries added 2026-10-07 for facts the prompt-stuffed bot invented (dogs on leash, bus 410/420 to Calheta, 'last bus 12:15').",
+ "questions": [
+  {
+   "id": "pr1-status-en",
+   "lang": "en",
+   "q": "Is PR1 open today?",
+   "must": [
+    "Pedra Rija"
+   ]
+  },
+  {
+   "id": "pr1-status-pt",
+   "lang": "pt",
+   "q": "O PR1 está aberto hoje?",
+   "must": [
+    "Pedra Rija"
+   ]
+  },
+  {
+   "id": "pr1-status-fr",
+   "lang": "fr",
+   "q": "Le PR1 est-il ouvert aujourd'hui ?",
+   "must": [
+    "Pedra Rija"
+   ]
+  },
+  {
+   "id": "pr1-status-pl",
+   "lang": "pl",
+   "q": "Czy PR1 jest dziś otwarty?",
+   "must": [
+    "Pedra Rija"
+   ]
+  },
+  {
+   "id": "pr1-fee-en",
+   "lang": "en",
+   "q": "How much does PR1 cost?",
+   "must": [
+    "10[.,]50",
+    "4[.,]50"
+   ]
+  },
+  {
+   "id": "pr1-fee-de",
+   "lang": "de",
+   "q": "Was kostet der PR1?",
+   "must": [
+    "10[.,]50"
+   ]
+  },
+  {
+   "id": "pr1-fee-fr",
+   "lang": "fr",
+   "q": "Combien coûte le PR1 ?",
+   "must": [
+    "10[.,]50"
+   ]
+  },
+  {
+   "id": "pr1-fee-pl",
+   "lang": "pl",
+   "q": "Ile kosztuje PR1?",
+   "must": [
+    "10[.,]50"
+   ]
+  },
+  {
+   "id": "pr1-oneway-en",
+   "lang": "en",
+   "q": "Can I walk PR1 from Pico Ruivo to Pico do Areeiro?",
+   "must": [
+    "one[- ]way"
+   ]
+  },
+  {
+   "id": "pr1-oneway-pt",
+   "lang": "pt",
+   "q": "Posso fazer o PR1 nos dois sentidos?",
+   "must": [
+    "Pedra Rija"
+   ]
+  },
+  {
+   "id": "pr1-back-en",
+   "lang": "en",
+   "q": "How do I get back to my car at Areeiro after walking PR1?",
+   "must": [
+    "Achada do Teixeira"
+   ],
+   "must_not": [
+    "Uber"
+   ]
+  },
+  {
+   "id": "pr1-bus-en",
+   "lang": "en",
+   "q": "Is there a bus from Funchal to Pico do Areeiro?",
+   "must": [
+    "0?6[:.h]00",
+    "3[.,]00|€ ?3\\b|3 ?€"
+   ]
+  },
+  {
+   "id": "fine-en",
+   "lang": "en",
+   "q": "What is the fine for hiking without a ticket?",
+   "must": [
+    "250",
+    "2[.,]?500"
+   ],
+   "must_not": [
+    "up to €? ?250\\b"
+   ]
+  },
+  {
+   "id": "refund-en",
+   "lang": "en",
+   "q": "Can I get a refund if it rains?",
+   "must": [
+    "IFCN"
+   ]
+  },
+  {
+   "id": "refund-de",
+   "lang": "de",
+   "q": "Bekomme ich mein Geld zurück, wenn es regnet?",
+   "must": [
+    "IFCN"
+   ]
+  },
+  {
+   "id": "children-en",
+   "lang": "en",
+   "q": "Do children need a ticket for PR1?",
+   "must": [
+    "12"
+   ]
+  },
+  {
+   "id": "soldout-en",
+   "lang": "en",
+   "q": "PR1 is sold out, what can I do?",
+   "must": [
+    "PR1\\.2|cancell|operator"
+   ]
+  },
+  {
+   "id": "sunrise-en",
+   "lang": "en",
+   "q": "What time is sunrise at Pico do Areeiro in mid-October?",
+   "must": [
+    "0?8[:.h]1\\d"
+   ]
+  },
+  {
+   "id": "cafe-en",
+   "lang": "en",
+   "q": "Is the café at Pico do Areeiro open at sunrise?",
+   "must": [
+    "0?9[:.h]00|closed"
+   ]
+  },
+  {
+   "id": "headlamp-en",
+   "lang": "en",
+   "q": "Do I need a headlamp on PR1?",
+   "must": [
+    "tunnel"
+   ]
+  },
+  {
+   "id": "vertigo-en",
+   "lang": "en",
+   "q": "Is PR1 OK for someone with vertigo?",
+   "must": [
+    "drop|vertigo|exposed"
+   ]
+  },
+  {
+   "id": "multiday-en",
+   "lang": "en",
+   "q": "Is PR1 included in the 3-day trail rate?",
+   "must": [
+    "not|never|isn't|excluded"
+   ]
+  },
+  {
+   "id": "duration-en",
+   "lang": "en",
+   "q": "How long does PR1 take?",
+   "must": [
+    "\\b3\\b|three"
+   ]
+  },
+  {
+   "id": "booking-en",
+   "lang": "en",
+   "q": "How do I book PR1?",
+   "must": [
+    "SIMplifica"
+   ]
+  },
+  {
+   "id": "sunrise-ticket-en",
+   "lang": "en",
+   "q": "Can I watch the sunrise at Pico do Areeiro without a ticket?",
+   "must": [
+    "confirm"
+   ]
+  },
+  {
+   "id": "parking-en",
+   "lang": "en",
+   "q": "How much is parking at Pico do Areeiro?",
+   "must": [
+    "\\b4\\b|4[.,]00"
+   ],
+   "must_not": [
+    "last bus is 12:15",
+    "no bus .{0,40}afternoon"
+   ]
+  },
+  {
+   "id": "pr9-status-en",
+   "lang": "en",
+   "q": "Is Caldeirão Verde open?",
+   "must": [
+    "PR9|Caldeir"
+   ]
+  },
+  {
+   "id": "pr8-bus-en",
+   "lang": "en",
+   "q": "How do I get to São Lourenço by bus from Funchal?",
+   "must": [
+    "113|702"
+   ]
+  },
+  {
+   "id": "pr6-bus-de",
+   "lang": "de",
+   "q": "Wie komme ich mit dem Bus von Funchal nach 25 Fontes?",
+   "must": [
+    "kein|keine"
+   ],
+   "must_not": [
+    "\\b4[12]0\\b"
+   ]
+  },
+  {
+   "id": "novertigo-en",
+   "lang": "en",
+   "q": "Which easy levadas have no vertigo?",
+   "must": [
+    "PR11|Balc"
+   ]
+  },
+  {
+   "id": "pr6-fee-pt",
+   "lang": "pt",
+   "q": "Quanto custa a Levada das 25 Fontes?",
+   "must": [
+    "4[.,]50"
+   ]
+  },
+  {
+   "id": "alt-en",
+   "lang": "en",
+   "q": "PR1 is closed, what else can I walk nearby?",
+   "must": [
+    "PR1\\.2|PR11|Balc"
+   ]
+  },
+  {
+   "id": "taxi-achada-en",
+   "lang": "en",
+   "q": "What's the taxi number for Achada do Teixeira?",
+   "must": [
+    "572 ?540"
+   ]
+  },
+  {
+   "id": "back-achada-fr",
+   "lang": "fr",
+   "q": "Comment rentrer de Achada do Teixeira à Funchal ?",
+   "must": [
+    "taxi"
+   ]
+  },
+  {
+   "id": "weather-en",
+   "lang": "en",
+   "q": "What's the weather at Pico do Areeiro now?",
+   "must": [
+    "°C|degrees"
+   ]
+  },
+  {
+   "id": "closed-en",
+   "lang": "en",
+   "q": "Which trails are closed today?",
+   "must": [
+    "PR7|Moinho"
+   ]
+  },
+  {
+   "id": "taxi-price-en",
+   "lang": "en",
+   "q": "How much is a taxi from Funchal to Pico do Areeiro?",
+   "must": [
+    "meter|quote"
+   ],
+   "must_not": [
+    "€ ?\\d{2}|\\d{2} ?€|\\d{2} euros"
+   ]
+  },
+  {
+   "id": "dog-en",
+   "lang": "en",
+   "q": "Can I bring my dog on the levadas?",
+   "must": [
+    "don't|do not|no (sourced )?information|not sure|can't confirm|cannot confirm"
+   ],
+   "must_not": [
+    "leash at all times",
+    "dogs are allowed"
+   ]
+  },
+  {
+   "id": "poncha-en",
+   "lang": "en",
+   "q": "Where is the best poncha in Funchal?",
+   "must": [],
+   "must_not": [
+    "\\bbar\\b.*Rua"
+   ]
+  },
+  {
+   "id": "pr18-tunnels-en",
+   "lang": "en",
+   "q": "Does Levada do Rei have tunnels?",
+   "must": [
+    "PR18|Rei"
+   ]
+  }
+ ]
+}
