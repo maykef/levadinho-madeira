@@ -1,5 +1,6 @@
 /* Levadinho engagement events (owner, 2026-10-07). No cookies, nothing stored in the browser.
-   Sends a few GoatCounter events per visit, only when GoatCounter itself loaded (so #skipgc devices send nothing):
+   Sends a few GoatCounter events per visit to the separate site madeira-levadinho-events (page visits stay on
+   madeira-levadinho), only when GoatCounter itself loaded (so #skipgc devices send nothing):
      time-<bucket>:<path>     how long the page stayed open (0-10s, 10-30s, 30-60s, 1-3m, 3m+), sent once on leaving
      scroll-<max>:<path>      deepest scroll reached (25, 50, 75, 100 %), sent once on leaving
      seen-<block>:<path>      a block came into view: cta (WhatsApp), status, bus, faq, webcam, map, weather
@@ -11,11 +12,19 @@
   var page = location.pathname || "/";
   var start = Date.now(), maxScroll = 0, sentLeave = false, seen = {};
 
-  function gc() { return window.goatcounter && window.goatcounter.count ? window.goatcounter : null; }
+  // Interactions go to a separate GoatCounter site so the main one counts page visits only (owner, 2026-10-07).
+  var EVENTS = "https://madeira-levadinho-events.goatcounter.com";
+  function gc() { return window.goatcounter && window.goatcounter.url ? window.goatcounter : null; }
   function send(name) {
     var g = gc();
     if (!g) return;
-    try { g.count({ path: name + ":" + page, title: name, event: true }); } catch (e) {}
+    try {
+      if (g.filter && g.filter()) return;  // same rules as the page count (#skipgc, localhost, frames)
+      var url = g.url({ path: name + ":" + page, title: name, event: true });
+      if (!url) return;
+      url = url.replace(/^(https?:)?\/\/[^\/]+/, EVENTS);
+      if (!(navigator.sendBeacon && navigator.sendBeacon(url))) { var i = new Image(); i.src = url; }
+    } catch (e) {}
   }
 
   function bucket(s) {

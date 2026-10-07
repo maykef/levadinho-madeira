@@ -181,12 +181,7 @@ def block_html(lang, tag):
         '    <a class="lvd-cta-btn" href="{href}" target="_blank" rel="noopener" data-tag="{tag}">{btn}</a>\n'
         '  </div>\n'
         '  <figure class="lvd-cta-qr">{svg}<figcaption>{cap}</figcaption></figure>\n'
-        '</aside>\n'
-        '<script>\n'
-        '(function(){{var a=document.querySelector(".lvd-cta-btn");if(!a)return;\n'
-        '  a.addEventListener("click",function(){{try{{var g=window.goatcounter;\n'
-        '    if(g&&g.count)g.count({{path:"whatsapp-"+a.getAttribute("data-tag"),title:"Levadinho WhatsApp CTA",event:true}});}}catch(e){{}}}});}})();\n'
-        '</script>'
+        '</aside>'  # the click is counted by /engage.js as out-whatsapp:<path> on the events site (owner, 2026-10-07)
     ).format(h=T["h"], p=T["p"], href=href, tag=tag, btn=T["btn"], svg=qr_svg(url, T["qr"]), cap=T["cap"])
 
 
