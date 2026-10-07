@@ -11,7 +11,11 @@ One sourced knowledge store, read by three clients: the WhatsApp bot (tools-only
 | `kbtools.py` | The 13 read-only tools as plain functions (psycopg). The bot imports this directly |
 | `mcp_server.py` | MCP server (official `mcp` SDK 2.x, `MCPServer`), streamable HTTP on `127.0.0.1:5040/mcp`, stateless JSON; `--stdio` for local clients |
 | `tests/test_mcp.py` | End-to-end MCP test (spare port 5041) |
-| `tests/regression.py` + `regression_questions.json` | The bot's 40-question regression set (PR1 + other trails, 5 languages) |
+| `tests/regression.py` + `regression_questions.json` | The bot's 40-question regression set (PR1 + other trails, 5 languages); `heldout_questions.json` = 15 unseen questions |
+
+The bot's tools-only path is `bot/brain_tools.py` (imports `kbtools` directly, no MCP hop). It is used only when
+`BOT_TOOLS=1` is in `bot/.env`; without it the bot answers the old way (prompt-stuffed facts). The flag needs a full
+restart. vLLM must run with `--enable-auto-tool-choice --tool-call-parser qwen3_coder` (`bot/start.sh`).
 
 ## Where the data comes from
 

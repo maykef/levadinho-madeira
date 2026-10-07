@@ -42,7 +42,8 @@ DOCKER_RUN = ["docker", "run", "-d", "--name", CONTAINER, "--gpus", "all", "--ip
               "-p", "127.0.0.1:8001:8000", "-v", "/mnt/nvme8tb/huggingface_cache:/root/.cache/huggingface",
               "-e", "HF_HUB_OFFLINE=1", "vllm/vllm-openai:nightly", "--model", "Qwen/Qwen3.6-35B-A3B-FP8",
               "--served-model-name", "levadinho", "--max-model-len", "32768", "--gpu-memory-utilization", "0.85",
-              "--kv-cache-dtype", "fp8", "--reasoning-parser", "qwen3"]
+              "--kv-cache-dtype", "fp8", "--reasoning-parser", "qwen3",
+              "--enable-auto-tool-choice", "--tool-call-parser", "qwen3_coder"]  # tool calling (model card: vLLM, qwen3_coder)
 FLAG = "llm_started_by"  # store.py kv: "webhook" while a model this module started is running
 
 _lock = threading.Lock()

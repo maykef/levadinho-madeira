@@ -90,6 +90,9 @@ def resolve_trail(text):
         code = "PR" + m.group(1).replace(",", ".")
         if _q("SELECT 1 FROM kb.trail WHERE code = %s", (code,)):
             return code
+    rows = _q("""SELECT code FROM kb.trail WHERE kb.unaccent_i(name) ILIKE '%%' || kb.unaccent_i(%s) || '%%' ORDER BY code LIMIT 1""", (text,))
+    if rows:
+        return rows[0]["code"]
     rows = _q("""SELECT code, similarity(name, %s) s FROM kb.trail
                  WHERE name ILIKE '%%' || %s || '%%' OR similarity(name, %s) > 0.3
                  ORDER BY (name ILIKE '%%' || %s || '%%') DESC, s DESC LIMIT 1""", (text, text, text, text))
@@ -113,7 +116,10 @@ def trail_status(code: str | None = None, lang: str = "en") -> dict:
         c = _need_trail(code)
         r = _q("""SELECT t.code, t.name, s.status, s.note, s.checked_at, t.page_url FROM kb.trail t
                   JOIN kb.trail_status s USING (code) WHERE t.code = %s""", (c,))[0]
+        rules = _q("""SELECT text, source_id FROM kb.fact WHERE subject = %s AND topic IN ('one_way', 'getting_back')
+                      AND confirmed ORDER BY topic DESC, id""", (c,))
         return {"code": r["code"], "name": r["name"], "status": r["status"], "note": _pick(r["note"], lang),
+                **({"rules": [_pick(x["text"], lang) for x in rules]} if rules else {}),
                 "page": _page(r["page_url"], lang), "source": src}
     rows = _q("""SELECT t.code, t.name, s.status, s.note, s.checked_at FROM kb.trail t
                  JOIN kb.trail_status s USING (code) ORDER BY s.status, t.code""")
@@ -142,8 +148,11 @@ def trail_facts(code: str, lang: str = "en") -> dict:
         "route_type": t["route_type"], "start": t["start_name"], "end": t["end_name"], "region": t["region"],
         "fee_eur": float(t["fee_eur"]) if t["fee_eur"] is not None else None,
         "fee_note": None if t["fee_eur"] is not None else "No IFCN fee for this trail.",
-        "tunnels": t["tunnels"], "torch": t["torch"], "exposure": t["exposure"],
-        "tunnels_note": "tunnels/torch/exposure null = no sourced data, not 'none'.",
+        "tunnels": t["tunnels"], "torch_needed": {True: "yes", False: "no"}.get(t["torch"]), "exposure": t["exposure"],
+        **({"panel_notes": _pick((t["extras"] or {}).get("notes"), lang)} if (t["extras"] or {}).get("notes") else {}),
+        **({"ifcn_panel_warning": t["extras"]["ifcn_warning"].get("text_en")}
+           if ((t["extras"] or {}).get("ifcn_warning") or {}).get("text_en") else {}),
+        "tunnels_note": "tunnels/torch_needed/exposure null = no sourced data, not 'none'.",
         "trailhead": {"lat": t["lat"], "lon": t["lon"]},
         "page": _page(t["page_url"], lang), "official_page": t["official_url"],
         "notes": [{"topic": n["topic"], "text": _pick(n["text"], lang), "source": _source(n["source_id"])} for n in notes],
@@ -153,11 +162,16 @@ def trail_facts(code: str, lang: str = "en") -> dict:
 
 def find_trails(region: str | None = None, max_km: float | None = None, difficulty: str | None = None,
                 no_vertigo: bool = False, has_tunnels: bool | None = None, open_only: bool = True,
-                near_lat: float | None = None, near_lon: float | None = None, exclude: str | None = None,
-                limit: int = 8, lang: str = "en") -> dict:
+                near_lat: float | None = None, near_lon: float | None = None, near_trail: str | None = None,
+                exclude: str | None = None, limit: int = 8, lang: str = "en") -> dict:
     """Trails matching filters, e.g. alternatives when one is closed or full. region: summit|north|west|east|south.
-    no_vertigo keeps only trails whose IFCN panel exposure is 'low'. near_lat/near_lon sorts by trailhead distance."""
+    no_vertigo keeps only trails whose IFCN panel exposure is 'low'. near_lat/near_lon (or near_trail, a trail code:
+    its trailhead, and that trail itself is left out) sorts by trailhead distance."""
     lang = _lang(lang)
+    if near_trail:
+        nt = _need_trail(near_trail)
+        r = _q("SELECT ST_Y(trailhead::geometry) lat, ST_X(trailhead::geometry) lon FROM kb.trail WHERE code = %s", (nt,))[0]
+        near_lat, near_lon, exclude = r["lat"], r["lon"], exclude or nt
     where, args = ["TRUE"], []
     if region:
         where.append("t.region = %s"); args.append(region.lower())
@@ -197,14 +211,15 @@ def find_trails(region: str | None = None, max_km: float | None = None, difficul
 
 
 FEE_TOPICS = {"fees": ("fees_booking",), "booking": ("fees_booking",), "refunds": ("refunds",),
-              "sold_out": ("sold_out",), "one_way": ("one_way",), "fines": ("fees_booking",)}
+              "sold_out": ("sold_out",), "one_way": ("one_way", "getting_back"), "fines": ("fees_booking",)}
 
 
 def fees_and_rules(topic: str | None = None, lang: str = "en") -> dict:
-    """Trail fees, multi-day rates, exemptions and fines (exact amounts), plus the booking, refund, sold-out and
-    one-way rules. topic: fees | booking | refunds | sold_out | one_way | fines (default: all)."""
+    """Trail fees, multi-day rates, exemptions and fines (exact amounts), plus the rules for booking, refunds,
+    one-way PR1, and what to do when a trail is SOLD OUT / fully booked / has no slots left.
+    topic: fees | booking | refunds | sold_out | one_way | fines (default: all)."""
     lang = _lang(lang)
-    topics = FEE_TOPICS.get((topic or "").lower(), ("fees_booking", "refunds", "sold_out", "one_way"))
+    topics = FEE_TOPICS.get((topic or "").lower(), ("fees_booking", "refunds", "sold_out", "one_way", "getting_back"))
     fees = _q("SELECT * FROM kb.fee ORDER BY amount_eur DESC")
     if topic == "fines":
         fees = [f for f in fees if f["item"].startswith("fine")]
@@ -243,6 +258,25 @@ def _day_type(day):
     return ("mon_fri" if date.weekday() < 5 else "sat" if date.weekday() == 5 else "sun_hol"), date
 
 
+DAY_NAMES = {"daily": "Every day", "mon_fri": "Monday to Friday", "sat": "Saturdays", "sun_hol": "Sundays and holidays",
+             "sat_sun": "Saturdays and Sundays", "sat_sun_hol": "Saturdays, Sundays and holidays"}
+
+
+def _timetable(rows):
+    """One line per leg, route and day type with EVERY departure, e.g. 'there · CAM 113 (new no. 702) Funchal → Baía
+    d'Abra · Monday to Friday: 07:30→08:50, 11:00→12:30 (change bus at Machico), …'. Copy these lines as they are."""
+    groups = {}
+    for r in rows:
+        line = r["line"] + (f" (new no. {r['new_line']})" if r["new_line"] else "")
+        key = (r["leg"], r["operator"], line, r["from_stop"], r["to_stop"], r["days"])
+        marks = [MARKS.get(m, m) + (f" at {r['change_at']}" if m == "T" and r["change_at"] else "") for m in r["marks"]]
+        groups.setdefault(key, []).append(r["dep"].strftime("%H:%M") + (f"→{r['arr'].strftime('%H:%M')}" if r["arr"] else "")
+                                          + (f" ({', '.join(marks)})" if marks else ""))
+    order = list(DAY_NAMES)
+    return [f"{leg} · {op} {line} {a} → {b} · {DAY_NAMES[d]}: " + ", ".join(deps)
+            for (leg, op, line, a, b, d), deps in sorted(groups.items(), key=lambda kv: (kv[0][0] != "there", kv[0][3], order.index(kv[0][5])))]
+
+
 def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | None = None, day: str | None = None,
         lang: str = "en") -> dict:
     """Printed bus trips: to and from a trail (trail='PR8'), or between two stops (from_stop/to_stop, partial names).
@@ -271,6 +305,11 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
                   FROM kb.bus_trip WHERE {' AND '.join(where)}
                   GROUP BY operator, line, new_line, from_stop, to_stop, dep, arr, days, marks, change_at, leg, source_id
                   ORDER BY leg, from_stop, days, dep""", args)
+    if not rows and not code:
+        guess = resolve_trail(to_stop or "") or resolve_trail(from_stop or "")
+        if guess:  # "São Lourenço" is PR8, whose stop is Baía d'Abra
+            return {"note": f"No bus stop named '{to_stop or from_stop}' in our data; it is trail {guess}. Its buses:",
+                    **bus(trail=guess, day=day, lang=lang)}
     out = {"trips": [{"leg": r["leg"], "operator": r["operator"],
                       "line": r["line"] + (f" (new no. {r['new_line']})" if r["new_line"] else ""),
                       "from": r["from_stop"], "to": r["to_stop"], "dep": r["dep"].strftime("%H:%M"),
@@ -278,12 +317,23 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
                       **({"marks": [MARKS.get(m, m) + (f" at {r['change_at']}" if m == "T" and r["change_at"] else "")
                                     for m in r["marks"]]} if r["marks"] else {}),
                       **({"for_trails": r["trails"]} if not code else {})} for r in rows],
+           "timetable": _timetable(rows),
            "days_key": {"daily": "every day", "mon_fri": "Monday to Friday", "sat": "Saturdays", "sun_hol": "Sundays and holidays",
                         "sat_sun": "Saturdays and Sundays", "sat_sun_hol": "Saturdays, Sundays and holidays"},
            "caveat": "Times as printed on the operators' timetables (SIGA / Horários do Funchal); times at intermediate "
                      "stops are approximate. No buses on 25 December.",
            "source": [_source(s) for s in sorted({r["source_id"] for r in rows})] or [_source("siga")]}
+    fares = _q("""SELECT DISTINCT f.label, f.amount_eur, f.conditions, f.source_id FROM kb.fee f
+                  WHERE f.item LIKE 'bus%%' AND EXISTS (SELECT 1 FROM unnest(%s::text[]) l WHERE f.applies_to ILIKE '%%' || l || '%%')""",
+               (sorted({r["line"] for r in rows}),))
+    if fares:
+        out["fares"] = [{"what": _pick(f["label"], lang), "eur": float(f["amount_eur"]),
+                         **({"note": f["conditions"].get("note")} if f["conditions"] else {}), "source": _source(f["source_id"])}
+                        for f in fares]
     if code:
+        t = _q("SELECT name, start_name, end_name, route_type FROM kb.trail WHERE code = %s", (code,))[0]
+        out["trail"] = {"code": code, "name": t["name"], "starts_at": t["start_name"], "ends_at": t["end_name"],
+                        "route_type": t["route_type"]}
         notes = _q("SELECT text FROM kb.fact WHERE topic = 'bus' AND subject = %s ORDER BY id", (code,))
         out["notes"] = [_pick(n["text"], lang) for n in notes]
         if not rows and not notes:
@@ -291,23 +341,55 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
     return out
 
 
-def transport(town: str | None = None, trail: str | None = None) -> dict:
-    """Taxi ranks with phone numbers as printed on IFCN's trailhead panels (by town or by trail), the island-wide
-    contacts Visit Madeira lists, and the rules for taxis and transfers (metered fares, no quoted prices)."""
-    where, args = ["kind = 'taxi_island'"], []
-    if town:
-        where.append("town ILIKE '%%' || %s || '%%'"); args.append(town)
+def _ranks_for(place):
+    """Taxi ranks for a place: ranks in that town, or printed on the panels of trails starting/ending there."""
+    ends = [r["code"] for r in _q("""SELECT code FROM kb.trail WHERE kb.unaccent_i(start_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%'
+                                      OR kb.unaccent_i(end_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%'""", (place, place))]
+    code = resolve_trail(place)
+    if code and code not in ends and not _q("SELECT 1 FROM kb.transport WHERE kb.unaccent_i(town) ILIKE '%%' || kb.unaccent_i(%s) || '%%'", (place,)):
+        ends.append(code)
+    return _q("""SELECT * FROM kb.transport WHERE kind = 'taxi' AND (kb.unaccent_i(town) ILIKE '%%' || kb.unaccent_i(%s) || '%%'
+                 OR trails && %s) ORDER BY id""", (place, ends))
+
+
+def transport(pickup: str | None = None, destination: str | None = None, trail: str | None = None) -> dict:
+    """Taxis for a trip: the ranks serving the PICK-UP place (a town, or a trailhead such as Achada do Teixeira or
+    Rabaçal: the ranks printed on IFCN's panels there) and the DESTINATION town, plus the island-wide contacts Visit
+    Madeira lists, the rules for taxis and transfers (metered fares, no quoted prices) and, for a trailhead, how to get
+    back from there. trail = the ranks on that trail's panels."""
+    out, seen = [], set()
+
+    def add(rows, role):
+        for r in rows:
+            if r["id"] not in seen:
+                seen.add(r["id"])
+                out.append({"name": r["name"], "town": r["town"], "phone": r["phone"], "role": role,
+                            **({"booking_url": r["url"]} if r["url"] else {}),
+                            **({"printed_on_panels_of": r["trails"]} if r["trails"] else {}), "source": _source(r["source_id"])})
+    if pickup:
+        add(_ranks_for(pickup), f"serves the pick-up place ({pickup})")
     if trail:
-        where.append("%s = ANY(trails)"); args.append(_need_trail(trail))
-    if not (town or trail):
-        where.append("kind = 'taxi'")
-    rows = _q(f"SELECT * FROM kb.transport WHERE {' OR '.join(where)} ORDER BY kind DESC, id", args)
+        add(_q("SELECT * FROM kb.transport WHERE kind = 'taxi' AND %s = ANY(trails)", (_need_trail(trail),)), f"printed on the {trail} panels")
+    if destination:
+        add(_ranks_for(destination), f"serves the destination ({destination})")
+    if not (pickup or destination or trail):
+        add(_q("SELECT * FROM kb.transport WHERE kind = 'taxi' ORDER BY id"), "taxi rank")
+    add(_q("SELECT * FROM kb.transport WHERE kind = 'taxi_island' ORDER BY id"), "island-wide")
     facts = _q("SELECT text, source_id FROM kb.fact WHERE topic IN ('taxi', 'transfer') ORDER BY id")
-    return {"taxis": [{"name": r["name"], "town": r["town"], "phone": r["phone"],
-                       **({"booking_url": r["url"]} if r["url"] else {}),
-                       **({"printed_on_panels_of": r["trails"]} if r["trails"] else {"scope": "island-wide"}),
-                       "source": _source(r["source_id"])} for r in rows],
-            "rules": [{"text": _pick(f["text"], "en"), "source": _source(f["source_id"])} for f in facts]}
+    res = {"taxis": out, "rules": [{"text": _pick(f["text"], "en"), "source": _source(f["source_id"])} for f in facts]}
+    # a trail starting or ending at the pick-up/destination place (PR1 starts at Areeiro, ends at Achada do Teixeira):
+    # how to get back from its end
+    places = [p for p in (pickup, destination) if p]
+    codes = sorted({r["code"] for p in places for r in _q(
+        """SELECT code FROM kb.trail WHERE kb.unaccent_i(start_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%'
+           OR kb.unaccent_i(end_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%'""", (p, p))} | ({_need_trail(trail)} if trail else set()))
+    back = _q("""SELECT DISTINCT ON (id) id, subject, text, source_id FROM kb.fact WHERE topic = 'getting_back' AND confirmed
+                 AND (subject = ANY(%s) OR """ + " OR ".join(["kb.unaccent_i(text->>'en') ILIKE '%%' || kb.unaccent_i(%s) || '%%'"] * len(places) or ["FALSE"])
+              + ") ORDER BY id", [codes] + places)
+    if back:
+        res["getting_back"] = [{"trail": b["subject"], "text": _pick(b["text"], "en"), "source": _source(b["source_id"])} for b in back]
+    res["note"] = "Give the ranks serving the pick-up place first (call them and the destination's, compare quotes); never quote a fare."
+    return res
 
 
 def weather_now(trail: str | None = None, region: str | None = None) -> dict:
@@ -351,7 +433,8 @@ def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: st
     idx = {"morning": [i for i, t in enumerate(h["time"]) if t.startswith(tomorrow) and 6 <= int(t[11:13]) < 10],
            "day": [i for i, t in enumerate(h["time"]) if t.startswith(tomorrow) and 10 <= int(t[11:13]) < 17]}
     if not idx["morning"]:
-        return {"forecast": None, "note": f"The latest stored forecast for {spot} (run {rows[0]['run_date']}) does not cover {tomorrow}."}
+        return {"forecast": None, "note": f"Levadinho has no cloud forecast for {FORECAST_NAMES.get(spot, spot)} on that day yet. "
+                "Say so; the official Madeira forecast is IPMA's (https://www.ipma.pt). Don't point anywhere else."}
     models = sorted({k[len("cloud_cover_"):] for k in h if k.startswith("cloud_cover_") and not k.startswith("cloud_cover_low_")})
     out = {}
     for m in models:
@@ -443,15 +526,15 @@ def notices(subject: str | None = None, lang: str = "en") -> dict:
 
 def search(text: str, lang: str = "en", limit: int = 5) -> dict:
     """Full-text search over Levadinho's pages (5 languages) and curated fact sheets: returns the best matching
-    sections with their page and source. Use it when no other tool fits the question."""
+    sections (whole, up to ~1,800 characters each) with their page and source. Use it when no other tool fits the question."""
     lang = _lang(lang)
     limit = max(1, min(limit, 10))
 
     def run(cfg_lang):
         return _q("""SELECT id, kind, subject, lang, title, url, source_id,
-                            ts_headline(cfg, body, q, 'MaxWords=60, MinWords=25, MaxFragments=2') snippet,
+                            body snippet,
                             ts_rank_cd(tsv, q) rank
-                     FROM kb.doc, websearch_to_tsquery(%s::regconfig, %s) q
+                     FROM kb.doc, websearch_to_tsquery(%s::regconfig, kb.unaccent_i(%s)) q
                      WHERE lang = %s AND tsv @@ q ORDER BY rank DESC LIMIT %s""",
                   (TS_CFG[cfg_lang], text, cfg_lang, limit))
     rows = run(lang)
@@ -461,9 +544,9 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
         words = [w for w in re.findall(r"\w{3,}", text)][:8]
         if words:
             rows = _q("""SELECT id, kind, subject, lang, title, url, source_id,
-                                ts_headline(cfg, body, q, 'MaxWords=60, MinWords=25, MaxFragments=2') snippet,
+                                body snippet,
                                 ts_rank_cd(tsv, q) rank
-                         FROM kb.doc, to_tsquery(%s::regconfig, %s) q
+                         FROM kb.doc, to_tsquery(%s::regconfig, kb.unaccent_i(%s)) q
                          WHERE lang = %s AND tsv @@ q ORDER BY rank DESC LIMIT %s""",
                       (TS_CFG[lang], " | ".join(words), lang, limit))
     return {"results": [{"title": r["title"], "subject": r["subject"], "lang": r["lang"], "url": r["url"],

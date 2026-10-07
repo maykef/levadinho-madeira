@@ -8,6 +8,7 @@
 
 CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE EXTENSION IF NOT EXISTS unaccent;
 CREATE SCHEMA IF NOT EXISTS kb;
 COMMENT ON SCHEMA kb IS 'Levadinho knowledge store: sourced facts about Madeira trails, fees, transport, weather and places. Read by the MCP server, the bot and the site generators. No visitor data.';
 
@@ -105,6 +106,11 @@ COMMENT ON COLUMN kb.fact.topic IS 'trail, closures, one_way, transport, fees_bo
 COMMENT ON COLUMN kb.fact.subject IS 'Trail code the fact is about (e.g. PR1), or NULL when general.';
 CREATE INDEX IF NOT EXISTS fact_topic ON kb.fact (topic, subject);
 
+-- Accent-insensitive search ("cafe" finds "café", "Sao Lourenco" finds "São Lourenço"). unaccent() is only STABLE,
+-- so a generated column needs this IMMUTABLE wrapper with the dictionary named explicitly.
+CREATE OR REPLACE FUNCTION kb.unaccent_i(text) RETURNS text
+  LANGUAGE sql IMMUTABLE PARALLEL SAFE STRICT AS $$ SELECT public.unaccent('public.unaccent'::regdictionary, $1) $$;
+
 CREATE TABLE IF NOT EXISTS kb.doc (
   id          text PRIMARY KEY,
   kind        text NOT NULL CHECK (kind IN ('facts', 'page')),
@@ -114,7 +120,8 @@ CREATE TABLE IF NOT EXISTS kb.doc (
   url         text,
   body        text NOT NULL,
   cfg         regconfig NOT NULL,
-  tsv         tsvector GENERATED ALWAYS AS (setweight(to_tsvector(cfg, title), 'A') || to_tsvector(cfg, body)) STORED,
+  tsv         tsvector GENERATED ALWAYS AS (setweight(to_tsvector(cfg, kb.unaccent_i(title)), 'A')
+                                          || to_tsvector(cfg, kb.unaccent_i(body))) STORED,
   source_id   text NOT NULL REFERENCES kb.source(id),
   checked_at  timestamptz NOT NULL
 );
@@ -243,6 +250,7 @@ END $$;
 REVOKE ALL ON ALL TABLES IN SCHEMA public FROM kb_reader;
 GRANT USAGE ON SCHEMA kb TO kb_reader;
 GRANT SELECT ON ALL TABLES IN SCHEMA kb TO kb_reader;
+GRANT EXECUTE ON FUNCTION kb.unaccent_i(text) TO kb_reader;
 ALTER DEFAULT PRIVILEGES IN SCHEMA kb GRANT SELECT ON TABLES TO kb_reader;
 ALTER ROLE kb_reader SET default_transaction_read_only = on;
 ALTER ROLE kb_reader SET statement_timeout = '5s';

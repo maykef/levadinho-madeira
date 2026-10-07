@@ -1,0 +1,18 @@
+{"about": "Held-out questions, written 2026-10-07 after tuning on regression_questions.json; never tuned against. Read the answers.",
+ "questions": [
+  {"id": "ho-pr11-open-de", "lang": "de", "q": "Ist der Balcões-Weg heute offen und wie lange dauert er?"},
+  {"id": "ho-risco-fr", "lang": "fr", "q": "Combien de temps faut-il pour la Levada do Risco et faut-il réserver ?"},
+  {"id": "ho-resident-pt", "lang": "pt", "q": "Sou residente na Madeira, tenho de pagar para fazer o PR9?"},
+  {"id": "ho-monte-bus-en", "lang": "en", "q": "Is there a bus back to Funchal from Monte after Caminho Real do Monte on a Sunday?"},
+  {"id": "ho-pr7-pl", "lang": "pl", "q": "Czy Levada do Moinho jest otwarta?"},
+  {"id": "ho-tunnels-en", "lang": "en", "q": "Which levadas have tunnels where I need a torch?"},
+  {"id": "ho-cloud-en", "lang": "en", "q": "Will Pico do Areeiro be in the clouds tomorrow morning?"},
+  {"id": "ho-simplifica-abroad-de", "lang": "de", "q": "Die SIMplifica-Seite lädt bei mir nicht, ich bin in Deutschland. Was tun?"},
+  {"id": "ho-group-en", "lang": "en", "q": "We are 2 adults and a 10-year-old. How much for PR6 and PR6.1 on the same day?"},
+  {"id": "ho-curral-pt", "lang": "pt", "q": "Há autocarro do Funchal para o Curral das Freiras ao sábado de manhã?"},
+  {"id": "ho-rain-fr", "lang": "fr", "q": "Il pleut beaucoup demain, est-ce que les sentiers seront fermés ?"},
+  {"id": "ho-santana-taxi-en", "lang": "en", "q": "I'm staying in Santana, how do I get to Queimadas for Caldeirão Verde?"},
+  {"id": "ho-snorkel-en", "lang": "en", "q": "Where can I go snorkelling near Caniço?"},
+  {"id": "ho-pr1-reverse-de", "lang": "de", "q": "Kann ich vom Pico Ruivo zum Pico do Areeiro laufen, wenn ich früh starte?"},
+  {"id": "ho-who-pt", "lang": "pt", "q": "Vocês são do IFCN? Quem gere este serviço?"}
+ ]}

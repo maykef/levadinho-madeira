@@ -15,6 +15,9 @@
    "q": "O PR1 está aberto hoje?",
    "must": [
     "Pedra Rija"
+   ],
+   "must_not": [
+    "25 Fontes \\(PR1\\.2\\)"
    ]
   },
   {
@@ -207,7 +210,7 @@
    "lang": "en",
    "q": "Can I watch the sunrise at Pico do Areeiro without a ticket?",
    "must": [
-    "confirm"
+    "confirm|no (explicit )?official|not official"
    ]
   },
   {
@@ -235,7 +238,8 @@
    "lang": "en",
    "q": "How do I get to São Lourenço by bus from Funchal?",
    "must": [
-    "113|702"
+    "113|702",
+    "11[:.]00"
    ]
   },
   {
@@ -246,7 +250,8 @@
     "kein|keine"
    ],
    "must_not": [
-    "\\b4[12]0\\b"
+    "\\b4[12]0\\b",
+    "Bus (bis )?nach Calheta"
    ]
   },
   {
@@ -325,7 +330,7 @@
    ],
    "must_not": [
     "leash at all times",
-    "dogs are allowed"
+    "^\\W*(yes|dogs are allowed)"
    ]
   },
   {
@@ -342,7 +347,12 @@
    "lang": "en",
    "q": "Does Levada do Rei have tunnels?",
    "must": [
-    "PR18|Rei"
+    "PR18|Rei",
+    "no (torch|lamp|headlamp)|not? need|needs no|isn['’]t needed|don['’]t need|doesn['’]t need|without a torch"
+   ],
+   "must_not": [
+    "(will|you'll|you’ll|you) need a (torch|headlamp)",
+    "well[- ]lit"
    ]
   }
  ]

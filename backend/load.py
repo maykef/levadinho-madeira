@@ -205,7 +205,9 @@ def load_facts(cur):
             continue
         topic, src = key
         for n, b in enumerate(bullets, 1):
-            rows.append((f"pr1:{topic}:{n}", topic, "PR1", Jsonb({"en": re.sub(r"\*\*(.+?)\*\*", r"\1", b)}),
+            # the return from the end of the full walk is its own topic: tools return it with the PR1 rules
+            t = "getting_back" if topic == "transport" and "Achada do Teixeira" in b else topic
+            rows.append((f"pr1:{topic}:{n}", t, "PR1", Jsonb({"en": re.sub(r"\*\*(.+?)\*\*", r"\1", b)}),
                          topic != "unconfirmed", src, checked_pr1))
     checked_t = mtime("backend/seed.py")
     rows += [(f"transport:{i}", topic, subj, Jsonb({"en": text}), True, src, checked_t)

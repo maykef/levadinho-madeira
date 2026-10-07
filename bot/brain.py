@@ -622,9 +622,38 @@ def site_links(reply, trails, lang, named=None):
     return "\n\n" + "\n".join(lines) if lines else ""
 
 
+TOOLS_MODE = os.environ.get("BOT_TOOLS") == "1"  # 1 = tools-only answers from the knowledge store (brain_tools.py)
+
+
+def answer_tools(user, text, lang, rule, meta=None):
+    """The tools-only answer: no facts in the prompt; the model reads the knowledge store through tools."""
+    import brain_tools
+    source = (store.get_user(user) or {}).get("source") or ""
+    page = KB["guides"].get(SOURCE_GUIDE.get(source, ""), {}).get("url")
+    hint = (f"\nTHE VISITOR CAME FROM OUR PAGE {page}. When their question leaves the destination or the subject open, "
+            "assume it is that page's subject and say so in a few words.\n") if page else ""
+    named = trails_in(text)
+    q = text
+    if named:  # resolved by our alias table, so the model never has to guess a code
+        q += "\n\n[Trails named in this message: " + "; ".join(f"{c} = {KB['trails'][c]['name']}" for c in named if c in KB["trails"]) + "]"
+    t0 = time.time()
+    reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text)
+    reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
+    reply = reply.rstrip() + site_links(reply, named, lang, named=named)
+    if meta is not None:
+        meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
+                          "context": {"tools": [t["tool"] for t in trace]}}
+        meta["tools"] = trace
+        meta["events"].append(("answer_sent", {"lang": lang, "latency_ms": meta["answer"]["latency_ms"]}))
+    store.add_turn(user, text, reply)
+    return reply
+
+
 def answer(user, text, lang, meta=None, c=None):
     rule = (f"Write your reply ONLY in {LANG_NAMES[lang]}, whatever language earlier messages used. "
             f"Keep place and trail names (Pico do Areeiro, Levada das 25 Fontes…) as they are.")
+    if TOOLS_MODE:
+        return answer_tools(user, text, lang, rule, meta)
     trails, guides = pick_context(user, text, c)
     transport = (c or {}).get("intent") == "transport" or bool(re.search(
         r"taxi|táxi|transfer|transfe|bus|autocarro|shuttle|navette|lift|boleia", _norm(text)))
