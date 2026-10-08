@@ -342,10 +342,38 @@ def load_forecast(cur):
     return len(rows), "reports/camtest/forecasts/*.json"
 
 
+def load_stations(cur):
+    """Hourly IPMA readings of every Madeira / Porto Santo station; IPMA's API only holds the last 24 h."""
+    base = "https://api.ipma.pt/open-data/observation/meteorology/stations/"
+    st = json.loads(urllib.request.urlopen(base + "stations.json", timeout=60).read())
+    mad = {f["properties"]["idEstacao"]: (f["properties"]["localEstacao"], *f["geometry"]["coordinates"][::-1])
+           for f in st if 32.5 < f["geometry"]["coordinates"][1] < 33.2 and -17.4 < f["geometry"]["coordinates"][0] < -16.2}
+    cur.executemany("""INSERT INTO kb.station VALUES (%s,%s,%s,%s)
+                       ON CONFLICT (id) DO UPDATE SET name=EXCLUDED.name, lat=EXCLUDED.lat, lon=EXCLUDED.lon""",
+                    [(i, n, la, lo) for i, (n, la, lo) in mad.items()])
+    obs = json.loads(urllib.request.urlopen(base + "observations.json", timeout=60).read())
+
+    def v(r, k):
+        x = r.get(k)
+        return None if x is None or x <= -99 else x
+    rows = []
+    for t, by in obs.items():
+        for sid, r in by.items():
+            if r and int(sid) in mad:
+                rows.append((int(sid), t + "Z", v(r, "temperatura"), v(r, "humidade"), v(r, "intensidadeVentoKM"),
+                             v(r, "idDireccVento"), v(r, "pressao"), v(r, "precAcumulada"), v(r, "radiacao"), Jsonb(r)))
+    cur.executemany("""INSERT INTO kb.station_obs VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                       ON CONFLICT (station_id, observed_at) DO UPDATE SET temp_c=EXCLUDED.temp_c,
+                       humidity=EXCLUDED.humidity, wind_kmh=EXCLUDED.wind_kmh, wind_dir=EXCLUDED.wind_dir,
+                       pressure_hpa=EXCLUDED.pressure_hpa, rain_mm=EXCLUDED.rain_mm, radiation=EXCLUDED.radiation,
+                       raw=EXCLUDED.raw""", rows)
+    return len(rows), f"IPMA observations, {len(mad)} stations, {len(obs)} hours"
+
+
 LOADERS = {"sources": load_sources, "trails": load_trails, "status": load_status, "history": load_history,
            "fees": load_fees, "facts": load_facts, "transport": load_transport, "bus": load_bus, "docs": load_docs,
-           "forecast": load_forecast}
-DAILY = ["sources", "status", "history", "forecast"]
+           "forecast": load_forecast, "stations": load_stations}
+DAILY = ["sources", "status", "history", "forecast", "stations"]  # cron runs this every hour
 
 
 def run(names):

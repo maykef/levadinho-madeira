@@ -8,6 +8,7 @@
   var LANGS = {
     en: {
       badge: { OPEN: "OPEN", PARTIAL: "PARTIAL", CLOSED: "CLOSED" },
+      summit: "Summit now:", sky: { CLEAR: "CLEAR", CLOUDY: "CLOUDY" },
       officialNote: "Official note:",
       defaultNote: {
         OPEN: "One-way only: Pico do Areeiro → Pico Ruivo. Book on SIMplifica before you go.",
@@ -31,6 +32,7 @@
     },
     pt: {
       badge: { OPEN: "ABERTO", PARTIAL: "PARCIAL", CLOSED: "FECHADO" },
+      summit: "Cume agora:", sky: { CLEAR: "LIMPO", CLOUDY: "NUBLADO" },
       officialNote: "Nota oficial:",
       defaultNote: {
         OPEN: "Apenas num sentido: Pico do Areeiro → Pico Ruivo. Reserve no SIMplifica antes de ir.",
@@ -54,6 +56,7 @@
     },
     fr: {
       badge: { OPEN: "OUVERT", PARTIAL: "PARTIEL", CLOSED: "FERMÉ" },
+      summit: "Sommet :", sky: { CLEAR: "DÉGAGÉ", CLOUDY: "NUAGEUX" },
       officialNote: "Note officielle :",
       defaultNote: {
         OPEN: "Sens unique : Pico do Areeiro → Pico Ruivo. Réservez sur SIMplifica avant de partir.",
@@ -77,6 +80,7 @@
     },
     de: {
       badge: { OPEN: "OFFEN", PARTIAL: "TEILWEISE", CLOSED: "GESPERRT" },
+      summit: "Gipfel jetzt:", sky: { CLEAR: "KLAR", CLOUDY: "BEWÖLKT" },
       officialNote: "Offizieller Hinweis:",
       defaultNote: {
         OPEN: "Nur Einbahnrichtung: Pico do Areeiro → Pico Ruivo. Vor dem Start auf SIMplifica buchen.",
@@ -100,6 +104,7 @@
     },
     pl: {
       badge: { OPEN: "OTWARTY", PARTIAL: "CZĘŚCIOWO", CLOSED: "ZAMKNIĘTY" },
+      summit: "Szczyt teraz:", sky: { CLEAR: "BEZ CHMUR", CLOUDY: "POCHMURNO" },
       officialNote: "Uwaga oficjalna:",
       defaultNote: {
         OPEN: "Tylko w jedną stronę: Pico do Areeiro → Pico Ruivo. Zarezerwuj w SIMplifica przed wyjściem.",
@@ -145,6 +150,32 @@
       '" rel="noopener">IFCN</a> · IPMA</span></div>';
   }
 
+  // Summit sky badge on PR1 cards (owner, 2026-10-08): CLOUDY (red) when the IPMA Pico do Areeiro station is at or
+  // above 90 % humidity (the updater's in_cloud rule), else CLEAR (green). Refreshed live from IPMA (CORS-open).
+  var SUMMIT = 1210974, SUMMIT_WIND = 1210973, CLOUD_PCT = 90, WIND_STRONG = 40;
+  function summitHead(w) {
+    if (!w || !w.ok || w.humidity == null) return "";
+    var s = w.in_cloud ? "CLOUDY" : "CLEAR";
+    return '<div class="summit-head">' + L.summit + ' <span class="summit-badge ' + s + '">' + L.sky[s] + "</span></div>";
+  }
+  function liveSummit() {
+    return fetch("https://api.ipma.pt/open-data/observation/meteorology/stations/observations.json")
+      .then(function (r) { return r.json(); })
+      .then(function (obs) {
+        function f(rec, k) { var v = rec && rec[k]; return (v == null || v <= -98.5) ? null : +v; }
+        var times = Object.keys(obs).sort().reverse(), rec = null, wrec = null;
+        for (var i = 0; i < times.length && !rec; i++) {
+          var r = obs[times[i]][SUMMIT];
+          if (f(r, "temperatura") != null) { rec = r; wrec = obs[times[i]][SUMMIT_WIND]; }
+        }
+        var t = f(rec, "temperatura"), h = f(rec, "humidade");
+        if (t == null || t < -10 || t > 30) return null;
+        var wind = f(rec, "intensidadeVentoKM"); if (wind == null) wind = f(wrec, "intensidadeVentoKM");
+        return { ok: true, temp_c: t, humidity: h, in_cloud: h != null && h >= CLOUD_PCT,
+                 wind_kmh: wind, wind_strong: wind != null && wind >= WIND_STRONG };
+      });
+  }
+
   function render(d, L) {
     var st = (d.status === "OPEN" || d.status === "CLOSED") ? d.status : "PARTIAL";
     var body = "";
@@ -155,7 +186,7 @@
     body += "<p>" + L.weather(d.weather) + "</p>";
     body += '<p class="advisory">' + L.advisory + "</p>";
     return '<div class="status-head"><span class="status-dot ' + st + '"></span>' +
-      '<span class="status-badge ' + st + '">' + L.badge[st] + "</span></div>" +
+      '<span class="status-badge ' + st + '">' + L.badge[st] + "</span></div>" + summitHead(d.weather) +
       '<div class="status-body">' + body + "</div>" + stamp(d);
   }
 
@@ -168,6 +199,7 @@
     if (r && r.temp != null) body += "<p>" + L.nearby(r) + "</p>";
     return '<div class="status-head"><span class="status-dot ' + st + '"></span>' +
       '<span class="status-badge ' + st + '">' + L.badge[st] + "</span></div>" +
+      (t.code === "PR1" ? summitHead(d.weather) : "") +
       '<div class="status-body">' + body + "</div>" + stamp(d);
   }
 
@@ -176,14 +208,26 @@
   lang = (document.documentElement.lang || "en").slice(0, 2).toLowerCase();
   L = LANGS[lang] || LANGS.en;
   var code = el.getAttribute("data-trail");
+  if (!code || code === "PR1") {
+    var css = document.createElement("style");
+    css.textContent = ".summit-head{padding:0 18px 12px;font-weight:800;font-size:clamp(20px,6vw,28px)}" +
+      ".summit-badge.CLEAR{color:var(--open,#1E7A45)}.summit-badge.CLOUDY{color:var(--closed,#B3372E)}";
+    document.head.appendChild(css);
+  }
+  function draw(d) {
+    if (code) {
+      var t = (d.trails || []).find(function (x) { return x.code === code; });
+      el.innerHTML = renderSpoke(t, d);
+    } else {
+      el.innerHTML = render(d, L);
+    }
+  }
   fetch("/status.json", { cache: "no-cache" })
     .then(function (r) { return r.json(); })
     .then(function (d) {
-      if (code) {
-        var t = (d.trails || []).find(function (x) { return x.code === code; });
-        el.innerHTML = renderSpoke(t, d);
-      } else {
-        el.innerHTML = render(d, L);
+      draw(d);
+      if (!code || code === "PR1") {  // swap the morning reading for IPMA's latest hour
+        liveSummit().then(function (w) { if (w) { d.weather = w; draw(d); } }).catch(function () {});
       }
     })
     .catch(function () { /* keep the static fallback already in the card */ });

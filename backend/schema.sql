@@ -185,6 +185,29 @@ CREATE TABLE IF NOT EXISTS kb.weather_obs (
 );
 COMMENT ON TABLE kb.weather_obs IS 'Measured IPMA station readings (the summit station and five regional ones), as read by the daily updater.';
 
+CREATE TABLE IF NOT EXISTS kb.station (
+  id           integer PRIMARY KEY,
+  name         text NOT NULL,
+  lat          double precision,
+  lon          double precision
+);
+COMMENT ON TABLE kb.station IS 'IPMA weather stations on Madeira and Porto Santo.';
+
+CREATE TABLE IF NOT EXISTS kb.station_obs (
+  station_id   integer NOT NULL REFERENCES kb.station(id),
+  observed_at  timestamptz NOT NULL,
+  temp_c       numeric(4,1),
+  humidity     integer,
+  wind_kmh     numeric(5,1),
+  wind_dir     integer,          -- IPMA idDireccVento: 0 calm, 1 N, 2 NE, 3 E, 4 SE, 5 S, 6 SW, 7 W, 8 NW, 9 N
+  pressure_hpa numeric(6,1),
+  rain_mm      numeric(5,1),
+  radiation    numeric(7,1),
+  raw          jsonb,
+  PRIMARY KEY (station_id, observed_at)
+);
+COMMENT ON TABLE kb.station_obs IS 'Hourly IPMA observations for every Madeira/Porto Santo station, archived hourly (IPMA keeps only 24 h). -99 = missing -> NULL. For the summit cloud model (owner, 2026-10-08).';
+
 CREATE TABLE IF NOT EXISTS kb.forecast (
   spot         text NOT NULL,
   run_date     date NOT NULL,
