@@ -1,0 +1,46 @@
+# Levadinho watch: official notices -> part closures of the Funchal promenade.
+# Start: docker compose -f watch/docker-compose.yml up -d   then: python3 watch/setup_watches.py
+# All ports on 127.0.0.1. Nothing here uses the GPU or touches bot/.
+name: levadinho-watch
+services:
+  rsshub:                      # Facebook / Instagram accounts -> RSS (works logged out)
+    image: diygod/rsshub:latest
+    container_name: lw-rsshub
+    environment:
+      - CACHE_EXPIRE=1800
+      - TZ=Atlantic/Madeira
+    ports: ["127.0.0.1:18402:1200"]
+    restart: unless-stopped
+  changedetection:             # pages without a feed (watches.json)
+    image: ghcr.io/dgtlmoon/changedetection.io:latest
+    container_name: lw-changedetection
+    volumes: ["./state/changedetection:/datastore"]
+    environment:
+      - PLAYWRIGHT_DRIVER_URL=ws://lw-browser:3000
+      - BASE_URL=http://127.0.0.1:18401
+      - TZ=Atlantic/Madeira
+    ports: ["127.0.0.1:18401:5000"]
+    depends_on: [browser]
+    restart: unless-stopped
+  browser:                     # headless Chrome for JS-only pages (Câmara de Lobos news)
+    image: dgtlmoon/sockpuppetbrowser:latest
+    container_name: lw-browser
+    cap_add: [SYS_ADMIN]
+    environment:
+      - MAX_CONCURRENT_CHROME_PROCESSES=2
+    restart: unless-stopped
+  apply:                       # classifier + notice store (apply/watchd.py)
+    image: python:3.12-slim
+    container_name: lw-apply
+    user: "1000:1000"
+    command: ["python", "-u", "/app/apply/watchd.py"]
+    volumes:
+      - ./:/app:ro
+      - ./state/apply:/state
+      - ${LW_DATA:-../seo_research/funchal/data}:/data
+    environment:
+      - RSSHUB=http://lw-rsshub:1200
+      - TZ=Atlantic/Madeira
+    ports: ["127.0.0.1:18403:8080"]
+    depends_on: [rsshub]
+    restart: unless-stopped

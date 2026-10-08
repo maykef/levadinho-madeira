@@ -1,0 +1,15 @@
+{
+  "_about": "changedetection.io watches (setup_watches.py). Title prefix sets how the apply service treats an alert: [official] classify and apply, [press] review only, [hours] review as an hours/price change. extract = only lines matching this regex are kept, so only a new matching line alerts.",
+  "closure_regex": "/encerr|interdi|vedad|condicion|reabert|reabre|promenade|passeio mar|passadi|acessos? ao mar|praia formosa|socorridos|doca do cavacas/i",
+  "hours_regex": "/hor[aá]rio|todos os dias|\\d{1,2}h\\d{2}|de \\d{1,2} a \\d{1,2} de|encerrad/i",
+  "watches": [
+    {"title": "[official] Câmara Municipal de Câmara de Lobos — notícias", "url": "https://cm-camaradelobos.pt/informacoes/utilidades/noticias-de-camara-de-lobos", "browser": true, "extract": "closure", "hours": 1},
+    {"title": "[official] Proteção Civil Madeira — site", "url": "https://www.procivmadeira.pt/pt/", "browser": false, "extract": "closure", "hours": 1},
+    {"title": "[hours] Frente MarFunchal — Complexo Balnear do Lido", "url": "https://frentemarfunchal.pt/complexos/lido-2/", "browser": false, "extract": "hours", "hours": 24},
+    {"title": "[hours] Frente MarFunchal — Ponta Gorda", "url": "https://frentemarfunchal.pt/complexos/ponta-gorda/", "browser": false, "extract": "hours", "hours": 24},
+    {"title": "[hours] Frente MarFunchal — Barreirinha", "url": "https://frentemarfunchal.pt/complexos/barreirinha/", "browser": false, "extract": "hours", "hours": 24},
+    {"title": "[hours] Frente MarFunchal — Poças do Gomes / Doca do Cavacas", "url": "https://frentemarfunchal.pt/complexos/pocas-do-gomes-doca-do-cavacas/", "browser": false, "extract": "hours", "hours": 24},
+    {"title": "[hours] Frente MarFunchal — Lido Poente", "url": "https://frentemarfunchal.pt/praias/lido-poente/", "browser": false, "extract": "hours", "hours": 24},
+    {"title": "[hours] Frente MarFunchal — tarifário", "url": "https://frentemarfunchal.pt/tarifario/", "browser": false, "extract": "/€/", "hours": 24}
+  ]
+}

@@ -37,3 +37,6 @@ indexnow_urls.txt
 backend/.venv/
 backend/logs/
 backend/tests/results/
+
+# Levadinho watch runtime data (changedetection datastore, seen items)
+watch/state/

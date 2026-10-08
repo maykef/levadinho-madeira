@@ -1,0 +1,19 @@
+{
+  "_about": "Feeds the apply service polls (watch/apply/watchd.py). official=true: a clear notice is applied to the promenade map automatically; false (press): it only goes to the review log. {RSSHUB} is the RSSHub container. Facebook/Instagram via RSSHub work logged out (dry test 2026-10-08). Pages without a feed are in watches.json (changedetection.io).",
+  "poll_minutes": 45,
+  "sources": [
+    {"id": "cmf_wp",            "name": "Câmara Municipal do Funchal (funchal.pt)", "official": true,  "type": "wp",  "url": "https://www.funchal.pt/wp-json/wp/v2/posts?per_page=20&_fields=id,date,link,title,content"},
+    {"id": "fb_frentemar",      "name": "Frente MarFunchal (Facebook)",              "official": true,  "type": "rss", "url": "{RSSHUB}/facebook/page/frentemarfunchalem"},
+    {"id": "ig_frentemar",      "name": "Frente MarFunchal (Instagram)",             "official": true,  "type": "rss", "url": "{RSSHUB}/instagram/user/frentemarfunchal"},
+    {"id": "fb_procivmadeira",  "name": "Proteção Civil Madeira (Facebook)",         "official": true,  "type": "rss", "url": "{RSSHUB}/facebook/page/procivmadeira"},
+    {"id": "ig_procivmadeira",  "name": "Proteção Civil Madeira (Instagram)",        "official": true,  "type": "rss", "url": "{RSSHUB}/instagram/user/protecao_civil_madeira"},
+    {"id": "fb_cmfunchal",      "name": "Câmara Municipal do Funchal (Facebook)",    "official": true,  "type": "rss", "url": "{RSSHUB}/facebook/page/camaramunicipaldofunchal"},
+    {"id": "fb_cmcamaralobos",  "name": "Câmara Municipal de Câmara de Lobos (Facebook)",  "official": true, "type": "rss", "url": "{RSSHUB}/facebook/page/municipiodecamaradelobos"},
+    {"id": "ig_cmcamaralobos",  "name": "Câmara Municipal de Câmara de Lobos (Instagram)", "official": true, "type": "rss", "url": "{RSSHUB}/instagram/user/municipio_camaradelobos"},
+    {"id": "ig_madeiragov",     "name": "Governo Regional da Madeira (Instagram)",   "official": true,  "type": "rss", "url": "{RSSHUB}/instagram/user/madeira_gov"},
+    {"id": "rss_funchalnoticias", "name": "Funchal Notícias",                        "official": false, "type": "rss", "url": "https://funchalnoticias.net/feed/"},
+    {"id": "ig_jm",             "name": "JM Madeira (Instagram)",                    "official": false, "type": "rss", "url": "{RSSHUB}/instagram/user/jm_madeira"},
+    {"id": "fb_jm",             "name": "JM Madeira (Facebook)",                     "official": false, "type": "rss", "url": "{RSSHUB}/facebook/page/jmmadeiraRAM"},
+    {"id": "fb_dn",             "name": "DN Madeira (Facebook)",                     "official": false, "type": "rss", "url": "{RSSHUB}/facebook/page/dnoticiaspt"}
+  ]
+}

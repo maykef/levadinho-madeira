@@ -1,0 +1,172 @@
+{
+ "_about": "The 8 areas of the Funchal seafront promenade, west to east (seo_research/funchal/promenade_areas.md, 2026-10-07). Patterns are matched case- and accent-insensitively against notice text. Order matters only for display.",
+ "areas": [
+  {
+   "id": 1,
+   "slug": "camara-de-lobos",
+   "name_pt": "Promenade de Câmara de Lobos",
+   "name_en": "Câmara de Lobos to Socorridos",
+   "km": 0.78,
+   "patterns": [
+    "promenade de camara de lobos",
+    "passeio maritimo de camara de lobos",
+    "frente mar de camara de lobos",
+    "largo do poco"
+   ]
+  },
+  {
+   "id": 2,
+   "slug": "socorridos-boardwalk",
+   "name_pt": "Passeio Marítimo Praia Formosa – Socorridos",
+   "name_en": "Socorridos boardwalk",
+   "km": 1.5,
+   "patterns": [
+    "socorridos",
+    "passadico",
+    "praia nova"
+   ]
+  },
+  {
+   "id": 3,
+   "slug": "praia-formosa",
+   "name_pt": "Promenade da Praia Formosa",
+   "name_en": "Praia Formosa",
+   "km": 1.07,
+   "patterns": [
+    "praia formosa",
+    "praia dos namorados"
+   ]
+  },
+  {
+   "id": 4,
+   "slug": "doca-do-cavacas-tunnel",
+   "name_pt": "Túnel e caminho da Doca do Cavacas",
+   "name_en": "Doca do Cavacas tunnel and path",
+   "km": 0.35,
+   "patterns": [
+    "doca do cavacas",
+    "pocas do gomes",
+    "tunel da praia formosa",
+    "tunel da doca"
+   ]
+  },
+  {
+   "id": 5,
+   "slug": "ponta-da-cruz",
+   "name_pt": "Promenade do Lido (Ponta da Cruz – Ponta Gorda)",
+   "name_en": "Ponta da Cruz to Ponta Gorda",
+   "km": 0.83,
+   "patterns": [
+    "ponta da cruz",
+    "ponta gorda",
+    "estacao de biologia marinha"
+   ]
+  },
+  {
+   "id": 6,
+   "slug": "lido",
+   "name_pt": "Promenade do Lido",
+   "name_en": "Ponta Gorda to the Lido",
+   "km": 0.86,
+   "patterns": [
+    "promenade do lido",
+    "passeio do lido",
+    "jardins do lido",
+    "lido poente",
+    "complexo balnear do lido",
+    "\\blido\\b",
+    "gorgulho"
+   ]
+  },
+  {
+   "id": 7,
+   "slug": "lido-pontinha-link",
+   "name_pt": "Estrada Monumental – Avenida do Infante",
+   "name_en": "Street link, Lido to Pontinha",
+   "km": 1.87,
+   "patterns": [
+    "estrada monumental",
+    "rua carvalho araujo",
+    "rotunda harvey foster"
+   ]
+  },
+  {
+   "id": 8,
+   "slug": "centre-seafront",
+   "name_pt": "Passeio marítimo do Funchal (Avenida do Mar)",
+   "name_en": "Funchal centre seafront",
+   "km": 2.3,
+   "patterns": [
+    "avenida do mar",
+    "praca do povo",
+    "almirante reis",
+    "barreirinha",
+    "praia de sao tiago",
+    "marina do funchal",
+    "pontinha",
+    "forte de sao jose"
+   ]
+  }
+ ],
+ "phrases_about": "Matched first; each phrase sets its areas and is blanked out before the single patterns run, so 'Praia Formosa – Socorridos' means the boardwalk only.",
+ "phrases": [
+  {
+   "pattern": "passadico (da|na) praia formosa",
+   "areas": [
+    2
+   ]
+  },
+  {
+   "pattern": "praia formosa( e o | e a | e | ao | a | - | – | — | ate ao | ate a )(os? )?socorridos",
+   "areas": [
+    2
+   ]
+  },
+  {
+   "pattern": "socorridos( e o | e a | e | ao | a | - | – | — | ate ao | ate a )(as? )?praia formosa",
+   "areas": [
+    2
+   ]
+  },
+  {
+   "pattern": "camara de lobos( e o | e a | e | ao | a | - | – | — | ate ao | ate a )(os? )?socorridos",
+   "areas": [
+    1
+   ]
+  },
+  {
+   "pattern": "socorridos( e o | e a | e | ao | a | - | – | — | ate ao | ate a )camara de lobos",
+   "areas": [
+    1
+   ]
+  },
+  {
+   "pattern": "praia formosa( e o | e a | e | ao | a | - | – | — | ate ao | ate a )camara de lobos",
+   "areas": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "pattern": "camara de lobos( e o | e a | e | ao | a | - | – | — | ate ao | ate a )(as? )?praia formosa",
+   "areas": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "pattern": "ponta gorda( e o | e a | e | ao | a | - | – | — | ate ao | ate a )(os? )?lido",
+   "areas": [
+    6
+   ]
+  },
+  {
+   "pattern": "lido( e o | e a | e | ao | a | - | – | — | ate ao | ate a )(as? )?ponta gorda",
+   "areas": [
+    6
+   ]
+  }
+ ]
+}
