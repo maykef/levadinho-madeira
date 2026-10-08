@@ -1,0 +1,1402 @@
+{
+ "stamp": "2026-10-08T14:10+01:00",
+ "tz": "Atlantic/Madeira",
+ "days": [
+  {
+   "date": "2026-10-08",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:05",
+   "sunset": "19:44",
+   "weather": {
+    "tmin": 20,
+    "tmax": 26,
+    "rain": 98,
+    "wtype": 7,
+    "uv": 5.7
+   },
+   "fair": {
+    "theme": "handcraft",
+    "pt": "Artesanato",
+    "hours": [
+     "09:00",
+     "17:00"
+    ],
+    "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
+   }
+  },
+  {
+   "date": "2026-10-09",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:06",
+   "sunset": "19:43",
+   "weather": {
+    "tmin": 20,
+    "tmax": 25,
+    "rain": 60,
+    "wtype": 3,
+    "uv": 5.2
+   },
+   "fair": null
+  },
+  {
+   "date": "2026-10-10",
+   "type": "saturday",
+   "holiday": null,
+   "bus": "saturday",
+   "sunrise": "08:06",
+   "sunset": "19:42",
+   "weather": {
+    "tmin": 20,
+    "tmax": 26,
+    "rain": 29,
+    "wtype": 3,
+    "uv": 6.0
+   },
+   "fair": null
+  },
+  {
+   "date": "2026-10-11",
+   "type": "sunday",
+   "holiday": null,
+   "bus": "sunday",
+   "sunrise": "08:07",
+   "sunset": "19:40",
+   "weather": {
+    "tmin": 20,
+    "tmax": 25,
+    "rain": 16,
+    "wtype": 3,
+    "uv": 5.6
+   },
+   "fair": null
+  },
+  {
+   "date": "2026-10-12",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:08",
+   "sunset": "19:39",
+   "weather": {
+    "tmin": 21,
+    "tmax": 26,
+    "rain": 25,
+    "wtype": 3,
+    "uv": 5.7
+   },
+   "fair": null
+  },
+  {
+   "date": "2026-10-13",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:08",
+   "sunset": "19:38",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-14",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:09",
+   "sunset": "19:37",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-15",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:10",
+   "sunset": "19:36",
+   "weather": null,
+   "fair": {
+    "theme": "gastronomy",
+    "pt": "Gastronomia",
+    "hours": [
+     "09:00",
+     "17:00"
+    ],
+    "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
+   }
+  },
+  {
+   "date": "2026-10-16",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:11",
+   "sunset": "19:34",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-17",
+   "type": "saturday",
+   "holiday": null,
+   "bus": "saturday",
+   "sunrise": "08:11",
+   "sunset": "19:33",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-18",
+   "type": "sunday",
+   "holiday": null,
+   "bus": "sunday",
+   "sunrise": "08:12",
+   "sunset": "19:32",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-19",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:13",
+   "sunset": "19:31",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-20",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:14",
+   "sunset": "19:30",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-21",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:15",
+   "sunset": "19:29",
+   "weather": null,
+   "fair": null
+  }
+ ],
+ "events": [
+  {
+   "title": "Mandolin Orchestra Weekly Concerts",
+   "venue": "",
+   "start": "2026-10-07",
+   "end": "2026-10-28",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Lançamento da obra “ O teu cozinheiro”",
+   "venue": "Biblioteca Municipal do Funchal",
+   "start": "2026-10-08T00:00",
+   "end": "2026-10-08T23:59",
+   "all_day": true,
+   "url": "https://cultura.funchal.pt/event/lancamento-da-obra-o-teu-cozinheiro/",
+   "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "100 Miles- Historic Rally",
+   "venue": "",
+   "start": "2026-10-10",
+   "end": "2026-10-10",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/100-milhas-historic-rally/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Chamber Music Concert – Legno Duo | OCM",
+   "venue": "",
+   "start": "2026-10-10",
+   "end": "2026-10-10",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/chamber-music-concert-legno-duo-ocm/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Mariofa : Carnaval dos Animais",
+   "venue": "Teatro Municipal Baltazar Dias",
+   "start": "2026-10-10T15:30",
+   "end": "2026-10-10T16:30",
+   "all_day": false,
+   "url": "https://cultura.funchal.pt/event/mariofa-carnaval-dos-animais/",
+   "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "OPERAzione TANGO | OCM",
+   "venue": "",
+   "start": "2026-10-17",
+   "end": "2026-10-17",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/operazione-tango-ocm/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Evento “ Bem, a Poesia…”",
+   "venue": "Biblioteca Municipal do Funchal",
+   "start": "2026-10-17T18:00",
+   "end": "2026-10-17T19:00",
+   "all_day": false,
+   "url": "https://cultura.funchal.pt/event/evento-bem-a-poesia/",
+   "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "Madeira Canyoning Meeting",
+   "venue": "",
+   "start": "2026-10-18",
+   "end": "2026-10-23",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/madeira-canyoning-meeting/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Chamber Music Concert – Legno Duo | OCM",
+   "venue": "",
+   "start": "2026-10-21",
+   "end": "2026-10-21",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/chamber-music-concert-legno-duo-ocm-2/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Lea Bach – A Harpa no Funchal Cosmopolita 1949",
+   "venue": "Teatro Municipal Baltazar Dias",
+   "start": "2026-10-21T19:00",
+   "end": "2026-10-21T20:00",
+   "all_day": false,
+   "url": "https://cultura.funchal.pt/event/lea-bach-a-harpa-no-funchal-cosmopolita-1949/",
+   "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "Madeira Legend Rally",
+   "venue": "",
+   "start": "2026-10-22",
+   "end": "2026-10-24",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/rally-madeira-legend-2024/",
+   "src": "eventsmadeira.com"
+  }
+ ],
+ "sea": {
+  "date": "2026-10-08",
+  "sst": 24,
+  "wave": [
+   0.5,
+   0.7
+  ],
+  "warnings": []
+ },
+ "lidos": [
+  {
+   "id": "lido",
+   "name": "Complexo Balnear do Lido",
+   "url": "https://frentemarfunchal.pt/complexos/lido-2/",
+   "hours": [
+    "09:00",
+    "18:30"
+   ],
+   "window": [
+    "2026-10-01",
+    "2026-10-24"
+   ],
+   "days": "daily"
+  },
+  {
+   "id": "ponta-gorda",
+   "name": "Complexo Balnear da Ponta Gorda",
+   "url": "https://frentemarfunchal.pt/complexos/ponta-gorda/",
+   "hours": [
+    "09:00",
+    "18:30"
+   ],
+   "window": [
+    "2026-10-01",
+    "2026-10-24"
+   ],
+   "days": "daily"
+  },
+  {
+   "id": "barreirinha",
+   "name": "Complexo Balnear da Barreirinha",
+   "url": "https://frentemarfunchal.pt/complexos/barreirinha/",
+   "hours": [
+    "09:00",
+    "18:30"
+   ],
+   "window": [
+    "2026-10-01",
+    "2026-10-24"
+   ],
+   "days": "daily"
+  },
+  {
+   "id": "doca-do-cavacas",
+   "name": "Poças do Gomes – Doca do Cavacas",
+   "url": "https://frentemarfunchal.pt/complexos/pocas-do-gomes-doca-do-cavacas/",
+   "hours": [
+    "10:00",
+    "19:00"
+   ],
+   "window": [
+    "2026-10-01",
+    "2026-10-24"
+   ],
+   "days": "daily"
+  }
+ ],
+ "lido_price": {
+  "adult": 6,
+  "youth_7_17": 2,
+  "free_under": 7,
+  "free": [
+   "Praia Formosa"
+  ],
+  "url": "https://frentemarfunchal.pt/tarifario/"
+ },
+ "last_bus": {
+  "monte": {
+   "sunday": [
+    "00:04",
+    "20"
+   ],
+   "saturday": [
+    "00:04",
+    "20"
+   ],
+   "weekday": [
+    "23:50",
+    "20"
+   ]
+  },
+  "garden": {
+   "saturday": [
+    "21:12",
+    "29"
+   ],
+   "weekday": [
+    "22:42",
+    "29"
+   ],
+   "sunday": [
+    "21:09",
+    "29"
+   ]
+  },
+  "lido": {
+   "saturday": [
+    "00:21",
+    "2"
+   ],
+   "weekday": [
+    "00:24",
+    "2"
+   ],
+   "sunday": [
+    "00:21",
+    "2"
+   ]
+  },
+  "formosa": {
+   "saturday": [
+    "23:55",
+    "1"
+   ],
+   "weekday": [
+    "23:08",
+    "1"
+   ],
+   "sunday": [
+    "23:55",
+    "1"
+   ]
+  }
+ },
+ "bus_feed_end": "2026-11-30",
+ "places": [
+  {
+   "id": "market",
+   "kind": "market",
+   "area": "zona-velha",
+   "name": "Mercado dos Lavradores",
+   "hours": {
+    "mon": [
+     [
+      "07:00",
+      "19:00"
+     ]
+    ],
+    "tue": [
+     [
+      "07:00",
+      "19:00"
+     ]
+    ],
+    "wed": [
+     [
+      "07:00",
+      "19:00"
+     ]
+    ],
+    "thu": [
+     [
+      "07:00",
+      "19:00"
+     ]
+    ],
+    "fri": [
+     [
+      "07:00",
+      "19:00"
+     ]
+    ],
+    "sat": [
+     [
+      "07:00",
+      "14:00"
+     ]
+    ]
+   },
+   "url": "https://mercados.funchal.pt/contactos/"
+  },
+  {
+   "id": "cablecar",
+   "kind": "cable",
+   "area": "zona-velha",
+   "name": "Teleférico do Funchal (Funchal – Monte)",
+   "hours": {
+    "mon": [
+     [
+      "08:45",
+      "17:45"
+     ]
+    ],
+    "tue": [
+     [
+      "08:45",
+      "17:45"
+     ]
+    ],
+    "wed": [
+     [
+      "08:45",
+      "17:45"
+     ]
+    ],
+    "thu": [
+     [
+      "08:45",
+      "17:45"
+     ]
+    ],
+    "fri": [
+     [
+      "08:45",
+      "17:45"
+     ]
+    ],
+    "sat": [
+     [
+      "08:45",
+      "17:45"
+     ]
+    ],
+    "sun": [
+     [
+      "08:45",
+      "17:45"
+     ]
+    ],
+    "hol": [
+     [
+      "08:45",
+      "17:45"
+     ]
+    ]
+   },
+   "closed": [
+    "12-25"
+   ],
+   "url": "https://www.madeiracablecar.com/"
+  },
+  {
+   "id": "gardencable",
+   "kind": "cable",
+   "area": "monte",
+   "name": "Teleférico do Jardim Botânico (Monte – Jardim Botânico)",
+   "hours": {
+    "mon": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "tue": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "hol": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ]
+   },
+   "closed": [
+    "12-25"
+   ],
+   "url": "https://www.telefericojardimbotanico.com/en/"
+  },
+  {
+   "id": "toboggan",
+   "kind": "toboggan",
+   "area": "monte",
+   "name": "Carreiros do Monte",
+   "hours": {
+    "mon": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "tue": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ]
+   },
+   "url": "https://www.carreirosdomonte.com/v3/en/"
+  },
+  {
+   "id": "montepalace",
+   "kind": "garden",
+   "area": "monte",
+   "name": "Monte Palace Madeira",
+   "hours": {
+    "mon": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "tue": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "hol": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ]
+   },
+   "months": [
+    10,
+    11,
+    12,
+    1,
+    2,
+    3
+   ],
+   "url": "https://montepalacemadeira.com/visita/"
+  },
+  {
+   "id": "botanical",
+   "kind": "garden",
+   "area": "monte",
+   "name": "Jardim Botânico da Madeira",
+   "hours": {
+    "mon": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "tue": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "hol": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ]
+   },
+   "closed": [
+    "12-25"
+   ],
+   "url": "https://visitmadeira.com/"
+  },
+  {
+   "id": "quintadascruzes",
+   "kind": "museum",
+   "area": "sao-pedro",
+   "name": "Museu Quinta das Cruzes",
+   "hours": {
+    "tue": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/museu-quinta-das-cruzes"
+  },
+  {
+   "id": "fredericodefreitas",
+   "kind": "museum",
+   "area": "sao-pedro",
+   "name": "Casa-Museu Frederico de Freitas",
+   "hours": {
+    "tue": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/casa-museu-frederico-de-freitas"
+  },
+  {
+   "id": "santaclara",
+   "kind": "museum",
+   "area": "sao-pedro",
+   "name": "Convento de Santa Clara",
+   "hours": {
+    "tue": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/convento-de-santa-clara"
+  },
+  {
+   "id": "artesacra",
+   "kind": "museum",
+   "area": "centre",
+   "name": "Museu de Arte Sacra do Funchal",
+   "hours": {
+    "mon": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "17:30"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "13:30"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/museu-de-arte-sacra-do-funchal"
+  },
+  {
+   "id": "acucar",
+   "kind": "museum",
+   "area": "centre",
+   "name": "Museu A Cidade do Açúcar",
+   "free": true,
+   "hours": {
+    "mon": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "tue": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/museu-a-cidade-do-acucar"
+  },
+  {
+   "id": "historianatural",
+   "kind": "museum",
+   "area": "sao-pedro",
+   "name": "Museu de História Natural do Funchal",
+   "hours": {
+    "tue": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "hol": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ]
+   },
+   "closed": [
+    "01-01",
+    "05-01",
+    "08-21",
+    "12-25",
+    "12-26"
+   ],
+   "url": "https://cultura.madeira.gov.pt/index.php/museu-de-historia-natural-do-funchal"
+  },
+  {
+   "id": "fotografia",
+   "kind": "museum",
+   "area": "centre",
+   "name": "Museu de Fotografia da Madeira – Atelier Vicente's",
+   "hours": {
+    "tue": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/museu-de-fotografia-da-madeira-atelier-vicente-s"
+  },
+  {
+   "id": "casadaluz",
+   "kind": "museum",
+   "area": "zona-velha",
+   "name": "Museu da Electricidade – Casa da Luz",
+   "hours": {
+    "tue": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "18:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "18:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "18:00"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/museu-da-electricidade-casa-da-luz"
+  },
+  {
+   "id": "fortalezapico",
+   "kind": "museum",
+   "area": "sao-pedro",
+   "name": "Fortaleza de São João Baptista do Pico",
+   "hours": {
+    "mon": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "12:30"
+     ],
+     [
+      "14:00",
+      "17:00"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/fortaleza-de-sao-joao-baptista-do-pico"
+  },
+  {
+   "id": "mamma",
+   "kind": "museum",
+   "area": "centre",
+   "name": "MAMMA – A Star is Born",
+   "hours": {
+    "tue": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "15:00"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/mamma-a-star-is-born"
+  },
+  {
+   "id": "designcenter",
+   "kind": "museum",
+   "area": "centre",
+   "name": "Design Center Nini Andrade Silva",
+   "hours": {
+    "mon": [
+     [
+      "10:00",
+      "23:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "23:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "23:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "23:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "23:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "23:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "23:00"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/design-center-nini-andrade-silva"
+  },
+  {
+   "id": "winecompany",
+   "kind": "museum",
+   "area": "centre",
+   "name": "Madeira Wine Company – Adegas de São Francisco",
+   "hours": {
+    "mon": [
+     [
+      "10:00",
+      "18:30"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "18:30"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "18:30"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "18:30"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "18:30"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "13:00"
+     ]
+    ]
+   },
+   "url": "https://cultura.madeira.gov.pt/index.php/madeira-wine-company---adegas-de-sao-francisco"
+  }
+ ],
+ "parking": {
+  "paid": {
+   "mon": [
+    [
+     "08:00",
+     "20:00"
+    ]
+   ],
+   "tue": [
+    [
+     "08:00",
+     "20:00"
+    ]
+   ],
+   "wed": [
+    [
+     "08:00",
+     "20:00"
+    ]
+   ],
+   "thu": [
+    [
+     "08:00",
+     "20:00"
+    ]
+   ],
+   "fri": [
+    [
+     "08:00",
+     "20:00"
+    ]
+   ],
+   "sat": [
+    [
+     "08:00",
+     "14:00"
+    ]
+   ]
+  },
+  "url": "https://frentemarfunchal.pt/mobilidade-2/parquimetros/"
+ },
+ "ok": {
+  "weather": true,
+  "sea": true,
+  "fair": true,
+  "events": true,
+  "lidos": true,
+  "gtfs": true
+ },
+ "sources": {
+  "events": [
+   "https://cultura.funchal.pt/",
+   "https://eventsmadeira.com/"
+  ],
+  "weather": "https://www.ipma.pt/",
+  "bus": "https://www.horariosdofunchal.pt/",
+  "market_fairs": "https://mercados.funchal.pt/",
+  "lidos": "https://frentemarfunchal.pt/"
+ }
+}

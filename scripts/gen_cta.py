@@ -52,7 +52,7 @@ WA_PREFIX = {"pt": "Olá Levadinho! 👋", "en": "Hello Levadinho! 👋", "fr": 
 
 GREETING = "{prefix} #{tag}"
 LANG_DIRS = ("pt", "fr", "de", "pl")
-SKIP_TOP = {"bot", "seo_research", ".claude", ".git", "https___madeira", "privacy", "trails", "img", "scripts", "node_modules", "reports", "google_search_console", "history"}
+SKIP_TOP = {"bot", "seo_research", ".claude", ".git", "https___madeira", "privacy", "trails", "img", "scripts", "node_modules", "reports", "google_search_console", "history", "q"}
 
 # Page (path inside its language folder) -> tag. Trail pages are tagged from their data-trail code.
 TAGS = {
@@ -73,6 +73,7 @@ TAGS = {
     "levadas-with-tunnels/index.html": "web-tunnels",
     "trail-closures/index.html": "web-closures",
     "about/index.html": "web-about",
+    "funchal/index.html": "web-funchal",
 }
 WEB_TAG = re.compile(r"web-[a-z0-9-]{1,40}")   # must match bot/brain.py
 
@@ -203,6 +204,7 @@ def put(html, key, body, anchors, path):
 TOP_SPOTS = [
     re.compile(r'<div class="livecam">.*?\n</div>\n', re.S),                      # below the webcam
     re.compile(r'<div class="status-card" id="statusCard"[^>]*>.*?\n</div>\n', re.S),  # below the status card
+    re.compile(r'<section class="lvd-now" id="now"[^>]*>.*?\n</section>\n', re.S),   # below the Levadinho "now" panel (Funchal)
     re.compile(r'</header>\n'),                                                    # below the header
 ]
 

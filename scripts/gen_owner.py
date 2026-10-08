@@ -26,7 +26,7 @@ from site_entity import ENTITY  # noqa: E402  (the one-sentence description, LLM
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 NAME = "Mayke De Freitas Santos"
-SKIP = ("bot", "seo_research", "reports", "google_search_console", "trails", ".git", ".claude")
+SKIP = ("bot", "seo_research", "reports", "google_search_console", "trails", ".git", ".claude", "q")
 
 MAIL = '<a href="mailto:hello@levadinho-madeira.com" style="color:inherit">hello@levadinho-madeira.com</a>'
 LINE = {

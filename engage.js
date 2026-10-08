@@ -6,6 +6,7 @@
      seen-<block>:<path>      a block came into view: cta (WhatsApp), status, bus, faq, webcam, map, weather
      out-<site>:<path>        a click to an outside site (simplifica, ifcn, ipma, visitmadeira, whatsapp, other)
      lang-<xx>:<path>         a click on the language switcher
+     qr-<code>:<path>         the visitor arrived by scanning a Levadinho QR code (/q/<code>/, read by /qr.js)
    Described in the privacy policy (privacy/). Event names carry the page so the stats can be read per page. */
 (function () {
   "use strict";
@@ -75,6 +76,15 @@
     if (a.closest(".langs")) { send("lang-" + (a.getAttribute("hreflang") || "x")); return; }
     if (a.hostname && a.hostname !== location.hostname && /^https?:$/.test(a.protocol)) send("out-" + site(a.hostname));
   }, true);
+
+  // QR scans (2026-10-08): /qr.js has already read #qr=<code>; GoatCounter may still be loading, so retry briefly
+  if (window.LEVADINHO_QR) {
+    var tries = 0;
+    (function qrScan() {
+      if (gc()) { send("qr-" + window.LEVADINHO_QR); return; }
+      if (++tries < 20) setTimeout(qrScan, 500);
+    })();
+  }
 
   window.addEventListener("scroll", onScroll, { passive: true });
   document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") leave(); });

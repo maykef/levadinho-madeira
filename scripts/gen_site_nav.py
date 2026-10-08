@@ -171,12 +171,17 @@ GUIDES = [
      {"en": "About Levadinho: sources and method", "pt": "Sobre o Levadinho: fontes e método",
       "fr": "À propos de Levadinho : sources et méthode", "de": "Über Levadinho: Quellen und Methode",
       "pl": "O Levadinho: źródła i metoda"}),
+    ("funchal", "/funchal/", None,
+     {"en": "Funchal today", "pt": "Funchal hoje", "fr": "Funchal aujourd'hui", "de": "Funchal heute", "pl": "Funchal dziś"},
+     {"en": "Funchal today: what's on, what's open", "pt": "Funchal hoje: o que há, o que está aberto",
+      "fr": "Funchal aujourd'hui : que faire, ce qui est ouvert", "de": "Funchal heute: was los ist, was geöffnet hat",
+      "pl": "Funchal dziś: co się dzieje, co jest otwarte"}),
 ]
 GUIDE = {g[0]: g for g in GUIDES}
 # Which guides each page links to in its "More guides" block (targets the page already
 # links to in its own copy are dropped, so the block never repeats a "Next steps" link).
 RELATED_GUIDES = {
-    "home": ["closures", "pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus"],
+    "home": ["closures", "funchal", "pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus"],
     "pr1": ["oneway", "sunrise", "weather", "back", "booking", "fees", "permit", "closures"],
     "fees": ["permit", "free", "booking", "abroad", "best", "pr1"],
     "permit": ["free", "booking", "fees", "best", "easy", "tunnels"],
@@ -190,9 +195,10 @@ RELATED_GUIDES = {
     "tunnels": ["best", "easy", "permit", "booking"],
     "oneway": ["back", "sunrise", "pr1", "booking", "fees"],
     "free": ["permit", "fees", "booking", "easy", "best", "bus"],
-    "bus": ["back", "sunrise", "free", "best", "easy", "booking"],
+    "bus": ["back", "sunrise", "free", "best", "easy", "booking", "funchal"],
     "closures": ["pr1", "best", "fees", "booking", "permit", "about"],
     "about": ["closures", "pr1", "fees", "booking", "permit", "best"],
+    "funchal": ["bus", "free", "best", "easy", "closures", "about"],
     "spoke": ["closures", "best", "easy", "tunnels", "booking", "fees", "permit"],
     "spoke-pr1": ["pr1", "oneway", "back", "sunrise", "weather", "booking", "fees"],   # PR1.2 Pico Ruivo
 }

@@ -32,13 +32,19 @@ jobs:
       - name: Update status from the IFCN warnings page + IPMA weather
         run: python scripts/update_status.py
 
+      # Funchal page data (2026-10-08): events, market fair, lidos, IPMA, last buses -> funchal.json + the page's
+      # static event / last-bus lists. Separate and non-blocking: a broken Funchal source never stops the trail board.
+      - name: Update Funchal data (non-blocking)
+        continue-on-error: true
+        run: python scripts/update_funchal.py
+
       - name: Commit and push if changed
         run: |
           git config user.name "levadinho-bot"
           git config user.email "actions@users.noreply.github.com"
           # status.json + sitemap + the AI feeds (llms*.txt, RSS, daily history), plus any page whose dateModified or STATIC-STATUS line changed
           # (every *.html except the bot's own files).
-          git add status.json sitemap.xml llms.txt llms-full.txt trail-status.xml history/status-daily.jsonl
+          git add status.json funchal.json sitemap.xml llms.txt llms-full.txt trail-status.xml history/status-daily.jsonl
           git add -A -- '*.html' ':(exclude)bot/**'
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Daily status update $(date -u +%F)"

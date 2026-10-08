@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, follow">
+<title>Levadinho</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<script>
+/* Levadinho QR code "funchal" (scripts/gen_qr.py): open /funchal/ in the phone's language, marked as a scan. */
+(function () {
+  var langs = ["pt", "fr", "de", "pl"], pick = "";
+  var prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "en"];
+  for (var i = 0; i < prefs.length; i++) {
+    var l = String(prefs[i]).slice(0, 2).toLowerCase();
+    if (l === "en") break;
+    if (langs.indexOf(l) >= 0) { pick = "/" + l; break; }
+  }
+  location.replace(pick + "/funchal/#qr=funchal");
+})();
+</script>
+<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#FAFAF7;color:#16342A;padding:24px 16px;max-width:520px;margin:0 auto}a{color:#16342A;font-weight:700}li{margin:8px 0}</style>
+</head>
+<body>
+<p>Levadinho</p>
+<ul>
+<li><a href="/funchal/#qr=funchal">English</a></li>
+<li><a href="/pt/funchal/#qr=funchal">Português</a></li>
+<li><a href="/fr/funchal/#qr=funchal">Français</a></li>
+<li><a href="/de/funchal/#qr=funchal">Deutsch</a></li>
+<li><a href="/pl/funchal/#qr=funchal">Polski</a></li>
+</ul>
+</body>
+</html>
