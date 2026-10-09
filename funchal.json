@@ -1,31 +1,7 @@
 {
- "stamp": "2026-10-08T14:10+01:00",
+ "stamp": "2026-10-09T08:02+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-08",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:05",
-   "sunset": "19:44",
-   "weather": {
-    "tmin": 20,
-    "tmax": 26,
-    "rain": 98,
-    "wtype": 7,
-    "uv": 5.7
-   },
-   "fair": {
-    "theme": "handcraft",
-    "pt": "Artesanato",
-    "hours": [
-     "09:00",
-     "17:00"
-    ],
-    "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
-   }
-  },
   {
    "date": "2026-10-09",
    "type": "weekday",
@@ -36,7 +12,7 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 60,
+    "rain": 45,
     "wtype": 3,
     "uv": 5.2
    },
@@ -52,7 +28,7 @@
    "weather": {
     "tmin": 20,
     "tmax": 26,
-    "rain": 29,
+    "rain": 4,
     "wtype": 3,
     "uv": 6.0
    },
@@ -66,9 +42,9 @@
    "sunrise": "08:07",
    "sunset": "19:40",
    "weather": {
-    "tmin": 20,
+    "tmin": 21,
     "tmax": 25,
-    "rain": 16,
+    "rain": 4,
     "wtype": 3,
     "uv": 5.6
    },
@@ -84,7 +60,7 @@
    "weather": {
     "tmin": 21,
     "tmax": 26,
-    "rain": 25,
+    "rain": 24,
     "wtype": 3,
     "uv": 5.7
    },
@@ -97,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "08:08",
    "sunset": "19:38",
-   "weather": null,
+   "weather": {
+    "tmin": 21,
+    "tmax": 26,
+    "rain": 18,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -187,6 +169,16 @@
    "sunset": "19:29",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-10-22",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:15",
+   "sunset": "19:28",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -198,15 +190,6 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
    "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Lançamento da obra “ O teu cozinheiro”",
-   "venue": "Biblioteca Municipal do Funchal",
-   "start": "2026-10-08T00:00",
-   "end": "2026-10-08T23:59",
-   "all_day": true,
-   "url": "https://cultura.funchal.pt/event/lancamento-da-obra-o-teu-cozinheiro/",
-   "src": "cultura.funchal.pt"
   },
   {
    "title": "100 Miles- Historic Rally",
@@ -288,14 +271,23 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/rally-madeira-legend-2024/",
    "src": "eventsmadeira.com"
+  },
+  {
+   "title": "11th Madeira International Mandolin Festival",
+   "venue": "",
+   "start": "2026-10-23",
+   "end": "2026-11-14",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/10th-madeira-international-mandolin-festival/",
+   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-10-08",
+  "date": "2026-10-09",
   "sst": 24,
   "wave": [
-   0.5,
-   0.7
+   0.7,
+   0.9
   ],
   "warnings": []
  },
