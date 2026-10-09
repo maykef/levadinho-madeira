@@ -257,7 +257,8 @@ WhatsApp → Twilio sandbox (+1 415 523 8886) → POST …/levadinho/twilio (app
   - **`join bark-wood`** (or any message starting `join `) counts as a first contact with no question:
     the picker, as for Meta's `request_welcome`. `join bark-wood #web-<tag>` becomes the website greeting,
     so the tag is recorded as the source.
-- **`.env`:** `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WA_FROM=whatsapp:+14155238886`,
+- **`.env`:** `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WA_FROM=whatsapp:+447455718697`
+  (Levadinho's own sender since 2026-10-04; `whatsapp:+14155238886` while it was on the sandbox),
   `TWILIO_WEBHOOK_URL` (see `.env.example`). With the SID, token and FROM all set, `start.sh` only warns about a
   rejected Meta token (and checks the Twilio credentials), and the watchdog skips the Meta check
   (`meta=skipped:twilio` in `logs/watchdog.log`, also `skipped:no-token` when `WA_TOKEN` is empty).
@@ -270,7 +271,8 @@ WhatsApp → Twilio sandbox (+1 415 523 8886) → POST …/levadinho/twilio (app
 - **Log noise:** the `twilio` library logs every request (URL with the Account SID, response headers)
   at INFO into `app.log`. No token is written, but `logging.getLogger("twilio.http_client").setLevel(logging.WARNING)`
   in `app.py` would silence it (not done yet).
-- **Switching the website CTA:** in `scripts/gen_cta.py` comment the Meta `WA_NUMBER` / `WA_PREFIX`
+- **The website CTA** has pointed at Levadinho's own Twilio number +44 7455 718697 since 2026-10-04
+  (`WA_NUMBER` in `scripts/gen_cta.py`). To go back to the sandbox: comment that `WA_NUMBER` / `WA_PREFIX`
   pair, uncomment the sandbox pair (`14155238886`, `join bark-wood`), run `python scripts/gen_cta.py`
   and commit the pages. The links then pre-fill `join bark-wood #web-<tag>`. Reverse to switch back.
 - **Sandbox limits:**
