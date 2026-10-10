@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-09T08:02+01:00",
+ "stamp": "2026-10-10T07:34+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-09",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:06",
-   "sunset": "19:43",
-   "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 45,
-    "wtype": 3,
-    "uv": 5.2
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-10",
    "type": "saturday",
@@ -28,9 +12,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 26,
-    "rain": 4,
+    "rain": 2,
     "wtype": 3,
-    "uv": 6.0
+    "uv": 5.9
    },
    "fair": null
   },
@@ -42,11 +26,11 @@
    "sunrise": "08:07",
    "sunset": "19:40",
    "weather": {
-    "tmin": 21,
+    "tmin": 20,
     "tmax": 25,
-    "rain": 4,
+    "rain": 37,
     "wtype": 3,
-    "uv": 5.6
+    "uv": 5.3
    },
    "fair": null
   },
@@ -58,11 +42,11 @@
    "sunrise": "08:08",
    "sunset": "19:39",
    "weather": {
-    "tmin": 21,
-    "tmax": 26,
+    "tmin": 20,
+    "tmax": 25,
     "rain": 24,
-    "wtype": 3,
-    "uv": 5.7
+    "wtype": 4,
+    "uv": 5.6
    },
    "fair": null
   },
@@ -74,11 +58,11 @@
    "sunrise": "08:08",
    "sunset": "19:38",
    "weather": {
-    "tmin": 21,
-    "tmax": 26,
-    "rain": 18,
+    "tmin": 19,
+    "tmax": 25,
+    "rain": 4,
     "wtype": 3,
-    "uv": null
+    "uv": 6.2
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "08:09",
    "sunset": "19:37",
-   "weather": null,
+   "weather": {
+    "tmin": 21,
+    "tmax": 27,
+    "rain": 2,
+    "wtype": 2,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -177,6 +167,16 @@
    "bus": "weekday",
    "sunrise": "08:15",
    "sunset": "19:28",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-23",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "08:16",
+   "sunset": "19:26",
    "weather": null,
    "fair": null
   }
@@ -283,11 +283,11 @@
   }
  ],
  "sea": {
-  "date": "2026-10-09",
+  "date": "2026-10-10",
   "sst": 24,
   "wave": [
-   0.7,
-   0.9
+   0.6,
+   0.8
   ],
   "warnings": []
  },
