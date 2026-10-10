@@ -37,6 +37,8 @@
             pl: ["Czy jest autobus z Santany do Funchal?", "Czy mogę wrócić pieszo na Pico do Areeiro?", "Na którą zamówić taksówkę?"] }
   };
   var U = UI[LANG] || UI.en;
+  // the owner's devices (#skipgc on any page sets it, #countme clears it): chats answered but never recorded
+  var OWNER = (function () { try { return localStorage.getItem("gc-skip") === "1"; } catch (e) { return false; } })();
   var CSS = "html,body{margin-top:0!important;padding-top:0!important}" +
     "#lvc{--lp:#f6f1e4;--li:#1f3a2c;--lm:#5d6b62;--lme:#d8ecd9;--lbar:#efe7d2;position:relative;width:100vw;margin:0 calc(50% - 50vw) 16px;" +
     "height:100svh;display:flex;flex-direction:column;background:var(--lp);color:var(--li);font:16px/1.45 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;text-align:left}" +
@@ -163,7 +165,7 @@
       try {
         for (var i = 0; i < 30; i++) {
           var r = await fetch(API + "/webchat", { method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(Object.assign({ sid: sid, tag: tag, lang: LANG }, payload)) });
+            body: JSON.stringify(Object.assign({ sid: sid, tag: tag, lang: LANG, test: OWNER }, payload)) });
           if (!r.ok) throw new Error(r.status);
           var j = await r.json();
           if (j.waking) {

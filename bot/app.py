@@ -450,7 +450,8 @@ async def webchat(request: Request):
                 "retry": meta["deferred_question"]}
     if meta.get("warm_up") and llm_control.ON_DEMAND:
         llm_control.start()
-    record(user, new_visitor, "text" if text else "interactive", text or choice, None, meta, out, channel="web")
+    if not body.get("test"):   # the owner's own browser (#skipgc): answered, never recorded
+        record(user, new_visitor, "text" if text else "interactive", text or choice, None, meta, out, channel="web")
     return {"messages": _web_out(out)}
 
 
