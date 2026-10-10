@@ -451,7 +451,9 @@ def cam(cam_id: str):
 
 @app.get("/health")
 def health():
-    return {"ok": True}
+    """Webhook up; "model": whether the model answers right now. chat.js shows the chat on our pages only when it
+    does (owner, 2026-10-10: model asleep → serve the page directly)."""
+    return {"ok": True, "model": llm_control.is_up()}
 
 
 # ---------------------------------------------------------------- audio guide

@@ -1,6 +1,6 @@
 /* Levadinho's chat at the top of the page (owner, 2026-10-10: "chat first, scroll down for the card and the rest").
    Injected by scripts/gen_chat.py on the pilot pages. The page itself is unchanged: this script adds the chat above
-   it only when the bot answers (GET /health), so with the bot off the visitor gets the usual page.
+   it only when the model is up and answering (GET /health → model: true); asleep or off, the visitor gets the usual page.
    Opening message = the page's own quick-answers card (#answers), or on getting-back the plan table and taxi ranks,
    typed out. Follow-ups go to the bot (POST /webchat): same brain, same privacy notice (Accept first) as WhatsApp. */
 (function () {
@@ -209,8 +209,8 @@
     var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
     fetch(API + "/health", { signal: ctl ? ctl.signal : undefined, cache: "no-store" })
       .then(function (r) { clearTimeout(timer); return r.ok ? r.json() : null; })
-      .then(function (j) { if (j && j.ok) build(); })
-      .catch(function () {});  // the bot is off: the usual page
+      .then(function (j) { if (j && j.ok && j.model) build(); })  // model asleep or bot off: the usual page
+      .catch(function () {});
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();
