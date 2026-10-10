@@ -39,6 +39,36 @@ the model (and the location reply, `LOC_FAR`) says "according to IFCN's list, up
 never "this morning's check". Trail notes are Portuguese originals with translations: the model
 gets the `en` text, else the `pt` original. Other trails get a link to the trails board at `/`, and off-topic requests are declined.
 
+## Answers from the knowledge store only (since 2026-10-10)
+
+Every follow-up is answered by the model with the 14 tools of `backend/kbtools.py` (the same ones the MCP server
+exposes): trail status and facts, nearby trails, fees and rules, buses, taxis, weather, Funchal places (cable car,
+market, museums, lidos), notices (cruise ships, events), **webcam** (the latest Rabaçal / Achada do Teixeira /
+Pico do Areeiro frame, sent as a picture) and page search. Owner rule: **answer exactly what was asked**. The canned
+answers of `answers.py` are no longer used for follow-ups (only "thanks" needs no model). `brain_tools.SYSTEM` holds
+the tool-per-question rules; `answer_tools` adds the page's trail ("nearby" = near it) and the Madeira date/time.
+`guard.py` checks every reply: status only when asked or the trail is CLOSED, never "partly open", printed bus
+timetables when the reply leaves departures out, no company names or offers, no invented workarounds, Monte = cable
+car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.json` (49 questions, 49/49 on 2026-10-10).
+
+## The chat on our pages (since 2026-10-10)
+
+`/chat.js` (site root) puts Levadinho's chat at the top of the pilot pages (`scripts/gen_chat.py`: the 8 trail-code
+pages PR6.8, PR9.1, PR7, PR28, PR13, PR13.1, PR6.6, PR1.3 + getting-back, × 5 languages). It shows only when
+`GET /health` says `"model": true`; asleep or off, the visitor gets the usual page. Opening message = the page's own
+quick-answers card typed out (a CLOSED trail: the closure + the open trails nearby, nothing else); suggested
+questions; follow-ups go to **`POST /webchat`** (app.py): same brain, same privacy notice (Accept buttons), same
+analytics with channel `web`, visitor `web:<code>` (random code in the browser's localStorage `lvchat`).
+- **Country:** looked up from the Funnel's `x-forwarded-for` IP with DB-IP Lite (`bot/geoip/`, git-ignored,
+  refreshed monthly by the collect job `geoip_refresh`) and stored on the visitor; the IP is never stored.
+- **The owner's browser** (`#skipgc` on any page, `#countme` undoes it) is answered but never recorded; the WhatsApp
+  test number is `TEST_NUMBERS` in `.env`.
+- Rate limit per code and per IP (in memory only). CORS: levadinho-madeira.com only.
+- `GET /cam/<id>.jpg` serves the latest webcam frame (also for WhatsApp pictures via Twilio `media_url`).
+- Testing from the workstation: it is on the tailnet, so Chrome sees the Funnel host as a private address and blocks
+  the page's call; test with public DNS (`--host-resolver-rules="MAP microscopy-rig-system.tail53cc58.ts.net 176.58.92.199"`).
+- Privacy requests for a web visitor: `python bot/privacy_request.py erase web:<code>`.
+
 ## Files
 
 | File | Purpose |
@@ -94,6 +124,9 @@ The model takes about 85 GB. The container has
   in `levadinho.db`.
 
 ## Wake on demand (since 2026-09-30)
+
+**2026-10-10 (owner):** the idle auto-stop is paused with `LLM_IDLE_MIN=0` in `.env` (model kept loaded while the
+computer stays on); remove that line and do a full restart to restore the 30-minute rule.
 
 The webhook runs all the time; the ~85 GB model runs only while it's needed (`llm_control.py`).
 
