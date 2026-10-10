@@ -367,6 +367,20 @@ from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 app.add_middleware(CORSMiddleware, allow_origins=["https://levadinho-madeira.com", "https://www.levadinho-madeira.com"],
                    allow_methods=["GET", "POST"], allow_headers=["Content-Type"], max_age=3600)
 WEB_SID = re.compile(r"[a-z0-9]{12,32}")
+_geo = None
+
+
+def web_country(ip):
+    """ISO country of the visitor's IP (DB-IP Lite in bot/geoip, local lookup). Only the country is kept, never the IP."""
+    global _geo
+    try:
+        if _geo is None:
+            import maxminddb
+            _geo = maxminddb.open_database(os.path.join(HERE, "geoip", "dbip-country-lite.mmdb"))
+        return ((_geo.get(ip) or {}).get("country") or {}).get("iso_code")
+    except Exception:
+        log.exception("country lookup failed")
+        return None
 WEB_TAG = re.compile(r"web-[a-z0-9-]{1,40}")
 _web_hits = {}
 
@@ -408,6 +422,9 @@ async def webchat(request: Request):
     if _web_limited("s:" + sid, 20) or _web_limited("i:" + ip, 60):
         return {"messages": [{"type": "text", "body": brain.WEB_SLOW_DOWN.get(lang, brain.WEB_SLOW_DOWN["en"])}]}
     user = "web:" + sid
+    cc = web_country(ip)
+    if cc:
+        analytics.WEB_COUNTRY[user] = cc
     new_visitor = store.get_user(user) is None
     if new_visitor:
         store.set_user(user, lang=lang, source=tag)

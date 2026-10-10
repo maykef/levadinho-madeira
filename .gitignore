@@ -40,3 +40,6 @@ backend/tests/results/
 
 # Levadinho watch runtime data (changedetection datastore, seen items)
 watch/state/
+
+# IP→country database for the web chat (DB-IP Lite, CC BY 4.0; refreshed monthly, local only)
+bot/geoip/

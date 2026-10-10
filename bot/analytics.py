@@ -74,9 +74,12 @@ def visitor_id_for(phone):
     return hmac.new(_KEY, re.sub(r"\D", "", phone).encode(), hashlib.sha256).hexdigest()[:32]
 
 
+WEB_COUNTRY = {}   # "web:<code>" → ISO country of the request (app.py webchat; the IP itself is never stored)
+
+
 def country_for(phone):
     if str(phone).startswith("web:"):
-        return None
+        return WEB_COUNTRY.get(str(phone))
     try:
         return phonenumbers.region_code_for_number(phonenumbers.parse("+" + re.sub(r"\D", "", phone)))
     except Exception:
@@ -88,7 +91,8 @@ def touch_visitor(phone, lang=None):
     if vid:
         _exec("""INSERT INTO visitor (visitor_id, country, lang) VALUES (%s, %s, %s)
                  ON CONFLICT (visitor_id) DO UPDATE SET last_seen = now(),
-                   lang = COALESCE(EXCLUDED.lang, visitor.lang)""", (vid, country_for(phone), lang))
+                   lang = COALESCE(EXCLUDED.lang, visitor.lang),
+                   country = COALESCE(visitor.country, EXCLUDED.country)""", (vid, country_for(phone), lang))
     return vid
 
 
