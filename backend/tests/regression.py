@@ -51,7 +51,7 @@ def baseline(out, mode="baseline"):
     for n, q in enumerate(QUESTIONS):
         user = f"regress-{n}"
         store.reset(user)
-        store.set_user(user, lang=q["lang"], consent="yes", state="ready", base="Funchal")
+        store.set_user(user, lang=q["lang"], consent="yes", state="ready", base=q.get("base", "Funchal"), source=q.get("source"))
         t = time.time()
         r = dict(q)
         try:
@@ -60,6 +60,7 @@ def baseline(out, mode="baseline"):
             meta = {"events": []}
             r["answer"] = brain.respond(user, q["q"], q["lang"], meta, c)
             r["tools"] = meta.get("tools")
+            r["image_url"] = meta.get("image_url")
         except Exception as e:  # noqa: BLE001
             r["answer"], r["error"] = None, f"{type(e).__name__}: {e}"
         r["latency_s"] = round(time.time() - t, 1)

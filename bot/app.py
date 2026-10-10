@@ -36,6 +36,7 @@ import time
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
+from starlette.concurrency import run_in_threadpool
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 env_path = os.path.join(HERE, ".env")
@@ -245,7 +246,7 @@ def start_waiter():
                  llm_control.state(), llm_control.IDLE_MIN, llm_control.AUTO_STOP)
 
 
-def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
+def record(sender, new_visitor, in_kind, in_text, pin, meta, out, channel="whatsapp"):
     """Permanent pseudonymous record of this exchange (analytics.py). Never breaks the reply.
 
     Only for visitors who accepted the privacy notice (brain.CONSENT_*). Anyone else leaves just an
@@ -260,10 +261,10 @@ def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
         if "consent_withdrawn" in types:  # keep the proof of withdrawal, nothing else
             vid = analytics.visitor_id_for(sender)
             analytics.set_consent(vid, "withdrawn", brain.CONSENT_VERSION)
-            analytics.event("whatsapp", "consent_withdrawn", vid=vid, lang=lang, version=brain.CONSENT_VERSION)
+            analytics.event(channel, "consent_withdrawn", vid=vid, lang=lang, version=brain.CONSENT_VERSION)
             return
         if consent != "yes":
-            analytics.event("whatsapp", "consent_declined" if "consent_declined" in types else "message_unrecorded",
+            analytics.event(channel, "consent_declined" if "consent_declined" in types else "message_unrecorded",
                             lang=lang, **({} if "consent_declined" in types else {"kind": in_kind}))
             return
         new_visitor = new_visitor or not analytics.visitor_known(sender)
@@ -271,7 +272,7 @@ def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
         if "consent_given" in types:
             analytics.set_consent(vid, "given", brain.CONSENT_VERSION)
         if new_visitor:
-            analytics.event("whatsapp", "conversation_started", vid=vid, lang=lang, first_text_kind=in_kind)
+            analytics.event(channel, "conversation_started", vid=vid, lang=lang, first_text_kind=in_kind)
         analytics.turn(sender, "in", in_kind, in_text, lang=lang, is_question=meta.get("is_question"),
                        intent=meta.get("intent"), topic=meta.get("topic"), trail=meta.get("trail"),
                        campaign=meta.get("campaign"), llm_scrub=in_kind == "text")
@@ -282,7 +283,7 @@ def record(sender, new_visitor, in_kind, in_text, pin, meta, out):
             analytics.fix("whatsapp_pin", *pin, vid=vid)
         for etype, f in meta["events"]:
             f = dict(f)
-            analytics.event("whatsapp", etype, vid=vid, session=f.pop("session", None), route=f.pop("route", None),
+            analytics.event(channel, etype, vid=vid, session=f.pop("session", None), route=f.pop("route", None),
                             campaign=f.pop("campaign", None) or meta.get("campaign"), lang=f.pop("lang", lang),
                             lat=f.pop("lat", None), lon=f.pop("lon", None), **f)
         ans = meta.get("answer") or {}
@@ -355,6 +356,97 @@ async def twilio_receive(request: Request, background: BackgroundTasks):
         background.add_task(process, message)
     log.info("twilio POST ok: %s (%s)", message["type"], "new" if new else "duplicate or empty")
     return Response("<Response/>", media_type="application/xml")
+
+
+# ---------------------------------------------------------------- the chat on our pages (2026-10-10)
+# levadinho-madeira.com pages open on Levadinho's chat (chat.js); its questions come here. Same brain, same privacy
+# notice (Accept first), same analytics as WhatsApp, channel "web". The visitor is "web:<code>", a random code
+# chat.js keeps in the browser; no IP address is stored (only counted in memory for the rate limit).
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+
+app.add_middleware(CORSMiddleware, allow_origins=["https://levadinho-madeira.com", "https://www.levadinho-madeira.com"],
+                   allow_methods=["GET", "POST"], allow_headers=["Content-Type"], max_age=3600)
+WEB_SID = re.compile(r"[a-z0-9]{12,32}")
+WEB_TAG = re.compile(r"web-[a-z0-9-]{1,40}")
+_web_hits = {}
+
+
+def _web_limited(key, limit, window=600):
+    now = time.time()
+    hits = [t for t in _web_hits.get(key, []) if now - t < window]
+    _web_hits[key] = hits + [now]
+    if len(_web_hits) > 5000:
+        for k in [k for k, v in _web_hits.items() if not v or now - v[-1] > window]:
+            _web_hits.pop(k, None)
+    return len(hits) >= limit
+
+
+def _web_out(msgs):
+    out = []
+    for m in msgs:
+        if m.get("type") == "buttons":
+            out.append({"type": "buttons", "body": m["body"], "buttons": [list(b) for b in m["buttons"]]})
+        elif m.get("type") == "image":
+            out.append({"type": "image", "url": m["url"]})
+        elif m.get("body"):
+            out.append({"type": "text", "body": m["body"]})
+    return out
+
+
+@app.post("/webchat")
+async def webchat(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(400)
+    sid, tag = str(body.get("sid", "")), str(body.get("tag", ""))
+    lang = body.get("lang") if body.get("lang") in brain.LANGS else "en"
+    text, choice = str(body.get("text") or "").strip()[:500], body.get("choice")
+    if not WEB_SID.fullmatch(sid) or not WEB_TAG.fullmatch(tag) or not (text or choice in ("consent_yes", "consent_no")):
+        raise HTTPException(400)
+    ip = request.headers.get("x-forwarded-for", "").split(",")[0].strip() or (request.client.host if request.client else "")
+    if _web_limited("s:" + sid, 20) or _web_limited("i:" + ip, 60):
+        return {"messages": [{"type": "text", "body": brain.WEB_SLOW_DOWN.get(lang, brain.WEB_SLOW_DOWN["en"])}]}
+    user = "web:" + sid
+    new_visitor = store.get_user(user) is None
+    if new_visitor:
+        store.set_user(user, lang=lang, source=tag)
+    else:
+        store.set_user(user, source=tag)
+    llm_control.touch()
+    meta = {"events": []}
+
+    def run():
+        if choice:
+            return brain.handle_consent(user, choice == "consent_yes", meta)
+        return brain.handle(user, text=text, meta=meta)
+    try:
+        out = await run_in_threadpool(run)
+    except brain.LLMDown:
+        st = llm_control.start()
+        waking = st != "busy"
+        note = (brain.WAKING if waking else brain.BUSY_WEB).get(lang) or (brain.WAKING if waking else brain.BUSY_WEB)["en"]
+        return {"messages": [{"type": "text", "body": note}], "waking": waking}
+    if meta.get("deferred_question"):  # accepted while the model sleeps: the question is asked again by chat.js
+        st = llm_control.start()
+        return {"messages": [{"type": "text", "body": brain.WAKING.get(lang, brain.WAKING["en"])}], "waking": st != "busy",
+                "retry": meta["deferred_question"]}
+    if meta.get("warm_up") and llm_control.ON_DEMAND:
+        llm_control.start()
+    record(user, new_visitor, "text" if text else "interactive", text or choice, None, meta, out, channel="web")
+    return {"messages": _web_out(out)}
+
+
+@app.get("/cam/{cam_id}.jpg")
+def cam(cam_id: str):
+    """The latest grabbed frame of one of our webcams (kbtools.WEBCAMS), for the bot's webcam answers."""
+    import kbtools
+    if cam_id not in kbtools.WEBCAMS:
+        return Response(status_code=404)
+    path, _ = kbtools.latest_frame(cam_id)
+    if not path:
+        return Response(status_code=404)
+    return FileResponse(path, media_type="image/jpeg", headers={"Cache-Control": "max-age=300"})
 
 
 @app.get("/health")

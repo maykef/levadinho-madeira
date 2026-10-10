@@ -29,6 +29,15 @@ SOURCES = [
     ("levadinho_research", "Levadinho verified research (from the official sources listed with each fact)", "Levadinho",
      "https://levadinho-madeira.com/about/", None, "curated"),
     ("levadinho_site", "levadinho-madeira.com", "Levadinho", "https://levadinho-madeira.com/", None, "site"),
+    # Funchal and the island (2026-10-10: every fact the bot uses lives here)
+    ("funchal_places", "Opening hours of Funchal's places (each place's own website, listed with it)", "Levadinho",
+     "https://levadinho-madeira.com/funchal/", None, "curated"),
+    ("frentemar", "Frente MarFunchal (lidos and sea pools)", "Frente MarFunchal", "https://frentemarfunchal.pt/", None, "official"),
+    ("horarios_funchal", "Horários do Funchal (city buses, GTFS)", "Horários do Funchal", "https://www.horariosdofunchal.pt/", None, "official"),
+    ("apram", "APRAM: ship movements in Funchal port", "APRAM – Portos da Madeira", "https://www.apram.pt/", None, "official"),
+    ("funchal_events", "Funchal events (cultura.funchal.pt, eventsmadeira.com)", "Câmara Municipal do Funchal / Events Madeira",
+     "https://cultura.funchal.pt/", None, "official"),
+    ("netmadeira", "NetMadeira webcams", "NetMadeira", "https://www.netmadeira.com/webcams", None, "official"),
 ]
 
 L = lambda en, pt, fr, de, pl: {"en": en, "pt": pt, "fr": fr, "de": de, "pl": pl}

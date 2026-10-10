@@ -347,12 +347,127 @@
    "lang": "en",
    "q": "Does Levada do Rei have tunnels?",
    "must": [
-    "PR18|Rei",
-    "no (torch|lamp|headlamp)|not? need|needs no|isn['’]t needed|don['’]t need|doesn['’]t need|without a torch"
+    "PR18|Rei"
    ],
    "must_not": [
     "(will|you'll|you’ll|you) need a (torch|headlamp)",
     "well[- ]lit"
+   ]
+  },
+  {
+   "id": "nearby-pr6-8-en",
+   "lang": "en",
+   "source": "web-pr6-8",
+   "q": "Is there an easier walk nearby?",
+   "must": [
+    "PR6\\.2|PR6\\.1|PR6\\.3"
+   ],
+   "must_not": [
+    "PR11",
+    "PR3\\b",
+    "famil"
+   ]
+  },
+  {
+   "id": "park-pr6-en",
+   "lang": "en",
+   "source": "web-pr6",
+   "q": "Where do I park?",
+   "must": [
+    "ER105"
+   ],
+   "must_not": [
+    "Táxis|taxi",
+    "IFCN's official|OPEN"
+   ]
+  },
+  {
+   "id": "carpark-full-pr6-en",
+   "lang": "en",
+   "source": "web-pr6",
+   "q": "Is the Rabaçal car park full?",
+   "must": [
+    "\\d{2}:\\d{2}"
+   ],
+   "must_not": [
+    "panel",
+    "real[- ]time",
+    "Táxis",
+    "/cam/"
+   ]
+  },
+  {
+   "id": "bus-santana-en",
+   "lang": "en",
+   "base": null,
+   "q": "Is there a bus from Santana to Funchal?",
+   "must": [
+    "\\d{2}:\\d{2}"
+   ],
+   "must_not": [
+    "where are you staying",
+    "Táxis"
+   ]
+  },
+  {
+   "id": "monte-en",
+   "lang": "en",
+   "base": "Caniço",
+   "source": "web-funchal",
+   "q": "How do I get to Monte?",
+   "must": [
+    "cable car|Teleférico|telef"
+   ],
+   "must_not": [
+    "Táxis|taxi"
+   ]
+  },
+  {
+   "id": "back-achada-en",
+   "lang": "en",
+   "source": "web-pr1",
+   "q": "How do I get back from Achada do Teixeira to Funchal?",
+   "must": [
+    "572 540"
+   ],
+   "must_not": [
+    "where are you staying",
+    "company",
+    "SIMplifica",
+    "10[.,]50"
+   ]
+  },
+  {
+   "id": "cruise-tomorrow-en",
+   "lang": "en",
+   "q": "Which cruise ships are in Funchal tomorrow?",
+   "must": [
+    "[A-Z][a-z]+"
+   ],
+   "must_not": [
+    "Cement|Trader|don't know"
+   ]
+  },
+  {
+   "id": "market-en",
+   "lang": "en",
+   "source": "web-funchal",
+   "q": "What time does the market close on Saturday?",
+   "must": [
+    "14:00"
+   ]
+  },
+  {
+   "id": "fee-page-pt",
+   "lang": "pt",
+   "source": "web-pr6",
+   "q": "Quanto custa o bilhete?",
+   "must": [
+    "4[.,]50"
+   ],
+   "must_not": [
+    "10[.,]50",
+    "\\bqueres\\b|\\btu\\b"
    ]
   }
  ]

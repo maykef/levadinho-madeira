@@ -190,7 +190,7 @@
   const blobs = {};                   // stop id → Blob (decoded once the AudioContext exists)
   const REC = !!tok && !sim;          // a bot link: the walk can be recorded to the server…
   let consent = null;                 // …but only after "share my walk" (null = not chosen yet)
-  const CONSENT_VERSION = "2026-09-28";   // privacy policy date, as in brain.CONSENT_VERSION
+  const CONSENT_VERSION = "2026-10-10";   // privacy policy date, as in brain.CONSENT_VERSION
   let pending = [];                   // events logged before the choice; sent only on "share"
 
   // ------------------------------------------------------------ geometry (local metres)

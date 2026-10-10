@@ -199,7 +199,12 @@ def find_trails(region: str | None = None, max_km: float | None = None, difficul
                          t.fee_eur, t.page_url, s.status, s.note, {dist} AS km
                   FROM kb.trail t JOIN kb.trail_status s USING (code)
                   WHERE {' AND '.join(where)} ORDER BY {order} LIMIT %s""", args + [max(1, min(limit, 40))])
-    return {"trails": [{"code": r["code"], "name": r["name"], "status": r["status"],
+    far = []
+    if near_lat is not None and near_lon is not None:   # "nearby" means nearby: trailheads within NEAR_KM only
+        far = [r for r in rows if r["km"] is not None and r["km"] > NEAR_KM]
+        rows = [r for r in rows if r["km"] is None or r["km"] <= NEAR_KM]
+    return {**({"note": f"Only trails whose start is within {NEAR_KM} km are listed."} if far else {}),
+            "trails": [{"code": r["code"], "name": r["name"], "status": r["status"],
                         **({"note": _pick(r["note"], lang)} if r["status"] != "OPEN" and r["note"] else {}),
                         "region": r["region"], "distance": r["distance_txt"], "duration": r["duration"],
                         "difficulty": r["difficulty"], "exposure": r["exposure"], "tunnels": r["tunnels"],
@@ -209,6 +214,8 @@ def find_trails(region: str | None = None, max_km: float | None = None, difficul
             "source": {"facts": _source("visitmadeira"), "status": _source("ifcn_warnings"),
                        "exposure": _source("ifcn_panels")}}
 
+
+NEAR_KM = 15
 
 FEE_TOPICS = {"fees": ("fees_booking",), "booking": ("fees_booking",), "refunds": ("refunds",),
               "sold_out": ("sold_out",), "one_way": ("one_way", "getting_back"), "fines": ("fees_booking",)}
@@ -524,6 +531,75 @@ def notices(subject: str | None = None, lang: str = "en") -> dict:
     return res
 
 
+WEBCAM_DIR = os.environ.get("WEBCAM_DIR", "/mnt/tank/levadinho_webcams")
+CAM_BASE = os.environ.get("CAM_BASE", "https://microscopy-rig-system.tail53cc58.ts.net/levadinho/cam")
+WEBCAMS = {  # NetMadeira cameras we grab (seo_research/funchal/webcams/grab.py) and what each one shows (checked 2026-10-03)
+    "rabacal": {"folder": "nm_rabacal-madeira", "name": "Rabaçal car park (ER105, Paul da Serra)",
+                "shows": "the Rabaçal car park on the ER105 and the road: how full it is, and the cloud",
+                "trails": ["PR6", "PR6.1", "PR6.2"], "places": ["rabaçal", "rabacal", "25 fontes", "risco", "paul da serra"],
+                "live": "https://www.netmadeira.com/webcams/show/netmadeira/rabacal-madeira"},
+    "achada": {"folder": "nm_achada-do-teixeira", "name": "Achada do Teixeira car park",
+               "shows": "the Achada do Teixeira car park (start of PR1.2 to Pico Ruivo, where PR1 ends): how full it is, and the cloud",
+               "trails": ["PR1.2", "PR1"], "places": ["achada do teixeira", "pico ruivo"],
+               "live": "https://www.netmadeira.com/webcams/show/netmadeira/achada-do-teixeira"},
+    "areeiro": {"folder": "nm_pico-do-arieiro", "name": "Pico do Areeiro",
+                "shows": "the view from Pico do Areeiro over the valley (not the car park): whether the summit is above or in the cloud",
+                "trails": ["PR1"], "places": ["pico do areeiro", "pico do arieiro", "areeiro", "arieiro"],
+                "live": "https://www.netmadeira.com/webcams/show/netmadeira/pico-do-arieiro"},
+}
+
+
+def latest_frame(cam_id):
+    """(path, taken datetime) of the newest grabbed frame of one camera, or (None, None)."""
+    folder = os.path.join(WEBCAM_DIR, WEBCAMS[cam_id]["folder"])
+    days = sorted((d for d in os.listdir(folder) if re.fullmatch(r"\d{4}-\d{2}-\d{2}", d)), reverse=True) if os.path.isdir(folder) else []
+    for d in days[:2]:
+        frames = sorted((f for f in os.listdir(os.path.join(folder, d)) if f.endswith(".jpg")),
+                        key=lambda f: os.path.getmtime(os.path.join(folder, d, f)), reverse=True)
+        if frames:
+            path = os.path.join(folder, d, frames[0])
+            return path, datetime.datetime.fromtimestamp(os.path.getmtime(path), MADEIRA)
+    return None, None
+
+
+def webcam(trail: str | None = None, place: str | None = None) -> dict:
+    """The latest picture from the webcam at a trailhead or car park (Rabaçal, Achada do Teixeira, Pico do Areeiro):
+    use it for 'is the car park full?', 'is there parking now?', 'is it cloudy up there now?'. Returns the picture's
+    URL, when it was taken and what the camera shows; no camera for that place → says so."""
+    want = []
+
+    def by_place(p):
+        p = (p or "").lower()
+        return [k for k, c in WEBCAMS.items() if len(p) >= 4 and any(x in p or p in x for x in c["places"])]
+    if place:   # the place the visitor named comes first ("Rabaçal car park" asked from another trail's page)
+        want = by_place(place)
+    if trail and not want:
+        code = resolve_trail(trail)
+        want = [k for k, c in WEBCAMS.items() if code and code in c["trails"]]
+        if not want and code:   # a trail starting or ending at a camera's place
+            r = _q("SELECT start_name, end_name FROM kb.trail WHERE code = %s", (code,))
+            if r:
+                want = by_place(r[0]["start_name"]) or by_place(r[0]["end_name"])
+        if not want and not place:
+            want = by_place(trail)
+    if not want:
+        return {"webcams": [], "note": "We have no webcam for that place. Cameras: Rabaçal car park, Achada do Teixeira car park, Pico do Areeiro."}
+    now = datetime.datetime.now(MADEIRA)
+    out = []
+    for k in want[:1]:
+        c = WEBCAMS[k]
+        path, taken = latest_frame(k)
+        item = {"camera": c["name"], "shows": c["shows"], "live_view": c["live"], "source": _source("netmadeira")}
+        if path:
+            age = int((now - taken).total_seconds() // 60)
+            item.update(image_url=f"{CAM_BASE}/{k}.jpg", taken=taken.strftime("%H:%M"), minutes_ago=age,
+                        **({"note": "This picture is more than 2 hours old."} if age > 120 else {}))
+        else:
+            item["note"] = "No recent picture stored; the live view link works."
+        out.append(item)
+    return {"webcams": out}
+
+
 def search(text: str, lang: str = "en", limit: int = 5) -> dict:
     """Full-text search over Levadinho's pages (5 languages) and curated fact sheets: returns the best matching
     sections (whole, up to ~1,800 characters each) with their page and source. Use it when no other tool fits the question."""
@@ -555,4 +631,4 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
 
 
 TOOLS = [trail_status, trail_facts, find_trails, fees_and_rules, bus, transport, weather_now, forecast_tomorrow,
-         closures, places, place, notices, search]
+         closures, places, place, notices, webcam, search]

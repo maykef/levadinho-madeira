@@ -29,7 +29,9 @@ Flow (owner, 2026-10-05):
 import json
 import logging
 import os
+import datetime
 import re
+import zoneinfo
 import time
 import unicodedata
 import urllib.error
@@ -226,7 +228,7 @@ STATUS_WORDS = {
 # Accepting the notice is a condition of using the assistant: nothing is answered until the visitor
 # taps Accept. The chat record rests on legitimate interest (the privacy policy says so), not on
 # consent; the guide's GPS log is a separate opt-in inside the guide. Declines are counted anonymously.
-CONSENT_VERSION = "2026-09-28"   # date of the privacy policy the visitor accepted
+CONSENT_VERSION = "2026-10-10"   # date of the privacy policy the visitor accepted
 POLICY_URL = "https://levadinho-madeira.com/privacy/#{lang}"
 PRIVACY_WORDS = {"privacy", "privacidade", "privacité", "confidentialité", "confidentialite", "datenschutz",
                  "prywatność", "prywatnosc", "rgpd", "gdpr", "dsgvo", "rodo"}
@@ -274,6 +276,16 @@ WAKING = {  # carries the status board (owner, 2026-10-10), so the visitor has t
     "de": "Levadinho wird geladen. Die Antwort folgt in Kürze. Status der Wege jetzt: https://levadinho-madeira.com/de/",
     "pl": "Levadinho się uruchamia. Odpowie wkrótce. Status szlaków teraz: https://levadinho-madeira.com/pl/",
 }
+WEB_SLOW_DOWN = {  # the chat on our pages: too many messages in a few minutes
+    "pt": "Muitas mensagens seguidas. Tente daqui a alguns minutos.", "en": "That's a lot of messages at once. Please try again in a few minutes.",
+    "fr": "Beaucoup de messages d'un coup. Réessayez dans quelques minutes.", "de": "Sehr viele Nachrichten auf einmal. Bitte versuchen Sie es in ein paar Minuten noch einmal.",
+    "pl": "Za dużo wiadomości naraz. Spróbuj ponownie za kilka minut."}
+BUSY_WEB = {  # the chat on our pages can't call back later, unlike WhatsApp
+    "pt": "O Levadinho está muito ocupado neste momento. Tente daqui a pouco ou continue no WhatsApp.",
+    "en": "Levadinho is very busy right now. Try again shortly, or continue on WhatsApp.",
+    "fr": "Levadinho est très occupé en ce moment. Réessayez bientôt ou continuez sur WhatsApp.",
+    "de": "Levadinho ist gerade sehr beschäftigt. Versuchen Sie es gleich noch einmal oder weiter auf WhatsApp.",
+    "pl": "Levadinho jest teraz bardzo zajęty. Spróbuj za chwilę albo kontynuuj na WhatsAppie."}
 BUSY = {
     "pt": "O Levadinho está muito ocupado neste momento. Escrevo-lhe aqui assim que estiver livre.",
     "en": "Levadinho is very busy right now. I'll message you here as soon as I'm free.",
@@ -617,6 +629,8 @@ def site_links(reply, trails, lang, named=None):
     in_reply = trails_in(reply)
     named = trails if named is None else named
     # the question's own trail when the reply is about it; else the trails the reply recommends; else the question's
+    # a trail the reply names by code or full name (not one it only touches through a place: "Pico do Areeiro")
+    in_reply = [c for c in in_reply if re.search(rf"\b{re.escape(c)}\b", reply) or (KB["trails"].get(c, {}).get("name") or "§") in reply]
     codes = [t for t in trails if t in in_reply] or in_reply or named
     lines = []
     for code in codes:
@@ -635,8 +649,20 @@ def answer_tools(user, text, lang, rule, meta=None):
     source = (store.get_user(user) or {}).get("source") or ""
     page = KB["guides"].get(SOURCE_GUIDE.get(source, ""), {}).get("url")
     hint = (f"\nTHE VISITOR CAME FROM OUR PAGE {page}. When their question leaves the destination or the subject open, "
-            "assume it is that page's subject and say so in a few words.\n") if page else ""
+            "assume it is that page's subject.\n") if page else ""
+    m = re.fullmatch(r"web-pr(\d+)(?:-(\d+))?(?:-qr)?", source)
+    page_trail = f"PR{m.group(1)}" + (f".{m.group(2)}" if m.group(2) else "") if m else None
+    if page_trail not in KB["trails"]:
+        page_trail = None
+    if page_trail:  # opened the chat on a trail page: "nearby", "where do I park?", "how much?" are about that trail
+        hint += (f"\nTHE VISITOR IS ON OUR PAGE FOR {page_trail} ({KB['trails'][page_trail]['name']}). When the question "
+                 f"doesn't name a trail or place, it is about {page_trail} (\"nearby\" = near {page_trail}).\n")
+    now = datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira"))
+    hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}. Use it only to work out today, tomorrow and opening hours; "
+             "never write a date next to a trail status. For timetables, don't assume today unless the visitor says so.\n")
     named = trails_in(text)
+    if not named and page_trail and not re.search(r"funchal|monte|cruise|navio|ship|schiff|statek|lido", text, re.I):
+        named = [page_trail]
     q = text
     if named:  # resolved by our alias table, so the model never has to guess a code
         q += "\n\n[Trails named in this message: " + "; ".join(f"{c} = {KB['trails'][c]['name']}" for c in named if c in KB["trails"]) + "]"
@@ -652,6 +678,11 @@ def answer_tools(user, text, lang, rule, meta=None):
         meta["answer"]["guard"] = changes
         meta["events"].append(("answer_sent", {"lang": lang, "latency_ms": meta["answer"]["latency_ms"],
                                                "guard": changes}))
+    img = next((t["image_url"] for t in trace if t.get("image_url")), None)
+    if img:  # the picture is sent as a picture after the reply (with_media): no raw link in the text
+        reply = "\n".join(l for l in reply.split("\n") if img not in l).strip() or reply
+        if meta is not None:
+            meta["image_url"] = img
     store.add_turn(user, text, reply)
     return reply
 
@@ -756,7 +787,7 @@ def handle_consent(user, yes, meta=None):
                                                   "trail_code": c["trail_code"],
                                                   "trail_status": str(live_status().get("status", ""))}))
         meta["resumed_question"] = arg
-        return [{"type": "text", "body": reply}]
+        return with_media(meta, [{"type": "text", "body": reply}])
     return [{"type": "text", "body": ASK[lang]}]
 
 
@@ -787,34 +818,24 @@ def prepopulated(user, text, lang, meta, context=""):
 
 
 def quick_reply(user, text, meta, u=None):
-    """Everything that needs no model (owner, 2026-10-10): thanks, "where are you staying?", the pre-populated
-    answers. Returns the messages to send, or None (then the model answers). Used for new messages and for the
-    question someone typed before accepting the privacy notice."""
+    """What needs no model: "thanks". Everything else is answered by the model from the knowledge store (owner,
+    2026-10-10: every fact in the MCP store, every answer from it; the canned answers of answers.py answered more
+    than was asked and are no longer used for follow-ups)."""
     import answers
     u = u if u is not None else (store.get_user(user) or {})
     pre_lang = answers.detect_lang(text, fallback=(u or {}).get("lang") or guess_lang(text) or "en")
-    base = (u or {}).get("base")
     if THANKS_RE.search(answers.fold(text)) and len(text) < 60:
         reply = THANKS[pre_lang if pre_lang in THANKS else "en"]
         store.add_turn(user, text, reply)
         return [{"type": "text", "body": reply}]
-    if (answers.TRANSPORT_RE.search(answers.fold(text)) and not base and not trails_in(text)
-            and not answers.CRUISE_RE.search(answers.fold(text))):
-        store.set_user(user, state=f"base:{pre_lang}:{text}")   # "where are you staying?" needs no model either
-        meta.update(lang=pre_lang, is_question=True, intent="transport", topic="ask base", trail=None)
-        return [{"type": "text", "body": ASK_BASE[pre_lang if pre_lang in ASK_BASE else "en"]}]
-    ready = prepopulated(user, text, pre_lang, meta, f"Staying in: {base}" if base else "")
-    if not ready:
-        return None
-    named = trails_in(text)
-    intent = "transport" if answers.TRANSPORT_RE.search(answers.fold(text)) else "status"
-    meta.update(lang=pre_lang, is_question=True, intent=intent, topic="prepopulated", trail=named[0] if named else None)
-    meta["events"].append(("question_asked", {"lang": pre_lang, "intent": intent, "topic": "prepopulated",
-                                              "trail_code": named[0] if named else None,
-                                              "trail_status": str(live_status().get("status", ""))}))
-    if not u or not u.get("lang"):
-        store.set_user(user, lang=pre_lang, state="ready")
-    return [{"type": "text", "body": ready}]
+    return None
+
+
+def with_media(meta, msgs):
+    """The webcam picture a tool returned, sent right after the reply."""
+    if meta and meta.get("image_url") and msgs:
+        msgs = msgs + [{"type": "image", "url": meta["image_url"], "body": ""}]
+    return msgs
 
 
 def respond(user, text, lang, meta, c):
@@ -822,11 +843,9 @@ def respond(user, text, lang, meta, c):
     unless the message gives both ends ("bus from Funchal to Pico do Areeiro") or they told us before.
     "Transfer from the airport" has no end: where they stay is the destination."""
     base = (store.get_user(user) or {}).get("base")
-    if c.get("intent") == "transport" and not (c.get("origin") and c.get("destination")):
-        if not base:
-            store.set_user(user, state=f"base:{lang}:{text}")
-            return ASK_BASE[lang]
-        text = f"{text}\n(Staying in: {base})"
+    if base and c.get("intent") == "transport" and trails_in(text):  # trail trips only; a hint, not a taxi trip to build
+        text = f"{text}\n(Context, not from this message: the visitor said earlier they stay in {base}. Use it only if "\
+               "the answer can't be given without a starting point.)"
     return answer(user, text, lang, meta, c)
 
 
@@ -982,15 +1001,10 @@ def handle(user, text=None, choice=None, meta=None):
     if state.startswith("base:"):  # the answer to "where are you staying?"
         _, lang, original = state.split(":", 2)
         if "?" not in text and len(text) <= 60:
-            ready = prepopulated(user, original, lang, meta, f"Staying in: {text}")
-            if ready:
-                store.set_user(user, base=text, state="ready")
-                meta.update(lang=lang, is_question=True, intent="transport", topic="prepopulated", trail=None)
-                return [{"type": "text", "body": ready}]
             c = classify(original)  # before any change, so a replay after LLMDown starts from the same state
             store.set_user(user, base=text, state="ready")
             meta.update(lang=lang, is_question=True, intent=c["intent"], topic=c["topic"], trail=c["trail_code"])
-            return [{"type": "text", "body": answer(user, f"{original}\n(Staying in: {text})", lang, meta, c)}]
+            return with_media(meta, [{"type": "text", "body": answer(user, f"{original}\n(Staying in: {text})", lang, meta, c)}])
         store.set_user(user, state="ready")  # a new question instead: carry on with it
 
     # Pre-populated answers first (owner, 2026-10-10): no model needed, so they go out even while it sleeps.
@@ -1010,4 +1024,4 @@ def handle(user, text=None, choice=None, meta=None):
     # Questions are answered in the language they're written in; anything else in the chosen one.
     lang = c["lang"] if c["is_question"] or not (u or {}).get("lang") else u["lang"]
     meta["lang"] = lang
-    return [{"type": "text", "body": respond(user, text, lang, meta, c)}]
+    return with_media(meta, [{"type": "text", "body": respond(user, text, lang, meta, c)}])

@@ -203,6 +203,14 @@ def content(msg):
 
 def send(to, msg):
     """One of brain's messages → the visitor (digits-only number), in as many pieces as it takes, in order."""
+    if msg.get("type") == "image":  # a webcam picture (served by app.py at /cam/<id>.jpg on the Funnel)
+        try:
+            kw = {"body": msg["body"]} if msg.get("body") else {}
+            log.info("Twilio sent %s (image)", _client().messages.create(
+                from_=TWILIO_WA_FROM, to=f"whatsapp:+{to}", media_url=[msg["url"]], **kw).sid)
+        except Exception as e:
+            log.error("Twilio image failed: %s %s", getattr(e, "code", ""), getattr(e, "msg", None) or e)
+        return
     menu = content(msg)
     if menu:
         sid, variables = menu

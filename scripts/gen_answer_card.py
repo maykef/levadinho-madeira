@@ -101,6 +101,12 @@ CSS = """<!-- ANSWER-CARD-HEAD:START (scripts/gen_answer_card.py) -->
 """
 
 
+START = {"en": "Start", "pt": "Início", "fr": "Départ", "de": "Start", "pl": "Start"}
+VERT = {"expo": {"en": "Exposure", "pt": "Exposição", "fr": "Exposition", "de": "Ausgesetztheit", "pl": "Ekspozycja"},
+        "tun": {"en": "Tunnels", "pt": "Túneis", "fr": "Tunnels", "de": "Tunnel", "pl": "Tunele"},
+        "torch": {"en": "Torch", "pt": "Lanterna", "fr": "Lampe", "de": "Lampe", "pl": "Latarka"}}
+
+
 def facts(page):
     a = page.find('<aside class="facts">')
     side = page[a:page.find("</aside>", a)] if a >= 0 else ""
@@ -149,15 +155,23 @@ def card(page, lang, code, status):
     fee = (status or {}).get("fee")
     row("ticket", A["fee"][lang].format(f=fee.replace(".", ",") if lang != "en" else fee) if fee else A["nofee"][lang])
     long_ = " · ".join(x for x in (f.get("dist"), f.get("time"), f.get("diff")) if x)
-    route = f.get("route") or f.get("start")
+    route = f.get("route") or (START[lang] + ": " + f["start"] if f.get("start") else None)
     if route:
-        long_ += ("<br>" if long_ else "") + route + (f" ({f['type']})" if f.get("type") else "")
+        long_ += (" · " if long_ else "") + route + (f" ({f['type']})" if f.get("type") else "")
     if long_:
         row("long", f"<p>{long_}</p>")
     there = []
-    bus = re.search(r'<section id="bus">\s*<h2>([^<]+)</h2>', page)
-    if bus:
+    bus = re.search(r'<section id="bus">\s*<h2>([^<]+)</h2>(.*?)</section>', page, re.S)
+    bus_text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", bus.group(2))).strip() if bus else ""
+    if bus and re.search(r"\b\d{1,2}:\d{2}\b", bus_text):
         there.append(A["bus"][lang].format(h=bus.group(1)))
+    elif bus and bus_text:   # a bus section that says there is no bus (Rabaçal, Fanal…): say so, then the taxis
+        there.append(htmllib.escape(re.split(r"(?<=[.!?])\s", htmllib.unescape(bus_text), maxsplit=1)[0]))
+        t = taxis(code)
+        if t:
+            n = len(t) > 1
+            there.append(A["taxi"][lang].format(t=", ".join(t), s="s" if n else "", s2="is" if n else "", s3="" if n else "r",
+                                                s4="e" if n else "", s5="e" if n else ""))
     else:
         there.append(A["nobus"][lang])
         t = taxis(code)
@@ -177,7 +191,7 @@ def card(page, lang, code, status):
     if park:
         first = re.split(r"(?<=[.!?])\s", park.group(1), maxsplit=1)[0]
         row("park", f'<p>{first} <a href="#parking">›</a></p>')
-    vert = f.get("extras") or [f"{k}: {f[k]}" for k in ("expo", "tun", "torch") if f.get(k)]
+    vert = f.get("extras") or [f"{VERT[k][lang]}: {f[k]}" for k in ("expo", "tun", "torch") if f.get(k)]
     if vert:
         row("vertigo", "<p>" + " · ".join(vert) + "</p>")
     row("weather", f'<p class="static-weather" id="qaWeather">{marker(page, "STATIC-WEATHER", code)}</p>')

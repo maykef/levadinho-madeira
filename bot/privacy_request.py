@@ -106,7 +106,7 @@ def erase(phone, vid):
 if __name__ == "__main__":
     if len(sys.argv) != 3 or sys.argv[1] not in ("access", "erase"):
         sys.exit(__doc__)
-    phone = "".join(ch for ch in sys.argv[2] if ch.isdigit())  # Meta sends numbers as digits only
+    phone = sys.argv[2] if sys.argv[2].startswith("web:") else "".join(ch for ch in sys.argv[2] if ch.isdigit())  # Meta sends digits only; the chat on our pages is web:<code>
     vid = analytics.visitor_id_for(phone)
     if not vid:
         sys.exit("bot/.visitor_key is missing: without it no visitor can be found.")

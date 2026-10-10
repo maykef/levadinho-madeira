@@ -17,6 +17,7 @@ os.environ["LEVADINHO_DB"] = os.path.join(tempfile.mkdtemp(), "test.db")
 os.environ["DB_URL"] = ""                                         # analytics writes nothing
 os.environ["LLM_URL"] = "http://127.0.0.1:9/v1/chat/completions"  # nothing listens there
 os.environ.setdefault("LLM_ON_DEMAND", "1")
+os.environ["BOT_TOOLS"] = "0"  # the fake model answers plain prompts; bot/.env has BOT_TOOLS=1 (tools path tested in backend/tests)
 for k in ("WA_TOKEN", "WA_PHONE_NUMBER_ID", "WA_APP_SECRET", "WA_VERIFY_TOKEN"):
     os.environ[k] = "test"  # set before app.py reads bot/.env (setdefault keeps these)
 
@@ -97,6 +98,7 @@ def fake_llm(messages, max_tokens=700, schema=None, temperature=0.3):
 
 brain.llm = fake_llm
 brain.site_links = lambda reply, trails, lang, named=None: ""  # these tests check queueing; the page links are tested in test_followups
+brain.guard.check = lambda reply, *a, **k: (reply, [])  # likewise the answer guard (bot/guard.py has its own checks)
 N = [0]
 
 

@@ -33,6 +33,20 @@ RECEPTION = re.compile(r"\b(hotel reception|reception of your hotel|receção do
 BUS_WORD = re.compile(r"\b(bus|buses|autocarro|autocarros|autobus|autobusy|autobusem|navette|busse|linha|line)\b", re.I)
 HHMM = re.compile(r"\b([01]?\d|2[0-3])[:h]([0-5]\d)\b")
 TYPOS = [(re.compile(r"metrotr[ií]metro", re.I), "taxímetro"), (re.compile(r"\btaximetro\b", re.I), "taxímetro")]
+# "for real-time availability check the IFCN panel / call the taxi rank" (10 Oct, Rabaçal car park): made-up advice
+WORKAROUND = re.compile(r"(real[- ]time|availability|disponibilidade|en temps réel|verfügbarkeit|dostępnoś)\w*.{0,80}"
+                        r"(panel|painel|panneau|tafel|tablic|call|ligue|appelez|rufen|zadzwoń)|"
+                        r"(panel|painel|panneau|call|ligue|appelez|rufen|zadzwoń).{0,80}(real[- ]time|availability|disponibilidade)", re.I)
+RETELL = re.compile(r"\b(open|closed|restricted|one[- ]way|both (ways|directions)|direction|status|ifcn|aberto|encerrad\w*|"
+                    r"sentido|ambos|estado|ouvert|fermé|sens unique|statut|geöffnet|gesperrt|richtung|status|otwart\w*|"
+                    r"zamkni\w*|kierun\w*)\b", re.I)
+# "want the contact for a transfer company…?" (10 Oct): an offer to name a private company
+COMPANY_OFFER = re.compile(r"(transfer|tour|shuttle|guide|guia|transfert|reiseführer|przewodnik)\w*\s+(company|companies|empresa|"
+                           r"société|agence|unternehmen|firm\w*|operator\w*)", re.I)
+NOT_TRAIL = re.compile(r"\b(cafe|caf[eé]s?|restaurant\w*|bar|shop|loja|market|mercado|museum|museu|cable|telef\w*|lido|toilet\w*|"
+                       r"wc|car ?park|parking|parque|estacionamento|parkplatz|parking|supermarket|pharmacy|farmacia)\b", re.I)
+MONTE = re.compile(r"\bmonte\b", re.I)
+TAXI_ASKED = re.compile(r"\b(taxi|táxi|taxis|táxis|taksówk\w*|uber|bolt)\b", re.I)
 SENT = re.compile(r"(?<=[.!?])\s+|\n")
 
 
@@ -57,7 +71,7 @@ def _drop(text, pred):
 
 
 def _names_company(s):
-    if COMPANIES.search(s) or BRAND.search(s):
+    if COMPANIES.search(s) or BRAND.search(s) or COMPANY_OFFER.search(s):
         return True
     return any(m.group(1).lower() not in ALLOWED_MADEIRA for m in X_MADEIRA.finditer(s))
 
@@ -76,24 +90,55 @@ def check(reply, user_text, lang, trails, context=""):
         out, d = _drop(out, lambda s: bool(SELF_GUIDE.search(s)))
         if d:
             changes.append("self-introduction as independent guide removed")
+    if MONTE.search(user_text) and not TAXI_ASKED.search(user_text):   # owner: Monte = cable car up, bus down; never taxis
+        out, d = _drop(out, lambda s: bool(TAXI_ASKED.search(s)))
+        changes += [f"taxi sentence dropped (Monte): {x[:80]}" for x in d]
+        if d and not re.search(r"[A-Za-zÀ-ž]{3}", out):   # nothing left: the cable car fact from the store
+            try:
+                out = answers.kbtools.place("cablecar")["description"]
+            except Exception:
+                pass
+    out, d = _drop(out, lambda s: bool(WORKAROUND.search(s)))
+    changes += [f"invented workaround dropped: {x[:80]}" for x in d]
     full = answers.fold(user_text + " " + context)
     if answers.CRUISE_RE.search(full):
         out, d = _drop(out, lambda s: bool(RECEPTION.search(s)))
         if d:
             changes.append("hotel reception removed (cruise passenger)")
-    printed = []
-    for code in trails[:2]:
+    # Bus times only as printed (owner rule). Work out which direction the reply is about; if it leaves out printed
+    # departures (10 Oct: São Lourenço weekdays dropped) or gives a time we don't have, that direction's printed
+    # timetable replaces the model's time lines. The other direction is never added unasked.
+    legs = []
+    for code in trails[:1]:
         for leg in ("there", "back"):
             tt = answers._bus(code, leg)
             if tt:
-                printed.append((code, leg, tt))
-    if printed:
-        out, d = _drop(out, lambda s: bool(BUS_WORD.search(s) and HHMM.search(s)))
-        if d:
-            changes += [f"bus sentence replaced: {x[:80]}" for x in d]
-            out += "\n\n" + "\n".join((answers.T["there_bus"] if leg == "there" else answers.T["back_bus"])[lang].format(tt=tt)
-                                      for _c, leg, tt in printed)
+                pairs = re.findall(r"(\d{2}:\d{2})→(\d{2}:\d{2})", tt)
+                legs.append((code, leg, tt, {a for a, _ in pairs}, {x for p in pairs for x in p}))
+    said = {f"{int(h):02d}:{m}" for h, m in HHMM.findall(out)}
+    if legs and len(said) >= 2:
+        # the directions the reply is about: most of their departure times appear in it
+        covered = [l for l in legs if l[3] and len(said & l[3]) / len(l[3]) >= 0.5] or \
+                  [l for l in [max(legs, key=lambda l: len(said & l[3]))] if len(said & l[3]) >= 3]
+        known = set().union(*(l[4] for l in legs))
+        if covered and (any(l[3] - said for l in covered) or said - known):
+            out, d = _drop(out, lambda s: bool(HHMM.search(s)) and (BUS_WORD.search(s) or len(HHMM.findall(s)) >= 3
+                                                                   or len(re.sub(r"[\d:→,\s*\-–()|]", "", s)) < 25))
+            out = re.sub(r"\n?\*[^*\n]{3,40}:\*\s*(?=\n|$)", "", out)     # day headings left without times
+            tables = []
+            for code, leg, tt, deps, every in covered:
+                head = (answers.T["there_bus"] if leg == "there" else answers.T["back_bus"])[lang].format(tt="")
+                tables.append(head.rstrip(": ") + ":\n" + "\n".join("• " + x.strip() for x in tt.split(" | ")))
+                changes.append(f"timetable replaced with the printed one: {code} {leg}")
+            table = "\n\n".join(tables)
+            parts = out.rsplit("\n\n", 1)
+            if len(parts) == 2 and parts[1].strip().endswith("?"):   # keep a closing question last
+                out = parts[0] + "\n\n" + table + "\n\n" + parts[1]
+            else:
+                out += "\n\n" + table
     heads = []
+    # "is the café / market / cable car open?" is not a question about a trail's status
+    asked_status = bool(answers.STATUS_RE.search(answers.fold(user_text))) and not NOT_TRAIL.search(answers.fold(user_text))
     partial_rx = re.compile(r"\b(partly|partially|partial|parcialmente|partiellement|partiel|teilweise|częściowo|czesciowo)\b", re.I)
     for code in trails[:2]:
         t = answers._trail(code)
@@ -103,10 +148,17 @@ def check(reply, user_text, lang, trails, context=""):
             out, d = _drop(out, lambda s: bool(partial_rx.search(s)))
             if d:
                 changes.append(f"'partly open' wording replaced: {code}")
-            heads.append(answers.status_line(code, lang))
+            if asked_status:
+                # the official description is the answer: drop the model's own retelling of directions / status
+                out, d2 = _drop(out, lambda s: bool(RETELL.search(s)))
+                if d2:
+                    changes.append(f"status retelling dropped: {code}")
+                heads.append(answers.status_line(code, lang))
             continue
+        # owner, 2026-10-10: answer only what was asked — the status goes first only when the question is about it,
+        # or the trail is CLOSED (safety); never pasted in front of a parking or bus answer
         words = [answers.ST[t["status"]][lang].lower()]
-        if not any(w in out.lower() for w in words):
+        if (asked_status or t["status"] == "CLOSED") and not any(w in out.lower() for w in words):
             heads.append(answers.status_line(code, lang))
     if heads:
         changes.append("status added: " + ", ".join(trails[:2]))

@@ -69,10 +69,14 @@ def visitor_id_for(phone):
     """Pseudonymous, stable id for a WhatsApp number (digits only, as Meta sends it)."""
     if not _KEY or not phone:
         return None
+    if str(phone).startswith("web:"):  # the chat on our pages: a random code kept in the visitor's browser
+        return hmac.new(_KEY, str(phone).encode(), hashlib.sha256).hexdigest()[:32]
     return hmac.new(_KEY, re.sub(r"\D", "", phone).encode(), hashlib.sha256).hexdigest()[:32]
 
 
 def country_for(phone):
+    if str(phone).startswith("web:"):
+        return None
     try:
         return phonenumbers.region_code_for_number(phonenumbers.parse("+" + re.sub(r"\D", "", phone)))
     except Exception:

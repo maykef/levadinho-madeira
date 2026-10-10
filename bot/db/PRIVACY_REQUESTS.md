@@ -54,3 +54,5 @@ asks, erase instead, or edit the row by hand in `conversation_turn`.
 
 Log each request (date received, type, date answered) in a private note, not in this repository.
 It shows the one-month deadline was met if a data protection authority ever asks.
+
+- **Chat on our pages (since 2026-10-10):** the visitor is `web:<code>`, the code their browser keeps in local storage under `lvchat` (they can read it in the browser console: `localStorage.lvchat`). Use `python bot/privacy_request.py erase web:<code>`.

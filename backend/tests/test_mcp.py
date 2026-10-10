@@ -55,7 +55,7 @@ async def main():
     async with Client(URL) as c:
         tools = (await c.list_tools()).tools
         names = {t.name for t in tools}
-        check(len(tools) == 13, f"13 tools listed ({sorted(names)})")
+        check(len(tools) == 14, f"14 tools listed ({sorted(names)})")
         check(all(t.annotations and t.annotations.read_only_hint for t in tools), "every tool is annotated read-only")
         check(bool(c.instructions), "server instructions present")
         for name, args, test in CALLS:

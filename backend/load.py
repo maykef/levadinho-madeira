@@ -301,7 +301,7 @@ def load_docs(cur):
     facts = rj("bot/trail_facts.json")
     pages = [(t["code"], t["page"].replace(SITE, "")) for t in facts["trails"]]
     pages += [(f"guide:{k}", p) for k, p in build_kb.GUIDES.items()]
-    pages += [("guide:closures", "/trail-closures/"), ("guide:about", "/about/")]
+    pages += [("guide:closures", "/trail-closures/"), ("guide:about", "/about/"), ("guide:funchal", "/funchal/")]
     rows = []
     for subject, path in pages:
         for lang in LANGS:
@@ -326,6 +326,99 @@ def load_docs(cur):
     cur.executemany("""INSERT INTO kb.doc (id, kind, subject, lang, title, url, body, cfg, source_id, checked_at)
                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s::regconfig,%s,%s)""", rows)
     return len(rows), f"{len(pages)} pages × 5 languages + pr1_facts.md sections"
+
+
+CATEGORY = {"cable": "cable_car", "market": "market", "museum": "museum", "garden": "garden", "toboggan": "toboggan",
+            "church": "landmark", "landmark": "landmark", "viewpoint": "viewpoint"}
+DAYS = [("mon", "Mon"), ("tue", "Tue"), ("wed", "Wed"), ("thu", "Thu"), ("fri", "Fri"), ("sat", "Sat"), ("sun", "Sun"), ("hol", "public holidays")]
+
+
+def hours_text(hours):
+    """{"mon": [["07:00","19:00"]], …} → "Mon–Fri 07:00–19:00; Sat 07:00–14:00; closed Sun, public holidays"."""
+    groups, closed = [], []
+    for key, label in DAYS:
+        spans = ", ".join(f"{a}–{b}" for a, b in (hours or {}).get(key, []))
+        if not spans:
+            closed.append(label)
+        elif groups and groups[-1][1] == spans and key != "hol":
+            groups[-1][0].append(label)
+        else:
+            groups.append(([label], spans))
+    out = [(f"{d[0]}–{d[-1]}" if len(d) > 2 else ", ".join(d)) + " " + sp for d, sp in groups]
+    return "; ".join(out) + (f"; closed {', '.join(closed)}" if closed else "")
+
+
+def load_places(cur):
+    """Funchal's places and lidos from funchal.json (the same data /funchal/ shows; opening rules in update_funchal.py)."""
+    f = rj("funchal.json")
+    rows = []
+    for p in f.get("places", []):
+        text = f"{p['name']}: {hours_text(p.get('hours'))}."
+        if p.get("closed"):
+            text += " Also closed on " + ", ".join(p["closed"]) + " (month-day)."
+        if p.get("months"):
+            text += " These hours apply in months " + ", ".join(map(str, p["months"])) + "."
+        if p.get("free"):
+            text += " Free entry."
+        if p["id"] == "cablecar":
+            lb = (f.get("last_bus") or {}).get("monte") or {}
+            last = "; ".join(f"{k} {v[0]} (line {v[1]})" for k, v in lb.items())
+            text += (" This is the way up to Monte from the Old Town (Zona Velha). Most people ride it down too; after it "
+                     "stops, city buses run from Monte down to the centre, or you can walk down."
+                     + (f" Last bus from Monte towards the centre (Horários do Funchal): {last}." if last else ""))
+        rows.append((p["id"], p["name"], [CATEGORY.get(p.get("kind"), p.get("kind") or "place")], p.get("area"), "Funchal",
+                     json.dumps(p.get("hours")), None, None, p.get("url"), json.dumps({"en": text}), "funchal_places", NOW))
+    for l in f.get("lidos", []):
+        text = (f"{l['name']}: {l['hours'][0]}–{l['hours'][1]} {l.get('days', 'daily')}, season window "
+                f"{l['window'][0]} to {l['window'][1]}.") if l.get("hours") else f"{l['name']}: closed for the season."
+        pr = f.get("lido_price") or {}
+        if pr and l["name"] not in pr.get("free", []):
+            text += f" Entry €{pr.get('adult')} adults, €{pr.get('youth_7_17')} ages 7–17, free under {pr.get('free_under')}."
+        rows.append(("lido-" + l["id"], l["name"], ["sea_pool"], None, "Funchal", json.dumps({"window": l.get("window"), "hours": l.get("hours")}),
+                     json.dumps(pr) if pr else None, None, l.get("url"), json.dumps({"en": text}), "frentemar", NOW))
+    cur.execute("DELETE FROM kb.place")
+    cur.executemany("""INSERT INTO kb.place (id, name, category, neighbourhood, municipality, hours, price, phone, website,
+                       description, source_id, checked_at) VALUES (%s,%s,%s,%s,%s,%s::jsonb,%s::jsonb,%s,%s,%s::jsonb,%s,%s)""", rows)
+    return len(rows), "funchal.json places + lidos"
+
+
+CRUISE_CALLS = os.path.join(ROOT, "seo_research/funchal/mobility/data/cruise_calls.json")
+
+
+def load_notices(cur):
+    """Cruise ships in Funchal port (APRAM) and Funchal events, today to 14 days ahead."""
+    rows, today = [], NOW.astimezone(MADEIRA).date()
+    horizon = (today + datetime.timedelta(days=14)).isoformat()
+    try:
+        calls = json.load(open(CRUISE_CALLS, encoding="utf-8"))["calls"]
+    except (OSError, ValueError, KeyError):
+        calls = []
+    for c in calls:
+        a, d = c.get("arrival") or "", c.get("departure") or ""
+        if c.get("port") != "Funchal" or not a or not (today.isoformat() <= a[:10] <= horizon):
+            continue
+        # APRAM lists every ship: leave out cargo and the Porto Santo ferry (cement terminal, anchorage, Transinsular)
+        if re.search(r"Cimenteiro|Fora das 3", c.get("berth") or "") or (c.get("agent") or "").startswith("Transinsular"):
+            continue
+        ship = " ".join(w if len(w) <= 3 else w.title() for w in c["ship"].split())
+        rows.append((f"cruise:{c['ship']}:{a}", "funchal-port", "cruise",
+                     datetime.datetime.fromisoformat(a).replace(tzinfo=MADEIRA), datetime.datetime.fromisoformat(d).replace(tzinfo=MADEIRA) if d else None,
+                     json.dumps({"en": f"Cruise ship {ship} in Funchal port: arrives {a[:10]} {a[11:16]}, leaves "
+                                       + (f"{d[11:16]}" if d[:10] == a[:10] else f"{d[:10]} {d[11:16]}" if d else "time not published") + "."}),
+                     "apram", NOW))
+    for e in rj("funchal.json").get("events", []):
+        if (e.get("end") or e.get("start") or "")[:10] < today.isoformat() or (e.get("start") or "")[:10] > horizon:
+            continue
+        when = e["start"].replace("T", " ") if e.get("start") == e.get("end") or not e.get("end") else f"{e['start']} to {e['end']}".replace("T", " ")
+        rows.append((f"event:{e.get('url') or e['title']}", "funchal", "event",
+                     datetime.datetime.fromisoformat(e["start"]).replace(tzinfo=MADEIRA) if e.get("start") else None,
+                     datetime.datetime.fromisoformat(e["end"] if "T" in e["end"] else e["end"] + "T23:59").replace(tzinfo=MADEIRA) if e.get("end") else None,
+                     json.dumps({"en": f"{e['title']}" + (f" at {e['venue']}" if e.get("venue") else "") + f", {when}. {e.get('url') or ''}".strip()}),
+                     "funchal_events", NOW))
+    cur.execute("DELETE FROM kb.notice WHERE kind IN ('cruise', 'event')")
+    cur.executemany("""INSERT INTO kb.notice (id, subject, kind, starts, ends, text, source_id, checked_at)
+                       VALUES (%s,%s,%s,%s,%s,%s::jsonb,%s,%s) ON CONFLICT (id) DO NOTHING""", rows)
+    return len(rows), "APRAM cruise calls + funchal.json events, 14 days"
 
 
 def load_forecast(cur):
@@ -372,8 +465,9 @@ def load_stations(cur):
 
 LOADERS = {"sources": load_sources, "trails": load_trails, "status": load_status, "history": load_history,
            "fees": load_fees, "facts": load_facts, "transport": load_transport, "bus": load_bus, "docs": load_docs,
-           "forecast": load_forecast, "stations": load_stations}
-DAILY = ["sources", "status", "history", "forecast", "stations"]  # cron runs this every hour
+           "forecast": load_forecast, "stations": load_stations, "places": load_places, "notices": load_notices}
+# cron runs this every hour; docs since 2026-10-10 (the updater changes pages daily, the bot must read today's text)
+DAILY = ["sources", "status", "history", "forecast", "stations", "places", "notices", "docs"]
 
 
 def run(names):
