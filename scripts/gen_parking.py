@@ -8,8 +8,9 @@ section between <!-- PARKING:START/END --> markers, right after the "getting the
 
 Facts come from seo_research/facts/parking.json (research 2026-10-10). Only VERIFIED entries are published (an
 official source, or two independent reports); fees only where IFCN's price list gives them, or where two reports
-agree and the page says so. SINGLE / NONE entries get the honest fallback: no official parking information, see the
-trailhead map. Never an unsourced car park, road number or price. Idempotent; gen_spokes.py calls it.
+agree and the page says so. Trails without a sourced, page-specific fact get NO block (owner, 2026-10-10: 27 identical
+"no official parking information" lines would look like template duplicates to Google); an old block is removed.
+Never an unsourced car park, road number or price. Idempotent; gen_spokes.py calls it.
 """
 import glob, os, re
 
@@ -136,17 +137,10 @@ PARK = {
         "pl": "Na starcie przy Pico Ruivo nie ma drogi: zaparkuj w Achada do Teixeira i wejdź szlakiem PR1.2 albo w Encumeada, gdzie szlak się kończy. Nie znaleźliśmy oficjalnych informacji o parkingu na żadnym końcu.",
     }, []),
 }
-FALLBACK = {
-    "en": "We found no official parking information for this trailhead. Check the trailhead map on this page before you drive, and never block the road.",
-    "pt": "Não encontrámos informação oficial de estacionamento para este ponto de partida. Veja o mapa do ponto de partida nesta página antes de ir de carro e nunca bloqueie a estrada.",
-    "fr": "Nous n'avons trouvé aucune information officielle de stationnement pour ce départ. Consultez la carte du point de départ sur cette page avant de prendre la voiture, et ne bloquez jamais la route.",
-    "de": "Offizielle Parkangaben für diesen Ausgangspunkt haben wir nicht gefunden. Sehen Sie vor der Fahrt die Karte zum Ausgangspunkt auf dieser Seite an und blockieren Sie nie die Straße.",
-    "pl": "Nie znaleźliśmy oficjalnych informacji o parkingu na początku tego szlaku. Przed wyjazdem sprawdź mapę początku szlaku na tej stronie i nigdy nie blokuj drogi.",
-}
-
-
 def block(code, lang):
-    text, srcs = PARK.get(code, (FALLBACK, []))
+    if code not in PARK:
+        return ""
+    text, srcs = PARK[code]
     src = ""
     if srcs:
         links = " · ".join(f'<a class="plain" href="{u}" target="_blank" rel="noopener">{NAMES[u][lang]}</a>' for u in srcs)
@@ -156,9 +150,11 @@ def block(code, lang):
 
 
 def place(h, blk):
-    if blk in h:
+    if blk and blk in h:
         return h
     h = re.sub(r"\n*<!-- PARKING:START.*?<!-- PARKING:END -->\n*", "\n\n", h, flags=re.S)
+    if not blk:
+        return h
     for sec in ("getting-there", "getting-back"):
         m = re.search(rf'<section id="{sec}">.*?</section>\n', h, re.S)
         if m:
