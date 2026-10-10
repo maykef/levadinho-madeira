@@ -30,11 +30,23 @@
              fr: ["Comment y aller ?", "Où se garer ?", "Y a-t-il une rando plus facile à côté ?"],
              de: ["Wie komme ich hin?", "Wo parke ich?", "Gibt es eine leichtere Wanderung in der Nähe?"],
              pl: ["Jak tam dojechać?", "Gdzie zaparkować?", "Czy w pobliżu jest łatwiejszy szlak?"] },
+    closed: { en: ["Which walk nearby is open today?", "Is there an easy open walk nearby?"],
+              pt: ["Que percurso perto está aberto hoje?", "Há um percurso fácil aberto perto?"],
+              fr: ["Quelle rando proche est ouverte aujourd'hui ?", "Y a-t-il une rando facile ouverte à côté ?"],
+              de: ["Welcher Weg in der Nähe ist heute geöffnet?", "Gibt es eine leichte geöffnete Wanderung in der Nähe?"],
+              pl: ["Który szlak w pobliżu jest dziś otwarty?", "Czy w pobliżu jest łatwy otwarty szlak?"] },
     back: { en: ["Is there a bus from Santana to Funchal?", "Can I walk back to Pico do Areeiro?", "When should I book the taxi?"],
             pt: ["Há autocarro de Santana para o Funchal?", "Posso voltar a pé ao Pico do Areeiro?", "Para que hora marco o táxi?"],
             fr: ["Y a-t-il un bus de Santana à Funchal ?", "Puis-je revenir à pied au Pico do Areeiro ?", "Pour quelle heure réserver le taxi ?"],
             de: ["Fährt ein Bus von Santana nach Funchal?", "Kann ich zum Pico do Areeiro zurücklaufen?", "Für wann bestelle ich das Taxi?"],
             pl: ["Czy jest autobus z Santany do Funchal?", "Czy mogę wrócić pieszo na Pico do Areeiro?", "Na którą zamówić taksówkę?"] }
+  };
+  var CLOSED = {  // a closed trail: say so, then the open trails nearby, nothing else (owner, 2026-10-10)
+    en: { line: "<b>CLOSED</b> on IFCN's official warnings list: don't walk it while it is closed.", near: "Open trails nearby", away: "away" },
+    pt: { line: "<b>ENCERRADO</b> na lista oficial de avisos do IFCN: não o faça enquanto estiver encerrado.", near: "Percursos abertos perto", away: "de distância" },
+    fr: { line: "<b>FERMÉ</b> sur la liste officielle des avis de l'IFCN : ne le parcourez pas tant qu'il est fermé.", near: "Sentiers ouverts à proximité", away: "" },
+    de: { line: "<b>GESPERRT</b> laut offizieller Hinweisliste des IFCN: Gehen Sie ihn nicht, solange er gesperrt ist.", near: "Geöffnete Wege in der Nähe", away: "entfernt" },
+    pl: { line: "<b>ZAMKNIĘTY</b> według oficjalnej listy komunikatów IFCN: nie wchodź na szlak, dopóki jest zamknięty.", near: "Otwarte szlaki w pobliżu", away: "" }
   };
   var U = UI[LANG] || UI.en;
   // the owner's devices (#skipgc on any page sets it, #countme clears it): chats answered but never recorded
@@ -102,6 +114,29 @@
       rows.push([txt(taxi.querySelector("h2")), esc(txt(taxi.querySelector("p"))) + (ranks.length ? "<br>" + ranks.join("<br>") : "")]);
     }
     return { rows: rows, kind: "back" };
+  }
+
+  // CLOSED on today's list → [status row, open nearby trails row]; otherwise null (status.json, same as the card)
+  async function closedRows() {
+    var card = document.querySelector("#answers [data-trail]");
+    if (!card) return null;
+    var code = card.getAttribute("data-trail"), st;
+    try { st = await (await fetch("/status.json", { cache: "no-store" })).json(); } catch (e) { return null; }
+    var by = {}; (st.trails || []).forEach(function (t) { by[t.code] = t; });
+    if (!by[code] || by[code].status !== "CLOSED") return null;
+    var C = CLOSED[LANG] || CLOSED.en, note = by[code].note;
+    note = note && typeof note === "object" ? (note[LANG] || note.en || "") : (note || "");
+    var rows = [[txt(document.querySelector("#answers .qa-q")), C.line + (note ? " " + esc(note) : "")]];
+    var open = [];
+    document.querySelectorAll("#nearby li a").forEach(function (a) {
+      var m = txt(a).match(/^(PR[\d.]+)/), t = m && by[m[1]];
+      if (t && t.status === "OPEN") {
+        var km = a.querySelector("span") ? txt(a.querySelector("span")) : "";
+        open.push('<a href="' + a.getAttribute("href") + '">' + esc(txt(a).replace(km, "").trim()) + "</a>" + (km ? " · " + esc(km) : ""));
+      }
+    });
+    if (open.length) rows.push([C.near, open.join("<br>")]);
+    return rows;
   }
 
   function build() {
@@ -194,6 +229,8 @@
       if (h1) add("lvc-q", esc(txt(h1)));
       await wait(500);  // status.js fills the card's live status first
       var fresh = openingRows() || open;
+      var closed = open.kind === "trail" ? await closedRows() : null;
+      if (closed) { fresh = { rows: closed, kind: "closed" }; open.kind = "closed"; }
       for (var i = 0; i < fresh.rows.length; i++) {
         var t = typing(); await wait(600); done(t);
         var m = add("lvc-msg lvc-bot", fresh.rows[i][0] ? '<span class="h">' + esc(fresh.rows[i][0]) + "</span>" : "");
