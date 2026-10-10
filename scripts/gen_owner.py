@@ -6,7 +6,8 @@ Writes, between marker comments (idempotent, re-run any time):
                    "This is a personal project of © Mayke De Freitas Santos 2026. All Rights Reserved.
                    Enquiries: hello@levadinho-madeira.com" (a mailto link).
   * OWNER-SIG   -- the owner's name under "Why I built this" on the five homepages.
-  * ENGAGE       -- the /engage.js script (cookie-free engagement events) before </body> on every page with GoatCounter.
+  * ENGAGE       -- the /engage.js script (cookie-free engagement events) and /alert.js (storm banner, 2026-10-10)
+                   before </body> on every page with GoatCounter.
   * OWNER-SCHEMA -- a WebSite + Person JSON-LD block in the head of the five homepages (the WebSite carries the
                    site_entity.ENTITY sentence as its description) and the RSS link to trail-status.xml.
 
@@ -93,7 +94,7 @@ def main():
         new = put(s, "OWNER-LINE", f'<span class="owner" style="display:block;margin-top:6px">{LINE[lang]}{about}</span>',
                   r"</footer>")
         if "goatcounterCode" in new:  # engagement events (owner, 2026-10-07): /engage.js, sends only when GoatCounter loaded
-            new = put(new, "ENGAGE", '<script src="/engage.js" defer></script>', r"</body>")
+            new = put(new, "ENGAGE", '<script src="/engage.js" defer></script><script src="/alert.js" defer></script>', r"</body>")
         if str(rel) in HOMES:
             new = put(new, "OWNER-SIG", f'<p class="sig" style="text-align:right;font-style:italic">— {NAME}</p>',
                       r'(?s)<div class="why">.*?</p>\s*', before=False)

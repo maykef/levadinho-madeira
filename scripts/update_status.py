@@ -76,6 +76,9 @@ import zoneinfo
 
 import requests
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import storm  # noqa: E402  blanket closures + IPMA warnings (2026-10-10)
+
 IFCN_UPDATED = ""   # the "ATUALIZADO: dd/mm/yyyy" date printed on the IFCN page, set by ifcn_statuses()
 IFCN_AVISOS = ("https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos"
                "&catid=146:avisos")
@@ -789,6 +792,14 @@ STATIC_ANSWER_I18N = {
     "de": "{name} ({code}): {st} laut der offiziellen Hinweisliste des IFCN.",
     "pl": "{name} ({code}): {st} według oficjalnej listy komunikatów IFCN.",
 }
+# During an IFCN blanket closure (storm.py) the reason is IFCN's notice, not its trail list.
+STATIC_ANSWER_BLANKET_I18N = {
+    "en": "{name} ({code}) is {st}: " + storm.BLANKET_NOTE["en"],
+    "pt": "{name} ({code}): {st}. " + storm.BLANKET_NOTE["pt"],
+    "fr": "{name} ({code}) : {st}. " + storm.BLANKET_NOTE["fr"],
+    "de": "{name} ({code}): {st}. " + storm.BLANKET_NOTE["de"],
+    "pl": "{name} ({code}): {st}. " + storm.BLANKET_NOTE["pl"],
+}
 STATIC_ANSWER_RE = re.compile(r"(<!--\s*STATIC-ANSWER:([A-Za-z0-9.]+):START\s*-->)(.*?)(<!--\s*STATIC-ANSWER:\2:END\s*-->)", re.S)
 LD_JSON_RE = re.compile(r'(<script type="application/ld\+json">)(.*?)(</script>)', re.S)
 # /trail-closures/ (2026-10-07, LLM audit item F): a table of the trails that are closed or partly open today, with
@@ -830,15 +841,19 @@ def answer_sentence(trail, lang):
     lang = lang if lang in STATIC_ANSWER_I18N else "en"
     assert_not_contradictory(trail["status"], trail.get("note") or {}, what=f"answer {trail['code']}")  # Rule 1
     L = STATIC_I18N[lang]
-    return STATIC_ANSWER_I18N[lang].format(name=trail["name"], code=trail["code"], st=L["st"][trail["status"]])
+    tpl = STATIC_ANSWER_BLANKET_I18N if "ifcn_status" in trail else STATIC_ANSWER_I18N
+    return tpl[lang].format(name=trail["name"], code=trail["code"], st=L["st"][trail["status"]])
 
 
 def answer_any_status_re(trail, lang):
     """The answer sentence with whatever status word it carried before (to find it in the JSON-LD)."""
     lang = lang if lang in STATIC_ANSWER_I18N else "en"
-    head, tail = STATIC_ANSWER_I18N[lang].format(name=trail["name"], code=trail["code"], st="\0").split("\0")
     words = "|".join(re.escape(w) for w in sorted(STATIC_I18N[lang]["st"].values(), key=len, reverse=True))
-    return re.compile(re.escape(head) + "(?:" + words + ")" + re.escape(tail))
+    alts = []
+    for tpl in (STATIC_ANSWER_BLANKET_I18N, STATIC_ANSWER_I18N):   # longer (blanket) form first
+        head, tail = tpl[lang].format(name=trail["name"], code=trail["code"], st="\0").split("\0")
+        alts.append(re.escape(head) + "(?:" + words + ")" + re.escape(tail))
+    return re.compile("|".join(alts))
 
 
 def sync_answers(html, lang, by_code):
@@ -953,10 +968,16 @@ def write_static_status(data):
             c = data["counts"]
             line = L["board"].format(d=_fmt_date(date, L), o=c.get("OPEN", 0),
                                      p=c.get("PARTIAL", 0), c=c.get("CLOSED", 0))
+            a = data.get("alert") or {}
+            if a.get("blanket") == "closed":      # every trail closed by IFCN's notice: one sentence, not 37 names
+                return mm.group(1) + htmllib.escape(storm.blanket_note({"reopen": a.get("blanket_reopen")})[lang if lang in storm.BLANKET_NOTE else "en"], quote=False) + mm.group(3)
             for st, fmt in zip(("CLOSED", "PARTIAL"), STATIC_BOARD_LISTS.get(lang, STATIC_BOARD_LISTS["en"])):
                 names = [f"{t['name']} ({t['code']})" for t in data["trails"] if t["status"] == st]
                 if names:
                     line += " " + fmt.format(", ".join(names))
+            extra = storm.static_alert(a, lang)
+            if extra:
+                line = extra + " " + line
             return mm.group(1) + htmllib.escape(line, quote=False) + mm.group(3)
 
         def wx_sub(mm):
@@ -1005,6 +1026,18 @@ def main():
         # Rule 1 final gate before we write anything.
         assert_not_contradictory(t["status"], t.get("note"), what=t["code"])
 
+    # Storm-ready status (2026-10-10, scripts/storm.py): a blanket closure notice from IFCN closes every trail
+    # (fails loud like the main scrape); orange/red IPMA warnings only drive the banner (degrade gracefully).
+    blanket = storm.blanket()
+    ipma = storm.ipma_alert()
+    if storm.apply(trails, blanket):
+        print(f"storm: IFCN blanket closure in force -> all {len(trails)} trails CLOSED", file=sys.stderr)
+    for t in trails:
+        assert_not_contradictory(t["status"], t.get("note"), what=t["code"])
+    alert = storm.alert(blanket, ipma)
+    if alert:
+        print(f"storm: alert {alert}", file=sys.stderr)
+
     pr1 = next(t for t in trails if t["code"] == "PR1")
     status = pr1["status"]
     note_i18n = pr1.get("note") or translate_note([])
@@ -1051,6 +1084,8 @@ def main():
         "counts": counts,
         "regions": regions,
         "trails": trails,
+        # Storm-ready banner (scripts/storm.py): blanket IFCN closure and/or orange/red IPMA warning; null = none.
+        "alert": alert,
     }
     with open(STATUS_JSON, "w") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)

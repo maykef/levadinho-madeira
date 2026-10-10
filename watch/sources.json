@@ -7,6 +7,8 @@
     {"id": "ig_frentemar",      "name": "Frente MarFunchal (Instagram)",             "official": true,  "type": "rss", "url": "{RSSHUB}/instagram/user/frentemarfunchal"},
     {"id": "fb_procivmadeira",  "name": "Proteção Civil Madeira (Facebook)",         "official": true,  "type": "rss", "url": "{RSSHUB}/facebook/page/procivmadeira"},
     {"id": "ig_procivmadeira",  "name": "Proteção Civil Madeira (Instagram)",        "official": true,  "type": "rss", "url": "{RSSHUB}/instagram/user/protecao_civil_madeira"},
+    {"id": "fb_ifcn",           "name": "IFCN (Facebook)",                           "official": true,  "type": "rss", "url": "{RSSHUB}/facebook/page/IFCNIP"},
+    {"id": "ig_ifcn",           "name": "IFCN (Instagram)",                          "official": true,  "type": "rss", "url": "{RSSHUB}/instagram/user/ifcn_madeira"},
     {"id": "fb_cmfunchal",      "name": "Câmara Municipal do Funchal (Facebook)",    "official": true,  "type": "rss", "url": "{RSSHUB}/facebook/page/camaramunicipaldofunchal"},
     {"id": "fb_cmcamaralobos",  "name": "Câmara Municipal de Câmara de Lobos (Facebook)",  "official": true, "type": "rss", "url": "{RSSHUB}/facebook/page/municipiodecamaradelobos"},
     {"id": "ig_cmcamaralobos",  "name": "Câmara Municipal de Câmara de Lobos (Instagram)", "official": true, "type": "rss", "url": "{RSSHUB}/instagram/user/municipio_camaradelobos"},
