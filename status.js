@@ -7,7 +7,7 @@
 
   var LANGS = {
     en: {
-      badge: { OPEN: "OPEN", PARTIAL: "PARTIAL", CLOSED: "CLOSED" },
+      badge: { OPEN: "OPEN", PARTIAL: "RESTRICTED", CLOSED: "CLOSED" },
       summit: "Summit now:", sky: { CLEAR: "CLEAR", CLOUDY: "CLOUDY" },
       officialNote: "Official note:",
       defaultNote: {
@@ -31,7 +31,7 @@
       ifcnUpdated: "Official IFCN list · updated:", lastChecked: "Checked by Levadinho:", madeiraTime: "(Madeira time)", source: "Source:"
     },
     pt: {
-      badge: { OPEN: "ABERTO", PARTIAL: "PARCIAL", CLOSED: "FECHADO" },
+      badge: { OPEN: "ABERTO", PARTIAL: "CONDICIONADO", CLOSED: "FECHADO" },
       summit: "Cume agora:", sky: { CLEAR: "LIMPO", CLOUDY: "NUBLADO" },
       officialNote: "Nota oficial:",
       defaultNote: {
@@ -55,7 +55,7 @@
       ifcnUpdated: "Lista oficial do IFCN · atualizado:", lastChecked: "Verificado pelo Levadinho:", madeiraTime: "(hora da Madeira)", source: "Fonte:"
     },
     fr: {
-      badge: { OPEN: "OUVERT", PARTIAL: "PARTIEL", CLOSED: "FERMÉ" },
+      badge: { OPEN: "OUVERT", PARTIAL: "RESTREINT", CLOSED: "FERMÉ" },
       summit: "Sommet :", sky: { CLEAR: "DÉGAGÉ", CLOUDY: "NUAGEUX" },
       officialNote: "Note officielle :",
       defaultNote: {
@@ -79,7 +79,7 @@
       ifcnUpdated: "Liste officielle de l'IFCN · mise à jour :", lastChecked: "Vérifié par Levadinho :", madeiraTime: "(heure de Madère)", source: "Source :"
     },
     de: {
-      badge: { OPEN: "OFFEN", PARTIAL: "TEILWEISE", CLOSED: "GESPERRT" },
+      badge: { OPEN: "OFFEN", PARTIAL: "EINGESCHRÄNKT", CLOSED: "GESPERRT" },
       summit: "Gipfel jetzt:", sky: { CLEAR: "KLAR", CLOUDY: "BEWÖLKT" },
       officialNote: "Offizieller Hinweis:",
       defaultNote: {
@@ -103,7 +103,7 @@
       ifcnUpdated: "Offizielle IFCN-Liste · aktualisiert:", lastChecked: "Von Levadinho geprüft:", madeiraTime: "(Madeira-Zeit)", source: "Quelle:"
     },
     pl: {
-      badge: { OPEN: "OTWARTY", PARTIAL: "CZĘŚCIOWO", CLOSED: "ZAMKNIĘTY" },
+      badge: { OPEN: "OTWARTY", PARTIAL: "OGRANICZONY", CLOSED: "ZAMKNIĘTY" },
       summit: "Szczyt teraz:", sky: { CLEAR: "BEZ CHMUR", CLOUDY: "POCHMURNO" },
       officialNote: "Uwaga oficjalna:",
       defaultNote: {
@@ -176,10 +176,34 @@
       });
   }
 
+  // Owner, 2026-10-10: never "PARTIAL" — OPEN / CLOSED, or the full description of what is open. PR1's one-way note in
+  // the owner's words (keep in step with PR1_ONEWAY_DESC in scripts/update_status.py and bot/answers.py).
+  var PR1_DESC = {
+    en: ["Pico do Areeiro ↔ Pedra Rija viewpoint: <b>both ways</b>.", "Full trail to Pico Ruivo: <b>one way only</b>, ending at Achada do Teixeira."],
+    pt: ["Pico do Areeiro ↔ Miradouro da Pedra Rija: <b>nos dois sentidos</b>.", "Percurso completo até ao Pico Ruivo: <b>só num sentido</b>, a terminar na Achada do Teixeira."],
+    fr: ["Pico do Areeiro ↔ belvédère de Pedra Rija : <b>dans les deux sens</b>.", "Parcours complet jusqu'au Pico Ruivo : <b>sens unique</b>, arrivée à Achada do Teixeira."],
+    de: ["Pico do Areeiro ↔ Aussichtspunkt Pedra Rija: <b>in beide Richtungen</b>.", "Ganze Strecke bis zum Pico Ruivo: <b>nur in eine Richtung</b>, Ende in Achada do Teixeira."],
+    pl: ["Pico do Areeiro ↔ punkt widokowy Pedra Rija: <b>w obie strony</b>.", "Cała trasa na Pico Ruivo: <b>tylko w jedną stronę</b>, z końcem w Achada do Teixeira."]
+  };
+  function partialHead(code, note) {
+    var raw = JSON.stringify(note || "");
+    var lines = (code === "PR1" && /sentido [uú]nico|one-way/i.test(raw)) ? (PR1_DESC[lang] || PR1_DESC.en)
+      : [esc(noteText(note, L.spokeNote.PARTIAL))];
+    return '<div class="status-head status-desc"><span class="status-dot PARTIAL"></span><div>' +
+      lines.map(function (x) { return '<p style="margin:2px 0;font-size:18px;line-height:1.35">' + x + "</p>"; }).join("") +
+      "</div></div>";
+  }
+
   function render(d, L) {
     var st = (d.status === "OPEN" || d.status === "CLOSED") ? d.status : "PARTIAL";
     var body = "";
     var note = d.note ? noteText(d.note, "") : "";
+    if (st === "PARTIAL") {
+      if (d.manual_note) body += "<p>" + esc(d.manual_note) + "</p>";
+      body += "<p>" + L.weather(d.weather) + "</p>";
+      body += '<p class="advisory">' + L.advisory + "</p>";
+      return partialHead("PR1", d.note) + summitHead(d.weather) + '<div class="status-body">' + body + "</div>" + stamp(d);
+    }
     if (note) body += "<p><b>" + L.officialNote + "</b> " + esc(note) + "</p>";
     body += "<p>" + L.defaultNote[st] + "</p>";
     if (d.manual_note) body += "<p>" + esc(d.manual_note) + "</p>";
@@ -194,13 +218,18 @@
     if (!t) return '<div class="status-body"><p>' + L.spokeNote.PARTIAL + "</p></div>";
     var st = (t.status === "OPEN" || t.status === "CLOSED") ? t.status : "PARTIAL";
     var note = t.note ? noteText(t.note, L.spokeNote[st]) : L.spokeNote[st];
-    var body = "<p>" + esc(note) + "</p>";
     var r = (d.regions || []).find(function (x) { return x.key === t.region; });
+    var compact = el.getAttribute("data-compact") === "1";   // inside the quick-answers card (gen_answer_card.py)
+    if (compact) {   // one line: the status (or the description), weather has its own row
+      if (st === "PARTIAL") return partialHead(t.code, t.note);
+      return '<div class="status-head"><span class="status-dot ' + st + '"></span><span class="status-badge ' + st + '">' +
+        L.badge[st] + "</span></div>" + (st === "CLOSED" && t.note ? "<p>" + esc(note) + "</p>" : "");
+    }
+    var body = st === "PARTIAL" ? "" : "<p>" + esc(note) + "</p>";
     if (r && r.temp != null) body += "<p>" + L.nearby(r) + "</p>";
-    return '<div class="status-head"><span class="status-dot ' + st + '"></span>' +
-      '<span class="status-badge ' + st + '">' + L.badge[st] + "</span></div>" +
-      (t.code === "PR1" ? summitHead(d.weather) : "") +
-      '<div class="status-body">' + body + "</div>" + stamp(d);
+    var head = st === "PARTIAL" ? partialHead(t.code, t.note) : '<div class="status-head"><span class="status-dot ' + st +
+      '"></span><span class="status-badge ' + st + '">' + L.badge[st] + "</span></div>";
+    return head + (t.code === "PR1" ? summitHead(d.weather) : "") + '<div class="status-body">' + body + "</div>" + stamp(d);
   }
 
   var el = document.getElementById("statusCard");
@@ -218,6 +247,8 @@
     if (code) {
       var t = (d.trails || []).find(function (x) { return x.code === code; });
       el.innerHTML = renderSpoke(t, d);
+      var wx = document.getElementById("qaWeather"), r = t && (d.regions || []).find(function (x) { return x.key === t.region; });
+      if (wx && r && r.temp != null) wx.innerHTML = L.nearby(r);   // the card's weather row
     } else {
       el.innerHTML = render(d, L);
     }

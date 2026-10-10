@@ -23,12 +23,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HISTORY = "history/status-daily.jsonl"
 RSS = "trail-status.xml"
 IFCN_SINCE = "2026-09-30"   # first day the board came from IFCN's warnings list
-ST = {"OPEN": "open", "PARTIAL": "partly open", "CLOSED": "closed"}
+ST = {"OPEN": "open", "PARTIAL": "open with restrictions (see IFCN's note)", "CLOSED": "closed"}
 LD_RE = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 FACT_KEYS = ("Distance", "Round trip", "Duration", "Time", "Difficulty", "Altitude", "Route type", "Type", "Route")
 
 GUIDES = [  # (path, title) — the key pages, English titles
-    ("/", "Live board: which Madeira trails are open, partly open or closed"),
+    ("/", "Live board: which Madeira trails are open, restricted or closed"),
     ("/trail-closures/", "Madeira trail closures and restrictions now (from IFCN's list)"),
     ("/pr1/", "PR1 Vereda do Areeiro: status, one-way rule, sunrise"),
     ("/pr1-one-way/", "Is PR1 one-way?"),
@@ -134,7 +134,7 @@ def write_rss(d, lines):
            f"<link>{BASE}/trail-closures/</link>"
            f'<atom:link href="{BASE}/{RSS}" rel="self" type="application/rss+xml"/>'
            "<description>Every change to the status of Madeira's official PR walking trails on IFCN's official "
-           "trail-warnings list: opened, partly opened or closed. Checked daily by Levadinho.</description>"
+           "trail-warnings list: opened, restricted or closed. Checked daily by Levadinho.</description>"
            f"<language>en</language><lastBuildDate>{now}</lastBuildDate>"
            + "".join(items) + "</channel></rss>\n")
     open(RSS, "w", encoding="utf-8").write(rss)
@@ -185,7 +185,7 @@ def board_lines(d):
         if t["status"] in by:
             by[t["status"]].append(t)
     out = []
-    for st, label in (("CLOSED", "Closed"), ("PARTIAL", "Partly open (a section closed or restricted)")):
+    for st, label in (("CLOSED", "Closed"), ("PARTIAL", "With restrictions (IFCN's note says what is open)")):
         if by[st]:
             out.append(f"- {label}: " + "; ".join(
                 f"{t['name']} ({t['code']})" + (f": {t['note']['en']}" if (t.get('note') or {}).get('en') else "")
@@ -237,7 +237,7 @@ def write_llms(d, full):
     w.append("")
     w.append("## Today on IFCN's official list")
     w.append("")
-    w.append(f"- {total} classified trails on Madeira: {c.get('OPEN', 0)} open, {c.get('PARTIAL', 0)} partly open, "
+    w.append(f"- {total} classified trails on Madeira: {c.get('OPEN', 0)} open, {c.get('PARTIAL', 0)} with restrictions, "
              f"{c.get('CLOSED', 0)} closed.")
     w += board_lines(d)
     wx = d.get("weather") or {}

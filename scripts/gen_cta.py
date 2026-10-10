@@ -203,6 +203,7 @@ def put(html, key, body, anchors, path):
 # Every run moves it there (any earlier position is removed first).
 TOP_SPOTS = [
     re.compile(r'<div class="livecam">.*?\n</div>\n', re.S),                      # below the webcam
+    re.compile(r'<!-- ANSWER-CARD:START.*?<!-- ANSWER-CARD:END -->\n', re.S),     # below the quick-answers card (2026-10-10)
     re.compile(r'<div class="status-card" id="statusCard"[^>]*>.*?\n</div>\n', re.S),  # below the status card
     re.compile(r'<section class="lvd-now" id="now"[^>]*>.*?\n</section>\n', re.S),   # below the Levadinho "now" panel (Funchal)
     re.compile(r'</header>\n'),                                                    # below the header

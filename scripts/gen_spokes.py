@@ -981,6 +981,9 @@ def main():
     # ...trail code in the headings and the facts list as a table (see gen_trail_polish.py).
     import gen_trail_polish
     gen_trail_polish.main()
+    # ...the quick-answers card at the top (replaces the status card; re-places the WhatsApp block below it).
+    import gen_answer_card
+    gen_answer_card.main()
     import gen_schema
     gen_schema.main()
 

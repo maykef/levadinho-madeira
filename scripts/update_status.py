@@ -706,24 +706,24 @@ def bump_date_modified(when, changed):
 # No dates on the site (owner, 2026-10-05): IFCN's "updated" date was weeks old and Google printed it in front of
 # the snippets. status.json keeps it as data (source.updated); the pages never show it.
 STATIC_I18N = {
-    "en": {"on": "Official IFCN list:", "st": {"OPEN": "OPEN", "PARTIAL": "PARTLY OPEN", "CLOSED": "CLOSED"},
-           "board": "Official IFCN list: {o} trails open, {p} partly open, {c} closed.",
+    "en": {"on": "Official IFCN list:", "st": {"OPEN": "OPEN", "PARTIAL": "RESTRICTED", "CLOSED": "CLOSED"},
+           "board": "Official IFCN list: {o} trails open, {p} with restrictions, {c} closed.",
            "months": ["January", "February", "March", "April", "May", "June", "July", "August",
                       "September", "October", "November", "December"], "date": "{day} {month} {year}"},
-    "pt": {"on": "Lista oficial do IFCN:", "st": {"OPEN": "ABERTO", "PARTIAL": "PARCIALMENTE ABERTO", "CLOSED": "ENCERRADO"},
-           "board": "Lista oficial do IFCN: {o} percursos abertos, {p} parcialmente abertos, {c} encerrados.",
+    "pt": {"on": "Lista oficial do IFCN:", "st": {"OPEN": "ABERTO", "PARTIAL": "CONDICIONADO", "CLOSED": "ENCERRADO"},
+           "board": "Lista oficial do IFCN: {o} percursos abertos, {p} condicionados, {c} encerrados.",
            "months": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto",
                       "setembro", "outubro", "novembro", "dezembro"], "date": "{day} de {month} de {year}"},
-    "fr": {"on": "Liste officielle de l'IFCN :", "st": {"OPEN": "OUVERT", "PARTIAL": "PARTIELLEMENT OUVERT", "CLOSED": "FERMÉ"},
-           "board": "Liste officielle de l'IFCN : {o} sentiers ouverts, {p} partiellement ouverts, {c} fermés.",
+    "fr": {"on": "Liste officielle de l'IFCN :", "st": {"OPEN": "OUVERT", "PARTIAL": "RESTREINT", "CLOSED": "FERMÉ"},
+           "board": "Liste officielle de l'IFCN : {o} sentiers ouverts, {p} avec restrictions, {c} fermés.",
            "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août",
                       "septembre", "octobre", "novembre", "décembre"], "date": "{day} {month} {year}"},
-    "de": {"on": "Offizielle IFCN-Liste:", "st": {"OPEN": "GEÖFFNET", "PARTIAL": "TEILWEISE GEÖFFNET", "CLOSED": "GESCHLOSSEN"},
-           "board": "Offizielle IFCN-Liste: {o} Wege geöffnet, {p} teilweise geöffnet, {c} geschlossen.",
+    "de": {"on": "Offizielle IFCN-Liste:", "st": {"OPEN": "GEÖFFNET", "PARTIAL": "EINGESCHRÄNKT", "CLOSED": "GESCHLOSSEN"},
+           "board": "Offizielle IFCN-Liste: {o} Wege geöffnet, {p} mit Einschränkungen, {c} geschlossen.",
            "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August",
                       "September", "Oktober", "November", "Dezember"], "date": "{day}. {month} {year}"},
-    "pl": {"on": "Oficjalna lista IFCN:", "st": {"OPEN": "OTWARTY", "PARTIAL": "CZĘŚCIOWO OTWARTY", "CLOSED": "ZAMKNIĘTY"},
-           "board": "Oficjalna lista IFCN: otwarte {o}, częściowo otwarte {p}, zamknięte {c}.",
+    "pl": {"on": "Oficjalna lista IFCN:", "st": {"OPEN": "OTWARTY", "PARTIAL": "OGRANICZONY", "CLOSED": "ZAMKNIĘTY"},
+           "board": "Oficjalna lista IFCN: otwarte {o}, z ograniczeniami {p}, zamknięte {c}.",
            "months": ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia",
                       "września", "października", "listopada", "grudnia"], "date": "{day} {month} {year}"},
 }
@@ -766,9 +766,9 @@ def static_summit_line(weather, lang, hhmm):
 # Board line, 2026-10-03: also name the closed / partly open trails (crawlable answer to
 # "percursos encerrados madeira", "madère sentier fermé", "które szlaki zamknięte").
 STATIC_BOARD_LISTS = {
-    "en": ("Closed: {}.", "Partly open: {}."), "pt": ("Encerrados: {}.", "Parcialmente abertos: {}."),
-    "fr": ("Fermés : {}.", "Partiellement ouverts : {}."), "de": ("Geschlossen: {}.", "Teilweise geöffnet: {}."),
-    "pl": ("Zamknięte: {}.", "Częściowo otwarte: {}."),
+    "en": ("Closed: {}.", "With restrictions: {}."), "pt": ("Encerrados: {}.", "Condicionados: {}."),
+    "fr": ("Fermés : {}.", "Avec restrictions : {}."), "de": ("Geschlossen: {}.", "Mit Einschränkungen: {}."),
+    "pl": ("Zamknięte: {}.", "Z ograniczeniami: {}."),
 }
 # Trail pages' meta description starts with the live IFCN status (2026-10-03), e.g.
 # "IFCN: OPEN. Is the Levada do Rei open today? ..." — the prefix is replaced on every run.
@@ -792,6 +792,14 @@ STATIC_ANSWER_I18N = {
     "de": "{name} ({code}): {st} laut der offiziellen Hinweisliste des IFCN.",
     "pl": "{name} ({code}): {st} według oficjalnej listy komunikatów IFCN.",
 }
+# A trail with restrictions: no status word, the description (owner, 2026-10-10).
+STATIC_ANSWER_PARTIAL_I18N = {
+    "en": "{name} ({code}), on IFCN's official trail-warnings list: {desc}",
+    "pt": "{name} ({code}), na lista oficial de avisos do IFCN: {desc}",
+    "fr": "{name} ({code}), sur la liste officielle des avis de l'IFCN : {desc}",
+    "de": "{name} ({code}), laut der offiziellen Hinweisliste des IFCN: {desc}",
+    "pl": "{name} ({code}), według oficjalnej listy komunikatów IFCN: {desc}",
+}
 # During an IFCN blanket closure (storm.py) the reason is IFCN's notice, not its trail list.
 STATIC_ANSWER_BLANKET_I18N = {
     "en": "{name} ({code}) is {st}: " + storm.BLANKET_NOTE["en"],
@@ -806,11 +814,11 @@ LD_JSON_RE = re.compile(r'(<script type="application/ld\+json">)(.*?)(</script>)
 # IFCN's note in the page language. No dates (owner's rule); the dated history is in trail-status.xml / history/.
 STATIC_CLOSURES_RE = re.compile(r"(<!--\s*STATIC-CLOSURES:START\s*-->)(.*?)(<!--\s*STATIC-CLOSURES:END\s*-->)", re.S)
 CLOSURES_I18N = {
-    "en": ("Trail", "Status", "IFCN's note", "No trail is closed or partly open on IFCN's list right now."),
-    "pt": ("Percurso", "Estado", "Nota do IFCN", "Neste momento nenhum percurso está encerrado ou parcialmente aberto na lista do IFCN."),
-    "fr": ("Sentier", "État", "Note de l'IFCN", "Aucun sentier n'est fermé ni partiellement ouvert sur la liste de l'IFCN en ce moment."),
-    "de": ("Weg", "Status", "Hinweis des IFCN", "Derzeit ist kein Weg auf der IFCN-Liste gesperrt oder teilweise geöffnet."),
-    "pl": ("Szlak", "Stan", "Nota IFCN", "Obecnie żaden szlak na liście IFCN nie jest zamknięty ani częściowo otwarty."),
+    "en": ("Trail", "Status", "IFCN's note", "No trail is closed or restricted on IFCN's list right now."),
+    "pt": ("Percurso", "Estado", "Nota do IFCN", "Neste momento nenhum percurso está encerrado ou condicionado na lista do IFCN."),
+    "fr": ("Sentier", "État", "Note de l'IFCN", "Aucun sentier n'est fermé ni restreint sur la liste de l'IFCN en ce moment."),
+    "de": ("Weg", "Status", "Hinweis des IFCN", "Derzeit ist kein Weg auf der IFCN-Liste gesperrt oder eingeschränkt."),
+    "pl": ("Szlak", "Stan", "Nota IFCN", "Obecnie żaden szlak na liście IFCN nie jest zamknięty ani ograniczony."),
 }
 LANG_PREFIX = {"en": "", "pt": "/pt", "fr": "/fr", "de": "/de", "pl": "/pl"}
 
@@ -826,7 +834,7 @@ def closures_table(data, lang):
                 continue
             note = t.get("note") or {}
             assert_not_contradictory(t["status"], note, what=f"closures {t['code']}")
-            text = note.get(lang) or note.get("en") or note.get(NOTE_SOURCE_LANG) or ""
+            text = partial_desc(t, lang) if st == "PARTIAL" else (note.get(lang) or note.get("en") or note.get(NOTE_SOURCE_LANG) or "")
             href = LANG_PREFIX.get(lang, "") + t["page"]
             rows.append(f'<tr><td><a href="{href}">{htmllib.escape(t["name"])} ({t["code"]})</a></td>'
                         f'<td><b>{L["st"][st]}</b></td><td>{htmllib.escape(text) or "—"}</td></tr>')
@@ -841,6 +849,11 @@ def answer_sentence(trail, lang):
     lang = lang if lang in STATIC_ANSWER_I18N else "en"
     assert_not_contradictory(trail["status"], trail.get("note") or {}, what=f"answer {trail['code']}")  # Rule 1
     L = STATIC_I18N[lang]
+    if trail["status"] == "PARTIAL" and "ifcn_status" not in trail:
+        desc = partial_desc(trail, lang).strip()
+        if desc:
+            desc = desc if desc.endswith((".", "!", "?")) else desc + "."
+            return STATIC_ANSWER_PARTIAL_I18N[lang].format(name=trail["name"], code=trail["code"], desc=desc)
     tpl = STATIC_ANSWER_BLANKET_I18N if "ifcn_status" in trail else STATIC_ANSWER_I18N
     return tpl[lang].format(name=trail["name"], code=trail["code"], st=L["st"][trail["status"]])
 
@@ -862,6 +875,7 @@ def sync_answers(html, lang, by_code):
     codes = {m.group(2) for m in STATIC_ANSWER_RE.finditer(html)}
     if not codes:
         return html
+    old_visible = {m.group(2): htmllib.unescape(m.group(3)) for m in STATIC_ANSWER_RE.finditer(html)}
     def answer_sub(mm):
         t = by_code.get(mm.group(2))
         return mm.group(0) if not t else mm.group(1) + htmllib.escape(answer_sentence(t, lang), quote=False) + mm.group(4)
@@ -870,13 +884,18 @@ def sync_answers(html, lang, by_code):
         t = by_code.get(code)
         if not t:
             continue
-        rx, new = answer_any_status_re(t, lang), answer_sentence(t, lang)
-        found = [0]
+        new = answer_sentence(t, lang)
+        old = old_visible.get(code) or ""
+        old_js, new_js = json.dumps(old, ensure_ascii=False)[1:-1], json.dumps(new, ensure_ascii=False)[1:-1]
+        rx = answer_any_status_re(t, lang)
         def ld_sub(mm):
-            body, n = rx.subn(new.replace("\\", "\\\\"), mm.group(2))
-            found[0] += n
+            body = mm.group(2)
+            if old and old_js in body:     # the FAQ answer carries exactly what the page showed before
+                body = body.replace(old_js, new_js)
+            else:                          # fallback: the sentence with any earlier status word
+                body = rx.sub(new_js.replace("\\", "\\\\"), body)
             return mm.group(1) + body + mm.group(3)
-        html = LD_JSON_RE.sub(ld_sub, html)  # 0 matches = the sentence is only in the lead, not in a FAQ answer
+        html = LD_JSON_RE.sub(ld_sub, html)  # no match = the sentence is only in the lead, not in a FAQ answer
     return html
 
 
@@ -901,6 +920,28 @@ def _short_note(text):
     return s.strip()
 
 
+# PR1's IFCN note ("Open: both directions Areeiro-Pedra Rija. Closed/restricted: one-way Pedra Rija-Ruivo") in the
+# owner's words (2026-10-10). Other trails with restrictions show IFCN's own note.
+PR1_ONEWAY_DESC = {
+    "en": "Pico do Areeiro ↔ Pedra Rija viewpoint: both ways. Full trail to Pico Ruivo: one way only, ending at Achada do Teixeira.",
+    "pt": "Pico do Areeiro ↔ Miradouro da Pedra Rija: nos dois sentidos. Percurso completo até ao Pico Ruivo: só num sentido, a terminar na Achada do Teixeira.",
+    "fr": "Pico do Areeiro ↔ belvédère de Pedra Rija : dans les deux sens. Parcours complet jusqu'au Pico Ruivo : sens unique, arrivée à Achada do Teixeira.",
+    "de": "Pico do Areeiro ↔ Aussichtspunkt Pedra Rija: in beide Richtungen. Ganze Strecke bis zum Pico Ruivo: nur in eine Richtung, Ende in Achada do Teixeira.",
+    "pl": "Pico do Areeiro ↔ punkt widokowy Pedra Rija: w obie strony. Cała trasa na Pico Ruivo: tylko w jedną stronę, z końcem w Achada do Teixeira.",
+}
+
+
+def partial_desc(trail, lang):
+    """What is open on a trail with restrictions, in the page language (PR1: the owner's wording)."""
+    note = trail.get("note") or {}
+    raw = json.dumps(note, ensure_ascii=False) if isinstance(note, dict) else str(note)
+    if trail["code"] == "PR1" and re.search(r"sentido [uú]nico|one-way", raw, re.I):
+        return PR1_ONEWAY_DESC.get(lang, PR1_ONEWAY_DESC["en"])
+    if isinstance(note, dict):
+        return note.get(lang) or note.get("en") or note.get(NOTE_SOURCE_LANG) or ""
+    return note or ""
+
+
 def static_line(trail, lang, date):
     """One localized plain line for a trail, e.g. 'Status on 30 September 2026: OPEN — ...'."""
     L = STATIC_I18N.get(lang, STATIC_I18N["en"])
@@ -908,6 +949,8 @@ def static_line(trail, lang, date):
     text = note.get(lang) or note.get("en") or note.get(NOTE_SOURCE_LANG) or ""
     # Rule 1 applies to these lines too.
     assert_not_contradictory(trail["status"], note, what=f"static line {trail['code']}")
+    if trail["status"] == "PARTIAL":   # owner, 2026-10-10: never "partly open": the full description instead
+        return f"{L['on'].format(d=_fmt_date(date, L))} {_short_note(partial_desc(trail, lang)) or L['st']['PARTIAL']}"
     line = f"{L['on'].format(d=_fmt_date(date, L))} {L['st'][trail['status']]}"
     short = _short_note(text)
     return f"{line} — {short}" if short else line
