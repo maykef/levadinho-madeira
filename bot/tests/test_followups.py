@@ -146,7 +146,7 @@ def test_chat_model_down():
           "chat: nothing queued")
     store.reset(chat.USER)
     model["up"] = True
-    out = chat.send("Is PR1 open today?")
+    out = chat.send("What should I pack for Pico Ruivo?")  # needs the model ("open today?" has a pre-populated answer)
     check(out[0]["type"] == "buttons", "chat: question before Accept → notice")
     model["up"] = False
     out = chat.send("/yes")

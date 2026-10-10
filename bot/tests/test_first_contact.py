@@ -72,23 +72,22 @@ def test_the_lithuanian_visitor_replayed():
     assert CALLS == []  # nothing answered before knowing where they start
     # 5. "Funchal": the request is answered with that, the taxi facts and the sunrise guide in the prompt.
     out = brain.handle(U, text="Funchal")
-    assert len(out) == 1 and out[0]["body"].startswith(f"ANSWER to: {req}\n(Staying in: Funchal)")
-    system, _ = CALLS[-1]
-    assert "Getting around (taxis, transfers, buses)" in system and "+351 291 764 476" in system
-    assert "+351 291 572 540" in system and "taxismadeira.pt" in system
-    assert "pr1-sunrise-transport" in system  # the page they came from
-    assert "Never name or recommend a private company" in system
+    # since 2026-10-10 a pre-populated answer (no model): the official taxi ranks for where they stay, no company names
+    assert len(out) == 1 and "Táxis Funchal" in out[0]["body"] and "ANSWER to" not in out[0]["body"]
+    assert "+351 291 764 476" in out[0]["body"] and CALLS == []  # no model call at all
     assert store.get_user(U)["base"] == "Funchal" and store.get_user(U)["state"] == "ready"
     # 6. Another getting-there question: no second "where are you staying?", the town is remembered.
     out = brain.handle(U, text="And how do I get back from Achada do Teixeira?")
-    assert out[0]["body"].startswith("ANSWER to: And how do I get back from Achada do Teixeira?\n(Staying in: Funchal)")
+    # since 2026-10-10 pre-populated: the trailhead's rank (Santana) first, to the remembered town
+    assert out[0]["body"].startswith("From Achada do Teixeira to Funchal") and "Táxis Santana" in out[0]["body"]
 
 
 def test_origin_given_no_question_asked():
     fresh()
     store.set_user(U, lang="en", consent="yes", state="ready")
     out = brain.handle(U, text="Is there a bus from Funchal to Pico do Areeiro?")
-    assert out[0]["body"].startswith("ANSWER to: Is there a bus from Funchal to Pico do Areeiro?")
+    # since 2026-10-10 a pre-populated answer: PR1 status first, then the bus exactly as printed
+    assert out[0]["body"].startswith("*Vereda do Areeiro (PR1)*") and "06:00→06:45" in out[0]["body"]
     assert "Staying in" not in out[0]["body"]
 
 
@@ -143,5 +142,6 @@ def test_airport_transfer_asks_where_staying_and_no_stray_trail_link():
     out = brain.handle(U, text="How can I order a transfer from the airport")
     assert out == [{"type": "text", "body": brain.ASK_BASE["en"]}]
     out = brain.handle(U, text="Caniço")
-    assert out[0]["body"].startswith("ANSWER to: How can I order a transfer from the airport\n(Staying in: Caniço)")
+    # since 2026-10-10 a pre-populated answer: from the airport to where they stay, the destination's taxi rank
+    assert "airport" in out[0]["body"] and "Táxis Caniço" in out[0]["body"]
     assert "balcoes" not in out[0]["body"]

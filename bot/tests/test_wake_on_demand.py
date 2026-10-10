@@ -232,7 +232,7 @@ def test_callback_expiry():
     u = "351910000003"
     accepted_user(u)
     host.free_gib = 20.0
-    app.process(msg(u, "Is PR1 open today?"))
+    app.process(msg(u, "What should I pack for Pico Ruivo in winter?"))  # needs the model (status has a pre-populated answer)
     bodies()
     store._db.execute("UPDATE last_inbound SET at=? WHERE user=?", (time.time() - 25 * 3600, u))
     store._db.commit()

@@ -27,6 +27,7 @@ Flow (owner, 2026-10-05):
     "privacidade"… shows the notice again (Don't accept there = stop recording and stop the service).
 """
 import json
+import logging
 import os
 import re
 import time
@@ -36,7 +37,10 @@ import urllib.request
 
 import geo
 import llm_control
+import guard  # noqa: E402  code-level checks on model answers (2026-10-10)
 import store
+
+log = logging.getLogger("levadinho.brain")
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 LLM_URL = os.environ.get("LLM_URL", "http://127.0.0.1:8001/v1/chat/completions")
@@ -263,12 +267,12 @@ CONSENT_WITHDRAWN = {
 }
 
 # ---------------------------------------------------------------- wake-on-demand notices
-WAKING = {
-    "pt": "O Levadinho está a carregar. Responderá em breve.",
-    "en": "Levadinho is loading. It will reply shortly.",
-    "fr": "Levadinho est en cours de chargement. Il répondra sous peu.",
-    "de": "Levadinho wird geladen. Die Antwort folgt in Kürze.",
-    "pl": "Levadinho się uruchamia. Odpowie wkrótce.",
+WAKING = {  # carries the status board (owner, 2026-10-10), so the visitor has the answer to "open?" while waiting
+    "pt": "O Levadinho está a carregar. Responderá em breve. Estado dos percursos agora: https://levadinho-madeira.com/pt/",
+    "en": "Levadinho is loading. It will reply shortly. Live trail status now: https://levadinho-madeira.com/",
+    "fr": "Levadinho est en cours de chargement. Il répondra sous peu. Statut des sentiers : https://levadinho-madeira.com/fr/",
+    "de": "Levadinho wird geladen. Die Antwort folgt in Kürze. Status der Wege jetzt: https://levadinho-madeira.com/de/",
+    "pl": "Levadinho się uruchamia. Odpowie wkrótce. Status szlaków teraz: https://levadinho-madeira.com/pl/",
 }
 BUSY = {
     "pt": "O Levadinho está muito ocupado neste momento. Escrevo-lhe aqui assim que estiver livre.",
@@ -639,12 +643,15 @@ def answer_tools(user, text, lang, rule, meta=None):
     t0 = time.time()
     reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text)
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
+    reply, changes = guard.check(reply, text, lang, named, (store.get_user(user) or {}).get("base") or "")
     reply = reply.rstrip() + site_links(reply, named, lang, named=named)
     if meta is not None:
         meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
                           "context": {"tools": [t["tool"] for t in trace]}}
         meta["tools"] = trace
-        meta["events"].append(("answer_sent", {"lang": lang, "latency_ms": meta["answer"]["latency_ms"]}))
+        meta["answer"]["guard"] = changes
+        meta["events"].append(("answer_sent", {"lang": lang, "latency_ms": meta["answer"]["latency_ms"],
+                                               "guard": changes}))
     store.add_turn(user, text, reply)
     return reply
 
@@ -677,6 +684,7 @@ def answer(user, text, lang, meta=None, c=None):
             + [{"role": "user", "content": text + hint}])
     t0 = time.time()
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", llm(msgs, temperature=0))  # WhatsApp bold is *single*; 0 = stick to the facts
+    reply, changes = guard.check(reply, text, lang, trails_in(text), (store.get_user(user) or {}).get("base") or "")
     reply = reply.rstrip() + site_links(reply, trails, lang, named=trails_in(text))
     if meta is not None:
         meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
@@ -732,6 +740,9 @@ def handle_consent(user, yes, meta=None):
         meta["campaign"] = arg
         return [{"type": "text", "body": ASK[lang]}]
     if kind == "q" and arg:  # what they wrote before accepting
+        ready = quick_reply(user, arg, meta)
+        if ready is not None:
+            return ready
         try:
             c = classify(arg)
             reply = respond(user, arg, c["lang"], meta, c)
@@ -747,6 +758,63 @@ def handle_consent(user, yes, meta=None):
         meta["resumed_question"] = arg
         return [{"type": "text", "body": reply}]
     return [{"type": "text", "body": ASK[lang]}]
+
+
+THANKS_RE = re.compile(r"^\W*(thanks?|thank you( very much)?|many thanks|cheers|obrigad[oa]( pela ajuda)?|muito obrigad[oa]|"
+                       r"merci( beaucoup)?|danke( schon| sehr)?|vielen dank|dziekuj\w*|dzieki)\b")
+THANKS = {"en": "You're welcome! Have a great walk 🥾", "pt": "De nada! Boa caminhada 🥾", "fr": "Avec plaisir ! Bonne randonnée 🥾",
+          "de": "Gern geschehen! Gute Wanderung 🥾", "pl": "Proszę bardzo! Udanej wędrówki 🥾"}
+
+
+def prepopulated(user, text, lang, meta, context=""):
+    """A pre-populated answer (answers.py) for the questions people actually send, or None. No model involved, so it
+    goes out instantly even while the model sleeps, and it can't drift from our data."""
+    import answers
+    t0 = time.time()
+    try:
+        reply = answers.quick(text, lang, trails_in(text + " " + context), context)
+    except Exception as e:
+        log.warning("prepopulated answer failed, model answers instead: %s", e)
+        return None
+    if not reply:
+        return None
+    if meta is not None:
+        meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": "prepopulated", "context": {}}
+        meta["events"].append(("answer_sent", {"lang": lang, "latency_ms": meta["answer"]["latency_ms"],
+                                               "source": "prepopulated"}))
+    store.add_turn(user, text, reply)
+    return reply
+
+
+def quick_reply(user, text, meta, u=None):
+    """Everything that needs no model (owner, 2026-10-10): thanks, "where are you staying?", the pre-populated
+    answers. Returns the messages to send, or None (then the model answers). Used for new messages and for the
+    question someone typed before accepting the privacy notice."""
+    import answers
+    u = u if u is not None else (store.get_user(user) or {})
+    pre_lang = answers.detect_lang(text, fallback=(u or {}).get("lang") or guess_lang(text) or "en")
+    base = (u or {}).get("base")
+    if THANKS_RE.search(answers.fold(text)) and len(text) < 60:
+        reply = THANKS[pre_lang if pre_lang in THANKS else "en"]
+        store.add_turn(user, text, reply)
+        return [{"type": "text", "body": reply}]
+    if (answers.TRANSPORT_RE.search(answers.fold(text)) and not base and not trails_in(text)
+            and not answers.CRUISE_RE.search(answers.fold(text))):
+        store.set_user(user, state=f"base:{pre_lang}:{text}")   # "where are you staying?" needs no model either
+        meta.update(lang=pre_lang, is_question=True, intent="transport", topic="ask base", trail=None)
+        return [{"type": "text", "body": ASK_BASE[pre_lang if pre_lang in ASK_BASE else "en"]}]
+    ready = prepopulated(user, text, pre_lang, meta, f"Staying in: {base}" if base else "")
+    if not ready:
+        return None
+    named = trails_in(text)
+    intent = "transport" if answers.TRANSPORT_RE.search(answers.fold(text)) else "status"
+    meta.update(lang=pre_lang, is_question=True, intent=intent, topic="prepopulated", trail=named[0] if named else None)
+    meta["events"].append(("question_asked", {"lang": pre_lang, "intent": intent, "topic": "prepopulated",
+                                              "trail_code": named[0] if named else None,
+                                              "trail_status": str(live_status().get("status", ""))}))
+    if not u or not u.get("lang"):
+        store.set_user(user, lang=pre_lang, state="ready")
+    return [{"type": "text", "body": ready}]
 
 
 def respond(user, text, lang, meta, c):
@@ -914,11 +982,21 @@ def handle(user, text=None, choice=None, meta=None):
     if state.startswith("base:"):  # the answer to "where are you staying?"
         _, lang, original = state.split(":", 2)
         if "?" not in text and len(text) <= 60:
+            ready = prepopulated(user, original, lang, meta, f"Staying in: {text}")
+            if ready:
+                store.set_user(user, base=text, state="ready")
+                meta.update(lang=lang, is_question=True, intent="transport", topic="prepopulated", trail=None)
+                return [{"type": "text", "body": ready}]
             c = classify(original)  # before any change, so a replay after LLMDown starts from the same state
             store.set_user(user, base=text, state="ready")
             meta.update(lang=lang, is_question=True, intent=c["intent"], topic=c["topic"], trail=c["trail_code"])
             return [{"type": "text", "body": answer(user, f"{original}\n(Staying in: {text})", lang, meta, c)}]
         store.set_user(user, state="ready")  # a new question instead: carry on with it
+
+    # Pre-populated answers first (owner, 2026-10-10): no model needed, so they go out even while it sleeps.
+    ready = quick_reply(user, text, meta, u)
+    if ready is not None:
+        return ready
 
     c = classify(text)
     meta.update(lang=c["lang"], is_question=c["is_question"])
