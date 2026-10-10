@@ -10,13 +10,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 7.4,
+    "temp_c": 6.8,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 13,
+    "wind_kmh": 16,
     "wind_strong": false
   },
-  "stamp": "2026-10-10 07:33",
+  "stamp": "2026-10-10 11:30",
   "date": "2026-10-10",
   "source": {
     "name": "IFCN",
@@ -33,7 +33,7 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 7,
-      "wind": 13,
+      "wind": 16,
       "rain": 0.0,
       "in_cloud": true
     },
@@ -56,16 +56,16 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 20,
-      "wind": 24,
+      "temp": 21,
+      "wind": 27,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 21,
-      "wind": 5,
+      "temp": 23,
+      "wind": 1,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -139,7 +139,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 20,
+      "temp": 21,
       "page": "/sao-lourenco/"
     },
     {
@@ -239,7 +239,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 21,
+      "temp": 23,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -483,5 +483,6 @@
       "temp": 17,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
-  ]
+  ],
+  "alert": null
 }
