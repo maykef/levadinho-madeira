@@ -6,11 +6,14 @@
      changed everywhere it appears on the page, so the FAQPage question stays verbatim;
    - "By bus" -> "PR6.1 by bus" (gen_bus.py writes it that way too);
    - the facts sidebar headings: "Trail facts" -> "PR6.1 trail facts", "Trailhead" -> "PR6.1 trailhead".
+   - the H1 starts with the code (owner OK 2026-10-10, weekly report fix 4): "Is the Levada do Rei open today?" ->
+     "PR18: Is the Levada do Rei open today?", changed everywhere on the page (the same question is in the FAQ block
+     and the FAQPage JSON-LD), so the FAQ stays verbatim. French keeps its space before the colon.
 2. The main facts list in the sidebar becomes an HTML <table> (row headers + values), styled like the old
    <dl>; the TRAIL-EXTRAS list stays as it is. CSS between <!-- FTAB-HEAD --> markers.
 Idempotent; gen_spokes.py calls it after the other generators.
 """
-import glob, os, re
+import glob, html, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WEATHER = {"en": r"What's the weather at (.+?) now\?", "pt": r"Como está o tempo (?:na|no|em) (.+?) agora\?",
@@ -47,6 +50,15 @@ def polish(h, lang, code):
         old, name = m.group(1), m.group(2)
         new = old.replace(name, f"{name} ({code})", 1)
         h = h.replace(old, new)
+    # 1d. code first in the H1, everywhere the same question appears
+    m = re.search(r"<h1>([^<]+)</h1>", h)
+    if m and code not in m.group(1) and '<aside class="facts">' in h:  # trail pages only, not the sunrise guide
+        old = m.group(1)
+        new = f"{code} : {old}" if lang == "fr" else f"{code}: {old}"
+        h = h.replace(old, new)
+        raw_old, raw_new = html.unescape(old), html.unescape(new)
+        if raw_old != old:
+            h = h.replace(raw_old, raw_new)
     # 1b. bus heading
     h = re.sub(r'(<section id="bus">\s*<h2>)([^<]+)(</h2>)', lambda mm: mm.group(1) + bus_heading(code, mm.group(2)) + mm.group(3), h, count=1)
     # 1c. sidebar headings + 2. facts <dl> -> <table>

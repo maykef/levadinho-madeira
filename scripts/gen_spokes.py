@@ -974,6 +974,9 @@ def main():
     # ...and the car-park webcams (see gen_webcam.py).
     import gen_webcam
     gen_webcam.main()
+    # ...and the "Where to park" sections from the sourced parking facts (see gen_parking.py).
+    import gen_parking
+    gen_parking.main()
     # ...and complete the TouristAttraction blocks (description, address, image; see gen_schema.py).
     # ...trail code in the headings and the facts list as a table (see gen_trail_polish.py).
     import gen_trail_polish
