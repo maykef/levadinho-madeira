@@ -2,7 +2,10 @@
    Injected by scripts/gen_chat.py on the pilot pages. The page itself is unchanged: this script adds the chat above
    it only when the model is up and answering (GET /health → model: true); asleep or off, the visitor gets the usual page.
    Opening message = the page's own quick-answers card (#answers), or on getting-back the plan table and taxi ranks,
-   typed out. Follow-ups go to the bot (POST /webchat): same brain, same privacy notice (Accept first) as WhatsApp. */
+   typed out. Follow-ups go to the bot (POST /webchat): same brain, same privacy notice (Accept first) as WhatsApp.
+   Counts (2026-10-11): chat-shown / chat-off per page view, chat-ask-chip / chat-ask-typed (first question),
+   chat-accept / chat-decline, chat-answered, chat-error, chat-down, chat-wa, sent through /engage.js to the events
+   site (never the text; #skipgc devices send nothing). */
 (function () {
   "use strict";
   var API = "https://microscopy-rig-system.tail53cc58.ts.net/levadinho";
@@ -77,6 +80,12 @@
     "#lvc .lvc-more{display:flex;justify-content:space-between;gap:8px;font-size:13px;padding:6px 12px 8px;background:var(--lbar);color:var(--lm);flex:none}" +
     "#lvc .lvc-more a{color:#1d6b45;font-weight:600;text-decoration:none}";
 
+  var once = {};
+  function ev(name) {  // one count per page view; engage.js sends it (or picks it up from the queue when it loads)
+    if (once[name]) return; once[name] = true;
+    if (window.LEVADINHO_EVENT) window.LEVADINHO_EVENT("chat-" + name);
+    else (window.LEVADINHO_EVQ = window.LEVADINHO_EVQ || []).push("chat-" + name);
+  }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   function txt(el) { return el ? el.textContent.replace(/\s+/g, " ").trim() : ""; }
   function fmt(s) {  // the bot writes WhatsApp text: *bold*, bare links, line breaks
@@ -143,7 +152,7 @@
     var open = openingRows();
     var waLink = document.querySelector('a[href*="wa.me/447455718697"]');
     var tag = waLink ? (decodeURIComponent(waLink.getAttribute("href")).match(/#(web-[a-z0-9-]+)/) || [])[1] : null;
-    if (!open || !open.rows.length || !tag) return;
+    if (!open || !open.rows.length || !tag) return false;
     var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
     var sec = document.createElement("section");
     sec.id = "lvc"; sec.setAttribute("aria-label", "Levadinho");
@@ -157,7 +166,8 @@
     sub.textContent = U.online; input.placeholder = U.ph; sec.querySelector("form button").textContent = U.send;
     down.textContent = U.more; wa.textContent = U.wa; wa.href = waLink.getAttribute("href");
     var target = document.getElementById("answers") || document.querySelector("h1");
-    down.addEventListener("click", function (e) { e.preventDefault(); if (target) target.scrollIntoView({ behavior: "smooth" }); });
+    down.addEventListener("click", function (e) { e.preventDefault(); ev("down"); if (target) target.scrollIntoView({ behavior: "smooth" }); });
+    wa.addEventListener("click", function () { ev("wa"); });
     var sid; try { sid = localStorage.getItem("lvchat"); } catch (e) {}
     if (!sid || !/^[a-z0-9]{12,32}$/.test(sid)) { sid = (Math.random().toString(36) + Math.random().toString(36)).replace(/[^a-z0-9]/g, "").slice(0, 20); try { localStorage.setItem("lvchat", sid); } catch (e) {} }
 
@@ -173,7 +183,7 @@
     function chips() {
       chipsEl.innerHTML = "";
       (CHIPS[open.kind][LANG] || CHIPS[open.kind].en).forEach(function (s) {
-        var b = document.createElement("button"); b.type = "button"; b.textContent = s; b.onclick = function () { ask(s); }; chipsEl.appendChild(b);
+        var b = document.createElement("button"); b.type = "button"; b.textContent = s; b.onclick = function () { ask(s, "chip"); }; chipsEl.appendChild(b);
       });
     }
     async function show(msgs) {
@@ -186,7 +196,10 @@
           var bx = document.createElement("div"); bx.className = "lvc-btns";
           m.buttons.forEach(function (b) {
             var btn = document.createElement("button"); btn.type = "button"; btn.textContent = b[1];
-            btn.onclick = function () { bx.remove(); add("lvc-msg lvc-me", esc(b[1])); send({ choice: b[0] }); };
+            btn.onclick = function () {
+              if (b[0] === "consent_yes") ev("accept"); else if (b[0] === "consent_no") ev("decline");
+              bx.remove(); add("lvc-msg lvc-me", esc(b[1])); send({ choice: b[0] });
+            };
             bx.appendChild(btn);
           });
           el.appendChild(bx); scroll();
@@ -209,16 +222,21 @@
             await wait(10000); continue;
           }
           done(t); t = null;
+          var notice = (j.messages || []).some(function (m) {  // the privacy notice is not an answer
+            return m.type === "buttons" && (m.buttons || []).some(function (x) { return x[0] === "consent_yes"; });
+          });
+          if (!notice && (j.messages || []).length) ev("answered");
           await show(j.messages || []);
           break;
         }
-      } catch (e) { done(t); t = null; add("lvc-msg lvc-bot", esc(U.err)); }
-      if (t) { done(t); add("lvc-msg lvc-bot", esc(U.slow)); }
+      } catch (e) { done(t); t = null; ev("error"); add("lvc-msg lvc-bot", esc(U.err)); }
+      if (t) { done(t); ev("error"); add("lvc-msg lvc-bot", esc(U.slow)); }
       busy = false;
     }
-    function ask(text) {
+    function ask(text, how) {
       text = (text || "").trim();
       if (!text || busy) return;
+      ev("ask-" + (how || "typed"));
       chipsEl.innerHTML = "";
       add("lvc-msg lvc-me", esc(text));
       send({ text: text });
@@ -241,6 +259,7 @@
       add("lvc-msg lvc-bot", esc(U.more2));
       chips();
     })();
+    return true;
   }
 
   function start() {
@@ -248,8 +267,8 @@
     var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
     fetch(API + "/health", { signal: ctl ? ctl.signal : undefined, cache: "no-store" })
       .then(function (r) { clearTimeout(timer); return r.ok ? r.json() : null; })
-      .then(function (j) { if (j && j.ok && j.model) build(); })  // model asleep or bot off: the usual page
-      .catch(function () {});
+      .then(function (j) { ev(j && j.ok && j.model && build() ? "shown" : "off"); })  // asleep or off: the usual page
+      .catch(function () { ev("off"); });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
 })();

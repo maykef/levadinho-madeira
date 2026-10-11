@@ -7,6 +7,10 @@
      out-<site>:<path>        a click to an outside site (simplifica, ifcn, ipma, visitmadeira, whatsapp, other)
      lang-<xx>:<path>         a click on the language switcher
      qr-<code>:<path>         the visitor arrived by scanning a Levadinho QR code (/q/<code>/, read by /qr.js)
+     chat-<what>:<path>       the chat at the top of a pilot page (/chat.js, 2026-10-11): shown, off (model asleep or bot
+                              down: usual page), ask-chip / ask-typed (first question), answered, error, down (to the
+                              card), wa (Continue on WhatsApp). Never the text. chat.js hands them over via
+                              window.LEVADINHO_EVENT, or queues them in window.LEVADINHO_EVQ until this script runs.
    Described in the privacy policy (privacy/). Event names carry the page so the stats can be read per page. */
 (function () {
   "use strict";
@@ -76,6 +80,16 @@
     if (a.closest(".langs")) { send("lang-" + (a.getAttribute("hreflang") || "x")); return; }
     if (a.hostname && a.hostname !== location.hostname && /^https?:$/.test(a.protocol)) send("out-" + site(a.hostname));
   }, true);
+
+  // events from other scripts (chat.js); GoatCounter may still be loading, so retry for up to 10 s
+  function later(name, tries) {
+    if (gc()) { send(name); return; }
+    if ((tries || 0) < 20) setTimeout(function () { later(name, (tries || 0) + 1); }, 500);
+  }
+  var queued = window.LEVADINHO_EVQ || [];
+  window.LEVADINHO_EVENT = function (name) { later(name); };
+  queued.forEach(function (n) { later(n); });
+  window.LEVADINHO_EVQ = [];
 
   // QR scans (2026-10-08): /qr.js has already read #qr=<code>; GoatCounter may still be loading, so retry briefly
   if (window.LEVADINHO_QR) {
