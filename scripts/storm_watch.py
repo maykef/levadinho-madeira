@@ -12,7 +12,9 @@ Signals:
   - IFCN Facebook + Instagram and Protecção Civil Facebook through the watcher's RSSHub (watch/, 127.0.0.1:18402):
     a post saying all classified trails close/reopen often comes before the website notice, so it starts a run
     and keeps retrying every 15 min for 3 h until the site has it (social posts never change a status by themselves).
-  - the live https://levadinho-madeira.com/status.json "alert" block.
+  - IFCN's dated closures of single trails (storm.trail_closures, 2026-10-11): a new notice, the flip from "announced"
+    to "closed" just after midnight on a closure day, and the day after the last one;
+  - the live https://levadinho-madeira.com/status.json "alert" block and trails[].closure.
 
 Rules: trigger when the site's blanket state or IPMA level differs from the sources; while any alert is active,
 at least once an hour (fresh weather, the midnight flip from "announced" to "closed"); never more often than every
@@ -80,17 +82,33 @@ def main(dry):
     except Exception as e:
         b = {"state": "unknown"}
         rec["ifcn_error"] = repr(e)
+    try:
+        closures = storm.trail_closures()      # same page as blanket(), fetched once
+    except SystemExit as e:                  # a future closure whose dates can't be read: the Action would fail too
+        closures = None
+        rec["closures_error"] = str(e)
+    except Exception as e:
+        closures = None
+        rec["closures_error"] = repr(e)
     ipma = storm.ipma_alert()
     social, social_err = social_signals(now)
     try:
-        site = json.loads(get(SITE_STATUS)).get("alert") or {}
+        site_all = json.loads(get(SITE_STATUS))
+        site = site_all.get("alert") or {}
     except Exception as e:
-        site = None
+        site_all = site = None
         rec["site_error"] = repr(e)
+    board = {t["code"]: t for t in (site_all or {}).get("trails", [])}
+    src_cl = sorted({(code, c["state"], json.dumps(c["ranges"])) for c in (closures or []) for code in c["codes"]
+                     if code in board})
+    site_cl = sorted({(code, t["closure"]["state"], json.dumps(t["closure"]["ranges"])) for code, t in board.items()
+                      if t.get("closure")})
 
     rec.update(ifcn=b.get("state"), ipma=ipma.get("level") if ipma.get("ok") else "unknown",
                social=[f"{s['source']}:{s['kind']}" for s in social], site_blanket=(site or {}).get("blanket"),
-               site_ipma=(site or {}).get("ipma_level"))
+               site_ipma=(site or {}).get("ipma_level"),
+               closures=[f"{c}:{s}" for c, s, _r in src_cl] if closures is not None else "unknown",
+               site_closures=[f"{c}:{s}" for c, s, _r in site_cl])
     if social_err:
         rec["social_errors"] = social_err
 
@@ -100,6 +118,8 @@ def main(dry):
             reasons.append(f"IFCN blanket {b.get('state')} vs site {site.get('blanket')}")
         if ipma.get("ok") and ipma.get("level") != site.get("ipma_level"):
             reasons.append(f"IPMA {ipma.get('level')} vs site {site.get('ipma_level')}")
+        if closures is not None and src_cl != site_cl:
+            reasons.append(f"IFCN trail closures {[c[:2] for c in src_cl]} vs site {[c[:2] for c in site_cl]}")
     for s in social:
         site_closed = (site or {}).get("blanket") in ("closed", "announced")
         if (s["kind"] == "closure") != site_closed:
