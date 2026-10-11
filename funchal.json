@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-10T12:32+01:00",
+ "stamp": "2026-10-11T07:41+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-10",
-   "type": "saturday",
-   "holiday": null,
-   "bus": "saturday",
-   "sunrise": "08:06",
-   "sunset": "19:42",
-   "weather": {
-    "tmin": 20,
-    "tmax": 26,
-    "rain": 4,
-    "wtype": 3,
-    "uv": 5.9
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-11",
    "type": "sunday",
@@ -26,11 +10,11 @@
    "sunrise": "08:07",
    "sunset": "19:40",
    "weather": {
-    "tmin": 19,
+    "tmin": 20,
     "tmax": 25,
-    "rain": 20,
-    "wtype": 3,
-    "uv": 5.3
+    "rain": 41,
+    "wtype": 7,
+    "uv": 5.5
    },
    "fair": null
   },
@@ -44,9 +28,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 41,
-    "wtype": 3,
-    "uv": 5.6
+    "rain": 49,
+    "wtype": 4,
+    "uv": 6.3
    },
    "fair": null
   },
@@ -58,11 +42,11 @@
    "sunrise": "08:08",
    "sunset": "19:38",
    "weather": {
-    "tmin": 20,
-    "tmax": 25,
+    "tmin": 19,
+    "tmax": 26,
     "rain": 0,
     "wtype": 3,
-    "uv": 6.2
+    "uv": 5.1
    },
    "fair": null
   },
@@ -76,9 +60,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 26,
-    "rain": 0,
+    "rain": 4,
     "wtype": 2,
-    "uv": null
+    "uv": 5.5
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "08:10",
    "sunset": "19:36",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 27,
+    "rain": 2,
+    "wtype": 2,
+    "uv": null
+   },
    "fair": {
     "theme": "gastronomy",
     "pt": "Gastronomia",
@@ -179,6 +169,16 @@
    "sunset": "19:26",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-10-24",
+   "type": "saturday",
+   "holiday": null,
+   "bus": "saturday",
+   "sunrise": "08:17",
+   "sunset": "19:25",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -190,33 +190,6 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
    "src": "eventsmadeira.com"
-  },
-  {
-   "title": "100 Miles- Historic Rally",
-   "venue": "",
-   "start": "2026-10-10",
-   "end": "2026-10-10",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/100-milhas-historic-rally/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Chamber Music Concert – Legno Duo | OCM",
-   "venue": "",
-   "start": "2026-10-10",
-   "end": "2026-10-10",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/chamber-music-concert-legno-duo-ocm/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Mariofa : Carnaval dos Animais",
-   "venue": "Teatro Municipal Baltazar Dias",
-   "start": "2026-10-10T15:30",
-   "end": "2026-10-10T16:30",
-   "all_day": false,
-   "url": "https://cultura.funchal.pt/event/mariofa-carnaval-dos-animais/",
-   "src": "cultura.funchal.pt"
   },
   {
    "title": "OPERAzione TANGO | OCM",
@@ -280,14 +253,23 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/10th-madeira-international-mandolin-festival/",
    "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Festival de Bandolins",
+   "venue": "Teatro Municipal Baltazar Dias",
+   "start": "2026-10-23T00:00",
+   "end": "2026-10-25T23:59",
+   "all_day": true,
+   "url": "https://cultura.funchal.pt/event/festival-de-bandolins/",
+   "src": "cultura.funchal.pt"
   }
  ],
  "sea": {
-  "date": "2026-10-10",
+  "date": "2026-10-11",
   "sst": 24,
   "wave": [
    0.6,
-   0.8
+   0.6
   ],
   "warnings": []
  },
