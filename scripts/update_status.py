@@ -561,7 +561,8 @@ def _previous_translations():
             old = json.load(f)
     except (OSError, ValueError):
         return cache
-    for note in [old.get("note")] + [t.get("note") for t in old.get("trails", [])]:
+    for note in [old.get("note")] + [t.get("note") for t in old.get("trails", [])] + \
+            [(t.get("closure") or {}).get("detail") for t in old.get("trails", [])]:
         if isinstance(note, dict) and note.get(NOTE_SOURCE_LANG):
             src = note[NOTE_SOURCE_LANG]
             cache[src] = {k: v for k, v in note.items() if k in TRANSLATE_LANGS and v and v != src}
@@ -601,6 +602,32 @@ def translate_note(segments):
         except Exception as e:
             print(f"note translate {lang} failed: {e} — kept Portuguese", file=sys.stderr)
     return out
+
+
+RANK = {"OPEN": 0, "PARTIAL": 1, "CLOSED": 2}
+
+
+def apply_trail_closures(trails, closures):
+    """Dated IFCN closures of single trails (storm.trail_closures, owner 2026-10-11: show closure dates).
+    Every affected trail gets "closure" {state, ranges, section, text {lang}, detail {lang}, source}. On a closure day
+    the trail becomes CLOSED (PARTIAL when only a section closes; never less strict than IFCN's list) and the closure
+    text is its note; before it, the announcement rides along and today's status stays."""
+    by_code = {t["code"]: t for t in trails}
+    for c in closures:
+        for code in c["codes"]:
+            t = by_code.get(code)
+            if not t:
+                continue                  # Porto Santo / not on the board
+            detail = translate_note([("", c["text"])])
+            text = storm.closure_text(c, detail)
+            t["closure"] = {"state": c["state"], "ranges": c["ranges"], "section": c["section"], "text": text,
+                            "detail": detail, "source": c["source"]}
+            if c["state"] == "closed":
+                new = "PARTIAL" if c["section"] else "CLOSED"
+                if RANK[new] > RANK[t["status"]]:
+                    t["status"] = new
+                t["note"] = text
+            print(f"closure: {code} {c['state']} {c['ranges']}{' (section)' if c['section'] else ''}", file=sys.stderr)
 
 
 def apply_rule1(code, status, note):
@@ -823,6 +850,13 @@ CLOSURES_I18N = {
 LANG_PREFIX = {"en": "", "pt": "/pt", "fr": "/fr", "de": "/de", "pl": "/pl"}
 
 
+BOARD_ANNOUNCED = {"en": "Closures announced by IFCN: {}.", "pt": "Encerramentos anunciados pelo IFCN: {}.",
+                   "fr": "Fermetures annoncées par l'IFCN : {}.", "de": "Vom IFCN angekündigte Sperrungen: {}.",
+                   "pl": "Zamknięcia zapowiedziane przez IFCN: {}."}
+ANNOUNCED_WORD = {"en": "CLOSURE ANNOUNCED", "pt": "ENCERRAMENTO ANUNCIADO", "fr": "FERMETURE ANNONCÉE",
+                  "de": "SPERRUNG ANGEKÜNDIGT", "pl": "ZAPOWIEDZIANE ZAMKNIĘCIE"}
+
+
 def closures_table(data, lang):
     """The closed / partly open trails as an HTML table in the page language (Rule 1 gate on every row)."""
     th_trail, th_st, th_note, none = CLOSURES_I18N.get(lang, CLOSURES_I18N["en"])
@@ -838,6 +872,14 @@ def closures_table(data, lang):
             href = LANG_PREFIX.get(lang, "") + t["page"]
             rows.append(f'<tr><td><a href="{href}">{htmllib.escape(t["name"])} ({t["code"]})</a></td>'
                         f'<td><b>{L["st"][st]}</b></td><td>{htmllib.escape(text) or "—"}</td></tr>')
+    for t in data["trails"]:          # dated closures still to come (owner, 2026-10-11)
+        c = t.get("closure") or {}
+        if c.get("state") != "announced":
+            continue
+        href = LANG_PREFIX.get(lang, "") + t["page"]
+        rows.append(f'<tr><td><a href="{href}">{htmllib.escape(t["name"])} ({t["code"]})</a></td>'
+                    f'<td><b>{ANNOUNCED_WORD.get(lang, ANNOUNCED_WORD["en"])}</b></td>'
+                    f'<td>{htmllib.escape(c["text"].get(lang) or c["text"]["en"])}</td></tr>')
     if not rows:
         return f"<p>{none}</p>"
     return (f'<div class="tbl-wrap"><table><thead><tr><th>{th_trail}</th><th>{th_st}</th><th>{th_note}</th></tr></thead>'
@@ -935,6 +977,8 @@ def partial_desc(trail, lang):
     """What is open on a trail with restrictions, in the page language (PR1: the owner's wording)."""
     note = trail.get("note") or {}
     raw = json.dumps(note, ensure_ascii=False) if isinstance(note, dict) else str(note)
+    if (trail.get("closure") or {}).get("state") == "closed":
+        return (note.get(lang) or note.get("en") or "") if isinstance(note, dict) else str(note)
     if trail["code"] == "PR1" and re.search(r"sentido [uú]nico|one-way", raw, re.I):
         return PR1_ONEWAY_DESC.get(lang, PR1_ONEWAY_DESC["en"])
     if isinstance(note, dict):
@@ -949,11 +993,15 @@ def static_line(trail, lang, date):
     text = note.get(lang) or note.get("en") or note.get(NOTE_SOURCE_LANG) or ""
     # Rule 1 applies to these lines too.
     assert_not_contradictory(trail["status"], note, what=f"static line {trail['code']}")
+    c = trail.get("closure") or {}
+    ann = " " + (c["text"].get(lang) or c["text"]["en"]) if c.get("state") == "announced" else ""
+    if c.get("state") == "closed":     # the notice in full (dates included), not shortened
+        return f"{L['on'].format(d=_fmt_date(date, L))} {L['st'][trail['status']]} — {partial_desc(trail, lang)}"
     if trail["status"] == "PARTIAL":   # owner, 2026-10-10: never "partly open": the full description instead
-        return f"{L['on'].format(d=_fmt_date(date, L))} {_short_note(partial_desc(trail, lang)) or L['st']['PARTIAL']}"
+        return f"{L['on'].format(d=_fmt_date(date, L))} {_short_note(partial_desc(trail, lang)) or L['st']['PARTIAL']}" + ann
     line = f"{L['on'].format(d=_fmt_date(date, L))} {L['st'][trail['status']]}"
     short = _short_note(text)
-    return f"{line} — {short}" if short else line
+    return (f"{line} — {short}" if short else line) + ann
 
 
 def static_weather_line(region, lang, date, hhmm):
@@ -1018,6 +1066,10 @@ def write_static_status(data):
                 names = [f"{t['name']} ({t['code']})" for t in data["trails"] if t["status"] == st]
                 if names:
                     line += " " + fmt.format(", ".join(names))
+            ann = [f"{t['name']} ({t['code']}): {storm.fmt_ranges(t['closure']['ranges'], lang)}" for t in data["trails"]
+                   if (t.get("closure") or {}).get("state") == "announced"]
+            if ann:
+                line += " " + BOARD_ANNOUNCED.get(lang, BOARD_ANNOUNCED["en"]).format("; ".join(ann))
             extra = storm.static_alert(a, lang)
             if extra:
                 line = extra + " " + line
@@ -1075,6 +1127,7 @@ def main():
     ipma = storm.ipma_alert()
     if storm.apply(trails, blanket):
         print(f"storm: IFCN blanket closure in force -> all {len(trails)} trails CLOSED", file=sys.stderr)
+    apply_trail_closures(trails, storm.trail_closures())
     for t in trails:
         assert_not_contradictory(t["status"], t.get("note"), what=t["code"])
     alert = storm.alert(blanket, ipma)
@@ -1083,6 +1136,7 @@ def main():
 
     pr1 = next(t for t in trails if t["code"] == "PR1")
     status = pr1["status"]
+    pr1_closure = pr1.get("closure")
     note_i18n = pr1.get("note") or translate_note([])
 
     try:
@@ -1117,6 +1171,7 @@ def main():
         # Top-level = the detailed PR1 flagship data (status.js on the PR1 pages).
         "status": status,
         "note": note_i18n,
+        "closure": pr1_closure,              # dated IFCN closure announced / in force for PR1 (storm.trail_closures)
         "manual_note": manual_note,
         "weather": weather,
         "stamp": stamp,

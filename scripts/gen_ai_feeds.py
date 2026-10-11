@@ -184,7 +184,12 @@ def board_lines(d):
     for t in d["trails"]:
         if t["status"] in by:
             by[t["status"]].append(t)
-    out = []
+    for t in d["trails"]:                # dated closures IFCN has announced (storm.trail_closures, 2026-10-11)
+        c = t.get("closure") or {}
+        if c.get("state") == "announced":
+            days = ", ".join(f + (f" to {l}" if l and l != f else "" if l else " onwards") for f, l in c["ranges"])
+            out.append(f"- Closure announced: {t['name']} ({t['code']}) on {days}. {c['detail'].get('en') or c['detail'].get('pt', '')} "
+                       f"(IFCN notice: {c['source']})")
     for st, label in (("CLOSED", "Closed"), ("PARTIAL", "With restrictions (IFCN's note says what is open)")):
         if by[st]:
             out.append(f"- {label}: " + "; ".join(

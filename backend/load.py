@@ -120,6 +120,10 @@ def load_status(cur):
         note = t.get("note") or (s.get("note") if t["code"] == "PR1" else None)
         if isinstance(note, str):
             note = {"en": note}
+        c = t.get("closure") or {}
+        if c.get("state") == "announced" and c.get("text"):   # a dated closure still to come: the bot says it too
+            note = {l: ((note or {}).get(l, "") + " " + c["text"].get(l, c["text"].get("en", ""))).strip()
+                    for l in set(note or {}) | set(c["text"])}
         rows.append((t["code"], t["status"], Jsonb(note) if note else None, "ifcn_warnings", upd, checked))
     cur.execute("DELETE FROM kb.trail_status")
     cur.executemany("INSERT INTO kb.trail_status VALUES (%s,%s,%s,%s,%s,%s)", rows)

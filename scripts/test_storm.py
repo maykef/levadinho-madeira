@@ -102,5 +102,72 @@ class Ipma(unittest.TestCase):
         self.assertEqual(storm.ipma_alert("not json"), {"ok": False})
 
 
+# IFCN's real September 2026 notice (inside its standing article, after the fees line), and the notices that must
+# NOT become dated closures: PR8 open with detours, PR3 closed "until the works end", a forest road.
+PR1_SEPT = ("Solicita-se a atenção para o novo modelo de taxas e reservas no acesso aos Percursos pedestres classificados, "
+            "em vigor desde o dia 01 de janeiro de 2026, podendo ser consultado as FAQ's para esclarecimento do mesmo. "
+            "O Instituto das Florestas e Conservação da Natureza informa que, nos dias 14 a 17 e 21 a 22 de setembro de "
+            "2026, estará encerrado o troço do PR1 – Vereda do Areeiro compreendido entre o Miradouro da Pedra Rija e o "
+            "Pico Ruivo, para permitir a realização de intervenções programadas no percurso. Durante estes períodos, não "
+            "será possível realizar o percurso completo entre o Pico do Areeiro e o Pico Ruivo. " + STANDING)
+PR8_DETOURS = ("O Instituto das Florestas e Conservação da Natureza informa que, devido à execução dos trabalhos de "
+               "recuperação do PR8 – Vereda da Ponta de São Lourenço, será necessário introduzir pequenos desvios "
+               "temporários ao traçado habitual do percurso, mantendo-se o percurso aberto. Esta situação terá início no "
+               "dia 30 de setembro de 2026 e manter-se-á por um período mínimo de 270 dias.")
+PR3_WORKS = ("O IFCN informa que, a ARM, no âmbito da Empreitada, encontra-se a realizar trabalhos. Por este motivo, o "
+             "percurso pedestre PR 3 Levada do Pico do Castelo permanecerá temporariamente encerrado até à conclusão dos "
+             "referidos trabalhos.")
+WHOLE_PERIOD = ("O IFCN informa que o percurso pedestre PR 9 Levada do Caldeirão Verde estará encerrado. O encerramento "
+                "terá início no dia 2 de novembro de 2026, estando previsto por um período de 10 dias.")
+UNDATED_FUTURE = "O IFCN informa que o percurso pedestre PR 11 Vereda dos Balcões estará encerrado para obras."
+
+
+class TrailClosures(unittest.TestCase):
+    def run_on(self, today, *texts):
+        os.environ["STORM_TODAY"] = today
+        return storm.trail_closures(page(*texts))
+
+    def test_before_is_announced_with_all_days(self):
+        c, = self.run_on("2026-09-01", PR1_SEPT, PR8_DETOURS, PR3_WORKS, ROAD, SINGLE_TRAIL)
+        self.assertEqual((c["codes"], c["state"], c["section"]), (["PR1"], "announced", True))
+        self.assertEqual(c["ranges"], [["2026-09-14", "2026-09-17"], ["2026-09-21", "2026-09-22"]])
+        self.assertTrue(c["text"].startswith("Nos dias 14 a 17 e 21 a 22 de setembro de 2026, estará encerrado o troço do PR1"))
+
+    def test_closure_day_is_closed(self):
+        for day in ("2026-09-14", "2026-09-17", "2026-09-21", "2026-09-22"):
+            self.assertEqual(self.run_on(day, PR1_SEPT)[0]["state"], "closed", day)
+
+    def test_between_blocks_announces_the_rest_only(self):
+        c, = self.run_on("2026-09-18", PR1_SEPT)
+        self.assertEqual((c["state"], c["ranges"]), ("announced", [["2026-09-21", "2026-09-22"]]))
+
+    def test_after_last_day_gone(self):
+        self.assertEqual(self.run_on("2026-09-23", PR1_SEPT), [])
+        self.assertEqual(self.run_on("2026-10-11", PR1_SEPT), [])
+
+    def test_not_dated_closures(self):
+        self.assertEqual(self.run_on("2026-09-01", PR8_DETOURS, PR3_WORKS, ROAD, SINGLE_TRAIL, STANDING), [])
+
+    def test_start_plus_period(self):
+        c, = self.run_on("2026-10-11", WHOLE_PERIOD)
+        self.assertEqual((c["codes"], c["ranges"], c["section"]), (["PR9"], [["2026-11-02", "2026-11-11"]], False))
+
+    def test_future_closure_without_dates_fails_loud(self):
+        with self.assertRaises(SystemExit):
+            self.run_on("2026-10-11", UNDATED_FUTURE)
+
+    def test_dates_in_five_languages(self):
+        r = [["2026-09-14", "2026-09-17"], ["2026-09-21", "2026-09-22"]]
+        self.assertEqual([storm.fmt_ranges(r, l) for l in ("en", "pt", "fr", "de", "pl")],
+                         ["14–17 and 21–22 September", "14 a 17 e 21 a 22 de setembro",
+                          "du 14 au 17 et du 21 au 22 septembre", "14.–17. und 21.–22. September", "14–17 i 21–22 września"])
+        self.assertEqual(storm.fmt_ranges([["2026-09-28", "2026-10-02"]], "en"), "28 September–2 October")
+        self.assertEqual(storm.fmt_ranges([["2026-10-04", "2026-10-04"]], "pt"), "4 de outubro")
+
+    def test_closure_text(self):
+        c, = self.run_on("2026-09-14", PR1_SEPT)
+        t = storm.closure_text(c, {"pt": c["text"], "en": "On 14 to 17 ..."})
+        self.assertEqual(t["en"], "Section closed today by an IFCN notice (14–17 and 21–22 September). On 14 to 17 ...")
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)

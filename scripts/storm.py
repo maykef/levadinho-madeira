@@ -15,6 +15,12 @@ Two signals, both official:
 2. ipma_alert(): orange/red IPMA warnings for Madeira (north coast, south coast, mountains; not Porto Santo), in force
    now or starting within 24 h. Degrades gracefully ({"ok": False}): it only drives the banner, never a status.
 
+3. trail_closures() (2026-10-11, owner: "show closure dates"): IFCN's dated closures of ONE trail or a section of it
+   ("nos dias 14 a 17 e 21 a 22 de setembro de 2026, estará encerrado o troço do PR1 ..."), found in any notice on
+   the same page, also inside the long standing article. Each becomes "announced" (before its first day), "closed"
+   (on one of its days: the updater closes that trail, or marks it PARTIAL when only a section closes) or is dropped
+   once all its days are past. FAILS LOUD when a notice closes a trail but its dates can't be read.
+
 Dry test: STORM_FIXTURE_IFCN=<html file> and STORM_FIXTURE_IPMA=<json file> replace the live fetches; STORM_TODAY
 (YYYY-MM-DD) and STORM_NOW (ISO) fix the clock. `python3 scripts/storm.py` prints what the updater would see.
 """
@@ -49,14 +55,20 @@ def _now():
     return datetime.datetime.fromisoformat(os.environ["STORM_NOW"]).replace(tzinfo=TZ) if os.environ.get("STORM_NOW") else datetime.datetime.now(TZ)
 
 
+_PAGES = {}
+
+
 def _get(url, fixture_env):
     fx = os.environ.get(fixture_env)
     if fx:
         return open(fx, encoding="utf-8").read()
+    if url in _PAGES:                      # one fetch per run: blanket() and trail_closures() read the same page
+        return _PAGES[url]
     import requests
     r = requests.get(url, headers=UA, timeout=30)
     r.raise_for_status()
     r.encoding = r.encoding or "utf-8"
+    _PAGES[url] = r.text
     return r.text
 
 
@@ -115,6 +127,160 @@ def blanket(page_html=None):
                 out.update(state="closed", **{"from": start.isoformat() if start else None}, text=text)
             return out
     return out
+
+
+# ---- dated closures of one trail (2026-10-11) -------------------------------------------------------------------
+MON = "|".join(MONTHS)
+ANNOUNCE_SPLIT = re.compile(r"(?=O\s+Instituto\s+das\s+Florestas|O\s+IFCN\s+(?:informa|vem|comunica))")
+TRAIL_CODE_RE = re.compile(r"\bPR\s?(\d{1,2}(?:\.\d{1,2})?)\b")
+TRAIL_CLOSE_RE = re.compile(r"(?:estar[aáã]o?|ser[aáã]o?|ficar[aáã]o?|permanecer[aáã]o?|encontra-se|encontram-se)\s+"
+                            r"(?:temporariamente\s+)?encerrad|\bencerramento\b", re.I)
+FUTURE_CLOSE_RE = re.compile(r"(?:estar[aá]|ser[aá]|estar[aã]o|ser[aã]o|ficar[aá]|ficar[aã]o)\s+"
+                             r"(?:temporariamente\s+)?encerrad|encerramento\s+(?:ter[aá]|vai)", re.I)
+NOT_CLOSURE_RE = re.compile(r"mantendo-se\s+o\s+percurso\s+aberto|percurso\s+mant[eé]m-se\s+aberto", re.I)
+CROSS_RE = re.compile(rf"(\d{{1,2}})\s+de\s+({MON})(?:\s+de\s+(\d{{4}}))?\s*(?:a|até(?:\s+ao?)?(?:\s+dia)?|-|–)\s*"
+                      rf"(\d{{1,2}})\s+de\s+({MON})(?:\s+de\s+(\d{{4}}))?", re.I)
+LIST_RE = re.compile(rf"(\d{{1,2}}(?:\s*(?:a|-|–|e|,)\s*\d{{1,2}})*)\s+de\s+({MON})(?:\s+de\s+(\d{{4}}))?", re.I)
+PERIOD_RE = re.compile(rf"in[ií]cio\s+(?:no\s+dia\s+)?(\d{{1,2}})\s+de\s+({MON})(?:\s+de\s+(\d{{4}}))?.{{0,120}}?"
+                       rf"per[ií]odo\s+(?:m[ií]nimo\s+)?(?:de\s+|previsto\s+de\s+)?(\d{{1,3}})\s+dias", re.I | re.S)
+FROM_RE = re.compile(rf"a\s+partir\s+d[eo]\s+(?:dia\s+)?(\d{{1,2}})\s+de\s+({MON})(?:\s+de\s+(\d{{4}}))?", re.I)
+
+
+def _day(d, m, y, today):
+    return datetime.date(int(y) if y else today.year, MONTHS[m.lower()], int(d))
+
+
+def closure_ranges(text, today):
+    """Portuguese closure dates -> [(first, last)] (last None = until IFCN says otherwise). Empty when none."""
+    m = PERIOD_RE.search(text)
+    if m:
+        first = _day(m[1], m[2], m[3], today)
+        return [(first, first + datetime.timedelta(days=int(m[4]) - 1))]
+    out, rest = [], text
+    for m in CROSS_RE.finditer(text):
+        out.append((_day(m[1], m[2], m[3] or m[6], today), _day(m[4], m[5], m[6], today)))
+    rest = CROSS_RE.sub(" ", text)
+    for m in LIST_RE.finditer(rest):
+        for a, b in re.findall(r"(\d{1,2})(?:\s*(?:a|-|–)\s*(\d{1,2}))?", m[1]):
+            out.append((_day(a, m[2], m[3], today), _day(b or a, m[2], m[3], today)))
+    if not out:
+        m = FROM_RE.search(text)
+        if m:
+            out.append((_day(m[1], m[2], m[3], today), None))
+    return sorted(set(out), key=lambda r: r[0])
+
+
+def _sentence(chunk, code):
+    """The notice's own words about the closure (from its closure sentence on), without the 'IFCN informs that' opening."""
+    parts = re.split(r"(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕÇ])", chunk)
+    i = next((n for n, s in enumerate(parts) if re.search(rf"\bPR\s?{re.escape(code[2:])}\b", s) and TRAIL_CLOSE_RE.search(s)),
+             next((n for n, s in enumerate(parts) if TRAIL_CLOSE_RE.search(s)), 0))
+    # the closure sentence and what follows it (what stays open), without the closing thanks; at most 4 sentences
+    pick = " ".join(s for s in parts[i:i + 4] if not re.search(r"agradece|compreens[aã]o|colabora[cç][aã]o", s, re.I))
+    pick = re.sub(r"^O\s+(?:Instituto\s+das\s+Florestas\s+e\s+Conserva[cç][aã]o\s+da\s+Natureza(?:,\s*IP-RAM)?|IFCN)"
+                  r"(?:\s+vem,?\s+por\s+este\s+meio(?:\s+e\s+para\s+os\s+devidos\s+efeitos)?,?)?\s+informa(?:r)?\s+que,?\s*",
+                  "", pick.strip(), flags=re.I)
+    return pick[:1].upper() + pick[1:]
+
+
+def trail_closures(page_html=None):
+    """[{"codes", "ranges": [[first, last|None]], "state": "announced"|"closed", "section": bool, "text": pt sentence,
+    "source"}], dated closures of single trails that are in force today or still to come (past ones dropped)."""
+    today = _today()
+    items = notices(page_html if page_html is not None else _get(IFCN_AVISOS_CAT, "STORM_FIXTURE_IFCN"))
+    out, seen = [], set()
+    for item in items:
+        for chunk in ANNOUNCE_SPLIT.split(item):
+            if STANDING_LIST_RE.search(chunk) or CLOSURE_RE.search(chunk) or NOT_CLOSURE_RE.search(chunk):
+                continue                  # the standing list, island-wide closures (blanket()), open-with-detours
+            codes = sorted({"PR" + c for c in TRAIL_CODE_RE.findall(chunk)})
+            if not codes or not TRAIL_CLOSE_RE.search(chunk):
+                continue
+            sentence = _sentence(chunk, codes[0])
+            ranges = closure_ranges(sentence, today) or closure_ranges(chunk, today)
+            if not ranges and not FUTURE_CLOSE_RE.search(chunk):
+                continue                  # "encontra-se encerrado", no dates: today's state, the standing list has it
+            if not ranges:
+                sys.exit(f"FATAL: IFCN notice closes {', '.join(codes)} but its dates can't be read: {chunk[:300]!r}")
+            ranges = [(f, l) for f, l in ranges if l is None or l >= today]   # the days still to come (or today)
+            if not ranges:
+                continue                  # all its days are past
+            key = (tuple(codes), tuple(ranges))
+            if key in seen:
+                continue
+            seen.add(key)
+            closed = any(first <= today and (last is None or today <= last) for first, last in ranges)
+            out.append({"codes": codes, "ranges": [[f.isoformat(), l.isoformat() if l else None] for f, l in ranges],
+                        "state": "closed" if closed else "announced",
+                        "section": bool(re.search(r"\btro[cç]o\b|\bsec[cç][aã]o\b|\bentre\s+o", sentence, re.I)),
+                        "text": sentence, "source": IFCN_AVISOS_CAT})
+    return out
+
+
+# Closure dates in each site language (owner, 2026-10-11: closure dates are shown; no other dates on the site).
+MONTH_NAMES = {
+    "en": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "pt": ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
+    "fr": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+    "de": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+    "pl": ["stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca", "lipca", "sierpnia", "września", "października", "listopada", "grudnia"],
+}
+AND = {"en": " and ", "pt": " e ", "fr": " et ", "de": " und ", "pl": " i "}
+FROM = {"en": "from {d}", "pt": "a partir de {d}", "fr": "à partir du {d}", "de": "ab {d}", "pl": "od {d}"}
+
+
+def fmt_ranges(ranges, lang):
+    """[[first, last]] -> '14–17 and 21–22 September' / '14 a 17 e 21 a 22 de setembro' / ... (no year)."""
+    lang = lang if lang in MONTH_NAMES else "en"
+    M = MONTH_NAMES[lang]
+    rs = [(datetime.date.fromisoformat(f), datetime.date.fromisoformat(l) if l else None) for f, l in ranges]
+
+    def day(d):
+        return f"{d.day}." if lang == "de" else str(d.day)
+
+    def full(d):
+        return {"pt": f"{d.day} de {M[d.month - 1]}", "de": f"{d.day}. {M[d.month - 1]}"}.get(lang, f"{d.day} {M[d.month - 1]}")
+
+    def span(f, l, month=True):
+        if l is None:
+            return FROM[lang].format(d=full(f))
+        if f == l:
+            return full(f) if month else day(f)
+        if f.month != l.month:
+            sep = " a " if lang == "pt" else "–"
+            return full(f) + sep + full(l)
+        sep = " a " if lang == "pt" else "–"
+        if lang == "fr":
+            return f"du {f.day} au {l.day}" + (f" {M[l.month - 1]}" if month else "")
+        return day(f) + sep + (full(l) if month else day(l))
+
+    same = len({(f.month, (l or f).month) for f, l in rs}) == 1 and all(l and f.month == l.month for f, l in rs)
+    if same and len(rs) > 1:          # one month: '14–17 and 21–22 September'
+        parts = [span(f, l, month=False) for f, l in rs]
+        tail = {"pt": f" de {M[rs[0][0].month - 1]}"}.get(lang, f" {M[rs[0][0].month - 1]}")
+        return ", ".join(parts[:-1]) + AND[lang] + parts[-1] + tail
+    parts = [span(f, l) for f, l in rs]
+    return parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + AND[lang] + parts[-1]
+
+
+CLOSURE_HEAD = {
+    "announced": {"en": "IFCN has announced a closure: {d}.", "pt": "O IFCN anunciou um encerramento: {d}.",
+                  "fr": "L'IFCN a annoncé une fermeture : {d}.", "de": "Das IFCN hat eine Sperrung angekündigt: {d}.",
+                  "pl": "IFCN zapowiedział zamknięcie: {d}."},
+    "closed": {"en": "Closed today by an IFCN notice ({d}).", "pt": "Encerrado hoje por aviso do IFCN ({d}).",
+               "fr": "Fermé aujourd'hui par un avis de l'IFCN ({d}).", "de": "Heute laut IFCN-Hinweis gesperrt ({d}).",
+               "pl": "Dziś zamknięty zgodnie z komunikatem IFCN ({d})."},
+    "section": {"en": "Section closed today by an IFCN notice ({d}).", "pt": "Troço encerrado hoje por aviso do IFCN ({d}).",
+                "fr": "Tronçon fermé aujourd'hui par un avis de l'IFCN ({d}).", "de": "Abschnitt heute laut IFCN-Hinweis gesperrt ({d}).",
+                "pl": "Odcinek dziś zamknięty zgodnie z komunikatem IFCN ({d})."},
+}
+
+
+def closure_text(c, detail):
+    """{lang: head + IFCN's sentence}: the head carries our formatted dates, `detail` is IFCN's sentence per language."""
+    kind = c["state"] if c["state"] == "announced" else ("section" if c["section"] else "closed")
+    return {l: (CLOSURE_HEAD[kind][l].format(d=fmt_ranges(c["ranges"], l)) + " " + (detail.get(l) or detail.get("pt") or "")).strip()
+            for l in CLOSURE_HEAD[kind]}
 
 
 def ipma_alert(raw=None):

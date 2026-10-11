@@ -185,9 +185,17 @@
     de: ["Pico do Areeiro ↔ Aussichtspunkt Pedra Rija: <b>in beide Richtungen</b>.", "Ganze Strecke bis zum Pico Ruivo: <b>nur in eine Richtung</b>, Ende in Achada do Teixeira."],
     pl: ["Pico do Areeiro ↔ punkt widokowy Pedra Rija: <b>w obie strony</b>.", "Cała trasa na Pico Ruivo: <b>tylko w jedną stronę</b>, z końcem w Achada do Teixeira."]
   };
-  function partialHead(code, note) {
+  // A dated closure IFCN has announced (status.json trails[].closure, owner 2026-10-11: closure dates are shown).
+  // On a closure day the closure text is already the trail's note; before it, this line carries the announcement.
+  function closureAnn(c) {
+    if (!c || c.state !== "announced" || !c.text) return "";
+    return '<p class="closure-ann" style="margin:8px 0;padding:8px 10px;border-left:4px solid var(--closed,#B3372E);' +
+      'background:rgba(179,55,46,.08)"><b>⚠</b> ' + esc(noteText(c.text, "")) + "</p>";
+  }
+  function partialHead(code, note, closure) {
     var raw = JSON.stringify(note || "");
-    var lines = (code === "PR1" && /sentido [uú]nico|one-way/i.test(raw)) ? (PR1_DESC[lang] || PR1_DESC.en)
+    var closedToday = closure && closure.state === "closed";
+    var lines = (code === "PR1" && !closedToday && /sentido [uú]nico|one-way/i.test(raw)) ? (PR1_DESC[lang] || PR1_DESC.en)
       : [esc(noteText(note, L.spokeNote.PARTIAL))];
     return '<div class="status-head status-desc"><span class="status-dot PARTIAL"></span><div>' +
       lines.map(function (x) { return '<p style="margin:2px 0;font-size:18px;line-height:1.35">' + x + "</p>"; }).join("") +
@@ -202,8 +210,9 @@
       if (d.manual_note) body += "<p>" + esc(d.manual_note) + "</p>";
       body += "<p>" + L.weather(d.weather) + "</p>";
       body += '<p class="advisory">' + L.advisory + "</p>";
-      return partialHead("PR1", d.note) + summitHead(d.weather) + '<div class="status-body">' + body + "</div>" + stamp(d);
+      return partialHead("PR1", d.note, d.closure) + closureAnn(d.closure) + summitHead(d.weather) + '<div class="status-body">' + body + "</div>" + stamp(d);
     }
+    body += closureAnn(d.closure);
     if (note) body += "<p><b>" + L.officialNote + "</b> " + esc(note) + "</p>";
     body += "<p>" + L.defaultNote[st] + "</p>";
     if (d.manual_note) body += "<p>" + esc(d.manual_note) + "</p>";
@@ -221,13 +230,13 @@
     var r = (d.regions || []).find(function (x) { return x.key === t.region; });
     var compact = el.getAttribute("data-compact") === "1";   // inside the quick-answers card (gen_answer_card.py)
     if (compact) {   // one line: the status (or the description), weather has its own row
-      if (st === "PARTIAL") return partialHead(t.code, t.note);
+      if (st === "PARTIAL") return partialHead(t.code, t.note, t.closure) + closureAnn(t.closure);
       return '<div class="status-head"><span class="status-dot ' + st + '"></span><span class="status-badge ' + st + '">' +
-        L.badge[st] + "</span></div>" + (st === "CLOSED" && t.note ? "<p>" + esc(note) + "</p>" : "");
+        L.badge[st] + "</span></div>" + (st === "CLOSED" && t.note ? "<p>" + esc(note) + "</p>" : "") + closureAnn(t.closure);
     }
-    var body = st === "PARTIAL" ? "" : "<p>" + esc(note) + "</p>";
+    var body = closureAnn(t.closure) + (st === "PARTIAL" ? "" : "<p>" + esc(note) + "</p>");
     if (r && r.temp != null) body += "<p>" + L.nearby(r) + "</p>";
-    var head = st === "PARTIAL" ? partialHead(t.code, t.note) : '<div class="status-head"><span class="status-dot ' + st +
+    var head = st === "PARTIAL" ? partialHead(t.code, t.note, t.closure) : '<div class="status-head"><span class="status-dot ' + st +
       '"></span><span class="status-badge ' + st + '">' + L.badge[st] + "</span></div>";
     return head + (t.code === "PR1" ? summitHead(d.weather) : "") + '<div class="status-body">' + body + "</div>" + stamp(d);
   }

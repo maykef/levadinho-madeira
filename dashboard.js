@@ -123,6 +123,9 @@
     var link = page ? '<a class="tlink" href="' + esc(page) + '">' + esc(t.code) + ": " + T.today + "</a>" : "";
     var tname = page ? '<a class="tname" href="' + esc(page) + '">' : '<span class="tname">';
     var note = showNote ? '<div class="tnote">' + esc(noteFor(t, T, lang)) + "</div>" : "";
+    var c = t.closure;   // a dated closure IFCN has announced (owner, 2026-10-11): always shown, with its dates
+    if (c && c.state === "announced" && c.text)
+      note += '<div class="tnote" style="color:var(--closed,#B3372E)"><b>⚠</b> ' + esc(c.text[lang] || c.text.en || "") + "</div>";
     var key = (t.name + " " + t.code).toLowerCase();
     return '<div class="tcard ' + t.status + '" data-status="' + t.status + '" data-key="' + esc(key) +
       '" data-pop="' + (t.popular ? 1 : 0) + '"' + xattrs(t.code) + '>' +
