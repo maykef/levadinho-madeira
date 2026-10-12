@@ -7,17 +7,13 @@
     "de": "Begehbar: Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija. Gesperrt/eingeschränkt: Einbahnstraße zwischen dem Aussichtspunkt Pedra Rija und dem Pico Ruivo.",
     "pl": "Dostępny: Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija. Zamknięty/ograniczony: Trasa w jedną stronę między Pedra Rija Viewpoint i Pico Ruivo."
   },
+  "closure": null,
   "manual_note": "",
   "weather": {
-    "ok": true,
-    "temp_c": 11.7,
-    "humidity": 47,
-    "in_cloud": false,
-    "wind_kmh": 7,
-    "wind_strong": false
+    "ok": false
   },
-  "stamp": "2026-10-11 07:41",
-  "date": "2026-10-11",
+  "stamp": "2026-10-12 07:49",
+  "date": "2026-10-12",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
@@ -32,17 +28,17 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 12,
-      "wind": 7,
-      "rain": 0.0,
+      "temp": null,
+      "wind": null,
+      "rain": null,
       "in_cloud": false
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 17,
+      "temp": null,
       "wind": null,
-      "rain": 0.0,
+      "rain": null,
       "in_cloud": false
     },
     {
@@ -56,17 +52,17 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 20,
-      "wind": 14,
-      "rain": 0.0,
+      "temp": null,
+      "wind": null,
+      "rain": null,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 20,
-      "wind": 6,
-      "rain": 0.0,
+      "temp": null,
+      "wind": null,
+      "rain": null,
       "in_cloud": false
     }
   ],
@@ -78,7 +74,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 12,
+      "temp": null,
       "page": "/pr1/",
       "note": {
         "pt": "Transitável: Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija. Encerrado/condicionado: Percurso com sentido único entre o Miradouro da Pedra Rija e o Pico Ruivo.",
@@ -112,7 +108,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 12,
+      "temp": null,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "Encontra-se totalmente transitável o troço compreendido entre a Casa de Abrigo do Pico Ruivo e o Pico Ruivo.",
@@ -129,7 +125,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 17,
+      "temp": null,
       "page": "/caldeirao-verde/"
     },
     {
@@ -139,7 +135,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 20,
+      "temp": null,
       "page": "/sao-lourenco/"
     },
     {
@@ -149,7 +145,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 12,
+      "temp": null,
       "page": "/balcoes/"
     },
     {
@@ -169,7 +165,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/levada-do-furado/"
     },
     {
@@ -179,7 +175,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 17,
+      "temp": null,
       "page": "/levada-do-rei/"
     },
     {
@@ -199,7 +195,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 17,
+      "temp": null,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -209,7 +205,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -219,7 +215,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -229,7 +225,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/vereda-do-burro/"
     },
     {
@@ -239,7 +235,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 20,
+      "temp": null,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -249,7 +245,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "Percurso transitável - está disponível uma ligação sinalizada à Ribeira das Cales, junto ao Centro de Interpretação do Parque Ecológico do Funchal. A versão atual do percurso, entre o Poço da Neve (início do PR4), a Levada do Barreiro e a Ribeira das Cales, encontra-se totalmente sinalizada em ambos os sentidos.",
@@ -266,7 +262,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 17,
+      "temp": null,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -316,7 +312,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "Percurso transitável desde a Boca da Corrida até ao km 3,5.",
@@ -343,7 +339,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -353,7 +349,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/caminho-do-pinaculo-e-folhadal/",
       "note": {
         "pt": "Percurso transitável entre a Encumeada e a Bica da Cana.",
@@ -390,7 +386,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/caminho-do-norte/"
     },
     {
@@ -400,7 +396,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -410,7 +406,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": null,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -480,7 +476,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 17,
+      "temp": null,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ],

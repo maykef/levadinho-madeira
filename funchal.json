@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-11T07:41+01:00",
+ "stamp": "2026-10-12T07:51+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-11",
-   "type": "sunday",
-   "holiday": null,
-   "bus": "sunday",
-   "sunrise": "08:07",
-   "sunset": "19:40",
-   "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 41,
-    "wtype": 7,
-    "uv": 5.5
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-12",
    "type": "weekday",
@@ -177,6 +161,16 @@
    "bus": "saturday",
    "sunrise": "08:17",
    "sunset": "19:25",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-25",
+   "type": "sunday",
+   "holiday": null,
+   "bus": "sunday",
+   "sunrise": "07:18",
+   "sunset": "18:24",
    "weather": null,
    "fair": null
   }
@@ -1356,8 +1350,8 @@
   "url": "https://frentemarfunchal.pt/mobilidade-2/parquimetros/"
  },
  "ok": {
-  "weather": true,
-  "sea": true,
+  "weather": false,
+  "sea": false,
   "fair": true,
   "events": true,
   "lidos": true,
