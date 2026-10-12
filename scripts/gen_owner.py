@@ -8,8 +8,6 @@ Writes, between marker comments (idempotent, re-run any time):
   * OWNER-SIG   -- the owner's name under "Why I built this" on the five homepages.
   * ENGAGE       -- the /engage.js script (cookie-free engagement events) and /alert.js (storm banner, 2026-10-10)
                    before </body> on every page with GoatCounter.
-  * GTAG         -- the Google Analytics tag (owner, 2026-10-12: G-HKPD6MZ757), right after <head> on every page,
-                   including privacy/, 404, the trails/ stubs and q/ (not the Search Console verification file).
   * OWNER-SCHEMA -- a WebSite + Person JSON-LD block in the head of the five homepages (the WebSite carries the
                    site_entity.ENTITY sentence as its description) and the RSS link to trail-status.xml.
 
@@ -80,37 +78,8 @@ def schema(lang):
     return rss + '\n<script type="application/ld+json">\n' + json.dumps(data, ensure_ascii=False, indent=1) + "\n</script>\n"
 
 
-GTAG = """
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HKPD6MZ757"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HKPD6MZ757');
-</script>
-"""
-GTAG_SKIP = ("bot", "seo_research", "reports", "google_search_console", ".git", ".claude", "node_modules")
-
-
-def gtag_all():
-    """The Google tag on every site page (owner, 2026-10-12), stubs and redirects included."""
-    changed = 0
-    for path in sorted(ROOT.rglob("*.html")):
-        rel = path.relative_to(ROOT)
-        if rel.parts[0] in GTAG_SKIP or rel.name.startswith("google") and len(rel.parts) == 1:
-            continue
-        s = path.read_text(encoding="utf-8")
-        new = put(s, "GTAG", GTAG, r"<head[^>]*>", before=False)
-        if new != s:
-            path.write_text(new, encoding="utf-8")
-            changed += 1
-    return changed
-
-
 def main():
-    changed = gtag_all()
+    changed = 0
     for path in sorted(ROOT.rglob("*.html")):
         rel = path.relative_to(ROOT)
         if rel.parts[0] in SKIP or (len(rel.parts) > 1 and rel.parts[1] == "trails"):
