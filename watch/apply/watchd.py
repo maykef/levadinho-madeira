@@ -47,6 +47,7 @@ UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, 
 STORM = re.compile(r"agitacao maritima|mau tempo|tempestade|depressao|ondulacao|vento forte|aviso (amarelo|laranja|vermelho)")
 LOCK = threading.Lock()
 LAST = {"poll": None, "errors": {}}
+REST = {}            # source id -> epoch until which it is skipped
 
 
 def now():
@@ -179,11 +180,16 @@ def poll_once():
     seen_path = os.path.join(STATE, "seen.json")
     seen = jload(seen_path, {})
     for src in cfg["sources"]:
+        if REST.get(src["id"], 0) > time.time():      # resting after a failed RSSHub fetch
+            continue
         try:
             items = items_of(src)
             LAST["errors"].pop(src["id"], None)
         except Exception as e:  # one broken source never stops the others
             LAST["errors"][src["id"]] = f"{type(e).__name__}: {e}"[:200]
+            if "{RSSHUB}" in src["url"]:
+                # owner, 2026-10-12: Facebook rate-limited the home IP; a failed social page rests 3 h
+                REST[src["id"]] = time.time() + 3 * 3600
             continue
         known = set(seen.get(src["id"], []))
         first = src["id"] not in seen

@@ -28,7 +28,10 @@ import storm  # noqa: E402
 REPO = "maykef/levadinho-madeira"
 SITE_STATUS = "https://levadinho-madeira.com/status.json"
 RSSHUB = os.environ.get("RSSHUB_URL", "http://127.0.0.1:18402")
-SOCIAL = [("IFCN Facebook", "/facebook/page/IFCNIP"), ("IFCN Instagram", "/instagram/user/ifcn_madeira"),
+# IFCN Instagram: RSSHub needs a login since 2026-10-08 (503); the phone capture writes this feed (watch/ig_feeds.py)
+IG_FEED = "file://" + os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "watch", "state", "feeds",
+                                   "instagram_ifcn_madeira.xml")
+SOCIAL = [("IFCN Facebook", "/facebook/page/IFCNIP"), ("IFCN Instagram", IG_FEED),
           ("Protecção Civil Facebook", "/facebook/page/procivmadeira")]
 SOCIAL_FRESH_H = 3
 MIN_GAP_MIN, ACTIVE_EVERY_MIN = 15, 60
@@ -41,14 +44,31 @@ def get(url, timeout=60):
     return urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout).read().decode("utf-8", "replace")
 
 
+BACKOFF = os.path.join(DIR, "rsshub_backoff.json")
+BACKOFF_H = 3      # owner, 2026-10-12: Facebook rate-limited the home IP; after a failed RSSHub fetch, rest that page 3 h
+
+
 def social_signals(now):
     """Posts from the last SOCIAL_FRESH_H hours that say all classified trails close / reopen."""
     out, errors = [], []
+    try:
+        rest = json.load(open(BACKOFF))
+    except Exception:
+        rest = {}
     for name, route in SOCIAL:
+        if not route.startswith("file://") and rest.get(route, "") > now.isoformat():
+            errors.append(f"{name}: resting until {rest[route][:16]} after a failed fetch")
+            continue
         try:
-            xml = get(RSSHUB + route, timeout=90)
+            xml = get(route if route.startswith("file://") else RSSHUB + route, timeout=90)
         except Exception as e:
             errors.append(f"{name}: {e}")
+            if not route.startswith("file://"):
+                rest[route] = (now + datetime.timedelta(hours=BACKOFF_H)).isoformat(timespec="seconds")
+                try:
+                    json.dump(rest, open(BACKOFF, "w"))
+                except Exception:
+                    pass
             continue
         for item in re.findall(r"<item>(.*?)</item>", xml, re.S):
             m = re.search(r"<pubDate>(.*?)</pubDate>", item)

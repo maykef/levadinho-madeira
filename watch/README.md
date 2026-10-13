@@ -5,7 +5,7 @@ this service finds **part closures** in official notices and records them automa
 
 | Container | Port (127.0.0.1) | Job |
 |---|---|---|
-| `lw-rsshub` | 18402 | Facebook / Instagram accounts → RSS (works logged out) |
+| `lw-rsshub` | 18402 | Facebook accounts → RSS (cache 3 h). Instagram needs a login since 2026-10-08: its feeds come from the phone capture instead (`ig_feeds.py` → `state/feeds/instagram_<handle>.xml`, every 10 min) |
 | `lw-changedetection` + `lw-browser` | 18401 (dashboard) | Pages without a feed (`watches.json`): Câmara de Lobos news, Proteção Civil, lido hours and prices |
 | `lw-apply` | 18403 (status page) | Polls `sources.json` every 45 min, receives changedetection alerts, classifies (`apply/classify.py`), writes the notices |
 
@@ -15,6 +15,7 @@ this service finds **part closures** in official notices and records them automa
   set start/end; storm closures without an end expire after 2 days; other open-ended ones go to review after 21 days.
 - Press items, "condicionado" (restricted), lido-complex events and anything unclear go to `review.jsonl`, never to the map.
 - "Acessos ao mar" closing is a sea-access note, not an area closure.
+- A failed RSSHub fetch rests that source 3 h (owner, 2026-10-12: Facebook rate-limited the home IP); `scripts/storm_watch.py` does the same.
 
 **Outputs** in `$LW_DATA` (default `../seo_research/funchal/data/`, local only), shaped like the backend's `kb.notice`:
 `notices.json`, `promenade_status.json`, `review.jsonl`, `events.jsonl`. Runtime state in `state/` (git-ignored).

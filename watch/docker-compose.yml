@@ -7,7 +7,7 @@ services:
     image: diygod/rsshub:latest
     container_name: lw-rsshub
     environment:
-      - CACHE_EXPIRE=1800
+      - CACHE_EXPIRE=10800        # 3 h (owner, 2026-10-12: Facebook rate-limited the home IP at 30 min)
       - TZ=Atlantic/Madeira
     ports: ["127.0.0.1:18402:1200"]
     restart: unless-stopped
