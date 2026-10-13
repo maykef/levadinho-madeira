@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-12T07:51+01:00",
+ "stamp": "2026-10-13T08:15+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-12",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:08",
-   "sunset": "19:39",
-   "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 49,
-    "wtype": 4,
-    "uv": 6.3
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-13",
    "type": "weekday",
@@ -30,7 +14,7 @@
     "tmax": 26,
     "rain": 0,
     "wtype": 3,
-    "uv": 5.1
+    "uv": 5.2
    },
    "fair": null
   },
@@ -44,9 +28,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 26,
-    "rain": 4,
-    "wtype": 2,
-    "uv": 5.5
+    "rain": 0,
+    "wtype": 3,
+    "uv": 5.3
    },
    "fair": null
   },
@@ -59,20 +43,12 @@
    "sunset": "19:36",
    "weather": {
     "tmin": 20,
-    "tmax": 27,
-    "rain": 2,
-    "wtype": 2,
-    "uv": null
+    "tmax": 26,
+    "rain": 0,
+    "wtype": 3,
+    "uv": 4.9
    },
-   "fair": {
-    "theme": "gastronomy",
-    "pt": "Gastronomia",
-    "hours": [
-     "09:00",
-     "17:00"
-    ],
-    "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
-   }
+   "fair": null
   },
   {
    "date": "2026-10-16",
@@ -81,7 +57,13 @@
    "bus": "weekday",
    "sunrise": "08:11",
    "sunset": "19:34",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 26,
+    "rain": 0,
+    "wtype": 3,
+    "uv": 5.3
+   },
    "fair": null
   },
   {
@@ -91,7 +73,13 @@
    "bus": "saturday",
    "sunrise": "08:11",
    "sunset": "19:33",
-   "weather": null,
+   "weather": {
+    "tmin": 21,
+    "tmax": 27,
+    "rain": 25,
+    "wtype": 2,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -171,6 +159,16 @@
    "bus": "sunday",
    "sunrise": "07:18",
    "sunset": "18:24",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-10-26",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:19",
+   "sunset": "18:23",
    "weather": null,
    "fair": null
   }
@@ -259,11 +257,11 @@
   }
  ],
  "sea": {
-  "date": "2026-10-11",
-  "sst": 24,
+  "date": "2026-10-13",
+  "sst": 23,
   "wave": [
-   0.6,
-   0.6
+   0.4,
+   0.8
   ],
   "warnings": []
  },
@@ -1350,10 +1348,10 @@
   "url": "https://frentemarfunchal.pt/mobilidade-2/parquimetros/"
  },
  "ok": {
-  "weather": false,
-  "sea": false,
+  "weather": true,
+  "sea": true,
   "fair": true,
-  "events": true,
+  "events": false,
   "lidos": true,
   "gtfs": true
  },
