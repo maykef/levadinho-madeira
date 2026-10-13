@@ -192,6 +192,9 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None):
             if len(out) > MAX_RESULT_CHARS:
                 out = out[:MAX_RESULT_CHARS] + "…(cut)"
             trace.append({"tool": name, "args": args, "ms": int((time.time() - t) * 1000), "error": result.get("error")})
+            if name == "bus":  # brain.bus_footer adds the follow-up offer and a taxi after a timetable
+                trace[-1]["trips"] = len(result.get("trips") or [])
+                trace[-1]["trip_rows"] = result.get("trips") or []
             if name == "webcam":  # the picture goes out after the reply (brain.answer_tools)
                 imgs = [w["image_url"] for w in result.get("webcams", []) if w.get("image_url")]
                 if imgs:

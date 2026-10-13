@@ -51,6 +51,13 @@ the tool-per-question rules; `answer_tools` adds the page's trail ("nearby" = ne
 timetables when the reply leaves departures out, no company names or offers, no invented workarounds, Monte = cable
 car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.json` (49 questions, 49/49 on 2026-10-10).
 
+**Buses (2026-10-12):** after every bus timetable `brain.bus_footer` offers directions to the stop and the taxi
+number (never for Monte). A **"bus now"** question asks for the visitor's location (WhatsApp location button; web chat
+"📍 Share my location", `location_request` message in `/webchat`); a pin within 30 min gets the nearest boarding stop
+with a bus left today, the next departures and a Google Maps walking link. Boarding points: `bot/bus_stops.json`.
+Recorded: `location_requested` (`for: bus_now`), `bus_now_answered`, the pin as `location_fix` source `web_pin` /
+`whatsapp_pin`. Needs a webhook restart to go live.
+
 ## The chat on our pages (since 2026-10-10)
 
 `/chat.js` (site root) puts Levadinho's chat at the top of the pilot pages (`scripts/gen_chat.py`: the 8 trail-code

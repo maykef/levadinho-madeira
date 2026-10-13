@@ -191,7 +191,7 @@ COMMENT ON COLUMN location_fix.received_at IS 'When the server stored it (fixes 
 COMMENT ON COLUMN location_fix.visitor_id IS 'Pseudonymous visitor (see visitor).';
 COMMENT ON COLUMN location_fix.session_id IS 'Guide session token, for guide fixes.';
 COMMENT ON COLUMN location_fix.route_id IS 'Route being walked, for guide fixes.';
-COMMENT ON COLUMN location_fix.source IS '"guide_gps" (continuous GPS in the guide), "guide_poll" (one-off request while GPS was silent) or "whatsapp_pin" (location shared in WhatsApp).';
+COMMENT ON COLUMN location_fix.source IS '"guide_gps" (continuous GPS in the guide), "guide_poll" (one-off request while GPS was silent) , "whatsapp_pin" (location shared in WhatsApp) or "web_pin" (position shared in the web chat, after a "bus now" question).';
 COMMENT ON COLUMN location_fix.geom IS 'Measured position (WGS84 point).';
 COMMENT ON COLUMN location_fix.accuracy_m IS 'Horizontal accuracy radius in metres (smaller is better).';
 COMMENT ON COLUMN location_fix.altitude_m IS 'Altitude in metres, if the phone reported it.';
@@ -209,7 +209,8 @@ INSERT INTO event_type (event_type, channel, description, attributes_schema) VAL
  ('question_asked', 'whatsapp', 'The visitor asked a question (details in conversation_turn).', '{"type":"object","properties":{"intent":{"type":"string"},"topic":{"type":"string"},"trail_code":{"type":["string","null"]},"trail_status":{"type":"string"}}}'),
  ('answer_sent', 'whatsapp', 'The bot answered a question with the language model.', '{"type":"object","properties":{"latency_ms":{"type":"integer"}}}'),
  ('location_shared', 'whatsapp', 'The visitor shared a location pin (the point itself is in location_fix and event.geom).', '{"type":"object","properties":{"nearest_route":{"type":"string"},"distance_m":{"type":"integer"}}}'),
- ('location_requested', 'whatsapp', 'The bot sent WhatsApp''s "Send location" button (visitor typed guide/guia).', '{"type":"object","properties":{}}'),
+ ('location_requested', 'whatsapp', 'The bot asked for the visitor''s location: WhatsApp''s "Send location" button (visitor typed guide/guia), or after a "bus now" question (attributes.for = "bus_now"; web chat: the Share my location button).', '{"type":"object","properties":{"for":{"type":"string"}}}'),
+ ('bus_now_answered', 'whatsapp', 'After a "bus now" question and a shared location: the nearest stop with a bus that way, its distance and the next departure (null = none left today).', '{"type":"object","properties":{"stop":{"type":"string"},"distance_m":{"type":"integer"},"next_dep":{"type":["string","null"]}}}'),
  ('guide_link_sent', 'whatsapp', 'The bot sent a personal audio-guide link (session_id = its token).', '{"type":"object","properties":{"via":{"type":"string","enum":["campaign","location"]}}}'),
  ('non_text_received', 'whatsapp', 'The visitor sent something the bot cannot read (voice, photo, sticker…).', '{"type":"object","properties":{"kind":{"type":"string"}}}'),
  ('guide_started', 'guide', 'The visitor tapped Start in the audio guide.', '{"type":"object","properties":{"ua":{"type":"string"},"audio_lang":{"type":"string"}}}'),

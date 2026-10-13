@@ -280,7 +280,7 @@ def record(sender, new_visitor, in_kind, in_text, pin, meta, out, channel="whats
             analytics.turn(sender, "in", "text", meta["resumed_question"], lang=lang, is_question=True,
                            intent=meta.get("intent"), topic=meta.get("topic"), trail=meta.get("trail"))
         if pin:
-            analytics.fix("whatsapp_pin", *pin, vid=vid)
+            analytics.fix("web_pin" if channel == "web" else "whatsapp_pin", *pin, vid=vid)
         for etype, f in meta["events"]:
             f = dict(f)
             analytics.event(channel, etype, vid=vid, session=f.pop("session", None), route=f.pop("route", None),
@@ -402,6 +402,8 @@ def _web_out(msgs):
             out.append({"type": "buttons", "body": m["body"], "buttons": [list(b) for b in m["buttons"]]})
         elif m.get("type") == "image":
             out.append({"type": "image", "url": m["url"]})
+        elif m.get("type") == "location_request":  # chat.js shows a "Share my location" button
+            out.append({"type": "location_request", "body": m["body"]})
         elif m.get("body"):
             out.append({"type": "text", "body": m["body"]})
     return out
@@ -416,7 +418,15 @@ async def webchat(request: Request):
     sid, tag = str(body.get("sid", "")), str(body.get("tag", ""))
     lang = body.get("lang") if body.get("lang") in brain.LANGS else "en"
     text, choice = str(body.get("text") or "").strip()[:500], body.get("choice")
-    if not WEB_SID.fullmatch(sid) or not WEB_TAG.fullmatch(tag) or not (text or choice in ("consent_yes", "consent_no")):
+    pin = None
+    if isinstance(body.get("location"), dict):  # the browser's position, after the bot asked for it ("bus now")
+        try:
+            pin = (float(body["location"]["lat"]), float(body["location"]["lon"]))
+        except (KeyError, TypeError, ValueError):
+            raise HTTPException(400)
+        if not (-90 <= pin[0] <= 90 and -180 <= pin[1] <= 180):
+            raise HTTPException(400)
+    if not WEB_SID.fullmatch(sid) or not WEB_TAG.fullmatch(tag) or not (text or pin or choice in ("consent_yes", "consent_no")):
         raise HTTPException(400)
     ip = request.headers.get("x-forwarded-for", "").split(",")[0].strip() or (request.client.host if request.client else "")
     if _web_limited("s:" + sid, 20) or _web_limited("i:" + ip, 60):
@@ -436,6 +446,8 @@ async def webchat(request: Request):
     def run():
         if choice:
             return brain.handle_consent(user, choice == "consent_yes", meta)
+        if pin:
+            return brain.handle_location(user, *pin, meta=meta)
         return brain.handle(user, text=text, meta=meta)
     try:
         out = await run_in_threadpool(run)
@@ -451,7 +463,8 @@ async def webchat(request: Request):
     if meta.get("warm_up") and llm_control.ON_DEMAND:
         llm_control.start()
     if not body.get("test"):   # the owner's own browser (#skipgc): answered, never recorded
-        record(user, new_visitor, "text" if text else "interactive", text or choice, None, meta, out, channel="web")
+        record(user, new_visitor, "location" if pin else "text" if text else "interactive",
+               None if pin else text or choice, pin, meta, out, channel="web")
     return {"messages": _web_out(out)}
 
 

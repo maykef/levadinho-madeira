@@ -4,7 +4,7 @@
    Opening message = the page's own quick-answers card (#answers), or on getting-back the plan table and taxi ranks,
    typed out. Follow-ups go to the bot (POST /webchat): same brain, same privacy notice (Accept first) as WhatsApp.
    Counts (2026-10-11): chat-shown / chat-off per page view, chat-ask-chip / chat-ask-typed (first question),
-   chat-accept / chat-decline, chat-answered, chat-error, chat-down, chat-wa, sent through /engage.js to the events
+   chat-accept / chat-decline, chat-answered, chat-error, chat-down, chat-wa, chat-location (tapped Share my location), sent through /engage.js to the events
    site (never the text; #skipgc devices send nothing). */
 (function () {
   "use strict";
@@ -13,19 +13,24 @@
   var UI = {
     en: { online: "Madeira trails · online", typing: "typing…", ph: "Ask Levadinho…", send: "Send", more: "↓ Card and full guide",
           wa: "Continue on WhatsApp", more2: "Anything else? Ask me here, for example:", err: "Sorry, I couldn't reach Levadinho. Try again in a moment.",
-          slow: "Levadinho is taking too long. Try again in a moment, or continue on WhatsApp." },
+          slow: "Levadinho is taking too long. Try again in a moment, or continue on WhatsApp.",
+          loc: "📍 Share my location", locNo: "I couldn't get your location. Tell me where you are instead." },
     pt: { online: "Percursos da Madeira · online", typing: "a escrever…", ph: "Pergunte ao Levadinho…", send: "Enviar", more: "↓ Cartão e guia completo",
           wa: "Continuar no WhatsApp", more2: "Mais alguma coisa? Pergunte aqui, por exemplo:", err: "Não foi possível falar com o Levadinho. Tente daqui a pouco.",
-          slow: "O Levadinho está a demorar. Tente daqui a pouco ou continue no WhatsApp." },
+          slow: "O Levadinho está a demorar. Tente daqui a pouco ou continue no WhatsApp.",
+          loc: "📍 Partilhar a minha localização", locNo: "Não consegui obter a sua localização. Diga-me onde está." },
     fr: { online: "Sentiers de Madère · en ligne", typing: "écrit…", ph: "Demandez à Levadinho…", send: "Envoyer", more: "↓ Fiche et guide complet",
           wa: "Continuer sur WhatsApp", more2: "Autre chose ? Demandez ici, par exemple :", err: "Impossible de joindre Levadinho. Réessayez dans un instant.",
-          slow: "Levadinho met trop de temps. Réessayez dans un instant ou continuez sur WhatsApp." },
+          slow: "Levadinho met trop de temps. Réessayez dans un instant ou continuez sur WhatsApp.",
+          loc: "📍 Partager ma position", locNo: "Je n'ai pas pu obtenir votre position. Dites-moi plutôt où vous êtes." },
     de: { online: "Madeiras Wanderwege · online", typing: "schreibt…", ph: "Fragen Sie Levadinho…", send: "Senden", more: "↓ Übersicht und ganzer Guide",
           wa: "Weiter auf WhatsApp", more2: "Sonst noch etwas? Fragen Sie hier, zum Beispiel:", err: "Levadinho ist gerade nicht erreichbar. Versuchen Sie es gleich noch einmal.",
-          slow: "Levadinho braucht zu lange. Versuchen Sie es gleich noch einmal oder weiter auf WhatsApp." },
+          slow: "Levadinho braucht zu lange. Versuchen Sie es gleich noch einmal oder weiter auf WhatsApp.",
+          loc: "📍 Meinen Standort teilen", locNo: "Ihr Standort war nicht abrufbar. Schreiben Sie mir stattdessen, wo Sie sind." },
     pl: { online: "Szlaki Madery · online", typing: "pisze…", ph: "Zapytaj Levadinho…", send: "Wyślij", more: "↓ Karta i pełny przewodnik",
           wa: "Kontynuuj na WhatsAppie", more2: "Coś jeszcze? Zapytaj tutaj, na przykład:", err: "Nie udało się połączyć z Levadinho. Spróbuj za chwilę.",
-          slow: "Levadinho odpowiada zbyt długo. Spróbuj za chwilę albo kontynuuj na WhatsAppie." }
+          slow: "Levadinho odpowiada zbyt długo. Spróbuj za chwilę albo kontynuuj na WhatsAppie.",
+          loc: "📍 Udostępnij lokalizację", locNo: "Nie udało się pobrać lokalizacji. Napisz, gdzie jesteś." }
   };
   var CHIPS = {
     trail: { en: ["How do I get there?", "Where do I park?", "Is there an easier walk nearby?"],
@@ -203,6 +208,18 @@
             bx.appendChild(btn);
           });
           el.appendChild(bx); scroll();
+        }
+        if (m.type === "location_request" && navigator.geolocation) {  // "bus now": the nearest stop needs a position
+          var lx = document.createElement("div"); lx.className = "lvc-btns";
+          var lb = document.createElement("button"); lb.type = "button"; lb.textContent = U.loc;
+          lb.onclick = function () {
+            ev("location"); lx.remove(); add("lvc-msg lvc-me", esc(U.loc));
+            navigator.geolocation.getCurrentPosition(
+              function (p) { send({ location: { lat: p.coords.latitude, lon: p.coords.longitude } }); },
+              function () { add("lvc-msg lvc-bot", esc(U.locNo)); },
+              { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+          };
+          lx.appendChild(lb); el.appendChild(lx); scroll();
         }
       }
     }

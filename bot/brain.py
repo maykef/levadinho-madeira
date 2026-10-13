@@ -643,6 +643,188 @@ def site_links(reply, trails, lang, named=None):
 TOOLS_MODE = os.environ.get("BOT_TOOLS") == "1"  # 1 = tools-only answers from the knowledge store (brain_tools.py)
 
 
+# After every bus timetable (owner, 2026-10-12): offer directions to the stop for their day and place, and a taxi.
+# "Bus now" questions ask for the visitor's location instead and get the nearest stop, the next bus and a walking link.
+BUS_OFFER = {
+    "pt": "Diga-me quando e de onde vai apanhar o autocarro, e eu indico-lhe o caminho até à paragem mais próxima.",
+    "en": "Tell me when and where you'll catch the bus, and I'll give you directions to the nearest stop.",
+    "fr": "Dites-moi quand et d'où vous prendrez le bus, et je vous indique le chemin jusqu'à l'arrêt le plus proche.",
+    "de": "Sag mir, wann und wo du in den Bus steigst, dann zeige ich dir den Weg zur nächsten Haltestelle.",
+    "pl": "Napisz, kiedy i skąd jedziesz autobusem, a wskażę Ci drogę do najbliższego przystanku.",
+}
+BUS_OFFER_TIMES = {  # when we have no location for the stop: no directions promised
+    "pt": "Diga-me o dia e onde vai apanhar o autocarro, e eu indico-lhe a paragem e os horários.",
+    "en": "Tell me the day and where you'll catch the bus, and I'll give you the stop and the times.",
+    "fr": "Dites-moi le jour et où vous prendrez le bus, et je vous donne l'arrêt et les horaires.",
+    "de": "Sag mir den Tag und wo du in den Bus steigst, dann nenne ich dir die Haltestelle und die Zeiten.",
+    "pl": "Napisz, w który dzień i skąd jedziesz autobusem, a podam Ci przystanek i godziny.",
+}
+BUS_TAXI = {"pt": "Em alternativa, um táxi: {name} {phone}.", "en": "Alternatively, a taxi: {name} {phone}.",
+            "fr": "Sinon, un taxi : {name} {phone}.", "de": "Alternativ ein Taxi: {name} {phone}.",
+            "pl": "Alternatywnie taksówka: {name} {phone}."}
+BUS_STOP_LINK = {"pt": "A paragem ({stop}) no mapa: {link}", "en": "The stop ({stop}) on the map: {link}",
+                 "fr": "L'arrêt ({stop}) sur la carte : {link}", "de": "Die Haltestelle ({stop}) auf der Karte: {link}",
+                 "pl": "Przystanek ({stop}) na mapie: {link}"}
+BUS_LOC_ASK = {
+    "pt": "Partilhe a sua localização e eu indico-lhe a paragem mais próxima e o próximo autocarro 📍",
+    "en": "Share your location and I'll find the nearest stop and the next bus 📍",
+    "fr": "Partagez votre position et je vous trouve l'arrêt le plus proche et le prochain bus 📍",
+    "de": "Teile deinen Standort, dann finde ich die nächste Haltestelle und den nächsten Bus 📍",
+    "pl": "Udostępnij lokalizację, a znajdę najbliższy przystanek i najbliższy autobus 📍",
+}
+BUS_NEAREST = {
+    "pt": "A paragem mais próxima com autocarro para lá: *{stop}*, a {dist}.",
+    "en": "Nearest stop with a bus your way: *{stop}*, {dist} away.",
+    "fr": "L'arrêt le plus proche avec un bus pour votre trajet : *{stop}*, à {dist}.",
+    "de": "Nächste Haltestelle mit einem Bus in deine Richtung: *{stop}*, {dist} entfernt.",
+    "pl": "Najbliższy przystanek z autobusem w Twoją stronę: *{stop}*, {dist} stąd.",
+}
+BUS_NEXT = {"pt": "Próximo: {dep}, {line} → {to}", "en": "Next: {dep}, {line} → {to}",
+            "fr": "Prochain : {dep}, {line} → {to}", "de": "Nächster: {dep}, {line} → {to}",
+            "pl": "Najbliższy: {dep}, {line} → {to}"}
+BUS_LINE = {"pt": "linha", "en": "line", "fr": "ligne", "de": "Linie", "pl": "linia"}  # before a line number only
+BUS_THEN = {"pt": "Depois: {deps}", "en": "Then: {deps}", "fr": "Ensuite : {deps}", "de": "Danach: {deps}",
+            "pl": "Potem: {deps}"}
+BUS_NONE_LEFT = {
+    "pt": "Já não há autocarros hoje desta paragem ({stop}) no horário.",
+    "en": "No more buses today from this stop ({stop}) on the timetable.",
+    "fr": "Plus de bus aujourd'hui depuis cet arrêt ({stop}) selon les horaires.",
+    "de": "Laut Fahrplan fährt heute kein Bus mehr von dieser Haltestelle ({stop}).",
+    "pl": "Według rozkładu dziś nie ma już autobusów z tego przystanku ({stop}).",
+}
+BUS_WALK = {"pt": "A pé até à paragem: {link}", "en": "Walk to the stop: {link}", "fr": "À pied jusqu'à l'arrêt : {link}",
+            "de": "Zu Fuß zur Haltestelle: {link}", "pl": "Dojście na przystanek: {link}"}
+BUS_APPROX = {"pt": "Horas como impressas pelo operador; nas paragens intermédias são aproximadas.",
+              "en": "Times as printed by the operator; at intermediate stops they are approximate.",
+              "fr": "Horaires tels qu'imprimés par l'opérateur ; aux arrêts intermédiaires, ils sont approximatifs.",
+              "de": "Zeiten laut Fahrplan des Betreibers; an Zwischenhalten sind sie ungefähr.",
+              "pl": "Godziny według rozkładu przewoźnika; na przystankach pośrednich są przybliżone."}
+BUS_NOW_WORDS = re.compile(
+    r"\b(now|right now|next bus|agora|já|neste momento|pr[oó]ximo autocarro|maintenant|tout de suite|prochain bus|"
+    r"jetzt|gleich|sofort|n[aä]chste[nr]? bus|teraz|zaraz|najbli[zż]szy autobus)\b", re.I)
+BUS_NOW_TTL = 30 * 60  # a pin shared within 30 minutes of the "bus now" question answers it
+BUS_STOPS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bus_stops.json")
+_BUS_STOPS = None
+
+
+def bus_stops():
+    """{(operator, kb stop name): [{boarding_stop_name, lat, lon, direction…}]}: where to board, from bus_stops.json
+    (2026-10-12: Horários do Funchal GTFS for HF; OpenStreetMap cross-checked for CAM / Rodoeste; low-confidence
+    stops left out, so the bot offers directions only where we know the stop)."""
+    global _BUS_STOPS
+    if _BUS_STOPS is None:
+        try:
+            rows = json.load(open(BUS_STOPS_FILE))
+        except (OSError, ValueError):
+            rows = []
+        _BUS_STOPS = {}
+        for r in rows:
+            if r.get("lat") is not None and r.get("lon") is not None and r.get("board", True):  # boarding points only
+                _BUS_STOPS.setdefault((r["operator"], r["kb_stop"]), []).append(r)
+    return _BUS_STOPS
+
+
+def maps_walk(lat, lon):
+    """Google Maps walking directions from wherever the phone is to the stop (Maps URLs, no key)."""
+    return f"https://www.google.com/maps/dir/?api=1&destination={lat:.6f},{lon:.6f}&travelmode=walking"
+
+
+def _boarding(trips):
+    """The located stops the trips leave from: [(stop, trip)], one per stop row (both sides of the road are separate)."""
+    out = []
+    for t in trips:
+        line = t["line"].split(" (")[0]
+        for s in bus_stops().get((t["operator"], t["from"]), []):
+            if line in s.get("lines", [line]):  # CAM's Santana network and its 113 leave Funchal from different stops
+                out.append((s, t))
+    return out
+
+
+def bus_footer(trace, text, reply, lang, stop_link=True):
+    """The offer (unless they gave both the day and the stop), the stop on the map once they said where, and the taxi
+    rank at the bus's starting place: the rank in that town or on the trail's IFCN panels, else the island-wide Funchal
+    number. Never a taxi for Monte."""
+    import brain_tools
+    kb = brain_tools.kbtools
+    calls = [t for t in trace if t["tool"] == "bus" and t.get("trips") and not t.get("error")]
+    if not calls:
+        return ""
+    args = calls[-1]["args"]
+    located = calls[-1].get("trip_rows") and _boarding(calls[-1]["trip_rows"])
+    lines = []
+    if not (args.get("day") and args.get("from_stop")):
+        lines.append((BUS_OFFER if located else BUS_OFFER_TIMES)[lang])
+    if stop_link and args.get("from_stop") and located:
+        stops = {(s["lat"], s["lon"]): s for s, _ in located}
+        names = {s.get("boarding_stop_name") or s["kb_stop"] for s in stops.values()}
+        if len(names) == 1:  # one place to board (either side of the road): show it; several → they share a location
+            s = next(iter(stops.values()))
+            lines.append(BUS_STOP_LINK[lang].format(stop=names.pop(), link=maps_walk(s["lat"], s["lon"])))
+    if not guard.MONTE.search(text):
+        ranks = []
+        try:
+            if args.get("from_stop"):
+                ranks = kb._ranks_for(args["from_stop"])
+                ranks.sort(key=lambda r: _norm(args["from_stop"]).find(_norm(r["town"] or "")) < 0)
+            elif args.get("trail"):
+                ranks = kb._q("SELECT * FROM kb.transport WHERE kind = 'taxi' AND %s = ANY(trails) ORDER BY id",
+                              (kb._need_trail(args["trail"]),))
+            ranks = ranks or kb._q("SELECT * FROM kb.transport WHERE id = 'taxis_madeira'")
+        except Exception:
+            log.exception("bus footer: taxi lookup failed")
+        if ranks and ranks[0]["phone"] and ranks[0]["phone"][0] not in reply:
+            lines.append(BUS_TAXI[lang].format(name=ranks[0]["name"], phone=ranks[0]["phone"][0]))
+    return "\n\n" + "\n".join(lines) if lines else ""
+
+
+def bus_now_pending(user, trace, text):
+    """A "bus now" question with located stops: remember the trip and ask for the visitor's location."""
+    calls = [t for t in trace if t["tool"] == "bus" and t.get("trips") and not t.get("error")]
+    if not calls or not BUS_NOW_WORDS.search(text) or not _boarding(calls[-1].get("trip_rows") or []):
+        return False
+    args = {k: v for k, v in calls[-1]["args"].items() if k in ("trail", "from_stop", "to_stop")}
+    store.set_user(user, state="busnow:" + json.dumps({"at": time.time(), "args": args, "text": text[:200]}))
+    return True
+
+
+def bus_now_answer(user, lat, lon, lang, pending, meta=None):
+    """The pin after a "bus now" question: nearest located stop that has a bus left today, its next departures,
+    a walking link, and the taxi alternative."""
+    import brain_tools
+    kb = brain_tools.kbtools
+    res = kb.bus(day="today", lang=lang, **pending["args"])
+    now = datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira")).strftime("%H:%M")
+    located = _boarding(res.get("trips") or [])
+    if not located:
+        return None
+    by_stop = {}
+    for s, t in located:
+        by_stop.setdefault((s["lat"], s["lon"]), (s, []))[1].append(t)
+    ranked = sorted(by_stop.values(), key=lambda x: geo.distance_m(lat, lon, x[0]["lat"], x[0]["lon"]))
+    pick = next(((s, ts) for s, ts in ranked if any(t["dep"] >= now for t in ts)), ranked[0])
+    s, ts = pick
+    left = sorted((t for t in ts if t["dep"] >= now), key=lambda t: t["dep"])
+    name = s.get("boarding_stop_name") or s["kb_stop"]
+    dist = geo.distance_m(lat, lon, s["lat"], s["lon"])
+    lines = [BUS_NEAREST[lang].format(stop=name, dist=fmt_distance(dist, lang))]
+    if left:
+        t = left[0]
+        line = f"{BUS_LINE[lang]} {t['line']}" if re.match(r"\d", t["line"]) else f"{t['operator']} {t['line']}"
+        lines.append(BUS_NEXT[lang].format(dep=t["dep"], line=line, to=t["to"]) + (f" ({t['arr']})" if t.get("arr") else ""))
+        if len(left) > 1:
+            lines.append(BUS_THEN[lang].format(deps=", ".join(x["dep"] for x in left[1:3])))
+    else:
+        lines.append(BUS_NONE_LEFT[lang].format(stop=name))
+    lines.append(BUS_WALK[lang].format(link=maps_walk(s["lat"], s["lon"])))
+    lines.append(BUS_APPROX[lang])
+    taxi = bus_footer([{"tool": "bus", "args": {"from_stop": s["kb_stop"], "day": "today"}, "trips": len(ts),
+                        "trip_rows": ts}], pending.get("text", ""), "", lang, stop_link=False).strip()
+    if meta is not None:
+        meta["events"].append(("bus_now_answered", {"lang": lang, "stop": name, "distance_m": int(dist),
+                                                    "next_dep": left[0]["dep"] if left else None}))
+    return "\n".join(lines) + ("\n\n" + taxi if taxi else "")
+
+
 def answer_tools(user, text, lang, rule, meta=None):
     """The tools-only answer: no facts in the prompt; the model reads the knowledge store through tools."""
     import brain_tools
@@ -670,6 +852,14 @@ def answer_tools(user, text, lang, rule, meta=None):
     reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text)
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
     reply, changes = guard.check(reply, text, lang, named, (store.get_user(user) or {}).get("base") or "")
+    if bus_now_pending(user, trace, text):  # "bus now": the location request follows the timetable
+        if meta is not None:
+            meta["ask_location"] = BUS_LOC_ASK[lang]
+            meta["events"].append(("location_requested", {"lang": lang, "for": "bus_now"}))
+    else:
+        reply = reply.rstrip() + bus_footer(trace, text, reply, lang)
+    for t in trace:
+        t.pop("trip_rows", None)  # the analytics record keeps the call, not the timetable
     reply = reply.rstrip() + site_links(reply, named, lang, named=named)
     if meta is not None:
         meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
@@ -832,9 +1022,11 @@ def quick_reply(user, text, meta, u=None):
 
 
 def with_media(meta, msgs):
-    """The webcam picture a tool returned, sent right after the reply."""
+    """The webcam picture a tool returned, sent right after the reply; the "bus now" location request after that."""
     if meta and meta.get("image_url") and msgs:
         msgs = msgs + [{"type": "image", "url": meta["image_url"], "body": ""}]
+    if meta and meta.get("ask_location") and msgs:
+        msgs = msgs + [{"type": "location_request", "body": meta["ask_location"]}]
     return msgs
 
 
@@ -888,6 +1080,18 @@ def handle_location(user, lat, lon, meta=None):
         meta = meta if meta is not None else {"events": []}
         meta["lang"] = lang
         return [consent_prompt(user, lang)]
+    state = (store.get_user(user) or {}).get("state") or ""
+    if state.startswith("busnow:"):  # the pin answers a "bus now" question
+        store.set_user(user, state="ready")
+        pending = json.loads(state.removeprefix("busnow:"))
+        if time.time() - pending["at"] <= BUS_NOW_TTL:
+            if meta is not None:
+                meta["lang"] = lang
+                meta["events"].append(("location_shared", {"lat": lat, "lon": lon, "lang": lang, "for": "bus_now"}))
+            body = bus_now_answer(user, lat, lon, lang, pending, meta)
+            if body:
+                store.add_turn(user, "(shared location)", body)
+                return [{"type": "text", "body": body}]
     route, dist = geo.nearest_route(lat, lon)
     if meta is not None:
         meta["lang"] = lang

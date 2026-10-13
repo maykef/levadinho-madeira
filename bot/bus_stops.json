@@ -1,0 +1,273 @@
+[
+ {
+  "operator": "Horários do Funchal",
+  "kb_stop": "Funchal",
+  "boarding_stop_name": "Teleférico-Término (4A)",
+  "lat": 32.6473233,
+  "lon": -16.9028385,
+  "board": true,
+  "direction": "departure terminus of line 181 to Curral das Freiras (and arrival from Lombo Chão)",
+  "confidence": "high",
+  "sources": [
+   "https://www.horariosdofunchal.pt/googletransit.zip (stops.txt, feed 202609091923)",
+   "https://siga.madeira.gov.pt/storage/horarios_pdf/EA5F137E-7D09-4706-B6F9-A925A0FEECC3.pdf (route_stops: first stop Teleférico-Término (4A))",
+   "https://www.openstreetmap.org/node/1320949334"
+  ],
+  "note": "GTFS route 181 origin 'Teleférico Término (00025)'. OSM platform 10 m away. HF's own Google Maps link for this stop (Areeiro page) gives 32.6473209,-16.902695 (13 m).",
+  "lines": [
+   "81"
+  ]
+ },
+ {
+  "operator": "Horários do Funchal",
+  "kb_stop": "Funchal (Teleférico-Término 4A)",
+  "boarding_stop_name": "Teleférico-Término (4A)",
+  "lat": 32.6473233,
+  "lon": -16.9028385,
+  "board": true,
+  "direction": "up to Pico do Areeiro (06:00, 13:30); the down trips also end here",
+  "confidence": "high",
+  "sources": [
+   "https://www.horariosdofunchal.pt/googletransit.zip (stops.txt, feed 202609091923)",
+   "https://www.horariosdofunchal.pt/index.php/viajar/pico-do-areeiro (links https://maps.app.goo.gl/SczSGTcAPnr4X8cg9 -> 32.6473209,-16.902695)",
+   "https://www.openstreetmap.org/node/1320949334"
+  ],
+  "note": "Same stop as line 181. Official HF map link and GTFS agree within 13 m.",
+  "lines": [
+   "Pico do Areeiro"
+  ]
+ },
+ {
+  "operator": "Horários do Funchal",
+  "kb_stop": "Funchal",
+  "boarding_stop_name": "Teleférico-Término (4A)",
+  "lat": 32.6473233,
+  "lon": -16.9028385,
+  "board": false,
+  "direction": "arrival in Funchal of the 12:15 / 19:00 (18:00 winter) trips",
+  "confidence": "high",
+  "sources": [
+   "https://www.horariosdofunchal.pt/index.php/viajar/pico-do-areeiro",
+   "https://www.horariosdofunchal.pt/googletransit.zip (stops.txt, feed 202609091923)"
+  ],
+  "note": "HF page: the down bus reaches Teleférico at 13:00 / 19:45. Only matters if the bot ever links the arrival point.",
+  "lines": [
+   "Pico do Areeiro"
+  ]
+ },
+ {
+  "operator": "Horários do Funchal",
+  "kb_stop": "Funchal",
+  "boarding_stop_name": "Alfândega (154)",
+  "lat": 32.647383,
+  "lon": -16.905605,
+  "board": false,
+  "direction": "arrival in Funchal from Monte",
+  "confidence": "high",
+  "sources": [
+   "https://www.horariosdofunchal.pt/googletransit.zip (stops.txt, feed 202609091923)",
+   "seo_research/facts/bus/hf_021.json (route_stops end at Alfândega (154))",
+   "https://www.openstreetmap.org/node/2790927391"
+  ],
+  "note": "OSM 'AV Mar Alfândega' platform is ~55 m away. kb only has Monte -> Funchal for line 21, so this is an alighting point, not a boarding stop.",
+  "lines": [
+   "21"
+  ]
+ },
+ {
+  "operator": "Horários do Funchal",
+  "kb_stop": "Monte",
+  "boarding_stop_name": "Monte PQ Corujeira (1557)",
+  "lat": 32.6762047,
+  "lon": -16.9071286,
+  "board": true,
+  "direction": "towards Funchal (start of the 'Monte (via C Dentro)' trips)",
+  "confidence": "high",
+  "sources": [
+   "https://www.horariosdofunchal.pt/googletransit.zip (stops.txt, feed 202609091923)",
+   "seo_research/facts/bus/hf_021.json",
+   "https://www.openstreetmap.org/node/13522095965"
+  ],
+  "note": "Every kb departure for PR3.1 (13:05–19:05) starts here in the GTFS. It is about 330 m west of Largo da Fonte (569, 32.676521,-16.903583), where the PR3.1 walk ends; line 21 to Funchal does NOT pass Largo da Fonte. The 'c)' trips start at Monte-Lajinhas (971) instead, but none of those are in kb. OSM 'Monte Corujeira PQ' is 8 m away.",
+  "lines": [
+   "21"
+  ]
+ },
+ {
+  "operator": "Horários do Funchal",
+  "kb_stop": "Curral das Freiras",
+  "boarding_stop_name": "Pico Furão 3A (CF62)",
+  "lat": 32.74326,
+  "lon": -16.9650344,
+  "board": false,
+  "direction": "arriving from Funchal (outbound order: ... CF61 > VER Ribeiro Raíz 2591 > CF62 > CF63 Final > CF64 4A on the way back)",
+  "confidence": "high",
+  "sources": [
+   "https://www.horariosdofunchal.pt/googletransit.zip (stops.txt, feed 202609091923)",
+   "https://www.openstreetmap.org/node/6467001321",
+   "https://www.openstreetmap.org/node/6466988044"
+  ],
+  "note": "PR2 trailhead (Visit Madeira, 32.74254,-16.96613) is 130 m from CF62. WARNING: only GTFS patterns 181_A/B/D/E/F/O pass Pico Furão. The Mon–Fri 06:55 and 08:25 (and 12:30) departures (pattern 181_0) go straight to Lombo Chão and do NOT pass the PR2 start; kb lists 06:55 and 08:25 for PR2. If the bot should instead point to the village, Igreja Curral das Freiras (CF21) is at 32.7203265,-16.9654315 (GTFS; OSM 4 m), 2.5 km from the trailhead.",
+  "lines": [
+   "81"
+  ]
+ },
+ {
+  "operator": "Horários do Funchal",
+  "kb_stop": "Pico do Areeiro (Radar roundabout)",
+  "boarding_stop_name": "Pico do Areeiro – rotunda junto ao Radar",
+  "lat": 32.7357,
+  "lon": -16.92767,
+  "board": true,
+  "direction": "both (turning loop: arrival 06:45 / 14:15, departure 12:15 / 19:00, 18:00 in winter)",
+  "confidence": "medium",
+  "sources": [
+   "https://www.horariosdofunchal.pt/index.php/viajar/pico-do-areeiro (name only, no map)",
+   "https://www.openstreetmap.org/way/164974446",
+   "https://www.openstreetmap.org/way/622923806"
+  ],
+  "note": "No official coordinate: the Areeiro service is not in the HF GTFS and the page gives only the name. Coordinate = centre of the OSM ways named 'Rotunda do Arieiro' (ER202 loop), which sits next to the fenced Força Aérea 'Estação de Radar 4' (OSM way 164974445). Single source for the point; no bus_stop node mapped there. Summit viewpoint is ~110 m west.",
+  "lines": [
+   "Pico do Areeiro"
+  ]
+ },
+ {
+  "operator": "CAM",
+  "kb_stop": "Funchal",
+  "boarding_stop_name": "Teleférico-Término (4A)",
+  "lat": 32.6473233,
+  "lon": -16.9028385,
+  "board": true,
+  "direction": "departure from Funchal to Poiso / Ribeiro Frio / Santana; Santana -> Funchal trips also end here",
+  "confidence": "medium",
+  "sources": [
+   "https://www.openstreetmap.org/node/1320949334 (platform, operator CAM;HF, route_ref includes 56;103;138)",
+   "https://www.openstreetmap.org/relation/9805005 (56 Funchal > Santana: platform_entry_only Teleférico-Término)",
+   "https://www.openstreetmap.org/relation/9769398 (56 Santana > Funchal: platform_exit_only Teleférico-Término)",
+   "Interurban network map (HF, 2019): 'Partidas do Funchal - Saca / Departures from Funchal: 4A' https://www.fzj.de/en/inm/inm-7/downloads/mapa-rede-interurbana_interurban-bus-network.pdf/@@download/file",
+   "https://www.horariosdofunchal.pt/googletransit.zip (stops.txt, feed 202609091923) (coordinate)"
+  ],
+  "note": "The CAM Santana sheet (SIGA) prints only 'Funchal'. Departure stop 4A comes from OSM route relations (still tagged HF) and the 2019 HF map, i.e. from before CAM took the lines over in July 2024. OSM also has a newer node 'Teleférico-Término' operator CAM at 32.646971,-16.903382 (node 13316872369), ~70 m SW, possibly the CAM bay on the other side; unconfirmed. The Santana lines also call at Largo da Fonte (Monte) per OSM route_ref.",
+  "lines": [
+   "Santana network"
+  ]
+ },
+ {
+  "operator": "CAM",
+  "kb_stop": "Ribeiro Frio",
+  "boarding_stop_name": "RIB Frio-Viveiro Trutas",
+  "lat": 32.734886,
+  "lon": -16.886514,
+  "board": true,
+  "direction": "towards Santana (Funchal -> Ribeiro Frio arrivals)",
+  "confidence": "medium",
+  "sources": [
+   "https://www.openstreetmap.org/node/1508888914",
+   "https://www.openstreetmap.org/relation/9805005",
+   "https://www.openstreetmap.org/relation/9799407"
+  ],
+  "note": "OSM only (names from the old HF stop list). Right at the PR10/PR11 trailhead (Visit Madeira 32.7349–32.7355,-16.8861/-16.8864, <40 m). Some older OSM routes also stop at 'RIB Frio-Bar Faísca' ~400 m north.",
+  "lines": [
+   "Santana network"
+  ]
+ },
+ {
+  "operator": "CAM",
+  "kb_stop": "Ribeiro Frio",
+  "boarding_stop_name": "RIB Frio-Viveiro Trutas",
+  "lat": 32.735096,
+  "lon": -16.886413,
+  "board": true,
+  "direction": "towards Funchal (board here for the bus back)",
+  "confidence": "medium",
+  "sources": [
+   "https://www.openstreetmap.org/node/1508888916",
+   "https://www.openstreetmap.org/relation/9769398"
+  ],
+  "note": "OSM only; opposite side of the road from the Santana-bound stop (25 m apart). A third OSM node 'Ribeiro Frio' (439642756) at 32.734499,-16.886848 has no operator/route.",
+  "lines": [
+   "Santana network"
+  ]
+ },
+ {
+  "operator": "CAM",
+  "kb_stop": "Santana",
+  "boarding_stop_name": "Santana (bus terminus)",
+  "lat": 32.805691,
+  "lon": -16.880764,
+  "board": true,
+  "direction": "both: arrival from Funchal and departure to Funchal",
+  "confidence": "medium",
+  "sources": [
+   "https://www.openstreetmap.org/node/4478603791",
+   "https://www.openstreetmap.org/node/6601296140",
+   "https://www.openstreetmap.org/relation/9805005 (exit_only)",
+   "https://www.openstreetmap.org/relation/9769398 (entry_only)"
+  ],
+  "note": "OSM only, mapped as the HF line-56 terminus; assumed still used by CAM. Next stop 'Rua Santa Ana-Santana' is ~80 m north. kb uses 'Santana' for PR9 / PR9.1 (trailheads at Queimadas / Pico das Pedras, 3–4 km away, no bus).",
+  "lines": [
+   "Santana network"
+  ]
+ },
+ {
+  "operator": "CAM",
+  "kb_stop": "Baía d'Abra",
+  "boarding_stop_name": "Baía d'Abra (terminus, PR8 car park)",
+  "lat": 32.743124,
+  "lon": -16.701429,
+  "board": true,
+  "direction": "both (turning terminus)",
+  "confidence": "medium",
+  "sources": [
+   "https://www.openstreetmap.org/node/9820849055",
+   "https://www.openstreetmap.org/relation/1914108 (exit_only)",
+   "https://www.openstreetmap.org/relation/18438467 (entry_only)"
+  ],
+  "note": "OSM only (operator CAM). 54 m from the PR8 trailhead used on our site (32.74338,-16.70094).",
+  "lines": [
+   "113"
+  ]
+ },
+ {
+  "operator": "Rodoeste",
+  "kb_stop": "Funchal",
+  "boarding_stop_name": "Funchal (Rodoeste Estação) – terminal near Campo da Barca",
+  "lat": 32.653023,
+  "lon": -16.901817,
+  "board": true,
+  "direction": "departure terminus to the west; trips to Funchal end here",
+  "confidence": "medium",
+  "sources": [
+   "https://www.openstreetmap.org/node/13275610302",
+   "https://www.openstreetmap.org/node/13275610301",
+   "https://www.openstreetmap.org/relation/14963043 (R 80 Funchal > Porto Moniz)",
+   "https://www.openstreetmap.org/relation/19881595 (R 142 Funchal > Ribeira Brava)",
+   "https://www.openstreetmap.org/relation/19862482 (R 142 to Funchal: ... Mercado > Rodoeste Estação)",
+   "https://rail.cc/funchal/station/c ('terminal ... in the northeast of the city, near Campo da Barca')"
+  ],
+  "note": "Rodoeste sheets print only 'Funchal'; rodoeste.pt returns 404. OSM routes for 80 and 142 start/end here; rail.cc/Rome2rio also mention a Rodoeste stop on Avenida do Mar (OSM node 6172903687, operator SIGARODOESTE, unnamed, 32.647117,-16.907331, ~700 m south) — plausible intermediate stop, unverified. Line 6 assumed to use the same terminal (OSM line-6 relations only cover Ribeira Brava–São Vicente).",
+  "lines": [
+   "142",
+   "6",
+   "80"
+  ]
+ },
+ {
+  "operator": "Rodoeste",
+  "kb_stop": "Encumeada",
+  "boarding_stop_name": "Boca da Encumeada",
+  "lat": 32.754125,
+  "lon": -17.019612,
+  "board": true,
+  "direction": "towards Ribeira Brava / Funchal (kb: Encumeada -> Funchal 16:00)",
+  "confidence": "medium",
+  "sources": [
+   "https://www.openstreetmap.org/node/13353577330",
+   "https://www.openstreetmap.org/relation/19920759 (R 6 São Vicente > Ribeira Brava via Encumeada)"
+  ],
+  "note": "OSM only. Opposite-direction stop (to São Vicente) is node 1577459498 at 32.754050,-17.019592, 8 m away. PR1.3 / PR17 trailhead on our site: 32.7542,-17.0193 (~30 m). Another stop 'Estalagem da Encumeada' is ~650 m SW.",
+  "lines": [
+   "6"
+  ]
+ }
+]
