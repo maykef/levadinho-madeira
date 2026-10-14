@@ -265,7 +265,8 @@ def record(sender, new_visitor, in_kind, in_text, pin, meta, out, channel="whats
             return
         if consent != "yes":
             analytics.event(channel, "consent_declined" if "consent_declined" in types else "message_unrecorded",
-                            lang=lang, **({} if "consent_declined" in types else {"kind": in_kind}))
+                            lang=lang, campaign=meta.get("campaign"),  # the page tag only, nothing personal
+                            **({} if "consent_declined" in types else {"kind": in_kind}))
             return
         new_visitor = new_visitor or not analytics.visitor_known(sender)
         vid = analytics.touch_visitor(sender, lang)
@@ -462,6 +463,7 @@ async def webchat(request: Request):
                 "retry": meta["deferred_question"]}
     if meta.get("warm_up") and llm_control.ON_DEMAND:
         llm_control.start()
+    meta["campaign"] = meta.get("campaign") or tag   # the page the chat is on (web-back, web-pr7, …)
     if not body.get("test"):   # the owner's own browser (#skipgc): answered, never recorded
         record(user, new_visitor, "location" if pin else "text" if text else "interactive",
                None if pin else text or choice, pin, meta, out, channel="web")
