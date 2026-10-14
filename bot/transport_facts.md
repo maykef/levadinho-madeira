@@ -7,7 +7,9 @@ Used for "how do I get from A to B" questions. Start from where the visitor is s
 Official numbers as printed on IFCN's trailhead information panels (linked from the IFCN trail list,
 https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html).
 The panels are undated: whether each line is staffed today is not verified. Say "taxi numbers as printed on IFCN's
-trailhead panels". Taxis don't wait at trailheads: book a set pick-up time before you start.
+trailhead panels". At Achada do Teixeira (PR1's finish) taxis usually wait in the daytime, and a shared ride back to Pico do Areeiro
+costs about €15–20 per person; if none is there, wait a little. At other trailheads, and for an early, late or
+off-season finish, book a set pick-up time before you start.
 
 | Taxi rank | Phone | Printed on the IFCN panels of |
 |---|---|---|

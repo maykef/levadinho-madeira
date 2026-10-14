@@ -40,6 +40,7 @@ GUIDES = [  # (path, title) — the key pages, English titles
     ("/getting-back.html", "Getting back from Pico Ruivo / Achada do Teixeira without a car"),
     ("/levadas-by-bus/", "Levadas by bus from Funchal: first bus there, last bus back"),
     ("/pr1-sunrise-transport/", "Getting to Pico do Areeiro for sunrise"),
+    ("/pico-do-areeiro-parking/", "Pico do Areeiro parking: 2026 rates, which car park for PR1, the summit shuttle"),
     ("/pico-do-areeiro-weather/", "Pico do Areeiro weather (measured) and webcams"),
     ("/best-levada-walks/", "Best levada walks, with today's status"),
     ("/easy-levadas-no-vertigo/", "Easy levadas without vertigo"),

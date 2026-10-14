@@ -123,7 +123,9 @@ TRANSPORT_FACTS = [
      "cost more). There is no fixed price per route and the exact 2026 figures are not confirmed: ask for a quote when "
      "booking and for a receipt.", "levadinho_research"),
     ("taxi_no_wait", "taxi", None,
-     "Taxis don't wait at trailheads: book a set pick-up time before you start. The taxi numbers are as printed on IFCN's "
+     "At Achada do Teixeira (PR1's finish) taxis usually wait in the daytime, and a shared ride back to Pico do Areeiro "
+     "costs about €15–20 per person; if none is there, wait a little. At other trailheads, and for an early, late or "
+     "off-season finish, book a set pick-up time before you start. The taxi numbers are as printed on IFCN's "
      "trailhead panels, which are undated.", "ifcn_panels"),
     ("taxi_choice", "taxi", None,
      "Give the rank nearest the pick-up place and, when different, the rank of the town the visitor is going to; they are "

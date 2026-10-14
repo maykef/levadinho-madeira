@@ -72,9 +72,12 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
 - **No bus serves Achada do Teixeira**, where the full walk ends. The public bus cannot bring
   you back from a full traverse.
 - Ways back from Achada do Teixeira:
-  - A pre-booked hiker transfer: drop-off at Areeiro, pick-up at Achada do Teixeira. Best for most people.
+  - A scheduled hiker transfer: drop-off at Areeiro, pick-up at Achada do Teixeira at a fixed time. The option for
+    anyone who wants certainty.
   - A guided tour with transport from an IFCN protocol operator.
-  - A taxi, arranged in advance (taxis don't wait at the car park). **Táxis Santana: +351 291 572 540**
+  - A taxi. In the daytime taxis usually wait at Achada do Teixeira and hikers often share one: a shared ride back
+    to Pico do Areeiro costs about €15–20 per person. If none is there, wait a little. For an early, late or
+    off-season finish, book a set pick-up time before you start. **Táxis Santana: +351 291 572 540**
     (the number on IFCN's trailhead panels); going back to Funchal, also the Funchal taxi contacts (see the
     taxi facts) and compare quotes. Fares are metered at the official tariff; say "ask for a quote".
   - Two cars, one left at each end. Only sensible for groups.
