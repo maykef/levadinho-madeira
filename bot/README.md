@@ -171,7 +171,8 @@ The webhook runs all the time; the ~85 GB model runs only while it's needed (`ll
 (EN), `Olá …` (PT), `Bonjour … !` (FR), `Hallo …` (DE), `Cześć …` (PL); see `WA_PREFIX` in `scripts/gen_cta.py`.
 The bot takes the language from that greeting, so website visitors go straight to the privacy notice (no
 language menu). The tag is kept as the visitor's source (`source` in the store, `campaign_id` in analytics)
-and its guide or trail is used when a question names none. Campaign QRs (`#areeiro`, `#ely`) still get the
+and its guide or trail is used when a question names none. Web chats (`/webchat`) record their page tag as `campaign_id` too
+(since 2026-10-13), also on the anonymous `message_unrecorded` / `consent_declined` events. Campaign QRs (`#areeiro`, `#ely`) still get the
 menu and then open their route's guide.
 
 **Test phones (owner, 2026-10-05):** `TEST_NUMBERS` in `.env` (digits, comma-separated). Those numbers are
