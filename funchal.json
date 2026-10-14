@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-13T08:15+01:00",
+ "stamp": "2026-10-14T06:40+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-13",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:08",
-   "sunset": "19:38",
-   "weather": {
-    "tmin": 19,
-    "tmax": 26,
-    "rain": 0,
-    "wtype": 3,
-    "uv": 5.2
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-14",
    "type": "weekday",
@@ -30,7 +14,7 @@
     "tmax": 26,
     "rain": 0,
     "wtype": 3,
-    "uv": 5.3
+    "uv": 5.7
    },
    "fair": null
   },
@@ -45,10 +29,18 @@
     "tmin": 20,
     "tmax": 26,
     "rain": 0,
-    "wtype": 3,
-    "uv": 4.9
+    "wtype": 2,
+    "uv": 5.0
    },
-   "fair": null
+   "fair": {
+    "theme": "gastronomy",
+    "pt": "Gastronomia",
+    "hours": [
+     "09:00",
+     "17:00"
+    ],
+    "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
+   }
   },
   {
    "date": "2026-10-16",
@@ -61,7 +53,7 @@
     "tmin": 20,
     "tmax": 26,
     "rain": 0,
-    "wtype": 3,
+    "wtype": 2,
     "uv": 5.3
    },
    "fair": null
@@ -76,9 +68,9 @@
    "weather": {
     "tmin": 21,
     "tmax": 27,
-    "rain": 25,
+    "rain": 2,
     "wtype": 2,
-    "uv": null
+    "uv": 5.5
    },
    "fair": null
   },
@@ -89,7 +81,13 @@
    "bus": "sunday",
    "sunrise": "08:12",
    "sunset": "19:32",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 25,
+    "rain": 45,
+    "wtype": 2,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -171,16 +169,53 @@
    "sunset": "18:23",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-10-27",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:20",
+   "sunset": "18:22",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
   {
    "title": "Mandolin Orchestra Weekly Concerts",
    "venue": "",
-   "start": "2026-10-07",
+   "start": "2026-10-14",
    "end": "2026-10-28",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "EHF Beach Handball Champions Cup",
+   "venue": "",
+   "start": "2026-10-15",
+   "end": "2026-10-18",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/ehf-beach-handball-champions-cup/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Oficina “Conhece o Plástico das Musas”",
+   "venue": "Galeria impulso",
+   "start": "2026-10-16T11:00",
+   "end": "2026-10-16T12:00",
+   "all_day": false,
+   "url": "https://cultura.funchal.pt/event/oficina-conhece-o-plastico-das-musas/",
+   "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "Ecotrail Funchal",
+   "venue": "",
+   "start": "2026-10-17",
+   "end": "2026-10-18",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/ecotrail-funchal/",
    "src": "eventsmadeira.com"
   },
   {
@@ -200,15 +235,6 @@
    "all_day": false,
    "url": "https://cultura.funchal.pt/event/evento-bem-a-poesia/",
    "src": "cultura.funchal.pt"
-  },
-  {
-   "title": "Madeira Canyoning Meeting",
-   "venue": "",
-   "start": "2026-10-18",
-   "end": "2026-10-23",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/madeira-canyoning-meeting/",
-   "src": "eventsmadeira.com"
   },
   {
    "title": "Chamber Music Concert – Legno Duo | OCM",
@@ -257,11 +283,11 @@
   }
  ],
  "sea": {
-  "date": "2026-10-13",
-  "sst": 23,
+  "date": "2026-10-14",
+  "sst": 24,
   "wave": [
-   0.4,
-   0.8
+   0.8,
+   0.9
   ],
   "warnings": []
  },
@@ -1351,7 +1377,7 @@
   "weather": true,
   "sea": true,
   "fair": true,
-  "events": false,
+  "events": true,
   "lidos": true,
   "gtfs": true
  },
