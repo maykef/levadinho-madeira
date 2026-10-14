@@ -454,8 +454,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                 f"The {name} starts and finishes at <b>{start or 'the trailhead'}</b>, so you return the way you came — no return transport to arrange."),
             gt_fact="It's a long mountain drive from the coast, with no shop or reliable signal at most trailheads. Bring water, warm and waterproof layers, and a torch — the weather turns fast up high.",
             cl_h=f"What if {code} is closed or fully booked?",
-            cl=(f"If IFCN closes {code} (weather, landslip, works) or you can't get a slot: <b>reschedule</b> via the SIMplifica call centre before your date — you can move date/time freely, and switch trail only if yours was officially closed. "
-                f"For open alternatives, <a class=\"plain\" href=\"{PREFIX[lang]}/\">check the live board</a>."),
+            cl=(f"If IFCN closes {code} on your date, email helpdesk.ifcn@madeira.gov.pt within 10 working days with your tickets and invoice, and ask for a new date within a year or a refund. Rain or a change of plans doesn't count, and the SIMplifica contact centre can't change bookings. "
+                f"Can't get a slot? <a class=\"plain\" href=\"{PREFIX[lang]}/\">Check the live board</a> for open alternatives."),
             kn_h="Before you go",
             kn=[
                 "<b>Booking-only.</b> Walking an IFCN classified trail without a valid SIMplifica ticket is an administrative offence (Portaria 801/2025 art. 10; DLR 24/2022/M art. 13); the law sets fines for individuals of €250–€2,500.",
@@ -481,8 +481,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                 f"{A} {name} começa e termina " + (f"em <b>{start}</b>" if start else "no mesmo ponto de partida") + ", por isso regressa pelo mesmo caminho — não há transporte de regresso a organizar."),
             gt_fact="É uma longa viagem de montanha a partir da costa, sem loja nem rede fiável na maioria dos pontos de partida. Leve água, roupa quente e impermeável e uma lanterna — o tempo muda depressa em altitude.",
             cl_h=f"E se o {code} estiver fechado ou esgotado?",
-            cl=(f"Se o IFCN fechar o {code} (mau tempo, derrocada, obras) ou se não conseguir vaga: <b>reagende</b> através da linha de apoio do SIMplifica antes da data — pode alterar livremente a data e a hora, e trocar de percurso apenas se o seu tiver sido oficialmente fechado. "
-                f"Para alternativas abertas, <a class=\"plain\" href=\"{PREFIX[lang]}/\">consulte o quadro em direto</a>."),
+            cl=(f"Se o IFCN encerrar o {code} na sua data, envie um email para helpdesk.ifcn@madeira.gov.pt no prazo de 10 dias úteis, com os bilhetes e a fatura, e peça uma nova data no prazo de um ano ou o reembolso. Chuva ou mudança de planos não contam, e o centro de contacto do SIMplifica não altera reservas. "
+                f"Sem vaga? <a class=\"plain\" href=\"{PREFIX[lang]}/\">Consulte o quadro em direto</a> para ver alternativas abertas."),
             kn_h="Antes de ir",
             kn=[
                 "<b>Só com reserva.</b> Percorrer um percurso classificado pelo IFCN sem bilhete SIMplifica válido é uma contraordenação (Portaria 801/2025, art. 10.º; DLR 24/2022/M, art. 13.º); a lei prevê coimas para particulares de 250 € a 2500 €.",
@@ -508,8 +508,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                 f"{fA} {name} démarre et se termine à <b>{start or 'le départ'}</b> ; vous revenez par le même chemin — aucun transport de retour à organiser."),
             gt_fact="C'est un long trajet en montagne depuis la côte, sans magasin ni réseau fiable à la plupart des départs. Emportez de l'eau, des couches chaudes et imperméables, et une lampe — la météo change vite en altitude.",
             cl_h=f"Et si le {code} est fermé ou complet ?",
-            cl=(f"Si l'IFCN ferme le {code} (météo, glissement, travaux) ou si vous ne trouvez pas de créneau : <b>reprogrammez</b> via le centre d'appels SIMplifica avant votre date — vous pouvez modifier librement date et heure, et changer de sentier uniquement si le vôtre a été officiellement fermé. "
-                f"Pour des alternatives ouvertes, <a class=\"plain\" href=\"{PREFIX[lang]}/\">consultez le tableau en direct</a>."),
+            cl=(f"Si l'IFCN ferme le {code} à votre date, écrivez à helpdesk.ifcn@madeira.gov.pt dans les 10 jours ouvrés avec vos billets et la facture, et demandez une nouvelle date dans l'année ou un remboursement. La pluie ou un changement de programme ne comptent pas, et le centre de contact SIMplifica ne modifie pas les réservations. "
+                f"Pas de créneau ? <a class=\"plain\" href=\"{PREFIX[lang]}/\">Consultez le tableau en direct</a> pour des alternatives ouvertes."),
             kn_h="Avant de partir",
             kn=[
                 "<b>Sur réservation uniquement.</b> Parcourir un sentier classé par l'IFCN sans billet SIMplifica valide est une infraction administrative (Portaria 801/2025 art. 10 ; DLR 24/2022/M art. 13) ; la loi prévoit pour les particuliers des amendes de 250 € à 2 500 €.",
@@ -535,8 +535,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                 f"{dA} {name} beginnt und endet an <b>{start or 'dem Ausgangspunkt'}</b>, Sie kehren also denselben Weg zurück — kein Rücktransport zu organisieren."),
             gt_fact="Es ist eine lange Bergfahrt von der Küste, an den meisten Ausgangspunkten ohne Laden oder verlässlichen Empfang. Nehmen Sie Wasser, warme und wasserdichte Kleidung sowie eine Lampe mit — das Wetter schlägt oben schnell um.",
             cl_h=f"Was tun, wenn der {code} gesperrt oder ausgebucht ist?",
-            cl=(f"Wenn die IFCN den {code} sperrt (Wetter, Erdrutsch, Arbeiten) oder Sie keinen Slot bekommen: <b>Umbuchen</b> über das SIMplifica-Callcenter vor Ihrem Termin — Datum und Uhrzeit frei änderbar, den Weg wechseln nur, wenn Ihrer offiziell gesperrt war. "
-                f"Offene Alternativen finden Sie auf der <a class=\"plain\" href=\"{PREFIX[lang]}/\">Live-Tafel</a>."),
+            cl=(f"Sperrt die IFCN den {code} an Ihrem Datum, schreiben Sie innerhalb von 10 Werktagen mit Tickets und Rechnung an helpdesk.ifcn@madeira.gov.pt und bitten Sie um einen neuen Termin innerhalb eines Jahres oder um Erstattung. Regen oder geänderte Pläne zählen nicht, und das SIMplifica-Kontaktcenter ändert keine Buchungen. "
+                f"Kein Slot frei? Offene Alternativen finden Sie auf der <a class=\"plain\" href=\"{PREFIX[lang]}/\">Live-Tafel</a>."),
             kn_h="Vor dem Start",
             kn=[
                 "<b>Nur mit Buchung.</b> Einen vom IFCN klassifizierten Weg ohne gültiges SIMplifica-Ticket zu gehen ist eine Ordnungswidrigkeit (Portaria 801/2025 Art. 10; DLR 24/2022/M Art. 13); das Gesetz sieht für Privatpersonen Bußgelder von 250 € bis 2.500 € vor.",
@@ -561,8 +561,8 @@ def T(lang, code, name, full, f, linear, start, end, typ):
                 f"{name} zaczyna się i kończy w <b>{start or 'punkcie startowym'}</b>, więc wracasz tą samą drogą — nie trzeba organizować powrotu."),
             gt_fact="To długi górski dojazd od wybrzeża, przy większości początków szlaków bez sklepu i pewnego zasięgu. Weź wodę, ciepłe i wodoodporne warstwy oraz latarkę — pogoda w górach zmienia się szybko.",
             cl_h=f"Co zrobić, gdy {code} jest zamknięty lub pełny?",
-            cl=(f"Jeśli IFCN zamknie {code} (pogoda, osuwisko, prace) lub nie zdobędziesz slotu: <b>przełóż termin</b> przez infolinię SIMplifica przed swoją datą — datę i godzinę zmieniasz dowolnie, a szlak tylko wtedy, gdy twój został oficjalnie zamknięty. "
-                f"Otwarte alternatywy znajdziesz na <a class=\"plain\" href=\"{PREFIX[lang]}/\">tablicy na żywo</a>."),
+            cl=(f"Jeśli IFCN zamknie {code} w Twoim dniu, w ciągu 10 dni roboczych napisz na helpdesk.ifcn@madeira.gov.pt z biletami i fakturą i poproś o nowy termin w ciągu roku albo zwrot. Deszcz czy zmiana planów się nie liczą, a centrum kontaktowe SIMplifica nie zmienia rezerwacji. "
+                f"Brak slotu? Otwarte alternatywy znajdziesz na <a class=\"plain\" href=\"{PREFIX[lang]}/\">tablicy na żywo</a>."),
             kn_h="Zanim wyruszysz",
             kn=[
                 "<b>Wyłącznie na rezerwację.</b> Przejście szlaku sklasyfikowanego przez IFCN bez ważnego biletu SIMplifica to wykroczenie administracyjne (Portaria 801/2025 art. 10; DLR 24/2022/M art. 13); przepisy przewidują dla osób fizycznych grzywny od 250 € do 2500 €.",
