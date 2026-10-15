@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-14T06:40+01:00",
+ "stamp": "2026-10-15T06:26+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-14",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:09",
-   "sunset": "19:37",
-   "weather": {
-    "tmin": 20,
-    "tmax": 26,
-    "rain": 0,
-    "wtype": 3,
-    "uv": 5.7
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-15",
    "type": "weekday",
@@ -30,7 +14,7 @@
     "tmax": 26,
     "rain": 0,
     "wtype": 2,
-    "uv": 5.0
+    "uv": 4.7
    },
    "fair": {
     "theme": "gastronomy",
@@ -52,9 +36,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 26,
-    "rain": 0,
+    "rain": 4,
     "wtype": 2,
-    "uv": 5.3
+    "uv": 5.4
    },
    "fair": null
   },
@@ -66,11 +50,11 @@
    "sunrise": "08:11",
    "sunset": "19:33",
    "weather": {
-    "tmin": 21,
+    "tmin": 20,
     "tmax": 27,
-    "rain": 2,
+    "rain": 0,
     "wtype": 2,
-    "uv": 5.5
+    "uv": 5.6
    },
    "fair": null
   },
@@ -84,9 +68,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 45,
-    "wtype": 2,
-    "uv": null
+    "rain": 65,
+    "wtype": 7,
+    "uv": 5.1
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "weekday",
    "sunrise": "08:13",
    "sunset": "19:31",
-   "weather": null,
+   "weather": {
+    "tmin": 19,
+    "tmax": 24,
+    "rain": 57,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:22",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-10-28",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:20",
+   "sunset": "18:21",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -198,6 +198,15 @@
    "end": "2026-10-18",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/ehf-beach-handball-champions-cup/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Madeira International Organ Festival",
+   "venue": "",
+   "start": "2026-10-16",
+   "end": "2026-10-15",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/madeira-international-organ-festival/",
    "src": "eventsmadeira.com"
   },
   {
@@ -235,6 +244,15 @@
    "all_day": false,
    "url": "https://cultura.funchal.pt/event/evento-bem-a-poesia/",
    "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "Winter Market",
+   "venue": "",
+   "start": "2026-10-19",
+   "end": "2026-10-24",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/winter-market/",
+   "src": "eventsmadeira.com"
   },
   {
    "title": "Chamber Music Concert – Legno Duo | OCM",
@@ -280,14 +298,23 @@
    "all_day": true,
    "url": "https://cultura.funchal.pt/event/festival-de-bandolins/",
    "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "XXVIII Madeira International Bridge Open",
+   "venue": "",
+   "start": "2026-10-29",
+   "end": "2026-11-09",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/xxv-madeira-international-bridge-open/",
+   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-10-14",
+  "date": "2026-10-15",
   "sst": 24,
   "wave": [
-   0.8,
-   0.9
+   0.7,
+   0.8
   ],
   "warnings": []
  },
