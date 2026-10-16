@@ -1,31 +1,7 @@
 {
- "stamp": "2026-10-15T06:26+01:00",
+ "stamp": "2026-10-16T06:19+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-15",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:10",
-   "sunset": "19:36",
-   "weather": {
-    "tmin": 20,
-    "tmax": 26,
-    "rain": 0,
-    "wtype": 2,
-    "uv": 4.7
-   },
-   "fair": {
-    "theme": "gastronomy",
-    "pt": "Gastronomia",
-    "hours": [
-     "09:00",
-     "17:00"
-    ],
-    "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
-   }
-  },
   {
    "date": "2026-10-16",
    "type": "weekday",
@@ -36,9 +12,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 26,
-    "rain": 4,
+    "rain": 0,
     "wtype": 2,
-    "uv": 5.4
+    "uv": 5.3
    },
    "fair": null
   },
@@ -54,7 +30,7 @@
     "tmax": 27,
     "rain": 0,
     "wtype": 2,
-    "uv": 5.6
+    "uv": 5.4
    },
    "fair": null
   },
@@ -68,9 +44,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 65,
+    "rain": 84,
     "wtype": 7,
-    "uv": 5.1
+    "uv": 5.4
    },
    "fair": null
   },
@@ -82,11 +58,11 @@
    "sunrise": "08:13",
    "sunset": "19:31",
    "weather": {
-    "tmin": 19,
-    "tmax": 24,
-    "rain": 57,
+    "tmin": 20,
+    "tmax": 25,
+    "rain": 76,
     "wtype": 7,
-    "uv": null
+    "uv": 4.7
    },
    "fair": null
   },
@@ -97,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "08:14",
    "sunset": "19:30",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 69,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +161,24 @@
    "sunset": "18:21",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-10-29",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:21",
+   "sunset": "18:20",
+   "weather": null,
+   "fair": {
+    "theme": "fashion",
+    "pt": "Moda, Bijuteria e Decoração",
+    "hours": [
+     "09:00",
+     "17:00"
+    ],
+    "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
+   }
   }
  ],
  "events": [
@@ -198,15 +198,6 @@
    "end": "2026-10-18",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/ehf-beach-handball-champions-cup/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Madeira International Organ Festival",
-   "venue": "",
-   "start": "2026-10-16",
-   "end": "2026-10-15",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/madeira-international-organ-festival/",
    "src": "eventsmadeira.com"
   },
   {
@@ -310,10 +301,10 @@
   }
  ],
  "sea": {
-  "date": "2026-10-15",
+  "date": "2026-10-16",
   "sst": 24,
   "wave": [
-   0.7,
+   0.6,
    0.8
   ],
   "warnings": []
