@@ -825,6 +825,32 @@ def bus_now_answer(user, lat, lon, lang, pending, meta=None):
     return "\n".join(lines) + ("\n\n" + taxi if taxi else "")
 
 
+# Owner, 2026-10-17: a taxi / getting-back question that names no place is answered with a question, never a
+# guessed pick-up (17 Oct: "when do I book the taxi?" got a pick-up at Areeiro instead of Achada do Teixeira).
+PICKUP_ASK = {
+    "en": "Are you doing the full trail, from Pico do Areeiro to Pico Ruivo and down to Achada do Teixeira? Where should the taxi pick you up?",
+    "pt": "Vai fazer o percurso completo, do Pico do Areeiro ao Pico Ruivo e a descer até à Achada do Teixeira? Onde é que o táxi o deve ir buscar?",
+    "fr": "Faites-vous le parcours complet, du Pico do Areeiro au Pico Ruivo puis jusqu'à Achada do Teixeira ? Où le taxi doit-il vous prendre ?",
+    "de": "Gehen Sie die ganze Strecke, vom Pico do Areeiro zum Pico Ruivo und hinunter nach Achada do Teixeira? Wo soll das Taxi Sie abholen?",
+    "pl": "Czy idziecie całą trasą, z Pico do Areeiro na Pico Ruivo i w dół do Achada do Teixeira? Skąd taksówka ma was odebrać?",
+}
+PICKUP_Q = re.compile(r"taxi|táxi|taksówk|transfer|get(ting)? back|go back|zurück|abhol|voltar|regress|recolh|retour|rentrer|"
+                      r"powr[óo]t|wróci|pick.?up", re.I)
+PLACE_NAMED = re.compile(r"achada|teixeira|areeiro|arieiro|ruivo|pedra rija|raba[cç]al|funchal|santana|cani[cç]al|"
+                         r"porto moniz|fanal|ribeiro frio|queimadas|encumeada|curral|monte|cani[cç]o|calheta|machico|"
+                         r"airport|aeroporto|a[ée]roport|flughafen|lotnisk|port|porto|hafen|ship|navio|schiff|statek|navire", re.I)
+
+
+def pickup_question(text, hist, lang):
+    """PICKUP_ASK[lang] when the visitor asks about a taxi or getting back and no place is named in this message or
+    earlier in the chat; else None."""
+    if not PICKUP_Q.search(text) or PLACE_NAMED.search(text) or trails_in(text):
+        return None
+    if any(PLACE_NAMED.search(m.get("content") or "") for m in hist if m.get("role") == "user"):
+        return None
+    return PICKUP_ASK.get(lang, PICKUP_ASK["en"])
+
+
 def answer_tools(user, text, lang, rule, meta=None):
     """The tools-only answer: no facts in the prompt; the model reads the knowledge store through tools."""
     import brain_tools
@@ -848,6 +874,10 @@ def answer_tools(user, text, lang, rule, meta=None):
     q = text
     if named:  # resolved by our alias table, so the model never has to guess a code
         q += "\n\n[Trails named in this message: " + "; ".join(f"{c} = {KB['trails'][c]['name']}" for c in named if c in KB["trails"]) + "]"
+    # only off trail pages or on PR1 ones: on another trail's page the question would be about the wrong walk
+    ask = pickup_question(text, store.history(user, HISTORY_SINCE), lang) if not named or "PR1" in named else None
+    if ask:
+        return ask
     t0 = time.time()
     reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text)
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
