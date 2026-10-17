@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-16T06:19+01:00",
+ "stamp": "2026-10-17T06:13+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-16",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:11",
-   "sunset": "19:34",
-   "weather": {
-    "tmin": 20,
-    "tmax": 26,
-    "rain": 0,
-    "wtype": 2,
-    "uv": 5.3
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-17",
    "type": "saturday",
@@ -30,7 +14,7 @@
     "tmax": 27,
     "rain": 0,
     "wtype": 2,
-    "uv": 5.4
+    "uv": 5.5
    },
    "fair": null
   },
@@ -43,10 +27,10 @@
    "sunset": "19:32",
    "weather": {
     "tmin": 20,
-    "tmax": 25,
-    "rain": 84,
+    "tmax": 26,
+    "rain": 96,
     "wtype": 7,
-    "uv": 5.4
+    "uv": 5.0
    },
    "fair": null
   },
@@ -58,11 +42,11 @@
    "sunrise": "08:13",
    "sunset": "19:31",
    "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 76,
+    "tmin": 19,
+    "tmax": 24,
+    "rain": 69,
     "wtype": 7,
-    "uv": 4.7
+    "uv": 4.5
    },
    "fair": null
   },
@@ -74,11 +58,11 @@
    "sunrise": "08:14",
    "sunset": "19:30",
    "weather": {
-    "tmin": 20,
+    "tmin": 19,
     "tmax": 24,
-    "rain": 69,
+    "rain": 65,
     "wtype": 7,
-    "uv": null
+    "uv": 5.3
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "08:15",
    "sunset": "19:29",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 33,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
     ],
     "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
    }
+  },
+  {
+   "date": "2026-10-30",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:22",
+   "sunset": "18:19",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -199,15 +199,6 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/ehf-beach-handball-champions-cup/",
    "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Oficina “Conhece o Plástico das Musas”",
-   "venue": "Galeria impulso",
-   "start": "2026-10-16T11:00",
-   "end": "2026-10-16T12:00",
-   "all_day": false,
-   "url": "https://cultura.funchal.pt/event/oficina-conhece-o-plastico-das-musas/",
-   "src": "cultura.funchal.pt"
   },
   {
    "title": "Ecotrail Funchal",
@@ -298,13 +289,22 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/xxv-madeira-international-bridge-open/",
    "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Chestnut Festival",
+   "venue": "",
+   "start": "2026-10-31",
+   "end": "2026-11-01",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/chestnut-festival/",
+   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-10-16",
-  "sst": 24,
+  "date": "2026-10-17",
+  "sst": 23,
   "wave": [
-   0.6,
+   0.8,
    0.8
   ],
   "warnings": []
