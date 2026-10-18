@@ -3,7 +3,7 @@
 
 Writes, between marker comments (idempotent, re-run any time):
   * OWNER-LINE  -- a last line inside every page's <footer>, in the page's language:
-                   "This is a personal project of © Mayke De Freitas Santos 2026. All Rights Reserved.
+                   "© Mayke De Freitas Santos 2026. All Rights Reserved.
                    Enquiries: hello@levadinho-madeira.com" (a mailto link).
   * OWNER-SIG   -- the owner's name under "Why I built this" on the five homepages.
   * ENGAGE       -- the /engage.js script (cookie-free engagement events) and /alert.js (storm banner, 2026-10-10)
@@ -31,11 +31,11 @@ SKIP = ("bot", "seo_research", "reports", "google_search_console", "trails", ".g
 
 MAIL = '<a href="mailto:hello@levadinho-madeira.com" style="color:inherit">hello@levadinho-madeira.com</a>'
 LINE = {
-    "en": f"This is a personal project of © {NAME} 2026. All Rights Reserved. Enquiries: {MAIL}",
-    "pt": f"Este é um projeto pessoal de © {NAME} 2026. Todos os direitos reservados. Contactos: {MAIL}",
-    "fr": f"Ceci est un projet personnel de © {NAME} 2026. Tous droits réservés. Contact : {MAIL}",
-    "de": f"Dies ist ein privates Projekt von © {NAME} 2026. Alle Rechte vorbehalten. Anfragen: {MAIL}",
-    "pl": f"To prywatny projekt © {NAME} 2026. Wszelkie prawa zastrzeżone. Kontakt: {MAIL}",
+    "en": f"© {NAME} 2026. All Rights Reserved. Enquiries: {MAIL}",
+    "pt": f"© {NAME} 2026. Todos os direitos reservados. Contactos: {MAIL}",
+    "fr": f"© {NAME} 2026. Tous droits réservés. Contact : {MAIL}",
+    "de": f"© {NAME} 2026. Alle Rechte vorbehalten. Anfragen: {MAIL}",
+    "pl": f"© {NAME} 2026. Wszelkie prawa zastrzeżone. Kontakt: {MAIL}",
 }
 ABOUT = {"en": ("/about/", "About Levadinho"), "pt": ("/pt/about/", "Sobre o Levadinho"), "fr": ("/fr/about/", "À propos"),
          "de": ("/de/about/", "Über Levadinho"), "pl": ("/pl/about/", "O Levadinho")}   # footer link (LLM audit item H)
