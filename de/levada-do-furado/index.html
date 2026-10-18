@@ -59,7 +59,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
       "name": "Wie kommt man von Portela zurück nach Ribeiro Frio?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Die Levada do Furado ist eine lineare Streckenwanderung (von Punkt zu Punkt), die in Portela endet, nicht dort, wo Sie in Ribeiro Frio gestartet sind. Die meisten nutzen zwei Autos, ein vorab gebuchtes Taxi oder eine geführte Tour mit Transfers. Busse ab Portela fahren selten, planen Sie den Rückweg also vor dem Start."
+        "text": "Die Levada do Furado ist eine lineare Streckenwanderung (von Punkt zu Punkt), die in Portela endet, nicht dort, wo Sie in Ribeiro Frio gestartet sind. Fahren Sie mit dem Bus nach Ribeiro Frio und buchen Sie ein Taxi ab Portela, oder nehmen Sie an einer geführten Tour mit Transfers teil. Busse ab Portela fahren selten, planen Sie den Rückweg also vor dem Start."
       }
     },
     {
@@ -88,7 +88,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
  "name": "PR10 Madeira: Levada do Furado offen? Buchung, Rückweg",
  "url": "https://levadinho-madeira.com/de/levada-do-furado/",
  "inLanguage": "de",
- "dateModified": "2026-10-18T14:07+01:00",
+ "dateModified": "2026-10-18T19:42+01:00",
  "isPartOf": {
   "@id": "https://levadinho-madeira.com/#website"
  },
@@ -359,7 +359,7 @@ a.tname:hover{text-decoration:underline}
 <div class="qa-row"><p class="qa-q">Brauche ich ein Ticket?</p><div class="qa-a">Ja: <b>4,50 €</b> pro Person bei <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, nur online, mit Zeitfenster. Unter 12-Jährige und Einheimische zahlen nichts, müssen aber auf der Buchung stehen.</div></div>
 <div class="qa-row"><p class="qa-q">Wie lang und wie schwer?</p><div class="qa-a"><p>~11 km (eine Richtung) · ~4 Stunden · Mittel · Ribeiro Frio → Portela (Punkt zu Punkt)</p></div></div>
 <div class="qa-row"><p class="qa-q">Wie komme ich hin und zurück?</p><div class="qa-a"><p>Mit dem Bus: Die Zeiten stehen unten unter <a href="#bus">PR10 mit dem Bus (CAM): hin einfach, zurück nicht</a>. Er führt in eine Richtung: Ende in <b>Portela</b>, planen Sie also den Rückweg.</p></div></div>
-<div class="qa-row"><p class="qa-q">Wo parke ich?</p><div class="qa-a"><p>Ribeiro Frio hat keinen Parkplatz: Es gibt etwa 30 bis 40 Plätze am Rand der ER103, zu Stoßzeiten regelt die Polizei den Verkehr. <a href="#parking">›</a></p></div></div>
+<div class="qa-row"><p class="qa-q">Wo parke ich?</p><div class="qa-a"><p><b>Bitte fahren Sie nicht mit dem Auto nach Ribeiro Frio.</b> Es gibt sehr wenige Parkplätze, und sie sind schnell weg; an vollen Tagen stehen Autos auf beiden Seiten der ER103, und die Polizei muss den Verkehr regeln. <a href="#parking">›</a></p></div></div>
 <div class="qa-row"><p class="qa-q">Schwindel oder Tunnel?</p><div class="qa-a"><p>Tunnel / Stirnlampe: Ja · Lampe mitnehmen · Ausgesetztheit / Schwindel: Mittel</p></div></div>
 <div class="qa-row"><p class="qa-q">Wetter dort jetzt</p><div class="qa-a"><p class="static-weather" id="qaWeather"><!-- STATIC-WEATHER:PR10:START -->Wetter am Weg (IPMA-Station Pico do Areeiro, 06:17): 9 °C, Wind 32 km/h.<!-- STATIC-WEATHER:PR10:END --></p></div></div>
 <p class="qa-src">Status: offizielle Hinweisliste des IFCN · Wetter: IPMA</p>
@@ -422,10 +422,10 @@ a.tname:hover{text-decoration:underline}
 </section>
 
 <section id="getting-back">
-  <h2><span class="q">Der Haken.</span> Sie endet in Portela, nicht am Auto</h2>
+  <h2><span class="q">Der Haken.</span> Sie endet in Portela, nicht am Start</h2>
   <p>Die Furado ist <b>linear</b>: Sie starten in <b>Ribeiro Frio</b> (an der ER103, ~860 m) und enden rund 11 km später in <b>Portela</b> — einem ganz anderen Ort. Den Rückweg <i>vor</i> dem Start zu regeln, ist das Einzige, was die Leute falsch machen.</p>
   <ul>
-    <li><b>Zwei Autos oder ein Taxi.</b> Stellen Sie ein Auto in Portela ab oder buchen Sie vorab ein Taxi, das Sie dort abholt — der Empfang in Portela ist lückenhaft, regeln Sie es also im Voraus.</li>
+    <li><b>Mit dem Bus hin, mit dem Taxi zurück.</b> Fahren Sie mit dem Bus nach Ribeiro Frio und buchen Sie vorab ein Taxi, das Sie in Portela abholt — der Empfang in Portela ist lückenhaft, regeln Sie es also im Voraus. Kommen Sie nicht mit zwei Autos: Das sind zwei Autos für sehr wenige Parkplätze.</li>
     <li><b>Eine geführte Wanderung mit Transfers</b> ist die einfachste Lösung: Sie werden in Ribeiro Frio abgesetzt und in Portela abgeholt, ohne Auto-Pendelei.</li>
     <li><b>Busse fahren selten.</b> Verlassen Sie sich nicht darauf, in Portela einfach einen zu erwischen — prüfen Sie die Zeiten am Vortag, sonst sitzen Sie fest.</li>
   </ul>
@@ -435,8 +435,7 @@ a.tname:hover{text-decoration:underline}
 <!-- PARKING:START (scripts/gen_parking.py) -->
 <section id="parking">
   <h2>Wo parken für den PR10?</h2>
-  <p>Ribeiro Frio hat keinen Parkplatz: Es gibt etwa 30 bis 40 Plätze am Rand der ER103, zu Stoßzeiten regelt die Polizei den Verkehr. Kommen Sie früh. Der Weg endet in Portela, planen Sie also den Rückweg zum Auto.</p>
-  <p class="src" style="font-size:13px;color:var(--ink-soft)">Quellen: <a class="plain" href="https://www.dnoticias.pt/2025/4/21/445984-estacionamento-no-ribeiro-frio-e-promessa-antiga/" target="_blank" rel="noopener">DN, 2025</a></p>
+  <p><b>Bitte fahren Sie nicht mit dem Auto nach Ribeiro Frio.</b> Es gibt sehr wenige Parkplätze, und sie sind schnell weg; an vollen Tagen stehen Autos auf beiden Seiten der ER103, und die Polizei muss den Verkehr regeln. Kommen Sie mit dem Bus oder teilen Sie sich ein Taxi: voll besetzt ist es billiger als ein Mietwagen. Ein Taxi ab Funchal hin und zurück kostet rund 70 €, etwa 18 € pro Person zu viert. Noch günstiger: mit dem Bus hinauf und das Taxi nur für die Rückfahrt buchen (wir haben an einem Sonntag 35 € bezahlt). Der PR10 endet in Portela, eine Rückfahrt brauchen Sie also ohnehin: mit dem Bus hinauf und ein Taxi buchen, das Sie in Portela abholt.</p>
 </section>
 <!-- PARKING:END -->
 
@@ -449,7 +448,7 @@ a.tname:hover{text-decoration:underline}
 
 <section id="combine">
   <h2>Wenn sie gesperrt ist — dasselbe Tal, trotzdem unterwegs</h2>
-  <p>Ribeiro Frio ist ein Ausgangspunkt-Knoten, eine gesperrte Furado verschwendet also nicht die Anfahrt:</p>
+  <p>Ribeiro Frio ist ein Ausgangspunkt-Knoten, eine gesperrte Furado verschwendet also nicht den Ausflug:</p>
   <ul>
     <li><b>Vereda dos Balcões (PR11)</b> — startet am selben Ribeiro Frio, ein leichter Weg von 1,5 km je Richtung zu einem berühmten Lorbeerwald-Aussichtspunkt. Meist geöffnet. <a class="plain" href="/de/balcoes/">Balcões ansehen →</a></li>
     <li><b>Ribeiro Frio selbst</b> — eine Forellenzucht, Cafés und Schatten unter dem Lorbeerwald, in jedem Fall einen Halt wert.</li>
@@ -475,7 +474,7 @@ a.tname:hover{text-decoration:underline}
 <section id="know">
   <h2>Drei Dinge, die man zu spät merkt</h2>
   <ul>
-    <li><b>Sie wird öfter gesperrt als die meisten.</b> Planen Sie für denselben Tag einen Plan B, damit eine kurzfristige Sperrung nicht die ganze Reise versenkt — Balcões vom selben Parkplatz ist die naheliegende Wahl.</li>
+    <li><b>Sie wird öfter gesperrt als die meisten.</b> Planen Sie für denselben Tag einen Plan B, damit eine kurzfristige Sperrung nicht die ganze Reise versenkt — Balcões vom selben Startpunkt ist die naheliegende Wahl.</li>
     <li><b>Man muss schwindelfrei sein.</b> Stellenweise ist der Levada-Pfad schmal, mit senkrechtem Abgrund und ohne Geländer, dazu ein paar niedrige Felsdurchlässe — nehmen Sie eine Lampe und trittsichere Schuhe mit und lassen Sie es bei schlechtem Wetter bleiben.</li>
     <li><b>Sie enden nicht dort, wo Sie gestartet sind.</b> Portela liegt 11 km von Ribeiro Frio entfernt — regeln Sie zuerst den Rückweg, sonst trampen Sie im Dunkeln.</li>
   </ul>
@@ -488,7 +487,7 @@ a.tname:hover{text-decoration:underline}
   <h3>Muss man die Levada do Furado buchen?</h3>
   <p>Ja. Für den PR10 sind eine Vorausbuchung und eine Zahlung von 4,50 € über SIMplifica erforderlich. Kinder unter 12 Jahren und Einwohner sind frei, müssen aber trotzdem in der Buchung stehen. Buchen Sie erst, nachdem Sie bestätigt haben, dass der Weg geöffnet ist — er wird oft gesperrt.</p>
   <h3>Wie kommt man von Portela zurück nach Ribeiro Frio?</h3>
-  <p>Die Levada do Furado ist eine lineare Streckenwanderung (von Punkt zu Punkt), die in Portela endet, nicht dort, wo Sie in Ribeiro Frio gestartet sind. Die meisten nutzen zwei Autos, ein vorab gebuchtes Taxi oder eine geführte Tour mit Transfers. Busse ab Portela fahren selten, planen Sie den Rückweg also vor dem Start.</p>
+  <p>Die Levada do Furado ist eine lineare Streckenwanderung (von Punkt zu Punkt), die in Portela endet, nicht dort, wo Sie in Ribeiro Frio gestartet sind. Fahren Sie mit dem Bus nach Ribeiro Frio und buchen Sie ein Taxi ab Portela, oder nehmen Sie an einer geführten Tour mit Transfers teil. Busse ab Portela fahren selten, planen Sie den Rückweg also vor dem Start.</p>
   <h3>Wie lang ist die Wanderung auf der Levada do Furado?</h3>
   <p>Rund 11 km in eine Richtung von Ribeiro Frio nach Portela, etwa 4 Stunden, Schwierigkeit mittel. Es gibt schmale, ausgesetzte Abschnitte mit Abgründen und ein paar niedrige Felsdurchlässe, daher braucht man Schwindelfreiheit und Trittsicherheit.</p>
 </section>

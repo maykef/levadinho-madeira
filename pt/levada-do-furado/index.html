@@ -60,7 +60,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
       "name": "Como se regressa da Portela ao Ribeiro Frio?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A Levada do Furado é um percurso linear, que termina na Portela e não no Ribeiro Frio, onde começou. A maioria das pessoas usa dois carros, um táxi reservado com antecedência ou um passeio guiado com transporte. Os autocarros a partir da Portela são pouco frequentes, por isso planeie o regresso antes de partir."
+        "text": "A Levada do Furado é um percurso linear, que termina na Portela e não no Ribeiro Frio, onde começou. Suba de autocarro até ao Ribeiro Frio e reserve um táxi a partir da Portela, ou faça um passeio guiado com transporte. Os autocarros a partir da Portela são pouco frequentes, por isso planeie o regresso antes de partir."
       }
     },
     {
@@ -89,7 +89,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
  "name": "PR10 Madeira: Levada do Furado está aberta? Regresso",
  "url": "https://levadinho-madeira.com/pt/levada-do-furado/",
  "inLanguage": "pt",
- "dateModified": "2026-10-18T14:07+01:00",
+ "dateModified": "2026-10-18T19:42+01:00",
  "isPartOf": {
   "@id": "https://levadinho-madeira.com/#website"
  },
@@ -360,7 +360,7 @@ a.tname:hover{text-decoration:underline}
 <div class="qa-row"><p class="qa-q">Preciso de bilhete?</p><div class="qa-a">Sim: <b>4,50 €</b> por pessoa no <a href="https://simplifica.madeira.gov.pt/" rel="noopener">SIMplifica</a>, só online, com hora marcada. Menores de 12 anos e residentes não pagam, mas têm de constar da reserva.</div></div>
 <div class="qa-row"><p class="qa-q">Quanto tempo e que dificuldade?</p><div class="qa-a"><p>~11 km só de ida · ~4 horas · Moderada · Ribeiro Frio → Portela (Linear)</p></div></div>
 <div class="qa-row"><p class="qa-q">Como chego lá e como volto?</p><div class="qa-a"><p>De autocarro: os horários estão em <a href="#bus">PR10 de autocarro (CAM): a ida é fácil, o regresso não</a>, mais abaixo. É num só sentido: termina em <b>Portela</b>, por isso planeie o regresso.</p></div></div>
-<div class="qa-row"><p class="qa-q">Onde estaciono?</p><div class="qa-a"><p>O Ribeiro Frio não tem parque de estacionamento: há cerca de 30 a 40 lugares na berma da ER103 e, nas horas de maior movimento, a polícia controla o trânsito. <a href="#parking">›</a></p></div></div>
+<div class="qa-row"><p class="qa-q">Onde estaciono?</p><div class="qa-a"><p><b>Por favor, não vá de carro para o Ribeiro Frio.</b> Há muito poucos lugares e ficam ocupados depressa; nos dias de maior movimento os carros enchem as duas bermas da ER103 e a polícia tem de controlar o trânsito. <a href="#parking">›</a></p></div></div>
 <div class="qa-row"><p class="qa-q">Vertigens ou túneis?</p><div class="qa-a"><p>Túneis / lanterna: Sim · leve lanterna · Exposição / vertigens: Moderada</p></div></div>
 <div class="qa-row"><p class="qa-q">Tempo lá agora</p><div class="qa-a"><p class="static-weather" id="qaWeather"><!-- STATIC-WEATHER:PR10:START -->Tempo perto do percurso (estação IPMA Pico do Areeiro, 06:17): 9 °C, vento 32 km/h.<!-- STATIC-WEATHER:PR10:END --></p></div></div>
 <p class="qa-src">Estado: lista oficial de avisos do IFCN · tempo: IPMA</p>
@@ -423,10 +423,10 @@ a.tname:hover{text-decoration:underline}
 </section>
 
 <section id="getting-back">
-  <h2><span class="q">O senão.</span> Termina na Portela, não junto ao seu carro</h2>
+  <h2><span class="q">O senão.</span> Termina na Portela, não onde começou</h2>
   <p>O Furado é <b>linear</b>: começa no <b>Ribeiro Frio</b> (na ER103, ~860 m) e termina cerca de 11 km depois na <b>Portela</b> — um sítio completamente diferente. Organizar o regresso <i>antes</i> de partir é precisamente o que as pessoas mais falham.</p>
   <ul>
-    <li><b>Dois carros ou um táxi.</b> Deixe um carro na Portela ou reserve com antecedência um táxi para o ir buscar lá — a rede na Portela é fraca, por isso combine tudo de antemão.</li>
+    <li><b>Autocarro na ida, táxi no regresso.</b> Apanhe o autocarro para o Ribeiro Frio e reserve com antecedência um táxi para o ir buscar à Portela — a rede na Portela é fraca, por isso combine tudo de antemão. Não traga dois carros: são dois carros a disputar muito poucos lugares.</li>
     <li><b>Um passeio guiado com transporte</b> é a solução mais fácil: deixam-no no Ribeiro Frio e vão buscá-lo à Portela, sem andar a trocar carros.</li>
     <li><b>Os autocarros são pouco frequentes.</b> Não conte chegar à Portela e apanhar logo um — veja os horários na véspera, ou arrisca-se a ficar por lá.</li>
   </ul>
@@ -436,8 +436,7 @@ a.tname:hover{text-decoration:underline}
 <!-- PARKING:START (scripts/gen_parking.py) -->
 <section id="parking">
   <h2>Onde estacionar para o PR10?</h2>
-  <p>O Ribeiro Frio não tem parque de estacionamento: há cerca de 30 a 40 lugares na berma da ER103 e, nas horas de maior movimento, a polícia controla o trânsito. Chegue cedo. O percurso termina na Portela, por isso planeie como volta ao carro.</p>
-  <p class="src" style="font-size:13px;color:var(--ink-soft)">Fontes: <a class="plain" href="https://www.dnoticias.pt/2025/4/21/445984-estacionamento-no-ribeiro-frio-e-promessa-antiga/" target="_blank" rel="noopener">DN, 2025</a></p>
+  <p><b>Por favor, não vá de carro para o Ribeiro Frio.</b> Há muito poucos lugares e ficam ocupados depressa; nos dias de maior movimento os carros enchem as duas bermas da ER103 e a polícia tem de controlar o trânsito. Venha de autocarro ou partilhe um táxi: cheio, sai mais barato do que um carro alugado. Um táxi do Funchal, ida e volta, custa cerca de 70 €, uns 18 € por pessoa para quatro. Ainda mais barato: suba de autocarro e reserve o táxi só para o regresso (pagámos 35 € num domingo). O PR10 termina na Portela, por isso precisa sempre de transporte de regresso: suba de autocarro e reserve um táxi para o ir buscar à Portela.</p>
 </section>
 <!-- PARKING:END -->
 
@@ -476,7 +475,7 @@ a.tname:hover{text-decoration:underline}
 <section id="know">
   <h2>Três coisas que se descobrem tarde demais</h2>
   <ul>
-    <li><b>Fecha mais do que a maioria.</b> Tenha um plano B para o mesmo dia, para que um encerramento à última hora não estrague a viagem toda — os Balcões, a partir do mesmo estacionamento, são a opção óbvia.</li>
+    <li><b>Fecha mais do que a maioria.</b> Tenha um plano B para o mesmo dia, para que um encerramento à última hora não estrague a viagem toda — os Balcões, a partir do mesmo ponto de partida, são a opção óbvia.</li>
     <li><b>É preciso não ter vertigens.</b> Há partes do caminho da levada estreitas, com precipício e sem proteção, e um par de passagens baixas na rocha — leve uma lanterna e calçado com boa aderência, e não vá com mau tempo.</li>
     <li><b>Não termina onde começou.</b> A Portela fica a 11 km do Ribeiro Frio — resolva primeiro o regresso, ou acaba a pedir boleia ao anoitecer.</li>
   </ul>
@@ -489,7 +488,7 @@ a.tname:hover{text-decoration:underline}
   <h3>É preciso reservar a Levada do Furado?</h3>
   <p>Sim. O PR10 exige reserva antecipada e o pagamento de 4,50 € no SIMplifica. As crianças com menos de 12 anos e os residentes não pagam, mas têm de constar na reserva. Reserve só depois de confirmar que o percurso está aberto — fecha com frequência.</p>
   <h3>Como se regressa da Portela ao Ribeiro Frio?</h3>
-  <p>A Levada do Furado é um percurso linear, que termina na Portela e não no Ribeiro Frio, onde começou. A maioria das pessoas usa dois carros, um táxi reservado com antecedência ou um passeio guiado com transporte. Os autocarros a partir da Portela são pouco frequentes, por isso planeie o regresso antes de partir.</p>
+  <p>A Levada do Furado é um percurso linear, que termina na Portela e não no Ribeiro Frio, onde começou. Suba de autocarro até ao Ribeiro Frio e reserve um táxi a partir da Portela, ou faça um passeio guiado com transporte. Os autocarros a partir da Portela são pouco frequentes, por isso planeie o regresso antes de partir.</p>
   <h3>Quanto tempo demora o percurso da Levada do Furado?</h3>
   <p>Cerca de 11 km só de ida, do Ribeiro Frio à Portela, aproximadamente 4 horas, com dificuldade moderada. Há troços estreitos e expostos, com precipícios, e um par de passagens baixas na rocha, por isso é preciso não ter vertigens e ter passo firme.</p>
 </section>
