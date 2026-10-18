@@ -92,7 +92,13 @@ PARK = {
         "de": "Laut der Gemeinde Calheta gibt es einen Parkbereich direkt nördlich des Wasserreservoirs von Rabaçal an der ER105. Angaben zu Gebühren haben wir nicht gefunden.",
         "pl": "Według gminy Calheta tuż na północ od zbiornika wody w Rabaçal, przy ER105, jest miejsce do parkowania. Nie znaleźliśmy informacji o opłatach.",
     }, [CALHETA_PAUL]),
-    "PR11": (RIBEIRO_FRIO, [DN_RF]),
+    "PR11": ({   # owner, 2026-10-18 (walked it): no parking advice, only "don't drive"
+        "en": "There is no parking in Ribeiro Frio. Do not drive there. Use public transport or pay for a taxi.",
+        "pt": "Não há estacionamento no Ribeiro Frio. Não vá de carro. Use os transportes públicos ou pague um táxi.",
+        "fr": "Il n'y a pas de stationnement à Ribeiro Frio. N'y allez pas en voiture. Prenez les transports en commun ou payez un taxi.",
+        "de": "In Ribeiro Frio gibt es keine Parkplätze. Fahren Sie nicht mit dem Auto hin. Nehmen Sie öffentliche Verkehrsmittel oder ein Taxi.",
+        "pl": "W Ribeiro Frio nie ma gdzie parkować. Nie jedź tam samochodem. Skorzystaj z komunikacji publicznej albo zapłać za taksówkę.",
+    }, []),
     "PR10": ({l: RIBEIRO_FRIO[l] + FURADO_EXTRA[l] for l in HEAD}, [DN_RF]),
     "PR1.2": ({
         "en": "Park at the car park at Achada do Teixeira, at the end of the ER218 from Santana (PR1 finishes here too). It fills on busy mornings, when cars park along the road. Visit Madeira gives the road's opening hours as 07:00–21:00. We found no official fee.",
