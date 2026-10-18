@@ -92,12 +92,12 @@ PARK = {
         "de": "Laut der Gemeinde Calheta gibt es einen Parkbereich direkt nördlich des Wasserreservoirs von Rabaçal an der ER105. Angaben zu Gebühren haben wir nicht gefunden.",
         "pl": "Według gminy Calheta tuż na północ od zbiornika wody w Rabaçal, przy ER105, jest miejsce do parkowania. Nie znaleźliśmy informacji o opłatach.",
     }, [CALHETA_PAUL]),
-    "PR11": ({   # owner, 2026-10-18 (walked it): no parking advice, only "don't drive"
-        "en": "There is no parking in Ribeiro Frio. Do not drive there. Use public transport or pay for a taxi.",
-        "pt": "Não há estacionamento no Ribeiro Frio. Não vá de carro. Use os transportes públicos ou pague um táxi.",
-        "fr": "Il n'y a pas de stationnement à Ribeiro Frio. N'y allez pas en voiture. Prenez les transports en commun ou payez un taxi.",
-        "de": "In Ribeiro Frio gibt es keine Parkplätze. Fahren Sie nicht mit dem Auto hin. Nehmen Sie öffentliche Verkehrsmittel oder ein Taxi.",
-        "pl": "W Ribeiro Frio nie ma gdzie parkować. Nie jedź tam samochodem. Skorzystaj z komunikacji publicznej albo zapłać za taksówkę.",
+    "PR11": ({   # owner, 2026-10-18 (walked it): very few spaces, they go fast; don't drive
+        "en": "There are very few parking spaces in Ribeiro Frio and they go fast. Don't drive there: use public transport or pay for a taxi.",
+        "pt": "Há muito poucos lugares para estacionar no Ribeiro Frio e ficam ocupados depressa. Não vá de carro: use os transportes públicos ou pague um táxi.",
+        "fr": "Il y a très peu de places pour se garer à Ribeiro Frio et elles partent vite. N'y allez pas en voiture : prenez les transports en commun ou payez un taxi.",
+        "de": "In Ribeiro Frio gibt es sehr wenige Parkplätze, und sie sind schnell weg. Fahren Sie nicht mit dem Auto hin: Nehmen Sie öffentliche Verkehrsmittel oder ein Taxi.",
+        "pl": "W Ribeiro Frio jest bardzo mało miejsc do parkowania i szybko się zapełniają. Nie jedź tam samochodem: skorzystaj z komunikacji publicznej albo zapłać za taksówkę.",
     }, []),
     "PR10": ({l: RIBEIRO_FRIO[l] + FURADO_EXTRA[l] for l in HEAD}, [DN_RF]),
     "PR1.2": ({
