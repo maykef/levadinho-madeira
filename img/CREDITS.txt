@@ -162,3 +162,4 @@ pr1-viewpoint-cloud.jpg — photo © Mayke De Freitas Santos 2026, all rights re
 pr1-viewpoint-cloud.webp — photo © Mayke De Freitas Santos 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
 pride-of-madeira.jpg — photo © Mayke De Freitas Santos 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
 pride-of-madeira.webp — photo © Mayke De Freitas Santos 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
+balcoes/*.webp (17 files) — photos © Mayke De Freitas Santos 2026, all rights reserved (owner's own photos, Funchal bus stop, Ribeiro Frio and PR11 Vereda dos Balcões; resized, location data removed)

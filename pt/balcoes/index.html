@@ -89,7 +89,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
  "name": "PR11 Madeira: Levada dos Balcões aberta hoje? Reserva",
  "url": "https://levadinho-madeira.com/pt/balcoes/",
  "inLanguage": "pt",
- "dateModified": "2026-10-15T22:06+01:00",
+ "dateModified": "2026-10-18T13:20+01:00",
  "isPartOf": {
   "@id": "https://levadinho-madeira.com/#website"
  },
@@ -318,6 +318,26 @@ a.tname:hover{text-decoration:underline}
 .qa-src{font-size:12px;color:var(--ink-soft);margin:8px 0 0}
 </style>
 <!-- ANSWER-CARD-HEAD:END -->
+<!-- TRACKMAP-HEAD:START (field walk: route map, profile, photos) -->
+<style>
+:root{--s-ex:#0f6b3a;--s-gd:#3fa35b;--s-fr:#b9c94a;--s-pr:#E8B71A;--s-no:#BE3A2B;--track:#c9cfc6;--fg:var(--ink);--bg:var(--paper);--good:#1E7A45}
+.trk-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin:12px 0;overflow-x:auto}
+.trk-card svg{display:block;width:100%;height:auto}
+.trk-card svg text{fill:var(--ink);font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.trk-card svg .ax{fill:var(--ink-soft);font-size:11px}
+.trk-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--ink-soft)}
+.trk-legend span{display:inline-flex;align-items:center;gap:6px}.trk-legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.trk-cap{font-size:14px;margin:14px 0 4px}.trk-note{font-size:13px;color:var(--ink-soft)}
+.trk-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.trk-gal figure{margin:0}.trk-gal img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;display:block}
+.trk-gal figcaption{font-size:13px;color:var(--ink-soft);margin-top:4px}
+.trk-photo{margin:12px 0}.trk-photo img{width:100%;max-width:520px;border-radius:12px;display:block}
+.trk-photo figcaption{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.trk-dl{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.trk-dl a{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:9px 14px;border-radius:999px}
+</style>
+<script src="/trackmap.js" defer></script>
+<!-- TRACKMAP-HEAD:END -->
 </head>
 <body>
 <div class="waymark" aria-hidden="true"></div>
@@ -361,6 +381,7 @@ a.tname:hover{text-decoration:underline}
 <div class="qa-row"><p class="qa-q">Quanto tempo e que dificuldade?</p><div class="qa-a"><p>1,5 km por sentido · ~1h30 ida e volta · Fácil</p></div></div>
 <div class="qa-row"><p class="qa-q">Como chego lá e como volto?</p><div class="qa-a"><p>De autocarro: os horários estão em <a href="#bus">PR11 de autocarro a partir do Funchal (CAM)</a>, mais abaixo. Volta pelo mesmo caminho até ao início.</p></div></div>
 <div class="qa-row"><p class="qa-q">Onde estaciono?</p><div class="qa-a"><p>O Ribeiro Frio não tem parque de estacionamento: há cerca de 30 a 40 lugares na berma da ER103 e, nas horas de maior movimento, a polícia controla o trânsito. <a href="#parking">›</a></p></div></div>
+<div class="qa-row"><p class="qa-q">Há rede de telemóvel?</p><div class="qa-a"><p>Boa no Ribeiro Frio. Nenhuma num troço entre cerca de 300 e 600 m, depois fraca a razoável até ao miradouro. <a href="#signal">›</a></p></div></div>
 <div class="qa-row"><p class="qa-q">Vertigens ou túneis?</p><div class="qa-a"><p>Exposição / vertigens: Baixa</p></div></div>
 <div class="qa-row"><p class="qa-q">Tempo lá agora</p><div class="qa-a"><p class="static-weather" id="qaWeather"><!-- STATIC-WEATHER:PR11:START -->Tempo perto do percurso (estação IPMA Pico do Areeiro, 06:17): 9 °C, vento 32 km/h.<!-- STATIC-WEATHER:PR11:END --></p></div></div>
 <p class="qa-src">Estado: lista oficial de avisos do IFCN · tempo: IPMA</p>
@@ -387,6 +408,8 @@ a.tname:hover{text-decoration:underline}
     <tr><th scope="row">Dificuldade</th><td>Fácil</td></tr>
     <tr><th scope="row">Altitude</th><td>870–880 m (plano)</td></tr>
     <tr><th scope="row">Tipo</th><td>Ida e volta</td></tr>
+    <tr class="fw"><th scope="row">O nosso registo GPS</th><td>1,7 km por sentido, 865–887 m</td></tr>
+    <tr class="fw"><th scope="row">Rede de telemóvel</th><td>Fraca após ~0,3 km</td></tr>
     <tr><th scope="row">Taxa</th><td>4,50 €</td></tr>
   </table>
   <!-- TRAIL-EXTRAS:START (scripts/gen_trail_extras.py) -->
@@ -425,6 +448,54 @@ a.tname:hover{text-decoration:underline}
   </ul>
 </section>
 
+<!-- FIELD-WALK:START (field walk: transport, PR10/PR11, route, signal) -->
+<div id="trackmaps" data-src="/gpx/pr11-balcoes.json" data-labels="{&quot;sig&quot;: &quot;Rede de telemóvel:&quot;, &quot;ex&quot;: &quot;Excelente&quot;, &quot;gd&quot;: &quot;Boa&quot;, &quot;fr&quot;: &quot;Razoável&quot;, &quot;pr&quot;: &quot;Fraca&quot;, &quot;no&quot;: &quot;Nenhuma&quot;, &quot;nr&quot;: &quot;Sem leitura&quot;, &quot;start&quot;: &quot;Início · Ribeiro Frio&quot;, &quot;end&quot;: &quot;Fim · miradouro dos Balcões&quot;, &quot;bstart&quot;: &quot;Paragem no Funchal&quot;, &quot;bend&quot;: &quot;Ribeiro Frio&quot;}"></div>
+<section id="public-transport">
+  <h2>Como chegar ao Ribeiro Frio de transportes públicos</h2>
+  <p>O Ribeiro Frio fica na rede Santana da CAM a partir do Funchal. A viagem demora cerca de 40 minutos e tem 19 km: sobe pelo Monte e passa o Poiso a cerca de 1370 m, depois desce até ao Ribeiro Frio, a cerca de 870 m. Os horários de partida estão em <a href="#bus">PR11 de autocarro a partir do Funchal</a>, mais abaixo.</p>
+  <ul>
+    <li><b>Paragem no Funchal: Almirante Reis, doca 7</b>, partidas da rede Santana da CAM, em <a class="plain" href="https://www.google.com/maps?q=32.647553,-16.902711" target="_blank" rel="noopener">32.64755, −16.90271</a>. O quadro de partidas está na paragem.</li>
+    <li><b>Segunda paragem:</b> perto do Mercado dos Lavradores, à saída da cidade.</li>
+    <li><b>Saia no Ribeiro Frio</b>, junto ao café e ao viveiro de trutas. Os dois percursos começam aqui.</li>
+  </ul>
+  <div class="trk-gal"><figure><img src="/img/balcoes/bus-850-almirante-reis.webp" alt="Autocarro 850 da CAM na paragem da Almirante Reis, no Funchal, antes do amanhecer" loading="lazy" width="600" height="800"><figcaption>A carreira 850 das 07:30 na Almirante Reis, doca 7.</figcaption></figure><figure><img src="/img/balcoes/cam-board-almirante-reis.webp" alt="Quadro de partidas da CAM na Almirante Reis para a rede Santana" loading="lazy" width="600" height="800"><figcaption>O quadro de partidas da CAM na Almirante Reis: as viagens pelo Ribeiro Frio indicam “Ribeiro Frio”; as da “Via Rápida” não param lá.</figcaption></figure></div>
+  <div class="trk-card"><svg id="busplan" viewBox="0 0 800 640" role="img" aria-label="Mapa da estrada do Funchal ao Ribeiro Frio"></svg></div>
+  <div class="trk-card"><svg id="busalt" viewBox="0 0 800 260" role="img" aria-label="Perfil de altitude da estrada do Funchal ao Ribeiro Frio"></svg></div>
+  <p class="trk-note">Vai de carro? O mesmo percurso em ficheiro GPX funciona em qualquer aplicação de navegação.</p>
+  <p class="trk-dl"><a href="/gpx/funchal-ribeiro-frio.gpx" download>Descarregar GPX: Funchal → Ribeiro Frio</a> <a href="/gpx/pr11-vereda-dos-balcoes.gpx" download>Descarregar GPX: PR11 Vereda dos Balcões</a></p>
+</section>
+<section id="two-walks">
+  <h2>Dois percursos a partir do Ribeiro Frio: PR10 e PR11</h2>
+  <ul>
+    <li><b><a href="/pt/levada-do-furado/">PR10 Levada do Furado</a></b>: do Ribeiro Frio à Portela, cerca de 11 km num só sentido, cerca de 4 horas, dificuldade moderada. Termina na Portela e não no ponto de partida, por isso planeie o regresso.</li>
+    <li><b>PR11 Vereda dos Balcões</b>: 1,7 km por sentido no nosso registo GPS (o valor oficial é 1,5 km), plano e fácil, até ao miradouro dos Balcões e regresso pelo mesmo caminho.</li>
+  </ul>
+  <p>Ambos começam no mesmo sítio, junto à estrada no Ribeiro Frio, e cada um precisa do seu bilhete de 4,50 € no SIMplifica. O painel da freguesia junto à estrada indica 10,7 km para o PR10 e 3 km ida e volta para o PR11.</p>
+  <div class="trk-gal"><figure><img src="/img/balcoes/pr10-start-sign.webp" alt="Placa do PR10 no Ribeiro Frio: Portela 11 km, com avisos e a placa de taxas e reservas" loading="lazy" width="600" height="800"><figcaption>O início do PR10 no Ribeiro Frio: Portela 11 km. A placa pequena por baixo é o aviso de taxas e reservas do IFCN, com código QR.</figcaption></figure><figure><img src="/img/balcoes/sao-roque-map-board.webp" alt="Painel da freguesia de São Roque do Faial no Ribeiro Frio com percursos e miradouros" loading="lazy" width="600" height="800"><figcaption>O painel da freguesia de São Roque do Faial no Ribeiro Frio: os percursos e miradouros à volta da localidade.</figcaption></figure></div>
+</section>
+<section id="route">
+  <h2>Percurso e perfil de altitude do PR11</h2>
+  <p>Fizemos o PR11 com um registador GPS e um medidor de rede, desde o início do PR10 no Ribeiro Frio até ao miradouro dos Balcões. O nosso registo mede <b>1,7 km por sentido</b> (o valor oficial é 1,5 km) e fica entre <b>865 e 887 m</b>: o caminho acompanha a levada, por isso é plano.</p>
+  <div class="trk-gal"><figure><img src="/img/balcoes/pr11-ifcn-panel.webp" alt="Painel do IFCN no início do PR11 Vereda dos Balcões com mapa, perfil e normas de segurança" loading="lazy" width="600" height="800"><figcaption>O painel do IFCN do PR11, cerca de 50 m depois da placa do PR10: mapa, perfil de altitude, normas de segurança e números de emergência.</figcaption></figure><figure><img src="/img/balcoes/fees-booking-sign.webp" alt="Placa do IFCN de taxas e reservas com código QR do SIMplifica junto à estrada no Ribeiro Frio" loading="lazy" width="600" height="800"><figcaption>A placa “Taxas e reservas” junto à estrada: o código QR abre o SIMplifica. A reserva é obrigatória; aqui a rede é boa.</figcaption></figure></div>
+  <div class="trk-card"><svg id="walkplan" viewBox="0 0 800 560" role="img" aria-label="Mapa do percurso PR11"></svg></div>
+  <p class="trk-cap"><b>Perfil de altitude, colorido pela intensidade da rede móvel</b></p>
+  <div class="trk-legend" id="walklegend"></div>
+  <div class="trk-card"><svg id="walkalt" viewBox="0 0 800 260" role="img" aria-label="Perfil de altitude do PR11, colorido pela intensidade da rede móvel"></svg></div>
+  <p class="trk-dl"><a href="/gpx/pr11-vereda-dos-balcoes.gpx" download>Descarregar GPX: PR11 Vereda dos Balcões</a></p>
+  <p class="trk-note">Altitude do GPS do telemóvel, corrigida para o nível do mar (±10–20 m): as pequenas oscilações são ruído. Cada coluna mostra a rede de telemóvel nesse ponto do caminho, de excelente a nenhuma.</p>
+  <div class="trk-gal"><figure><img src="/img/balcoes/walk-01.webp" alt="O caminho do PR11 ao lado do canal da levada, sob loureiros" loading="lazy" width="600" height="800"><figcaption><b>1</b> · 0,8 km · O caminho segue ao lado do canal da levada, sob os loureiros, largo e plano.</figcaption></figure><figure><img src="/img/balcoes/walk-02.webp" alt="Vista sobre as casas do Ribeiro Frio e o vale com nuvens baixas" loading="lazy" width="600" height="800"><figcaption><b>2</b> · 1,0 km · Uma clareira: as casas do Ribeiro Frio e o vale, com nuvens na cumeada.</figcaption></figure><figure><img src="/img/balcoes/walk-03.webp" alt="Edifício branco com mesas de madeira ao lado do caminho, no nevoeiro" loading="lazy" width="600" height="800"><figcaption><b>3</b> · 1,1 km · Um edifício com mesas ao ar livre mesmo ao lado do caminho.</figcaption></figure><figure><img src="/img/balcoes/walk-04.webp" alt="Placas de madeira do PR11 a indicar Ribeiro Frio e Balcões" loading="lazy" width="600" height="800"><figcaption><b>4</b> · 1,3 km · Placa do PR11: Ribeiro Frio para um lado, Balcões 0,5 km para o outro.</figcaption></figure><figure><img src="/img/balcoes/walk-05.webp" alt="O caminho da levada a bifurcar sob as árvores" loading="lazy" width="600" height="800"><figcaption><b>5</b> · 1,3 km · Aqui o caminho bifurca; siga as placas para os Balcões.</figcaption></figure><figure><img src="/img/balcoes/walk-06.webp" alt="Casa antiga de pedra com telhado de madeira ao lado do caminho, nevoeiro atrás" loading="lazy" width="600" height="800"><figcaption><b>6</b> · 1,3 km · Uma casa de pedra perto do fim do caminho, antes do miradouro.</figcaption></figure><figure><img src="/img/balcoes/walk-07.webp" alt="Vista entre loureiros para um vale florestado com escarpas" loading="lazy" width="600" height="800"><figcaption><b>7</b> · 1,4 km · Entre as árvores: a primeira vista para o vale e as suas escarpas.</figcaption></figure><figure><img src="/img/balcoes/walk-08.webp" alt="O canal da levada junto a uma parede de rocha com musgo" loading="lazy" width="600" height="800"><figcaption><b>8</b> · 1,6 km · A levada passa junto a uma parede de rocha; o caminho continua largo.</figcaption></figure><figure><img src="/img/balcoes/walk-09.webp" alt="Placa amarela BALCÕES num cruzamento de caminhos sob as árvores" loading="lazy" width="600" height="800"><figcaption><b>9</b> · 1,6 km · A placa amarela dos Balcões: saia da levada aqui para os últimos metros até ao miradouro.</figcaption></figure><figure><img src="/img/balcoes/walk-10.webp" alt="Vista do miradouro vedado dos Balcões sobre vales florestados, com nuvens nos picos" loading="lazy" width="600" height="800"><figcaption><b>10</b> · 1,7 km · O miradouro dos Balcões, vedado, a 860 m segundo o painel do IFCN. O painel identifica os picos: Pico do Areeiro, Pico do Gato, Pico das Torres e Pico Ruivo.</figcaption></figure></div>
+</section>
+<section id="signal" data-qa="Boa no Ribeiro Frio. Nenhuma num troço entre cerca de 300 e 600 m, depois fraca a razoável até ao miradouro.">
+  <h2>Há rede de telemóvel na Vereda dos Balcões?</h2>
+  <p>Alguma, mas pouca. Medimos a rede a cada poucos metros ao longo do caminho, com um telemóvel que podia usar qualquer rede portuguesa.</p>
+  <ul>
+    <li><b>Ribeiro Frio e os primeiros 300 m:</b> rede boa.</li>
+    <li><b>Entre cerca de 300 e 600 m:</b> nenhuma. As chamadas caem e nada carrega.</li>
+    <li><b>Dos 600 m até ao miradouro:</b> fraca a razoável, com alguns pontos sem rede. Chamadas e mensagens funcionam quase sempre; mapas e fotografias carregam devagar.</li>
+  </ul>
+  <div class="fact">Reserve o bilhete no SIMplifica e descarregue os mapas antes de sair do Ribeiro Frio, onde a rede ainda é boa.</div>
+</section>
+<!-- FIELD-WALK:END -->
 <!-- PARKING:START (scripts/gen_parking.py) -->
 <section id="parking">
   <h2>Onde estacionar para o PR11?</h2>
@@ -432,12 +503,14 @@ a.tname:hover{text-decoration:underline}
   <p class="src" style="font-size:13px;color:var(--ink-soft)">Fontes: <a class="plain" href="https://www.dnoticias.pt/2025/4/21/445984-estacionamento-no-ribeiro-frio-e-promessa-antiga/" target="_blank" rel="noopener">DN, 2025</a></p>
 </section>
 <!-- PARKING:END -->
+<!-- FIELD-PARK:START --><figure class="trk-photo"><img src="/img/balcoes/ribeiro-frio-parking.webp" alt="Carros estacionados dos dois lados da ER103 no Ribeiro Frio, com um agente a orientar o trânsito" loading="lazy" width="600" height="800"><figcaption>O Ribeiro Frio num domingo de manhã: carros dos dois lados da ER103 e um agente a orientar o trânsito. Foto: Levadinho.</figcaption></figure><!-- FIELD-PARK:END -->
 
 <section id="bus">
   <h2>PR11 de autocarro a partir do Funchal (CAM)</h2>
-  <p><b>Ida.</b> O Ribeiro Frio, onde o percurso começa e acaba, é uma paragem dos autocarros da rede Santana da CAM a partir do Funchal. De segunda a sexta: 08:10 (carreira 801, no Ribeiro Frio por volta das 08:50), 09:00 (801, 09:41), 10:00 (801, 10:41) e 13:45 (802, 14:31). Sábados: 07:30 (850, 08:12), 10:00 (801, 10:42) e 13:30 (850, 14:13). Domingos e feriados: 07:30 (850, 08:12) e 10:30 (801, 11:15).</p>
+  <p><b>Ida.</b> Partidas da Almirante Reis, doca 7, segundo o quadro da CAM na paragem (só viagens pelo Ribeiro Frio). De segunda a sexta: 08:10 (carreira 801), 09:00 (801), 10:00 (801), 13:45 (850) e 18:30 (875). Sábados: 07:30 (850), 10:00 (801), 13:30 (850) e 18:00 (850). Domingos e feriados: 07:30 (850), 10:30 (801) e 18:00 (850). A viagem até ao Ribeiro Frio demora cerca de 40 minutos; as viagens “Via Rápida” do mesmo quadro não param lá.</p>
   <p><b>Regresso.</b> Apanhe o autocarro para o Funchal na mesma paragem. De segunda a sexta: 06:56 (885, no Funchal às 07:40), 11:40 (801, no Funchal às 12:30), 13:15 em período escolar ou 13:45 fora do período escolar (801, 14:25) e 18:12 (860, 19:00). Sábados: 07:25 (860, no Funchal às 08:10) e 18:30 (860, 19:20). Domingos e feriados: 08:50 (860, no Funchal às 09:35) e 18:30 (860, 19:20). Depois do autocarro da manhã, o único de regresso é o das 18:30.</p>
-  <p style="font-size:13px;color:var(--ink-soft);margin-top:8px">Horários tal como impressos na tabela da rede Santana da CAM; as horas nas paragens intermédias são aproximadas e podem mudar com o trânsito ou o mau tempo. Não há autocarros a 25 de dezembro. Confirme com a CAM antes de viajar: info@cam-madeira.pt, 291 201 150.</p>
+  <p class="fw-seen">Apanhámos o autocarro das 07:30 de fim de semana no Funchal: chegou ao Ribeiro Frio às 08:07, alguns minutos antes dos 40 minutos habituais. O telemóvel teve rede durante toda a viagem, fraca em alguns pontos da subida.</p>
+  <p style="font-size:13px;color:var(--ink-soft);margin-top:8px">Horários tal como impressos na tabela da rede Santana da CAM; as horas nas paragens intermédias são aproximadas e podem mudar com o trânsito ou o mau tempo. Não há autocarros a 25 de dezembro. Confirme com a CAM antes de viajar: info@cam-madeira.pt, 291 201 151 (dias úteis 08:30–17:30).</p>
 </section>
 
 <section id="weather">

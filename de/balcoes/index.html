@@ -88,7 +88,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
  "name": "PR11 Madeira: Levada dos Balcões heute offen? Buchung",
  "url": "https://levadinho-madeira.com/de/balcoes/",
  "inLanguage": "de",
- "dateModified": "2026-10-15T22:06+01:00",
+ "dateModified": "2026-10-18T13:20+01:00",
  "isPartOf": {
   "@id": "https://levadinho-madeira.com/#website"
  },
@@ -317,6 +317,26 @@ a.tname:hover{text-decoration:underline}
 .qa-src{font-size:12px;color:var(--ink-soft);margin:8px 0 0}
 </style>
 <!-- ANSWER-CARD-HEAD:END -->
+<!-- TRACKMAP-HEAD:START (field walk: route map, profile, photos) -->
+<style>
+:root{--s-ex:#0f6b3a;--s-gd:#3fa35b;--s-fr:#b9c94a;--s-pr:#E8B71A;--s-no:#BE3A2B;--track:#c9cfc6;--fg:var(--ink);--bg:var(--paper);--good:#1E7A45}
+.trk-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin:12px 0;overflow-x:auto}
+.trk-card svg{display:block;width:100%;height:auto}
+.trk-card svg text{fill:var(--ink);font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.trk-card svg .ax{fill:var(--ink-soft);font-size:11px}
+.trk-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--ink-soft)}
+.trk-legend span{display:inline-flex;align-items:center;gap:6px}.trk-legend i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.trk-cap{font-size:14px;margin:14px 0 4px}.trk-note{font-size:13px;color:var(--ink-soft)}
+.trk-gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.trk-gal figure{margin:0}.trk-gal img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;display:block}
+.trk-gal figcaption{font-size:13px;color:var(--ink-soft);margin-top:4px}
+.trk-photo{margin:12px 0}.trk-photo img{width:100%;max-width:520px;border-radius:12px;display:block}
+.trk-photo figcaption{font-size:13px;color:var(--ink-soft);margin-top:6px}
+.trk-dl{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.trk-dl a{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:9px 14px;border-radius:999px}
+</style>
+<script src="/trackmap.js" defer></script>
+<!-- TRACKMAP-HEAD:END -->
 </head>
 <body>
 <div class="waymark" aria-hidden="true"></div>
@@ -360,6 +380,7 @@ a.tname:hover{text-decoration:underline}
 <div class="qa-row"><p class="qa-q">Wie lang und wie schwer?</p><div class="qa-a"><p>1,5 km pro Richtung · ~1h30 hin und zurück · Leicht</p></div></div>
 <div class="qa-row"><p class="qa-q">Wie komme ich hin und zurück?</p><div class="qa-a"><p>Mit dem Bus: Die Zeiten stehen unten unter <a href="#bus">PR11 mit dem Bus ab Funchal (CAM)</a>. Zurück geht es auf demselben Weg zum Start.</p></div></div>
 <div class="qa-row"><p class="qa-q">Wo parke ich?</p><div class="qa-a"><p>Ribeiro Frio hat keinen Parkplatz: Es gibt etwa 30 bis 40 Plätze am Rand der ER103, zu Stoßzeiten regelt die Polizei den Verkehr. <a href="#parking">›</a></p></div></div>
+<div class="qa-row"><p class="qa-q">Gibt es Handyempfang?</p><div class="qa-a"><p>Gut in Ribeiro Frio. Keiner auf einem Stück etwa 300–600 m nach dem Start, danach schwach bis mittel bis zum Aussichtspunkt. <a href="#signal">›</a></p></div></div>
 <div class="qa-row"><p class="qa-q">Schwindel oder Tunnel?</p><div class="qa-a"><p>Ausgesetztheit / Schwindel: Gering</p></div></div>
 <div class="qa-row"><p class="qa-q">Wetter dort jetzt</p><div class="qa-a"><p class="static-weather" id="qaWeather"><!-- STATIC-WEATHER:PR11:START -->Wetter am Weg (IPMA-Station Pico do Areeiro, 06:17): 9 °C, Wind 32 km/h.<!-- STATIC-WEATHER:PR11:END --></p></div></div>
 <p class="qa-src">Status: offizielle Hinweisliste des IFCN · Wetter: IPMA</p>
@@ -386,6 +407,8 @@ a.tname:hover{text-decoration:underline}
     <tr><th scope="row">Schwierigkeit</th><td>Leicht</td></tr>
     <tr><th scope="row">Höhe</th><td>870–880 m (eben)</td></tr>
     <tr><th scope="row">Art</th><td>Hin und zurück</td></tr>
+    <tr class="fw"><th scope="row">Unser GPS-Track</th><td>1,7 km pro Richtung, 865–887 m</td></tr>
+    <tr class="fw"><th scope="row">Handyempfang</th><td>Schwach ab ~0,3 km</td></tr>
     <tr><th scope="row">Gebühr</th><td>€4.50</td></tr>
   </table>
   <!-- TRAIL-EXTRAS:START (scripts/gen_trail_extras.py) -->
@@ -424,6 +447,54 @@ a.tname:hover{text-decoration:underline}
   </ul>
 </section>
 
+<!-- FIELD-WALK:START (field walk: transport, PR10/PR11, route, signal) -->
+<div id="trackmaps" data-src="/gpx/pr11-balcoes.json" data-labels="{&quot;sig&quot;: &quot;Handyempfang:&quot;, &quot;ex&quot;: &quot;Sehr gut&quot;, &quot;gd&quot;: &quot;Gut&quot;, &quot;fr&quot;: &quot;Mittel&quot;, &quot;pr&quot;: &quot;Schwach&quot;, &quot;no&quot;: &quot;Keiner&quot;, &quot;nr&quot;: &quot;Keine Messung&quot;, &quot;start&quot;: &quot;Start · Ribeiro Frio&quot;, &quot;end&quot;: &quot;Ziel · Aussichtspunkt Balcões&quot;, &quot;bstart&quot;: &quot;Haltestelle Funchal&quot;, &quot;bend&quot;: &quot;Ribeiro Frio&quot;}"></div>
+<section id="public-transport">
+  <h2>Mit öffentlichen Verkehrsmitteln nach Ribeiro Frio</h2>
+  <p>Ribeiro Frio liegt an der Santana-Linie der CAM ab Funchal. Die Fahrt dauert etwa 40 Minuten und ist 19 km lang: hinauf über Monte und über den Poiso-Pass auf etwa 1.370 m, dann hinunter nach Ribeiro Frio auf etwa 870 m. Die Abfahrtszeiten stehen weiter unten unter <a href="#bus">PR11 mit dem Bus ab Funchal</a>.</p>
+  <ul>
+    <li><b>Haltestelle in Funchal: Almirante Reis, Bucht (doca) 7</b>, Abfahrten der Santana-Linie der CAM, bei <a class="plain" href="https://www.google.com/maps?q=32.647553,-16.902711" target="_blank" rel="noopener">32.64755, −16.90271</a>. Der Abfahrtsplan hängt an der Haltestelle.</li>
+    <li><b>Zweite Haltestelle:</b> in der Nähe des Mercado dos Lavradores (der Markthalle), auf dem Weg aus der Stadt.</li>
+    <li><b>Steigen Sie in Ribeiro Frio aus</b>, beim Café und der Forellenzucht. Beide Wanderungen beginnen hier.</li>
+  </ul>
+  <div class="trk-gal"><figure><img src="/img/balcoes/bus-850-almirante-reis.webp" alt="CAM-Bus 850 an der Haltestelle Almirante Reis in Funchal vor der Morgendämmerung" loading="lazy" width="600" height="800"><figcaption>Die Linie 850 um 07:30 an der Almirante Reis, Bucht 7.</figcaption></figure><figure><img src="/img/balcoes/cam-board-almirante-reis.webp" alt="Abfahrtsplan der CAM an der Almirante Reis für das Santana-Netz" loading="lazy" width="600" height="800"><figcaption>Der Abfahrtsplan der CAM an der Almirante Reis: Fahrten über Ribeiro Frio sind mit „Ribeiro Frio“ markiert; die „Via Rápida“-Fahrten halten dort nicht.</figcaption></figure></div>
+  <div class="trk-card"><svg id="busplan" viewBox="0 0 800 640" role="img" aria-label="Karte der Straße von Funchal nach Ribeiro Frio"></svg></div>
+  <div class="trk-card"><svg id="busalt" viewBox="0 0 800 260" role="img" aria-label="Höhenprofil der Straße von Funchal nach Ribeiro Frio"></svg></div>
+  <p class="trk-note">Mit dem Auto? Dieselbe Strecke als GPX-Datei funktioniert in jeder Navigations-App.</p>
+  <p class="trk-dl"><a href="/gpx/funchal-ribeiro-frio.gpx" download>GPX herunterladen: Funchal → Ribeiro Frio</a> <a href="/gpx/pr11-vereda-dos-balcoes.gpx" download>GPX herunterladen: PR11 Vereda dos Balcões</a></p>
+</section>
+<section id="two-walks">
+  <h2>Zwei Wanderungen ab Ribeiro Frio: PR10 und PR11</h2>
+  <ul>
+    <li><b><a href="/de/levada-do-furado/">PR10 Levada do Furado</a></b>: von Ribeiro Frio nach Portela, etwa 11 km in eine Richtung, rund 4 Stunden, mittelschwer. Sie endet in Portela, nicht am Start: Planen Sie den Rückweg.</li>
+    <li><b>PR11 Vereda dos Balcões</b>: 1,7 km pro Richtung laut unserem GPS-Track (offiziell 1,5 km), eben und leicht, bis zum Aussichtspunkt Balcões und auf demselben Weg zurück.</li>
+  </ul>
+  <p>Beide beginnen an derselben Stelle an der Straße in Ribeiro Frio, und jede braucht ihr eigenes SIMplifica-Ticket zu 4,50 €. Die Gemeindetafel an der Straße gibt für den PR10 10,7 km und für den PR11 3 km hin und zurück an.</p>
+  <div class="trk-gal"><figure><img src="/img/balcoes/pr10-start-sign.webp" alt="PR10-Wegweiser in Ribeiro Frio: Portela 11 km, mit Warn- sowie Gebühren- und Buchungsschildern" loading="lazy" width="600" height="800"><figcaption>Der Start des PR10 in Ribeiro Frio: Portela 11 km. Das kleine Schild darunter ist der Gebühren- und Buchungshinweis des IFCN mit QR-Code.</figcaption></figure><figure><img src="/img/balcoes/sao-roque-map-board.webp" alt="Tafel der Gemeinde São Roque do Faial in Ribeiro Frio mit Wanderwegen und Aussichtspunkten" loading="lazy" width="600" height="800"><figcaption>Die Tafel der Gemeinde São Roque do Faial in Ribeiro Frio: die Wanderwege und Aussichtspunkte rund um den Ort.</figcaption></figure></div>
+</section>
+<section id="route">
+  <h2>PR11: Route und Höhenprofil</h2>
+  <p>Wir sind den PR11 mit einem GPS-Logger und einem Signalrekorder gegangen, vom Start des PR10 in Ribeiro Frio bis zum Aussichtspunkt Balcões. Unser Track misst <b>1,7 km pro Richtung</b> (offiziell 1,5 km) und bleibt zwischen <b>865 und 887 m</b>: Der Weg folgt der Levada und ist daher eben.</p>
+  <div class="trk-gal"><figure><img src="/img/balcoes/pr11-ifcn-panel.webp" alt="IFCN-Tafel am Start des PR11 Vereda dos Balcões mit Karte, Profil und Sicherheitsregeln" loading="lazy" width="600" height="800"><figcaption>Die IFCN-Tafel des PR11, etwa 50 m nach dem PR10-Wegweiser: Karte, Höhenprofil, Sicherheitsregeln und Notrufnummern.</figcaption></figure><figure><img src="/img/balcoes/fees-booking-sign.webp" alt="IFCN-Schild zu Gebühren und Buchung mit SIMplifica-QR-Code an der Straße in Ribeiro Frio" loading="lazy" width="600" height="800"><figcaption>Das Schild „Gebühren und Buchung“ an der Straße: Der QR-Code öffnet SIMplifica. Buchung ist Pflicht; hier ist der Empfang gut.</figcaption></figure></div>
+  <div class="trk-card"><svg id="walkplan" viewBox="0 0 800 560" role="img" aria-label="Karte der Route des PR11"></svg></div>
+  <p class="trk-cap"><b>Höhenprofil, eingefärbt nach Mobilfunkstärke</b></p>
+  <div class="trk-legend" id="walklegend"></div>
+  <div class="trk-card"><svg id="walkalt" viewBox="0 0 800 260" role="img" aria-label="Höhenprofil des PR11, eingefärbt nach Mobilfunkstärke"></svg></div>
+  <p class="trk-dl"><a href="/gpx/pr11-vereda-dos-balcoes.gpx" download>GPX herunterladen: PR11 Vereda dos Balcões</a></p>
+  <p class="trk-note">Höhe vom GPS des Handys, auf Meereshöhe korrigiert (±10–20 m): kleine Buckel sind Messrauschen. Jede Säule zeigt den Handyempfang an dieser Stelle des Wegs, von sehr gut bis keiner.</p>
+  <div class="trk-gal"><figure><img src="/img/balcoes/walk-01.webp" alt="Der PR11-Weg neben dem Levada-Kanal unter Lorbeerbäumen" loading="lazy" width="600" height="800"><figcaption><b>1</b> · 0,8 km · Der Weg verläuft neben dem Levada-Kanal unter den Lorbeerbäumen, breit und eben.</figcaption></figure><figure><img src="/img/balcoes/walk-02.webp" alt="Blick über die Häuser von Ribeiro Frio und das Tal mit tiefen Wolken" loading="lazy" width="600" height="800"><figcaption><b>2</b> · 1,0 km · Eine Lücke zwischen den Bäumen: die Häuser von Ribeiro Frio und das Tal, Wolken am Grat.</figcaption></figure><figure><img src="/img/balcoes/walk-03.webp" alt="Weißes Gebäude mit Holztischen am Weg, im Nebel" loading="lazy" width="600" height="800"><figcaption><b>3</b> · 1,1 km · Ein Gebäude mit Tischen im Freien direkt am Weg.</figcaption></figure><figure><img src="/img/balcoes/walk-04.webp" alt="Hölzerne PR11-Wegweiser nach Ribeiro Frio und Balcões" loading="lazy" width="600" height="800"><figcaption><b>4</b> · 1,3 km · Wegweiser am PR11: Ribeiro Frio in die eine Richtung, Balcões 0,5 km in die andere.</figcaption></figure><figure><img src="/img/balcoes/walk-05.webp" alt="Der Levada-Weg gabelt sich unter den Bäumen" loading="lazy" width="600" height="800"><figcaption><b>5</b> · 1,3 km · Hier gabelt sich der Weg; folgen Sie den Schildern nach Balcões.</figcaption></figure><figure><img src="/img/balcoes/walk-06.webp" alt="Alte Steinhütte mit Holzdach am Weg, dahinter Nebel" loading="lazy" width="600" height="800"><figcaption><b>6</b> · 1,3 km · Eine Steinhütte kurz vor dem Ende des Wegs, vor dem Aussichtspunkt.</figcaption></figure><figure><img src="/img/balcoes/walk-07.webp" alt="Blick zwischen Lorbeerbäumen hinunter in ein bewaldetes Tal mit Felswänden" loading="lazy" width="600" height="800"><figcaption><b>7</b> · 1,4 km · Zwischen den Bäumen: der erste Blick hinunter ins Tal und auf seine Felswände.</figcaption></figure><figure><img src="/img/balcoes/walk-08.webp" alt="Der Levada-Kanal an einer bemoosten Felswand neben dem Weg" loading="lazy" width="600" height="800"><figcaption><b>8</b> · 1,6 km · Die Levada zwängt sich an einer Felswand vorbei; der Weg bleibt breit.</figcaption></figure><figure><img src="/img/balcoes/walk-09.webp" alt="Gelbes BALCÕES-Schild an einer Wegkreuzung unter Bäumen" loading="lazy" width="600" height="800"><figcaption><b>9</b> · 1,6 km · Das gelbe Balcões-Schild: Hier verlassen Sie die Levada für die letzten Meter zum Aussichtspunkt.</figcaption></figure><figure><img src="/img/balcoes/walk-10.webp" alt="Blick vom eingezäunten Aussichtspunkt Balcões über bewaldete Täler, Wolken an den Gipfeln" loading="lazy" width="600" height="800"><figcaption><b>10</b> · 1,7 km · Der eingezäunte Aussichtspunkt Balcões, laut IFCN-Tafel auf 860 m. Die Tafel benennt die Gipfel: Pico do Areeiro, Pico do Gato, Pico das Torres und Pico Ruivo.</figcaption></figure></div>
+</section>
+<section id="signal" data-qa="Gut in Ribeiro Frio. Keiner auf einem Stück etwa 300–600 m nach dem Start, danach schwach bis mittel bis zum Aussichtspunkt.">
+  <h2>Gibt es Handyempfang auf der Vereda dos Balcões?</h2>
+  <p>Etwas, aber nicht viel. Wir haben den Empfang alle paar Meter entlang des Wegs gemessen, mit einem Handy, das jedes portugiesische Netz nutzen konnte.</p>
+  <ul>
+    <li><b>Ribeiro Frio und die ersten 300 m:</b> guter Empfang.</li>
+    <li><b>Etwa 300 bis 600 m nach dem Start:</b> keiner. Anrufe brechen ab, nichts lädt.</li>
+    <li><b>Ab 600 m bis zum Aussichtspunkt:</b> schwach bis mittel, an einigen Stellen keiner. Anrufe und Nachrichten klappen meist; Karten und Fotos laden langsam.</li>
+  </ul>
+  <div class="fact">Buchen Sie Ihr SIMplifica-Ticket und laden Sie Karten herunter, bevor Sie Ribeiro Frio verlassen; dort ist der Empfang noch gut.</div>
+</section>
+<!-- FIELD-WALK:END -->
 <!-- PARKING:START (scripts/gen_parking.py) -->
 <section id="parking">
   <h2>Wo parken für den PR11?</h2>
@@ -431,12 +502,14 @@ a.tname:hover{text-decoration:underline}
   <p class="src" style="font-size:13px;color:var(--ink-soft)">Quellen: <a class="plain" href="https://www.dnoticias.pt/2025/4/21/445984-estacionamento-no-ribeiro-frio-e-promessa-antiga/" target="_blank" rel="noopener">DN, 2025</a></p>
 </section>
 <!-- PARKING:END -->
+<!-- FIELD-PARK:START --><figure class="trk-photo"><img src="/img/balcoes/ribeiro-frio-parking.webp" alt="Autos auf beiden Seiten der ER103 in Ribeiro Frio, ein Beamter regelt den Verkehr" loading="lazy" width="600" height="800"><figcaption>Ribeiro Frio an einem Sonntagmorgen: Autos auf beiden Seiten der ER103 und ein Beamter, der den Verkehr regelt. Foto: Levadinho.</figcaption></figure><!-- FIELD-PARK:END -->
 
 <section id="bus">
   <h2>PR11 mit dem Bus ab Funchal (CAM)</h2>
-  <p><b>Hin.</b> Ribeiro Frio, wo die Wanderung beginnt und endet, ist eine Haltestelle der CAM-Busse des Santana-Netzes ab Funchal. Montag bis Freitag: 08:10 (Linie 801, in Ribeiro Frio gegen 08:50), 09:00 (801, 09:41), 10:00 (801, 10:41) und 13:45 (802, 14:31). Samstags: 07:30 (850, 08:12), 10:00 (801, 10:42) und 13:30 (850, 14:13). Sonn- und Feiertage: 07:30 (850, 08:12) und 10:30 (801, 11:15).</p>
+  <p><b>Hin.</b> Abfahrten an der Almirante Reis, Bucht 7, laut dem Abfahrtsplan der CAM an der Haltestelle (nur Fahrten über Ribeiro Frio). Montag bis Freitag: 08:10 (Linie 801), 09:00 (801), 10:00 (801), 13:45 (850) und 18:30 (875). Samstags: 07:30 (850), 10:00 (801), 13:30 (850) und 18:00 (850). Sonn- und Feiertage: 07:30 (850), 10:30 (801) und 18:00 (850). Die Fahrt nach Ribeiro Frio dauert etwa 40 Minuten; die „Via Rápida“-Fahrten auf demselben Plan halten dort nicht.</p>
   <p><b>Zurück.</b> Der Bus nach Funchal fährt an derselben Haltestelle. Montag bis Freitag: 06:56 (885, in Funchal 07:40), 11:40 (801, in Funchal 12:30), 13:15 in der Schulzeit bzw. 13:45 in den Schulferien (801, 14:25) und 18:12 (860, 19:00). Samstags: 07:25 (860, in Funchal 08:10) und 18:30 (860, 19:20). Sonn- und feiertags: 08:50 (860, in Funchal 09:35) und 18:30 (860, 19:20). Nach dem Morgenbus fährt nur noch der Bus um 18:30.</p>
-  <p style="font-size:13px;color:var(--ink-soft);margin-top:8px">Zeiten laut gedrucktem Fahrplan des Santana-Netzes der CAM; Zeiten an Zwischenhalten sind ungefähr und können sich bei Verkehr oder schlechtem Wetter ändern. Am 25. Dezember fahren keine Busse. Vor der Fahrt bei der CAM prüfen: info@cam-madeira.pt, +351 291 201 150.</p>
+  <p class="fw-seen">Wir haben den Wochenendbus um 07:30 ab Funchal genommen: Er war um 08:07 in Ribeiro Frio, ein paar Minuten schneller als die üblichen 40 Minuten. Das Handy hatte die ganze Fahrt über Empfang, an einigen Stellen beim Anstieg schwach.</p>
+  <p style="font-size:13px;color:var(--ink-soft);margin-top:8px">Zeiten laut gedrucktem Fahrplan des Santana-Netzes der CAM; Zeiten an Zwischenhalten sind ungefähr und können sich bei Verkehr oder schlechtem Wetter ändern. Am 25. Dezember fahren keine Busse. Vor der Fahrt bei der CAM prüfen: info@cam-madeira.pt, +351 291 201 151 (werktags 08:30–17:30).</p>
 </section>
 
 <section id="weather">

@@ -10,8 +10,9 @@ the bot's chats), each answered in one or two lines:
   4. How do I get there and back? the page's "by bus" section if it has one, else the taxi ranks on the trail's IFCN
                                   panel (knowledge store); one-way trails: where it ends.
   5. Where do I park?             only where the page has a sourced parking section (gen_parking.py).
-  6. Vertigo or tunnels?          the page's own tunnel / exposure rows (sourced, gen_trail_extras.py).
-  7. Weather now                  the STATIC-WEATHER reading (updater), refreshed by status.js. Forecast: on hold.
+  6. Phone signal?                only where the page has a measured signal section (<section id="signal" data-qa>).
+  7. Vertigo or tunnels?          the page's own tunnel / exposure rows (sourced, gen_trail_extras.py).
+  8. Weather now                  the STATIC-WEATHER reading (updater), refreshed by status.js. Forecast: on hold.
 A row without a sourced fact is left out. Between <!-- ANSWER-CARD:START/END --> (+ ANSWER-CARD-HEAD for the CSS);
 the STATIC-* markers keep whatever the updater wrote last. Idempotent; gen_spokes.py calls it; it re-places the
 WhatsApp block (gen_cta.py) below the card.
@@ -36,6 +37,8 @@ Q = {
              "de": "Wie lang und wie schwer?", "pl": "Jak długo i jak trudno?"},
     "there": {"en": "How do I get there and back?", "pt": "Como chego lá e como volto?", "fr": "Comment y aller et revenir ?",
               "de": "Wie komme ich hin und zurück?", "pl": "Jak tam dojechać i wrócić?"},
+    "signal": {"en": "Phone signal?", "pt": "Há rede de telemóvel?", "fr": "Y a-t-il du réseau ?",
+               "de": "Gibt es Handyempfang?", "pl": "Czy jest zasięg?"},
     "park": {"en": "Where do I park?", "pt": "Onde estaciono?", "fr": "Où se garer ?", "de": "Wo parke ich?", "pl": "Gdzie zaparkować?"},
     "vertigo": {"en": "Vertigo or tunnels?", "pt": "Vertigens ou túneis?", "fr": "Vertige ou tunnels ?",
                 "de": "Schwindel oder Tunnel?", "pl": "Ekspozycja czy tunele?"},
@@ -191,6 +194,9 @@ def card(page, lang, code, status):
     if park:
         first = re.split(r"(?<=[.!?])\s", park.group(1), maxsplit=1)[0]
         row("park", f'<p>{first} <a href="#parking">›</a></p>')
+    sig = re.search(r'<section id="signal" data-qa="([^"]+)"', page)   # measured on a field walk (FIELD-WALK block)
+    if sig:
+        row("signal", f'<p>{sig.group(1)} <a href="#signal">›</a></p>')
     vert = f.get("extras") or [f"{VERT[k][lang]}: {f[k]}" for k in ("expo", "tun", "torch") if f.get(k)]
     if vert:
         row("vertigo", "<p>" + " · ".join(vert) + "</p>")
