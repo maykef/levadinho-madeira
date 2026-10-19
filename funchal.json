@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-18T06:18+01:00",
+ "stamp": "2026-10-19T06:32+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-18",
-   "type": "sunday",
-   "holiday": null,
-   "bus": "sunday",
-   "sunrise": "08:12",
-   "sunset": "19:32",
-   "weather": {
-    "tmin": 20,
-    "tmax": 24,
-    "rain": 100,
-    "wtype": 7,
-    "uv": 5.7
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-19",
    "type": "weekday",
@@ -26,11 +10,11 @@
    "sunrise": "08:13",
    "sunset": "19:31",
    "weather": {
-    "tmin": 20,
+    "tmin": 19,
     "tmax": 24,
-    "rain": 60,
-    "wtype": 3,
-    "uv": 5.1
+    "rain": 75,
+    "wtype": 7,
+    "uv": 4.7
    },
    "fair": null
   },
@@ -42,11 +26,11 @@
    "sunrise": "08:14",
    "sunset": "19:30",
    "weather": {
-    "tmin": 19,
+    "tmin": 20,
     "tmax": 24,
-    "rain": 53,
-    "wtype": 9,
-    "uv": 4.8
+    "rain": 59,
+    "wtype": 10,
+    "uv": 4.3
    },
    "fair": null
   },
@@ -60,9 +44,9 @@
    "weather": {
     "tmin": 19,
     "tmax": 24,
-    "rain": 16,
-    "wtype": 3,
-    "uv": 5.5
+    "rain": 65,
+    "wtype": 7,
+    "uv": 4.9
    },
    "fair": null
   },
@@ -74,11 +58,11 @@
    "sunrise": "08:15",
    "sunset": "19:28",
    "weather": {
-    "tmin": 19,
-    "tmax": 24,
-    "rain": 45,
+    "tmin": 20,
+    "tmax": 25,
+    "rain": 18,
     "wtype": 3,
-    "uv": null
+    "uv": 5.1
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "08:16",
    "sunset": "19:26",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 37,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:18",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-01",
+   "type": "holiday",
+   "holiday": "Todos os Santos",
+   "bus": "sunday",
+   "sunrise": "07:24",
+   "sunset": "18:18",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -189,24 +189,6 @@
    "end": "2026-10-28",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "EHF Beach Handball Champions Cup",
-   "venue": "",
-   "start": "2026-10-15",
-   "end": "2026-10-18",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/ehf-beach-handball-champions-cup/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Ecotrail Funchal",
-   "venue": "",
-   "start": "2026-10-17",
-   "end": "2026-10-18",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/ecotrail-funchal/",
    "src": "eventsmadeira.com"
   },
   {
@@ -283,10 +265,10 @@
   }
  ],
  "sea": {
-  "date": "2026-10-18",
+  "date": "2026-10-19",
   "sst": 23,
   "wave": [
-   0.6,
+   0.8,
    0.8
   ],
   "warnings": []
