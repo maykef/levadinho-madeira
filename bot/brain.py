@@ -635,8 +635,10 @@ def site_links(reply, trails, lang, named=None):
     lines = []
     for code in codes:
         k = KB["trails"].get(code)
-        if k and k["url"] not in reply and len(lines) < MAX_SITE_LINKS:
-            lines.append(SITE_LINK[lang].format(code=code, name=k["name"], url=k["url"]))
+        # every page exists in all 5 languages: link the visitor's own (19 Oct: a PT chat got /pr1/)
+        url = k["url"] if lang not in ("pt", "fr", "de", "pl") else k["url"].replace(SITE + "/", f"{SITE}/{lang}/", 1) if k else ""
+        if k and url not in reply and k["url"] not in reply and len(lines) < MAX_SITE_LINKS:
+            lines.append(SITE_LINK[lang].format(code=code, name=k["name"], url=url))
     return "\n\n" + "\n".join(lines) if lines else ""
 
 
@@ -846,9 +848,18 @@ def pickup_question(text, hist, lang):
     earlier in the chat; else None."""
     if not PICKUP_Q.search(text) or PLACE_NAMED.search(text) or trails_in(text):
         return None
+    if re.search(r"geld|money|refund|rembours|reembols|zwrot|dinheiro|argent", text, re.I):
+        return None  # "Geld zurück" / "money back" is a refund question, not a ride back (20 Oct)
+    if re.search(r"simplifica", text, re.I):  # "can I book the taxi on SIMplifica?" is a yes/no question (19 Oct)
+        return None
+    if any(m.get("role") == "assistant" and (m.get("content") or "").strip() in PICKUP_ASK.values() for m in hist[-2:]):
+        return None  # never ask it twice in a row: let the model answer the new question
     if any(PLACE_NAMED.search(m.get("content") or "") for m in hist if m.get("role") == "user"):
         return None
     return PICKUP_ASK.get(lang, PICKUP_ASK["en"])
+
+
+DAY_WORDS = (r"\b(today|tomorrow|tonight|hoje|amanh[ãa]|aujourd|demain|heute|morgen|dzi[śs]|jutro|\d{1,2}\s?(h|:\d\d|uhr))")
 
 
 def answer_tools(user, text, lang, rule, meta=None):
@@ -866,16 +877,24 @@ def answer_tools(user, text, lang, rule, meta=None):
         hint += (f"\nTHE VISITOR IS ON OUR PAGE FOR {page_trail} ({KB['trails'][page_trail]['name']}). When the question "
                  f"doesn't name a trail or place, it is about {page_trail} (\"nearby\" = near {page_trail}).\n")
     now = datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira"))
-    hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}. Use it only to work out today, tomorrow and opening hours; "
+    tmr = now + datetime.timedelta(days=1)
+    hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}; tomorrow is {tmr:%A %d %B}. Use it only to work out today, tomorrow and opening hours; "
              "never write a date next to a trail status. For timetables, don't assume today unless the visitor says so.\n")
     named = trails_in(text)
     if not named and page_trail and not re.search(r"funchal|monte|cruise|navio|ship|schiff|statek|lido", text, re.I):
         named = [page_trail]
     q = text
+    if named and re.search(DAY_WORDS, text, re.I):  # "PR1 tomorrow at 9h?": give the status, never a guessed opening day (19 Oct)
+        st = {t.get("code"): t for t in live_status().get("trails", [])}
+        q += "\n\n[IFCN's official list now: " + "; ".join(
+            f"{c} {st[c]['status']}: {(st[c].get('note') or {}).get('en', '')}" for c in named if c in st) + "]"
     if named:  # resolved by our alias table, so the model never has to guess a code
         q += "\n\n[Trails named in this message: " + "; ".join(f"{c} = {KB['trails'][c]['name']}" for c in named if c in KB["trails"]) + "]"
-    # only off trail pages or on PR1 ones: on another trail's page the question would be about the wrong walk
-    ask = pickup_question(text, store.history(user, HISTORY_SINCE), lang) if not named or "PR1" in named else None
+    # only off trail pages or on PR1 ones: on another trail's page the question would be about the wrong walk.
+    # Never on the getting-back page: its subject IS the return from Achada do Teixeira, so the pick-up isn't a
+    # guess there (owner, 2026-10-20: a web-back visitor got the clarifying question twice on 19 Oct)
+    ask = (pickup_question(text, store.history(user, HISTORY_SINCE), lang)
+           if source != "web-back" and (not named or "PR1" in named) else None)
     if ask:
         return ask
     t0 = time.time()
@@ -890,6 +909,8 @@ def answer_tools(user, text, lang, rule, meta=None):
         reply = reply.rstrip() + bus_footer(trace, text, reply, lang)
     for t in trace:
         t.pop("trip_rows", None)  # the analytics record keeps the call, not the timetable
+    # the model's own "on our site" line (19 Oct: /pt/pr1/ written by the model, then ours too): ours replaces it
+    reply = re.sub(r"(?m)^[^\n]{0,80}https://levadinho-madeira\.com/(?!privacy|guide)[\w/#.-]*\s*$\n?", "", reply)
     reply = reply.rstrip() + site_links(reply, named, lang, named=named)
     if meta is not None:
         meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,

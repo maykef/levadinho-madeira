@@ -51,6 +51,16 @@ the tool-per-question rules; `answer_tools` adds the page's trail ("nearby" = ne
 timetables when the reply leaves departures out, no company names or offers, no invented workarounds, Monte = cable
 car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.json` (49 questions, 49/49 on 2026-10-10).
 
+**Fixes from the 15–20 Oct chats (20 Oct; live since the full restart that evening; uncommitted):**
+- `answer_tools`: when a named trail comes with a day or time (`DAY_WORDS`: today/tomorrow/amanhã/morgen/demain/jutro…,
+  "9h", "8:30", "8 Uhr"), the trail's IFCN status and note are added to the question, so the bot never guesses opening days.
+- `guard.py`: if it drops a "partly open" sentence, it puts IFCN's official status lines back (and drops the model's
+  retelling), even when the question wasn't about status ("PR1 tomorrow at 9h?").
+- `brain_tools.SYSTEM`: start with the trail's status when they want to walk it on a day; PR1 taxi pick-up = Achada do
+  Teixeira at start + ~4 h; shared ride €15–20 pp is the one allowed price and multiplies for a group (2 ≈ €30–40).
+- Earlier (19 Oct 18:51, live since the 18:54 restart): no "Friday to Sunday" for PR1, taxis never on SIMplifica,
+  no road to Pico Ruivo, never repeat the previous question, links in the visitor's language.
+
 **Buses (2026-10-12):** after every bus timetable `brain.bus_footer` offers directions to the stop and the taxi
 number (never for Monte). A **"bus now"** question asks for the visitor's location (WhatsApp location button; web chat
 "📍 Share my location", `location_request` message in `/webchat`); a pin within 30 min gets the nearest boarding stop

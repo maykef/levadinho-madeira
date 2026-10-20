@@ -326,7 +326,7 @@
    "lang": "en",
    "q": "Can I bring my dog on the levadas?",
    "must": [
-    "don't|do not|no (sourced )?information|not sure|can't confirm|cannot confirm"
+    "don't|do not|no (sourced )?information|no official (rule|information)|not covered|isn't covered|not sure|can't confirm|cannot confirm"
    ],
    "must_not": [
     "leash at all times",
@@ -405,9 +405,9 @@
     "\\d{2}:\\d{2}"
    ],
    "must_not": [
-    "where are you staying",
-    "Táxis"
-   ]
+    "where are you staying"
+   ],
+   "note": "must_not Táxis removed 2026-10-20: bus_footer (13 Oct) deliberately appends the taxi alternative after a timetable"
   },
   {
    "id": "monte-en",

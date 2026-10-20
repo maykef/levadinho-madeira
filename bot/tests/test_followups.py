@@ -295,7 +295,7 @@ def test_facts():
     f = open(os.path.join(BOT, "pr1_facts.md"), encoding="utf-8").read()
     for s in ("€250 to €2,500", "Portaria 801/2025 art. 10", "24/2022/M", "art. 13", "**€7**", "**€9**",
               "**€22.50**", "**€52.50**", "PR1 is never included", "06:00", "06:45", "12:15", "19:00",
-              "€3.00 per trip", "291 705 555", "+351 291 572 540", "**1 May 2026**", "26 June 2026",
+              "€3.00 per trip", "291 705 555", "+351 291 572 540", "1 May 2026", "26 June 2026", "open **every day of the week**",
               "14–17 and 21–22", "NEVER give\na date", "No bus serves Achada do Teixeira",
               "without a ticket", "Not confirmed"):
         check(s in f, f"facts: {s}")
@@ -329,7 +329,7 @@ def test_brain_ifcn():
     check(brain.site_links(r, ["PR11"], "en").endswith("🥾 PR10 Levada do Furado on our site: https://levadinho-madeira.com/levada-do-furado/"),
           "site link: the trail the reply talks about")
     check(brain.site_links("See https://levadinho-madeira.com/balcoes/", ["PR11"], "pt") == "", "site link: not twice")
-    check("no nosso site: https://levadinho-madeira.com/balcoes/" in brain.site_links("Sim.", ["PR11"], "pt"),
+    check("no nosso site: https://levadinho-madeira.com/pt/balcoes/" in brain.site_links("Sim.", ["PR11"], "pt"),
           "site link: the question's trail when the reply names none")
     check(brain.pick_context("t-ctx", "Is Levada dos Tornos open?", {"trail_code": "PR14"})[0] == [],
           "classifier's trail guess ignored (Tornos is not PR14)")

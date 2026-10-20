@@ -154,6 +154,9 @@ def check(reply, user_text, lang, trails, context=""):
                 if d2:
                     changes.append(f"status retelling dropped: {code}")
                 heads.append(answers.status_line(code, lang))
+            elif d:  # 20 Oct: the dropped sentence was the status ("PR1 tomorrow at 9h?"): put the official one back
+                out, _ = _drop(out, lambda s: bool(RETELL.search(s)))
+                heads.append(answers.status_line(code, lang))
             continue
         # owner, 2026-10-10: answer only what was asked — the status goes first only when the question is about it,
         # or the trail is CLOSED (safety); never pasted in front of a parking or bus answer

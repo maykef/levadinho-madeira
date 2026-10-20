@@ -1,0 +1,143 @@
+{
+ "about": "The real visitors' questions from the first 16 conversations (4-20 Oct 2026), as a regression set for the template answers (owner, 2026-10-20). Run: REGRESSION_QUESTIONS=backend/tests/real_questions.json python3 backend/tests/regression.py tools OUT.json. must/must_not are case-insensitive regexes. The company blacklist (Beyond Madeira, GetToHikes, Doit, Happy Transfer, Madeira Transfers) guards the no-referrals rule; 'sexta a domingo' and 'closed section' guard the 19 Oct and 6 Oct wrong answers.",
+ "questions": [
+  {
+   "id": "taxi-when-en",
+   "lang": "en",
+   "source": "web-back",
+   "q": "When should I book the taxi?",
+   "must": ["Achada do Teixeira", "before"],
+   "must_not": ["Pico do Areeiro car park pick|pick.{0,12}at Pico do Areeiro"]
+  },
+  {
+   "id": "taxi-when-start-de",
+   "lang": "de",
+   "source": "web-back",
+   "q": "Wir laufen den PR1 morgen um acht Uhr los. Für wann bestellen wir das Taxi?",
+   "must": ["Achada do Teixeira", "12"],
+   "must_not": ["Abholung am Pico do Areeiro", "11:30"]
+  },
+  {
+   "id": "taxi-cost-de",
+   "lang": "de",
+   "source": "web-back",
+   "q": "Was kostet das Taxi für die Rückfahrt?",
+   "must": ["Tarif|Taxameter|Zähler|15"],
+   "must_not": ["Beyond Madeira|GetToHikes|Doit|Happy Transfer|Madeira Transfers"]
+  },
+  {
+   "id": "taxi-cost-2p-nl",
+   "lang": "en",
+   "source": "web-back",
+   "q": "Wat zijn de taxi kosten voor de terugweg naar het startpunt voor 2 personen?",
+   "must": ["15", "30"],
+   "must_not": ["Beyond Madeira|GetToHikes|Doit|Happy Transfer|Madeira Transfers"]
+  },
+  {
+   "id": "taxi-sum-pt",
+   "lang": "pt",
+   "source": "web-back",
+   "q": "Se uma viagem partilhada de volta ao Pico do Areeiro custa cerca de 15–20 € por pessoa e tivermos duas pessoas para voltar, então a viagem vai custar 30-40 €?",
+   "must": ["\\bSim\\b"],
+   "must_not": ["\\bNão\\b.{0,30}funciona"]
+  },
+  {
+   "id": "taxi-simplifica-fr",
+   "lang": "fr",
+   "source": "web-back",
+   "q": "Peut-on réserver le taxi sur SIMplifica ?",
+   "must": ["\\bNon\\b", "téléphon|appel"],
+   "must_not": ["Faites-vous le parcours"]
+  },
+  {
+   "id": "card-fr",
+   "lang": "fr",
+   "q": "Est-il possible de payer par carte sur SIMplifica ?",
+   "must": ["Visa", "Mastercard"]
+  },
+  {
+   "id": "transfer-order-en",
+   "lang": "en",
+   "source": "web-sunrise",
+   "q": "how to order transfer ?",
+   "must": ["hotel|reception|taxi"],
+   "must_not": ["Beyond Madeira|GetToHikes|Doit|Happy Transfer|Madeira Transfers"]
+  },
+  {
+   "id": "transfer-avail-en",
+   "lang": "en",
+   "q": "Hello, do you have availability for a shared hiking transfer for two people on Saturday? We are staying in Caniço and have a PR1 entrance booked for 10:30. We plan the full one-way hike finishing at Achada do Teixeira. Could you arrange return collection at approximately 18:00 and confirm the price per person?",
+   "must": ["hotel|taxi"],
+   "must_not": ["Beyond Madeira|GetToHikes|Doit|Happy Transfer|Madeira Transfers"]
+  },
+  {
+   "id": "group7-en",
+   "lang": "en",
+   "q": "Hello, will you have space for 7 people this evening for a trip from Achada do Teixeira back to Arieiro? We will be setting off on our hike after lunch, so perhaps around 6:00 PM?",
+   "must": ["taxi|Táxis", "book|arrange|call"],
+   "must_not": ["Beyond Madeira|GetToHikes|Doit|Happy Transfer|Madeira Transfers"]
+  },
+  {
+   "id": "pr1-tomorrow-9h-pt",
+   "lang": "pt",
+   "q": "Amanhã quero fazer o PR1 às 9h, que recomendas?",
+   "must": ["Pedra Rija|SIMplifica"],
+   "must_not": ["sexta a domingo", "não é possível", "só abre"]
+  },
+  {
+   "id": "pr1-friday-ride-en",
+   "lang": "en",
+   "source": "web-sunrise",
+   "q": "We are planning to do the PR1 hiking tour on Friday. Is it possible to get a ride from Achada do Teixeira to Pico do Arieiro or from Funchal for the whole trip?",
+   "must": ["taxi|Táxis"],
+   "must_not": ["is closed|closed section|section .{0,20}closed", "Beyond Madeira|GetToHikes|Doit|Happy Transfer|Madeira Transfers"]
+  },
+  {
+   "id": "bus-santana-funchal-en",
+   "lang": "en",
+   "q": "Is there a bus from Santana to Funchal?",
+   "must": ["12:30", "17:2"]
+  },
+  {
+   "id": "fanal-trees-pl",
+   "lang": "pl",
+   "source": "web-pr13",
+   "q": "Jak dojechać, żeby zobaczyć drzewa, a nie wchodzić na szlak?",
+   "must": ["parking"]
+  },
+  {
+   "id": "faial-en",
+   "lang": "en",
+   "q": "How do i get from santana to Faial?",
+   "must": [],
+   "must_not": ["Porto Santo", "Ribeira Quente", "Faial do Mar", "ferry|flight"]
+  },
+  {
+   "id": "lombo-galego-en",
+   "lang": "en",
+   "q": "How do I get to Lombo Galego from santana?",
+   "must": [],
+   "must_not": ["line \\d|bus \\d"]
+  },
+  {
+   "id": "cruise-pr1-pt",
+   "lang": "pt",
+   "q": "Estou no navio da MSC que chega a Funchal às 8h e gostaria de fazer a trilha do Pico do Areeiro ao Pico Ruivo com a minha família.",
+   "must": ["táxi"],
+   "must_not": ["06:00|06:45", "Beyond Madeira|GetToHikes|Doit|Happy Transfer|Madeira Transfers"]
+  },
+  {
+   "id": "car-achada-pt",
+   "lang": "pt",
+   "q": "É possível deixar o carro em Achada do Teixeira e apanhar um táxi até ao Areeiro para começar a trilha?",
+   "must": ["\\bSim\\b"],
+   "must_not": ["não esperam"]
+  },
+  {
+   "id": "trails-info-fr",
+   "lang": "fr",
+   "q": "Je souhaiterais avoir des informations sur les sentiers",
+   "must": ["PR"]
+  }
+ ]
+}
