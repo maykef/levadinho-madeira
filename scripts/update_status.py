@@ -973,6 +973,25 @@ PR1_ONEWAY_DESC = {
 }
 
 
+# PR1's item under ENCERRADOS/CONDICIONADOS normally just states the one-way rule. That is not
+# a closure (owner, 2026-10-20: "there is no closure, just one way"), so the note must never carry
+# the "Encerrado/condicionado" label — the bot and the live cards read status.json's note and were
+# telling visitors the section was closed. Matched on the accent-folded Portuguese item text; any
+# other wording (a real closure) keeps the labelled note as before.
+ONEWAY_ONLY_RE = re.compile(r"^percurso\s+com\s+sentido\s+unico\s+entre\s+o\s+miradouro\s+da\s+pedra\s+rija\s+e\s+o\s+pico\s+ruivo\.?$")
+
+
+def oneway_note(code, segments):
+    """The fixed 5-language one-way note for PR1 when its only restriction is the one-way rule,
+    else None (translate_note then labels the sections as usual)."""
+    if code != "PR1":
+        return None
+    closed = [t for st, t in segments if st == "CLOSED"]
+    if not closed or not all(ONEWAY_ONLY_RE.match(_fold(t).strip()) for t in closed):
+        return None
+    return dict(PR1_ONEWAY_DESC)
+
+
 def partial_desc(trail, lang):
     """What is open on a trail with restrictions, in the page language (PR1: the owner's wording)."""
     note = trail.get("note") or {}
@@ -1116,7 +1135,7 @@ def main():
     trails, notes = build_trails()
     for t in trails:
         if t["code"] in notes:
-            t["note"] = translate_note(notes[t["code"]])
+            t["note"] = oneway_note(t["code"], notes[t["code"]]) or translate_note(notes[t["code"]])
         t["status"] = apply_rule1(t["code"], t["status"], t.get("note"))
         # Rule 1 final gate before we write anything.
         assert_not_contradictory(t["status"], t.get("note"), what=t["code"])

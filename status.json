@@ -1,23 +1,23 @@
 {
   "status": "PARTIAL",
   "note": {
-    "pt": "Transitável: Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija. Encerrado/condicionado: Percurso com sentido único entre o Miradouro da Pedra Rija e o Pico Ruivo.",
-    "en": "Open: Route in both directions between Pico do Areeiro and Miradouro da Pedra Rija. Closed/restricted: One-way route between Pedra Rija Viewpoint and Pico Ruivo.",
-    "fr": "Praticable : Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija. Fermé/restreint : Itinéraire aller simple entre le point de vue de Pedra Rija et Pico Ruivo.",
-    "de": "Begehbar: Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija. Gesperrt/eingeschränkt: Einbahnstraße zwischen dem Aussichtspunkt Pedra Rija und dem Pico Ruivo.",
-    "pl": "Dostępny: Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija. Zamknięty/ograniczony: Trasa w jedną stronę między Pedra Rija Viewpoint i Pico Ruivo."
+    "en": "Pico do Areeiro ↔ Pedra Rija viewpoint: both ways. Full trail to Pico Ruivo: one way only, ending at Achada do Teixeira.",
+    "pt": "Pico do Areeiro ↔ Miradouro da Pedra Rija: nos dois sentidos. Percurso completo até ao Pico Ruivo: só num sentido, a terminar na Achada do Teixeira.",
+    "fr": "Pico do Areeiro ↔ belvédère de Pedra Rija : dans les deux sens. Parcours complet jusqu'au Pico Ruivo : sens unique, arrivée à Achada do Teixeira.",
+    "de": "Pico do Areeiro ↔ Aussichtspunkt Pedra Rija: in beide Richtungen. Ganze Strecke bis zum Pico Ruivo: nur in eine Richtung, Ende in Achada do Teixeira.",
+    "pl": "Pico do Areeiro ↔ punkt widokowy Pedra Rija: w obie strony. Cała trasa na Pico Ruivo: tylko w jedną stronę, z końcem w Achada do Teixeira."
   },
   "closure": null,
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 5.8,
-    "humidity": 100,
+    "temp_c": 9.7,
+    "humidity": 96,
     "in_cloud": true,
-    "wind_kmh": 10,
+    "wind_kmh": 9,
     "wind_strong": false
   },
-  "stamp": "2026-10-20 06:35",
+  "stamp": "2026-10-20 18:27",
   "date": "2026-10-20",
   "source": {
     "name": "IFCN",
@@ -33,15 +33,15 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 6,
-      "wind": 10,
+      "temp": 10,
+      "wind": 9,
       "rain": 0.0,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 16,
+      "temp": 19,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -57,16 +57,16 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 20,
-      "wind": 16,
+      "temp": 23,
+      "wind": 8,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 21,
-      "wind": 4,
+      "temp": 24,
+      "wind": 6,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -79,14 +79,14 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 6,
+      "temp": 10,
       "page": "/pr1/",
       "note": {
-        "pt": "Transitável: Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija. Encerrado/condicionado: Percurso com sentido único entre o Miradouro da Pedra Rija e o Pico Ruivo.",
-        "en": "Open: Route in both directions between Pico do Areeiro and Miradouro da Pedra Rija. Closed/restricted: One-way route between Pedra Rija Viewpoint and Pico Ruivo.",
-        "fr": "Praticable : Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija. Fermé/restreint : Itinéraire aller simple entre le point de vue de Pedra Rija et Pico Ruivo.",
-        "de": "Begehbar: Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija. Gesperrt/eingeschränkt: Einbahnstraße zwischen dem Aussichtspunkt Pedra Rija und dem Pico Ruivo.",
-        "pl": "Dostępny: Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija. Zamknięty/ograniczony: Trasa w jedną stronę między Pedra Rija Viewpoint i Pico Ruivo."
+        "en": "Pico do Areeiro ↔ Pedra Rija viewpoint: both ways. Full trail to Pico Ruivo: one way only, ending at Achada do Teixeira.",
+        "pt": "Pico do Areeiro ↔ Miradouro da Pedra Rija: nos dois sentidos. Percurso completo até ao Pico Ruivo: só num sentido, a terminar na Achada do Teixeira.",
+        "fr": "Pico do Areeiro ↔ belvédère de Pedra Rija : dans les deux sens. Parcours complet jusqu'au Pico Ruivo : sens unique, arrivée à Achada do Teixeira.",
+        "de": "Pico do Areeiro ↔ Aussichtspunkt Pedra Rija: in beide Richtungen. Ganze Strecke bis zum Pico Ruivo: nur in eine Richtung, Ende in Achada do Teixeira.",
+        "pl": "Pico do Areeiro ↔ punkt widokowy Pedra Rija: w obie strony. Cała trasa na Pico Ruivo: tylko w jedną stronę, z końcem w Achada do Teixeira."
       }
     },
     {
@@ -113,7 +113,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 6,
+      "temp": 10,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "Encontra-se totalmente transitável o troço compreendido entre a Casa de Abrigo do Pico Ruivo e o Pico Ruivo.",
@@ -130,7 +130,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 16,
+      "temp": 19,
       "page": "/caldeirao-verde/"
     },
     {
@@ -140,7 +140,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 20,
+      "temp": 23,
       "page": "/sao-lourenco/"
     },
     {
@@ -150,7 +150,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 6,
+      "temp": 10,
       "page": "/balcoes/"
     },
     {
@@ -170,7 +170,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/levada-do-furado/"
     },
     {
@@ -180,7 +180,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 16,
+      "temp": 19,
       "page": "/levada-do-rei/"
     },
     {
@@ -200,7 +200,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 19,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -210,7 +210,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -220,7 +220,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -230,7 +230,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/vereda-do-burro/"
     },
     {
@@ -240,7 +240,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 21,
+      "temp": 24,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -250,7 +250,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "Percurso transitável - está disponível uma ligação sinalizada à Ribeira das Cales, junto ao Centro de Interpretação do Parque Ecológico do Funchal. A versão atual do percurso, entre o Poço da Neve (início do PR4), a Levada do Barreiro e a Ribeira das Cales, encontra-se totalmente sinalizada em ambos os sentidos.",
@@ -267,7 +267,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 19,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -317,7 +317,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "Percurso transitável desde a Boca da Corrida até ao km 3,5.",
@@ -344,7 +344,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -354,7 +354,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/caminho-do-pinaculo-e-folhadal/",
       "note": {
         "pt": "Percurso transitável entre a Encumeada e a Bica da Cana.",
@@ -391,7 +391,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/caminho-do-norte/"
     },
     {
@@ -401,7 +401,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -411,7 +411,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 10,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -481,7 +481,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 19,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ],

@@ -33,9 +33,14 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
 ## Closures and reopening (official, IFCN)
 - The August 2024 wildfire (from 14 Aug 2024) and the rockfall it caused closed PR1. The
   Areeiro–Pedra Rija section (1.2 km) reopened on 4 September 2024; the rest stayed closed.
-- The full PR1 reopened on **1 May 2026**, at first Fridays to Sundays only. The one-way
-  section has been open **every day since 26 June 2026**. (Not "27 April": that was the
-  MIUT race; bookings opened on 29 April.)
+- PR1 is open **every day of the week**, one-way section included, and has been since
+  **26 June 2026**. There is no weekend-only rule any more: the full PR1 reopened on
+  1 May 2026 and ran Fridays to Sundays only until 26 June 2026 — never give that as the
+  current rule. (Not "27 April": that was the MIUT race; bookings opened on 29 April.)
+- IFCN's warnings list shows PR1 under its "condicionados" heading because of the **one-way
+  rule**, not a closure. Unless LIVE STATUS shows a real closure, the whole trail is walkable:
+  Areeiro ↔ Pedra Rija both ways (€4.50 ticket), full one-way route to Pico Ruivo (€10.50).
+  Never tell a visitor PR1 or its one-way section is "closed" because of that listing.
 - Scheduled works: IFCN closed the Pedra Rija → Pico Ruivo section on **14–17 and 21–22
   September 2026**. Areeiro ↔ Pedra Rija stayed open both ways on those days.
 - Whether the route is open now: only LIVE STATUS says so.
@@ -112,6 +117,10 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
   - Turn off any VPN if the site won't load.
 - SIMplifica Contact Center (portal problems): +351 800 29 90 90, WhatsApp +351 926 155 465,
   working days 9:00–18:00. It cannot change or refund bookings.
+- **Parking at Pico do Areeiro** (Portaria 48/2026, Annex II point 6): the upper car park by
+  the viewpoint costs **€4/hour, up to €20/day**; the lower car park on the access road
+  **€2/hour, up to €5/day**. The first 30 minutes are free at both, and residents pay too.
+  Queimadas car park (PR9/PR9.1): €2/hour, up to €10/day, first 30 min free.
 
 ## Sold out?
 - Try weekday mid-morning slots (09:00–10:30).
@@ -173,9 +182,6 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
   applies to entering the trail and the viewpoint is by the car park, but no official source
   says so. Say: "the viewpoint by the car park is outside the trail; walking onto PR1 needs a
   ticket — this isn't officially confirmed".
-- Parking at Pico do Areeiro: about €4/hour at the upper car park (first 15 min free) is
-  reported by two sources; €2/hour at the lower car park is only an announcement. Say "about
-  €4/hour at the top car park, check on arrival". Any daily cap is unverified.
 - Taxi fares: metered at the official regulated tariff (IMT-RAM convention, in force from 1 Jan 2026); no fixed price per route, and the exact 2026 figures are not confirmed, so never quote them. Always "ask for a quote" and a receipt.
 - Whether the Santana taxi line is staffed at any given time.
 - Exact number of tunnels and the daily capacity.
