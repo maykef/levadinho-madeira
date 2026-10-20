@@ -80,6 +80,8 @@ NAV = [
                                     "de": "Rückweg vom PR1", "pl": "Powrót z PR1"}),
     ("best", "/best-levada-walks/", {"en": "Best levadas", "pt": "Melhores levadas", "fr": "Meilleures levadas",
                                      "de": "Schönste Levadas", "pl": "Najlepsze lewady"}),
+    ("1day", "/one-day-in-madeira/", {"en": "One day in Madeira", "pt": "Um dia na Madeira", "fr": "Madère en un jour",
+                                      "de": "Ein Tag auf Madeira", "pl": "Jeden dzień na Maderze"}),
 ]
 
 # Guide pages (not trails). key -> path, breadcrumb parent key (None = homepage),
@@ -193,7 +195,7 @@ GUIDE = {g[0]: g for g in GUIDES}
 # Which guides each page links to in its "More guides" block (targets the page already
 # links to in its own copy are dropped, so the block never repeats a "Next steps" link).
 RELATED_GUIDES = {
-    "home": ["closures", "funchal", "pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus", "parking"],
+    "home": ["closures", "funchal", "pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus", "parking", "1day"],
     "pr1": ["oneway", "sunrise", "weather", "back", "booking", "fees", "permit", "closures", "parking"],
     "fees": ["permit", "free", "booking", "abroad", "best", "pr1"],
     "permit": ["free", "booking", "fees", "best", "easy", "tunnels"],
@@ -202,15 +204,15 @@ RELATED_GUIDES = {
     "back": ["bus", "oneway", "sunrise", "weather", "pr1", "booking", "parking"],
     "sunrise": ["weather", "back", "bus", "oneway", "pr1", "booking", "parking"],
     "weather": ["pr1", "sunrise", "back", "best", "parking"],
-    "best": ["easy", "tunnels", "bus", "closures", "permit", "booking", "fees"],
-    "easy": ["best", "tunnels", "free", "permit", "booking"],
+    "best": ["easy", "tunnels", "bus", "closures", "permit", "booking", "fees", "1day"],
+    "easy": ["best", "tunnels", "free", "permit", "booking", "1day"],
     "tunnels": ["best", "easy", "permit", "booking"],
     "oneway": ["back", "sunrise", "pr1", "booking", "fees", "parking"],
-    "free": ["permit", "fees", "booking", "easy", "best", "bus"],
-    "bus": ["back", "sunrise", "free", "best", "easy", "booking", "funchal"],
+    "free": ["permit", "fees", "booking", "easy", "best", "bus", "1day"],
+    "bus": ["back", "sunrise", "free", "best", "easy", "booking", "funchal", "1day"],
     "closures": ["pr1", "best", "fees", "booking", "permit", "about"],
     "parking": ["back", "sunrise", "oneway", "pr1", "weather", "bus"],
-    "about": ["closures", "pr1", "fees", "booking", "permit", "best"],
+    "about": ["closures", "pr1", "fees", "booking", "permit", "best", "1day"],
     "funchal": ["bus", "free", "best", "easy", "closures", "about", "1day"],
     "1day": ["funchal", "booking", "weather", "parking", "free", "about"],
     "spoke": ["closures", "best", "easy", "tunnels", "booking", "fees", "permit"],
