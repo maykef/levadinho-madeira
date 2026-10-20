@@ -182,6 +182,12 @@ GUIDES = [
      {"en": "Funchal today: what's on, what's open", "pt": "Funchal hoje: o que há, o que está aberto",
       "fr": "Funchal aujourd'hui : que faire, ce qui est ouvert", "de": "Funchal heute: was los ist, was geöffnet hat",
       "pl": "Funchal dziś: co się dzieje, co jest otwarte"}),
+    ("1day", "/one-day-in-madeira/", None,
+     {"en": "One day in Madeira", "pt": "Um dia na Madeira", "fr": "Madère en un jour", "de": "Ein Tag auf Madeira",
+      "pl": "Jeden dzień na Maderze"},
+     {"en": "One day in Madeira: the top 5 and a realistic plan", "pt": "Um dia na Madeira: o top 5 e um plano realista",
+      "fr": "Madère en un jour : le top 5 et un plan réaliste", "de": "Ein Tag auf Madeira: Top 5 und ein realistischer Plan",
+      "pl": "Jeden dzień na Maderze: top 5 i realny plan"}),
 ]
 GUIDE = {g[0]: g for g in GUIDES}
 # Which guides each page links to in its "More guides" block (targets the page already
@@ -205,7 +211,8 @@ RELATED_GUIDES = {
     "closures": ["pr1", "best", "fees", "booking", "permit", "about"],
     "parking": ["back", "sunrise", "oneway", "pr1", "weather", "bus"],
     "about": ["closures", "pr1", "fees", "booking", "permit", "best"],
-    "funchal": ["bus", "free", "best", "easy", "closures", "about"],
+    "funchal": ["bus", "free", "best", "easy", "closures", "about", "1day"],
+    "1day": ["funchal", "booking", "weather", "parking", "free", "about"],
     "spoke": ["closures", "best", "easy", "tunnels", "booking", "fees", "permit"],
     "spoke-pr1": ["pr1", "oneway", "back", "sunrise", "weather", "booking", "fees"],   # PR1.2 Pico Ruivo
 }

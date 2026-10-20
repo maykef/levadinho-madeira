@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Levadinho's chat at the top of the page (owner, 2026-10-10), on the pilot pages only.
 
-Pilot (owner: "trail codes and getting back in all languages"): the 8 trail pages that rank on page one for their bare
-code in Search Console (PR6.8, PR9.1, PR7, PR28, PR13, PR13.1, PR6.6, PR1.3) and getting-back, × 5 languages.
+Owner, 2026-10-20: chat only on question-shaped pages; trail pages are factsheets. The 8 trail-code pilot pages
+(PR6.8, PR9.1, PR7, PR28, PR13, PR13.1, PR6.6, PR1.3) were removed from the pilot that day; getting-back stays
+(it converts ~1 in 4), and new question pages (one-day-in-madeira…) join this list as they are built. × 5 languages.
 Each gets <script src="/chat.js" defer> before </body>, between CHAT:START/END markers. The page HTML is otherwise
 unchanged (Google indexes the same page); chat.js adds the chat above it only when the bot answers.
 Idempotent. `--remove` takes the markers out of every page (to end the pilot).
@@ -11,10 +12,7 @@ import glob, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANG_DIRS = ["", "pt/", "fr/", "de/", "pl/"]
-PILOT = ["levada-do-paul-ii-um-caminho-para-todos/index.html", "levada-do-caldeirao-verde-um-caminho-para-todos/index.html",
-         "levada-do-moinho/index.html", "levada-da-rocha-vermelha/index.html", "fanal/index.html",
-         "vereda-da-palha-carga/index.html", "vereda-do-tunel-do-cavalo/index.html", "vereda-da-encumeada/index.html",
-         "getting-back.html"]
+PILOT = ["getting-back.html", "one-day-in-madeira/index.html"]
 BLOCK = '<!-- CHAT:START (scripts/gen_chat.py) --><script src="/chat.js" defer></script><!-- CHAT:END -->'
 MARK = re.compile(r"<!-- CHAT:START.*?<!-- CHAT:END -->", re.S)
 

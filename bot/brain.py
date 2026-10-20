@@ -113,7 +113,8 @@ GREETING_FILLER = {"levadinho", "there", "again", "o", "a"}
 # Website page tag → the guide or trail its visitors most likely mean (used when the question names neither).
 SOURCE_GUIDE = {"web-sunrise": "sunrise", "web-back": "back", "web-oneway": "oneway", "web-weather": "weather",
                 "web-booking": "booking", "web-abroad": "abroad", "web-permit": "permit", "web-free": "free",
-                "web-bus": "bus", "web-best": "best", "web-easy": "easy", "web-tunnels": "tunnels"}
+                "web-bus": "bus", "web-best": "best", "web-easy": "easy", "web-tunnels": "tunnels",
+                "web-funchal": "funchal", "web-parking": "parking", "web-1day": "1day"}
 
 
 def is_greeting(text):

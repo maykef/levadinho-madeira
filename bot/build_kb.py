@@ -38,6 +38,7 @@ GUIDES = {
     "easy": "/easy-levadas-no-vertigo/",
     "tunnels": "/levadas-with-tunnels/",
     "parking": "/pico-do-areeiro-parking/",
+    "1day": "/one-day-in-madeira/",
 }
 # Marker pairs whose contents are dropped (generated chrome, stale-by-design status lines, webcams).
 DROP = ["SITE-NAV", "SITE-NAV-GUIDES", "SITE-NAV-HEAD", "LEVADINHO-CTA", "LEVADINHO-CTA-HEAD", "WEBCAM",
