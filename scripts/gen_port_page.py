@@ -9,8 +9,7 @@ Facts and sources:
                 → cable car base ≈ 2.4 km, → Mercado ≈ 2.6 km, → cathedral/Avenida Arriaga ≈ 3 km. Flat; the page
                 says 30–40 minutes on foot and notes the berth changes it.
   cable car     €16 / €22 return, 0-6 free, 7-14 half, 08:45-17:45 (madeiracablecar.com, read 2026-10-20).
-  webcam        NetMadeira "funchal-pontinha" (verified in seo_research/funchal/webcams.md: Pontinha pier, docked
-                ships), embedded with NetMadeira's share code like scripts/gen_webcam.py (class tcam).
+  webcam        REMOVED (owner, 2026-10-20: "we don't need the webcam of the port").
   map           img/cruise-port/port-map(.{,-full})webp, rendered by scripts/gen_port_map.py (keep MAP_PTS in step).
   taxis         never "taxis wait at the terminal" (unsourced); metered at the official tariff, quotes, the
                 one-day guide's taxi question for day loops. No companies.
@@ -29,14 +28,12 @@ ROOT = gi.ROOT
 CABLE = "https://www.madeiracablecar.com/"
 MERC = "https://mercados.funchal.pt/"
 OSM = "https://www.openstreetmap.org/"
-NM = "https://www.netmadeira.com/webcams-madeira/funchal-pontinha"
-NM_BAY = "https://www.netmadeira.com/webcams-madeira/funchal-baia-do-funchal"
 a, ext = gi.a, gi.ext
 
 
 def src(lang):
     return ('<p class="src">' + ext(OSM, "OpenStreetMap") + " · " + ext(CABLE, "Teleférico do Funchal") + " · "
-            + ext(MERC, "Mercado dos Lavradores") + " · " + ext(NM, "NetMadeira (Pontinha webcam)") + "</p>")
+            + ext(MERC, "Mercado dos Lavradores") + "</p>")
 
 
 def L(lang, path):
@@ -71,18 +68,6 @@ MAP_LEAD = {
 MAP_OSM = {"en": "Open this area in OpenStreetMap", "pt": "Abrir esta zona no OpenStreetMap",
            "fr": "Ouvrir cette zone dans OpenStreetMap", "de": "Diesen Bereich in OpenStreetMap öffnen",
            "pl": "Otwórz ten obszar w OpenStreetMap"}
-CAM_CAP = {  # like gen_webcam.py's caption
-    "en": "Webcam: NetMadeira, embedded with its share code. Reload the page for the latest picture; the camera is sometimes offline.",
-    "pt": "Webcam: NetMadeira, incorporada com o código de partilha. Recarregue a página para a imagem mais recente; a câmara por vezes está offline.",
-    "fr": "Webcam : NetMadeira, intégrée avec son code de partage. Rechargez la page pour la dernière image ; la caméra est parfois hors ligne.",
-    "de": "Webcam: NetMadeira, eingebunden mit deren Share-Code. Seite neu laden für das aktuelle Bild; die Kamera ist manchmal offline.",
-    "pl": "Kamera: NetMadeira, osadzona kodem udostępniania. Odśwież stronę, by zobaczyć najnowszy obraz; kamera bywa offline.",
-}
-CAM_FULL = {"en": "Full-size webcam", "pt": "Webcam em tamanho real", "fr": "Webcam en taille réelle",
-            "de": "Webcam in voller Größe", "pl": "Kamera w pełnym rozmiarze"}
-CAM_BAY = {"en": "There is also NetMadeira's whole-bay camera", "pt": "Há também a câmara da baía inteira da NetMadeira",
-           "fr": "Il y a aussi la caméra de toute la baie de NetMadeira", "de": "Es gibt auch NetMadeiras Kamera über die ganze Bucht",
-           "pl": "Jest też kamera NetMadeira na całą zatokę"}
 
 
 def map_html(lang):
@@ -96,30 +81,14 @@ def map_html(lang):
             + ". " + ext(osm, MAP_OSM[lang]) + ". Map © OpenStreetMap contributors.</figcaption></figure>")
 
 
-def cam_html(lang):
-    title = {"en": "Live webcam — the Pontinha pier (Funchal cruise port), by NetMadeira",
-             "pt": "Webcam em direto — molhe da Pontinha (porto do Funchal), NetMadeira",
-             "fr": "Webcam en direct — jetée de Pontinha (port de Funchal), NetMadeira",
-             "de": "Live-Webcam — Pontinha-Pier (Hafen von Funchal), NetMadeira",
-             "pl": "Kamera na żywo — molo Pontinha (port Funchal), NetMadeira"}[lang]
-    return ('<style>.tcam-frame{display:flex;justify-content:center;align-items:center;background:#0d1b16;padding:16px;'
-            'border-radius:12px 12px 0 0;margin-top:10px}.tcam-frame iframe{width:208px;height:156px;max-width:100%;'
-            'border:0;display:block}.tcam-cap{border:1px solid var(--line,#E3E1D8);border-top:0;border-radius:0 0 12px 12px;'
-            'padding:9px 14px;font-size:13px;color:var(--ink-soft,#4A5F56);background:var(--card,#fff)}</style>'
-            '<div class="tcam-frame"><iframe width="208" height="156" '
-            'src="https://www.netmadeira.com/webcams/show/netmadeira/funchal-pontinha" '
-            f'title="{html.escape(title, quote=True)}" loading="lazy" scrolling="no"></iframe></div>'
-            '<p class="tcam-cap">' + html.escape(CAM_CAP[lang], quote=False) + " "
-            + ext(NM, CAM_FULL[lang]) + ". " + CAM_BAY[lang] + ": " + ext(NM_BAY, "Baía do Funchal") + ".</p>")
-
 
 # Sections: (heading, parts, is_question). A question's FAQ answer is its first paragraph, verbatim.
 COPY = {
  "en": dict(
   title="Madeira cruise port: to town, cable car and map",
-  desc="Docked in Funchal? From the Madeira cruise port to the town centre and cable car on foot, the port map and webcam, and what fits in a day. Plan here.",
+  desc="Docked in Funchal? From the Madeira cruise port to the town centre and cable car on foot, the port map, and what fits in a day. Plan it all here.",
   h1="Madeira cruise port: into town, the cable car, the map",
-  sub="Where the ships dock, the flat walk into Funchal, real distances from OpenStreetMap, the webcam on the pier — and what actually fits in your hours ashore.",
+  sub="Where the ships dock, the flat walk into Funchal, real distances from OpenStreetMap, and what actually fits in your hours ashore.",
   body=[
    ("What is there to do at the Madeira cruise port for a day?", [
      "The port is in Funchal itself, so a day ashore is a Funchal day: the Mercado dos Lavradores (closed Sunday), the Old Town, the cable car up to Monte — or a taxi loop to the island's viewpoints. The honest version of both, with times and 2026 prices, is in " + a(L("en", "/one-day-in-madeira/"), "one day in Madeira") + "; with a second day aboard, " + a(L("en", "/two-days-in-madeira/"), "two days in Madeira") + " covers the lot."], True),
@@ -130,18 +99,15 @@ COPY = {
      "The cable car's base station is on the seafront by the Old Town, about 2.4 km from the cruise terminal — the same flat walk, 30–35 minutes, or a short taxi ride. It runs daily 08:45–17:45 (closed 25 December); €16 one way, €22 return, ages 0–6 free, 7–14 half price. Up at Monte you have the church, the Monte Palace garden and the toboggans — the full plan is in " + a(L("en", "/one-day-in-madeira/"), "one day in Madeira") + "."], True),
    (None, [  # map section: heading from MAP_H
      None], True),
-   ("Is there a webcam of the Madeira cruise port?", [
-     "Yes — NetMadeira's camera on the Pontinha pier shows the pier and the ships docked at it, and its bay camera shows the whole of Funchal's seafront with any ship in port.",
-     "CAM"], True),
    ("Can I do a levada walk from the cruise port?", [
      "The walk that fits a port call is not a levada but the mountain taste: the out-and-back from Pico do Areeiro to the Pedra Rija viewpoint on " + a(L("en", "/pr1/"), "PR1") + " — 1.2 km each way, €4.50, booked online on SIMplifica (" + a(L("en", "/simplifica-booking/"), "how to book") + "), reached by taxi with an agreed return. A real levada is a half-day or more before the ride there and back; if that is why you came, check " + a(L("en", "/best-levada-walks/"), "the best levada walks") + " and today's status first: " + a(L("en", "/"), "all Madeira trails — open or closed today") + "."], True),
    ("Sources", [None], False),
   ]),
  "pt": dict(
   title="Porto de cruzeiros da Madeira: cidade, teleférico, mapa",
-  desc="Atracado no Funchal? Do porto de cruzeiros da Madeira ao centro e ao teleférico a pé, o mapa do porto e a webcam, e o que cabe num dia. Planeie aqui.",
+  desc="Atracado no Funchal? Do porto de cruzeiros da Madeira ao centro e ao teleférico a pé, o mapa do porto e o que cabe num dia. Planeie aqui.",
   h1="Porto de cruzeiros da Madeira: até à cidade, o teleférico, o mapa",
-  sub="Onde atracam os navios, a caminhada plana até ao Funchal, distâncias reais do OpenStreetMap, a webcam do molhe — e o que cabe mesmo nas suas horas em terra.",
+  sub="Onde atracam os navios, a caminhada plana até ao Funchal, distâncias reais do OpenStreetMap, e o que cabe mesmo nas suas horas em terra.",
   body=[
    ("O que fazer no porto de cruzeiros da Madeira num dia?", [
      "O porto é no próprio Funchal, por isso um dia em terra é um dia de Funchal: o Mercado dos Lavradores (fechado ao domingo), a Zona Velha, o teleférico até ao Monte — ou uma volta de táxi pelos miradouros da ilha. A versão honesta de ambos, com horários e preços de 2026, está em " + a(L("pt", "/one-day-in-madeira/"), "um dia na Madeira") + "; com um segundo dia a bordo, " + a(L("pt", "/two-days-in-madeira/"), "dois dias na Madeira") + " cobre tudo."], True),
@@ -151,18 +117,15 @@ COPY = {
    ("Como ir do porto de cruzeiros ao teleférico?", [
      "A estação de baixo do teleférico fica na frente-mar, junto à Zona Velha, a cerca de 2,4 km do terminal — a mesma caminhada plana, 30–35 minutos, ou um táxi curto. Funciona todos os dias das 08:45 às 17:45 (fecha a 25 de dezembro); 16 € ida, 22 € ida e volta, dos 0 aos 6 anos grátis, dos 7 aos 14 metade. Lá em cima, no Monte, tem a igreja, o jardim Monte Palace e os carros de cesto — o plano completo está em " + a(L("pt", "/one-day-in-madeira/"), "um dia na Madeira") + "."], True),
    (None, [None], True),
-   ("Há uma webcam do porto de cruzeiros da Madeira?", [
-     "Sim — a câmara da NetMadeira no molhe da Pontinha mostra o molhe e os navios atracados, e a câmara da baía mostra toda a frente-mar do Funchal com qualquer navio no porto.",
-     "CAM"], True),
    ("Posso fazer uma levada a partir do porto de cruzeiros?", [
      "A caminhada que cabe numa escala não é uma levada, é a prova de montanha: a ida e volta do Pico do Areeiro ao miradouro da Pedra Rija no " + a(L("pt", "/pr1/"), "PR1") + " — 1,2 km para cada lado, 4,50 €, com reserva online no SIMplifica (" + a(L("pt", "/simplifica-booking/"), "como reservar") + "), de táxi com regresso combinado. Uma levada a sério é meio dia ou mais, antes de contar a viagem; se foi por isso que veio, veja " + a(L("pt", "/best-levada-walks/"), "as melhores levadas") + " e o estado de hoje primeiro: " + a(L("pt", "/"), "todos os percursos da Madeira — abertos ou fechados hoje") + "."], True),
    ("Fontes", [None], False),
   ]),
  "fr": dict(
   title="Port de croisière de Madère : ville, téléphérique, carte",
-  desc="À quai à Funchal ? Du port de croisière de Madère au centre-ville et au téléphérique à pied, la carte du port et la webcam, et ce qui tient en un jour.",
+  desc="À quai à Funchal ? Du port de croisière de Madère au centre-ville et au téléphérique à pied, la carte du port, et ce qui tient en un jour.",
   h1="Port de croisière de Madère : vers la ville, le téléphérique, la carte",
-  sub="Où accostent les navires, la marche plate vers Funchal, les vraies distances d'OpenStreetMap, la webcam de la jetée — et ce qui tient vraiment dans vos heures à terre.",
+  sub="Où accostent les navires, la marche plate vers Funchal, les vraies distances d'OpenStreetMap, et ce qui tient vraiment dans vos heures à terre.",
   body=[
    ("Que faire au port de croisière de Madère en une journée ?", [
      "Le port est dans Funchal même : une journée à terre est une journée à Funchal — le Mercado dos Lavradores (fermé le dimanche), la vieille ville, le téléphérique vers Monte — ou une boucle en taxi vers les belvédères de l'île. La version honnête des deux, avec horaires et prix 2026, est dans " + a(L("fr", "/one-day-in-madeira/"), "Madère en un jour") + " ; avec un second jour à bord, " + a(L("fr", "/two-days-in-madeira/"), "Madère en deux jours") + " couvre le tout."], True),
@@ -172,18 +135,15 @@ COPY = {
    ("Comment aller du port de croisière au téléphérique ?", [
      "La gare basse du téléphérique est sur le front de mer, près de la vieille ville, à environ 2,4 km du terminal — la même marche plate, 30 à 35 minutes, ou un court trajet en taxi. Il fonctionne tous les jours de 08h45 à 17h45 (fermé le 25 décembre) ; 16 € l'aller, 22 € l'aller-retour, 0–6 ans gratuit, 7–14 ans demi-tarif. En haut, à Monte : l'église, le jardin Monte Palace et les luges — le plan complet est dans " + a(L("fr", "/one-day-in-madeira/"), "Madère en un jour") + "."], True),
    (None, [None], True),
-   ("Y a-t-il une webcam du port de croisière de Madère ?", [
-     "Oui — la caméra de NetMadeira sur la jetée de Pontinha montre la jetée et les navires à quai, et sa caméra de la baie montre tout le front de mer de Funchal avec le navire au port.",
-     "CAM"], True),
    ("Peut-on faire une levada depuis le port de croisière ?", [
      "La marche qui tient dans une escale n'est pas une levada mais l'avant-goût de montagne : l'aller-retour du Pico do Areeiro au belvédère de Pedra Rija sur le " + a(L("fr", "/pr1/"), "PR1") + " — 1,2 km par sens, 4,50 €, réservation en ligne sur SIMplifica (" + a(L("fr", "/simplifica-booking/"), "comment réserver") + "), en taxi avec retour convenu. Une vraie levada prend une demi-journée ou plus, trajet non compris ; si c'est pour cela que vous venez, voyez " + a(L("fr", "/best-levada-walks/"), "les meilleures levadas") + " et l'état du jour d'abord : " + a(L("fr", "/"), "tous les sentiers de Madère — ouverts ou fermés aujourd'hui") + "."], True),
    ("Sources", [None], False),
   ]),
  "de": dict(
   title="Kreuzfahrthafen Madeira: Stadt, Seilbahn und Karte",
-  desc="In Funchal angelegt? Vom Kreuzfahrthafen Madeiras zu Fuß ins Zentrum und zur Seilbahn, die Hafenkarte und Webcam, und was in einen Tag passt. Hier planen.",
+  desc="In Funchal angelegt? Vom Kreuzfahrthafen Madeiras zu Fuß ins Zentrum und zur Seilbahn, die Hafenkarte, und was in einen Tag passt. Hier planen.",
   h1="Kreuzfahrthafen Madeira: in die Stadt, zur Seilbahn, die Karte",
-  sub="Wo die Schiffe anlegen, der flache Weg nach Funchal, echte Entfernungen aus OpenStreetMap, die Webcam am Pier — und was in Ihre Stunden an Land wirklich passt.",
+  sub="Wo die Schiffe anlegen, der flache Weg nach Funchal, echte Entfernungen aus OpenStreetMap, und was in Ihre Stunden an Land wirklich passt.",
   body=[
    ("Was kann man am Kreuzfahrthafen Madeiras an einem Tag machen?", [
      "Der Hafen liegt in Funchal selbst, ein Tag an Land ist also ein Funchal-Tag: der Mercado dos Lavradores (sonntags geschlossen), die Altstadt, die Seilbahn nach Monte — oder eine Taxirunde zu den Aussichtspunkten der Insel. Die ehrliche Fassung von beidem, mit Uhrzeiten und Preisen 2026, steht in " + a(L("de", "/one-day-in-madeira/"), "Ein Tag auf Madeira") + "; mit einem zweiten Tag an Bord deckt " + a(L("de", "/two-days-in-madeira/"), "Zwei Tage auf Madeira") + " alles ab."], True),
@@ -193,18 +153,15 @@ COPY = {
    ("Wie komme ich vom Kreuzfahrthafen zur Seilbahn?", [
      "Die Talstation der Seilbahn liegt an der Uferpromenade bei der Altstadt, etwa 2,4 km vom Terminal — derselbe flache Weg, 30–35 Minuten, oder eine kurze Taxifahrt. Sie fährt täglich 08:45–17:45 (am 25. Dezember geschlossen); 16 € einfach, 22 € hin und zurück, 0–6 Jahre frei, 7–14 halber Preis. Oben in Monte warten die Kirche, der Garten Monte Palace und die Korbschlitten — der ganze Plan steht in " + a(L("de", "/one-day-in-madeira/"), "Ein Tag auf Madeira") + "."], True),
    (None, [None], True),
-   ("Gibt es eine Webcam des Kreuzfahrthafens von Madeira?", [
-     "Ja — NetMadeiras Kamera am Pontinha-Pier zeigt den Pier und die dort angelegten Schiffe, und die Bucht-Kamera zeigt die ganze Uferfront von Funchal mit dem Schiff im Hafen.",
-     "CAM"], True),
    ("Kann ich vom Kreuzfahrthafen aus eine Levada gehen?", [
      "Die Wanderung, die in einen Hafentag passt, ist keine Levada, sondern die Bergprobe: hin und zurück vom Pico do Areeiro zum Aussichtspunkt Pedra Rija auf dem " + a(L("de", "/pr1/"), "PR1") + " — je 1,2 km, 4,50 €, online auf SIMplifica gebucht (" + a(L("de", "/simplifica-booking/"), "wie man bucht") + "), per Taxi mit vereinbarter Rückfahrt. Eine richtige Levada braucht einen halben Tag oder mehr, die Anfahrt nicht gerechnet; wenn Sie dafür kommen, sehen Sie " + a(L("de", "/best-levada-walks/"), "die schönsten Levadas") + " und zuerst den heutigen Status: " + a(L("de", "/"), "alle Wanderwege Madeiras — heute offen oder gesperrt") + "."], True),
    ("Quellen", [None], False),
   ]),
  "pl": dict(
   title="Port wycieczkowy na Maderze: miasto, kolejka, mapa",
-  desc="Zacumowani w Funchal? Z portu wycieczkowego na Maderze pieszo do centrum i do kolejki, mapa portu i kamera, i co mieści się w jeden dzień. Zaplanuj tutaj.",
+  desc="Zacumowani w Funchal? Z portu wycieczkowego na Maderze pieszo do centrum i do kolejki, mapa portu i co mieści się w jeden dzień. Zaplanuj tutaj.",
   h1="Port wycieczkowy na Maderze: do miasta, do kolejki, mapa",
-  sub="Gdzie cumują statki, płaski spacer do Funchal, prawdziwe odległości z OpenStreetMap, kamera na molo — i co naprawdę mieści się w godzinach na lądzie.",
+  sub="Gdzie cumują statki, płaski spacer do Funchal, prawdziwe odległości z OpenStreetMap, i co naprawdę mieści się w godzinach na lądzie.",
   body=[
    ("Co robić w porcie wycieczkowym na Maderze przez jeden dzień?", [
      "Port leży w samym Funchal, więc dzień na lądzie to dzień w Funchal: Mercado dos Lavradores (w niedzielę zamknięte), starówka, kolejka na Monte — albo pętla taksówką po punktach widokowych wyspy. Uczciwa wersja obu planów, z godzinami i cenami 2026, jest w " + a(L("pl", "/one-day-in-madeira/"), "jednym dniu na Maderze") + "; z drugim dniem na pokładzie " + a(L("pl", "/two-days-in-madeira/"), "dwa dni na Maderze") + " obejmują wszystko."], True),
@@ -214,9 +171,6 @@ COPY = {
    ("Jak dojść z portu wycieczkowego do kolejki linowej?", [
      "Dolna stacja kolejki stoi przy nadmorskiej promenadzie obok starówki, około 2,4 km od terminalu — ten sam płaski spacer, 30–35 minut, albo krótka taksówka. Kolejka jeździ codziennie 08:45–17:45 (nieczynna 25 grudnia); 16 € w jedną stronę, 22 € w obie, 0–6 lat za darmo, 7–14 pół ceny. Na górze, na Monte: kościół, ogród Monte Palace i sanie — cały plan jest w " + a(L("pl", "/one-day-in-madeira/"), "jednym dniu na Maderze") + "."], True),
    (None, [None], True),
-   ("Czy jest kamera portu wycieczkowego na Maderze?", [
-     "Tak — kamera NetMadeira na molo Pontinha pokazuje molo i zacumowane statki, a kamera zatoki całą nadmorską część Funchal ze statkiem w porcie.",
-     "CAM"], True),
    ("Czy z portu wycieczkowego da się zrobić levadę?", [
      "Trasa, która mieści się w dniu postoju, to nie levada, lecz górska próbka: tam i z powrotem z Pico do Areeiro do punktu widokowego Pedra Rija na " + a(L("pl", "/pr1/"), "PR1") + " — po 1,2 km, 4,50 €, rezerwacja online w SIMplifica (" + a(L("pl", "/simplifica-booking/"), "jak zarezerwować") + "), taksówką z umówionym powrotem. Prawdziwa levada to pół dnia lub więcej, nie licząc dojazdu; jeśli po to przypłynąłeś, zobacz " + a(L("pl", "/best-levada-walks/"), "najlepsze lewady") + " i najpierw dzisiejszy status: " + a(L("pl", "/"), "wszystkie szlaki Madery — otwarte czy zamknięte dziś") + "."], True),
    ("Źródła", [None], False),
@@ -236,7 +190,7 @@ def main():
         for h, parts, isq in COPY[lang]["body"]:
             if h is None:                                   # the map section
                 h, parts = MAP_H[lang], [MAP_LEAD[lang], map_html(lang)]
-            parts = [cam_html(lang) if p == "CAM" else (src(lang) if p is None else p) for p in parts]
+            parts = [src(lang) if p is None else p for p in parts]
             body.append((h, parts))
             faq_src.append((h, parts, isq))
         c["body"] = body
