@@ -196,12 +196,18 @@ GUIDES = [
      {"en": "Two days in Madeira: a timed itinerary", "pt": "Dois dias na Madeira: roteiro com horários",
       "fr": "Madère en deux jours : itinéraire minuté", "de": "Zwei Tage auf Madeira: Route mit Uhrzeiten",
       "pl": "Dwa dni na Maderze: plan z godzinami"}),
+    ("port", "/madeira-cruise-port/", None,
+     {"en": "Madeira cruise port", "pt": "Porto de cruzeiros", "fr": "Port de croisière", "de": "Kreuzfahrthafen",
+      "pl": "Port wycieczkowy"},
+     {"en": "Madeira cruise port: into town, the cable car, the map", "pt": "Porto de cruzeiros da Madeira: cidade, teleférico e mapa",
+      "fr": "Port de croisière de Madère : ville, téléphérique et carte", "de": "Kreuzfahrthafen Madeira: Stadt, Seilbahn und Karte",
+      "pl": "Port wycieczkowy na Maderze: miasto, kolejka i mapa"}),
 ]
 GUIDE = {g[0]: g for g in GUIDES}
 # Which guides each page links to in its "More guides" block (targets the page already
 # links to in its own copy are dropped, so the block never repeats a "Next steps" link).
 RELATED_GUIDES = {
-    "home": ["closures", "funchal", "pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus", "parking", "1day", "2day"],
+    "home": ["closures", "funchal", "pr1", "oneway", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus", "parking", "1day", "2day", "port"],
     "pr1": ["oneway", "sunrise", "weather", "back", "booking", "fees", "permit", "closures", "parking"],
     "fees": ["permit", "free", "booking", "abroad", "best", "pr1"],
     "permit": ["free", "booking", "fees", "best", "easy", "tunnels"],
@@ -219,9 +225,10 @@ RELATED_GUIDES = {
     "closures": ["pr1", "best", "fees", "booking", "permit", "about"],
     "parking": ["back", "sunrise", "oneway", "pr1", "weather", "bus"],
     "about": ["closures", "pr1", "fees", "booking", "permit", "best", "1day"],
-    "funchal": ["bus", "free", "best", "easy", "closures", "about", "1day", "2day"],
-    "1day": ["2day", "funchal", "booking", "weather", "parking", "free", "about"],
-    "2day": ["1day", "funchal", "booking", "weather", "parking", "free", "about"],
+    "funchal": ["bus", "free", "best", "easy", "closures", "about", "1day", "2day", "port"],
+    "1day": ["2day", "port", "funchal", "booking", "weather", "parking", "free", "about"],
+    "2day": ["1day", "port", "funchal", "booking", "weather", "parking", "free", "about"],
+    "port": ["1day", "2day", "funchal", "best", "booking", "weather"],
     "spoke": ["closures", "best", "easy", "tunnels", "booking", "fees", "permit"],
     "spoke-pr1": ["pr1", "oneway", "back", "sunrise", "weather", "booking", "fees"],   # PR1.2 Pico Ruivo
 }

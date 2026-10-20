@@ -114,7 +114,7 @@ GREETING_FILLER = {"levadinho", "there", "again", "o", "a"}
 SOURCE_GUIDE = {"web-sunrise": "sunrise", "web-back": "back", "web-oneway": "oneway", "web-weather": "weather",
                 "web-booking": "booking", "web-abroad": "abroad", "web-permit": "permit", "web-free": "free",
                 "web-bus": "bus", "web-best": "best", "web-easy": "easy", "web-tunnels": "tunnels",
-                "web-funchal": "funchal", "web-parking": "parking", "web-1day": "1day", "web-2day": "2day"}
+                "web-funchal": "funchal", "web-parking": "parking", "web-1day": "1day", "web-2day": "2day", "web-port": "port"}
 
 
 def is_greeting(text):

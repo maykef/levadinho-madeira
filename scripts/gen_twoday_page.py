@@ -303,6 +303,23 @@ def map_html(lang):
             + ". " + ext(osm, MAP_OSM[lang]) + ". Map © OpenStreetMap contributors.</figcaption></figure>")
 
 
+# "2 days in madeira enough" is a top autocomplete query (checked 2026-10-20); answered verbatim.
+ENOUGH2 = {
+    "en": ("Are two days in Madeira enough?",
+           "For the island's classic sights, yes: the two days above cover the whole top 5 and the Botanical Garden without rushing. They are not enough for the levadas — a proper levada walk takes a half-day or more and needs its own SIMplifica booking. If walking is why you came, add a day per trail and start with "),
+    "pt": ("Dois dias na Madeira chegam?",
+           "Para os clássicos da ilha, sim: os dois dias acima cobrem o top 5 inteiro e o Jardim Botânico sem pressa. Não chegam para as levadas — uma levada a sério leva meio dia ou mais e tem reserva própria no SIMplifica. Se veio para caminhar, conte um dia por percurso e comece por "),
+    "fr": ("Deux jours à Madère, est-ce suffisant ?",
+           "Pour les classiques de l'île, oui : les deux jours ci-dessus couvrent tout le top 5 et le Jardin botanique sans courir. Ils ne suffisent pas pour les levadas — une vraie levada prend une demi-journée ou plus et demande sa propre réservation SIMplifica. Si vous venez pour marcher, comptez un jour par sentier et commencez par "),
+    "de": ("Reichen zwei Tage auf Madeira?",
+           "Für die Klassiker der Insel: ja — die zwei Tage oben decken die ganzen Top 5 und den Botanischen Garten ohne Hetze ab. Für die Levadas reichen sie nicht: eine richtige Levada braucht einen halben Tag oder mehr und ihre eigene SIMplifica-Buchung. Wer zum Wandern kommt, rechnet einen Tag pro Weg und beginnt mit "),
+    "pl": ("Czy dwa dni na Maderze wystarczą?",
+           "Na klasyki wyspy — tak: dwa dni powyżej obejmują całe top 5 i Ogród Botaniczny bez pośpiechu. Nie wystarczą na levady — porządna levada to pół dnia lub więcej i osobna rezerwacja w SIMplifica. Jeśli przyjechałeś chodzić, licz dzień na szlak i zacznij od "),
+}
+BEST_NAME = {"en": "the best levada walks", "pt": "as melhores levadas", "fr": "les meilleures levadas",
+             "de": "den schönsten Levadas", "pl": "najlepszych lewad"}
+
+
 def plain(s):
     return " ".join(html.unescape(re.sub(r"<[^>]+>", "", s)).split())
 
@@ -312,6 +329,8 @@ def main():
         c = dict(COPY[lang])
         body = [(h, list(parts), isq) for h, parts, isq in COPY[lang]["body"]]
         body[2][1].append(BUS_DOWN[lang])                      # the walk-to-the-bus-stop option (owner, first-hand)
+        eq, etext = ENOUGH2[lang]
+        body.insert(3, (eq, [etext + a(L(lang, "/best-levada-walks/"), BEST_NAME[lang]) + "."], True))
         body.insert(len(body) - 1, (MAP_H[lang], [map_html(lang)], False))   # the day-2 map, before Sources
         faq_src = body
         c["body"] = [(h, [src(lang) if p is None else p for p in parts]) for h, parts, _ in body]

@@ -238,6 +238,23 @@ COPY = {
 }
 
 
+# "is one day enough in madeira" is a top autocomplete query (checked 2026-10-20); answered verbatim.
+ENOUGH = {
+    "en": ("Is one day in Madeira enough?",
+           "For one of the two plans above, yes; for the whole top 5, no. One day covers either the viewpoints taxi loop or Funchal and Monte — not both, and not the Botanical Garden. If your ship calls for a single day, pick the plan that fits your hours ashore; with two days you do both — see "),
+    "pt": ("Um dia na Madeira chega?",
+           "Para um dos dois planos acima, sim; para o top 5 inteiro, não. Um dia dá para a volta de táxi pelos miradouros ou para o Funchal e o Monte — não para ambos, nem para o Jardim Botânico. Se o navio fica só um dia, escolha o plano que cabe nas suas horas em terra; com dois dias faz os dois — veja "),
+    "fr": ("Un jour à Madère, est-ce suffisant ?",
+           "Pour l'un des deux plans ci-dessus, oui ; pour tout le top 5, non. Une journée couvre soit la boucle des belvédères en taxi, soit Funchal et Monte — pas les deux, ni le Jardin botanique. Si votre navire ne fait escale qu'un jour, choisissez le plan qui tient dans vos heures à terre ; avec deux jours, vous faites les deux — voir "),
+    "de": ("Reicht ein Tag auf Madeira?",
+           "Für einen der beiden Pläne oben: ja; für die ganzen Top 5: nein. Ein Tag reicht entweder für die Taxirunde zu den Aussichtspunkten oder für Funchal und Monte — nicht für beides, und nicht für den Botanischen Garten. Liegt Ihr Schiff nur einen Tag im Hafen, wählen Sie den Plan, der in Ihre Stunden an Land passt; mit zwei Tagen machen Sie beide — siehe "),
+    "pl": ("Czy jeden dzień na Maderze wystarczy?",
+           "Na jeden z dwóch planów powyżej — tak; na całe top 5 — nie. Jeden dzień wystarczy albo na pętlę taksówką po punktach widokowych, albo na Funchal i Monte — nie na oba, ani na Ogród Botaniczny. Jeśli statek stoi tylko jeden dzień, wybierz plan, który mieści się w Twoich godzinach na lądzie; w dwa dni zrobisz oba — zobacz "),
+}
+TWODAY_NAME = {"en": "two days in Madeira", "pt": "dois dias na Madeira", "fr": "Madère en deux jours",
+               "de": "Zwei Tage auf Madeira", "pl": "dwa dni na Maderze"}
+
+
 def plain(s):
     return " ".join(html.unescape(re.sub(r"<[^>]+>", "", s)).split())
 
@@ -245,12 +262,16 @@ def plain(s):
 def main():
     for lang in LANGS:
         c = dict(COPY[lang])
-        c["body"] = [(h, [src(lang) if p is None else p for p in parts]) for h, parts, _ in COPY[lang]["body"]]
+        body = [(h, list(parts), isq) for h, parts, isq in COPY[lang]["body"]]
+        eq, etext = ENOUGH[lang]
+        body.insert(4, (eq, [etext + a(L(lang, "/two-days-in-madeira/"), TWODAY_NAME[lang]) + "."], True))
+        faq_src = body
+        c["body"] = [(h, [src(lang) if p is None else p for p in parts]) for h, parts, _ in body]
         out, lt, ld = gi.build(SLUG, lang, c, "WebPage")
         h = open(out, encoding="utf-8").read()
         faq = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(parts[0])}}
-            for q, parts, isq in COPY[lang]["body"] if isq]}
+            for q, parts, isq in faq_src if isq]}
         block = '<script type="application/ld+json">\n' + json.dumps(faq, ensure_ascii=False, indent=1) + "\n</script>\n"
         h = re.sub(r'<script type="application/ld\+json">\n\{\n "@context": "https://schema.org",\n "@type": "FAQPage".*?</script>\n', "", h, flags=re.S)
         i = h.index("</head>")

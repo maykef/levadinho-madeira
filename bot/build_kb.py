@@ -40,6 +40,7 @@ GUIDES = {
     "parking": "/pico-do-areeiro-parking/",
     "1day": "/one-day-in-madeira/",
     "2day": "/two-days-in-madeira/",
+    "port": "/madeira-cruise-port/",
 }
 # Marker pairs whose contents are dropped (generated chrome, stale-by-design status lines, webcams).
 DROP = ["SITE-NAV", "SITE-NAV-GUIDES", "SITE-NAV-HEAD", "LEVADINHO-CTA", "LEVADINHO-CTA-HEAD", "WEBCAM",
