@@ -266,6 +266,43 @@ COPY = {
 }
 
 
+# Day-2 map (owner, 2026-10-20: "use the Balcões page as an example"): a static OSM image with numbered pins,
+# rendered by scripts/gen_twoday_map.py to img/two-days/d2-map(.{,-full})webp — keep MAP_PTS in step with that
+# script. Coordinates from OpenStreetMap (Overpass/Nominatim, 2026-10-20); credit in the figcaption.
+MAP_PTS = [
+    (32.64869, -16.90351, {"en": "Mercado dos Lavradores", "pt": "Mercado dos Lavradores", "fr": "Mercado dos Lavradores", "de": "Mercado dos Lavradores", "pl": "Mercado dos Lavradores"}),
+    (32.64716, -16.90230, {"en": "Cable car, Funchal base station", "pt": "Teleférico, estação do Funchal", "fr": "Téléphérique, gare de Funchal", "de": "Seilbahn, Talstation Funchal", "pl": "Kolejka, stacja dolna Funchal"}),
+    (32.67606, -16.90247, {"en": "Monte church (Nossa Senhora do Monte)", "pt": "Igreja de Nossa Senhora do Monte", "fr": "Église de Nossa Senhora do Monte", "de": "Kirche Nossa Senhora do Monte", "pl": "Kościół Nossa Senhora do Monte"}),
+    (32.67364, -16.90283, {"en": "Monte Palace garden", "pt": "Jardim Monte Palace", "fr": "Jardin Monte Palace", "de": "Garten Monte Palace", "pl": "Ogród Monte Palace"}),
+    (32.67764, -16.89794, {"en": "Babosas: garden cable car (Monte side)", "pt": "Babosas: teleférico do jardim (lado do Monte)", "fr": "Babosas : téléphérique du jardin (côté Monte)", "de": "Babosas: Gartenseilbahn (Monte-Seite)", "pl": "Babosas: kolejka ogrodowa (strona Monte)"}),
+    (32.66220, -16.89536, {"en": "Botanical Garden", "pt": "Jardim Botânico", "fr": "Jardin botanique", "de": "Botanischer Garten", "pl": "Ogród Botaniczny"}),
+    (32.66118, -16.89545, {"en": "Bus stop CAM Meio Papagaios D (line 310A)", "pt": "Paragem CAM Meio Papagaios D (carreira 310A)", "fr": "Arrêt CAM Meio Papagaios D (ligne 310A)", "de": "Bushaltestelle CAM Meio Papagaios D (Linie 310A)", "pl": "Przystanek CAM Meio Papagaios D (linia 310A)"}),
+]
+MAP_H = {"en": "Day 2 on the map", "pt": "O dia 2 no mapa", "fr": "Le jour 2 sur la carte", "de": "Tag 2 auf der Karte",
+         "pl": "Dzień 2 na mapie"}
+MAP_OSM = {"en": "Open this area in OpenStreetMap", "pt": "Abrir esta zona no OpenStreetMap",
+           "fr": "Ouvrir cette zone dans OpenStreetMap", "de": "Diesen Bereich in OpenStreetMap öffnen",
+           "pl": "Otwórz ten obszar w OpenStreetMap"}
+BUS_DOWN = {
+    "en": "On foot instead: from the garden's lower gate you can walk down to the CAM Meio Papagaios D bus stop (line 310A) and wait for the bus — fine with time to spare, not worth the hassle if you are on the clock.",
+    "pt": "A pé, em alternativa: da saída de baixo do jardim pode descer até à paragem CAM Meio Papagaios D (carreira 310A) e esperar pelo autocarro — serve com tempo de sobra, não vale a pena se anda contra o relógio.",
+    "fr": "À pied, sinon : depuis la sortie basse du jardin, on peut descendre jusqu'à l'arrêt CAM Meio Papagaios D (ligne 310A) et attendre le bus — bien si l'on a du temps, pas la peine si l'on est à l'heure près.",
+    "de": "Zu Fuß stattdessen: Vom unteren Ausgang des Gartens kann man zur Bushaltestelle CAM Meio Papagaios D (Linie 310A) hinuntergehen und auf den Bus warten — gut mit Zeitreserve, den Aufwand nicht wert, wenn die Uhr tickt.",
+    "pl": "Pieszo zamiast tego: od dolnego wyjścia z ogrodu można zejść do przystanku CAM Meio Papagaios D (linia 310A) i poczekać na autobus — w porządku z zapasem czasu, nie warte zachodu, gdy goni Cię zegar.",
+}
+
+
+def map_html(lang):
+    alt = html.escape(MAP_H[lang] + ": " + "; ".join(f"{i + 1} {n[lang]}" for i, (_a, _b, n) in enumerate(MAP_PTS)), quote=True)
+    legend = " · ".join(f"<b>{i + 1}</b> {names[lang]}" for i, (_la, _lo, names) in enumerate(MAP_PTS))
+    osm = "https://www.openstreetmap.org/#map=14/32.6620/-16.8990"
+    return ('<figure style="margin:16px 0"><a href="/img/two-days/d2-map-full.webp" target="_blank" rel="noopener">'
+            '<img src="/img/two-days/d2-map.webp" alt="' + alt + '" loading="lazy" width="660" height="1007" '
+            'style="display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:8px"></a>'
+            "<figcaption style=\"font-size:13px;color:var(--muted);margin-top:6px\">" + legend
+            + ". " + ext(osm, MAP_OSM[lang]) + ". Map © OpenStreetMap contributors.</figcaption></figure>")
+
+
 def plain(s):
     return " ".join(html.unescape(re.sub(r"<[^>]+>", "", s)).split())
 
@@ -273,12 +310,16 @@ def plain(s):
 def main():
     for lang in LANGS:
         c = dict(COPY[lang])
-        c["body"] = [(h, [src(lang) if p is None else p for p in parts]) for h, parts, _ in COPY[lang]["body"]]
+        body = [(h, list(parts), isq) for h, parts, isq in COPY[lang]["body"]]
+        body[2][1].append(BUS_DOWN[lang])                      # the walk-to-the-bus-stop option (owner, first-hand)
+        body.insert(len(body) - 1, (MAP_H[lang], [map_html(lang)], False))   # the day-2 map, before Sources
+        faq_src = body
+        c["body"] = [(h, [src(lang) if p is None else p for p in parts]) for h, parts, _ in body]
         out, lt, ld = gi.build(SLUG, lang, c, "WebPage")
         h = open(out, encoding="utf-8").read()
         faq = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(parts[0])}}
-            for q, parts, isq in COPY[lang]["body"] if isq]}
+            for q, parts, isq in faq_src if isq]}
         block = '<script type="application/ld+json">\n' + json.dumps(faq, ensure_ascii=False, indent=1) + "\n</script>\n"
         h = re.sub(r'<script type="application/ld\+json">\n\{\n "@context": "https://schema.org",\n "@type": "FAQPage".*?</script>\n', "", h, flags=re.S)
         i = h.index("</head>")
