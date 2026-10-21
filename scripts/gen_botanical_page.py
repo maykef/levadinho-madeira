@@ -99,7 +99,9 @@ COPY = {
   body=[
    ("Is the Botanical Garden worth it?", [
      "A resounding yes. There are beautiful specimens throughout, and the strongest sections are the succulents and cacti terraces and the glasshouse with bromeliads and orchids; around them you get amazing views over Funchal and the bay, and — rare for Madeira's big sights — peace and tranquility away from the crowds. The operator's own guidance says the visit takes about 1h30–2 hours, which matches our experience. There is a small café for a good coffee and a traditional pastel de nata halfway through.",
-     "One honest criticism, from an avid botanical collector's eye: the section dedicated to Madeira's endemic plants is small — too small, in our view, for the island whose laurel forest is a World Heritage site. Go for the collection and the setting, not for an endemics masterclass."], True),
+     "Why hunt out the endemics at all? Madeira belongs to Macaronesia, and its laurel forest is a UNESCO World Heritage site: the laurels, the ferns, the wild blueberries and the wild olive trees grow here and almost nowhere else on Earth — there is a wild olive in the garden itself, right by the endemics section. Which brings our one honest criticism, from an avid botanical collector's eye: that section is small — too small, in our view, for the island that owns this flora. Go for the collection and the setting, not for an endemics masterclass.",
+     "A drawback to know before you go: the garden sits on the island's dry southern side. Even high above Funchal it is much drier and hotter than the Serra do Faial — the central massif of Pico do Areeiro and Pico Ruivo — so what thrives here is the sun-loving collection, not the cloud forest. For the living laurel forest, walk a levada: " + a(L("en", "/best-levada-walks/"), "the best levada walks") + ".",
+     ], True),
    ("How much does the Botanical Garden cost?", [
      "Entry is €10 for visitors over 12, €3 for ages 6–12 and free under 6; Madeira residents enter free (Portaria 48/2026). The garden is open 09:00–17:30. The better buy for most visitors is the combo ticket of the garden cable car, which includes the entry: €19 one way or €24 round trip (children 7–14: €9/€12).",
      table(["Ticket", "Adult", "Child"],
@@ -125,7 +127,9 @@ COPY = {
   body=[
    ("O Jardim Botânico vale a pena?", [
      "Um sim rotundo. Há espécimes bonitos por todo o lado, e as secções mais fortes são os socalcos de suculentas e catos e a estufa com bromélias e orquídeas; à volta, vistas fantásticas sobre o Funchal e a baía e — coisa rara nos grandes pontos da Madeira — paz e tranquilidade longe das multidões. A indicação do próprio operador é que a visita leva cerca de 1h30–2 horas, o que bate certo com a nossa experiência. Há um pequeno café para um bom café e um pastel de nata tradicional a meio.",
-     "Uma crítica honesta, com olho de coletor botânico ávido: a secção dedicada às plantas endémicas da Madeira é pequena — pequena de mais, na nossa opinião, para a ilha cuja floresta Laurissilva é Património Mundial. Vá pela coleção e pelo lugar, não por uma aula de endemismos."], True),
+     "E porquê procurar os endemismos? A Madeira pertence à Macaronésia, e a sua Laurissilva é Património Mundial da UNESCO: os loureiros, os fetos, as uveiras bravas e os zambujeiros crescem aqui e em quase mais lado nenhum do planeta — há um zambujeiro no próprio jardim, mesmo junto à secção dos endemismos. E é daí que vem a nossa crítica honesta, com olho de coletor botânico ávido: essa secção é pequena — pequena de mais, na nossa opinião, para a ilha dona desta flora. Vá pela coleção e pelo lugar, não por uma aula de endemismos.",
+     "Um senão que convém saber: o jardim fica no lado seco e soalheiro do sul da ilha. Mesmo bem acima do Funchal, é muito mais seco e quente do que a Serra do Faial — o maciço central do Pico do Areeiro e do Pico Ruivo — por isso o que ali prospera é a coleção amante de sol, não a floresta das nuvens. Para a Laurissilva viva, caminhe numa levada: " + a(L("pt", "/best-levada-walks/"), "as melhores levadas") + ".",
+     ], True),
    ("Quanto custa o Jardim Botânico?", [
      "A entrada custa 10 € para maiores de 12 anos, 3 € dos 6 aos 12 e é grátis até aos 6; os residentes na Madeira entram grátis (Portaria 48/2026). O jardim abre das 09:00 às 17:30. Para a maioria dos visitantes compensa mais o bilhete combinado do teleférico do jardim, que inclui a entrada: 19 € num sentido ou 24 € ida e volta (crianças 7–14 anos: 9 €/12 €).",
      table(["Bilhete", "Adulto", "Criança"],
@@ -151,7 +155,9 @@ COPY = {
   body=[
    ("Le Jardin botanique vaut-il le coup ?", [
      "Un oui franc. De beaux spécimens partout, avec en point fort les terrasses de succulentes et de cactus et la serre aux broméliacées et aux orchidées ; autour, des vues superbes sur Funchal et la baie et — chose rare parmi les grands sites de Madère — du calme et de la tranquillité, loin des foules. L'opérateur lui-même indique qu'il faut environ 1 h 30 à 2 h de visite, ce qui correspond à notre expérience. Un petit café permet de faire une pause avec un bon café et un pastel de nata traditionnel.",
-     "Une critique honnête, avec un œil de collectionneur botanique passionné : la section consacrée aux plantes endémiques de Madère est petite — trop petite, à notre avis, pour l'île dont la forêt de lauriers est classée au patrimoine mondial. Venez pour la collection et le cadre, pas pour une leçon d'endémisme."], True),
+     "Pourquoi chercher les endémiques ? Madère appartient à la Macaronésie, et sa forêt de lauriers est classée au patrimoine mondial de l'UNESCO : les lauriers, les fougères, les myrtilles sauvages et les oliviers sauvages poussent ici et presque nulle part ailleurs sur Terre — il y a un olivier sauvage dans le jardin même, juste à côté de la section des endémiques. D'où notre critique honnête, avec un œil de collectionneur botanique passionné : cette section est petite — trop petite, à notre avis, pour l'île à qui appartient cette flore. Venez pour la collection et le cadre, pas pour une leçon d'endémisme.",
+     "Un défaut à connaître avant d'y aller : le jardin se trouve sur le versant sud, le côté sec de l'île. Même haut au-dessus de Funchal, il y fait bien plus sec et plus chaud que dans la Serra do Faial — le massif central du Pico do Areeiro et du Pico Ruivo — si bien que c'est la collection de plein soleil qui y prospère, pas la forêt de nuages. Pour la forêt de lauriers vivante, marchez le long d'une levada : " + a(L("fr", "/best-levada-walks/"), "les plus belles levadas") + ".",
+     ], True),
    ("Combien coûte le Jardin botanique ?", [
      "L'entrée coûte 10 € au-dessus de 12 ans, 3 € de 6 à 12 ans, gratuite avant 6 ans ; les résidents de Madère entrent gratuitement (Portaria 48/2026). Le jardin est ouvert de 09:00 à 17:30. Pour la plupart des visiteurs, la meilleure affaire est le billet combiné du téléphérique du jardin, entrée comprise : 19 € l'aller ou 24 € l'aller-retour (enfants 7–14 ans : 9 €/12 €).",
      table(["Billet", "Adulte", "Enfant"],
@@ -177,7 +183,9 @@ COPY = {
   body=[
    ("Lohnt sich der Botanische Garten?", [
      "Ein klares Ja. Überall schöne Exemplare; am stärksten sind die Terrassen mit Sukkulenten und Kakteen und das Gewächshaus mit Bromelien und Orchideen. Dazu großartige Ausblicke auf Funchal und die Bucht und — selten bei Madeiras großen Zielen — Ruhe und Frieden abseits der Menschenmassen. Der Betreiber selbst veranschlagt etwa 1,5–2 Stunden für den Besuch, was unserer Erfahrung entspricht. Ein kleines Café lädt zwischendurch zu einem guten Kaffee und einem traditionellen Pastel de Nata ein.",
-     "Eine ehrliche Kritik, mit dem Blick eines passionierten Pflanzensammlers: der Bereich für Madeiras endemische Pflanzen ist klein — zu klein, finden wir, für die Insel, deren Lorbeerwald Weltnaturerbe ist. Kommen Sie für die Sammlung und die Lage, nicht für eine Endemiten-Lehrstunde."], True),
+     "Warum überhaupt den Endemiten nachspüren? Madeira gehört zu Makaronesien, und sein Lorbeerwald ist UNESCO-Weltnaturerbe: die Lorbeerbäume, die Farne, die wilden Heidelbeeren und die wilden Ölbäume wachsen hier und fast nirgendwo sonst auf der Erde — ein wilder Ölbaum steht im Garten selbst, direkt am Endemiten-Bereich. Und genau daher unsere ehrliche Kritik, mit dem Blick eines passionierten Pflanzensammlers: dieser Bereich ist klein — zu klein, finden wir, für die Insel, der diese Flora gehört. Kommen Sie für die Sammlung und die Lage, nicht für eine Endemiten-Lehrstunde.",
+     "Ein Nachteil, den man vorher kennen sollte: Der Garten liegt auf der trockenen Südseite der Insel. Selbst hoch über Funchal ist es hier deutlich trockener und heißer als in der Serra do Faial — dem zentralen Massiv von Pico do Areeiro und Pico Ruivo — hier gedeiht also die sonnenliebende Sammlung, nicht der Nebelwald. Für den lebenden Lorbeerwald wandern Sie eine Levada: " + a(L("de", "/best-levada-walks/"), "die schönsten Levadas") + ".",
+     ], True),
    ("Was kostet der Botanische Garten?", [
      "Der Eintritt kostet 10 € ab 12 Jahren, 3 € für 6- bis 12-Jährige, unter 6 frei; Einwohner Madeiras zahlen nichts (Portaria 48/2026). Geöffnet 09:00–17:30. Für die meisten Besucher ist das Kombiticket der Gartenseilbahn der bessere Kauf, der Eintritt ist darin enthalten: 19 € einfach oder 24 € hin und zurück (Kinder 7–14: 9 €/12 €).",
      table(["Ticket", "Erwachsene", "Kinder"],
@@ -203,7 +211,9 @@ COPY = {
   body=[
    ("Czy Ogród Botaniczny jest wart wizyty?", [
      "Zdecydowanie tak. Piękne okazy na każdym kroku, a najmocniejsze punkty to tarasy sukulentów i kaktusów oraz szklarnia z bromeliami i storczykami; wokół wspaniałe widoki na Funchal i zatokę oraz — rzadkość wśród wielkich atrakcji Madery — spokój i cisza z dala od tłumów. Sam operator podaje, że zwiedzanie zajmuje około 1,5–2 godzin, co zgadza się z naszym doświadczeniem. Po drodze jest mała kawiarnia na dobrą kawę i tradycyjne pastel de nata.",
-     "Jedna szczera uwaga, okiem zapalonego kolekcjonera roślin: część poświęcona endemitom Madery jest mała — naszym zdaniem za mała jak na wyspę, której wawrzynowy las jest na liście światowego dziedzictwa. Jedź dla kolekcji i miejsca, nie po lekcję endemitów."], True),
+     "Po co w ogóle szukać endemitów? Madera należy do Makaronezji, a jej wawrzynowy las jest na liście światowego dziedzictwa UNESCO: wawrzyny, paprocie, dzikie borówki i dzikie drzewa oliwne rosną tu i prawie nigdzie indziej na Ziemi — dzika oliwka rośnie w samym ogrodzie, tuż przy części z endemitami. I stąd nasza szczera uwaga, okiem zapalonego kolekcjonera roślin: ta część jest mała — naszym zdaniem za mała jak na wyspę, do której ta flora należy. Jedź dla kolekcji i miejsca, nie po lekcję endemitów.",
+     "Wada, którą warto znać przed wizytą: ogród leży po suchej, południowej stronie wyspy. Nawet wysoko nad Funchal jest tu znacznie suszej i goręcej niż w Serra do Faial — centralnym masywie Pico do Areeiro i Pico Ruivo — więc kwitnie tu kolekcja słońcolubna, nie las mgielny. Po żywy las wawrzynowy idź wzdłuż lewady: " + a(L("pl", "/best-levada-walks/"), "najlepsze lewady") + ".",
+     ], True),
    ("Ile kosztuje Ogród Botaniczny?", [
      "Wstęp kosztuje 10 € powyżej 12 lat, 3 € dla dzieci 6–12 lat, do 6 lat za darmo; mieszkańcy Madery wchodzą bezpłatnie (Portaria 48/2026). Ogród jest otwarty 09:00–17:30. Dla większości odwiedzających lepszym zakupem jest bilet łączony kolejki ogrodowej, który zawiera wstęp: 19 € w jedną stronę albo 24 € w obie (dzieci 7–14 lat: 9 €/12 €).",
      table(["Bilet", "Dorosły", "Dziecko"],
@@ -235,7 +245,7 @@ def main():
         F = FIGS[lang]
         # photos: the specimens after the verdict's first paragraph, the endemic after the critique,
         # the cable-car view in the getting-there section
-        body[0] = (body[0][0], [body[0][1][0], F["trees"], body[0][1][1], F["endemic"]])
+        body[0] = (body[0][0], [body[0][1][0], F["trees"], body[0][1][1], F["endemic"], body[0][1][2]])
         body[2] = (body[2][0], [body[2][1][0], F["cable"], *body[2][1][1:]])
         c["body"] = body
         out, lt, ld = gi.build(SLUG, lang, c, "WebPage")
