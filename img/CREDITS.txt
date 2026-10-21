@@ -162,3 +162,6 @@ pr1-viewpoint-cloud.webp — photo © Mayke De Freitas Santos 2026, all rights r
 pride-of-madeira.jpg — photo © Mayke De Freitas Santos 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
 pride-of-madeira.webp — photo © Mayke De Freitas Santos 2026, all rights reserved (owner's own photo, PR1 Vereda do Areeiro)
 balcoes/*.webp (17 files) — photos © Mayke De Freitas Santos 2026, all rights reserved (owner's own photos, Funchal bus stop, Ribeiro Frio and PR11 Vereda dos Balcões; resized, location data removed)
+img/botanical/*.jpg|webp — Botanical Garden (Jardim Botânico da Madeira), own photos © Mayke De Freitas Santos, October 2026:
+  garden-trees, endemic-argyranthemum (Argyranthemum pinnatifidum ssp. pinnatifidum), endemic-melanoselinum
+  (Melanoselinum decipiens), cable-car-view (from the garden cable car over the João Gomes valley).

@@ -43,6 +43,7 @@ GUIDES = {
     "port": "/madeira-cruise-port/",
     "pedrarija": "/areeiro-pedra-rija/",
     "monte": "/monte/",
+    "botanical": "/botanical-garden/",
 }
 # Marker pairs whose contents are dropped (generated chrome, stale-by-design status lines, webcams).
 DROP = ["SITE-NAV", "SITE-NAV-GUIDES", "SITE-NAV-HEAD", "LEVADINHO-CTA", "LEVADINHO-CTA-HEAD", "WEBCAM",

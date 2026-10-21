@@ -139,6 +139,12 @@ GUIDES = [
      {"en": "The short PR1 walk to Pedra Rija, €4.50", "pt": "O PR1 curto até à Pedra Rija, 4,50 €",
       "fr": "Le PR1 court jusqu'à Pedra Rija, 4,50 €", "de": "Der kurze PR1 bis Pedra Rija, 4,50 €",
       "pl": "Krótki PR1 do Pedra Rija, 4,50 €"}),
+    ("botanical", "/botanical-garden/", "funchal",
+     {"en": "Botanical Garden", "pt": "Jardim Botânico", "fr": "Jardin botanique", "de": "Botanischer Garten",
+      "pl": "Ogród Botaniczny"},
+     {"en": "Is the Botanical Garden worth it?", "pt": "O Jardim Botânico vale a pena?",
+      "fr": "Le Jardin botanique vaut-il le coup ?", "de": "Lohnt sich der Botanische Garten?",
+      "pl": "Czy Ogród Botaniczny jest wart wizyty?"}),
     ("oneway", "/pr1-one-way/", "pr1",
      {"en": "Is PR1 one-way?", "pt": "PR1 em sentido único?", "fr": "PR1 à sens unique ?", "de": "PR1 nur in eine Richtung?",
       "pl": "PR1 jednokierunkowy?"},
@@ -218,7 +224,7 @@ GUIDE = {g[0]: g for g in GUIDES}
 # Which guides each page links to in its "More guides" block (targets the page already
 # links to in its own copy are dropped, so the block never repeats a "Next steps" link).
 RELATED_GUIDES = {
-    "home": ["closures", "funchal", "monte", "pr1", "oneway", "pedrarija", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus", "parking", "1day", "2day", "port"],
+    "home": ["closures", "funchal", "monte", "botanical", "pr1", "oneway", "pedrarija", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus", "parking", "1day", "2day", "port"],
     "pr1": ["oneway", "pedrarija", "sunrise", "weather", "back", "booking", "fees", "permit", "closures", "parking"],
     "fees": ["permit", "free", "booking", "abroad", "best", "pr1"],
     "permit": ["free", "booking", "fees", "best", "easy", "tunnels"],
@@ -236,12 +242,13 @@ RELATED_GUIDES = {
     "closures": ["pr1", "best", "fees", "booking", "permit", "about"],
     "parking": ["back", "sunrise", "oneway", "pedrarija", "pr1", "weather", "bus"],
     "about": ["closures", "pr1", "fees", "booking", "permit", "best", "1day"],
-    "funchal": ["monte", "bus", "free", "best", "easy", "closures", "about", "1day", "2day", "port"],
+    "funchal": ["monte", "botanical", "bus", "free", "best", "easy", "closures", "about", "1day", "2day", "port"],
     "1day": ["2day", "port", "pedrarija", "monte", "funchal", "booking", "weather", "parking", "free", "about"],
-    "2day": ["1day", "port", "monte", "funchal", "booking", "weather", "parking", "free", "about"],
+    "2day": ["1day", "port", "monte", "botanical", "funchal", "booking", "weather", "parking", "free", "about"],
     "port": ["1day", "2day", "pedrarija", "monte", "funchal", "best", "booking", "weather"],
     "pedrarija": ["pr1", "oneway", "booking", "parking", "weather", "sunrise", "1day", "port"],
-    "monte": ["2day", "1day", "funchal", "port", "free", "bus"],
+    "monte": ["botanical", "2day", "1day", "funchal", "port", "free", "bus"],
+    "botanical": ["monte", "2day", "1day", "funchal", "port", "free"],
     "spoke": ["closures", "best", "easy", "tunnels", "booking", "fees", "permit"],
     "spoke-pr1": ["pr1", "oneway", "back", "sunrise", "weather", "booking", "fees"],   # PR1.2 Pico Ruivo
 }
