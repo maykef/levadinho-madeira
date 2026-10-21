@@ -39,6 +39,14 @@ LINE = {
 }
 ABOUT = {"en": ("/about/", "About Levadinho"), "pt": ("/pt/about/", "Sobre o Levadinho"), "fr": ("/fr/about/", "À propos"),
          "de": ("/de/about/", "Über Levadinho"), "pl": ("/pl/about/", "O Levadinho")}   # footer link (LLM audit item H)
+# Price disclaimer (owner, 2026-10-21): shown above the owner line on every page with a footer.
+PRICES = {
+    "en": "Prices and timetables come from the official operators and are checked regularly, but they can change without notice: please confirm them before you buy or book. We cannot be held accountable for any price discrepancy.",
+    "pt": "Os preços e horários vêm dos operadores oficiais e são verificados regularmente, mas podem mudar sem aviso: confirme-os antes de comprar ou reservar. Não nos responsabilizamos por diferenças de preços.",
+    "fr": "Les prix et horaires proviennent des opérateurs officiels et sont vérifiés régulièrement, mais ils peuvent changer sans préavis : confirmez-les avant d'acheter ou de réserver. Nous déclinons toute responsabilité en cas d'écart de prix.",
+    "de": "Preise und Fahrpläne stammen von den offiziellen Betreibern und werden regelmäßig geprüft, können sich aber ohne Ankündigung ändern: Bitte bestätigen Sie sie vor jedem Kauf oder jeder Buchung. Für Preisabweichungen übernehmen wir keine Haftung.",
+    "pl": "Ceny i rozkłady pochodzą od oficjalnych operatorów i są regularnie sprawdzane, ale mogą się zmienić bez zapowiedzi: potwierdź je przed zakupem lub rezerwacją. Nie odpowiadamy za rozbieżności cen.",
+}
 HOMES = {"index.html": "en", "pt/index.html": "pt", "fr/index.html": "fr", "de/index.html": "de", "pl/index.html": "pl"}
 HOME_URL = {"en": "/", "pt": "/pt/", "fr": "/fr/", "de": "/de/", "pl": "/pl/"}
 BASE = "https://levadinho-madeira.com"
@@ -91,7 +99,8 @@ def main():
         lang = (m.group(1).lower() if m else "en")
         lang = lang if lang in LINE else "en"
         about = f' · <a href="{ABOUT[lang][0]}" style="color:inherit">{ABOUT[lang][1]}</a>'
-        new = put(s, "OWNER-LINE", f'<span class="owner" style="display:block;margin-top:6px">{LINE[lang]}{about}</span>',
+        new = put(s, "OWNER-LINE", f'<span class="prices" style="display:block;margin-top:6px;opacity:.85">{PRICES[lang]}</span>'
+                  f'<span class="owner" style="display:block;margin-top:6px">{LINE[lang]}{about}</span>',
                   r"</footer>")
         if "goatcounterCode" in new:  # engagement events (owner, 2026-10-07): /engage.js, sends only when GoatCounter loaded
             new = put(new, "ENGAGE", '<script src="/engage.js" defer></script><script src="/alert.js" defer></script>', r"</body>")

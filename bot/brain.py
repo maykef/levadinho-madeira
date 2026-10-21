@@ -115,7 +115,7 @@ SOURCE_GUIDE = {"web-sunrise": "sunrise", "web-back": "back", "web-oneway": "one
                 "web-booking": "booking", "web-abroad": "abroad", "web-permit": "permit", "web-free": "free",
                 "web-bus": "bus", "web-best": "best", "web-easy": "easy", "web-tunnels": "tunnels",
                 "web-funchal": "funchal", "web-parking": "parking", "web-1day": "1day", "web-2day": "2day", "web-port": "port",
-                "web-pedrarija": "pedrarija"}
+                "web-pedrarija": "pedrarija", "web-monte": "monte"}
 
 
 def is_greeting(text):

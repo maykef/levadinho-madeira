@@ -128,6 +128,11 @@ GUIDES = [
      {"en": "Pico do Areeiro parking: prices and which car park", "pt": "Estacionamento no Pico do Areeiro: preços e parques",
       "fr": "Parking du Pico do Arieiro : tarifs et quel parking", "de": "Parken am Pico do Arieiro: Preise und welcher Parkplatz",
       "pl": "Parking na Pico do Arieiro: ceny i który parking"}),
+    ("monte", "/monte/", "funchal",
+     {"en": "Monte", "pt": "Monte", "fr": "Monte", "de": "Monte", "pl": "Monte"},
+     {"en": "Monte: what to see, cable car and toboggans", "pt": "Monte: o que ver, teleférico e carros de cesto",
+      "fr": "Monte : que voir, téléphérique et luges d'osier", "de": "Monte: was sehen, Seilbahn und Korbschlitten",
+      "pl": "Monte: co zobaczyć, kolejka i sanie z wikliny"}),
     ("pedrarija", "/areeiro-pedra-rija/", "pr1",
      {"en": "Areeiro–Pedra Rija walk", "pt": "Passeio Areeiro–Pedra Rija", "fr": "Balade Areeiro–Pedra Rija",
       "de": "Areeiro–Pedra-Rija-Weg", "pl": "Spacer Areeiro–Pedra Rija"},
@@ -213,7 +218,7 @@ GUIDE = {g[0]: g for g in GUIDES}
 # Which guides each page links to in its "More guides" block (targets the page already
 # links to in its own copy are dropped, so the block never repeats a "Next steps" link).
 RELATED_GUIDES = {
-    "home": ["closures", "funchal", "pr1", "oneway", "pedrarija", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus", "parking", "1day", "2day", "port"],
+    "home": ["closures", "funchal", "monte", "pr1", "oneway", "pedrarija", "fees", "permit", "free", "booking", "abroad", "back", "sunrise", "weather", "best", "easy", "tunnels", "bus", "parking", "1day", "2day", "port"],
     "pr1": ["oneway", "pedrarija", "sunrise", "weather", "back", "booking", "fees", "permit", "closures", "parking"],
     "fees": ["permit", "free", "booking", "abroad", "best", "pr1"],
     "permit": ["free", "booking", "fees", "best", "easy", "tunnels"],
@@ -231,11 +236,12 @@ RELATED_GUIDES = {
     "closures": ["pr1", "best", "fees", "booking", "permit", "about"],
     "parking": ["back", "sunrise", "oneway", "pedrarija", "pr1", "weather", "bus"],
     "about": ["closures", "pr1", "fees", "booking", "permit", "best", "1day"],
-    "funchal": ["bus", "free", "best", "easy", "closures", "about", "1day", "2day", "port"],
-    "1day": ["2day", "port", "pedrarija", "funchal", "booking", "weather", "parking", "free", "about"],
-    "2day": ["1day", "port", "funchal", "booking", "weather", "parking", "free", "about"],
-    "port": ["1day", "2day", "pedrarija", "funchal", "best", "booking", "weather"],
+    "funchal": ["monte", "bus", "free", "best", "easy", "closures", "about", "1day", "2day", "port"],
+    "1day": ["2day", "port", "pedrarija", "monte", "funchal", "booking", "weather", "parking", "free", "about"],
+    "2day": ["1day", "port", "monte", "funchal", "booking", "weather", "parking", "free", "about"],
+    "port": ["1day", "2day", "pedrarija", "monte", "funchal", "best", "booking", "weather"],
     "pedrarija": ["pr1", "oneway", "booking", "parking", "weather", "sunrise", "1day", "port"],
+    "monte": ["2day", "1day", "funchal", "port", "free", "bus"],
     "spoke": ["closures", "best", "easy", "tunnels", "booking", "fees", "permit"],
     "spoke-pr1": ["pr1", "oneway", "back", "sunrise", "weather", "booking", "fees"],   # PR1.2 Pico Ruivo
 }
