@@ -79,6 +79,30 @@ const CONFIG = {
         "@type": "Answer",
         "text": "Ceny zależą od firmy i wielkości grupy, więc przy rezerwacji poproś o wycenę. Bilet na szlak jest zwykle osobno: 10,50 € w SIMplifica albo 7 €, jeśli rezerwuje go operator z protokołem IFCN."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Kiedy zarezerwować taksówkę na powrót?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Przed rozpoczęciem wędrówki, na konkretną godzinę odbioru z Achada do Teixeira. Policz oficjalne czasy szlaku od wejścia na PR1: około 3 godz. z Pico do Areeiro na Pico Ruivo plus 1,5 godz. zejścia szlakiem PR1.2 do Achada do Teixeira — z postojem na szczycie większość potrzebuje 4,5–5,5 godziny. Startując o 08:00, odbiór około 13:00–14:00 pasuje. W ciągu dnia taksówki często czekają na parkingu, ale wczesne, późne lub posezonowe zakończenie wymaga zarezerwowanej godziny."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Czy 15–20 € za wspólny przejazd to cena za osobę, czy za taksówkę?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Za osobę, bo kwota z taksometru jest dzielona. Taksówka jeździ na taksometr; gdy wędrowcy dzielą powrót na Pico do Areeiro, każdy płaci swoją część — zwykle około 15–20 € od osoby. Dwie osoby same w taksówce nie płacą podwójnie od głowy — dzielą ten sam taksometr na dwoje. Poproś o wycenę przy rezerwacji."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Czy grupa pięciu lub więcej osób zmieści się w jednej taksówce?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Zwykle nie — zwykła taksówka zabiera do czterech pasażerów. Przy pięciu lub więcej osobach zarezerwuj dwie taksówki na tę samą godzinę albo transfer dla wędrowców o stałych godzinach (minibusy zabierają większe grupy). Rezerwuj przed rozpoczęciem wędrówki."
+      }
     }
   ]
 }
@@ -91,7 +115,7 @@ const CONFIG = {
  "name": "Jak wrócić z Pico Ruivo bez samochodu po szlaku PR1",
  "description": "Szlak PR1 z Pico do Arieiro jest jednokierunkowy i kończy się w Achada do Teixeira, bez autobusu. Autobus, taksówki, transfery. Zaplanuj powrót.",
  "inLanguage": "pl",
- "dateModified": "2026-10-18T14:07+01:00",
+ "dateModified": "2026-10-21T19:10+01:00",
  "isPartOf": {
   "@id": "https://levadinho-madeira.com/#website"
  },
@@ -382,6 +406,12 @@ a.tname:hover{text-decoration:underline}
   <p>Nie. Od ponownego otwarcia 1 maja 2026 pełna trasa jest jednokierunkowa, Pico do Areeiro → Pico Ruivo. W obie strony można chodzić tylko po odcinku Areeiro ↔ Pedra Rija (1,2 km). Z Pico Ruivo schodzi się szlakiem PR1.2 do Achada do Teixeira.</p>
   <h3>Ile kosztuje wspólny transfer dla turystów?</h3>
   <p>Ceny zależą od firmy i wielkości grupy, więc przy rezerwacji poproś o wycenę. Bilet na szlak jest zwykle osobno: 10,50 € w SIMplifica albo 7 €, jeśli rezerwuje go operator z protokołem IFCN.</p>
+  <h3>Kiedy zarezerwować taksówkę na powrót?</h3>
+  <p>Przed rozpoczęciem wędrówki, na konkretną godzinę odbioru z Achada do Teixeira. Policz oficjalne czasy szlaku od wejścia na PR1: około 3 godz. z Pico do Areeiro na Pico Ruivo plus 1,5 godz. zejścia szlakiem PR1.2 do Achada do Teixeira — z postojem na szczycie większość potrzebuje 4,5–5,5 godziny. Startując o 08:00, odbiór około 13:00–14:00 pasuje. W ciągu dnia taksówki często czekają na parkingu, ale wczesne, późne lub posezonowe zakończenie wymaga zarezerwowanej godziny.</p>
+  <h3>Czy 15–20 € za wspólny przejazd to cena za osobę, czy za taksówkę?</h3>
+  <p>Za osobę, bo kwota z taksometru jest dzielona. Taksówka jeździ na taksometr; gdy wędrowcy dzielą powrót na Pico do Areeiro, każdy płaci swoją część — zwykle około 15–20 € od osoby. Dwie osoby same w taksówce nie płacą podwójnie od głowy — dzielą ten sam taksometr na dwoje. Poproś o wycenę przy rezerwacji.</p>
+  <h3>Czy grupa pięciu lub więcej osób zmieści się w jednej taksówce?</h3>
+  <p>Zwykle nie — zwykła taksówka zabiera do czterech pasażerów. Przy pięciu lub więcej osobach zarezerwuj dwie taksówki na tę samą godzinę albo transfer dla wędrowców o stałych godzinach (minibusy zabierają większe grupy). Rezerwuj przed rozpoczęciem wędrówki.</p>
 </section>
 
 <p class="src" style="margin-top:24px">Źródła: <a href="https://www.horariosdofunchal.pt/index.php/viajar/pico-do-areeiro" rel="noopener">Horários do Funchal, linia Pico do Areeiro</a> · <a href="https://ifcn.madeira.gov.pt/pt/?view=article&amp;id=627:percursos-pedestres-avisos&amp;catid=146:avisos" rel="noopener">lista ostrzeżeń IFCN</a> · <a href="https://ifcn.madeira.gov.pt/en/atividades-de-natureza/percursos-pedestres-recomendados/percursos-pedestres-recomendados.html" rel="noopener">lista szlaków i tablice IFCN</a> · <a href="https://ifcn.madeira.gov.pt/images/Doc_Artigos/Legislacao/Portarias/Port48ISerie027_2026.pdf" rel="noopener">Portaria 48/2026 (opłaty)</a> · <a href="https://www.dnoticias.pt/2024/8/13/416104-estacionar-no-pico-do-areeiro-vai-custar-4-euros-por-hora/" rel="noopener">DN o parkingu na Areeiro</a> · <a href="https://imt.madeira.gov.pt/images/Documentos%20Noticias/1alt-a-convencao-2019_tarifario-taxis-assinado%2018.09.2025.pdf" rel="noopener">IMT-RAM, Primeira alteração à Convenção n.º 1/2019 (taryfa taksówek)</a> · <a href="https://www.visitmadeira.com/pt/meios-de-transporte/taxis/" rel="noopener">Visit Madeira, taksówki</a>.</p>
