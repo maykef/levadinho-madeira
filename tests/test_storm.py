@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Tests for storm.py with IFCN's real notices (March 2026 closure and reopening, the standing trail list).
-Run: python3 scripts/test_storm.py"""
+Run: python3 -m pytest tests/ (or python3 tests/test_storm.py)"""
 import json
 import os
 import sys
 import unittest
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 import storm
 
 CLOSURE_0303 = ("O Instituto das Florestas e Conservação da Natureza, IP-RAM informa que, devido aos avisos meteorológicos "

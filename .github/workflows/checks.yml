@@ -1,0 +1,24 @@
+# Guardrails on every push (consolidation part C, 2026-10-21): lint, the unit tests, and the site
+# invariants (sitemap <-> files, canonical/hreflang, CTA + nav, FAQ verbatim, title/description lengths).
+name: Checks
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install "ruff>=0.6" pytest "requests>=2.32,<3"
+      - name: Ruff
+        run: ruff check scripts/ backend/ bot/*.py tests/
+      - name: Unit tests
+        run: python -m pytest tests/ -q
+      - name: Site invariants
+        run: python scripts/check_site.py

@@ -38,6 +38,10 @@ jobs:
         continue-on-error: true
         run: python scripts/update_funchal.py
 
+      # Part C (2026-10-21): a page that breaks the site invariants never publishes.
+      - name: Site invariants
+        run: python scripts/check_site.py
+
       - name: Commit and push if changed
         run: |
           git config user.name "levadinho-bot"
