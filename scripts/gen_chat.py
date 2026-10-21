@@ -8,7 +8,10 @@ Each gets <script src="/chat.js" defer> before </body>, between CHAT:START/END m
 unchanged (Google indexes the same page); chat.js adds the chat above it only when the bot answers.
 Idempotent. `--remove` takes the markers out of every page (to end the pilot).
 """
-import glob, os, re, sys
+import glob
+import os
+import re
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANG_DIRS = ["", "pt/", "fr/", "de/", "pl/"]

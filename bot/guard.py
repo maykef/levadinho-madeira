@@ -126,7 +126,7 @@ def check(reply, user_text, lang, trails, context=""):
                                                                    or len(re.sub(r"[\d:→,\s*\-–()|]", "", s)) < 25))
             out = re.sub(r"\n?\*[^*\n]{3,40}:\*\s*(?=\n|$)", "", out)     # day headings left without times
             tables = []
-            for code, leg, tt, deps, every in covered:
+            for code, leg, tt, _deps, _every in covered:
                 head = (answers.T["there_bus"] if leg == "there" else answers.T["back_bus"])[lang].format(tt="")
                 tables.append(head.rstrip(": ") + ":\n" + "\n".join("• " + x.strip() for x in tt.split(" | ")))
                 changes.append(f"timetable replaced with the printed one: {code} {leg}")

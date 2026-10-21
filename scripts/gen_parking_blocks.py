@@ -12,7 +12,9 @@ agree and the page says so. Trails without a sourced, page-specific fact get NO 
 "no official parking information" lines would look like template duplicates to Google); an old block is removed.
 Never an unsourced car park, road number or price. Idempotent; gen_spokes.py calls it.
 """
-import glob, os, re
+import glob
+import os
+import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IFCN = "https://ifcn.madeira.gov.pt/images/Doc_Artigos/Servicos/precoseservicos/Servi%C3%A7os.pdf"

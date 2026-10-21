@@ -20,10 +20,12 @@ What it says, and where from:
 Re-run after changing the copy: it keeps dateModified, then runs gen_site_nav.py, gen_cta.py, gen_owner.py and
 gen_schema.py itself (the page is in GUIDES / TAGS).
 """
-import html, json, os, re, sys
+import html
+import os
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from site_entity import LANGS, PREFIX  # noqa: E402
+from site_entity import PREFIX  # noqa: E402
 import gen_info_pages as gi  # noqa: E402
 
 SLUG = "botanical-garden"
@@ -234,37 +236,20 @@ COPY = {
 }
 
 
-def plain(s):
-    return " ".join(html.unescape(re.sub(r"<[^>]+>", "", s)).split())
+def prepare(lang, t):
+    """The owner's photos: the specimens after the verdict's first paragraph, the endemic after the critique,
+    the cable-car view in the getting-there section."""
+    F = FIGS[lang]
+    h, parts, isq = t[0]
+    t[0] = (h, [parts[0], F["trees"], parts[1], F["endemic"], parts[2]], isq)
+    h, parts, isq = t[2]
+    t[2] = (h, [parts[0], F["cable"], *parts[1:]], isq)
+    return t
 
 
 def main():
-    for lang in LANGS:
-        c = dict(COPY[lang])
-        body = [(h, [src(lang) if p is None else p for p in parts]) for h, parts, _ in COPY[lang]["body"]]
-        F = FIGS[lang]
-        # photos: the specimens after the verdict's first paragraph, the endemic after the critique,
-        # the cable-car view in the getting-there section
-        body[0] = (body[0][0], [body[0][1][0], F["trees"], body[0][1][1], F["endemic"], body[0][1][2]])
-        body[2] = (body[2][0], [body[2][1][0], F["cable"], *body[2][1][1:]])
-        c["body"] = body
-        out, lt, ld = gi.build(SLUG, lang, c, "WebPage")
-        h = open(out, encoding="utf-8").read()
-        faq = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [
-            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(parts[0])}}
-            for q, parts, isq in COPY[lang]["body"] if isq]}
-        block = '<script type="application/ld+json">\n' + json.dumps(faq, ensure_ascii=False, indent=1) + "\n</script>\n"
-        h = re.sub(r'<script type="application/ld\+json">\n\{\n "@context": "https://schema.org",\n "@type": "FAQPage".*?</script>\n', "", h, flags=re.S)
-        i = h.index("</head>")
-        h = h[:i] + block + h[i:]
-        h = h.replace('"dateModified": "2026-10-07T12:00+01:00"', '"dateModified": "2026-10-21T12:00+01:00"')
-        h = h.replace("/img/og-default.jpg", "/img/botanical/garden-trees.jpg")
-        open(out, "w", encoding="utf-8").write(h)
-        flag = "" if lt <= 60 and 120 <= ld <= 155 else "  <-- title/description length"
-        print(f"{os.path.relpath(out, ROOT)}: title {lt}, description {ld}{flag}")
-    import subprocess
-    for script in ("gen_site_nav.py", "gen_cta.py", "gen_owner.py", "gen_schema.py"):
-        subprocess.run([sys.executable, os.path.join(ROOT, "scripts", script)], check=True, cwd=ROOT, stdout=subprocess.DEVNULL)
+    gi.build_qa(SLUG, COPY, src, "2026-10-21T12:00+01:00", prepare=prepare,
+                og_image="/img/botanical/garden-trees.jpg")
 
 
 if __name__ == "__main__":

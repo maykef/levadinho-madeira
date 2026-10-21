@@ -4,7 +4,11 @@ funchal-stops-map): OSM tiles stitched with PIL, numbered pins, written to img/t
 and port-map-full.webp (2x). Coordinates from OpenStreetMap (Overpass, 2026-10-20). Attribution is in the page's
 figcaption ("Map © OpenStreetMap contributors"). Run once per change; the tiles come from tile.openstreetmap.org.
 """
-import io, math, os, time, urllib.request
+import io
+import math
+import os
+import time
+import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402

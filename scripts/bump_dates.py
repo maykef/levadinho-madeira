@@ -8,7 +8,11 @@ differs from HEAD (or is new) gets "dateModified" = now (Madeira time) and <last
     python scripts/bump_dates.py            # bump, then list the pages
     python scripts/bump_dates.py --dry-run  # only list them
 """
-import datetime, os, subprocess, sys, zoneinfo
+import datetime
+import os
+import subprocess
+import sys
+import zoneinfo
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import update_status as u  # noqa: E402  (reuses bump_date_modified / bump_sitemap)

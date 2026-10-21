@@ -20,7 +20,14 @@ Rules: trigger when the site's blanket state or IPMA level differs from the sour
 at least once an hour (fresh weather, the midnight flip from "announced" to "closed"); never more often than every
 15 minutes. --dry-run prints the decision and triggers nothing (add --log to keep it in the log: shadow mode). State + log: /mnt/tank/levadinho/storm/.
 """
-import datetime, html, json, os, re, subprocess, sys, urllib.request
+import datetime
+import html
+import json
+import os
+import re
+import subprocess
+import sys
+import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import storm  # noqa: E402
@@ -74,7 +81,7 @@ def social_signals(now):
             m = re.search(r"<pubDate>(.*?)</pubDate>", item)
             if not m:
                 continue
-            posted = datetime.datetime.strptime(m.group(1).strip(), "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=datetime.timezone.utc)
+            posted = datetime.datetime.strptime(m.group(1).strip(), "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=datetime.UTC)
             if now - posted > datetime.timedelta(hours=SOCIAL_FRESH_H):
                 continue
             body = re.search(r"<description>(.*?)</description>", item, re.S)
@@ -88,7 +95,7 @@ def social_signals(now):
 
 
 def main(dry):
-    now = datetime.datetime.now(datetime.timezone.utc)
+    now = datetime.datetime.now(datetime.UTC)
     os.makedirs(DIR, exist_ok=True)
     state = {}
     if os.path.exists(STATE):

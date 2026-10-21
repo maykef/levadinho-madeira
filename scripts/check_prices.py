@@ -133,7 +133,7 @@ def run(init):
         with open(ALERT, "w") as f:
             f.write(f"# PRICE ALERT {stamp}\n\nFix the pages NOW (owner's rule, 2026-10-21), then re-run "
                     f"`python3 scripts/check_prices.py --init`.\n\n")
-            for key, url, pages, msg, was in problems:
+            for key, url, pages, msg, _was in problems:
                 f.write(f"- **{key}** ({url}): {msg}\n  pages: {', '.join(pages)}\n")
         line = f"{stamp} PRICE CHANGE / verify failure: {[p[0] for p in problems]} -> {ALERT}"
     else:

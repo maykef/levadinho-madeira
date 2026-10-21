@@ -109,7 +109,7 @@ def sun_times(d):
     out = []
     for sign in (1, -1):
         utc_min = 720 - 4 * (LON + sign * ha) - eqt
-        t = dt.datetime(d.year, d.month, d.day, tzinfo=dt.timezone.utc) + dt.timedelta(minutes=utc_min)
+        t = dt.datetime(d.year, d.month, d.day, tzinfo=dt.UTC) + dt.timedelta(minutes=utc_min)
         out.append(t.astimezone(TZ).strftime("%H:%M"))
     return out   # [sunrise, sunset]
 

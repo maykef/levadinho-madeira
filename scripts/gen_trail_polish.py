@@ -13,7 +13,10 @@
    <dl>; the TRAIL-EXTRAS list stays as it is. CSS between <!-- FTAB-HEAD --> markers.
 Idempotent; gen_spokes.py calls it after the other generators.
 """
-import glob, html, os, re
+import glob
+import html
+import os
+import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WEATHER = {"en": r"What's the weather at (.+?) now\?", "pt": r"Como está o tempo (?:na|no|em) (.+?) agora\?",

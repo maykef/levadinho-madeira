@@ -1,0 +1,4 @@
+# What scripts/ needs (the daily Action installs requests only; the rest is for local generator runs)
+requests>=2.32,<3
+Pillow>=10
+qrcode>=7

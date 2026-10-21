@@ -1,0 +1,4 @@
+# The knowledge backend (backend/.venv): KB store loaders + the MCP server
+psycopg[binary]>=3.1,<4
+requests>=2.32,<3
+mcp>=1.0

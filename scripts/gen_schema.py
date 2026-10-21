@@ -14,7 +14,10 @@ Entity links (LLM audit item G, 2026-10-07), on every page (not only trail pages
   - every WebPage gets "isPartOf" -> the site (#website, defined on the homepages by gen_owner.py),
     "publisher" -> the owner (#owner) and, on trail pages, "about" -> the page's #trail.
 """
-import glob, json, os, re
+import glob
+import json
+import os
+import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LD_RE = re.compile(r'(<script type="application/ld\+json">\n)(.*?)(\n</script>)', re.S)

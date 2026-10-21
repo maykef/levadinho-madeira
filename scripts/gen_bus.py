@@ -9,7 +9,9 @@ The section sits between <!-- BUS:START --> / <!-- BUS:END --> markers right aft
 Run after gen_spokes.py (it calls this at the end). Balcões, Levada do Furado and the getting-back page
 carry hand-written CAM sections instead (section id="bus" / "bus-santana").
 """
-import html, pathlib, re
+import html
+import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 LANGS = ["en", "pt", "fr", "de", "pl"]

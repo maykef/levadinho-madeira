@@ -256,7 +256,7 @@ def _day_type(day):
         wd = {"mon": 0, "tue": 1, "wed": 2, "thu": 3, "fri": 4, "sat": 5, "sun": 6, "today": None, "tomorrow": None}
         key = d[:3] if d[:3] in wd else d
         if key not in wd:
-            raise ValueError("day: YYYY-MM-DD, today, tomorrow, a weekday name, mon_fri, sat or sun_hol")
+            raise ValueError("day: YYYY-MM-DD, today, tomorrow, a weekday name, mon_fri, sat or sun_hol") from None
         today = datetime.datetime.now(MADEIRA).date()
         if wd[key] is None:
             date = today + datetime.timedelta(days=1 if key == "tomorrow" else 0)

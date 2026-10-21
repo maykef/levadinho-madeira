@@ -18,7 +18,12 @@ A row without a sourced fact is left out. Between <!-- ANSWER-CARD:START/END -->
 the STATIC-* markers keep whatever the updater wrote last. Idempotent; gen_spokes.py calls it; it re-places the
 WhatsApp block (gen_cta.py) below the card.
 """
-import glob, html as htmllib, json, os, re, sys
+import glob
+import html as htmllib
+import json
+import os
+import re
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "backend"))

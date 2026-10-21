@@ -1,0 +1,16 @@
+# Levadinho tooling config (2026-10-21). No package build: the repo is a static site plus scripts.
+[tool.ruff]
+line-length = 130
+target-version = "py312"
+extend-exclude = ["seo_research", "reports", "collect", "watch", "google_search_console", "bot/guide"]
+
+[tool.ruff.lint]
+# E501 long lines in the 5-language copy dicts are deliberate; E402 sys.path-then-import is the repo's pattern
+select = ["E", "F", "W", "B", "UP"]
+ignore = [
+  "E501", "E402",          # long copy lines; sys.path-then-import is the repo's pattern
+  "E701", "E702", "E731",  # compact one-liners and named lambdas are the house style
+  "E741",                  # `l` for line/lang is used consistently
+  "B023",                  # loop lambdas here are consumed immediately by re.sub in the same iteration
+  "B905",                  # zip() without strict= predates py312; not worth the churn
+]

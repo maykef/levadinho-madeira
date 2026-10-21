@@ -11,7 +11,13 @@ Real chats (4-8 Oct) were all "how do I get to / back from PR1", twice from crui
 Every fact comes from status.json, backend/kbtools (the knowledge store) or the APRAM cruise calls; nothing is
 written from memory. quick() decides; None = let the model answer (guard.py still checks it).
 """
-import datetime, json, os, re, sys, unicodedata, zoneinfo
+import datetime
+import json
+import os
+import re
+import sys
+import unicodedata
+import zoneinfo
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "backend"))
 import kbtools  # noqa: E402

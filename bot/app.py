@@ -324,7 +324,7 @@ async def receive(request: Request, background: BackgroundTasks):
         data = json.loads(raw)
     except ValueError:
         log.warning("webhook POST REJECTED: body is not JSON (%d bytes)", len(raw))
-        raise HTTPException(400)
+        raise HTTPException(400) from None
     n_msg = n_new = n_status = 0
     for entry in data.get("entry", []):
         for change in entry.get("changes", []):
@@ -415,7 +415,7 @@ async def webchat(request: Request):
     try:
         body = await request.json()
     except Exception:
-        raise HTTPException(400)
+        raise HTTPException(400) from None
     sid, tag = str(body.get("sid", "")), str(body.get("tag", ""))
     lang = body.get("lang") if body.get("lang") in brain.LANGS else "en"
     text, choice = str(body.get("text") or "").strip()[:500], body.get("choice")
@@ -424,7 +424,7 @@ async def webchat(request: Request):
         try:
             pin = (float(body["location"]["lat"]), float(body["location"]["lon"]))
         except (KeyError, TypeError, ValueError):
-            raise HTTPException(400)
+            raise HTTPException(400) from None
         if not (-90 <= pin[0] <= 90 and -180 <= pin[1] <= 180):
             raise HTTPException(400)
     if not WEB_SID.fullmatch(sid) or not WEB_TAG.fullmatch(tag) or not (text or pin or choice in ("consent_yes", "consent_no")):

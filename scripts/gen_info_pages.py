@@ -11,7 +11,11 @@ The shell (head CSS, header, nav, footer, analytics) is copied from free-walks/i
 pages look like every other guide. Re-run after changing the copy here: it keeps the updater-written markers and the
 dateModified, then re-runs gen_site_nav.py, gen_cta.py, gen_owner.py and gen_schema.py itself (both pages are in GUIDES/TAGS).
 """
-import html, json, os, re, sys
+import html
+import json
+import os
+import re
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from site_entity import BASE, ENTITY, LANGS, OWNER, PREFIX, WA_DISPLAY, wa_link  # noqa: E402
@@ -304,3 +308,51 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# ------------------------------------------------------------------ question pages (consolidation, 2026-10-21)
+def plain(s):
+    """Visible text of an HTML fragment, whitespace-collapsed (for verbatim FAQ answers)."""
+    return " ".join(html.unescape(re.sub(r"<[^>]+>", "", s)).split())
+
+
+def build_qa(slug, copy_all, src_fn, modified, prepare=None, og_image=None,
+             chain=("gen_site_nav.py", "gen_cta.py", "gen_owner.py", "gen_schema.py")):
+    """The shared tail of every question-page generator (parking, one-day, two-day, cruise-port, Monte,
+    Pedra Rija, Botanical Garden): build the 5 languages from a COPY dict of body triples
+    (heading, [parts], is_question), inject the FAQ JSON-LD verbatim from each question's first paragraph,
+    set dateModified, and re-run the site chain.
+
+      copy_all   {lang: {title, desc, h1, sub, body: [(heading, [parts], is_question), ...]}}
+                 a part of None becomes the Sources line, src_fn(lang)
+      prepare    optional prepare(lang, triples) -> triples, for per-page splices (maps, photos,
+                 inserted questions) — run before the Sources substitution
+      modified   the page's dateModified (replaces the shell's default)
+      og_image   site-absolute path replacing the default og:image, e.g. "/img/botanical/garden-trees.jpg"
+      chain      the generator scripts re-run afterwards (one-day/two-day/port add gen_chat.py)
+    """
+    import subprocess
+    for lang in LANGS:
+        c = dict(copy_all[lang])
+        triples = [(h, list(parts), isq) for h, parts, isq in copy_all[lang]["body"]]
+        if prepare:
+            triples = prepare(lang, triples)
+        triples = [(h, [src_fn(lang) if p is None else p for p in parts], isq) for h, parts, isq in triples]
+        c["body"] = [(h, parts) for h, parts, _ in triples]
+        out, lt, ld = build(slug, lang, c, "WebPage")
+        h = open(out, encoding="utf-8").read()
+        faq = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(parts[0])}}
+            for q, parts, isq in triples if isq]}
+        block = '<script type="application/ld+json">\n' + json.dumps(faq, ensure_ascii=False, indent=1) + "\n</script>\n"
+        h = re.sub(r'<script type="application/ld\+json">\n\{\n "@context": "https://schema.org",\n "@type": "FAQPage".*?</script>\n', "", h, flags=re.S)
+        i = h.index("</head>")
+        h = h[:i] + block + h[i:]
+        h = h.replace('"dateModified": "2026-10-07T12:00+01:00"', f'"dateModified": "{modified}"')
+        if og_image:
+            h = h.replace("/img/og-default.jpg", og_image)
+        open(out, "w", encoding="utf-8").write(h)
+        flag = "" if lt <= 60 and 120 <= ld <= 155 else "  <-- title/description length"
+        print(f"{os.path.relpath(out, ROOT)}: title {lt}, description {ld}{flag}")
+    for script in chain:
+        subprocess.run([sys.executable, os.path.join(ROOT, "scripts", script)], check=True, cwd=ROOT, stdout=subprocess.DEVNULL)

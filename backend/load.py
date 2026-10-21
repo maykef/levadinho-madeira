@@ -33,7 +33,7 @@ SITE = "https://levadinho-madeira.com"
 LANGS = ["en", "pt", "fr", "de", "pl"]
 TS_CFG = {"en": "english", "pt": "portuguese", "fr": "french", "de": "german", "pl": "simple"}
 MADEIRA = zoneinfo.ZoneInfo("Atlantic/Madeira")
-NOW = datetime.datetime.now(datetime.timezone.utc)
+NOW = datetime.datetime.now(datetime.UTC)
 
 
 def db_url():
@@ -61,7 +61,7 @@ def live(path):
 
 
 def mtime(path):
-    return datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(ROOT, path)), datetime.timezone.utc)
+    return datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(ROOT, path)), datetime.UTC)
 
 
 def num(s):
@@ -314,7 +314,7 @@ def load_docs(cur):
                 text = build_kb.page_text(p)
             except FileNotFoundError:
                 continue
-            checked = mtime((p.strip("/") if p.endswith(".html") else p.strip("/") + "/index.html"))
+            checked = mtime(p.strip("/") if p.endswith(".html") else p.strip("/") + "/index.html")
             for n, (title, body) in enumerate(chunks(text)):
                 rows.append((f"page:{lang}:{subject}:{n}", "page", subject, lang, title, SITE + p, body, TS_CFG[lang],
                              "levadinho_site", checked))

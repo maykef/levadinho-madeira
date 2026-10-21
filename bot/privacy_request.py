@@ -18,7 +18,7 @@ Runbook: db/PRIVACY_REQUESTS.md.
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 for line in open(os.path.join(HERE, ".env")):
@@ -57,11 +57,11 @@ def working_store(phone):
     return {"user": store.get_user(phone), "recent_chat": store.history(phone),
             "guide_links": len(tokens_for(phone)),
             # wake-on-demand: messages waiting for the model, and WhatsApp's 24-hour window
-            "queued_messages": [{"at": datetime.fromtimestamp(r["at"], timezone.utc).isoformat(),
+            "queued_messages": [{"at": datetime.fromtimestamp(r["at"], UTC).isoformat(),
                                  "reason": r["reason"], "message": r["payload"].get("message"),
                                  "notice_sent": (r["payload"].get("notice") or {}).get("body")}
                                 for r in store.pending_for(phone)],
-            "last_incoming_message_at": datetime.fromtimestamp(last, timezone.utc).isoformat() if last else None}
+            "last_incoming_message_at": datetime.fromtimestamp(last, UTC).isoformat() if last else None}
 
 
 def access(phone, vid):
@@ -76,7 +76,7 @@ def access(phone, vid):
                                        "accuracy_m, altitude_m, speed_ms, heading_deg FROM location_fix "
                                        "WHERE visitor_id=%s ORDER BY occurred_at", (vid,))}
     data["working_store"] = working_store(phone)
-    out = os.path.join(HERE, "privacy_exports", f"access-{vid[:8]}-{datetime.now(timezone.utc):%Y%m%d}.json")
+    out = os.path.join(HERE, "privacy_exports", f"access-{vid[:8]}-{datetime.now(UTC):%Y%m%d}.json")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=1, default=str)

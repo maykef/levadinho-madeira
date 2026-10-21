@@ -27,7 +27,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install "requests>=2.32,<3"
 
       - name: Update status from the IFCN warnings page + IPMA weather
         run: python scripts/update_status.py

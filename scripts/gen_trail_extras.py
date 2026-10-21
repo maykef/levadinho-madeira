@@ -16,7 +16,10 @@ Run from the repo root:
   python scripts/gen_trail_extras.py               # writes trail_extras.json
   python scripts/gen_trail_extras.py --patch-hand  # + refreshes hand-authored spokes
 """
-import json, os, re, sys
+import json
+import os
+import re
+import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FACTS = os.path.join(ROOT, "seo_research", "facts", "tunnels_exposure.json")

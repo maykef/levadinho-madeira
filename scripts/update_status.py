@@ -139,7 +139,7 @@ POPULAR = {"PR1", "PR1.2", "PR6", "PR6.1", "PR8", "PR9", "PR11", "PR13", "PR18"}
 REGIONS = [
     ("summit", 1210974, 32.735, -16.928),   # Pico do Areeiro
     ("north", 1210965, 32.808, -16.886),    # Santana
-    ("west", 1210987, 32.757, -17.202),     # Prazeres / Rabaçal side
+    ("west", 1210970, 32.756, -17.058),     # Bica da Cana (1,560 m, on the Paul da Serra plateau: the honest Rabaçal proxy)
     ("east", 1210978, 32.747, -16.706),     # São Lourenço
     ("south", 1200522, 32.648, -16.888),    # Funchal
 ]
@@ -453,8 +453,17 @@ def _region_weather():
     the run down."""
     obs = requests.get(IPMA_OBS, headers=UA, timeout=30).json()
     out = {}
+    # Per-region fallback stations (2026-10-21, owner: "why don't we have temp at Rabaçal?"): IPMA's west
+    # stations go dark for days at a time. Bica da Cana first (plateau altitude, the honest proxy), then
+    # Prazeres (620 m, same side). Low coastal stations are deliberately NOT used for the west slot: a valley
+    # reading labelled "Rabaçal" would mislead. Both dark -> blank, as before.
+    REGION_FALLBACK = {"west": (1210987,)}   # Prazeres
     for key, sid, _lat, _lon in REGIONS:
         rec = _latest_reading(obs, sid)
+        for alt in REGION_FALLBACK.get(key, ()):
+            if _field(rec, "temperatura") is not None:
+                break
+            rec = _latest_reading(obs, alt)
         temp = _field(rec, "temperatura")
         humidity = _field(rec, "humidade")
         rain = _field(rec, "precAcumulada")

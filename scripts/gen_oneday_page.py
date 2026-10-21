@@ -19,10 +19,11 @@ all five do not fit in one day. Facts and sources in seo_research/facts/oneday.m
 Re-run after changing the copy: it keeps dateModified, then runs gen_site_nav.py, gen_cta.py, gen_owner.py,
 gen_schema.py and gen_chat.py itself (the page is in GUIDES / TAGS and carries the web chat).
 """
-import html, json, os, re, sys
+import os
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from site_entity import BASE, LANGS, PREFIX  # noqa: E402
+from site_entity import PREFIX  # noqa: E402
 import gen_info_pages as gi  # noqa: E402
 
 SLUG = "one-day-in-madeira"
@@ -255,34 +256,15 @@ TWODAY_NAME = {"en": "two days in Madeira", "pt": "dois dias na Madeira", "fr": 
                "de": "Zwei Tage auf Madeira", "pl": "dwa dni na Maderze"}
 
 
-def plain(s):
-    return " ".join(html.unescape(re.sub(r"<[^>]+>", "", s)).split())
+def prepare(lang, t):
+    eq, etext = ENOUGH[lang]
+    t.insert(4, (eq, [etext + a(L(lang, "/two-days-in-madeira/"), TWODAY_NAME[lang]) + "."], True))
+    return t
 
 
 def main():
-    for lang in LANGS:
-        c = dict(COPY[lang])
-        body = [(h, list(parts), isq) for h, parts, isq in COPY[lang]["body"]]
-        eq, etext = ENOUGH[lang]
-        body.insert(4, (eq, [etext + a(L(lang, "/two-days-in-madeira/"), TWODAY_NAME[lang]) + "."], True))
-        faq_src = body
-        c["body"] = [(h, [src(lang) if p is None else p for p in parts]) for h, parts, _ in body]
-        out, lt, ld = gi.build(SLUG, lang, c, "WebPage")
-        h = open(out, encoding="utf-8").read()
-        faq = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [
-            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": plain(parts[0])}}
-            for q, parts, isq in faq_src if isq]}
-        block = '<script type="application/ld+json">\n' + json.dumps(faq, ensure_ascii=False, indent=1) + "\n</script>\n"
-        h = re.sub(r'<script type="application/ld\+json">\n\{\n "@context": "https://schema.org",\n "@type": "FAQPage".*?</script>\n', "", h, flags=re.S)
-        i = h.index("</head>")
-        h = h[:i] + block + h[i:]
-        h = h.replace('"dateModified": "2026-10-07T12:00+01:00"', '"dateModified": "2026-10-20T12:00+01:00"')
-        open(out, "w", encoding="utf-8").write(h)
-        flag = "" if lt <= 60 and 120 <= ld <= 155 else "  <-- title/description length"
-        print(f"{os.path.relpath(out, ROOT)}: title {lt}, description {ld}{flag}")
-    import subprocess
-    for script in ("gen_site_nav.py", "gen_cta.py", "gen_owner.py", "gen_schema.py", "gen_chat.py"):
-        subprocess.run([sys.executable, os.path.join(ROOT, "scripts", script)], check=True, cwd=ROOT, stdout=subprocess.DEVNULL)
+    gi.build_qa(SLUG, COPY, src, "2026-10-20T12:00+01:00", prepare=prepare,
+                chain=("gen_site_nav.py", "gen_cta.py", "gen_owner.py", "gen_schema.py", "gen_chat.py"))
 
 
 if __name__ == "__main__":

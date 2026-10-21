@@ -44,7 +44,7 @@ def localise(page: str, lang: str) -> str:
     """Map an English spoke path onto its `pt/`, `fr/`, `de/` or `pl/` twin."""
     if not lang:
         return page
-    return "/{}{}".format(lang, page)
+    return f"/{lang}{page}"
 
 
 # Status word after each link (2026-10-05), so a crawler that doesn't run dashboard.js still
@@ -73,26 +73,26 @@ def block(trails: list, lang: str) -> str:
         for t in trails
     )
     return (
-        "{start}\n"
-        '    <nav class="tindex" aria-label="{heading}">\n'
-        "      <h2>{heading}</h2>\n"
-        "      <ul>\n{items}\n      </ul>\n"
+        f"{START}\n"
+        f'    <nav class="tindex" aria-label="{LANGS[lang]}">\n'
+        f"      <h2>{LANGS[lang]}</h2>\n"
+        f"      <ul>\n{items}\n      </ul>\n"
         "    </nav>\n"
-        "    {end}"
-    ).format(start=START, end=END, heading=LANGS[lang], items=items)
+        f"    {END}"
+    )
 
 
 def main() -> None:
     trails = json.loads((ROOT / "status.json").read_text())["trails"]
     missing = [t["code"] for t in trails if not t.get("page")]
     if missing:
-        sys.exit("FATAL: trails with no page, cannot link them: {}".format(missing))
+        sys.exit(f"FATAL: trails with no page, cannot link them: {missing}")
 
     for lang in LANGS:
         path = ROOT / lang / "index.html" if lang else ROOT / "index.html"
         if not path.exists():
             # e.g. pt/index.html before the Portuguese hub is written -- re-run later.
-            print("{}: missing, skipped (re-run once it exists)".format(path.relative_to(ROOT)))
+            print(f"{path.relative_to(ROOT)}: missing, skipped (re-run once it exists)")
             continue
         html = path.read_text()
         new = block(trails, lang)
@@ -106,13 +106,13 @@ def main() -> None:
             # the "Loading trails…" placeholder, leaving that placeholder alone.
             m = re.search(r'(<div id="trailBoard">)(.*?)(</div>)', html, flags=re.S)
             if not m:
-                sys.exit("FATAL: #trailBoard container not found in {}".format(path))
+                sys.exit(f"FATAL: #trailBoard container not found in {path}")
             html = (
                 html[: m.end(2)] + "\n    " + new + "\n  " + html[m.start(3):]
             )
 
         path.write_text(html)
-        print("{}: {} trail links".format(path.relative_to(ROOT), len(trails)))
+        print(f"{path.relative_to(ROOT)}: {len(trails)} trail links")
 
 
 if __name__ == "__main__":

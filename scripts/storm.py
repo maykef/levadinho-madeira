@@ -24,7 +24,13 @@ Two signals, both official:
 Dry test: STORM_FIXTURE_IFCN=<html file> and STORM_FIXTURE_IPMA=<json file> replace the live fetches; STORM_TODAY
 (YYYY-MM-DD) and STORM_NOW (ISO) fix the clock. `python3 scripts/storm.py` prints what the updater would see.
 """
-import datetime, html, json, os, re, sys, zoneinfo
+import datetime
+import html
+import json
+import os
+import re
+import sys
+import zoneinfo
 
 TZ = zoneinfo.ZoneInfo("Atlantic/Madeira")
 IFCN_AVISOS_CAT = "https://ifcn.madeira.gov.pt/pt/?view=category&id=146"

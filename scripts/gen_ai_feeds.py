@@ -13,7 +13,13 @@ Writes, from status.json (+ the trail pages' own facts):
 No visible page carries these dates (owner's no-dates rule covers the pages); feeds and data files are dated by nature.
 Called by update_status.py after it writes status.json; safe to run by hand:  python scripts/gen_ai_feeds.py
 """
-import datetime, email.utils, html, json, os, re, subprocess, sys
+import datetime
+import email.utils
+import json
+import os
+import re
+import subprocess
+import sys
 from xml.sax.saxutils import escape
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

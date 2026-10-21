@@ -11,7 +11,9 @@ Block: <!-- WEBCAM:START/END --> right after the WhatsApp block (trail pages) or
 (getting-back); CSS: <!-- WEBCAM-HEAD:START/END --> before </head>. Idempotent; gen_spokes.py calls it.
 The class is "tcam", not "livecam", so gen_cta.py keeps the WhatsApp block under the status card.
 """
-import html, pathlib, re
+import html
+import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PREFIX = {"en": "", "pt": "pt/", "fr": "fr/", "de": "de/", "pl": "pl/"}

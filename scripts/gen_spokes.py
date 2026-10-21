@@ -24,7 +24,13 @@ gen_site_nav / gen_cta, and prints every trail's title/description lengths):
 
     python scripts/gen_spokes.py --dry-run PR6.1 /path/to/outdir
 """
-import html as htmllib, json, os, re, sys, unicodedata, urllib.request
+import html as htmllib
+import json
+import os
+import re
+import sys
+import unicodedata
+import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gen_trail_extras  # noqa: E402  tunnels / exposure rows (IFCN panels)
@@ -204,7 +210,8 @@ def de_g(name):
     return ("Die", "die", "Sie", "die") if fem else ("Der", "der", "Er", "den")
 
 
-import datetime as _dt, zoneinfo as _zi
+import datetime as _dt
+import zoneinfo as _zi
 GENERATED_AT = _dt.datetime.now(_zi.ZoneInfo("Atlantic/Madeira")).isoformat(timespec="minutes")
 
 
@@ -287,7 +294,7 @@ def fit(cands, lo=0, hi=60):
 
 def titles(lang, code, n):
     """Title (plain text, <=60 chars target) and description (120-155)."""
-    A, a, o = (*pt_g(n)[:2], pt_g(n)[3])
+    A, _a, o = (*pt_g(n)[:2], pt_g(n)[3])
     fA, fa, fpr, fe = fr_g(n)
     dA, da_, _, _ = de_g(n)
     c = code
@@ -945,8 +952,8 @@ def main():
             open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(pages[lang])
         for lang in LANGS:
             loc = f"https://levadinho-madeira.com{PREFIX[lang]}/{slug}/"
-            block = [f"  <url>", f"    <loc>{loc}</loc>", f"    <lastmod>2026-07-08</lastmod>",
-                     f"    <changefreq>daily</changefreq>", f"    <priority>0.7</priority>"]
+            block = ["  <url>", f"    <loc>{loc}</loc>", "    <lastmod>2026-07-08</lastmod>",
+                     "    <changefreq>daily</changefreq>", "    <priority>0.7</priority>"]
             for hl in LANGS:
                 block.append(f'    <xhtml:link rel="alternate" hreflang="{hl}" href="https://levadinho-madeira.com{PREFIX[hl]}/{slug}/"/>')
             block.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="https://levadinho-madeira.com/{slug}/"/>')
@@ -975,8 +982,8 @@ def main():
     import gen_webcam
     gen_webcam.main()
     # ...and the "Where to park" sections from the sourced parking facts (see gen_parking.py).
-    import gen_parking
-    gen_parking.main()
+    import gen_parking_blocks
+    gen_parking_blocks.main()
     # ...and complete the TouristAttraction blocks (description, address, image; see gen_schema.py).
     # ...trail code in the headings and the facts list as a table (see gen_trail_polish.py).
     import gen_trail_polish

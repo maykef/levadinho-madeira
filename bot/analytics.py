@@ -23,7 +23,7 @@ import re
 import threading
 import time
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, UTC
 
 import phonenumbers
 import psycopg
@@ -113,7 +113,7 @@ def _point(lat, lon):
 
 
 def _ts(ms):
-    return datetime.fromtimestamp(ms / 1000, timezone.utc) if ms else datetime.now(timezone.utc)
+    return datetime.fromtimestamp(ms / 1000, UTC) if ms else datetime.now(UTC)
 
 
 # ---------------------------------------------------------------- writes
@@ -124,7 +124,7 @@ def event(channel, event_type, phone=None, vid=None, occurred=None, session=None
     _exec("""INSERT INTO event (occurred_at, channel, event_type, visitor_id, session_id, route_id, stop_id,
                                 campaign_id, lang, country, geom, attributes)
              VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,(SELECT country FROM visitor WHERE visitor_id=%s),%s,%s)""",
-          (occurred or datetime.now(timezone.utc), channel, event_type, vid, session, route, stop, campaign, lang,
+          (occurred or datetime.now(UTC), channel, event_type, vid, session, route, stop, campaign, lang,
            vid, _point(lat, lon), Jsonb(attrs)))
 
 
@@ -134,7 +134,7 @@ def fix(source, lat, lon, phone=None, vid=None, occurred=None, session=None, rou
     _exec("""INSERT INTO location_fix (occurred_at, visitor_id, session_id, route_id, source, geom, accuracy_m,
                                        altitude_m, altitude_accuracy_m, speed_ms, heading_deg, screen, online)
              VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""",
-          (occurred or datetime.now(timezone.utc), vid, session, route, source, _point(lat, lon), acc, alt, alt_acc,
+          (occurred or datetime.now(UTC), vid, session, route, source, _point(lat, lon), acc, alt, alt_acc,
            speed, heading, screen, online))
 
 

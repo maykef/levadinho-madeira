@@ -8,11 +8,16 @@ CAM sections on their pages) are entered below from the same CAM Santana sheet. 
 badge and a STATIC-STATUS marker (filled from the trail page now, refreshed by the daily updater).
 Afterwards it runs gen_site_nav.py and gen_cta.py. Re-run whenever gen_bus.py's data changes. Idempotent.
 """
-import html, json, pathlib, re, subprocess, sys
+import html
+import json
+import pathlib
+import re
+import subprocess
+import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import gen_bus
-from gen_bus import T, S, seg, sentence, line_label
+from gen_bus import T, seg, sentence, line_label
 import gen_site_nav
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -20,7 +25,8 @@ BASE = "https://levadinho-madeira.com"
 LANGS = ["en", "pt", "fr", "de", "pl"]
 PFX = {"en": "", "pt": "/pt", "fr": "/fr", "de": "/de", "pl": "/pl"}
 SLUG = "/levadas-by-bus/"
-import datetime, zoneinfo
+import datetime
+import zoneinfo
 TODAY = datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira")).date().isoformat()
 
 # CAM Santana sheet, Funchal <-> Ribeiro Frio (as on the hand-written Balcões / Furado sections).
