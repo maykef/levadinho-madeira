@@ -43,3 +43,9 @@ watch/state/
 
 # IP→country database for the web chat (DB-IP Lite, CC BY 4.0; refreshed monthly, local only)
 bot/geoip/
+
+# Local-only tooling and plans (never published; GitHub Pages serves this repo)
+.claude/
+collect/
+WPA_Implementation_Plan.md
+*.bak-*
