@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-21T06:35+01:00",
+ "stamp": "2026-10-22T06:38+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-21",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:15",
-   "sunset": "19:29",
-   "weather": {
-    "tmin": 19,
-    "tmax": 24,
-    "rain": 82,
-    "wtype": 7,
-    "uv": 4.6
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-22",
    "type": "weekday",
@@ -26,11 +10,11 @@
    "sunrise": "08:15",
    "sunset": "19:28",
    "weather": {
-    "tmin": 19,
-    "tmax": 25,
-    "rain": 60,
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 37,
     "wtype": 3,
-    "uv": 3.3
+    "uv": 4.1
    },
    "fair": null
   },
@@ -42,11 +26,11 @@
    "sunrise": "08:16",
    "sunset": "19:26",
    "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 82,
+    "tmin": 19,
+    "tmax": 24,
+    "rain": 80,
     "wtype": 7,
-    "uv": 4.9
+    "uv": 4.8
    },
    "fair": null
   },
@@ -60,9 +44,9 @@
    "weather": {
     "tmin": 19,
     "tmax": 25,
-    "rain": 12,
-    "wtype": 2,
-    "uv": 4.8
+    "rain": 20,
+    "wtype": 3,
+    "uv": 5.1
    },
    "fair": null
   },
@@ -75,10 +59,10 @@
    "sunset": "18:24",
    "weather": {
     "tmin": 18,
-    "tmax": 24,
-    "rain": 0,
+    "tmax": 25,
+    "rain": 2,
     "wtype": 2,
-    "uv": null
+    "uv": 4.6
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:19",
    "sunset": "18:23",
-   "weather": null,
+   "weather": {
+    "tmin": 18,
+    "tmax": 24,
+    "rain": 4,
+    "wtype": 2,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,9 +169,28 @@
    "sunset": "18:16",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-04",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:27",
+   "sunset": "18:15",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
+  {
+   "title": "Madeira International Guitar Festival",
+   "venue": "",
+   "start": "2026-10-02",
+   "end": "2026-11-02",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/madeira-international-guitar-festival/",
+   "src": "eventsmadeira.com"
+  },
   {
    "title": "Mandolin Orchestra Weekly Concerts",
    "venue": "",
@@ -201,39 +210,12 @@
    "src": "eventsmadeira.com"
   },
   {
-   "title": "Chamber Music Concert – Legno Duo | OCM",
-   "venue": "",
-   "start": "2026-10-21",
-   "end": "2026-10-21",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/chamber-music-concert-legno-duo-ocm-2/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Lea Bach – A Harpa no Funchal Cosmopolita 1949",
-   "venue": "Teatro Municipal Baltazar Dias",
-   "start": "2026-10-21T19:00",
-   "end": "2026-10-21T20:00",
-   "all_day": false,
-   "url": "https://cultura.funchal.pt/event/lea-bach-a-harpa-no-funchal-cosmopolita-1949/",
-   "src": "cultura.funchal.pt"
-  },
-  {
    "title": "Madeira Legend Rally",
    "venue": "",
    "start": "2026-10-22",
    "end": "2026-10-24",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/rally-madeira-legend-2024/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "11th Madeira International Mandolin Festival",
-   "venue": "",
-   "start": "2026-10-23",
-   "end": "2026-11-14",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/10th-madeira-international-mandolin-festival/",
    "src": "eventsmadeira.com"
   },
   {
@@ -262,14 +244,23 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/chestnut-festival/",
    "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Albrecht Mayer Concert | OCM",
+   "venue": "",
+   "start": "2026-10-31",
+   "end": "2026-10-31",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/albrecht-mayer-concert-ocm/",
+   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-10-21",
+  "date": "2026-10-22",
   "sst": 23,
   "wave": [
-   0.4,
-   0.6
+   0.5,
+   0.8
   ],
   "warnings": []
  },

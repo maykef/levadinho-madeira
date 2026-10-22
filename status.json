@@ -14,11 +14,11 @@
     "temp_c": 7.0,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 41,
-    "wind_strong": true
+    "wind_kmh": 7,
+    "wind_strong": false
   },
-  "stamp": "2026-10-21 06:35",
-  "date": "2026-10-21",
+  "stamp": "2026-10-22 06:38",
+  "date": "2026-10-22",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
@@ -34,8 +34,8 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 7,
-      "wind": 41,
-      "rain": 0.6,
+      "wind": 7,
+      "rain": 0.0,
       "in_cloud": true
     },
     {
@@ -58,7 +58,7 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 20,
-      "wind": 10,
+      "wind": 12,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -66,7 +66,7 @@
       "key": "south",
       "place": "Funchal",
       "temp": 21,
-      "wind": 11,
+      "wind": 7,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -342,9 +342,9 @@
       "name": "Levada Fajã do Rodrigues",
       "status": "OPEN",
       "fee": "4.50",
-      "region": "summit",
+      "region": "west",
       "popular": false,
-      "temp": 7,
+      "temp": null,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -352,9 +352,9 @@
       "name": "Caminho do Pináculo e Folhadal",
       "status": "PARTIAL",
       "fee": "4.50",
-      "region": "summit",
+      "region": "west",
       "popular": false,
-      "temp": 7,
+      "temp": null,
       "page": "/caminho-do-pinaculo-e-folhadal/",
       "note": {
         "pt": "Percurso transitável entre a Encumeada e a Bica da Cana.",
@@ -389,9 +389,9 @@
       "name": "Caminho do Norte",
       "status": "OPEN",
       "fee": "4.50",
-      "region": "summit",
+      "region": "west",
       "popular": false,
-      "temp": 7,
+      "temp": null,
       "page": "/caminho-do-norte/"
     },
     {
@@ -399,9 +399,9 @@
       "name": "Vereda do Chão dos Louros",
       "status": "OPEN",
       "fee": "4.50",
-      "region": "summit",
+      "region": "west",
       "popular": false,
-      "temp": 7,
+      "temp": null,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -409,9 +409,9 @@
       "name": "Glaciar de Planalto",
       "status": "CLOSED",
       "fee": "4.50",
-      "region": "summit",
+      "region": "west",
       "popular": false,
-      "temp": 7,
+      "temp": null,
       "page": "/glaciar-de-planalto/"
     },
     {
