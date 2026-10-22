@@ -15,7 +15,8 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LANG_DIRS = ["", "pt/", "fr/", "de/", "pl/"]
-PILOT = ["getting-back.html", "one-day-in-madeira/index.html", "two-days-in-madeira/index.html", "madeira-cruise-port/index.html"]
+PILOT = ["getting-back.html", "one-day-in-madeira/index.html", "two-days-in-madeira/index.html", "madeira-cruise-port/index.html",
+         "pr1-one-way/index.html", "levadas-by-bus/index.html"]  # owner, 2026-10-22: the week's top landings for PT/PL visitors; both question-shaped
 BLOCK = '<!-- CHAT:START (scripts/gen_chat.py) --><script src="/chat.js" defer></script><!-- CHAT:END -->'
 MARK = re.compile(r"<!-- CHAT:START.*?<!-- CHAT:END -->", re.S)
 
