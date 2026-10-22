@@ -27,6 +27,11 @@ off-season finish, book a set pick-up time before you start.
 | Táxis Estreito de Câmara de Lobos | +351 291 945 229 | PR12 |
 | Táxis Ponta do Sol | +351 291 972 110 | PR27 |
 
+- **Taxi territories are respected** (taxismadeira.pt's own notice, read 2026-10-21, and the owner first-hand):
+  pick-ups at **Achada do Teixeira are done by the local Santana taxis** — call Táxis Santana (+351 291 572 540),
+  never the Funchal number, for a pick-up there. The Funchal rank itself states that services starting at Achada
+  do Teixeira are carried out locally by local drivers.
+
 Pico do Areeiro (the START of PR1) is reached from Funchal: for a ride up to it give the Funchal contacts, never
 Táxis Santana. Táxis Santana is for Achada do Teixeira (the END of PR1, where no bus goes): for the full PR1, always
 add how to get back from there.

@@ -275,7 +275,7 @@ def _timetable(rows):
     groups = {}
     for r in rows:
         line = r["line"] + (f" (new no. {r['new_line']})" if r["new_line"] else "")
-        key = (r["leg"], r["operator"], line, r["from_stop"], r["to_stop"], r["days"])
+        key = (r["leg"] or "line", r["operator"], line, r["from_stop"], r["to_stop"], r["days"])
         marks = [MARKS.get(m, m) + (f" at {r['change_at']}" if m == "T" and r["change_at"] else "") for m in r["marks"]]
         groups.setdefault(key, []).append(r["dep"].strftime("%H:%M") + (f"→{r['arr'].strftime('%H:%M')}" if r["arr"] else "")
                                           + (f" ({', '.join(marks)})" if marks else ""))
@@ -286,9 +286,13 @@ def _timetable(rows):
 
 def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | None = None, day: str | None = None,
         lang: str = "en") -> dict:
-    """Printed bus trips: to and from a trail (trail='PR8'), or between two stops (from_stop/to_stop, partial names).
+    """Printed bus trips — call this for EVERY public-transport question, not only trails: it also holds the
+    island's town-to-town lines (Rodoeste west, CAM east/north, Horários do Funchal interurban: Funchal, Machico,
+    Faial, Porto da Cruz, Santana, Porto Moniz, Calheta, Paul do Mar, Ponta do Pargo, São Vicente, Monte, Curral
+    das Freiras…). Use trail='PR8', or from_stop/to_stop (partial names are fine).
     day: YYYY-MM-DD, today, tomorrow, a weekday, mon_fri, sat or sun_hol (public holidays run the sun_hol timetable).
-    Lists every printed trip; also the notes our pages give (no bus at the start, take a taxi from Santana…)."""
+    Lists every printed trip; also the notes our pages give (no bus at the start, take a taxi from Santana…).
+    An empty trips list means our sheets show no bus for that pair: say so and suggest a taxi."""
     lang = _lang(lang)
     where, args = ["TRUE"], []
     code = None
@@ -317,6 +321,34 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
         if guess:  # "São Lourenço" is PR8, whose stop is Baía d'Abra
             return {"note": f"No bus stop named '{to_stop or from_stop}' in our data; it is trail {guess}. Its buses:",
                     **bus(trail=guess, day=day, lang=lang)}
+        # a place with no timed column of its own (e.g. Lombo Galego) appears only in the sheets'
+        # observations ("Via Lº Galego", "ends at Lombo Galego"): offer those trips, without a time there
+        place = to_stop or from_stop
+        w2, a2 = ["EXISTS (SELECT 1 FROM unnest(marks) m WHERE m ILIKE '%%' || %s || '%%')"], [place]
+        if from_stop and to_stop:
+            other = from_stop if place == to_stop else to_stop
+            w2.append("(from_stop ILIKE '%%' || %s || '%%' OR to_stop ILIKE '%%' || %s || '%%')")
+            a2 += [other, other]
+        if dtype:
+            w2.append("days = ANY(%s)"); a2.append(list(DAYS_FOR[dtype]))
+        obs_rows = _q(f"""SELECT operator, line, new_line, from_stop, to_stop, dep, arr, days, marks, change_at, leg, source_id
+                          FROM kb.bus_trip WHERE {' AND '.join(w2)}
+                          ORDER BY from_stop, days, dep""", a2)
+        if obs_rows:
+            seen, uniq = set(), []
+            for r in obs_rows:
+                k = (r["line"], r["from_stop"], r["dep"], r["days"])
+                if k not in seen:
+                    seen.add(k); uniq.append(r)
+            return {"note": f"No stop named '{place}' has printed times, but these trips serve it per the "
+                            f"timetable's observations (no exact time there; book serviço-a-pedido trips by "
+                            f"16:00 the previous working day):",
+                    "trips": [{"operator": r["operator"], "line": r["line"], "from": r["from_stop"],
+                               "to": r["to_stop"], "dep": r["dep"].strftime("%H:%M"),
+                               "arr": r["arr"].strftime("%H:%M") if r["arr"] else None, "days": r["days"],
+                               "obs": [m for m in r["marks"]][:3]} for r in uniq[:12]],
+                    "caveat": "Times as printed on the operators' timetables; intermediate stops are approximate.",
+                    "source": [_source(s) for s in sorted({r["source_id"] for r in obs_rows})]}
     out = {"trips": [{"leg": r["leg"], "operator": r["operator"],
                       "line": r["line"] + (f" (new no. {r['new_line']})" if r["new_line"] else ""),
                       "from": r["from_stop"], "to": r["to_stop"], "dep": r["dep"].strftime("%H:%M"),

@@ -469,6 +469,28 @@
     "10[.,]50",
     "\\bqueres\\b|\\btu\\b"
    ]
+  },
+  {
+   "id": "faial-village-en",
+   "lang": "en",
+   "q": "How do I get from Santana to Faial?",
+   "must_not": [
+    "Porto Santo",
+    "ferry",
+    "Faial do Mar",
+    "Ribeira Quente"
+   ],
+   "note": "2026-10-21, real chat (owner's friend testing): the bot said Faial is on Porto Santo, then invented 'Faial do Mar' and a bus to Ribeira Quente (Azores). Faial is the village next to Santana; if the KB has no village transport data the bot must say so, not invent."
+  },
+  {
+   "id": "lombo-galego-en",
+   "lang": "en",
+   "q": "How do I get to Lombo Galego from Santana?",
+   "must_not": [
+    "church",
+    "beach"
+   ],
+   "note": "Same chat: no data in the KB; the answer must not decorate with invented detail."
   }
  ]
 }

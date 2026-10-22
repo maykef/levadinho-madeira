@@ -257,6 +257,71 @@ def load_transport(cur):
     return len(rows), "bot/transport_facts.md taxi table + seed"
 
 
+SHEET_OPERATOR = {"hf": "Horários do Funchal", "rodoeste": "Rodoeste", "sam": "CAM", "cam": "CAM"}
+SHEET_DAYS = {"daily": [("daily", None)], "mon_fri": [("mon_fri", None)], "sat": [("sat", None)],
+              "sun_hol": [("sun_hol", None)], "sat_sun": [("sat_sun", None)], "sat_sun_hol": [("sat_sun_hol", None)],
+              "mon_fri_school": [("mon_fri", "school term only")],
+              "mon_fri_school_period": [("mon_fri", "school term only")],
+              "mon_sat": [("mon_fri", None), ("sat", None)]}
+_SHEET_TIME = re.compile(r"^(\d{1,2})[:.](\d{2})\s*(.*)$")
+
+
+def load_bus_sheets():
+    """Every printed trip of the transcribed line sheets (seo_research/facts/bus/*.json, SIGA / HF /
+    Rodoeste / CAM) as kb.bus_trip rows: one row per ordered pair of timed stops of a trip, so
+    from_stop/to_stop queries answer town-to-town questions (owner, 2026-10-21). Trips whose obs says
+    SUSPECT (misprints) are left out, as are the sheets' SUSPECT notes. leg stays NULL (not a trail leg)."""
+    rows = []
+    for p in sorted(glob.glob(os.path.join(ROOT, "seo_research", "facts", "bus", "*.json"))):
+        name = os.path.basename(p)[:-5]
+        op = SHEET_OPERATOR.get(name.split("_")[0])
+        if not op:
+            continue
+        d = json.load(open(p, encoding="utf-8"))
+        checked = datetime.datetime.fromtimestamp(os.path.getmtime(p), datetime.UTC)
+        legend = {}
+        for n in d.get("notes", []):
+            m = re.match(r"OBSERVAÇÕES:\s*(\S+)\s*-\s*(.*)", n)
+            if m:
+                txt = m.group(2).strip()
+                mm = re.search(r"\(([^)]+)\)\s*$", txt)   # prefer the English gloss in parentheses
+                legend[m.group(1)] = (mm.group(1) if mm else txt).strip()
+        line_default = name.split("_")[1].lstrip("0")
+        for key, direction in d.items():
+            if key in ("source", "notes") or not isinstance(direction, dict):
+                continue
+            stop_order = direction.get("stops") or []
+            for daykey, trips in direction.items():
+                if daykey in ("stops", "route_stops", "note", "route") or not isinstance(trips, list):
+                    continue
+                for days, extra_mark in SHEET_DAYS.get(daykey, []):
+                    for t in trips:
+                        if not isinstance(t, dict) or "SUSPECT" in (t.get("obs") or ""):
+                            continue
+                        timed = []
+                        for stop, raw in (t.get("times") or {}).items():
+                            m = _SHEET_TIME.match(str(raw).strip())
+                            if m:
+                                marks = [legend.get(x.strip("()"), x.strip("()"))
+                                         for x in m.group(3).split() if x.strip("()")]
+                                timed.append((stop, f"{int(m.group(1)):02d}:{m.group(2)}", marks))
+                        timed.sort(key=lambda x: stop_order.index(x[0]) if x[0] in stop_order else 99)
+                        line = str(t.get("route") or line_default)
+                        obs = (t.get("obs") or "").strip()
+                        base_marks = ([extra_mark] if extra_mark else []) + ([obs] if obs else [])
+                        if len(timed) >= 2:
+                            for i in range(len(timed) - 1):
+                                for j in range(i + 1, len(timed)):
+                                    rows.append((op, line, None, timed[i][0], timed[j][0], timed[i][1], timed[j][1],
+                                                 days, base_marks + timed[i][2], None, None, None, None, None,
+                                                 "siga", checked))
+                        elif timed and stop_order and timed[0][0] != stop_order[-1]:
+                            rows.append((op, line, None, timed[0][0], stop_order[-1], timed[0][1], None,
+                                         days, base_marks + timed[0][2], None, None, None, None, None,
+                                         "siga", checked))
+    return rows
+
+
 def load_bus(cur):
     import gen_bus_hub
     checked = mtime("scripts/gen_bus.py")
@@ -275,11 +340,13 @@ def load_bus(cur):
     for dep, arr, a, b, leg, vf, vt in seed.AREEIRO_BUS:
         rows.append(("Horários do Funchal", "Pico do Areeiro", None, a, b, dep, arr, "daily", [], None, "PR1", leg, vf, vt,
                      "horarios_funchal_areeiro", checked_a))
+    sheet_rows = load_bus_sheets()
     cur.execute("DELETE FROM kb.bus_trip")
     cur.executemany("""INSERT INTO kb.bus_trip (operator, line, new_line, from_stop, to_stop, dep, arr, days, marks, change_at,
                        trail_code, leg, valid_from, valid_to, source_id, checked_at)
-                       VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", rows)
-    return len(rows), f"gen_bus TRAILS + gen_bus_hub EXTRA + PR1 Areeiro bus ({len(gen_bus_hub.DATA)} trails)"
+                       VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", rows + sheet_rows)
+    return len(rows) + len(sheet_rows), (f"gen_bus TRAILS + gen_bus_hub EXTRA + PR1 Areeiro bus ({len(gen_bus_hub.DATA)} trails) "
+                                         f"+ {len(sheet_rows)} town-to-town rows from the transcribed line sheets")
 
 
 def chunks(text, max_chars=1800):

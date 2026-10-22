@@ -83,8 +83,11 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
   - A taxi. In the daytime taxis usually wait at Achada do Teixeira and hikers often share one: a shared ride back
     to Pico do Areeiro costs about €15–20 per person. If none is there, wait a little. For an early, late or
     off-season finish, book a set pick-up time before you start. **Táxis Santana: +351 291 572 540**
-    (the number on IFCN's trailhead panels); going back to Funchal, also the Funchal taxi contacts (see the
-    taxi facts) and compare quotes. Fares are metered at the official tariff; say "ask for a quote".
+    (the number on IFCN's trailhead panels). Taxi territories are respected on Madeira: pick-ups AT Achada do
+    Teixeira are done by the local Santana taxis — call Táxis Santana for a pick-up there, never a Funchal
+    company (the Funchal rank's own site says services starting at Achada do Teixeira are carried out by local
+    drivers). The destination can be anywhere, Funchal included. Fares are metered at the official tariff;
+    say "ask for a quote".
   - Two cars, one left at each end. Only sensible for groups.
 - Emergency: 112.
 
