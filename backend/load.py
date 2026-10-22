@@ -216,6 +216,8 @@ def load_facts(cur):
     checked_t = mtime("backend/seed.py")
     rows += [(f"transport:{i}", topic, subj, Jsonb({"en": text}), True, src, checked_t)
              for i, topic, subj, text, src in seed.TRANSPORT_FACTS]
+    rows += [(f"scope:{i}", topic, subj, Jsonb({"en": text}), True, src, checked_t)
+             for i, topic, subj, text, src in seed.FEE_SCOPE_FACTS]
     # the bus sentences each trail page shows ("no bus reaches the plateau", "the only bus of the day"…), 5 languages
     checked_b = mtime("scripts/gen_bus.py")
     for code, d in gen_bus_hub.DATA.items():
@@ -393,6 +395,18 @@ def load_docs(cur):
         body = "\n".join("- " + re.sub(r"\*\*(.+?)\*\*", r"\1", b) for b in bullets)
         rows.append((f"facts:en:PR1:{key[0]}", "facts", "PR1", "en", f"PR1 {heading}", SITE + "/pr1/", body, "english",
                      key[1], checked_pr1))
+    # what official sources do NOT regulate (owner, 2026-10-22, after the bot invented a cycling ban): a searchable
+    # sheet so no-rule questions (bikes, dogs, drones, camping, picnics) ground on this instead of improvising
+    rows.append(("facts:en:scope:unregulated", "facts", None, "en",
+                 "Dogs, bicycles, drones, camping, picnics: what official sources say", SITE + "/do-i-need-a-permit/",
+                 "Our official sources (IFCN, SIMplifica, Portaria 48/2026, DLR 24/2022/M) regulate access fees, "
+                 "booking and closures on the classified PR trails. They contain NO rule about dogs (pets), bicycles "
+                 "(bikes, cycling, mountain biking), drones, camping (overnight stays, wild camping) or picnics "
+                 "(barbecues) on the levadas and PR trails, so Levadinho has no rule to state: say it "
+                 "is not covered by the official sources and point to hello@levadinho-madeira.com — never assert "
+                 "'allowed' or 'not allowed'. (The PR routes are classified as percursos pedestres — walking "
+                 "routes; that is a name, not a stated ban on anything.)",
+                 "english", "levadinho_research", checked_pr1))
     cur.execute("DELETE FROM kb.doc")
     cur.executemany("""INSERT INTO kb.doc (id, kind, subject, lang, title, url, body, cfg, source_id, checked_at)
                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s::regconfig,%s,%s)""", rows)

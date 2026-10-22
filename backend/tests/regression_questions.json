@@ -186,7 +186,7 @@
    "lang": "en",
    "q": "Is PR1 included in the 3-day trail rate?",
    "must": [
-    "not|never|isn't|excluded"
+    "not|never|isn['’]t|excluded"
    ]
   },
   {
@@ -326,7 +326,7 @@
    "lang": "en",
    "q": "Can I bring my dog on the levadas?",
    "must": [
-    "don't|do not|no (sourced )?information|no official (rule|information)|not covered|isn't covered|not sure|can't confirm|cannot confirm"
+    "don['’]t|do not|no (sourced )?information|no official (rule|information)|not covered|isn['’]t covered|not sure|can['’]t confirm|cannot confirm"
    ],
    "must_not": [
     "leash at all times",
@@ -491,6 +491,92 @@
     "beach"
    ],
    "note": "Same chat: no data in the KB; the answer must not decorate with invented detail."
+  },
+  {
+   "id": "pr3-book-en",
+   "lang": "en",
+   "q": "Do I need to book PR3 on SIMplifica?",
+   "must": [
+    "Funchal"
+   ],
+   "must_not": [
+    "mandatory",
+    "simplifica\\.madeira\\.gov\\.pt/services"
+   ],
+   "note": "PR3/PR3.1/PR4 (Funchal council) and PR23 (Caniço parish) are not on SIMplifica — no IFCN fee (free-walks page, IFCN list). Was answered 'booking is mandatory' before the scope:booking_scope fact (2026-10-22)."
+  },
+  {
+   "id": "norte-free-pl",
+   "lang": "pl",
+   "q": "Czy Levada do Norte jest darmowa?",
+   "must": [
+    "PR17",
+    "4[.,]50"
+   ],
+   "note": "Free on its own, but one stretch is PR17 (€4.50). Was answered 'darmowa' with no caveat before scope:norte_pr17 (2026-10-22)."
+  },
+  {
+   "id": "payment-pt",
+   "lang": "pt",
+   "q": "Como posso pagar no SIMplifica? Aceitam MB Way?",
+   "must": [
+    "MB ?WAY",
+    "Multibanco|cart(ã|a)o"
+   ],
+   "must_not": [
+    "[Nn]ão (é possível|aceita).{0,20}MB ?WAY"
+   ],
+   "note": "Multibanco, card and MB WAY (PT bank account needed for the first and last) — SIMplifica's own payment help. pr1_facts.md said 'Visa or Mastercard' only until 2026-10-22."
+  },
+  {
+   "id": "multiday-pr1-en",
+   "lang": "en",
+   "q": "I'm hiking 5 trails over 3 days including PR1. Does the 3-day rate of EUR 22.50 cover everything?",
+   "must": [
+    "PR1.{0,40}(never|not) included|never included|separate"
+   ],
+   "note": "PR1 is never in the multi-day rates."
+  },
+  {
+   "id": "taxi-achada-machico-en",
+   "lang": "en",
+   "q": "Which taxi company should I call for a pickup at Achada do Teixeira going to Machico?",
+   "must": [
+    "Santana",
+    "291 572 540"
+   ],
+   "must_not": [
+    "962 189|962 480"
+   ],
+   "note": "Achada pick-ups = Táxis Santana only (territories); was offering Táxis Machico to compare until the taxi_choice exception (2026-10-22)."
+  },
+  {
+   "id": "bike-en",
+   "lang": "en",
+   "q": "Can I cycle the Levada das 25 Fontes?",
+   "must_not": [
+    "not allowed|forbidden|prohibited|banned"
+   ],
+   "note": "No cycling rule anywhere in the KB: the bot must say it isn't covered, never assert a rule. It invented 'not allowed' until the prompt fix (2026-10-22)."
+  },
+  {
+   "id": "cruise-day-en",
+   "lang": "en",
+   "q": "I'm on a cruise ship docking in Funchal for one day. Can I do a levada walk and be back in time?",
+   "must_not": [
+    "Mein Schiff|AIDA|MSC |Fanal|Raba(ç|c)al"
+   ],
+   "note": "Never assume which listed ship is theirs; one day ashore = Pedra Rija / Funchal+Monte / the taxi loop, never a distant trailhead (2026-10-22)."
+  },
+  {
+   "id": "resident-fee-pt",
+   "lang": "pt",
+   "q": "Sou residente na Madeira. Pago para fazer o PR1? E o estacionamento no Areeiro?",
+   "must": [
+    "grat|isen",
+    "4"
+   ],
+   "note": "Trail free for residents (still on the booking); parking is paid by residents too."
   }
  ]
 }

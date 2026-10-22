@@ -81,10 +81,18 @@ def _day(ts):
     return ts.astimezone(MADEIRA).date().isoformat() if ts else None
 
 
+ALIASES = {  # names the fuzzy match gets wrong or that aren't a trail's own name
+    "levada do norte": "PR17",  # its ticketed stretch (the rest is non-classified and free)
+}
+
+
 def resolve_trail(text):
     """'pr 6.1', 'PR6,1', 'risco', 'Levada do Risco' → 'PR6.1' (or None)."""
     if not text:
         return None
+    for alias, code in ALIASES.items():
+        if alias in text.lower():
+            return code
     m = re.search(r"\bpr\s?-?(\d{1,2}(?:[.,]\d)?)\b", text.lower())
     if m:
         code = "PR" + m.group(1).replace(",", ".")
@@ -139,8 +147,9 @@ def trail_facts(code: str, lang: str = "en") -> dict:
     c = _need_trail(code)
     t = _q("""SELECT t.*, ST_Y(trailhead::geometry) lat, ST_X(trailhead::geometry) lon, s.status, s.note
               FROM kb.trail t LEFT JOIN kb.trail_status s USING (code) WHERE code = %s""", (c,))[0]
-    notes = _q("""SELECT topic, text, source_id FROM kb.fact WHERE subject = %s AND confirmed AND topic <> 'bus'
-                  ORDER BY id""", (c,))
+    # bus timetables live in bus(), but the 'nobus' sentences carry the car-park and shuttle facts (Rabaçal ER105…)
+    notes = _q("""SELECT topic, text, source_id FROM kb.fact WHERE subject = %s AND confirmed
+                  AND (topic <> 'bus' OR id LIKE 'bus:%%:nobus:%%') ORDER BY id""", (c,))
     return {
         "code": t["code"], "name": t["name"], "status": t["status"], "status_note": _pick(t["note"], lang),
         "distance": t["distance_txt"], "duration": t["duration"], "difficulty": t["difficulty"],
@@ -148,6 +157,10 @@ def trail_facts(code: str, lang: str = "en") -> dict:
         "route_type": t["route_type"], "start": t["start_name"], "end": t["end_name"], "region": t["region"],
         "fee_eur": float(t["fee_eur"]) if t["fee_eur"] is not None else None,
         "fee_note": None if t["fee_eur"] is not None else "No IFCN fee for this trail.",
+        # PR1's fee is not one number: hand the model the full tariff so a cost question gets all of it
+        **({"fees": [{"label": _pick(f["label"], lang), "eur": float(f["amount_eur"])}
+                     for f in _q("SELECT label, amount_eur FROM kb.fee WHERE applies_to = 'PR1' ORDER BY amount_eur DESC")]}
+           if c == "PR1" else {}),
         "tunnels": t["tunnels"], "torch_needed": {True: "yes", False: "no"}.get(t["torch"]), "exposure": t["exposure"],
         **({"panel_notes": _pick((t["extras"] or {}).get("notes"), lang)} if (t["extras"] or {}).get("notes") else {}),
         **({"ifcn_panel_warning": t["extras"]["ifcn_warning"].get("text_en")}
@@ -316,6 +329,14 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
                   FROM kb.bus_trip WHERE {' AND '.join(where)}
                   GROUP BY operator, line, new_line, from_stop, to_stop, dep, arr, days, marks, change_at, leg, source_id
                   ORDER BY leg, from_stop, days, dep""", args)
+    # the same physical trip can be in both a curated sheet ("Santana network") and a transcribed line (801):
+    # keep one row per (from, to, dep, days, leg), preferring the one with the printed line number
+    seen = {}
+    for r in rows:
+        k = (r["from_stop"], r["to_stop"], r["dep"], r["days"])
+        if k not in seen or (not (seen[k]["line"] or "")[:1].isdigit() and (r["line"] or "")[:1].isdigit()):
+            seen[k] = r
+    rows = list(seen.values())
     if not rows and not code:
         guess = resolve_trail(to_stop or "") or resolve_trail(from_stop or "")
         if guess:  # "São Lourenço" is PR8, whose stop is Baía d'Abra
@@ -400,8 +421,9 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
 
     def add(rows, role):
         for r in rows:
-            if r["id"] not in seen:
-                seen.add(r["id"])
+            # one rank, one row: Táxis Funchal and the island-wide "Táxis Madeira" share +351 291 764 476
+            if r["id"] not in seen and tuple(r["phone"] or ()) not in seen:
+                seen.add(r["id"]); seen.add(tuple(r["phone"] or ()))
                 out.append({"name": r["name"], "town": r["town"], "phone": r["phone"], "role": role,
                             **({"booking_url": r["url"]} if r["url"] else {}),
                             **({"printed_on_panels_of": r["trails"]} if r["trails"] else {}), "source": _source(r["source_id"])})
@@ -547,7 +569,8 @@ def place(id: str, lang: str = "en") -> dict:
 
 
 def notices(subject: str | None = None, lang: str = "en") -> dict:
-    """Current and upcoming notices (closures, works, events, cruise days) for a trail code, place id or area."""
+    """Current and upcoming notices (closures, works, events, cruise days) for a trail code, place id or area.
+    Cruise rows are the port's schedule, not the visitor's booking: never assume a listed ship is theirs."""
     lang = _lang(lang)
     where, args = ["(ends IS NULL OR ends >= now())"], []
     if subject:
@@ -657,6 +680,12 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
                          FROM kb.doc, to_tsquery(%s::regconfig, kb.unaccent_i(%s)) q
                          WHERE lang = %s AND tsv @@ q ORDER BY rank DESC LIMIT %s""",
                       (TS_CFG[lang], " | ".join(words), lang, limit))
+    # the no-rule topics (owner, 2026-10-22): a trail name in the query outranks the unregulated sheet, so pin it
+    if re.search(r"\b(dogs?|pets?|bikes?|bicycle|cycling|cycle|rower|v[ée]lo|fahrrad|hund|pies|chien|c[ãa]o|"
+                 r"drones?|camp\w*|zelt\w*|biwak\w*|picnic|piquenique|barbecue|grill)\b", text, re.I):
+        pinned = _q("SELECT id, kind, subject, lang, title, url, source_id, body snippet, 1 rank "
+                    "FROM kb.doc WHERE id = 'facts:en:scope:unregulated'")
+        rows = pinned + [r for r in rows if r["id"] != "facts:en:scope:unregulated"][:limit - 1]
     return {"results": [{"title": r["title"], "subject": r["subject"], "lang": r["lang"], "url": r["url"],
                          "text": re.sub(r"</?b>", "", r["snippet"]), "source": _source(r["source_id"])} for r in rows],
             **({} if rows else {"note": "Nothing found in Levadinho's knowledge for this query."})}

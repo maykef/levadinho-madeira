@@ -115,7 +115,8 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
   it because there's often no signal.
 - SIMplifica tips for visitors:
   - Register with email if it rejects a foreign phone number. Account type is "Pessoa Singular".
-  - Pay by Visa or Mastercard.
+  - Pay by Multibanco (ATM reference), credit card (Visa or Mastercard) or MB WAY — but Multibanco
+    and MB WAY need a Portuguese bank account, so visitors usually pay by card (SIMplifica's own payment help).
   - The ticket arrives by email.
   - Turn off any VPN if the site won't load.
 - SIMplifica Contact Center (portal problems): +351 800 29 90 90, WhatsApp +351 926 155 465,

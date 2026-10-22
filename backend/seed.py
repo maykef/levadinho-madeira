@@ -129,14 +129,42 @@ TRANSPORT_FACTS = [
      "trailhead panels, which are undated.", "ifcn_panels"),
     ("taxi_choice", "taxi", None,
      "Give the rank nearest the pick-up place and, when different, the rank of the town the visitor is going to; they are "
-     "alternatives for the same trip. Call both, ask each for a quote, book the better one.", "levadinho_research"),
+     "alternatives for the same trip. Call both, ask each for a quote, book the better one. EXCEPTION: pick-ups at "
+     "Achada do Teixeira are done by the local Santana taxis only (taxi territories are respected; the Funchal rank's "
+     "own site says so) — for a pick-up there give Táxis Santana alone, whatever the destination.", "levadinho_research"),
     ("taxi_airport", "taxi", None,
      "Madeira Airport is in Santa Cruz. No airport rank is in our data: use the rank of the town the visitor is going to "
      "plus the island-wide contacts (AITRAM, Táxis Madeira).", "levadinho_research"),
     ("transfer_hotel", "transfer", None,
      "The simplest way to book a transfer is through the hotel reception. Levadinho does not name, recommend or book "
      "transfer companies. Without a hotel (private rental), book a taxi for a set time.", "levadinho_research"),
+    ("drive_times", "transfer", None,
+     "Never invent driving or taxi times. Sourced times (our one-day page, from the taxi loop): Funchal → Eira do "
+     "Serrado/Curral das Freiras about 30 min; Curral → Cabo Girão about 35 min; Cabo Girão → Câmara de Lobos about "
+     "10 min; the whole viewpoints loop is a 6-hour day (~56 km; drivers quoted about €160 in October 2026 — "
+     "indicative, not a tariff). The western trailheads (Rabaçal, Fanal, Paul da Serra) and the north coast are well "
+     "over an hour's drive from Funchal each way. No other road times are in our data: say so rather than guess.",
+     "levadinho_research"),
+    ("cruise_day", "transfer", None,
+     "A cruise passenger with one day ashore: recommend the one-day plan — the viewpoints taxi loop (about 6 hours "
+     "door to door from the terminal) or Funchal and Monte on foot and by cable car — not a distant levada. Keep a "
+     "margin of at least an hour before all-aboard. Our data on ships in port is context only: never assume which "
+     "ship the visitor is on or their hours ashore — ask, or answer in general terms.", "levadinho_research"),
     ("bus_scope", "bus", None,
      "Bus times come only from the operators' printed timetables in our data. If there is no bus in our data from the "
      "visitor's town, say so and give the taxi option. No buses on 25 December.", "siga"),
+]
+
+# Which walks SIMplifica actually sells (the free-walks page's rule; owner, 2026-10-22, after the bot told a
+# visitor to book PR3 on SIMplifica). Served by fees_and_rules() with the fees_booking topic.
+FEE_SCOPE_FACTS = [
+    ("booking_scope", "fees_booking", None,
+     "SIMplifica sells only the classified PR trails managed by IFCN. Trails managed by another body are NOT on "
+     "SIMplifica and have no IFCN fee and nothing to book: PR3 and PR3.1 and PR4 (Funchal council) and PR23 (Caniço "
+     "parish). Never tell a visitor to book these on SIMplifica. Non-classified levadas (for example Levada dos "
+     "Tornos, Levada do Caniçal, Levada Nova) need no ticket at all.", "ifcn_fees_faq"),
+    ("norte_pr17", "fees_booking", "PR17",
+     "Levada do Norte is a non-classified levada and needs no ticket where it runs on its own — BUT one stretch is "
+     "part of PR17 Caminho do Pináculo e Folhadal, an IFCN trail that needs a €4.50 SIMplifica ticket. Say both "
+     "halves when asked whether Levada do Norte is free.", "ifcn_fees_faq"),
 ]
