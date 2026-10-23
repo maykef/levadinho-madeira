@@ -1,0 +1,28 @@
+{
+  "_about": "Taxi dispatch config (owner, 2026-10-21). Routes the owner has pre-agreed prices for with the enrolled drivers; prices null = not agreed yet, the bot falls back to the official-meter wording. car = 1-4 passengers, van = 5-10 (the Funchal driver's van). Edit prices here, no code change; the bot reads this file on every request. Drivers empty = dispatch off (v1: the bot hands the visitor a ready-to-send message + the right rank's numbers).",
+  "routes": [
+    {"id": "achada-areeiro", "label": "Achada do Teixeira → Pico do Areeiro",
+     "from": ["achada"], "to": ["areeiro", "arieiro"], "car_eur": null, "van_eur": null, "zone": "santana"},
+    {"id": "achada-funchal", "label": "Achada do Teixeira → Funchal",
+     "from": ["achada"], "to": ["funchal"], "car_eur": null, "van_eur": null, "zone": "santana"},
+    {"id": "funchal-areeiro", "label": "Funchal → Pico do Areeiro",
+     "from": ["funchal"], "to": ["areeiro", "arieiro"], "car_eur": null, "van_eur": null, "zone": "funchal"},
+    {"id": "package-pr1", "label": "Hotel → Pico do Areeiro + collection at Achada do Teixeira",
+     "from": ["funchal", "hotel", "caniço", "canico"], "to": ["areeiro + achada", "package"],
+     "car_eur": null, "van_eur": null, "zone": "funchal",
+     "note": "the full PR1 package: drop at the start, collect at the finish at an agreed time"},
+    {"id": "funchal-ribeirofrio", "label": "Funchal → Ribeiro Frio",
+     "from": ["funchal"], "to": ["ribeiro frio"], "car_eur": null, "van_eur": null, "zone": "funchal"},
+    {"id": "ribeirofrio-funchal", "label": "Ribeiro Frio → Funchal",
+     "from": ["ribeiro frio"], "to": ["funchal"], "car_eur": null, "van_eur": null, "zone": "funchal"},
+    {"id": "circuit-rf-areeiro-achada", "label": "Ribeiro Frio → Areeiro → Achada do Teixeira → Funchal (circuit)",
+     "from": ["ribeiro frio"], "to": ["circuit", "circuito", "areeiro + achada"], "car_eur": null, "van_eur": null,
+     "zone": "funchal", "note": "multi-stop charter with agreed waits; plain Ribeiro Frio → Funchal rides match the route above"}
+  ],
+  "zones": {
+    "santana": {"ranks": [["Táxis Santana — Achada do Teixeira / Santana", "+351 291 572 540"]]},
+    "funchal": {"ranks": [["Táxis Madeira (online booking at taxismadeira.pt)", "+351 291 764 476"],
+                           ["AITRAM", "+351 291 765 760"]]}
+  },
+  "drivers": []
+}

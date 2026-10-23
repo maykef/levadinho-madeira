@@ -1,0 +1,31 @@
+diff --git a/bot/brain.py b/bot/brain.py
+index eb4866f9..82fd9105 100644
+--- a/bot/brain.py
++++ b/bot/brain.py
+@@ -926,11 +926,17 @@ def answer_tools(user, text, lang, rule, meta=None):
+         reply = "\n".join(l for l in reply.split("\n") if img not in l).strip() or reply
+         if meta is not None:
+             meta["image_url"] = img
++    import taxi_form  # one proactive offer per conversation after a transport answer (owner, 2026-10-21)
++    reply = taxi_form.maybe_offer(user, text, reply, lang)
+     store.add_turn(user, text, reply)
+     return reply
+ 
+ 
+ def answer(user, text, lang, meta=None, c=None):
++    import taxi_form  # the taxi request form (owner, 2026-10-21) takes over while active
++    form_reply = taxi_form.maybe_handle(user, text, lang, meta)
++    if form_reply is not None:
++        return form_reply
+     rule = (f"Write your reply ONLY in {LANG_NAMES[lang]}, whatever language earlier messages used. "
+             f"Keep place and trail names (Pico do Areeiro, Levada das 25 Fontes…) as they are.")
+     if TOOLS_MODE:
+@@ -960,6 +966,8 @@ def answer(user, text, lang, meta=None, c=None):
+     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", llm(msgs, temperature=0))  # WhatsApp bold is *single*; 0 = stick to the facts
+     reply, changes = guard.check(reply, text, lang, trails_in(text), (store.get_user(user) or {}).get("base") or "")
+     reply = reply.rstrip() + site_links(reply, trails, lang, named=trails_in(text))
++    import taxi_form  # one proactive offer per conversation after a transport answer (owner, 2026-10-21)
++    reply = taxi_form.maybe_offer(user, text, reply, lang)
+     if meta is not None:
+         meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
+                           "context": {"trails": trails, "guides": guides}}
