@@ -61,6 +61,21 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
 - Earlier (19 Oct 18:51, live since the 18:54 restart): no "Friday to Sunday" for PR1, taxis never on SIMplifica,
   no road to Pico Ruivo, never repeat the previous question, links in the visitor's language.
 
+**Fixes from 21–22 Oct (live since the full restart of 22 Oct 22:26):**
+- **Where is the visitor? (owner: "if it is not clear where the tourist is, the bot needs to ask")** —
+  `brain.walkback_question()`: "can I walk back / turn around / go back to Areeiro" with no place named gets a
+  deterministic question in the visitor's language (`WALKBACK_ASK`, PR1 variant on the PR1 pages `PR1_SOURCES`);
+  the reply is folded into the original question and answered for that exact place (PR1's direction rule, never
+  PR1.2 for "at Pico Ruivo"). `AT_PLACE` per language decides whether a place was named ("at/na/am/przy …").
+- Every clarifying question (walk-back, pick-up) is now stored with `store.add_turn` before returning, so the
+  follow-up keeps its context (it was lost before).
+- `kbtools.trail_facts("PR1")`: monthly sunrise table + "watching the sunrise needs no ticket" note; same in
+  `pr1_facts.md`. `guard.py`: a reply that invents a ban on dogs/bikes/drones/camping/picnics becomes the
+  honest "no official rule" answer (`NO_RULE_ANSWER`, 5 languages).
+- Regression set: 66 questions, 66/66 (`backend/tests/results/tools_v19.json`).
+- Taxi booking form (`taxi_form.py`, `taxi_routes.json`) is committed but NOT wired in (owner: wait for the route
+  prices and a full month of data); the brain hooks are parked in `taxi_form_brain.patch`.
+
 **Buses (2026-10-12):** after every bus timetable `brain.bus_footer` offers directions to the stop and the taxi
 number (never for Monte). A **"bus now"** question asks for the visitor's location (WhatsApp location button; web chat
 "📍 Share my location", `location_request` message in `/webchat`); a pin within 30 min gets the nearest boarding stop
