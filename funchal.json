@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-22T06:38+01:00",
+ "stamp": "2026-10-23T06:36+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-22",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:15",
-   "sunset": "19:28",
-   "weather": {
-    "tmin": 20,
-    "tmax": 24,
-    "rain": 37,
-    "wtype": 3,
-    "uv": 4.1
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-23",
    "type": "weekday",
@@ -28,9 +12,9 @@
    "weather": {
     "tmin": 19,
     "tmax": 24,
-    "rain": 80,
+    "rain": 76,
     "wtype": 7,
-    "uv": 4.8
+    "uv": 5.1
    },
    "fair": null
   },
@@ -42,11 +26,11 @@
    "sunrise": "08:17",
    "sunset": "19:25",
    "weather": {
-    "tmin": 19,
+    "tmin": 20,
     "tmax": 25,
-    "rain": 20,
+    "rain": 12,
     "wtype": 3,
-    "uv": 5.1
+    "uv": 4.5
    },
    "fair": null
   },
@@ -62,7 +46,7 @@
     "tmax": 25,
     "rain": 2,
     "wtype": 2,
-    "uv": 4.6
+    "uv": 5.2
    },
    "fair": null
   },
@@ -76,9 +60,9 @@
    "weather": {
     "tmin": 18,
     "tmax": 24,
-    "rain": 4,
-    "wtype": 2,
-    "uv": null
+    "rain": 25,
+    "wtype": 4,
+    "uv": 4.9
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:20",
    "sunset": "18:22",
-   "weather": null,
+   "weather": {
+    "tmin": 19,
+    "tmax": 25,
+    "rain": 31,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:15",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-05",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:27",
+   "sunset": "18:14",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -228,6 +228,15 @@
    "src": "cultura.funchal.pt"
   },
   {
+   "title": "O Rei Vai Nu",
+   "venue": "Teatro Municipal Baltazar Dias",
+   "start": "2026-10-28T11:00",
+   "end": "2026-11-06T11:00",
+   "all_day": false,
+   "url": "https://cultura.funchal.pt/event/o-rei-vai-nu/",
+   "src": "cultura.funchal.pt"
+  },
+  {
    "title": "XXVIII Madeira International Bridge Open",
    "venue": "",
    "start": "2026-10-29",
@@ -256,11 +265,11 @@
   }
  ],
  "sea": {
-  "date": "2026-10-22",
+  "date": "2026-10-23",
   "sst": 23,
   "wave": [
-   0.5,
-   0.8
+   0.6,
+   0.9
   ],
   "warnings": []
  },
