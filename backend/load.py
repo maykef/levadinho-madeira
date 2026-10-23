@@ -402,10 +402,11 @@ def load_docs(cur):
                  "Our official sources (IFCN, SIMplifica, Portaria 48/2026, DLR 24/2022/M) regulate access fees, "
                  "booking and closures on the classified PR trails. They contain NO rule about dogs (pets), bicycles "
                  "(bikes, cycling, mountain biking), drones, camping (overnight stays, wild camping) or picnics "
-                 "(barbecues) on the levadas and PR trails, so Levadinho has no rule to state: say it "
-                 "is not covered by the official sources and point to hello@levadinho-madeira.com — never assert "
-                 "'allowed' or 'not allowed'. (The PR routes are classified as percursos pedestres — walking "
-                 "routes; that is a name, not a stated ban on anything.)",
+                 "(barbecues) on the levadas and PR trails. THE ANSWER TO GIVE, word for word in the visitor's "
+                 "language: \"There is no official rule about <topic> on the levadas in our sources, so I can't say "
+                 "whether it is allowed — you can ask hello@levadinho-madeira.com.\" Saying 'not allowed' or "
+                 "'forbidden' would be inventing a rule. (The PR routes are classified as percursos pedestres — "
+                 "walking routes; that is a name, not a stated ban on anything.)",
                  "english", "levadinho_research", checked_pr1))
     cur.execute("DELETE FROM kb.doc")
     cur.executemany("""INSERT INTO kb.doc (id, kind, subject, lang, title, url, body, cfg, source_id, checked_at)

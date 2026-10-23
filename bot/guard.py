@@ -45,6 +45,27 @@ COMPANY_OFFER = re.compile(r"(transfer|tour|shuttle|guide|guia|transfert|reisef�
                            r"société|agence|unternehmen|firm\w*|operator\w*)", re.I)
 NOT_TRAIL = re.compile(r"\b(cafe|caf[eé]s?|restaurant\w*|bar|shop|loja|market|mercado|museum|museu|cable|telef\w*|lido|toilet\w*|"
                        r"wc|car ?park|parking|parque|estacionamento|parkplatz|parking|supermarket|pharmacy|farmacia)\b", re.I)
+# topics no official source regulates (owner, 2026-10-22: the model kept inventing a cycling ban at temp 0,
+# even with the kb sheet in context): if the visitor asked about one and the reply asserts a prohibition,
+# the whole reply becomes the honest no-rule sentence
+NO_RULE_TOPIC = re.compile(r"\b(bike\w*|bicycl\w*|cycl\w*|mountain ?bik\w*|rower\w*|fahrr[aä]d\w*|radfahren|v[eé]los?|"
+                           r"bicicleta|dogs?|hund\w*|chien\w*|c[aã]o|c[aã]es|pies|psem|psa|pets?|drone\w*|drohne\w*|"
+                           r"camp\w*|zelt\w*|biwak\w*|acampar|namiot\w*|picnic\w*|piquenique|barbecue|grill\w*)\b", re.I)
+PROHIBIT = re.compile(r"\b(not (allowed|permitted)|forbidden|prohibited|banned|nicht (erlaubt|gestattet)|verboten|"
+                      r"interdit\w*|pas autoris\w*|n[aã]o ([eé] )?(permitid\w*|autorizad\w*)|proibid\w*|"
+                      r"zakazan\w*|zabronion\w*|niedozwolon\w*)\b", re.I)
+NO_RULE_ANSWER = {
+    "en": "Our official sources (IFCN, SIMplifica, the Portarias) have no rule about that on the levadas, so I "
+          "can't say whether it is allowed. You can ask hello@levadinho-madeira.com.",
+    "pt": "As nossas fontes oficiais (IFCN, SIMplifica, as Portarias) não têm nenhuma regra sobre isso nas "
+          "levadas, por isso não posso dizer se é permitido. Pode perguntar a hello@levadinho-madeira.com.",
+    "fr": "Nos sources officielles (IFCN, SIMplifica, les Portarias) n'ont aucune règle à ce sujet sur les "
+          "levadas, je ne peux donc pas dire si c'est autorisé. Vous pouvez écrire à hello@levadinho-madeira.com.",
+    "de": "Unsere offiziellen Quellen (IFCN, SIMplifica, die Portarias) enthalten dazu keine Regel für die "
+          "Levadas, daher kann ich nicht sagen, ob es erlaubt ist. Sie können hello@levadinho-madeira.com fragen.",
+    "pl": "Nasze oficjalne źródła (IFCN, SIMplifica, Portarie) nie zawierają żadnej reguły na ten temat na "
+          "levadach, więc nie mogę powiedzieć, czy to dozwolone. Można zapytać hello@levadinho-madeira.com.",
+}
 MONTE = re.compile(r"\bmonte\b", re.I)
 TAXI_ASKED = re.compile(r"\b(taxi|táxi|taxis|táxis|taksówk\w*|uber|bolt)\b", re.I)
 SENT = re.compile(r"(?<=[.!?])\s+|\n")
@@ -100,6 +121,9 @@ def check(reply, user_text, lang, trails, context=""):
                 pass
     out, d = _drop(out, lambda s: bool(WORKAROUND.search(s)))
     changes += [f"invented workaround dropped: {x[:80]}" for x in d]
+    if NO_RULE_TOPIC.search(user_text) and any(PROHIBIT.search(s) and NO_RULE_TOPIC.search(s) for s, _ in _sentences(out)):
+        out = NO_RULE_ANSWER.get(lang, NO_RULE_ANSWER["en"])
+        changes.append("invented prohibition replaced with the no-rule answer")
     full = answers.fold(user_text + " " + context)
     if answers.CRUISE_RE.search(full):
         out, d = _drop(out, lambda s: bool(RECEPTION.search(s)))

@@ -150,10 +150,18 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
   IFCN agrees, e.g. during a long closure.
 
 ## Sunrise
-- Computed sunrise at Pico do Areeiro (Portugal time, about ±2 min; ~6 min earlier with a
-  clear horizon): about 08:00 early October, 08:12 mid-October, 07:25 early November (winter
-  time), 08:10 in January, 07:20 early May, 06:59 mid-June (the earliest), 07:21 early August,
-  07:42 early September.
+- Sunrise at Pico do Areeiro on the 1st of each month (Madeira time, ±2 min; ~6 min earlier with a
+  clear horizon; clocks change on the last Sundays of March and October): January 08:10, February 08:03,
+  March 07:36, April 07:56, May 07:21, June 07:01, July 07:03, August 07:21, September 07:42,
+  October 08:02, November 07:25, December 07:52. Within October it drifts later — about 08:12 by
+  mid-October and 08:20 just before the clocks go back (last Sunday of October), then 07:25 on
+  1 November. ALWAYS copy the asked month's time from this list,
+  never compute or guess one — e.g. December sunrise is around 07:52–08:10, so even the 07:30 slot
+  reaches the viewpoint before the sun; only late May–July needs the 07:00 slot.
+- **Watching the sunrise needs no ticket:** the fee applies to entering the classified trail
+  (Portaria 48/2026, arts. 5–6), and the Pico do Areeiro viewpoint is by the car park, OUTSIDE
+  the trail. There is no explicit official statement, so say "should not need a ticket" and point
+  to IFCN if in doubt. A SIMplifica slot (07:00/07:30…) is only for walking onto PR1 itself.
 - The public bus reaches Pico do Areeiro at 06:45 every day, before sunrise all year (tight
   margin, ~8–15 min, from late May to mid-July). The stop is the Radar roundabout; allow a few
   minutes' walk to the viewpoint.

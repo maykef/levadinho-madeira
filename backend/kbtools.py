@@ -161,6 +161,20 @@ def trail_facts(code: str, lang: str = "en") -> dict:
         **({"fees": [{"label": _pick(f["label"], lang), "eur": float(f["amount_eur"])}
                      for f in _q("SELECT label, amount_eur FROM kb.fee WHERE applies_to = 'PR1' ORDER BY amount_eur DESC")]}
            if c == "PR1" else {}),
+        # sunrise on the 1st of each month at Pico do Areeiro, Madeira time ±2 min (our sunrise page's computed
+        # table) — a structured field because the model misread the prose note and invented December times
+        **({"sunrise_1st_of_month": {"Jan": "08:10", "Feb": "08:03", "Mar": "07:36", "Apr": "07:56",
+                                     "May": "07:21", "Jun": "07:01", "Jul": "07:03", "Aug": "07:21",
+                                     "Sep": "07:42", "Oct": "08:02", "Nov": "07:25", "Dec": "07:52"},
+            "sunrise_note": "COPY the month's time from sunrise_1st_of_month, never estimate one. "
+                            "Mid-October is about 08:12 and late October 08:20 (clocks go back on the last "
+                            "Sunday of October, hence November 07:25). "
+                            "Latest sunrises: December–January (~07:52–08:10), so even the 07:30 slot is "
+                            "before sunrise then; only late May–July (sunrise ~07:00) needs the 07:00 slot. "
+                            "The slot is only for walking onto PR1: the viewpoint by the car park is outside "
+                            "the classified trail, so just watching the sunrise should not need a ticket "
+                            "(no explicit official statement — say so)."}
+           if c == "PR1" else {}),
         "tunnels": t["tunnels"], "torch_needed": {True: "yes", False: "no"}.get(t["torch"]), "exposure": t["exposure"],
         **({"panel_notes": _pick((t["extras"] or {}).get("notes"), lang)} if (t["extras"] or {}).get("notes") else {}),
         **({"ifcn_panel_warning": t["extras"]["ifcn_warning"].get("text_en")}

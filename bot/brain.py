@@ -861,6 +861,60 @@ def pickup_question(text, hist, lang):
     return PICKUP_ASK.get(lang, PICKUP_ASK["en"])
 
 
+# Owner, 2026-10-22: "if it is not clear where the tourist is, the bot needs to ask". A real visitor (getting-back page)
+# asked "Can I walk back to Pico do Areeiro?" and got "Yes — … from Pico do Areeiro to Pedra Rija"; in PT the same
+# question got a flat "No". The answer depends on where they are (before Pedra Rija: yes, two-way; at Pico Ruivo or
+# Achada do Teixeira: no, PR1 is one-way), so a walk-back question that doesn't say where they are gets this question.
+WALKBACK_ASK_PR1 = {
+    "en": "Where are you now — still between Pico do Areeiro and Pedra Rija, at Pico Ruivo, or at Achada do Teixeira?",
+    "pt": "Onde é que está agora — ainda entre o Pico do Areeiro e a Pedra Rija, no Pico Ruivo ou na Achada do Teixeira?",
+    "fr": "Où êtes-vous maintenant : encore entre le Pico do Areeiro et Pedra Rija, au Pico Ruivo ou à Achada do Teixeira ?",
+    "de": "Wo sind Sie gerade – noch zwischen Pico do Areeiro und Pedra Rija, am Pico Ruivo oder in Achada do Teixeira?",
+    "pl": "Gdzie jesteście teraz – jeszcze między Pico do Areeiro a Pedra Rija, na Pico Ruivo czy w Achada do Teixeira?",
+}
+WALKBACK_ASK = {
+    "en": "Where are you now on the trail?",
+    "pt": "Onde é que está agora no percurso?",
+    "fr": "Où êtes-vous maintenant sur le sentier ?",
+    "de": "Wo sind Sie gerade auf dem Weg?",
+    "pl": "Gdzie jesteście teraz na szlaku?",
+}
+WALKBACK_Q = re.compile(
+    r"walk(ing)? back|hike back|turn(ing)? (a)?round|go(ing)? back on foot|head(ing)? back on foot|"
+    r"(voltar|regressar|ir)( para tr[áa]s)? a p[ée]|voltar para tr[áa]s|"
+    r"(revenir|retourner|rentrer) à pied|faire demi-tour|rebrousser|"
+    r"zur[üu]ck(gehen|laufen|wandern)|umkehren|zur[üu]ck zu fu[ßs]|"
+    r"(wr[óo]ci[ćc]|wraca[ćc]) pieszo|pieszo z powrotem|zawr[óo]ci[ćc]", re.I)
+WHERE_SAID = re.compile(
+    r"\b(i'?m|i am|we'?re|we are)\s+(now\s+|still\s+)?(at|on|in|near|by|between)\b|\bfrom (the )?(pico|achada|pedra|ruivo|areeiro|arieiro)|"
+    r"\b(estou|estamos)\b|\bje suis\b|\bnous sommes\b|\b(ich bin|wir sind)\b|\b(jestem|jeste[śs]my)\b", re.I)
+# "turn around AT Pedra Rija": the place where they would turn is where they are. Per language, because the same
+# word means "at" in one and "to" in another (PL "na Pico do Areeiro" = TO it; PT "na Pedra Rija" = AT it); FR "à/au"
+# is both, so French has none.
+AT_PLACE = {lang: re.compile(rf"\b({w})\s+(the\s+|o\s+|a\s+|dem\s+)?(pico do |miradouro d[ao] )?"
+                             r"(areeiro|arieiro|pedra rija|ruivo|achada|homem)", re.I)
+            for lang, w in {"en": "at", "pt": "na|no|em", "de": "am|bei", "pl": "przy"}.items()}
+PR1_PLACES = re.compile(r"areeiro|arieiro|pedra rija|ruivo|achada|teixeira|\bPR ?1\b(?!\.\d)", re.I)
+PR1_SOURCES = {"web-back", "web-pr1", "web-oneway", "web-sunrise", "web-weather", "web-parking", "web-pedrarija", "web-pr1-2"}
+
+
+def walkback_question(text, hist, lang, source):
+    """A where-are-you question when the visitor asks about walking back / turning round and hasn't said where they
+    are (in this message, or by answering this question just before); else None. PR1 places or a PR1-related page →
+    the PR1 options; otherwise the plain question."""
+    if not WALKBACK_Q.search(text) or WHERE_SAID.search(text):
+        return None
+    if lang in AT_PLACE and AT_PLACE[lang].search(text):
+        return None
+    if len({m.group(0).lower()[:5] for m in PR1_PLACES.finditer(text)}) >= 2:
+        return None  # "from Pico Ruivo back to Areeiro": two places named, the start is one of them
+    asked = set(WALKBACK_ASK_PR1.values()) | set(WALKBACK_ASK.values())
+    if any(m.get("role") == "assistant" and (m.get("content") or "").strip() in asked for m in hist[-2:]):
+        return None  # they are answering it: never ask twice
+    pr1 = bool(PR1_PLACES.search(text)) or (source or "").removesuffix("-qr") in PR1_SOURCES
+    return (WALKBACK_ASK_PR1 if pr1 else WALKBACK_ASK).get(lang, (WALKBACK_ASK_PR1 if pr1 else WALKBACK_ASK)["en"])
+
+
 DAY_WORDS = (r"\b(today|tomorrow|tonight|hoje|amanh[ãa]|aujourd|demain|heute|morgen|dzi[śs]|jutro|\d{1,2}\s?(h|:\d\d|uhr))")
 
 
@@ -886,6 +940,23 @@ def answer_tools(user, text, lang, rule, meta=None):
     if not named and page_trail and not re.search(r"funchal|monte|cruise|navio|ship|schiff|statek|lido", text, re.I):
         named = [page_trail]
     q = text
+    hist = store.history(user, HISTORY_SINCE)
+    asked = set(WALKBACK_ASK_PR1.values()) | set(WALKBACK_ASK.values())
+    if hist and hist[-1].get("role") == "assistant" and (hist[-1].get("content") or "").strip() in asked:
+        # the reply to our where-are-you question: put the walk-back question back in front of it (22 Oct test:
+        # "We're still before Pedra Rija" alone got a taxi number on the getting-back page)
+        orig = next((m.get("content") or "" for m in reversed(hist[:-1]) if m.get("role") == "user"), "")
+        if orig:
+            q = (f"{orig}\n\n[Where the visitor is now, in their own words: {text}. Answer the question above for "
+                 "exactly that place: yes or no first, then why, from the tools.]")
+            if (hist[-1].get("content") or "").strip() in WALKBACK_ASK_PR1.values():
+                # "at Pico Ruivo" resolves to PR1.2, and the model then described PR1.2's direction (wrongly, both
+                # ways round, in the 22 Oct test): the question is PR1's direction rule
+                q += ("\n[This is about walking back along PR1 (Vereda do Areeiro): use PR1's direction rule from "
+                      "trail_status(\"PR1\"). PR1.2 is only the way down from Pico Ruivo to Achada do Teixeira.]")
+                named = ["PR1"]
+            else:
+                named = named or trails_in(orig)
     if named and re.search(DAY_WORDS, text, re.I):  # "PR1 tomorrow at 9h?": give the status, never a guessed opening day (19 Oct)
         st = {t.get("code"): t for t in live_status().get("trails", [])}
         q += "\n\n[IFCN's official list now: " + "; ".join(
@@ -895,9 +966,13 @@ def answer_tools(user, text, lang, rule, meta=None):
     # only off trail pages or on PR1 ones: on another trail's page the question would be about the wrong walk.
     # Never on the getting-back page: its subject IS the return from Achada do Teixeira, so the pick-up isn't a
     # guess there (owner, 2026-10-20: a web-back visitor got the clarifying question twice on 19 Oct)
-    ask = (pickup_question(text, store.history(user, HISTORY_SINCE), lang)
-           if source != "web-back" and (not named or "PR1" in named) else None)
+    ask = walkback_question(text, store.history(user, HISTORY_SINCE), lang, source)
+    ask = ask or (pickup_question(text, store.history(user, HISTORY_SINCE), lang)
+                  if source != "web-back" and (not named or "PR1" in named) else None)
     if ask:
+        # 2026-10-22: the question goes into the history like any reply — without it the next message ("at Pico
+        # Ruivo") arrived with no memory of what was asked, and the never-ask-twice checks could never see it
+        store.add_turn(user, text, ask)
         return ask
     t0 = time.time()
     reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text)

@@ -210,7 +210,7 @@
    "lang": "en",
    "q": "Can I watch the sunrise at Pico do Areeiro without a ticket?",
    "must": [
-    "confirm|no (explicit )?official|not official"
+    "confirm|no (explicit )?official|not official|haven'?t found.{0,20}official|explicit official"
    ]
   },
   {
@@ -577,6 +577,92 @@
     "4"
    ],
    "note": "Trail free for residents (still on the booking); parking is paid by residents too."
+  },
+  {
+   "id": "group-fee-en",
+   "lang": "en",
+   "q": "We are 4 adults and 2 children (9 and 13) doing 25 Fontes. How much in total?",
+   "must": [
+    "22[.,]50"
+   ],
+   "must_not": [
+    "= ?€?18"
+   ],
+   "note": "5 pay (the 13-year-old is NOT free), the 9-year-old is free but on the booking. Was answering €18 before the group-totals prompt rule (2026-10-22)."
+  },
+  {
+   "id": "moinho-closed-walk-en",
+   "lang": "en",
+   "q": "Levada do Moinho looks closed on your site. Can I still walk it carefully?",
+   "must": [
+    "250"
+   ],
+   "note": "Must say entering a closed trail is the same offence (€250–2,500), not just repeat the status (2026-10-22)."
+  },
+  {
+   "id": "december-sunrise-slot-en",
+   "lang": "en",
+   "q": "Which PR1 slot should I book for sunrise in December?",
+   "must": [
+    "07[:h.]?52"
+   ],
+   "must_not": [
+    "07:1[0-9]",
+    "07:2[0-9] *[–-]"
+   ],
+   "note": "December sunrise = 07:52 from trail_facts' sunrise_1st_of_month (structured field added 2026-10-22 after the model twice invented 07:15–07:30)."
+  },
+  {
+   "id": "afternoon-pr1-en",
+   "lang": "en",
+   "q": "Can I start the full PR1 at 3 PM today?",
+   "must": [
+    "19[:h.]?00"
+   ],
+   "must_not": [
+    "not possible",
+    "first slot of the day"
+   ],
+   "note": "Yes if a slot is free + the finish arithmetic (15:00 + ~4 h). Was a bare status dump, then an invented first-slot-only rule (2026-10-22)."
+  },
+  {
+   "id": "walk-back-where-en",
+   "lang": "en",
+   "source": "web-back",
+   "q": "Can I walk back to Pico do Areeiro?",
+   "must": [
+    "where are you|where you are|are you (now |still )?(at|on|between)"
+   ],
+   "must_not": [
+    "^\\s*\\*?yes\\b"
+   ],
+   "note": "Owner 2026-10-22: a real IE visitor (17:27, getting-back page chat) got 'Yes — you can walk back from Pico do Areeiro to Pedra Rija'. The answer depends on where they are (before Pedra Rija: yes; at Pico Ruivo / Achada: no, PR1 is one-way), so the bot must ask where they are."
+  },
+  {
+   "id": "walk-back-where-pt",
+   "lang": "pt",
+   "source": "web-back",
+   "q": "Posso voltar a pé para o Pico do Areeiro?",
+   "must": [
+    "onde (é que )?(está|se encontra)|em que (ponto|parte|sítio|local)"
+   ],
+   "must_not": [
+    "^\\s*\\*?sim\\b"
+   ],
+   "note": "Same as walk-back-where-en, in Portuguese (formal você)."
+  },
+  {
+   "id": "walk-back-from-ruivo-en",
+   "lang": "en",
+   "source": "web-back",
+   "q": "I'm at Pico Ruivo. Can I walk back to Pico do Areeiro?",
+   "must": [
+    "\\bno\\b|can'?t|cannot|not allowed|one-way"
+   ],
+   "must_not": [
+    "where are you|where you are"
+   ],
+   "note": "Control for walk-back-where-en: the visitor said where they are, so no question back; from Pico Ruivo PR1 is one-way."
   }
  ]
 }
