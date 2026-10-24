@@ -941,6 +941,11 @@ TOPIC_PAGES = [
 ]
 
 
+_NEG = r"(doesn.t|does not|don.t|neither|not|não|nao|nenhum|nem|ne |pas |aucun|nicht|kein|weder|nie |żaden)"
+_FIT = r"(fit|ajust|encaix|adapt|convien|tient|pass|pasuj|wygodn|mieści)"
+NOT_FIT = re.compile(rf"{_NEG}.{{0,60}}{_FIT}|{_FIT}\w*.{{0,25}}{_NEG}", re.I)
+
+
 def topic_page(text, lang):
     """kbtools.page_doc for the subject the question is about, or None."""
     import brain_tools
@@ -971,6 +976,7 @@ def answer_tools(user, text, lang, rule, meta=None):
         if page_doc:
             hint += (f"\nTHIS QUESTION IS ABOUT THE SUBJECT OF OUR PAGE(S) {', '.join(page_doc['pages'])}: their full "
                      "text is the first tool result.\n")
+    early_buses = []
     if SHIP_Q.search(text) and re.search(r"areeiro|arieiro|ruivo|\bpr ?1\b|bus|autocarro|autobus|navette", text, re.I):
         # the real Pico do Areeiro buses, so the model neither offers them as fitting (24 Oct, live: "Oui, c'est
         # possible" + the 06:00 bus) nor, without them, invents "no bus from Funchal" or line numbers
@@ -978,6 +984,7 @@ def answer_tools(user, text, lang, rule, meta=None):
             tt = brain_tools.kbtools.bus(trail="PR1").get("timetable") or []
         except Exception:
             tt = []
+        early_buses = sorted({t for line in tt if line.startswith("there") for t in re.findall(r"\b(0[5-7]:\d\d)→", line)})
         if tt:
             hint += ("\nPUBLIC BUS TO PICO DO AREEIRO (from Funchal, not from the port; as printed): " + " | ".join(tt)
                      + ". For a cruise passenger none of these fits a port day (the morning bus leaves before ships "
@@ -1059,6 +1066,16 @@ def answer_tools(user, text, lang, rule, meta=None):
     reply, trace = brain_tools.answer(hist_now, q, lang, rule, hint, search_text=text, page=page_doc)
     # 24 Oct (live, under load): a new question got the previous answer copied out of the history; ask once more
     earlier = {_norm(m.get("content") or "")[:160] for m in hist_now if m.get("role") == "assistant"}
+    if not reply.strip():  # 24 Oct (regression): an empty reply left only the status line ("How much does PR1 cost?")
+        log.warning("empty reply, asked again")
+        reply, trace = brain_tools.answer(hist_now, q, lang, rule, hint, search_text=text, page=page_doc)
+    # 24 Oct (FR, live): a cruise passenger was told to take the 06:00 bus, before ships dock; a reply that gives an
+    # early departure without saying it doesn't fit is asked again once
+    if early_buses and any(t in reply for t in early_buses) and not NOT_FIT.search(reply):
+        log.warning("cruise reply recommends an early bus, asked again: %r", reply[:120])
+        reply, trace = brain_tools.answer(hist_now, q + f"\n\n[The {', '.join(early_buses)} bus leaves before cruise ships "
+                                          "dock: never recommend it to this visitor.]", lang, rule, hint,
+                                          search_text=text, page=page_doc)
     if _norm(reply)[:160] in earlier and not any(_norm(m.get("content") or "") == _norm(text)
                                                  for m in hist_now if m.get("role") == "user"):
         log.warning("reply repeated an earlier one, asked again: %r", reply[:120])

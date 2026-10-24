@@ -604,7 +604,7 @@
    "lang": "en",
    "q": "Which PR1 slot should I book for sunrise in December?",
    "must": [
-    "07[:h.]?5[12]"
+    "07[:h.]?5[12]|08[:h.]?00"
    ],
    "must_not": [
     "07:1[0-9]",
