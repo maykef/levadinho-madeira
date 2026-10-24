@@ -593,31 +593,31 @@ def weather_now(trail: str | None = None, region: str | None = None) -> dict:
 FC_WORDS = {  # forecast_tomorrow's text, per language (owner, 2026-10-24: the tool says it, the model quotes it)
     "en": {"head": "Cloud forecast for {spot}, next {h} hours", "days": ["today", "tomorrow", "the day after"],
            "parts": {"morning": "morning (06–10)", "day": "daytime (10–17)"}, "cloud": "{lo}–{hi}% cloud",
-           "agree": "the models agree", "disagree": "the models disagree", "next": "Next forecast at 20:07 {when}.",
-           "when": ["tonight", "tomorrow"], "none": "No cloud forecast for {spot} for the next hours."},
+           "agree": "the models agree", "disagree": "the models disagree", "next": "Next forecast at {t} {when}.",
+           "when": ["today", "tomorrow"], "none": "No cloud forecast for {spot} for the next hours."},
     "pt": {"head": "Previsão de nuvens para {spot}, próximas {h} horas", "days": ["hoje", "amanhã", "depois de amanhã"],
            "parts": {"morning": "manhã (06–10)", "day": "dia (10–17)"}, "cloud": "{lo}–{hi}% de nuvens",
-           "agree": "os modelos concordam", "disagree": "os modelos divergem", "next": "Próxima previsão às 20:07 {when}.",
-           "when": ["desta noite", "de amanhã"], "none": "Sem previsão de nuvens para {spot} nas próximas horas."},
+           "agree": "os modelos concordam", "disagree": "os modelos divergem", "next": "Próxima previsão às {t} de {when}.",
+           "when": ["hoje", "amanhã"], "none": "Sem previsão de nuvens para {spot} nas próximas horas."},
     "fr": {"head": "Prévision de nuages pour {spot}, {h} prochaines heures", "days": ["aujourd'hui", "demain", "après-demain"],
            "parts": {"morning": "matin (06–10)", "day": "journée (10–17)"}, "cloud": "{lo}–{hi} % de nuages",
-           "agree": "les modèles concordent", "disagree": "les modèles divergent", "next": "Prochaine prévision à 20:07 {when}.",
-           "when": ["ce soir", "demain"], "none": "Pas de prévision de nuages pour {spot} pour les prochaines heures."},
+           "agree": "les modèles concordent", "disagree": "les modèles divergent", "next": "Prochaine prévision à {t} {when}.",
+           "when": ["aujourd'hui", "demain"], "none": "Pas de prévision de nuages pour {spot} pour les prochaines heures."},
     "de": {"head": "Wolkenprognose für {spot}, nächste {h} Stunden", "days": ["heute", "morgen", "übermorgen"],
            "parts": {"morning": "Morgen (06–10)", "day": "Tag (10–17)"}, "cloud": "{lo}–{hi} % Wolken",
-           "agree": "die Modelle sind sich einig", "disagree": "die Modelle sind uneins", "next": "Nächste Prognose {when} um 20:07.",
-           "when": ["heute Abend", "morgen Abend"], "none": "Keine Wolkenprognose für {spot} für die nächsten Stunden."},
+           "agree": "die Modelle sind sich einig", "disagree": "die Modelle sind uneins", "next": "Nächste Prognose {when} um {t}.",
+           "when": ["heute", "morgen"], "none": "Keine Wolkenprognose für {spot} für die nächsten Stunden."},
     "pl": {"head": "Prognoza zachmurzenia dla {spot}, najbliższe {h} godz.", "days": ["dziś", "jutro", "pojutrze"],
            "parts": {"morning": "rano (06–10)", "day": "w dzień (10–17)"}, "cloud": "{lo}–{hi}% chmur",
-           "agree": "modele są zgodne", "disagree": "modele się różnią", "next": "Następna prognoza o 20:07 {when}.",
-           "when": ["dziś wieczorem", "jutro"], "none": "Brak prognozy zachmurzenia dla {spot} na najbliższe godziny."},
+           "agree": "modele są zgodne", "disagree": "modele się różnią", "next": "Następna prognoza {when} o {t}.",
+           "when": ["dziś", "jutro"], "none": "Brak prognozy zachmurzenia dla {spot} na najbliższe godziny."},
 }
 
 
 def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: str = "tomorrow", lang: str = "en") -> dict:
     """Cloud forecast for a summit spot (Pico do Areeiro, Achada do Teixeira, Rabaçal) for the next hours, from five
     weather models, as ready text: morning (06–10) and daytime (10–17) cloud cover per day and whether the models agree,
-    plus when the next forecast is made (every night at 20:07). Quote the text as it is. Uncalibrated."""
+    plus when the next forecast is made (three a day: 06:07, 12:07, 20:07). Quote the text as it is. Uncalibrated."""
     if trail:
         c = _need_trail(trail)
         reg = _q("SELECT region FROM kb.trail WHERE code = %s", (c,))[0]["region"]
@@ -634,7 +634,8 @@ def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: st
     w = FC_WORDS[_lang(lang)]
     name = FORECAST_NAMES.get(spot, spot)
     now = datetime.datetime.now(MADEIRA).replace(tzinfo=None)
-    nxt = w["next"].format(when=w["when"][0 if (now.hour, now.minute) < (20, 7) else 1])
+    t = next((f"{hh:02d}:07" for hh in (6, 12, 20) if (now.hour, now.minute) < (hh, 7)), None)  # runs at 06:07, 12:07, 20:07
+    nxt = w["next"].format(t=t or "06:07", when=w["when"][0 if t else 1])
     rows = _q("SELECT * FROM kb.forecast WHERE spot = %s ORDER BY run_date DESC LIMIT 1", (spot,))
     if not rows:
         return {"forecast": w["none"].format(spot=name), "next_forecast": nxt, "note": "Quote both lines as they are."}

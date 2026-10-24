@@ -509,9 +509,18 @@ def load_notices(cur):
 
 def load_forecast(cur):
     rows = []
-    for f in sorted(glob.glob(os.path.join(ROOT, "reports/camtest/forecasts/*.json"))):
+    files = sorted(glob.glob(os.path.join(ROOT, "reports/camtest/forecasts/20*.json")))
+    # latest.json = the 06:07 / 12:07 run (owner, 2026-10-24: three a day); it stands in for its day's run when it is the
+    # newer of the two (the dated file is the 20:07 run).
+    latest = os.path.join(ROOT, "reports/camtest/forecasts/latest.json")
+    if os.path.exists(latest):
+        day = json.load(open(latest, encoding="utf-8")).get("saved_utc", "")[:10]
+        dated = os.path.join(ROOT, f"reports/camtest/forecasts/{day}.json")
+        if not os.path.exists(dated) or os.path.getmtime(latest) > os.path.getmtime(dated):
+            files = [f for f in files if f != dated] + [latest]
+    for f in files:
         d = json.load(open(f, encoding="utf-8"))
-        run = os.path.basename(f)[:10]
+        run = d.get("saved_utc", "")[:10] if f == latest else os.path.basename(f)[:10]
         for spot, s in d["spots"].items():
             rows.append((spot, run, s.get("latitude"), s.get("longitude"), s.get("elevation"),
                          Jsonb({"units": s.get("hourly_units"), "hourly": s["hourly"], "saved_utc": d.get("saved_utc"),
