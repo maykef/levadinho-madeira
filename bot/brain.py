@@ -894,7 +894,7 @@ WALKBACK_ASK = {
 }
 WALKBACK_Q = re.compile(
     r"walk(ing)? back|hike back|turn(ing)? (a)?round|go(ing)? back on foot|head(ing)? back on foot|"
-    r"(voltar|regressar|ir)( para tr[áa]s)? a p[ée]|voltar para tr[áa]s|"
+    r"(voltar|regressar)( para tr[áa]s)? a p[ée]|ir para tr[áa]s a p[ée]|voltar para tr[áa]s|"
     r"(revenir|retourner|rentrer) à pied|faire demi-tour|rebrousser|"
     r"zur[üu]ck(gehen|laufen|wandern)|umkehren|zur[üu]ck zu fu[ßs]|"
     r"(wr[óo]ci[ćc]|wraca[ćc]) pieszo|pieszo z powrotem|zawr[óo]ci[ćc]", re.I)
@@ -915,8 +915,8 @@ def walkback_question(text, hist, lang, source):
     """A where-are-you question when the visitor asks about walking back / turning round and hasn't said where they
     are (in this message, or by answering this question just before); else None. PR1 places or a PR1-related page →
     the PR1 options; otherwise the plain question."""
-    if not WALKBACK_Q.search(text) or WHERE_SAID.search(text):
-        return None
+    if not WALKBACK_Q.search(text) or WHERE_SAID.search(text) or SHIP_Q.search(text):
+        return None  # 24 Oct: "Posso ir a pé do navio até ao teleférico?" got "where are you on the trail?"
     if lang in AT_PLACE and AT_PLACE[lang].search(text):
         return None
     if len({m.group(0).lower()[:5] for m in PR1_PLACES.finditer(text)}) >= 2:
@@ -926,6 +926,32 @@ def walkback_question(text, hist, lang, source):
         return None  # they are answering it: never ask twice
     pr1 = bool(PR1_PLACES.search(text)) or (source or "").removesuffix("-qr") in PR1_SOURCES
     return (WALKBACK_ASK_PR1 if pr1 else WALKBACK_ASK).get(lang, (WALKBACK_ASK_PR1 if pr1 else WALKBACK_ASK)["en"])
+
+
+SHIP_Q = re.compile(r"\b(cruise\w*|ships?|navios?|cruzeiros?|croisi[eè]res?|bateaux?|paquebots?|kreuzfahrt\w*|schiff\w*|statk\w*|"
+                    r"wycieczkow\w*|ashore|em terra|à terre|landgang|na l[ąa]dzie)\b", re.I)
+# A question about one of these subjects gets that page's text first even when the visitor came from elsewhere
+# (24 Oct live test, from the homepage: invented walking times from the port, "no cable car price", PR4 "next to the
+# port", "you need a ticket to watch the sunrise")
+TOPIC_PAGES = [
+    (SHIP_Q, ("port", "1day")),
+    (re.compile(r"sunrise|nascer do sol|lever du soleil|sonnenaufgang|wsch[óo]d s[łl]o[ńn]ca", re.I), ("sunrise",)),
+    (re.compile(r"cable car|tel[ée]f[ée]rico|t[ée]l[ée]ph[ée]rique|seilbahn|kolej\w* linow\w*|\bmonte\b|"
+                r"toboggan|carros? de cesto|carreiros", re.I), ("monte",)),
+]
+
+
+def topic_page(text, lang):
+    """kbtools.page_doc for the subject the question is about, or None."""
+    import brain_tools
+    for rx, keys in TOPIC_PAGES:
+        if rx.search(text):
+            docs = [brain_tools.kbtools.page_doc("guide:" + k, lang) for k in keys]
+            docs = [d for d in docs if d["sections"]]
+            if docs:
+                return {"page": docs[0]["page"], "sections": [s for d in docs for s in d["sections"]],
+                        "pages": [d["page"] for d in docs]}
+    return None
 
 
 DAY_WORDS = (r"\b(today|tomorrow|tonight|hoje|amanh[ãa]|aujourd|demain|heute|morgen|dzi[śs]|jutro|\d{1,2}\s?(h|:\d\d|uhr))")
@@ -940,14 +966,27 @@ def answer_tools(user, text, lang, rule, meta=None):
             "assume it is that page's subject.\n") if page else ""
     gkey = SOURCE_GUIDE.get(source.removesuffix("-qr"))
     page_doc = brain_tools.kbtools.page_doc("guide:" + gkey, lang) if gkey else None
+    if not (page_doc and page_doc["sections"]):
+        page_doc = topic_page(text, lang)
+        if page_doc:
+            hint += (f"\nTHIS QUESTION IS ABOUT THE SUBJECT OF OUR PAGE(S) {', '.join(page_doc['pages'])}: their full "
+                     "text is the first tool result.\n")
+    if SHIP_Q.search(text):
+        hint += ("\nTHE VISITOR IS ON A CRUISE SHIP: answer whether it fits their time ashore. Never offer a bus whose "
+                 "way back runs after a ship's usual all-aboard (late afternoon), or that leaves before ships dock (about "
+                 "07:00–08:00): check the bus tool's times against a port day and, when none fits, say there is no "
+                 "bus that fits a port day. The page's walking routes and the taxi with an agreed return are the "
+                 "options.\n")
     if page_doc and page_doc["sections"]:  # the page's own answer first (owner, 2026-10-24)
-        hint += ("\nTHE VISITOR IS READING THAT PAGE NOW: its full text is the first tool result. When the page answers "
+        hint += ("\nTHE PAGE'S TEXT IS THE FIRST TOOL RESULT. When the page answers "
                  "the question, answer from the page, in the page's words and numbers: it outranks every other tool "
                  "(a walking route on the page beats a taxi from transport; the page's schedule beats your own). Call "
                  "other tools only for what the page doesn't cover. Never contradict the page. A plan or schedule on the "
                  "page is for whatever day the visitor goes: give it as the page has it, and don't adapt it to "
                  "today's weekday or date unless the visitor says they are going today. Never add a time, price, number "
-                 "or company that neither the page nor a tool states.\n")
+                 "or company that neither the page nor a tool states. When the page does NOT answer the question (café "
+                 "hours, a bus, a trail's status…), call the other tools before saying you don't know. Mind the "
+                 "question's wording: \"Can I … without X?\" is answered \"Yes\" when X isn't needed.\n")
     m = re.fullmatch(r"web-pr(\d+)(?:-(\d+))?(?:-qr)?", source)
     page_trail = f"PR{m.group(1)}" + (f".{m.group(2)}" if m.group(2) else "") if m else None
     if page_trail not in KB["trails"]:
@@ -957,9 +996,8 @@ def answer_tools(user, text, lang, rule, meta=None):
                  f"doesn't name a trail or place, it is about {page_trail} (\"nearby\" = near {page_trail}).\n")
     now = datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira"))
     tmr = now + datetime.timedelta(days=1)
-    if gkey not in ("1day", "2day", "port"):  # a day plan is for the visitor's day, not today (24 Oct: "on a Saturday…")
-        hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}; tomorrow is {tmr:%A %d %B}. Use it only to work out today, tomorrow and opening hours; "
-             "never write a date next to a trail status. For timetables, don't assume today unless the visitor says so.\n")
+    hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}; tomorrow is {tmr:%A %d %B}. Use it only to work out today, tomorrow and opening hours; "
+             "never write a date next to a trail status. For timetables and day plans, don't assume today unless the visitor says so.\n")
     named = trails_in(text)
     if not named and page_trail and not re.search(r"funchal|monte|cruise|navio|ship|schiff|statek|lido", text, re.I):
         named = [page_trail]
@@ -1005,6 +1043,8 @@ def answer_tools(user, text, lang, rule, meta=None):
     reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text,
                                       page=page_doc)
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
+    if reply.strip().lower().startswith(text.strip().lower()) and len(reply.strip()) > len(text.strip()) + 20:
+        reply = reply.strip()[len(text.strip()):].strip()  # 24 Oct (PL): the reply began by repeating the question
     reply, changes = guard.check(reply, text, lang, named, (store.get_user(user) or {}).get("base") or "")
     if bus_now_pending(user, trace, text):  # "bus now": the location request follows the timetable
         if meta is not None:

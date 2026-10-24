@@ -143,13 +143,33 @@ HOW TO ANSWER
 """
 
 
-def _call(messages, max_tokens=900, use_tools=True, choice="auto"):
+def looping(reply):
+    """A reply that says the same sentence three times or more (a degenerate generation)."""
+    sents = [x.strip().lower() for x in re.split(r"(?<=[.!?])\s+|\n+", reply) if len(x.strip()) >= 20]
+    return any(sents.count(x) >= 3 for x in set(sents))
+
+
+def unloop(messages, reply):
+    """A looping reply (24 Oct, PL, live: the visitor's question repeated over and over) is asked for once more,
+    with a repetition penalty."""
+    if not looping(reply):
+        return reply
+    log.warning("looping reply, asked again: %r", reply[:200])
+    m = _call(messages + [{"role": "assistant", "content": reply},
+                          {"role": "user", "content": "(That reply repeated itself. Answer the question once, in 1–5 "
+                                                      "short lines, from the tool results above.)"}],
+              use_tools=False, extra={"repetition_penalty": 1.15})
+    return (m.get("content") or "").strip()
+
+
+def _call(messages, max_tokens=900, use_tools=True, choice="auto", extra=None):
     import brain  # llm settings and the wake-on-demand check live there
     if brain.llm_control.ON_DEMAND and not brain.llm_control.is_up():
         raise brain.LLMDown()
     body = {"model": brain.LLM_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0, "chat_template_kwargs": {"enable_thinking": False}}
     if use_tools:
         body.update(tools=TOOLS, tool_choice=choice)
+    body.update(extra or {})
     req = urllib.request.Request(brain.LLM_URL, data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
     try:
         with urllib.request.urlopen(req, timeout=120) as r:
@@ -213,10 +233,12 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                       "content": json.dumps(found, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
     for n in range(MAX_ROUNDS):
         # round 1 must call a tool: with "auto" the model answers from memory and invents facts (tested 2026-10-07)
-        m = _call(messages, choice="required" if n == 0 and not page else "auto")
+        # with the page given, round 1 still calls a tool: when the page doesn't answer (the café's hours on the
+        # sunrise page, 24 Oct) the model otherwise said "I don't know" without looking
+        m = _call(messages, choice="required" if n == 0 else "auto")
         calls = m.get("tool_calls") or []
         if not calls:
-            return fix_trail_names((m.get("content") or "").strip()), trace
+            return fix_trail_names(unloop(messages, (m.get("content") or "").strip())), trace
         messages.append({"role": "assistant", "content": m.get("content") or "", "tool_calls": calls})
         for c in calls:
             name = c["function"]["name"]
@@ -241,4 +263,4 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
     # out of rounds: one last call without tools so the model has to answer from what it has
     messages.append({"role": "user", "content": "(Answer now from the tool results above; say you don't know what they don't cover.)"})
     m = _call(messages, use_tools=False)
-    return fix_trail_names(re.sub(r"<tool_call>.*", "", m.get("content") or "", flags=re.S).strip()), trace
+    return fix_trail_names(unloop(messages, re.sub(r"<tool_call>.*", "", m.get("content") or "", flags=re.S).strip())), trace
