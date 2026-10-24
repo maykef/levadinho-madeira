@@ -1005,7 +1005,9 @@ def answer_tools(user, text, lang, rule, meta=None):
                  "today's weekday or date unless the visitor says they are going today. Never add a time, price, number "
                  "or company that neither the page nor a tool states. When the page does NOT answer the question (café "
                  "hours, a bus, a trail's status…), call the other tools before saying you don't know. Mind the "
-                 "question's wording: \"Can I … without X?\" is answered \"Yes\" when X isn't needed.\n")
+                 "question's wording: \"Can I … without X?\" is answered \"Yes\" when X isn't needed. Sunrise time or which "
+                 "slot to book: use TODAY'S SUNRISE (today and tomorrow, with the first slot after sunrise), never "
+                 "the monthly table, unless the visitor names another month; give the slot time itself.\n")
     m = re.fullmatch(r"web-pr(\d+)(?:-(\d+))?(?:-qr)?", source)
     page_trail = f"PR{m.group(1)}" + (f".{m.group(2)}" if m.group(2) else "") if m else None
     if page_trail not in KB["trails"]:

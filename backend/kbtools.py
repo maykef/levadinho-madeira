@@ -768,15 +768,12 @@ def page_doc(subject: str, lang: str = "en") -> dict:
                          "text": "; ".join(f"{k} ({v['weekday']}): sunrise {v['sunrise']}, from the summit with a "
                                            f"clear east horizon {v['summit_clear_horizon']}; the first SIMplifica slot "
                                            f"after sunrise is {v['first_slot_after_sunrise']}" for k, v in sr.items())
-                                 + ". Any question about sunrise time or which slot to book uses THESE times, never the "
-                                   "monthly table, unless the visitor names another month. For another month or part "
-                                   "of a month (computed the same way): "
+                                 + ". For another month or part of a month (computed the same way): "
                                  + "; ".join(f"{datetime.date(2026, m, 1):%B} 1st {areeiro_sunrise(datetime.date(_y(m), m, 1)):%H:%M}, "
                                              f"15th {areeiro_sunrise(datetime.date(_y(m), m, 15)):%H:%M}" for m in range(1, 13))
                                  + ". "
-                                   "To watch the sunrise from the viewpoint, book the first SIMplifica slot that starts "
-                                   "after sunrise — give exactly the first slot named above, nothing earlier; an earlier "
-                                   "slot means walking in the dark."})
+                                   "To watch the sunrise from the viewpoint before you start, book the first SIMplifica "
+                                   "slot after sunrise (above); an earlier slot means walking the ridge in the dark."})
     return {"page": rows[0]["url"] if rows else None, "sections": sections}
 
 
