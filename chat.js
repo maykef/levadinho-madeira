@@ -4,7 +4,8 @@
    Opening message = the page's own quick-answers card (#answers), or on getting-back the plan table and taxi ranks,
    typed out. Follow-ups go to the bot (POST /webchat): same brain, same privacy notice (Accept first) as WhatsApp.
    Question pages with neither (owner, 2026-10-22: pr1-one-way, levadas-by-bus, weather, sunrise, free walks, booking,
-   cruise port, one/two days) open on the page's lead paragraph (p.sub), with its FAQ questions as the chips.
+   cruise port, one/two days) open on the page's lead paragraph (p.sub), with its FAQ questions as the chips; a tapped
+   chip there gets the page's own answer, word for word (the section under that heading), not the model (owner, 2026-10-24).
    Counts (2026-10-11): chat-shown / chat-off (bot asleep or down) / chat-none (no opening on this page, since 2026-10-24) per page view, chat-ask-chip / chat-ask-typed (first question),
    chat-accept / chat-decline, chat-answered, chat-error, chat-down, chat-wa, chat-location (tapped Share my location), sent through /engage.js to the events
    site (never the text; #skipgc devices send nothing). */
@@ -135,20 +136,51 @@
   // a question page: its lead paragraph answers the title; its FAQ questions (verbatim visible text) become the chips,
   // skipping the first, which restates the title the lead has just answered
   function guideRows() {
-    var sub = document.querySelector("p.sub"), h1 = txt(document.querySelector("h1")).toLowerCase(), qs = [];
+    var sub = document.querySelector("p.sub"), h1 = txt(document.querySelector("h1")).toLowerCase(), qs = [], faq = {};
     if (!txt(sub)) return null;
     document.querySelectorAll('script[type="application/ld+json"]').forEach(function (s) {
       try {
         [].concat(JSON.parse(s.textContent)).forEach(function (d) {
           [].concat(d["@graph"] || d).forEach(function (x) {
             if (x && x["@type"] === "FAQPage") [].concat(x.mainEntity || []).forEach(function (q) {
-              if (q && q.name && q.name.trim().toLowerCase() !== h1) qs.push(q.name.trim());
+              if (q && q.name && q.name.trim().toLowerCase() !== h1) {
+                qs.push(q.name.trim());
+                faq[q.name.trim()] = q.acceptedAnswer && q.acceptedAnswer.text ? esc(q.acceptedAnswer.text) : "";
+              }
             });
           });
         });
       } catch (e) {}
     });
-    return { rows: [["", esc(txt(sub))]], kind: "guide", chips: qs.slice(1, 4) };
+    return { rows: [["", esc(txt(sub))]], kind: "guide", chips: qs.slice(1, 4), faq: faq };
+  }
+
+  // the page's own answer to one of its FAQ questions: the visible section under the heading with that exact text
+  // (paragraphs, lists, a table as lines, the first picture), else the FAQ schema's answer (the same words)
+  function pageAnswer(q, fallback) {
+    var hs = document.querySelectorAll("h2, h3"), h = null, key = q.replace(/\s+/g, " ").trim().toLowerCase();
+    for (var i = 0; i < hs.length && !h; i++) if (txt(hs[i]).toLowerCase() === key) h = hs[i];
+    if (!h) return fallback;
+    var parts = [], el = h.nextElementSibling;
+    for (; el && !/^H[1-3]$/.test(el.tagName) && parts.length < 8; el = el.nextElementSibling) {
+      if (el.tagName === "P" && txt(el)) parts.push(clean(el.innerHTML));
+      else if (el.tagName === "UL" || el.tagName === "OL")
+        parts.push([].map.call(el.querySelectorAll("li"), function (li) { return "• " + clean(li.innerHTML); }).join("<br>"));
+      else {
+        var tb = el.tagName === "TABLE" ? el : el.querySelector("table"), im = el.tagName === "IMG" ? el : el.querySelector("img");
+        if (tb) {
+          var lines = [];
+          tb.querySelectorAll("tbody tr").forEach(function (tr) {
+            var c = [].map.call(tr.querySelectorAll("th,td"), function (td) { return esc(txt(td)); }).filter(Boolean);
+            if (c.length) lines.push("<b>" + c[0] + "</b> " + c.slice(1).join(" · "));
+          });
+          if (lines.length) parts.push(lines.join("<br>"));
+        } else if (im && im.getAttribute("src")) {
+          parts.push('<img alt="" src="' + esc(im.currentSrc || im.getAttribute("src")) + '">');
+        }
+      }
+    }
+    return parts.length ? parts.join("<br><br>") : fallback;
   }
 
   // CLOSED on today's list → [status row, open nearby trails row]; otherwise null (status.json, same as the card)
@@ -210,7 +242,8 @@
       chipsEl.innerHTML = "";
       var list = open.chips || (CHIPS[open.kind] ? CHIPS[open.kind][LANG] || CHIPS[open.kind].en : []);
       list.forEach(function (s) {
-        var b = document.createElement("button"); b.type = "button"; b.textContent = s; b.onclick = function () { ask(s, "chip"); }; chipsEl.appendChild(b);
+        var b = document.createElement("button"); b.type = "button"; b.textContent = s;
+        b.onclick = function () { open.faq && open.faq[s] !== undefined ? faqAnswer(s) : ask(s, "chip"); }; chipsEl.appendChild(b);
       });
     }
     async function show(msgs) {
@@ -271,6 +304,19 @@
       } catch (e) { done(t); t = null; ev("error"); add("lvc-msg lvc-bot", esc(U.err)); }
       if (t) { done(t); ev("error"); add("lvc-msg lvc-bot", esc(U.slow)); }
       busy = false;
+    }
+    async function faqAnswer(q) {  // a guide page's own FAQ: the page's words, no model
+      if (busy) return; busy = true;
+      ev("ask-faq");
+      open.chips = open.chips.filter(function (c) { return c !== q; });
+      chipsEl.innerHTML = "";
+      add("lvc-msg lvc-me", esc(q));
+      var t = typing(); await wait(600); done(t);
+      var el = add("lvc-msg lvc-bot", ""), html = pageAnswer(q, open.faq[q]);
+      if (/<img/.test(html)) { el.innerHTML = html; el.querySelectorAll("img").forEach(function (i) { i.onload = scroll; }); scroll(); }
+      else await typeOut(el, html);
+      busy = false;
+      chips();
     }
     function ask(text, how) {
       text = (text || "").trim();
