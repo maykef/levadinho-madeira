@@ -140,7 +140,8 @@ def check(reply, user_text, lang, trails, context=""):
     # departures (10 Oct: São Lourenço weekdays dropped) or gives a time we don't have, that direction's printed
     # timetable replaces the model's time lines. The other direction is never added unasked.
     legs = []
-    for code in trails[:1]:
+    # never for a cruise passenger: the printed timetable is the 06:00 bus, before ships dock (24 Oct, live)
+    for code in (trails[:1] if not answers.CRUISE_RE.search(full) else []):
         for leg in ("there", "back"):
             tt = answers._bus(code, leg)
             if tt:

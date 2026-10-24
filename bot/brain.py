@@ -761,7 +761,7 @@ def bus_footer(trace, text, reply, lang, stop_link=True):
     import brain_tools
     kb = brain_tools.kbtools
     calls = [t for t in trace if t["tool"] == "bus" and t.get("trips") and not t.get("error")]
-    if not calls:
+    if not calls or SHIP_Q.search(text):  # a cruise passenger: no bus offer (none fits a port day)
         return ""
     # 24 Oct: "no public bus reaches Rabaçal" was followed by "tell me where you'll catch the bus" and the taxi rank
     # of the bus's starting stop (Caniçal): when the reply says there is no bus, only the trail's own panel taxis
@@ -971,6 +971,18 @@ def answer_tools(user, text, lang, rule, meta=None):
         if page_doc:
             hint += (f"\nTHIS QUESTION IS ABOUT THE SUBJECT OF OUR PAGE(S) {', '.join(page_doc['pages'])}: their full "
                      "text is the first tool result.\n")
+    if SHIP_Q.search(text) and re.search(r"areeiro|arieiro|ruivo|\bpr ?1\b|bus|autocarro|autobus|navette", text, re.I):
+        # the real Pico do Areeiro buses, so the model neither offers them as fitting (24 Oct, live: "Oui, c'est
+        # possible" + the 06:00 bus) nor, without them, invents "no bus from Funchal" or line numbers
+        try:
+            tt = brain_tools.kbtools.bus(trail="PR1").get("timetable") or []
+        except Exception:
+            tt = []
+        if tt:
+            hint += ("\nPUBLIC BUS TO PICO DO AREEIRO (from Funchal, not from the port; as printed): " + " | ".join(tt)
+                     + ". For a cruise passenger none of these fits a port day (the morning bus leaves before ships "
+                       "dock; the afternoon one leaves the last way back for the evening): say there is a bus from "
+                       "Funchal but it doesn't fit a port day, then the options that do. Name no other bus line.\n")
     if SHIP_Q.search(text):
         hint += ("\nTHE VISITOR IS ON A CRUISE SHIP: answer whether it fits their time ashore. Never offer a bus whose "
                  "way back runs after a ship's usual all-aboard (late afternoon), or that leaves before ships dock (about "
