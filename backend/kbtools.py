@@ -154,7 +154,7 @@ def areeiro_sunrise(day):
     lat = math.radians(32.7355)
     ha = math.degrees(math.acos(math.cos(math.radians(90.833)) / (math.cos(lat) * math.cos(decl))
                                 - math.tan(lat) * math.tan(decl)))
-    utc = datetime.datetime(day.year, day.month, day.day, tzinfo=datetime.timezone.utc) \
+    utc = datetime.datetime(day.year, day.month, day.day, tzinfo=datetime.UTC) \
         + datetime.timedelta(minutes=720 - 4 * (-16.9283 + ha) - eq)
     return utc.astimezone(MADEIRA)
 

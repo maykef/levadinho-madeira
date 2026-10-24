@@ -78,7 +78,7 @@ def _sentences(text):
     """Split keeping line breaks: [(sentence, separator)]. A full stop that ends an abbreviation ("z. B.", "e.g.",
     "p. ex.", "np.") doesn't end the sentence (24 Oct: "(z. B. Beyond Madeira…)" was cut after "z. B." and the
     company half dropped, leaving "(z. B." in the reply)."""
-    out, pos, start = [], 0, 0
+    out, start = [], 0
     for m in SENT.finditer(text):
         if m.group(0) != "\n" and "\n" not in m.group(0) and ABBREV.search(text[start:m.start()]):
             continue
