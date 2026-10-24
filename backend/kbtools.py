@@ -897,6 +897,37 @@ PLAN_TEXT = {  # day_plan's text, per language (owner, 2026-10-24); {…} filled
         "pl": ["Sprawdź rozkład autobusów na przystanku Portela.",
                "W przeciwnym razie zadzwoń do Táxis Machico (+351 291 962 189 / +351 291 962 480): taksówka w dół do Machico kosztuje około 15 €, potem autobus z Machico do Funchal: {mach}.",
                "Taksówka prosto do Funchal kosztuje około 50 €.", "Ceny są orientacyjne."]},
+    "pr11_pr1": {
+        "en": ["Take the {dep} bus from Funchal, Almirante Reis bay 7, to Ribeiro Frio (line {line}, arriving {arr}; €2.65 on the bus).",
+               "Walk PR11 Balcões there and back (3 km, about 1 h 30).",
+               "A taxi booked in advance (there is no taxi rank at Ribeiro Frio) takes you from Ribeiro Frio up to Pico do Areeiro.",
+               "Walk PR1 one way to Pico Ruivo (6.1 km, about 3 h), then down PR1.2 to Achada do Teixeira (about 1 h).",
+               "The same taxi picks you up at Achada do Teixeira and takes you back to Funchal.",
+               "The whole taxi day is about €150 by car (up to 4 people) or €180 by van (5–10). Book both trails on SIMplifica, the PR1 slot late enough to finish PR11 first. Prices are indicative."],
+        "pt": ["Apanhe o autocarro das {dep} no Funchal, Almirante Reis, doca 7, para o Ribeiro Frio (linha {line}, chega às {arr}; 2,65 € pagos no autocarro).",
+               "Faça a PR11 Vereda dos Balcões, ida e volta (3 km, cerca de 1 h 30).",
+               "Um táxi reservado com antecedência (não há praça de táxis no Ribeiro Frio) leva-o do Ribeiro Frio ao Pico do Areeiro.",
+               "Faça o PR1 num só sentido até ao Pico Ruivo (6,1 km, cerca de 3 h) e desça pelo PR1.2 até à Achada do Teixeira (cerca de 1 h).",
+               "O mesmo táxi vai buscá-lo à Achada do Teixeira e leva-o de volta ao Funchal.",
+               "O dia de táxi custa cerca de 150 € de carro (até 4 pessoas) ou 180 € de carrinha (5–10). Reserve os dois percursos no SIMplifica, com o horário do PR1 tarde o suficiente para acabar primeiro a PR11. Os preços são indicativos."],
+        "fr": ["Prenez le bus de {dep} à Funchal, Almirante Reis quai 7, pour Ribeiro Frio (ligne {line}, arrivée {arr} ; 2,65 € dans le bus).",
+               "Faites le PR11 Balcões aller-retour (3 km, environ 1 h 30).",
+               "Un taxi réservé à l'avance (il n'y a pas de station de taxis à Ribeiro Frio) vous monte de Ribeiro Frio au Pico do Areeiro.",
+               "Faites le PR1 en sens unique jusqu'au Pico Ruivo (6,1 km, environ 3 h), puis descendez par le PR1.2 jusqu'à Achada do Teixeira (environ 1 h).",
+               "Le même taxi vient vous chercher à Achada do Teixeira et vous ramène à Funchal.",
+               "La journée de taxi coûte environ 150 € en voiture (jusqu'à 4 personnes) ou 180 € en van (5–10). Réservez les deux sentiers sur SIMplifica, le créneau du PR1 assez tard pour finir d'abord le PR11. Les prix sont indicatifs."],
+        "de": ["Nehmen Sie den Bus um {dep} in Funchal, Almirante Reis Bucht 7, nach Ribeiro Frio (Linie {line}, Ankunft {arr}; 2,65 € im Bus).",
+               "Gehen Sie PR11 Balcões hin und zurück (3 km, etwa 1 h 30).",
+               "Ein vorab gebuchtes Taxi (in Ribeiro Frio gibt es keinen Taxistand) bringt Sie von Ribeiro Frio hinauf zum Pico do Areeiro.",
+               "Gehen Sie PR1 in einer Richtung zum Pico Ruivo (6,1 km, etwa 3 h) und dann über PR1.2 hinunter nach Achada do Teixeira (etwa 1 h).",
+               "Dasselbe Taxi holt Sie in Achada do Teixeira ab und bringt Sie zurück nach Funchal.",
+               "Der ganze Taxitag kostet etwa 150 € mit dem Auto (bis 4 Personen) oder 180 € mit dem Van (5–10). Buchen Sie beide Wege auf SIMplifica, den PR1-Slot so spät, dass Sie PR11 vorher schaffen. Die Preise sind Richtwerte."],
+        "pl": ["Jedź autobusem o {dep} z Funchal, Almirante Reis stanowisko 7, do Ribeiro Frio (linia {line}, przyjazd {arr}; 2,65 € w autobusie).",
+               "Przejdź PR11 Balcões tam i z powrotem (3 km, ok. 1 h 30).",
+               "Taksówka zamówiona wcześniej (w Ribeiro Frio nie ma postoju taksówek) zawiezie cię z Ribeiro Frio na Pico do Areeiro.",
+               "Przejdź PR1 w jedną stronę na Pico Ruivo (6,1 km, ok. 3 h), potem zejdź PR1.2 do Achada do Teixeira (ok. 1 h).",
+               "Ta sama taksówka odbierze cię z Achada do Teixeira i odwiezie do Funchal.",
+               "Cały dzień z taksówką kosztuje ok. 150 € samochodem (do 4 osób) lub 180 € vanem (5–10). Zarezerwuj oba szlaki w SIMplifica, okno na PR1 na tyle późno, żeby najpierw skończyć PR11. Ceny są orientacyjne."]},
     "pr11_pr10": {
         "en": ["Take the {dep} bus from Funchal, Almirante Reis bay 7, to Ribeiro Frio (line {line}, arriving {arr}; €2.65 on the bus).",
                "Walk PR11 Balcões there and back (3 km, about 1 h 30) and have a hot drink in Ribeiro Frio on your way back.",
@@ -929,7 +960,8 @@ PLAN_TEXT = {  # day_plan's text, per language (owner, 2026-10-24); {…} filled
 def day_plan(plan: str, day: str | None = None, lang: str = "en") -> dict:
     """A ready-made answer to quote word for word, with that day's bus times filled in (owner's plans).
     plan: portela_back = getting back to Funchal from Portela (end of PR10 Levada do Furado, start of PR5);
-    pr11_pr10 = Balcões (PR11) and Levada do Furado (PR10) on the same day without a car.
+    pr11_pr10 = Balcões (PR11) and Levada do Furado (PR10) on the same day without a car;
+    pr11_pr1 = Balcões (PR11) and PR1 (Areeiro → Pico Ruivo → Achada do Teixeira) on the same day without a car.
     day: the day the visitor means (today, tomorrow, a weekday, sat, sun_hol…); today if not given."""
     if plan not in PLAN_TEXT:
         return {"error": f"plan must be one of {sorted(PLAN_TEXT)}"}
@@ -937,13 +969,12 @@ def day_plan(plan: str, day: str | None = None, lang: str = "en") -> dict:
     lines = PLAN_TEXT[plan][_lang(lang)]
     mach = sorted({t["dep"] for t in bus(from_stop="Machico", to_stop="Funchal", day=day)["trips"] if t["dep"] >= "13:00"})
     fill = {"mach": ", ".join(mach) or "—"}
-    if plan == "pr11_pr10":
+    if plan in ("pr11_pr10", "pr11_pr1"):
         up = sorted(bus(from_stop="Funchal", to_stop="Ribeiro Frio", day=day)["trips"], key=lambda t: t["dep"])
         if not up:
             return {"error": "no bus from Funchal to Ribeiro Frio that day in our data"}
         fill.update(dep=up[0]["dep"], arr=up[0]["arr"] or "?", line=up[0]["line"])
-    text = "\n".join((f"{n}) " if plan == "pr11_pr10" and n <= 5 or plan == "portela_back" and n <= 3 else "") + s.format(**fill)
-                     for n, s in enumerate(lines, 1))
+    text = "\n".join((f"{n}) " if n < len(lines) else "") + s.format(**fill) for n, s in enumerate(lines, 1))
     return {"text": text, "note": "Reply with this text exactly as it is, nothing before or after it.",
             "source": {"name": "Bus timetables (SIGA / Horários do Funchal); Táxis Machico from IFCN's PR10 and PR5 panels; "
                                "the taxi prices are a hiker's report", "url": None}}

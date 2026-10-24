@@ -1092,8 +1092,11 @@ def answer_tools(user, text, lang, rule, meta=None):
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
     if reply.strip().lower().startswith(text.strip().lower()) and len(reply.strip()) > len(text.strip()) + 20:
         reply = reply.strip()[len(text.strip()):].strip()  # 24 Oct (PL): the reply began by repeating the question
-    reply, changes = guard.check(reply, text, lang, named, (store.get_user(user) or {}).get("base") or "")
-    if bus_now_pending(user, trace, text):  # "bus now": the location request follows the timetable
+    fixed = any(t["tool"] == "day_plan" and not t.get("error") for t in trace)  # the owner's plans go out untouched
+    reply, changes = (reply, []) if fixed else guard.check(reply, text, lang, named, (store.get_user(user) or {}).get("base") or "")
+    if fixed:
+        pass  # (24 Oct: the guard cut a plan's bus lines and the footer added a PR1 timetable under it)
+    elif bus_now_pending(user, trace, text):  # "bus now": the location request follows the timetable
         if meta is not None:
             meta["ask_location"] = BUS_LOC_ASK[lang]
             meta["events"].append(("location_requested", {"lang": lang, "for": "bus_now"}))
