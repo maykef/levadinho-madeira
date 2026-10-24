@@ -878,3 +878,72 @@ def page_doc(subject: str, lang: str = "en") -> dict:
 
 TOOLS = [trail_status, trail_facts, find_trails, fees_and_rules, bus, transport, weather_now, forecast_tomorrow,
          closures, places, place, notices, webcam, search]
+
+
+PLAN_TEXT = {  # day_plan's text, per language (owner, 2026-10-24); {…} filled from the bus timetables
+    "portela_back": {
+        "en": ["Check the bus times at the Portela stop.",
+               "Otherwise call Táxis Machico (+351 291 962 189 / +351 291 962 480): a taxi down to Machico costs about €15, then the bus from Machico to Funchal: {mach}.",
+               "A taxi all the way to Funchal is about €50.", "Prices are indicative."],
+        "pt": ["Verifique os horários do autocarro na paragem da Portela.",
+               "Caso contrário, ligue para os Táxis Machico (+351 291 962 189 / +351 291 962 480): um táxi até Machico custa cerca de 15 €, e depois o autocarro de Machico para o Funchal: {mach}.",
+               "Um táxi direto até ao Funchal custa cerca de 50 €.", "Os preços são indicativos."],
+        "fr": ["Vérifiez les horaires de bus à l'arrêt de Portela.",
+               "Sinon, appelez Táxis Machico (+351 291 962 189 / +351 291 962 480) : un taxi jusqu'à Machico coûte environ 15 €, puis le bus de Machico à Funchal : {mach}.",
+               "Un taxi jusqu'à Funchal coûte environ 50 €.", "Les prix sont indicatifs."],
+        "de": ["Prüfen Sie die Busfahrzeiten an der Haltestelle Portela.",
+               "Sonst rufen Sie Táxis Machico an (+351 291 962 189 / +351 291 962 480): Ein Taxi hinunter nach Machico kostet etwa 15 €, dann der Bus von Machico nach Funchal: {mach}.",
+               "Ein Taxi direkt nach Funchal kostet etwa 50 €.", "Die Preise sind Richtwerte."],
+        "pl": ["Sprawdź rozkład autobusów na przystanku Portela.",
+               "W przeciwnym razie zadzwoń do Táxis Machico (+351 291 962 189 / +351 291 962 480): taksówka w dół do Machico kosztuje około 15 €, potem autobus z Machico do Funchal: {mach}.",
+               "Taksówka prosto do Funchal kosztuje około 50 €.", "Ceny są orientacyjne."]},
+    "pr11_pr10": {
+        "en": ["Take the {dep} bus from Funchal to Ribeiro Frio (line {line}, arriving {arr}).",
+               "Walk PR11 Balcões there and back (3 km, about 1 h 30) and have a hot drink in Ribeiro Frio on your way back.",
+               "Start PR10 Levada do Furado towards Portela at around 9–10 (11 km, about 5 h).",
+               "Before you set off, book Táxis Machico (+351 291 962 189 / +351 291 962 480) to pick you up at the Portela viewpoint and take you down to Machico (about €15).",
+               "From Machico, the bus to Funchal: {mach}.", "Book both trails on SIMplifica. Prices are indicative."],
+        "pt": ["Apanhe o autocarro das {dep} do Funchal para o Ribeiro Frio (linha {line}, chega às {arr}).",
+               "Faça a PR11 Vereda dos Balcões, ida e volta (3 km, cerca de 1 h 30), e tome uma bebida quente no Ribeiro Frio no regresso.",
+               "Comece a PR10 Levada do Furado em direção à Portela por volta das 9–10 h (11 km, cerca de 5 h).",
+               "Antes de sair, reserve os Táxis Machico (+351 291 962 189 / +351 291 962 480) para o irem buscar ao miradouro da Portela e o levarem até Machico (cerca de 15 €).",
+               "De Machico, o autocarro para o Funchal: {mach}.", "Reserve os dois percursos no SIMplifica. Os preços são indicativos."],
+        "fr": ["Prenez le bus de {dep} de Funchal à Ribeiro Frio (ligne {line}, arrivée {arr}).",
+               "Faites le PR11 Balcões aller-retour (3 km, environ 1 h 30) et prenez une boisson chaude à Ribeiro Frio au retour.",
+               "Partez sur le PR10 Levada do Furado vers Portela vers 9–10 h (11 km, environ 5 h).",
+               "Avant de partir, réservez Táxis Machico (+351 291 962 189 / +351 291 962 480) pour venir vous chercher au belvédère de Portela et vous descendre à Machico (environ 15 €).",
+               "De Machico, le bus pour Funchal : {mach}.", "Réservez les deux sentiers sur SIMplifica. Les prix sont indicatifs."],
+        "de": ["Nehmen Sie den Bus um {dep} von Funchal nach Ribeiro Frio (Linie {line}, Ankunft {arr}).",
+               "Gehen Sie PR11 Balcões hin und zurück (3 km, etwa 1 h 30) und trinken Sie auf dem Rückweg in Ribeiro Frio etwas Heißes.",
+               "Starten Sie PR10 Levada do Furado gegen 9–10 Uhr Richtung Portela (11 km, etwa 5 h).",
+               "Buchen Sie vor dem Start Táxis Machico (+351 291 962 189 / +351 291 962 480), das Sie am Aussichtspunkt Portela abholt und nach Machico bringt (etwa 15 €).",
+               "Ab Machico der Bus nach Funchal: {mach}.", "Buchen Sie beide Wege auf SIMplifica. Die Preise sind Richtwerte."],
+        "pl": ["Jedź autobusem o {dep} z Funchal do Ribeiro Frio (linia {line}, przyjazd {arr}).",
+               "Przejdź PR11 Balcões tam i z powrotem (3 km, ok. 1 h 30) i w drodze powrotnej napij się czegoś ciepłego w Ribeiro Frio.",
+               "Ruszaj na PR10 Levada do Furado w stronę Portela około 9–10 (11 km, ok. 5 h).",
+               "Przed wyjściem zarezerwuj Táxis Machico (+351 291 962 189 / +351 291 962 480), żeby odebrali cię z punktu widokowego Portela i zawieźli do Machico (ok. 15 €).",
+               "Z Machico autobus do Funchal: {mach}.", "Zarezerwuj oba szlaki w SIMplifica. Ceny są orientacyjne."]},
+}
+
+
+def day_plan(plan: str, day: str | None = None, lang: str = "en") -> dict:
+    """A ready-made answer to quote word for word, with that day's bus times filled in (owner's plans).
+    plan: portela_back = getting back to Funchal from Portela (end of PR10 Levada do Furado, start of PR5);
+    pr11_pr10 = Balcões (PR11) and Levada do Furado (PR10) on the same day without a car.
+    day: the day the visitor means (today, tomorrow, a weekday, sat, sun_hol…); today if not given."""
+    if plan not in PLAN_TEXT:
+        return {"error": f"plan must be one of {sorted(PLAN_TEXT)}"}
+    day = day or "today"
+    lines = PLAN_TEXT[plan][_lang(lang)]
+    mach = sorted({t["dep"] for t in bus(from_stop="Machico", to_stop="Funchal", day=day)["trips"] if t["dep"] >= "13:00"})
+    fill = {"mach": ", ".join(mach) or "—"}
+    if plan == "pr11_pr10":
+        up = sorted(bus(from_stop="Funchal", to_stop="Ribeiro Frio", day=day)["trips"], key=lambda t: t["dep"])
+        if not up:
+            return {"error": "no bus from Funchal to Ribeiro Frio that day in our data"}
+        fill.update(dep=up[0]["dep"], arr=up[0]["arr"] or "?", line=up[0]["line"])
+    text = "\n".join((f"{n}) " if plan == "pr11_pr10" and n <= 5 or plan == "portela_back" and n <= 3 else "") + s.format(**fill)
+                     for n, s in enumerate(lines, 1))
+    return {"text": text, "note": "Reply with this text exactly as it is, nothing before or after it.",
+            "source": {"name": "Bus timetables (SIGA / Horários do Funchal); Táxis Machico from IFCN's PR10 and PR5 panels; "
+                               "the taxi prices are a hiker's report", "url": None}}

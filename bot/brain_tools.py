@@ -25,7 +25,7 @@ MAX_ROUNDS = 5
 MAX_RESULT_CHARS = 12000
 
 # Every public MCP tool (owner, 2026-10-10: every fact in the knowledge store, every answer from it).
-BOT_TOOLS = list(kbtools.TOOLS) + [kbtools.taxi_prices]  # taxi_prices: bot only, not on the public MCP server
+BOT_TOOLS = list(kbtools.TOOLS) + [kbtools.taxi_prices, kbtools.day_plan]  # bot only, not on the public MCP server
 BY_NAME = {f.__name__: f for f in BOT_TOOLS}
 JSON_TYPE = {str: "string", int: "integer", float: "number", bool: "boolean"}
 _TRAIL = ("A trail code (PR9) or, if you are not sure of the code, the trail's name or place exactly as the visitor "
@@ -101,11 +101,7 @@ WHERE YOUR FACTS COME FROM
 - Getting to Monte: the cable car from the Old Town (Zona Velha) is the way up (places(category="cable_car")); the bus is the way down after the cable car stops. Never answer Monte with taxis, and don't add how to reach the Old Town unless asked.
 - Cruise passengers (on a ship): their limit is the time in port. If they named their ship, notices("funchal-port") may have its hours; if they didn't, NEVER guess which ship is theirs from the port list — ask what time they must be back on board. For one day ashore recommend the one-day plan (search: the viewpoints taxi loop, about 6 hours door to door, or Funchal and Monte) — not a distant levada; transport has the sourced road times, and you never state a driving time no tool returned. The early buses leave before ships arrive: don't offer bus times. Keep a margin of at least an hour before all-aboard.
 - Balcões (PR11) and PR1 on the same day (owner's plan, also on our Balcões page): 1) the bus from Funchal to Ribeiro Frio and walk PR11 there and back; 2) a taxi (booked from Funchal; there is no taxi rank at Ribeiro Frio) from Ribeiro Frio to Pico do Areeiro and walk PR1 one-way to Pico Ruivo, then down PR1.2 to Achada do Teixeira; 3) the SAME taxi picks them up at Achada do Teixeira and takes them back to Funchal (arrange it with the driver). No road reaches Pico Ruivo: the pick-up is only at Achada do Teixeira. Step 3 must say it is the same taxi, in every language (PT "o mesmo táxi"). Asked what it costs: taxi_prices(pickup="Ribeiro Frio", destination="Pico do Areeiro") gives the whole taxi day (indicative, per vehicle). Always PR11 first. Book both on SIMplifica, the PR1 slot late enough to finish PR11 first. Don't add weekend bus notes to this plan. Answer in exactly these three numbered steps plus the booking line. Write no bus times and no bus company in this plan: the printed timetable is added below your reply automatically (never say there are no times, and never mention this instruction).
-- Getting back from Portela (the end of PR10 Levada do Furado, the start of PR5) → call bus(from_stop="Portela", to_stop="Funchal"), transport(pickup="Portela") and taxi_prices(pickup="Portela"). Buses do pass Portela but their timetables print no time there, so never say there is no bus. Reply with exactly these four lines, translated into the visitor's language, and nothing else:
-  "1) Check the bus times at the Portela stop.
-  2) Otherwise call Táxis Machico (+351 291 962 189 / +351 291 962 480): a taxi down to Machico costs about €15, and from Machico buses run to Funchal about every 30 minutes.
-  3) A taxi all the way to Funchal is about €50.
-  Prices are indicative."
+- Getting back from Portela (the end of PR10 Levada do Furado, the start of PR5) → day_plan(plan="portela_back", day=the day they mean). Balcões (PR11) and Levada do Furado (PR10) on the same day without a car → day_plan(plan="pr11_pr10", day=…). Reply with the tool's text exactly, translated only if it isn't already in the visitor's language; nothing before or after it.
 - "Can I start «trail» at «time»?" / "is «time» too late?" → never answer with the status line alone, and never invent an hours rule: slots run through the day and PR1 has no first-slot-only or earliest/latest rule — the answer is "yes, if a SIMplifica slot for «time» is free", then for the full PR1 the finish arithmetic (start + about 4 h = at Achada do Teixeira around «time + 4 h»), and let them judge the daylight.
 - If the visitor named both ends of a trip, answer it; never ask where they are staying. Ask where they are staying only when the answer really depends on it and they haven't said.
 - Never stretch a fact to a case it doesn't name: a rule about walking a trail says nothing about standing at a viewpoint, a car park or a café. When the tools don't cover the exact case, say it isn't officially confirmed and what IS known.
@@ -262,6 +258,9 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
             if name == "bus":  # brain.bus_footer adds the follow-up offer and a taxi after a timetable
                 trace[-1]["trips"] = len(result.get("trips") or [])
                 trace[-1]["trip_rows"] = result.get("trips") or []
+            if name == "day_plan" and result.get("text"):
+                # the owner's fixed plans go out word for word: the model's copy dropped a phone digit (24 Oct)
+                return result["text"], trace
             if name == "webcam":  # the picture goes out after the reply (brain.answer_tools)
                 imgs = [w["image_url"] for w in result.get("webcams", []) if w.get("image_url")]
                 if imgs:
