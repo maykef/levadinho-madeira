@@ -3,7 +3,9 @@
    it only when the model is up and answering (GET /health → model: true); asleep or off, the visitor gets the usual page.
    Opening message = the page's own quick-answers card (#answers), or on getting-back the plan table and taxi ranks,
    typed out. Follow-ups go to the bot (POST /webchat): same brain, same privacy notice (Accept first) as WhatsApp.
-   Counts (2026-10-11): chat-shown / chat-off per page view, chat-ask-chip / chat-ask-typed (first question),
+   Question pages with neither (owner, 2026-10-22: pr1-one-way, levadas-by-bus, weather, sunrise, free walks, booking,
+   cruise port, one/two days) open on the page's lead paragraph (p.sub), with its FAQ questions as the chips.
+   Counts (2026-10-11): chat-shown / chat-off (bot asleep or down) / chat-none (no opening on this page, since 2026-10-24) per page view, chat-ask-chip / chat-ask-typed (first question),
    chat-accept / chat-decline, chat-answered, chat-error, chat-down, chat-wa, chat-location (tapped Share my location), sent through /engage.js to the events
    site (never the text; #skipgc devices send nothing). */
 (function () {
@@ -110,7 +112,7 @@
       return { rows: rows, kind: "trail" };
     }
     var dec = document.getElementById("decide"), taxi = document.getElementById("taxi");
-    if (!dec) return null;
+    if (!dec) return guideRows();
     var warn = dec.previousElementSibling;
     if (warn && warn.tagName === "DIV" && txt(warn)) rows.push(["", clean(warn.innerHTML)]);
     var lines = [];
@@ -128,6 +130,25 @@
       rows.push([txt(taxi.querySelector("h2")), esc(txt(taxi.querySelector("p"))) + (ranks.length ? "<br>" + ranks.join("<br>") : "")]);
     }
     return { rows: rows, kind: "back" };
+  }
+
+  // a question page: its lead paragraph answers the title; its FAQ questions (verbatim visible text) become the chips,
+  // skipping the first, which restates the title the lead has just answered
+  function guideRows() {
+    var sub = document.querySelector("p.sub"), h1 = txt(document.querySelector("h1")).toLowerCase(), qs = [];
+    if (!txt(sub)) return null;
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(function (s) {
+      try {
+        [].concat(JSON.parse(s.textContent)).forEach(function (d) {
+          [].concat(d["@graph"] || d).forEach(function (x) {
+            if (x && x["@type"] === "FAQPage") [].concat(x.mainEntity || []).forEach(function (q) {
+              if (q && q.name && q.name.trim().toLowerCase() !== h1) qs.push(q.name.trim());
+            });
+          });
+        });
+      } catch (e) {}
+    });
+    return { rows: [["", esc(txt(sub))]], kind: "guide", chips: qs.slice(1, 4) };
   }
 
   // CLOSED on today's list → [status row, open nearby trails row]; otherwise null (status.json, same as the card)
@@ -187,7 +208,8 @@
     }
     function chips() {
       chipsEl.innerHTML = "";
-      (CHIPS[open.kind][LANG] || CHIPS[open.kind].en).forEach(function (s) {
+      var list = open.chips || (CHIPS[open.kind] ? CHIPS[open.kind][LANG] || CHIPS[open.kind].en : []);
+      list.forEach(function (s) {
         var b = document.createElement("button"); b.type = "button"; b.textContent = s; b.onclick = function () { ask(s, "chip"); }; chipsEl.appendChild(b);
       });
     }
@@ -273,7 +295,7 @@
         await typeOut(b, fresh.rows[i][1]);
       }
       var t2 = typing(); await wait(400); done(t2);
-      add("lvc-msg lvc-bot", esc(U.more2));
+      if ((open.chips || CHIPS[open.kind] || []).length !== 0) add("lvc-msg lvc-bot", esc(U.more2));
       chips();
     })();
     return true;
@@ -284,7 +306,7 @@
     var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
     fetch(API + "/health", { signal: ctl ? ctl.signal : undefined, cache: "no-store" })
       .then(function (r) { clearTimeout(timer); return r.ok ? r.json() : null; })
-      .then(function (j) { ev(j && j.ok && j.model && build() ? "shown" : "off"); })  // asleep or off: the usual page
+      .then(function (j) { ev(!(j && j.ok && j.model) ? "off" : build() ? "shown" : "none"); })  // asleep or off: the usual page
       .catch(function () { ev("off"); });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
