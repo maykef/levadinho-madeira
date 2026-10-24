@@ -317,7 +317,7 @@ def plain(s):
 
 
 def build_qa(slug, copy_all, src_fn, modified, prepare=None, og_image=None,
-             chain=("gen_site_nav.py", "gen_cta.py", "gen_owner.py", "gen_schema.py")):
+             chain=("gen_site_nav.py", "gen_cta.py", "gen_owner.py", "gen_schema.py", "gen_chat.py")):
     """The shared tail of every question-page generator (parking, one-day, two-day, cruise-port, Monte,
     Pedra Rija, Botanical Garden): build the 5 languages from a COPY dict of body triples
     (heading, [parts], is_question), inject the FAQ JSON-LD verbatim from each question's first paragraph,
@@ -329,7 +329,9 @@ def build_qa(slug, copy_all, src_fn, modified, prepare=None, og_image=None,
                  inserted questions) — run before the Sources substitution
       modified   the page's dateModified (replaces the shell's default)
       og_image   site-absolute path replacing the default og:image, e.g. "/img/botanical/garden-trees.jpg"
-      chain      the generator scripts re-run afterwards (one-day/two-day/port add gen_chat.py)
+      chain      the generator scripts re-run afterwards; gen_chat.py last, because the free-walks shell carries
+                 the chat block since 2026-10-22 and only gen_chat.PILOT pages may keep it (24 Oct: a re-run of the
+                 parking and Pedra Rija generators put the chat on them)
     """
     import subprocess
     for lang in LANGS:
