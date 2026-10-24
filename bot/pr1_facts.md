@@ -66,8 +66,8 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
   - Runs every day, including weekends and holidays, except 25 December.
   - Up: leaves the Teleférico terminus stop in Funchal (Teleférico-Término 4A) at **06:00** and
     **13:30**, and reaches Pico do Areeiro (roundabout by the Radar) at **06:45** and **14:15**.
-  - Down: leaves Pico do Areeiro at **12:15** and **19:00** (the 19:00 is **18:00** in the winter
-    timetable, from 25 Oct 2026 to 27 Mar 2027).
+  - Down: leaves Pico do Areeiro at **12:15** and **18:00** (winter timetable, until 27 Mar 2027; the last
+    trip is 19:00 in summer).
   - Fare **€3.00 per trip**, paid on board. 31 seats.
   - Seat reservation by phone only, **291 705 555**, from 7 to 2 working days before the trip
     (Mon–Thu 08:30–12:30 and 14:00–18:00, Fri 08:30–12:30 and 14:00–17:00). With a reservation,

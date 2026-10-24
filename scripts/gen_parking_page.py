@@ -8,8 +8,8 @@ What it says, and where from:
   in force       DN 28 Oct 2024: charging started that day, meters at the upper and the peripheral car park, pay per
                  fraction or for the whole day, residents pay too.
   shuttle        Horários do Funchal Pico do Areeiro page + map PDF: stops CAM Florestal / Parque Pico do Areeiro (the P
-                 below the summit) / Radar roundabout, every 15 min 06:40-12:15 and 14:10-19:00, last trip 18:00 from
-                 25 Oct 2026 (winter timetable), €1.20 on board, leaves with at least 4 passengers.
+                 below the summit) / Radar roundabout, every 15 min 06:40-12:15 and 14:10-18:00 (winter timetable to
+                 27 Mar 2027; 19:00 in summer), €1.20 on board, leaves with at least 4 passengers.
   radar road     DN 29 Sep 2022 (about 15 spaces for tour buses, vans and taxis on the road to the radar station,
                  yellow lines on the bends, towing warning). Whether that signage is unchanged in 2026 is not confirmed.
   morning crush  DN 27 Jun 2024 (emergency vehicles blocked).
@@ -75,7 +75,7 @@ COPY = {
      "<ul><li><b>Full PR1 (Areeiro → Pico Ruivo → Achada):</b> the lower car park, or leave the car at Achada do Teixeira (below).</li>"
      "<li><b>Sunrise only, or the out-and-back to Pedra Rija:</b> you are back within a couple of hours, so the upper car park costs only a few euros more and saves the walk.</li></ul>"], True),
    ("How do I get from the lower car park to the top?", [
-     "Walk up the access road, or take Horários do Funchal's summit shuttle. Its Parque Pico do Areeiro stop is at the lower car park, and it runs to the roundabout by the radar at the top every 15 minutes, 06:40–12:15 and 14:10–19:00 (last trip 18:00 from 25 October, with the winter timetable). It costs €1.20 a trip, paid on board, and only leaves with at least 4 passengers.",
+     "Walk up the access road, or take Horários do Funchal's summit shuttle. Its Parque Pico do Areeiro stop is at the lower car park, and it runs to the roundabout by the radar at the top every 15 minutes, 06:40–12:15 and 14:10–18:00. It costs €1.20 a trip, paid on board, and only leaves with at least 4 passengers.",
      "The first trip is at 06:40, which is too tight for sunrise in June and July. The " + a(L("en", "/pr1-sunrise-transport/"), "sunrise transport guide") + " has the times."], True),
    ("Can I avoid paying for a whole day at Areeiro?", [
      "Yes: park where you finish. Leave the car at Achada do Teixeira, where PR1 ends (we found no official parking fee there), and take a taxi to Pico do Areeiro for your slot: Táxis Santana, +351 291 572 540, is the nearest rank. When you come down, your car is waiting. Without a car, the Horários do Funchal bus reaches the top at 06:45 and 14:15 for €3.",
@@ -107,7 +107,7 @@ COPY = {
      "<ul><li><b>PR1 completo (Areeiro → Pico Ruivo → Achada):</b> o parque de baixo, ou deixe o carro na Achada do Teixeira (ver abaixo).</li>"
      "<li><b>Só o nascer do sol, ou ida e volta à Pedra Rija:</b> volta ao fim de poucas horas, por isso o parque de cima custa só mais alguns euros e poupa a subida.</li></ul>"], True),
    ("Como se vai do parque de baixo até ao cume?", [
-     "A pé pela estrada de acesso, ou no vaivém dos Horários do Funchal. A paragem Parque Pico do Areeiro fica no parque de baixo, e o vaivém sobe até à rotunda junto ao Radar a cada 15 minutos, das 06:40 às 12:15 e das 14:10 às 19:00 (última viagem às 18:00 a partir de 25 de outubro, com o horário de inverno). Custa 1,20 € por viagem, pago a bordo, e só parte com pelo menos 4 passageiros.",
+     "A pé pela estrada de acesso, ou no vaivém dos Horários do Funchal. A paragem Parque Pico do Areeiro fica no parque de baixo, e o vaivém sobe até à rotunda junto ao Radar a cada 15 minutos, das 06:40 às 12:15 e das 14:10 às 18:00. Custa 1,20 € por viagem, pago a bordo, e só parte com pelo menos 4 passageiros.",
      "A primeira viagem é às 06:40, o que é apertado para o nascer do sol em junho e julho. O " + a(L("pt", "/pr1-sunrise-transport/"), "guia de transporte para o nascer do sol") + " tem os horários."], True),
    ("Posso evitar pagar um dia inteiro no Areeiro?", [
      "Sim: estacione onde termina. Deixe o carro na Achada do Teixeira, onde acaba o PR1 (não encontrámos preço oficial de estacionamento lá), e apanhe um táxi até ao Pico do Areeiro para o seu horário: a praça mais próxima é a dos Táxis Santana, +351 291 572 540. Quando descer, o carro está à sua espera. Sem carro, o autocarro dos Horários do Funchal chega ao cume às 06:45 e às 14:15, por 3 €.",
@@ -139,7 +139,7 @@ COPY = {
      "<ul><li><b>PR1 en entier (Areeiro → Pico Ruivo → Achada) :</b> le parking du bas, ou laissez la voiture à Achada do Teixeira (voir plus bas).</li>"
      "<li><b>Lever du soleil seul, ou aller-retour jusqu'à Pedra Rija :</b> vous revenez en quelques heures, donc le parking du haut ne coûte que quelques euros de plus et évite la montée.</li></ul>"], True),
    ("Comment aller du parking du bas au sommet ?", [
-     "À pied par la route d'accès, ou avec la navette des Horários do Funchal. Son arrêt Parque Pico do Areeiro est au parking du bas, et elle monte au rond-point du radar toutes les 15 minutes, de 06:40 à 12:15 et de 14:10 à 19:00 (dernier départ à 18:00 à partir du 25 octobre, avec l'horaire d'hiver). Elle coûte 1,20 € le trajet, payé à bord, et ne part qu'avec au moins 4 passagers.",
+     "À pied par la route d'accès, ou avec la navette des Horários do Funchal. Son arrêt Parque Pico do Areeiro est au parking du bas, et elle monte au rond-point du radar toutes les 15 minutes, de 06:40 à 12:15 et de 14:10 à 18:00. Elle coûte 1,20 € le trajet, payé à bord, et ne part qu'avec au moins 4 passagers.",
      "Le premier départ est à 06:40, trop juste pour le lever du soleil en juin et juillet. Le " + a(L("fr", "/pr1-sunrise-transport/"), "guide des transports pour le lever du soleil") + " donne les horaires."], True),
    ("Peut-on éviter de payer une journée entière à l'Areeiro ?", [
      "Oui : garez-vous là où vous terminez. Laissez la voiture à Achada do Teixeira, où finit le PR1 (nous n'y avons trouvé aucun tarif officiel de stationnement), et prenez un taxi jusqu'au Pico do Arieiro pour votre créneau : Táxis Santana, +351 291 572 540, est la station la plus proche. En redescendant, la voiture vous attend. Sans voiture, le bus des Horários do Funchal arrive au sommet à 06:45 et 14:15, pour 3 €.",
@@ -171,7 +171,7 @@ COPY = {
      "<ul><li><b>Ganzer PR1 (Areeiro → Pico Ruivo → Achada):</b> der untere Parkplatz, oder lassen Sie das Auto in Achada do Teixeira (siehe unten).</li>"
      "<li><b>Nur Sonnenaufgang, oder hin und zurück bis Pedra Rija:</b> Sie sind nach ein paar Stunden zurück, oben kostet es also nur ein paar Euro mehr und erspart den Aufstieg.</li></ul>"], True),
    ("Wie komme ich vom unteren Parkplatz zum Gipfel?", [
-     "Zu Fuß über die Zufahrtsstraße, oder mit dem Shuttle von Horários do Funchal. Seine Haltestelle Parque Pico do Areeiro liegt am unteren Parkplatz, und er fährt alle 15 Minuten zum Kreisverkehr am Radar oben, 06:40–12:15 und 14:10–19:00 (letzte Fahrt 18:00 ab 25. Oktober, mit dem Winterfahrplan). Die Fahrt kostet 1,20 €, zahlbar im Bus, und er fährt erst ab 4 Fahrgästen.",
+     "Zu Fuß über die Zufahrtsstraße, oder mit dem Shuttle von Horários do Funchal. Seine Haltestelle Parque Pico do Areeiro liegt am unteren Parkplatz, und er fährt alle 15 Minuten zum Kreisverkehr am Radar oben, 06:40–12:15 und 14:10–18:00. Die Fahrt kostet 1,20 €, zahlbar im Bus, und er fährt erst ab 4 Fahrgästen.",
      "Die erste Fahrt ist um 06:40, zu knapp für den Sonnenaufgang im Juni und Juli. Die Zeiten stehen im " + a(L("de", "/pr1-sunrise-transport/"), "Ratgeber zur Anreise zum Sonnenaufgang") + "."], True),
    ("Kann ich vermeiden, am Areeiro einen ganzen Tag zu zahlen?", [
      "Ja: Parken Sie dort, wo Sie ankommen. Lassen Sie das Auto in Achada do Teixeira, wo der PR1 endet (eine offizielle Parkgebühr haben wir dort nicht gefunden), und fahren Sie mit dem Taxi zum Pico do Arieiro zu Ihrem Slot: Táxis Santana, +351 291 572 540, ist der nächste Taxistand. Wenn Sie herunterkommen, wartet das Auto. Ohne Auto erreicht der Bus von Horários do Funchal den Gipfel um 06:45 und 14:15, für 3 €.",
@@ -203,7 +203,7 @@ COPY = {
      "<ul><li><b>Cały PR1 (Areeiro → Pico Ruivo → Achada):</b> dolny parking albo zostaw auto w Achada do Teixeira (niżej).</li>"
      "<li><b>Tylko wschód słońca albo tam i z powrotem do Pedra Rija:</b> wracasz po kilku godzinach, więc górny parking kosztuje tylko kilka euro więcej i oszczędza podejście.</li></ul>"], True),
    ("Jak dostać się z dolnego parkingu na szczyt?", [
-     "Pieszo drogą dojazdową albo busem wahadłowym Horários do Funchal. Jego przystanek Parque Pico do Areeiro jest przy dolnym parkingu, a bus jeździ na rondo przy radarze na szczycie co 15 minut, 06:40–12:15 i 14:10–19:00 (ostatni kurs o 18:00 od 25 października, w rozkładzie zimowym). Kosztuje 1,20 € za kurs, płatne w busie, i rusza dopiero z co najmniej 4 pasażerami.",
+     "Pieszo drogą dojazdową albo busem wahadłowym Horários do Funchal. Jego przystanek Parque Pico do Areeiro jest przy dolnym parkingu, a bus jeździ na rondo przy radarze na szczycie co 15 minut, 06:40–12:15 i 14:10–18:00. Kosztuje 1,20 € za kurs, płatne w busie, i rusza dopiero z co najmniej 4 pasażerami.",
      "Pierwszy kurs jest o 06:40, za późno na wschód słońca w czerwcu i lipcu. Godziny są w " + a(L("pl", "/pr1-sunrise-transport/"), "przewodniku dojazdu na wschód słońca") + "."], True),
    ("Czy da się nie płacić za cały dzień na Areeiro?", [
      "Tak: zaparkuj tam, gdzie kończysz. Zostaw auto w Achada do Teixeira, gdzie kończy się PR1 (nie znaleźliśmy tam oficjalnej opłaty za parking), i podjedź taksówką na Pico do Arieiro na swój slot: najbliższy postój to Táxis Santana, +351 291 572 540. Gdy zejdziesz, auto na Ciebie czeka. Bez auta autobus Horários do Funchal dojeżdża na szczyt o 06:45 i 14:15, za 3 €.",
