@@ -315,11 +315,13 @@
    "lang": "en",
    "q": "How much is a taxi from Funchal to Pico do Areeiro?",
    "must": [
-    "meter|quote"
+    "35",
+    "indicative|agreed when"
    ],
    "must_not": [
-    "€ ?\\d{2}|\\d{2} ?€|\\d{2} euros"
-   ]
+    "per person"
+   ],
+   "note": "Owner 2026-10-24: taxi_prices tool = a local driver's indicative prices (car €35, van €42); was metered-only."
   },
   {
    "id": "dog-en",

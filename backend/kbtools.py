@@ -510,7 +510,60 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
               + ") ORDER BY id", [codes] + places)
     if back:
         res["getting_back"] = [{"trail": b["subject"], "text": _pick(b["text"], "en"), "source": _source(b["source_id"])} for b in back]
-    res["note"] = "Give the ranks serving the pick-up place first (call them and the destination's, compare quotes); never quote a fare."
+    res["note"] = ("Give the ranks serving the pick-up place first (call them and the destination's, compare quotes). "
+                   "For what the ride costs call taxi_prices; never quote a fare it didn't return.")
+    return res
+
+
+TAXI_ROUTES = os.environ.get("TAXI_ROUTES") or os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                                            "bot", "taxi_routes.json")
+
+
+def _plain(s):
+    import unicodedata
+    return "".join(ch for ch in unicodedata.normalize("NFKD", (s or "").lower()) if not unicodedata.combining(ch))
+
+
+def _share(r, people):
+    people = int(people)
+    if people > 10:
+        return f"{people} people need more than one vehicle: ask when booking"
+    eur = r["car_eur"] if people <= 4 else r["van_eur"]
+    return f"{'car' if people <= 4 else 'van'} €{eur} ÷ {people} = about €{eur / people:.2f} each".replace(".00 each", " each")
+
+
+def taxi_prices(pickup: str | None = None, destination: str | None = None, people: int | None = None) -> dict:
+    """What a taxi costs on the routes a local driver has priced (owner, 2026-10-24): Funchal ↔ Pico do Areeiro,
+    Funchal ↔ Ribeiro Frio, the PR1 package (hotel → Pico do Areeiro, collected at Achada do Teixeira at a set time)
+    and the Ribeiro Frio → Pico do Areeiro → Achada do Teixeira → Funchal day (Balcões + PR1). Call it whenever the
+    visitor asks what a taxi, a ride or a taxi plan costs. Prices are per vehicle and INDICATIVE: car up to 4 people,
+    van 5–10 (+20%); the fare is agreed when booking. people = the group size if the visitor gave it (adds the share
+    per person). A route without a price → the metered-fare wording."""
+    import json
+    try:
+        cfg = json.load(open(TAXI_ROUTES, encoding="utf-8"))
+    except (OSError, ValueError):
+        cfg = {"routes": []}
+    p, d = _plain(pickup), _plain(destination)
+
+    def hit(keys, text):
+        return any(_plain(k) in text for k in keys)
+    rows = [r for r in cfg["routes"] if (not p or hit(r["from"], p)) and (not d or hit(r["to"], d))]
+    exact = bool(rows) and bool(p or d)
+    if not exact:  # no route matched: hand over every priced route and let the model pick the visitor's trip
+        rows = [r for r in cfg["routes"] if r.get("car_eur")]
+    routes = [{"route": r["label"], "car_up_to_4_eur": r.get("car_eur"), "van_5_to_10_eur": r.get("van_eur"),
+               **({"note": r["note"]} if r.get("note") else {}),
+               "price": "indicative" if r.get("car_eur") else "no price yet: metered, ask for a quote",
+               **({"for_your_group": _share(r, people)} if people and r.get("car_eur") else {})} for r in rows]
+    res = {"routes": routes, "matched_the_trip": exact,
+           "rules": ["Prices are per vehicle, not per person; when the visitor gave the group size, give for_your_group.",
+                     "Always say the price is indicative (a local driver's price) and that the fare is agreed when booking.",
+                     "Pick-ups at Achada do Teixeira are done by the Santana taxis; for the numbers call transport.",
+                     "Achada do Teixeira → Pico do Areeiro: a shared ride with other hikers usually costs about €15–20 per person."],
+           "source": {"name": "Indicative prices from a local taxi driver (October 2026)", "url": None}}
+    if not exact:
+        res["note"] = "No priced route matches this trip exactly: use one of these only if it IS the visitor's trip; otherwise taxis are metered, ask for a quote."
     return res
 
 
