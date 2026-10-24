@@ -453,8 +453,14 @@ def classify(text):
             "origin = for transport: the town or place the visitor says they start from or are staying in "
             "(e.g. \"Funchal\", \"the airport\"), else null. "
             "destination = for transport: the place they want to get to (e.g. \"Pico do Areeiro\"), else null."},
-        {"role": "user", "content": text}], max_tokens=80, schema=CLASSIFY_SCHEMA, temperature=0)
-    d = json.loads(out)
+        {"role": "user", "content": text}], max_tokens=200, schema=CLASSIFY_SCHEMA, temperature=0)
+    try:
+        d = json.loads(out)
+    except json.JSONDecodeError:  # 24 Oct: cut off at 80 tokens on a long question → HTTP 500; labels are optional
+        log.warning("classify: unreadable labels, defaults used: %r", out[:200])
+        import answers
+        d = {"is_question": True, "language": answers.detect_lang(text, "other"), "intent": "other", "topic": None,
+             "trail_code": None}
     d["lang"] = d["language"] if d["language"] in LANGS else "en"
     d.setdefault("origin", None)
     d.setdefault("destination", None)
