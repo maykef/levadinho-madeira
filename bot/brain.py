@@ -867,6 +867,9 @@ def pickup_question(text, hist, lang):
         return None  # "Geld zurück" / "money back" is a refund question, not a ride back (20 Oct)
     if re.search(r"simplifica", text, re.I):  # "can I book the taxi on SIMplifica?" is a yes/no question (19 Oct)
         return None
+    if re.search(r"card|cart[aã]o|carte|karte|kart[aąęy]|cash|dinheiro|esp[eè]ces|bargeld|got[oó]wk|pay|pag[ao]r?|payer|bezahl|zap[łl]ac|p[łl]atn",
+                 text, re.I):  # "can I pay the taxi by card?" is about payment, not where to be picked up (24 Oct)
+        return None
     if any(m.get("role") == "assistant" and (m.get("content") or "").strip() in PICKUP_ASK.values() for m in hist[-2:]):
         return None  # never ask it twice in a row: let the model answer the new question
     if any(PLACE_NAMED.search(m.get("content") or "") for m in hist if m.get("role") == "user"):
