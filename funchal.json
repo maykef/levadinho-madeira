@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-23T06:36+01:00",
+ "stamp": "2026-10-24T06:16+01:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-23",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "08:16",
-   "sunset": "19:26",
-   "weather": {
-    "tmin": 19,
-    "tmax": 24,
-    "rain": 76,
-    "wtype": 7,
-    "uv": 5.1
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-24",
    "type": "saturday",
@@ -27,10 +11,10 @@
    "sunset": "19:25",
    "weather": {
     "tmin": 20,
-    "tmax": 25,
-    "rain": 12,
-    "wtype": 3,
-    "uv": 4.5
+    "tmax": 26,
+    "rain": 2,
+    "wtype": 2,
+    "uv": 4.8
    },
    "fair": null
   },
@@ -44,7 +28,7 @@
    "weather": {
     "tmin": 18,
     "tmax": 25,
-    "rain": 2,
+    "rain": 0,
     "wtype": 2,
     "uv": 5.2
    },
@@ -61,8 +45,8 @@
     "tmin": 18,
     "tmax": 24,
     "rain": 25,
-    "wtype": 4,
-    "uv": 4.9
+    "wtype": 2,
+    "uv": 2.6
    },
    "fair": null
   },
@@ -76,9 +60,9 @@
    "weather": {
     "tmin": 19,
     "tmax": 25,
-    "rain": 31,
+    "rain": 29,
     "wtype": 3,
-    "uv": null
+    "uv": 4.3
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:20",
    "sunset": "18:21",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 25,
+    "rain": 20,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:14",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-06",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:28",
+   "sunset": "18:13",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -265,11 +265,11 @@
   }
  ],
  "sea": {
-  "date": "2026-10-23",
+  "date": "2026-10-24",
   "sst": 23,
   "wave": [
    0.6,
-   0.9
+   1.0
   ],
   "warnings": []
  },
@@ -1359,7 +1359,7 @@
   "weather": true,
   "sea": true,
   "fair": true,
-  "events": true,
+  "events": false,
   "lidos": true,
   "gtfs": true
  },
