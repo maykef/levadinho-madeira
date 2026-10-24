@@ -528,7 +528,9 @@ def _share(r, people):
     people = int(people)
     if people > 10:
         return f"{people} people need more than one vehicle: ask when booking"
-    eur = r["car_eur"] if people <= 4 else r["van_eur"]
+    eur = r["car_eur"] if people <= 4 or not r.get("van_eur") else r["van_eur"]
+    if people > 4 and not r.get("van_eur"):
+        return f"{people} people need a van or two cars: ask the price when booking"
     return f"{'car' if people <= 4 else 'van'} €{eur} ÷ {people} = about €{eur / people:.2f} each".replace(".00 each", " each")
 
 
@@ -552,16 +554,17 @@ def taxi_prices(pickup: str | None = None, destination: str | None = None, peopl
     exact = bool(rows) and bool(p or d)
     if not exact:  # no route matched: hand over every priced route and let the model pick the visitor's trip
         rows = [r for r in cfg["routes"] if r.get("car_eur")]
-    routes = [{"route": r["label"], "car_up_to_4_eur": r.get("car_eur"), "van_5_to_10_eur": r.get("van_eur"),
+    routes = [{"route": r["label"], "car_up_to_4_eur": r.get("car_eur"),
+               **({"van_5_to_10_eur": r["van_eur"]} if r.get("van_eur") else {}),
                **({"note": r["note"]} if r.get("note") else {}),
                "price": "indicative" if r.get("car_eur") else "no price yet: metered, ask for a quote",
                **({"for_your_group": _share(r, people)} if people and r.get("car_eur") else {})} for r in rows]
     res = {"routes": routes, "matched_the_trip": exact,
            "rules": ["Prices are per vehicle, not per person; when the visitor gave the group size, give for_your_group.",
-                     "Always say the price is indicative (a local driver's price) and that the fare is agreed when booking.",
+                     "Always say the price is indicative and that the fare is agreed when booking (most are a local driver's prices; a route's note says when it is a hiker's report instead).",
                      "Pick-ups at Achada do Teixeira are done by the Santana taxis; for the numbers call transport.",
                      "Achada do Teixeira → Pico do Areeiro: a shared ride with other hikers usually costs about €15–20 per person."],
-           "source": {"name": "Indicative prices from a local taxi driver (October 2026)", "url": None}}
+           "source": {"name": "Indicative prices: a local taxi driver, and hikers' reports where noted", "url": None}}
     if not exact:
         res["note"] = "No priced route matches this trip exactly: use one of these only if it IS the visitor's trip; otherwise taxis are metered, ask for a quote."
     return res
