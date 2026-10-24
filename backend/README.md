@@ -7,8 +7,8 @@ One sourced knowledge store, read by three clients: the WhatsApp bot (tools-only
 |---|---|
 | `schema.sql` | Schema `kb` in `levadinho-db` (:5433) + the read-only role `kb_reader` (kb only, no visitor data, read-only transactions, 5 s timeout) |
 | `seed.py` | Hand-curated records: sources, exact fees, the PR1 Areeiro bus, island-wide taxis, transport rules. Copied from `bot/pr1_facts.md` / `bot/transport_facts.md`: change both together |
-| `load.py` | Loaders. `init` applies the schema; `all` loads everything; `daily` = sources, status + weather, history, forecasts |
-| `kbtools.py` | The 14 read-only tools as plain functions (psycopg). The bot imports this directly |
+| `load.py` | Loaders. `init` applies the schema; `all` loads everything; `daily` = sources, status + weather, history, forecasts (the 06:07 / 12:07 `latest.json` run stands in for its day when newer than the 20:07 dated file) |
+| `kbtools.py` | The 14 read-only tools as plain functions (psycopg), plus two bot-only ones not on the MCP server: `taxi_prices` (indicative prices from `bot/taxi_routes.json`, local-only) and `day_plan` (the owner's fixed plans with that day's buses). The bot imports this directly |
 | `mcp_server.py` | MCP server (official `mcp` SDK 2.x, `MCPServer`), streamable HTTP on `127.0.0.1:5040/mcp`, stateless JSON; `--stdio` for local clients |
 | `tests/test_mcp.py` | End-to-end MCP test (spare port 5041) |
 | `tests/regression.py` + `regression_questions.json` | The bot's 40-question regression set (PR1 + other trails, 5 languages); `heldout_questions.json` = 15 unseen questions |

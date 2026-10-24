@@ -76,6 +76,25 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
 - Taxi booking form (`taxi_form.py`, `taxi_routes.json`) is committed but NOT wired in (owner: wait for the route
   prices and a full month of data); the brain hooks are parked in `taxi_form_brain.patch`.
 
+**24 Oct 2026 (owner's live tests and the fine-tuning question set):**
+- Two bot-only tools on top of the 14 public ones (not on the MCP server):
+  - `kbtools.taxi_prices(pickup, destination, people)`: indicative prices per vehicle from `bot/taxi_routes.json`
+    (car up to 4, van 5–10 = +20%; per-person share when the group size is given). Prices come from the owner's
+    Funchal driver and, for Portela → Machico / Funchal, a hiker's report. The file is local-only
+    (`git update-index --skip-worktree`): `bot/` is published by GitHub Pages and the prices must not be.
+    Routes without a price get the metered wording; Achada → Areeiro keeps the €15–20 shared ride.
+  - `kbtools.day_plan(plan, day)`: the owner's fixed answers, 5 languages, filled with that day's bus times:
+    `pr11_pr1` (Balcões + PR1), `pr11_pr10` (Balcões + Levada do Furado), `portela_back` (Portela → Machico taxi or
+    → Funchal). The tool's text IS the reply: `brain_tools.answer` returns it as is, and `answer_tools` skips the
+    guard and the bus footer for it.
+- `forecast_tomorrow` returns ready text in the visitor's language ("Cloud forecast for Pico do Areeiro, next N
+  hours: tomorrow, morning (06–10): clear (3 of 5 models, middle value 22% cloud) …" + "Next forecast at 06:07
+  tomorrow"); when it is the only call, the reply is that text. Forecasts run at 06:07, 12:07 (`forecast.py
+  --latest` → `latest.json`) and 20:07 (dated file, the fog test's snapshot); `load.py forecast` takes the newer.
+- Taxi payment = cash (`pickup_question` no longer fires on payment questions); PT car = "carro", van = "carrinha".
+- Regression 66/66 offline (`tools_v31`–`v35`); `pr1-back-en`, `pr1-fee-en` and `taxi-achada-machico-en` fail
+  intermittently (pass on rerun).
+
 **Buses (2026-10-12):** after every bus timetable `brain.bus_footer` offers directions to the stop and the taxi
 number (never for Monte). A **"bus now"** question asks for the visitor's location (WhatsApp location button; web chat
 "📍 Share my location", `location_request` message in `/webchat`); a pin within 30 min gets the nearest boarding stop
