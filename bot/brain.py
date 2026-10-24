@@ -996,8 +996,11 @@ def answer_tools(user, text, lang, rule, meta=None):
                  f"doesn't name a trail or place, it is about {page_trail} (\"nearby\" = near {page_trail}).\n")
     now = datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira"))
     tmr = now + datetime.timedelta(days=1)
-    hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}; tomorrow is {tmr:%A %d %B}. Use it only to work out today, tomorrow and opening hours; "
-             "never write a date next to a trail status. For timetables and day plans, don't assume today unless the visitor says so.\n")
+    # not on the day-plan pages (24 Oct, live: "since tomorrow is Sunday, here is the adjusted Day 2"), except for a
+    # question about ships, which needs the date ("which ships are in tomorrow?")
+    if gkey not in ("1day", "2day") or SHIP_Q.search(text):
+        hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}; tomorrow is {tmr:%A %d %B}. Use it only to work out today, tomorrow and opening hours; "
+                 "never write a date next to a trail status. For timetables and day plans, don't assume today unless the visitor says so.\n")
     named = trails_in(text)
     if not named and page_trail and not re.search(r"funchal|monte|cruise|navio|ship|schiff|statek|lido", text, re.I):
         named = [page_trail]
@@ -1040,8 +1043,15 @@ def answer_tools(user, text, lang, rule, meta=None):
         store.add_turn(user, text, ask)
         return ask
     t0 = time.time()
-    reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text,
-                                      page=page_doc)
+    hist_now = store.history(user, HISTORY_SINCE)
+    reply, trace = brain_tools.answer(hist_now, q, lang, rule, hint, search_text=text, page=page_doc)
+    # 24 Oct (live, under load): a new question got the previous answer copied out of the history; ask once more
+    earlier = {_norm(m.get("content") or "")[:160] for m in hist_now if m.get("role") == "assistant"}
+    if _norm(reply)[:160] in earlier and not any(_norm(m.get("content") or "") == _norm(text)
+                                                 for m in hist_now if m.get("role") == "user"):
+        log.warning("reply repeated an earlier one, asked again: %r", reply[:120])
+        reply, trace = brain_tools.answer(hist_now, q + "\n\n[Answer THIS question only; your earlier replies were about "
+                                          "other questions.]", lang, rule, hint, search_text=text, page=page_doc)
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
     if reply.strip().lower().startswith(text.strip().lower()) and len(reply.strip()) > len(text.strip()) + 20:
         reply = reply.strip()[len(text.strip()):].strip()  # 24 Oct (PL): the reply began by repeating the question

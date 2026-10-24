@@ -144,9 +144,11 @@ HOW TO ANSWER
 
 
 def looping(reply):
-    """A reply that says the same sentence three times or more (a degenerate generation)."""
+    """A degenerate generation: the same line or sentence three times or more, making up most of the reply. A bus
+    timetable repeats its notes ("Só no Período Escolar") on many lines and is not one (24 Oct)."""
     sents = [x.strip().lower() for x in re.split(r"(?<=[.!?])\s+|\n+", reply) if len(x.strip()) >= 20]
-    return any(sents.count(x) >= 3 for x in set(sents))
+    rep = sum(len(x) * sents.count(x) for x in set(sents) if sents.count(x) >= 3)
+    return rep > 0.5 * max(1, len(reply))
 
 
 def unloop(messages, reply):
