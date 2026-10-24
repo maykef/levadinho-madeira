@@ -599,6 +599,12 @@ def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: st
         spot = FORECAST_SPOT.get(c) or FORECAST_SPOT.get(reg)
         if not spot:
             return {"forecast": None, "note": f"No summit forecast for {c}'s area in our data."}
+    if spot and spot not in FORECAST_NAMES:  # the model passes names ("Pico do Areeiro", "Rabaçal"), not slugs
+        s = _plain(spot)
+        spot = ("achada-do-teixeira" if "achada" in s or "ruivo" in s else "rabacal-madeira" if "rabacal" in s
+                else "pico-do-arieiro" if "are" in s or "arie" in s else None)
+        if not spot:
+            return {"forecast": None, "note": "Levadinho's cloud forecast covers only Pico do Areeiro, Achada do Teixeira and Rabaçal."}
     spot = spot or "pico-do-arieiro"
     tomorrow = (datetime.datetime.now(MADEIRA).date() + datetime.timedelta(days=0 if day == "today" else 1)).isoformat()
     rows = _q("SELECT * FROM kb.forecast WHERE spot = %s ORDER BY run_date DESC LIMIT 1", (spot,))
