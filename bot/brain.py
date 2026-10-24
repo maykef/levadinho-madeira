@@ -944,7 +944,10 @@ def answer_tools(user, text, lang, rule, meta=None):
         hint += ("\nTHE VISITOR IS READING THAT PAGE NOW: its full text is the first tool result. When the page answers "
                  "the question, answer from the page, in the page's words and numbers: it outranks every other tool "
                  "(a walking route on the page beats a taxi from transport; the page's schedule beats your own). Call "
-                 "other tools only for what the page doesn't cover. Never contradict the page.\n")
+                 "other tools only for what the page doesn't cover. Never contradict the page. A plan or schedule on the "
+                 "page is for whatever day the visitor goes: give it as the page has it, and don't adapt it to "
+                 "today's weekday or date unless the visitor says they are going today. Never add a time, price, number "
+                 "or company that neither the page nor a tool states.\n")
     m = re.fullmatch(r"web-pr(\d+)(?:-(\d+))?(?:-qr)?", source)
     page_trail = f"PR{m.group(1)}" + (f".{m.group(2)}" if m.group(2) else "") if m else None
     if page_trail not in KB["trails"]:
@@ -954,7 +957,8 @@ def answer_tools(user, text, lang, rule, meta=None):
                  f"doesn't name a trail or place, it is about {page_trail} (\"nearby\" = near {page_trail}).\n")
     now = datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira"))
     tmr = now + datetime.timedelta(days=1)
-    hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}; tomorrow is {tmr:%A %d %B}. Use it only to work out today, tomorrow and opening hours; "
+    if gkey not in ("1day", "2day", "port"):  # a day plan is for the visitor's day, not today (24 Oct: "on a Saturday…")
+        hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}; tomorrow is {tmr:%A %d %B}. Use it only to work out today, tomorrow and opening hours; "
              "never write a date next to a trail status. For timetables, don't assume today unless the visitor says so.\n")
     named = trails_in(text)
     if not named and page_trail and not re.search(r"funchal|monte|cruise|navio|ship|schiff|statek|lido", text, re.I):

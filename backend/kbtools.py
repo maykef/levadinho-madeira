@@ -140,6 +140,41 @@ def trail_status(code: str | None = None, lang: str = "en") -> dict:
             "source": src}
 
 
+def areeiro_sunrise(day):
+    """Sunrise at Pico do Areeiro (32.7355 N, 16.9283 W) on `day`, Madeira time, NOAA formula (standard refraction):
+    matches our sunrise page's computed monthly table within 2 min. The summit, with a clear east horizon, sees the
+    sun about 6 minutes earlier."""
+    import math
+    n = day.timetuple().tm_yday
+    g = 2 * math.pi / 365 * (n - 1.25)
+    eq = 229.18 * (0.000075 + 0.001868 * math.cos(g) - 0.032077 * math.sin(g) - 0.014615 * math.cos(2 * g)
+                   - 0.040849 * math.sin(2 * g))
+    decl = (0.006918 - 0.399912 * math.cos(g) + 0.070257 * math.sin(g) - 0.006758 * math.cos(2 * g)
+            + 0.000907 * math.sin(2 * g) - 0.002697 * math.cos(3 * g) + 0.00148 * math.sin(3 * g))
+    lat = math.radians(32.7355)
+    ha = math.degrees(math.acos(math.cos(math.radians(90.833)) / (math.cos(lat) * math.cos(decl))
+                                - math.tan(lat) * math.tan(decl)))
+    utc = datetime.datetime(day.year, day.month, day.day, tzinfo=datetime.timezone.utc) \
+        + datetime.timedelta(minutes=720 - 4 * (-16.9283 + ha) - eq)
+    return utc.astimezone(MADEIRA)
+
+
+def sunrise_now():
+    """Today's and tomorrow's sunrise at Pico do Areeiro (the visitor asks about these, not the 1st of the month)."""
+    today = datetime.datetime.now(MADEIRA).date()
+    out = {}
+    for key, d in (("today", today), ("tomorrow", today + datetime.timedelta(days=1))):
+        t = areeiro_sunrise(d)
+        slot = t.replace(second=0, microsecond=0) + datetime.timedelta(minutes=(30 - t.minute % 30) % 30 or 0)
+        if slot <= t:
+            slot += datetime.timedelta(minutes=30)
+        out[key] = {"weekday": d.strftime("%A"), "sunrise": t.strftime("%H:%M"),
+                    "summit_clear_horizon": (t - datetime.timedelta(minutes=6)).strftime("%H:%M"),
+                    # slots start every 30 minutes; the model got "08:00 or 08:30" for an 08:17 sunrise (24 Oct)
+                    "first_slot_after_sunrise": slot.strftime("%H:%M")}
+    return out
+
+
 def trail_facts(code: str, lang: str = "en") -> dict:
     """Facts about one trail: distance, time, difficulty, altitude, start/end, fee, tunnels/torch/exposure,
     trailhead coordinates, today's status, our page and the official page, plus curated notes."""
@@ -166,11 +201,17 @@ def trail_facts(code: str, lang: str = "en") -> dict:
         **({"sunrise_1st_of_month": {"Jan": "08:10", "Feb": "08:03", "Mar": "07:36", "Apr": "07:56",
                                      "May": "07:21", "Jun": "07:01", "Jul": "07:03", "Aug": "07:21",
                                      "Sep": "07:42", "Oct": "08:02", "Nov": "07:25", "Dec": "07:52"},
-            "sunrise_note": "COPY the month's time from sunrise_1st_of_month, never estimate one. "
+            "sunrise_today_tomorrow": sunrise_now(),
+            "sunrise_note": "For today or tomorrow give sunrise_today_tomorrow (computed for that day). For another "
+                            "month COPY the month's time from sunrise_1st_of_month, never estimate one. "
                             "Mid-October is about 08:12 and late October 08:20 (clocks go back on the last "
                             "Sunday of October, hence November 07:25). "
                             "Latest sunrises: December–January (~07:52–08:10), so even the 07:30 slot is "
                             "before sunrise then; only late May–July (sunrise ~07:00) needs the 07:00 slot. "
+                            "Which slot: to watch the sunrise from the viewpoint first, book the first slot that "
+                            "starts after sunrise (the slots are every 30 minutes); a slot before sunrise means "
+                            "starting the walk in the dark with a headlamp. From August to April the 07:00 and "
+                            "07:30 slots are before sunrise. "
                             "The slot is only for walking onto PR1: the viewpoint by the car park is outside "
                             "the classified trail, so just watching the sunrise should not need a ticket "
                             "(no explicit official statement — say so)."}
@@ -712,7 +753,21 @@ def page_doc(subject: str, lang: str = "en") -> dict:
     rows = _q("SELECT title, url, body FROM kb.doc WHERE kind = 'page' AND subject = %s AND lang = %s "
               "ORDER BY split_part(id, ':', 5)::int", (subject, lang))
     rows = [r for r in rows if not re.match(r"(sources|fontes|sources|quellen|źródła)$", (r["title"] or "").strip(), re.I)]
-    return {"page": rows[0]["url"] if rows else None, "sections": [{"title": r["title"], "text": r["body"]} for r in rows]}
+    sections = [{"title": r["title"], "text": r["body"]} for r in rows]
+    if rows and subject in ("guide:sunrise", "guide:weather", "guide:oneway", "guide:pedrarija", "guide:parking"):
+        # the page's table gives the 1st of each month; the visitor means today (24 Oct: "sunrise today 07:56")
+        sr = sunrise_now()
+        sections.insert(0, {"title": "TODAY'S SUNRISE at Pico do Areeiro (computed for today and tomorrow, Madeira time; "
+                                     "the page's monthly table further down is only for the 1st of each month)",
+                         "text": "; ".join(f"{k} ({v['weekday']}): sunrise {v['sunrise']}, from the summit with a "
+                                           f"clear east horizon {v['summit_clear_horizon']}; the first SIMplifica slot "
+                                           f"after sunrise is {v['first_slot_after_sunrise']}" for k, v in sr.items())
+                                 + ". Any question about sunrise time or which slot to book uses THESE times, never the "
+                                   "monthly table, unless the visitor names another month. "
+                                   "To watch the sunrise from the viewpoint, book the first SIMplifica slot that starts "
+                                   "after sunrise — give exactly the first slot named above, nothing earlier; an earlier "
+                                   "slot means walking in the dark."})
+    return {"page": rows[0]["url"] if rows else None, "sections": sections}
 
 
 TOOLS = [trail_status, trail_facts, find_trails, fees_and_rules, bus, transport, weather_now, forecast_tomorrow,

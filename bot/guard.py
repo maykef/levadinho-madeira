@@ -71,13 +71,20 @@ TAXI_ASKED = re.compile(r"\b(taxi|táxi|taxis|táxis|taksówk\w*|uber|bolt)\b", 
 SENT = re.compile(r"(?<=[.!?])\s+|\n")
 
 
+ABBREV = re.compile(r"(?:\b(?:z|B|e\.g|i\.e|ex|p|np|bzw|usw|ca|vgl|etc|approx|aprox|env|tzn|m\.in|ok)\.|\(\s*\w{1,3}\.)$", re.I)
+
+
 def _sentences(text):
-    """Split keeping line breaks: [(sentence, separator)]."""
-    out, pos = [], 0
+    """Split keeping line breaks: [(sentence, separator)]. A full stop that ends an abbreviation ("z. B.", "e.g.",
+    "p. ex.", "np.") doesn't end the sentence (24 Oct: "(z. B. Beyond Madeira…)" was cut after "z. B." and the
+    company half dropped, leaving "(z. B." in the reply)."""
+    out, pos, start = [], 0, 0
     for m in SENT.finditer(text):
-        out.append((text[pos:m.start()], m.group(0)))
-        pos = m.end()
-    out.append((text[pos:], ""))
+        if m.group(0) != "\n" and "\n" not in m.group(0) and ABBREV.search(text[start:m.start()]):
+            continue
+        out.append((text[start:m.start()], m.group(0)))
+        start = m.end()
+    out.append((text[start:], ""))
     return out
 
 
