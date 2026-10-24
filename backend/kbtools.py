@@ -590,9 +590,34 @@ def weather_now(trail: str | None = None, region: str | None = None) -> dict:
             "source": _source("ipma")}
 
 
+FC_WORDS = {  # forecast_tomorrow's text, per language (owner, 2026-10-24: the tool says it, the model quotes it)
+    "en": {"head": "Cloud forecast for {spot}, next {h} hours", "days": ["today", "tomorrow", "the day after"],
+           "parts": {"morning": "morning (06–10)", "day": "daytime (10–17)"}, "cloud": "{lo}–{hi}% cloud",
+           "agree": "the models agree", "disagree": "the models disagree", "next": "Next forecast at 20:07 {when}.",
+           "when": ["tonight", "tomorrow"], "none": "No cloud forecast for {spot} for the next hours."},
+    "pt": {"head": "Previsão de nuvens para {spot}, próximas {h} horas", "days": ["hoje", "amanhã", "depois de amanhã"],
+           "parts": {"morning": "manhã (06–10)", "day": "dia (10–17)"}, "cloud": "{lo}–{hi}% de nuvens",
+           "agree": "os modelos concordam", "disagree": "os modelos divergem", "next": "Próxima previsão às 20:07 {when}.",
+           "when": ["desta noite", "de amanhã"], "none": "Sem previsão de nuvens para {spot} nas próximas horas."},
+    "fr": {"head": "Prévision de nuages pour {spot}, {h} prochaines heures", "days": ["aujourd'hui", "demain", "après-demain"],
+           "parts": {"morning": "matin (06–10)", "day": "journée (10–17)"}, "cloud": "{lo}–{hi} % de nuages",
+           "agree": "les modèles concordent", "disagree": "les modèles divergent", "next": "Prochaine prévision à 20:07 {when}.",
+           "when": ["ce soir", "demain"], "none": "Pas de prévision de nuages pour {spot} pour les prochaines heures."},
+    "de": {"head": "Wolkenprognose für {spot}, nächste {h} Stunden", "days": ["heute", "morgen", "übermorgen"],
+           "parts": {"morning": "Morgen (06–10)", "day": "Tag (10–17)"}, "cloud": "{lo}–{hi} % Wolken",
+           "agree": "die Modelle sind sich einig", "disagree": "die Modelle sind uneins", "next": "Nächste Prognose {when} um 20:07.",
+           "when": ["heute Abend", "morgen Abend"], "none": "Keine Wolkenprognose für {spot} für die nächsten Stunden."},
+    "pl": {"head": "Prognoza zachmurzenia dla {spot}, najbliższe {h} godz.", "days": ["dziś", "jutro", "pojutrze"],
+           "parts": {"morning": "rano (06–10)", "day": "w dzień (10–17)"}, "cloud": "{lo}–{hi}% chmur",
+           "agree": "modele są zgodne", "disagree": "modele się różnią", "next": "Następna prognoza o 20:07 {when}.",
+           "when": ["dziś wieczorem", "jutro"], "none": "Brak prognozy zachmurzenia dla {spot} na najbliższe godziny."},
+}
+
+
 def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: str = "tomorrow", lang: str = "en") -> dict:
-    """Tomorrow's (or, with day='today', today's) cloud forecast for a summit spot (Pico do Areeiro, Achada do Teixeira, Rabaçal), from five weather
-    models: morning (06–10) and daytime (10–17) cloud cover per model and whether they agree. Uncalibrated."""
+    """Cloud forecast for a summit spot (Pico do Areeiro, Achada do Teixeira, Rabaçal) for the next hours, from five
+    weather models, as ready text: morning (06–10) and daytime (10–17) cloud cover per day and whether the models agree,
+    plus when the next forecast is made (every night at 20:07). Quote the text as it is. Uncalibrated."""
     if trail:
         c = _need_trail(trail)
         reg = _q("SELECT region FROM kb.trail WHERE code = %s", (c,))[0]["region"]
@@ -606,66 +631,41 @@ def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: st
         if not spot:
             return {"forecast": None, "note": "Levadinho's cloud forecast covers only Pico do Areeiro, Achada do Teixeira and Rabaçal."}
     spot = spot or "pico-do-arieiro"
-    today = datetime.datetime.now(MADEIRA).date()
-    asked = "today" if day == "today" else "tomorrow"
-    target = today + datetime.timedelta(days=0 if asked == "today" else 1)
-    rows = _q("SELECT * FROM kb.forecast WHERE spot = %s ORDER BY run_date DESC LIMIT 4", (spot,))
+    w = FC_WORDS[_lang(lang)]
+    name = FORECAST_NAMES.get(spot, spot)
+    now = datetime.datetime.now(MADEIRA).replace(tzinfo=None)
+    nxt = w["next"].format(when=w["when"][0 if (now.hour, now.minute) < (20, 7) else 1])
+    rows = _q("SELECT * FROM kb.forecast WHERE spot = %s ORDER BY run_date DESC LIMIT 1", (spot,))
     if not rows:
-        return {"forecast": None, "note": f"No forecast stored for {spot}."}
-    schedule = "Levadinho makes a new forecast every night at 20:07 (Madeira time)."
-
-    def hours(h, d):
-        d = d.isoformat()
-        return {"morning": [i for i, t in enumerate(h["time"]) if t.startswith(d) and 6 <= int(t[11:13]) < 10],
-                "day": [i for i, t in enumerate(h["time"]) if t.startswith(d) and 10 <= int(t[11:13]) < 17]}
-
-    def made(run_date):  # the run is saved at 20:07 on its run_date; say when, without a date
-        n = (today - run_date).days
-        return ("this evening at 20:07" if n == 0 else "last night at 20:07" if n == 1 else f"{n} nights ago at 20:07")
-    lang = _lang(lang)
-
-    def say(run_date, missing):  # the sentence to copy, in the visitor's language
-        n = min((today - run_date).days, 2)
-        when = {"en": ["this evening", "last night", "two nights ago"], "pt": ["esta noite", "ontem à noite", "há duas noites"],
-                "fr": ["ce soir", "hier soir", "il y a deux soirs"], "de": ["heute Abend", "gestern Abend", "vorgestern Abend"],
-                "pl": ["dziś wieczorem", "wczoraj wieczorem", "przedwczoraj wieczorem"]}[lang][n]
-        if missing:
-            return {"en": f"Levadinho's latest cloud forecast was made {when} at 20:07 and only covers today. The next one is made tonight at 20:07.",
-                    "pt": f"A última previsão de nuvens do Levadinho foi feita {when} às 20:07 e só cobre hoje. A próxima é feita esta noite às 20:07.",
-                    "fr": f"La dernière prévision de nuages de Levadinho a été faite {when} à 20:07 et ne couvre qu'aujourd'hui. La prochaine est faite ce soir à 20:07.",
-                    "de": f"Levadinhos letzte Wolkenprognose wurde {when} um 20:07 erstellt und gilt nur für heute. Die nächste entsteht heute Abend um 20:07.",
-                    "pl": f"Ostatnia prognoza zachmurzenia Levadinho powstała {when} o 20:07 i obejmuje tylko dziś. Następna powstaje dziś wieczorem o 20:07."}[lang]
-        return {"en": f"From the cloud forecast Levadinho made {when} at 20:07 (a new one is made every night at 20:07):",
-                "pt": f"Segundo a previsão de nuvens que o Levadinho fez {when} às 20:07 (é feita uma nova todas as noites às 20:07):",
-                "fr": f"D'après la prévision de nuages faite par Levadinho {when} à 20:07 (une nouvelle chaque soir à 20:07) :",
-                "de": f"Laut der Wolkenprognose, die Levadinho {when} um 20:07 erstellt hat (jeden Abend um 20:07 kommt eine neue):",
-                "pl": f"Według prognozy zachmurzenia, którą Levadinho przygotował {when} o 20:07 (nowa powstaje co wieczór o 20:07):"}[lang]
-    pick = next(((r, hours(r["hourly"]["hourly"], target)) for r in rows if hours(r["hourly"]["hourly"], target)["morning"]), None)
-    if not pick:  # no run reaches the asked day yet: cite the latest one (without its figures) and when the next comes
-        return {"forecast": None, "latest_forecast": {"made": made(rows[0]["run_date"]), "covers": "today only"},
-                "schedule": schedule, "say": say(rows[0]["run_date"], True),
-                "note": f"Levadinho's latest cloud forecast for {FORECAST_NAMES.get(spot, spot)} was made "
-                        f"{made(rows[0]['run_date'])} and covers today only, not the day asked. Reply with "
-                        "the 'say' sentence, in the visitor's language, formal; give no cloud figures. The official Madeira forecast "
-                        "is IPMA's (https://www.ipma.pt). Don't point anywhere else."}
-    row, idx = pick
-    h = row["hourly"]["hourly"]
+        return {"forecast": w["none"].format(spot=name), "next_forecast": nxt, "note": "Quote both lines as they are."}
+    h = rows[0]["hourly"]["hourly"]
+    times = [datetime.datetime.fromisoformat(t) for t in h["time"]]
     models = sorted({k[len("cloud_cover_"):] for k in h if k.startswith("cloud_cover_") and not k.startswith("cloud_cover_low_")})
-    out = {}
-    for m in models:
-        vals = h[f"cloud_cover_{m}"]
-        out[m] = {p: (round(sum(vals[i] for i in ix if vals[i] is not None) / max(1, sum(vals[i] is not None for i in ix))))
-                  if any(vals[i] is not None for i in ix) else None for p, ix in idx.items()}
-    morning = [v["morning"] for v in out.values() if v["morning"] is not None]
-    agree = (max(morning) - min(morning) <= 30) if morning else None
-    res = {"spot": FORECAST_NAMES.get(spot, spot), "forecast_for": asked, "forecast_made": made(row["run_date"]),
-           "say_first": say(row["run_date"], False), "cloud_cover_pct_by_model": out, "models_agree_morning": agree,
-           "schedule": schedule,
-           "note": "Start the reply with the say_first sentence. Model "
-                   "cloud cover at the spot's grid point; Levadinho has not yet calibrated it against webcam frames, so "
-                   "present it as a rough guide, never a promise.",
-           "source": _source(row["source_id"])}
-    return res
+    lines, last = [], None
+    for d in range(3):
+        date = now.date() + datetime.timedelta(days=d)
+        for part, (h0, h1) in (("morning", (6, 10)), ("day", (10, 17))):
+            ix = [i for i, t in enumerate(times) if t.date() == date and h0 <= t.hour < h1 and t >= now.replace(minute=0)]
+            if not ix:
+                continue
+            means = [round(sum(v[i] for i in ix if v[i] is not None) / n) for m in models
+                     for v in [h[f"cloud_cover_{m}"]] for n in [sum(v[i] is not None for i in ix)] if n]
+            if not means:
+                continue
+            lo, hi = min(means), max(means)
+            lines.append(f"{w['days'][d]}, {w['parts'][part]}: {w['cloud'].format(lo=lo, hi=hi)}, "
+                         f"{w['agree'] if hi - lo <= 30 else w['disagree']}")
+            last = times[ix[-1]]
+    if not lines:
+        return {"forecast": w["none"].format(spot=name), "next_forecast": nxt,
+                "note": "There is NO forecast for the coming hours: quote both lines as they are and say nothing about "
+                        "cloud, sun or clear sky later on (a weather_now reading is about now only). The official Madeira "
+                        "forecast is IPMA's (https://www.ipma.pt)."}
+    hours = max(1, round((last - now).total_seconds() / 3600) + 1)
+    return {"forecast": w["head"].format(spot=name, h=hours) + ": " + "; ".join(lines) + ".", "next_forecast": nxt,
+            "note": "Quote forecast and next_forecast as they are, in this order; add nothing. Five weather models, not yet "
+                    "calibrated against our webcams: a rough guide, never a promise.",
+            "source": _source(rows[0]["source_id"])}
 
 
 def closures(since: str | None = None, lang: str = "en") -> dict:
