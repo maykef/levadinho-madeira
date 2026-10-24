@@ -183,12 +183,24 @@ def fix_trail_names(reply):
 PREFETCH = 0  # search results given with the question (RAG); 0 since 2026-10-10: they pushed unasked topics into answers
 
 
-def answer(history, text, lang, lang_rule, page_hint="", search_text=None):
+def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=None):
     """Returns (reply, trace). trace = the tool calls made, for the analytics record and the regression.
-    search_text = the visitor's own words (text may carry our bracketed hints)."""
+    search_text = the visitor's own words (text may carry our bracketed hints).
+    page = kbtools.page_doc() of the page the visitor is chatting on: given to the model as its first tool result,
+    so the page's own answer comes first (owner, 2026-10-24: on the cruise-port page "how do I get to town?" got
+    taxis from transport() while the page says it is a flat 30-40 minute walk)."""
     messages = [{"role": "system", "content": SYSTEM.format(lang_rule=lang_rule) + page_hint}] + history \
         + [{"role": "user", "content": text}]
     trace = []
+    if page and page.get("sections"):
+        args = {"page": page["page"]}
+        trace.append({"tool": "page", "args": args, "ms": 0, "error": None, "prefetch": True})
+        messages += [{"role": "assistant", "content": "", "tool_calls": [{"id": "prefetch-page", "type": "function",
+                      "function": {"name": "search", "arguments": json.dumps({"text": "page " + page["page"]})}}]},
+                     {"role": "tool", "tool_call_id": "prefetch-page",
+                      "content": json.dumps({"results": [{"title": s["title"], "url": page["page"], "text": s["text"]}
+                                                         for s in page["sections"]]},
+                                            ensure_ascii=False)[:MAX_RESULT_CHARS]}]
     if PREFETCH:
         args = {"text": search_text or text, "limit": PREFETCH}
         t = time.time()
@@ -201,7 +213,7 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None):
                       "content": json.dumps(found, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
     for n in range(MAX_ROUNDS):
         # round 1 must call a tool: with "auto" the model answers from memory and invents facts (tested 2026-10-07)
-        m = _call(messages, choice="required" if n == 0 else "auto")
+        m = _call(messages, choice="required" if n == 0 and not page else "auto")
         calls = m.get("tool_calls") or []
         if not calls:
             return fix_trail_names((m.get("content") or "").strip()), trace

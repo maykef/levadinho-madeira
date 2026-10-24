@@ -744,6 +744,10 @@ def _boarding(trips):
     return out
 
 
+NO_BUS = re.compile(r"\b(no (public |direct )?bus|there is no bus|não há autocarro|nenhum autocarro|pas de bus|aucun bus|"
+                    r"kein (öffentlicher |direkter )?bus|keine busverbindung|nie ma (bezpośredniego )?autobusu|żaden autobus)", re.I)
+
+
 def bus_footer(trace, text, reply, lang, stop_link=True):
     """The offer (unless they gave both the day and the stop), the stop on the map once they said where, and the taxi
     rank at the bus's starting place: the rank in that town or on the trail's IFCN panels, else the island-wide Funchal
@@ -753,21 +757,24 @@ def bus_footer(trace, text, reply, lang, stop_link=True):
     calls = [t for t in trace if t["tool"] == "bus" and t.get("trips") and not t.get("error")]
     if not calls:
         return ""
+    # 24 Oct: "no public bus reaches Rabaçal" was followed by "tell me where you'll catch the bus" and the taxi rank
+    # of the bus's starting stop (Caniçal): when the reply says there is no bus, only the trail's own panel taxis
+    nobus = bool(NO_BUS.search(reply))
     args = calls[-1]["args"]
     located = calls[-1].get("trip_rows") and _boarding(calls[-1]["trip_rows"])
     lines = []
-    if not (args.get("day") and args.get("from_stop")):
+    if not nobus and not (args.get("day") and args.get("from_stop")):
         lines.append((BUS_OFFER if located else BUS_OFFER_TIMES)[lang])
-    if stop_link and args.get("from_stop") and located:
+    if not nobus and stop_link and args.get("from_stop") and located:
         stops = {(s["lat"], s["lon"]): s for s, _ in located}
         names = {s.get("boarding_stop_name") or s["kb_stop"] for s in stops.values()}
         if len(names) == 1:  # one place to board (either side of the road): show it; several → they share a location
             s = next(iter(stops.values()))
             lines.append(BUS_STOP_LINK[lang].format(stop=names.pop(), link=maps_walk(s["lat"], s["lon"])))
-    if not guard.MONTE.search(text):
+    if not guard.MONTE.search(text) and not (nobus and not args.get("trail")):
         ranks = []
         try:
-            if args.get("from_stop"):
+            if args.get("from_stop") and not nobus:
                 ranks = kb._ranks_for(args["from_stop"])
                 ranks.sort(key=lambda r: _norm(args["from_stop"]).find(_norm(r["town"] or "")) < 0)
             elif args.get("trail"):
@@ -925,6 +932,13 @@ def answer_tools(user, text, lang, rule, meta=None):
     page = KB["guides"].get(SOURCE_GUIDE.get(source, ""), {}).get("url")
     hint = (f"\nTHE VISITOR CAME FROM OUR PAGE {page}. When their question leaves the destination or the subject open, "
             "assume it is that page's subject.\n") if page else ""
+    gkey = SOURCE_GUIDE.get(source.removesuffix("-qr"))
+    page_doc = brain_tools.kbtools.page_doc("guide:" + gkey, lang) if gkey else None
+    if page_doc and page_doc["sections"]:  # the page's own answer first (owner, 2026-10-24)
+        hint += ("\nTHE VISITOR IS READING THAT PAGE NOW: its full text is the first tool result. When the page answers "
+                 "the question, answer from the page, in the page's words and numbers: it outranks every other tool "
+                 "(a walking route on the page beats a taxi from transport; the page's schedule beats your own). Call "
+                 "other tools only for what the page doesn't cover. Never contradict the page.\n")
     m = re.fullmatch(r"web-pr(\d+)(?:-(\d+))?(?:-qr)?", source)
     page_trail = f"PR{m.group(1)}" + (f".{m.group(2)}" if m.group(2) else "") if m else None
     if page_trail not in KB["trails"]:
@@ -967,15 +981,19 @@ def answer_tools(user, text, lang, rule, meta=None):
     # Never on the getting-back page: its subject IS the return from Achada do Teixeira, so the pick-up isn't a
     # guess there (owner, 2026-10-20: a web-back visitor got the clarifying question twice on 19 Oct)
     ask = walkback_question(text, store.history(user, HISTORY_SINCE), lang, source)
+    # nor on a guide page the model reads in full (24 Oct: "how much is a taxi for a day?" on the one-day page got
+    # the PR1 pick-up question; the page answers it)
     ask = ask or (pickup_question(text, store.history(user, HISTORY_SINCE), lang)
-                  if source != "web-back" and (not named or "PR1" in named) else None)
+                  if source != "web-back" and not (page_doc and page_doc["sections"]) and (not named or "PR1" in named)
+                  else None)
     if ask:
         # 2026-10-22: the question goes into the history like any reply — without it the next message ("at Pico
         # Ruivo") arrived with no memory of what was asked, and the never-ask-twice checks could never see it
         store.add_turn(user, text, ask)
         return ask
     t0 = time.time()
-    reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text)
+    reply, trace = brain_tools.answer(store.history(user, HISTORY_SINCE), q, lang, rule, hint, search_text=text,
+                                      page=page_doc)
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
     reply, changes = guard.check(reply, text, lang, named, (store.get_user(user) or {}).get("base") or "")
     if bus_now_pending(user, trace, text):  # "bus now": the location request follows the timetable

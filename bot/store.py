@@ -3,13 +3,27 @@ for the model while it wakes up (wake-on-demand, see llm_control.py)."""
 import json
 import os
 import sqlite3
+import threading
 import time
 
 DB = os.environ.get("LEVADINHO_DB", os.path.join(os.path.dirname(os.path.abspath(__file__)), "levadinho.db"))
 HISTORY_TURNS = 8          # previous exchanges sent back to the model
 HISTORY_TTL = 24 * 3600    # forget a conversation after a day of silence
 
-_db = sqlite3.connect(DB, check_same_thread=False)
+class _PerThread:
+    """One SQLite connection per thread (2026-10-24: one shared connection failed with "bad parameter or other API
+    misuse" when three web chats arrived at the same moment; the webhook answers in a thread pool)."""
+    _local = threading.local()
+
+    def __getattr__(self, name):
+        c = getattr(self._local, "c", None)
+        if c is None:
+            c = self._local.c = sqlite3.connect(DB, timeout=10)
+        return getattr(c, name)
+
+
+_db = _PerThread()
+_db.execute("PRAGMA journal_mode=WAL")  # readers don't wait for a writer on another thread
 _db.executescript("""
 CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, lang TEXT, state TEXT, updated REAL);
 CREATE TABLE IF NOT EXISTS turns (user TEXT, at REAL, question TEXT, answer TEXT);

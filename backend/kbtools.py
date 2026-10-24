@@ -705,5 +705,15 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
             **({} if rows else {"note": "Nothing found in Levadinho's knowledge for this query."})}
 
 
+def page_doc(subject: str, lang: str = "en") -> dict:
+    """The whole text of one of our pages (kb.doc, section by section) — not a model tool: brain.py gives it to the
+    model when the visitor is chatting on that page (owner, 2026-10-24: the page's own answer first)."""
+    lang = _lang(lang)
+    rows = _q("SELECT title, url, body FROM kb.doc WHERE kind = 'page' AND subject = %s AND lang = %s "
+              "ORDER BY split_part(id, ':', 5)::int", (subject, lang))
+    rows = [r for r in rows if not re.match(r"(sources|fontes|sources|quellen|źródła)$", (r["title"] or "").strip(), re.I)]
+    return {"page": rows[0]["url"] if rows else None, "sections": [{"title": r["title"], "text": r["body"]} for r in rows]}
+
+
 TOOLS = [trail_status, trail_facts, find_trails, fees_and_rules, bus, transport, weather_now, forecast_tomorrow,
          closures, places, place, notices, webcam, search]
