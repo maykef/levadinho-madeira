@@ -995,7 +995,9 @@ def answer_tools(user, text, lang, rule, meta=None):
                  "way back runs after a ship's usual all-aboard (late afternoon), or that leaves before ships dock (about "
                  "07:00–08:00): check the bus tool's times against a port day and, when none fits, say there is no "
                  "bus that fits a port day. The page's walking routes and the taxi with an agreed return are the "
-                 "options.\n")
+                 "options. PR1 on a port day: our cruise-port page says the walk that fits is the Pico do Areeiro ↔ "
+                 "Pedra Rija out-and-back; recommend that, not the full traverse, and never state a driving time or "
+                 "a booking time no tool gave.\n")
     if page_doc and page_doc["sections"]:  # the page's own answer first (owner, 2026-10-24)
         hint += ("\nTHE PAGE'S TEXT IS THE FIRST TOOL RESULT. When the page answers "
                  "the question, answer from the page, in the page's words and numbers: it outranks every other tool "
