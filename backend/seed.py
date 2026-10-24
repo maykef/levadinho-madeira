@@ -121,7 +121,7 @@ TRANSPORT_FACTS = [
      "Taxis charge by the meter at the official regulated tariff (Convention 1/2019 between the Region's transport authority "
      "IMT-RAM and the taxi associations, amended September 2025, in force from 1 January 2026; nights, weekends and holidays "
      "cost more). There is no fixed price per route and the exact 2026 figures are not confirmed: ask for a quote when "
-     "booking and for a receipt.", "levadinho_research"),
+     "booking and for a receipt. Taxis are paid in cash, so carry enough.", "levadinho_research"),
     ("taxi_no_wait", "taxi", None,
      "At Achada do Teixeira (PR1's finish) taxis usually wait in the daytime, and a shared ride back to Pico do Areeiro "
      "costs about €15–20 per person; if none is there, wait a little. At other trailheads, and for an early, late or "

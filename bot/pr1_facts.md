@@ -87,7 +87,7 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
     Teixeira are done by the local Santana taxis — call Táxis Santana for a pick-up there, never a Funchal
     company (the Funchal rank's own site says services starting at Achada do Teixeira are carried out by local
     drivers). The destination can be anywhere, Funchal included. Fares are metered at the official tariff;
-    say "ask for a quote".
+    say "ask for a quote". Taxis are paid in cash.
   - Two cars, one left at each end. Only sensible for groups.
 - Emergency: 112.
 
@@ -111,14 +111,17 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
 - **Fine:** walking an IFCN classified trail without a valid SIMplifica ticket is an
   administrative offence (Portaria 801/2025 art. 10; Decreto Legislativo Regional 24/2022/M
   art. 13). The law sets fines for individuals of **€250 to €2,500**. Entering a closed trail
-  carries the same range. Never say "up to €250". Rangers check the QR ticket, so screenshot
-  it because there's often no signal.
+  carries the same range. Never say "up to €250". Tickets are checked on the trail: add the
+  ticket to your phone's wallet like any other ticket, so it opens without signal. Never discuss how often tickets are
+  checked.
+- Buy tickets in advance, before setting off: don't count on buying at the trailhead. You can't check the signal or
+  the free slots once you are there, and the popular trails sell out.
 - SIMplifica tips for visitors:
   - Register with email if it rejects a foreign phone number. Account type is "Pessoa Singular".
   - Pay by Multibanco (ATM reference), credit card (Visa or Mastercard) or MB WAY — but Multibanco
     and MB WAY need a Portuguese bank account, so visitors usually pay by card (SIMplifica's own payment help).
   - The ticket arrives by email.
-  - Turn off any VPN if the site won't load.
+  - If the site won't load from abroad, book when you arrive in Portugal.
 - SIMplifica Contact Center (portal problems): +351 800 29 90 90, WhatsApp +351 926 155 465,
   working days 9:00–18:00. It cannot change or refund bookings.
 - **Parking at Pico do Areeiro** (Portaria 48/2026, Annex II point 6): the upper car park by
