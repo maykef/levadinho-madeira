@@ -67,6 +67,8 @@ NO_RULE_ANSWER = {
           "levadach, więc nie mogę powiedzieć, czy to dozwolone. Można zapytać hello@levadinho-madeira.com.",
 }
 MONTE = re.compile(r"\bmonte\b", re.I)
+# a cruise passenger, any language and word form ("porto de cruzeiros" slipped past answers.CRUISE_RE, 24 Oct)
+SHIP_STEM = re.compile(r"cruis|cruzeir|croisi|paquebot|kreuzfahrt|schiff|statk|wycieczkow|navio|\bship", re.I)
 TAXI_ASKED = re.compile(r"\b(taxi|táxi|taxis|táxis|taksówk\w*|uber|bolt)\b", re.I)
 SENT = re.compile(r"(?<=[.!?])\s+|\n")
 
@@ -141,7 +143,7 @@ def check(reply, user_text, lang, trails, context=""):
     # timetable replaces the model's time lines. The other direction is never added unasked.
     legs = []
     # never for a cruise passenger: the printed timetable is the 06:00 bus, before ships dock (24 Oct, live)
-    for code in (trails[:1] if not answers.CRUISE_RE.search(full) else []):
+    for code in (trails[:1] if not SHIP_STEM.search(full) else []):
         for leg in ("there", "back"):
             tt = answers._bus(code, leg)
             if tt:

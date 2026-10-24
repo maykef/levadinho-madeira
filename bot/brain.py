@@ -1079,8 +1079,9 @@ def answer_tools(user, text, lang, rule, meta=None):
     if _norm(reply)[:160] in earlier and not any(_norm(m.get("content") or "") == _norm(text)
                                                  for m in hist_now if m.get("role") == "user"):
         log.warning("reply repeated an earlier one, asked again: %r", reply[:120])
-        reply, trace = brain_tools.answer(hist_now, q + "\n\n[Answer THIS question only; your earlier replies were about "
-                                          "other questions.]", lang, rule, hint, search_text=text, page=page_doc)
+        # without the history: it is what pulled the model back to the old answer (24 Oct, live: the re-ask with
+        # history gave the taxi template to "which slot for sunrise?")
+        reply, trace = brain_tools.answer([], q, lang, rule, hint, search_text=text, page=page_doc)
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
     if reply.strip().lower().startswith(text.strip().lower()) and len(reply.strip()) > len(text.strip()) + 20:
         reply = reply.strip()[len(text.strip()):].strip()  # 24 Oct (PL): the reply began by repeating the question
