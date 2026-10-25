@@ -503,6 +503,8 @@ def _aliases():
 ALIASES = _aliases()
 WALK_RE = re.compile(r"\b((?:levada|vereda|caminho)s?(?:\s+(?:do|da|dos|das|de))?)\s+([\w'-]+(?:\s+[\w'-]+){0,2})")
 # not a bare "ticket": "can I watch the sunrise at Areeiro without a ticket?" is not a fee question (regression)
+PORTELA_BACK = re.compile(r"(?=.*\bportela\b)(?=.*(back|return|get to|bus|taxi|voltar|regress|autocarro|retour|rentrer|"
+                          r"zuruck|ruckfahrt|powrot|wrocic|autobus|dojechac|funchal|machico))")
 BY_BUS_LINE = {"en": "🚌 Levadas by bus from Funchal:", "pt": "🚌 Levadas de autocarro a partir do Funchal:",
                "fr": "🚌 Levadas en bus depuis Funchal :", "de": "🚌 Levadas mit dem Bus ab Funchal:",
                "pl": "🚌 Lewady autobusem z Funchal:"}
@@ -1007,7 +1009,9 @@ def answer_tools(user, text, lang, rule, meta=None):
                        "dock; the afternoon one leaves the last way back for the evening): say there is a bus from "
                        "Funchal but it doesn't fit a port day, then the options that do. Name no other bus line.\n")
     if SHIP_Q.search(text):
-        hint += ("\nTHE VISITOR IS ON A CRUISE SHIP: answer whether it fits their time ashore. Never offer a bus whose "
+        hint += ("\nTHE VISITOR IS ON A CRUISE SHIP: answer whether it fits their time ashore (keep an hour's margin "
+                 "before all-aboard). If they didn't name their ship, never guess it from the port list: ask what time "
+                 "they must be back on board. Never offer a bus whose "
                  "way back runs after a ship's usual all-aboard (late afternoon), or that leaves before ships dock (about "
                  "07:00–08:00): check the bus tool's times against a port day and, when none fits, say there is no "
                  "bus that fits a port day. The page's walking routes and the taxi with an agreed return are the "
@@ -1083,6 +1087,8 @@ def answer_tools(user, text, lang, rule, meta=None):
                   "not on IFCN's list of classified trails, so there is nothing to book or pay on SIMplifica, and IFCN "
                   "doesn't maintain it (own risk). Not \"unmarked\", not \"an IFCN path\". Keep the visitor's name "
                   "for it; never say it doesn't exist.]")
+    if PORTELA_BACK.search(_norm(text)):  # the owner's plan, not a bare "no bus" (25 Oct test, after the prompt was cut)
+        q += '\n\n[Getting back from Portela: call day_plan(plan="portela_back").]'
     if named and FEE_Q.search(_norm(text)):  # 25 Oct (test): "Is Ponta de São Lourenço free?" → "Yes, free": the
         # model read only fees_and_rules, which has no per-trail fee
         fees = []

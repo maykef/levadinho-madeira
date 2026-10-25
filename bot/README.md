@@ -76,6 +76,29 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
 - Taxi booking form (`taxi_form.py`, `taxi_routes.json`) is committed but NOT wired in (owner: wait for the route
   prices and a full month of data); the brain hooks are parked in `taxi_form_brain.patch`.
 
+**25 Oct 2026 (owner: "the prompt must be sleek, clear, easy to follow"):**
+- **Short prompt.** `brain_tools.SYSTEM` is seven rules (~1.7 KB, was ~16 KB). What to call lives in each tool's
+  description (`WHEN`, bot only: the public MCP keeps the plain docstrings); how to answer with a result travels inside
+  that result as `how_to_answer` lines (`_how()`), so a rule is read only when it applies (PR1 tickets with PR1's
+  status, the taxi templates with taxi_prices / transport, Monte with the cable car…). New rules go there, not in the
+  prompt.
+- **Fact check** (`bot/grounding.py`): every time, price, phone number, km, driving time and Portuguese-style place name
+  in a reply must be in this turn's tool results or the visitor's own words (group-size arithmetic and the PR1
+  start + 3–5 h finish allowed); dates are never allowed. Unsupported → the model is asked again once → what is still
+  unsupported is cut → nothing left = the fixed no-data sentence (`grounding.NO_DATA`, written in code). The trace gets
+  a `fact_check` row. It cannot see a claim with no number or name ("you don't need a 4x4").
+- **Fixed sentences for what we don't have:** a tool can return `reply_exactly`, sent as it is when it is the turn's
+  only call (a model told "we don't know" makes something up). First user: `places(near_place=…)` outside Funchal /
+  Monte ("I only list places in Funchal and Monte…").
+- `places(near_place=…)` and `find_trails(near_place=…)` take a town name (38 OpenStreetMap centres in `kbtools.TOWNS`).
+- **Morning test:** collect job `bot_morning_test` (06:45) runs `backend/tests/morning.py`: the regression set plus the
+  training question set (`seo_research/finetune/questions/*.jsonl`, local) on a copy of the chat store →
+  `reports/data/bot_tests/<date>.json` and `summary.log`; exit 1 (red dot on the Data collection tab) when a test that
+  passed the previous morning fails.
+- Misspelt and non-classified levadas: `resolve_trail` matches the distinctive words only; a levada name that is no PR
+  trail gets a "not on IFCN's classified list" note (never "doesn't exist"); fee questions carry the named trail's fee;
+  a bare "ok" gets a short acknowledgement.
+
 **24 Oct 2026 (owner's live tests and the fine-tuning question set):**
 - Two bot-only tools on top of the 14 public ones (not on the MCP server):
   - `kbtools.taxi_prices(pickup, destination, people)`: indicative prices per vehicle from `bot/taxi_routes.json`

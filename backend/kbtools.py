@@ -83,6 +83,7 @@ def _day(ts):
 
 ALIASES = {  # names the fuzzy match gets wrong or that aren't a trail's own name
     "levada do norte": "PR17",  # its ticketed stretch (the rest is non-classified and free)
+    "arieiro": "PR1", "areeiro": "PR1",  # the old spelling of Pico do Areeiro (PR1's start)
 }
 
 
@@ -119,9 +120,12 @@ def resolve_trail(text):
         return rows[0]["code"]
     # one misspelt word ("rizco", "furadu", "pico do arieiro"): word against word, 5+ letters, edit ratio (trigrams
     # score "rizco"/"risco" and "moniz"/"monte" alike)
+    # only for a word our texts never use: "faial" is a real place one letter from "fanal" (25 Oct: Levada da Serra do
+    # Faial → PR13 Fanal), "rizco" is a misspelling
     from difflib import SequenceMatcher
+    _spell("")
     best = max(((SequenceMatcher(None, q, w).ratio(), -len(c), c) for c, n in _trail_cores() for w in n.split()
-                for q in core.split() if len(q) >= 5 and len(w) >= 5), default=None)
+                for q in core.split() if len(q) >= 5 and len(w) >= 5 and q not in _VOCAB), default=None)
     return best[2] if best and best[0] >= 0.78 else None
 
 
@@ -627,8 +631,12 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
               + ") ORDER BY id", [codes] + places)
     if back:
         res["getting_back"] = [{"trail": b["subject"], "text": _pick(b["text"], "en"), "source": _source(b["source_id"])} for b in back]
-    res["note"] = ("Give the ranks serving the pick-up place first (call them and the destination's, compare quotes). "
-                   "For what the ride costs call taxi_prices; never quote a fare it didn't return.")
+    trailhead = bool(pickup) and bool(_q("SELECT 1 FROM kb.trail WHERE kb.unaccent_i(start_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%' "
+                                         "OR kb.unaccent_i(end_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%'", (pickup, pickup)))
+    res["note"] = (("A pick-up at a trailhead is done only by the ranks that serve the pick-up place: give only those, not "
+                    "the destination's. " if trailhead else
+                    "Give the ranks serving the pick-up place first (call them and the destination's, compare quotes). ")
+                   + "For what the ride costs call taxi_prices; never quote a fare it didn't return.")
     return res
 
 
@@ -805,11 +813,37 @@ def closures(since: str | None = None, lang: str = "en") -> dict:
             "source": _source("ifcn_warnings")}
 
 
-def places(category: str | None = None, neighbourhood: str | None = None, near_lat: float | None = None,
-           near_lon: float | None = None, limit: int = 10, lang: str = "en") -> dict:
-    """Places in Funchal and around the island (viewpoint, sea_pool, museum, cable_car, poncha, bolo_de_mel, garden,
-    landmark, restaurant_street…), by category, neighbourhood or distance from a point."""
+PLACES_NONE = {  # sent as it is (owner, 2026-10-25: a model told "we don't know" makes something up)
+    "en": "So far I only list places in Funchal and Monte (museums, the market, gardens, cable cars, lidos). I don't have {area} yet.",
+    "pt": "Por agora só tenho locais no Funchal e no Monte (museus, o mercado, jardins, teleféricos, complexos balneares). Ainda não tenho {area}.",
+    "fr": "Pour l'instant, je ne liste que des lieux à Funchal et à Monte (musées, marché, jardins, téléphériques, piscines). Je n'ai pas encore {area}.",
+    "de": "Bisher habe ich nur Orte in Funchal und Monte (Museen, Markt, Gärten, Seilbahnen, Bäder). {area} habe ich noch nicht.",
+    "pl": "Na razie mam tylko miejsca w Funchal i Monte (muzea, targ, ogrody, kolejki linowe, kąpieliska). Nie mam jeszcze {area}.",
+}
+PLACES_AREA = {"en": "places around {t}", "pt": "locais perto de {t}", "fr": "de lieux près de {t}",
+               "de": "Orte bei {t}", "pl": "miejsc w okolicy {t}"}
+
+
+def places(category: str | None = None, neighbourhood: str | None = None, near_place: str | None = None,
+           near_lat: float | None = None, near_lon: float | None = None, limit: int = 10, lang: str = "en") -> dict:
+    """Places in Funchal and Monte (museum, sea_pool, cable_car, garden, market, toboggan…), by category,
+    neighbourhood, or near a town the visitor names (near_place, e.g. "Machico"), within 15 km."""
     lang = _lang(lang)
+    town = _town(near_place) if near_place else None
+    if town:
+        near_lat, near_lon = TOWNS[town]
+    if near_lat is not None and near_lon is not None:
+        # kb.place has no coordinates yet and every place is in Funchal / Monte: a point within NEAR_KM of Funchal is
+        # covered (all places, by category), anything farther gets the fixed sentence
+        import math
+        flat, flon = TOWNS["Funchal"]
+        km = 6371 * math.hypot(math.radians(near_lat - flat), math.radians(near_lon - flon) * math.cos(math.radians(flat)))
+        if km > NEAR_KM:
+            area = PLACES_AREA[lang].format(t=town) if town else {"en": "places there", "pt": "locais aí",
+                                                                  "fr": "de lieux là-bas", "de": "Orte dort",
+                                                                  "pl": "miejsc tam"}[lang]
+            return {"places": [], "reply_exactly": PLACES_NONE[lang].format(area=area)}
+        near_lat = near_lon = None
     where, args = ["TRUE"], []
     if category:
         where.append("%s = ANY(category)"); args.append(category.lower())
