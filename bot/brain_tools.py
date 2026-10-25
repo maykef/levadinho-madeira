@@ -179,6 +179,8 @@ def _how(name, args, result, lang):
               "The shared ride back from Achada do Teixeira to Pico do Areeiro: about €15–20 per person; for «n» people "
               "about €«15×n»–«20×n» in total. A question about that shared ride gets only this, not a car price.",
               "If the visitor's own sum is right, start with \"Yes\"."]
+    elif name == "weather_now":
+        h.append("Say when it was measured (\"measured at\" + observed_time), never \"right now\".")
     elif name == "webcam":
         h.append("The picture is sent after your reply: say in one line which camera it is and when the picture was "
                  "taken (e.g. \"Here's the Rabaçal car park, picture from 17:26\"). Never describe the picture.")
@@ -316,6 +318,7 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
             if name == "forecast_tomorrow" and result.get("forecast") and len(calls) == 1:
                 # the forecast goes out as the tool wrote it (owner, 2026-10-24: "simply cite what the tool says"); the
                 # model's paraphrase turned a clear summit into "no sea of clouds expected"
+                trace[-1]["verbatim"] = True
                 return result["forecast"] + "\n" + result.get("next_forecast", ""), trace
             if result.get("reply_exactly") and len(calls) == 1 and not any(
                     t.get("tool") not in ("page", name) for t in trace[:-1]):

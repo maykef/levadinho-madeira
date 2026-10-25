@@ -4,9 +4,12 @@
 Connection: KB_URL (environment) or ~/.config/levadinho/kb-reader-url, the read-only kb_reader role.
 """
 import datetime
+import json
 import os
 import re
 import threading
+import time
+import urllib.request
 import zoneinfo
 
 import psycopg
@@ -695,6 +698,81 @@ def taxi_prices(pickup: str | None = None, destination: str | None = None, peopl
     return res
 
 
+# Live readings (owner, 2026-10-25): the weather and the cloud forecast are fetched when a visitor asks, kept for an
+# hour, and everyone who asks within that hour gets the same copy; past the hour the next question fetches a new one.
+# With nobody asking, the scheduled pulls (the updater's morning reading, the forecasts at 06:07 / 12:07 / 20:07) stay
+# what the tools fall back on. One copy per process: the bot's webhook is one process, so all visitors share it.
+LIVE_TTL_S = 3600
+LIVE_RETRY_S = 300   # after a failed fetch, the stored data answers for 5 min before the next try
+_live_cache, _live_lock = {}, threading.Lock()
+
+
+def _live(key, fetch):
+    """fetch()'s value, at most an hour old; None when the source can't be reached (the caller falls back)."""
+    with _live_lock:
+        at, val = _live_cache.get(key, (0, None))
+        if time.time() - at < (LIVE_TTL_S if val is not None else LIVE_RETRY_S):
+            return val
+        try:
+            val = fetch()
+        except Exception:  # any network / parse failure: fall back to the stored data, never fail the answer
+            val = None
+        _live_cache[key] = (time.time(), val)
+        return val
+
+
+def _get_json(url):
+    req = urllib.request.Request(url, headers={"User-Agent": "Levadinho/1.0 (+https://levadinho-madeira.com)"})
+    return json.load(urllib.request.urlopen(req, timeout=10))
+
+
+# The updater's stations (scripts/update_status.py REGIONS): (region, station, fallback stations, place)
+IPMA_OBS = "https://api.ipma.pt/open-data/observation/meteorology/stations/observations.json"
+IPMA_STATIONS = [("summit", 1210974, (), "Pico do Areeiro (IPMA summit station)"),
+                 ("north", 1210965, (), "Santana"),
+                 ("west", 1210970, (1210987,), "Rabaçal"),   # Bica da Cana, then Prazeres
+                 ("east", 1210978, (), "São Lourenço"),
+                 ("south", 1200522, (), "Funchal")]
+IPMA_WIND_FALLBACK = 1210973   # Areeiro: the summit wind sensor is often out
+CLOUD_REGIONS = {"summit", "west"}   # high stations: humidity ≥ 90 % there means most likely in cloud
+
+
+def _ipma_now():
+    """{region: reading} from IPMA's hourly observations (keyed by UTC hour, about an hour behind)."""
+    obs = _get_json(IPMA_OBS)
+    hours = sorted(obs, reverse=True)
+
+    def latest(sid, need="temperatura"):
+        for h in hours:
+            r = obs[h].get(str(sid))
+            if r and (r.get(need) is not None and r.get(need) > -99):
+                return h, r
+        return None, None
+
+    out = {}
+    for region, sid, alts, place in IPMA_STATIONS:
+        h, r = latest(sid)
+        for alt in alts:
+            if r:
+                break
+            h, r = latest(alt)
+        if not r or not -10 <= r["temperatura"] <= 30:
+            continue
+        val = lambda k: r.get(k) if r.get(k) is not None and r.get(k) > -99 else None
+        wind = val("intensidadeVentoKM")
+        if wind is None and sid == 1210974:
+            wind = (latest(IPMA_WIND_FALLBACK, "intensidadeVentoKM")[1] or {}).get("intensidadeVentoKM")
+        hum = val("humidade")
+        t = datetime.datetime.fromisoformat(h).replace(tzinfo=datetime.timezone.utc).astimezone(MADEIRA)
+        out[region] = {"region": region, "place": place, "observed_time": t.strftime("%H:%M"),
+                       "temp_c": round(r["temperatura"], 1), "wind_kmh": round(wind) if wind is not None else None,
+                       "rain_mm": val("precAcumulada"), **({"humidity_pct": round(hum)} if hum is not None else {}),
+                       "likely_in_cloud": bool(region in CLOUD_REGIONS and hum is not None and hum >= 90)}
+    if not out:
+        raise ValueError("no IPMA reading")
+    return out
+
+
 def weather_now(trail: str | None = None, region: str | None = None) -> dict:
     """The latest measured IPMA reading for a trail's area (or a region: summit|north|west|east|south; all regions
     when neither is given). The summit station also says whether Pico do Areeiro is most likely in cloud."""
@@ -704,34 +782,54 @@ def weather_now(trail: str | None = None, region: str | None = None) -> dict:
         regions = [r[0]["region"]]
     elif region:
         regions = [region.lower()]
-    if "summit" in regions:
-        regions.append("summit_station")
+    live = _live("ipma", _ipma_now) or {}
+    old = [g for g in regions if g not in live]   # IPMA dark for this station: the updater's morning reading
+    if "summit" in old:
+        old.append("summit_station")
     rows = _q("""SELECT DISTINCT ON (region) * FROM kb.weather_obs WHERE region = ANY(%s)
-                 ORDER BY region, observed_at DESC""", (regions,))
-    return {"readings": [{"region": r["region"], "place": r["place"], "observed_time": r["observed_at"].astimezone(MADEIRA).strftime("%H:%M"),
-                          "temp_c": float(r["temp_c"]) if r["temp_c"] is not None else None,
-                          "wind_kmh": float(r["wind_kmh"]) if r["wind_kmh"] is not None else None,
-                          "rain_mm": float(r["rain_mm"]) if r["rain_mm"] is not None else None,
-                          **({"humidity_pct": r["humidity"]} if r["humidity"] is not None else {}),
-                          "likely_in_cloud": r["in_cloud"]} for r in rows],
-            "note": "Measured station readings (not a forecast), read once a day by the site's updater. null = sensor gave no value.",
+                 ORDER BY region, observed_at DESC""", (old,)) if old else []
+    readings = [live[g] for g in regions if g in live] + [
+        {"region": r["region"], "place": r["place"], "observed_time": r["observed_at"].astimezone(MADEIRA).strftime("%H:%M"),
+         "temp_c": float(r["temp_c"]) if r["temp_c"] is not None else None,
+         "wind_kmh": float(r["wind_kmh"]) if r["wind_kmh"] is not None else None,
+         "rain_mm": float(r["rain_mm"]) if r["rain_mm"] is not None else None,
+         **({"humidity_pct": r["humidity"]} if r["humidity"] is not None else {}),
+         "likely_in_cloud": r["in_cloud"]} for r in rows]
+    return {"readings": readings,
+            "note": "Measured IPMA station readings (not a forecast); observed_time = when it was measured (IPMA's "
+                    "latest hour, or the site's morning reading when the station sent nothing since). null = sensor "
+                    "gave no value.",
             "source": _source("ipma")}
 
 
+# the fog test's request (reports/camtest/forecast.py), for one spot
+FORECAST_SPOTS = {"pico-do-arieiro": (32.7355, -16.9288, 1818), "achada-do-teixeira": (32.7648, -16.9211, 1592),
+                  "rabacal-madeira": (32.7550, -17.1340, 1290)}
+FORECAST_URL = ("https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&elevation={ele}"
+                "&hourly=cloud_cover,cloud_cover_low&models=ecmwf_ifs025,icon_global,gfs_seamless,meteofrance_seamless,"
+                "ukmo_seamless&forecast_days=3&timezone=Europe/Lisbon")
+
+
+def _forecast_live(spot):
+    lat, lon, ele = FORECAST_SPOTS[spot]
+    d = _get_json(FORECAST_URL.format(lat=lat, lon=lon, ele=ele))
+    return {"hourly": d["hourly"], "made": datetime.datetime.now(MADEIRA).strftime("%H:%M")}
+
+
 FC_WORDS = {  # forecast_tomorrow's text, per language (owner, 2026-10-24: the tool says it, the model quotes it)
-    "en": {"head": "Cloud forecast for {spot}, next {h} hours", "days": ["today", "tomorrow", "the day after"],
+    "en": {"made": "Forecast made at {t}.", "head": "Cloud forecast for {spot}, next {h} hours", "days": ["today", "tomorrow", "the day after"],
            "parts": {"morning": "morning (06–10)", "day": "daytime (10–17)"}, "sky": ["clear", "partly cloudy", "cloudy"], "votes": "{n} of {m} models, middle value {p}% cloud", "next": "Next forecast at {t} {when}.",
            "when": ["today", "tomorrow"], "none": "No cloud forecast for {spot} for the next hours."},
-    "pt": {"head": "Previsão de nuvens para {spot}, próximas {h} horas", "days": ["hoje", "amanhã", "depois de amanhã"],
+    "pt": {"made": "Previsão feita às {t}.", "head": "Previsão de nuvens para {spot}, próximas {h} horas", "days": ["hoje", "amanhã", "depois de amanhã"],
            "parts": {"morning": "manhã (06–10)", "day": "dia (10–17)"}, "sky": ["limpo", "parcialmente nublado", "nublado"], "votes": "{n} de {m} modelos, valor central {p}% de nuvens", "next": "Próxima previsão às {t} de {when}.",
            "when": ["hoje", "amanhã"], "none": "Sem previsão de nuvens para {spot} nas próximas horas."},
-    "fr": {"head": "Prévision de nuages pour {spot}, {h} prochaines heures", "days": ["aujourd'hui", "demain", "après-demain"],
+    "fr": {"made": "Prévision faite à {t}.", "head": "Prévision de nuages pour {spot}, {h} prochaines heures", "days": ["aujourd'hui", "demain", "après-demain"],
            "parts": {"morning": "matin (06–10)", "day": "journée (10–17)"}, "sky": ["dégagé", "partiellement nuageux", "nuageux"], "votes": "{n} modèles sur {m}, valeur médiane {p} % de nuages", "next": "Prochaine prévision à {t} {when}.",
            "when": ["aujourd'hui", "demain"], "none": "Pas de prévision de nuages pour {spot} pour les prochaines heures."},
-    "de": {"head": "Wolkenprognose für {spot}, nächste {h} Stunden", "days": ["heute", "morgen", "übermorgen"],
-           "parts": {"morning": "früh (06–10)", "day": "tagsüber (10–17)"}, "sky": ["klar", "teils bewölkt", "bewölkt"], "votes": "{n} von {m} Modellen, Mittelwert {p} % Wolken", "next": "Nächste Prognose {when} um {t}.",
+    "de": {"made": "Prognose von {t} Uhr.", "head": "Wolkenprognose für {spot}, nächste {h} Stunden", "days": ["heute", "morgen", "übermorgen"],
+           "parts": {"morning": "früh (06–10)", "day": "tagsüber (10–17)"}, "sky": ["klar", "teils bewölkt", "bewölkt"], "votes": "{n} von {m} Modellen, Median {p} % Wolken", "next": "Nächste Prognose {when} um {t}.",
            "when": ["heute", "morgen"], "none": "Keine Wolkenprognose für {spot} für die nächsten Stunden."},
-    "pl": {"head": "Prognoza zachmurzenia dla {spot}, najbliższe {h} godz.", "days": ["dziś", "jutro", "pojutrze"],
+    "pl": {"made": "Prognoza z godz. {t}.", "head": "Prognoza zachmurzenia dla {spot}, najbliższe {h} godz.", "days": ["dziś", "jutro", "pojutrze"],
            "parts": {"morning": "rano (06–10)", "day": "w dzień (10–17)"}, "sky": ["bezchmurnie", "częściowe zachmurzenie", "pochmurno"], "votes": "{n} z {m} modeli, wartość środkowa {p}% chmur", "next": "Następna prognoza {when} o {t}.",
            "when": ["dziś", "jutro"], "none": "Brak prognozy zachmurzenia dla {spot} na najbliższe godziny."},
 }
@@ -740,7 +838,7 @@ FC_WORDS = {  # forecast_tomorrow's text, per language (owner, 2026-10-24: the t
 def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: str = "tomorrow", lang: str = "en") -> dict:
     """Cloud forecast for a summit spot (Pico do Areeiro, Achada do Teixeira, Rabaçal) for the next hours, from five
     weather models, as ready text: morning (06–10) and daytime (10–17), the sky most models give (clear / partly cloudy / cloudy), how many back it and the middle value,
-    plus when the next forecast is made (three a day: 06:07, 12:07, 20:07). Quote the text as it is. Uncalibrated."""
+    plus when it was made (fetched when asked, kept an hour; else the 06:07 / 12:07 / 20:07 run). Quote the text as it is. Uncalibrated."""
     if trail:
         c = _need_trail(trail)
         reg = _q("SELECT region FROM kb.trail WHERE code = %s", (c,))[0]["region"]
@@ -757,12 +855,16 @@ def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: st
     w = FC_WORDS[_lang(lang)]
     name = FORECAST_NAMES.get(spot, spot)
     now = datetime.datetime.now(MADEIRA).replace(tzinfo=None)
-    t = next((f"{hh:02d}:07" for hh in (6, 12, 20) if (now.hour, now.minute) < (hh, 7)), None)  # runs at 06:07, 12:07, 20:07
-    nxt = w["next"].format(t=t or "06:07", when=w["when"][0 if t else 1])
-    rows = _q("SELECT * FROM kb.forecast WHERE spot = %s ORDER BY run_date DESC LIMIT 1", (spot,))
-    if not rows:
+    live = _live("forecast:" + spot, lambda: _forecast_live(spot))
+    rows = [] if live else _q("SELECT * FROM kb.forecast WHERE spot = %s ORDER BY run_date DESC LIMIT 1", (spot,))
+    if live:  # made when a visitor asked, kept an hour (see _live)
+        nxt = w["made"].format(t=live["made"])
+    else:     # Open-Meteo unreachable: the last scheduled run (06:07, 12:07, 20:07)
+        t = next((f"{hh:02d}:07" for hh in (6, 12, 20) if (now.hour, now.minute) < (hh, 7)), None)
+        nxt = w["next"].format(t=t or "06:07", when=w["when"][0 if t else 1])
+    if not live and not rows:
         return {"forecast": w["none"].format(spot=name), "next_forecast": nxt, "note": "Quote both lines as they are."}
-    h = rows[0]["hourly"]["hourly"]
+    h = live["hourly"] if live else rows[0]["hourly"]["hourly"]
     times = [datetime.datetime.fromisoformat(t) for t in h["time"]]
     models = sorted({k[len("cloud_cover_"):] for k in h if k.startswith("cloud_cover_") and not k.startswith("cloud_cover_low_")})
     lines, last = [], None
@@ -793,7 +895,7 @@ def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: st
     return {"forecast": w["head"].format(spot=name, h=hours) + ": " + "; ".join(lines) + ".", "next_forecast": nxt,
             "note": "Quote forecast and next_forecast as they are, in this order; add nothing. Five weather models, not yet "
                     "calibrated against our webcams: a rough guide, never a promise.",
-            "source": _source(rows[0]["source_id"])}
+            "source": _source("open_meteo" if live else rows[0]["source_id"])}
 
 
 def closures(since: str | None = None, lang: str = "en") -> dict:

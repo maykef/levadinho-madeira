@@ -173,7 +173,9 @@ def check(reply, user_text, lang, trails, context=""):
     heads = []
     # "is the café / market / cable car open?" is not a question about a trail's status
     asked_status = bool(answers.STATUS_RE.search(answers.fold(user_text))) and not NOT_TRAIL.search(answers.fold(user_text))
-    partial_rx = re.compile(r"\b(partly|partially|partial|parcialmente|partiellement|partiel|teilweise|częściowo|czesciowo)\b", re.I)
+    # a trail's state, not the sky: "partly cloudy", "parcialmente nublado", "partiellement nuageux"… stay (25 Oct)
+    partial_rx = re.compile(r"\b(partly|partially|partial|parcialmente|partiellement|partiel|teilweise|częściowo|czesciowo)\b"
+                            r"(?!\s+(cloud|nublad|nuag|bewölk|bewolk|pochmur|zachmurz|słonecz|sunny|ensolarad|ensoleill))", re.I)
     for code in trails[:2]:
         t = answers._trail(code)
         if not t:
