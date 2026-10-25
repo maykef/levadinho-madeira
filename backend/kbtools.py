@@ -279,14 +279,86 @@ def trail_facts(code: str, lang: str = "en") -> dict:
     }
 
 
+# town and place centres for "near Funchal" (OpenStreetMap / Nominatim, 25 Oct 2026; parish or village centre)
+TOWNS = {
+    "Funchal": (32.64965, -16.90868),
+    "Monte": (32.67634, -16.90379),
+    "Câmara de Lobos": (32.64855, -16.97524),
+    "Estreito de Câmara de Lobos": (32.6711, -16.97997),
+    "Curral das Freiras": (32.72084, -16.96571),
+    "Ribeira Brava": (32.67009, -17.06504),
+    "Ponta do Sol": (32.68124, -17.10408),
+    "Madalena do Mar": (32.70085, -17.13434),
+    "Calheta": (32.72194, -17.17826),
+    "Arco da Calheta": (32.7144, -17.14653),
+    "Jardim do Mar": (32.73756, -17.21113),
+    "Paul do Mar": (32.75477, -17.22724),
+    "Prazeres": (32.75393, -17.20229),
+    "Porto Moniz": (32.86696, -17.16663),
+    "Seixal": (32.8257, -17.10664),
+    "São Vicente": (32.80228, -17.04724),
+    "Boaventura": (32.81996, -16.97352),
+    "Ponta Delgada": (32.82821, -16.98745),
+    "Santana": (32.80491, -16.8813),
+    "Faial": (32.79081, -16.85165),
+    "Porto da Cruz": (32.77251, -16.8286),
+    "Machico": (32.72288, -16.76591),
+    "Caniçal": (32.7391, -16.73931),
+    "Santa Cruz": (32.68748, -16.79121),
+    "Caniço": (32.65238, -16.84097),
+    "Camacha": (32.67944, -16.84487),
+    "Gaula": (32.67153, -16.81456),
+    "Canhas": (32.69716, -17.11745),
+    "Santo da Serra": (32.72423, -16.82053),
+    "Encumeada": (32.72251, -17.0297),
+    "Ribeiro Frio": (32.73962, -16.88694),
+    "Pico do Areeiro": (32.73573, -16.92871),
+    "Rabaçal": (32.76153, -17.13443),
+    "Achada do Teixeira": (32.76533, -16.92085),
+    "Paul da Serra": (32.76294, -17.09589),
+    "Portela": (32.74699, -16.82581),
+    "Queimadas": (32.7836, -16.90604),
+    "Airport": (32.69896, -16.77303),
+}
+TOWN_ALIASES = {"aeroporto": "Airport", "aeroport": "Airport", "flughafen": "Airport", "lotnisko": "Airport",
+                "arieiro": "Pico do Areeiro", "areeiro": "Pico do Areeiro", "santo antonio da serra": "Santo da Serra"}
+
+
+def _town(text):
+    t = _plain(text or "")
+    for alias, name in TOWN_ALIASES.items():
+        if alias in t:
+            return name
+    hits = [n for n in TOWNS if _plain(n) in t]
+    return max(hits, key=len) if hits else None
+
+
 def find_trails(region: str | None = None, max_km: float | None = None, difficulty: str | None = None,
                 no_vertigo: bool = False, has_tunnels: bool | None = None, open_only: bool = True,
-                near_lat: float | None = None, near_lon: float | None = None, near_trail: str | None = None,
-                exclude: str | None = None, limit: int = 8, lang: str = "en") -> dict:
+                near_place: str | None = None, near_lat: float | None = None, near_lon: float | None = None,
+                near_trail: str | None = None, exclude: str | None = None, limit: int = 8, lang: str = "en") -> dict:
     """Trails matching filters, e.g. alternatives when one is closed or full. region: summit|north|west|east|south.
-    no_vertigo keeps only trails whose IFCN panel exposure is 'low'. near_lat/near_lon (or near_trail, a trail code:
-    its trailhead, and that trail itself is left out) sorts by trailhead distance."""
+    no_vertigo keeps only trails whose IFCN panel exposure is 'low'. near_place = a town or place the visitor names
+    ("near Funchal", "from Machico", "close to Calheta"): ALWAYS use it for those, never a guessed region.
+    near_lat/near_lon (or near_trail, a trail code: its trailhead, and that trail itself is left out) sorts by
+    trailhead distance."""
     lang = _lang(lang)
+    extra = {}
+    if near_place:
+        town = _town(near_place)
+        if not town:
+            raise ValueError(f"Unknown place '{near_place}'. Known places: {', '.join(TOWNS)}")
+        near_lat, near_lon = TOWNS[town]
+        region = None  # 25 Oct (test): "the easiest levada near Funchal" became region="west" → Lagoa do Vento
+        extra["near"] = (f"{town}. km_from_point is a straight line from {town} to the trailhead, not the road distance "
+                         "or travel time: if you give it, say \"in a straight line\"; never call it a driving distance.")
+        if town == "Funchal":
+            extra["by_bus"] = ("Which of these you can reach from Funchal by public bus, with the first bus there and the "
+                               "last bus back: " + _page("https://levadinho-madeira.com/levadas-by-bus/", lang))
+        if difficulty:
+            unknown = [r["code"] for r in _q("SELECT code FROM kb.trail WHERE difficulty IS NULL ORDER BY code")]
+            extra["difficulty_unknown"] = ("Visit Madeira gives no difficulty for " + ", ".join(unknown)
+                                           + ": they are left out of a difficulty filter.")
     if near_trail:
         nt = _need_trail(near_trail)
         r = _q("SELECT ST_Y(trailhead::geometry) lat, ST_X(trailhead::geometry) lon FROM kb.trail WHERE code = %s", (nt,))[0]
@@ -322,7 +394,7 @@ def find_trails(region: str | None = None, max_km: float | None = None, difficul
     if near_lat is not None and near_lon is not None:   # "nearby" means nearby: trailheads within NEAR_KM only
         far = [r for r in rows if r["km"] is not None and r["km"] > NEAR_KM]
         rows = [r for r in rows if r["km"] is None or r["km"] <= NEAR_KM]
-    return {**({"note": f"Only trails whose start is within {NEAR_KM} km are listed."} if far else {}),
+    return {**({"note": f"Only trails whose start is within {NEAR_KM} km are listed."} if far else {}), **extra,
             "trails": [{"code": r["code"], "name": r["name"], "status": r["status"],
                         **({"note": _pick(r["note"], lang)} if r["status"] != "OPEN" and r["note"] else {}),
                         "region": r["region"], "distance": r["distance_txt"], "duration": r["duration"],

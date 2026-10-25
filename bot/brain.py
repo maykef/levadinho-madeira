@@ -503,6 +503,9 @@ def _aliases():
 ALIASES = _aliases()
 WALK_RE = re.compile(r"\b((?:levada|vereda|caminho)s?(?:\s+(?:do|da|dos|das|de))?)\s+([\w'-]+(?:\s+[\w'-]+){0,2})")
 # not a bare "ticket": "can I watch the sunrise at Areeiro without a ticket?" is not a fee question (regression)
+BY_BUS_LINE = {"en": "🚌 Levadas by bus from Funchal:", "pt": "🚌 Levadas de autocarro a partir do Funchal:",
+               "fr": "🚌 Levadas en bus depuis Funchal :", "de": "🚌 Levadas mit dem Bus ab Funchal:",
+               "pl": "🚌 Lewady autobusem z Funchal:"}
 FEE_Q = re.compile(r"\bfree\b|\bpaid\b|\bpay\b|cost|price|\bfees?\b|need (a )?tickets?|ticket for|how much|gratis|"
                    r"gratuit|\bpag[oa]\b|pagar|preco|custa|precis\w* (de )?bilhete|payant|prix|besoin d'un billet|"
                    r"kostenlos|kostet|gebuhr|preis|brauch\w* (ein )?ticket|darmow|platn|bilet na|potrzebuj\w* bilet|"
@@ -1149,6 +1152,10 @@ def answer_tools(user, text, lang, rule, meta=None):
     # the model's own "on our site" line (19 Oct: /pt/pr1/ written by the model, then ours too): ours replaces it
     reply = re.sub(r"(?m)^[^\n]{0,80}https://levadinho-madeira\.com/(?!privacy|guide)[\w/#.-]*\s*$\n?", "", reply)
     reply = reply.rstrip() + site_links(reply, named, lang, named=named)
+    if any(t["tool"] == "find_trails" and not t.get("error") and brain_tools.kbtools._town(
+            (t.get("args") or {}).get("near_place")) == "Funchal" for t in trace) and "levadas-by-bus" not in reply:
+        # walks near Funchal: most who ask have no car (owner OK, 25 Oct)
+        reply = reply.rstrip() + "\n" + BY_BUS_LINE[lang] + " " + SITE + ("" if lang == "en" else f"/{lang}") + "/levadas-by-bus/"
     if meta is not None:
         meta["answer"] = {"latency_ms": int((time.time() - t0) * 1000), "model": LLM_MODEL,
                           "context": {"tools": [t["tool"] for t in trace]}}
