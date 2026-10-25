@@ -86,6 +86,12 @@ ALIASES = {  # names the fuzzy match gets wrong or that aren't a trail's own nam
 }
 
 
+OTHER_MANAGED = {  # classified, but not in kb.trail (no page of ours)
+    "PR23": "PR23 Levada da Azenha (Caniço) is a classified PR trail run by the Caniço parish (Junta de Freguesia do "
+            "Caniço), not by IFCN: it is not on SIMplifica and has no IFCN fee, so there is nothing to book or pay.",
+}
+
+
 def resolve_trail(text):
     """'pr 6.1', 'PR6,1', 'risco', 'Levada do Risco' → 'PR6.1' (or None)."""
     if not text:
@@ -101,17 +107,56 @@ def resolve_trail(text):
     rows = _q("""SELECT code FROM kb.trail WHERE kb.unaccent_i(name) ILIKE '%%' || kb.unaccent_i(%s) || '%%' ORDER BY code LIMIT 1""", (text,))
     if rows:
         return rows[0]["code"]
-    rows = _q("""SELECT code, similarity(name, %s) s FROM kb.trail
-                 WHERE name ILIKE '%%' || %s || '%%' OR similarity(name, %s) > 0.3
-                 ORDER BY (name ILIKE '%%' || %s || '%%') DESC, s DESC LIMIT 1""", (text, text, text, text))
-    return rows[0]["code"] if rows else None
+    # fuzzy, on the distinctive words only (25 Oct, live: "levada marokos" matched "Levada do Moinho" on "levada",
+    # and "levada dos tornos", a non-classified levada, matched "Levada dos Cedros")
+    core = _core(text)
+    if len(core) < 4:
+        return None
+    rows = _q("""SELECT code, similarity(c, %s) s FROM unnest(%s::text[], %s::text[]) AS t(code, c)
+                 WHERE similarity(c, %s) > 0.4 ORDER BY s DESC LIMIT 1""",
+              (core, *map(list, zip(*_trail_cores())), core))
+    if rows:
+        return rows[0]["code"]
+    # one misspelt word ("rizco", "furadu", "pico do arieiro"): word against word, 5+ letters, edit ratio (trigrams
+    # score "rizco"/"risco" and "moniz"/"monte" alike)
+    from difflib import SequenceMatcher
+    best = max(((SequenceMatcher(None, q, w).ratio(), -len(c), c) for c, n in _trail_cores() for w in n.split()
+                for q in core.split() if len(q) >= 5 and len(w) >= 5), default=None)
+    return best[2] if best and best[0] >= 0.78 else None
+
+
+GENERIC = {"levada", "levadas", "vereda", "veredas", "caminho", "trilho", "percurso", "pr", "do", "da", "dos", "das",
+           "de", "e", "the", "trail", "walk", "path", "hike", "na", "no", "in", "at", "to", "of", "and", "w", "z", "na",
+           "le", "la", "les", "du", "des", "der", "die", "den", "am", "zum", "zur", "szlak", "trasa", "levade", "levady",
+           "levadzie", "madeira", "ribeiro",  # Ribeiro Frio is a place, not Ribeira da Janela
+           "is", "it", "a", "o", "um", "uma", "czy", "jest"}
+
+
+def _core(text):
+    words = re.findall(r"\w+", (_plain(text or "") or "").lower())
+    return " ".join(w for w in words if w not in GENERIC and not w.isdigit())
+
+
+_CORES = []
+
+
+def _trail_cores():
+    if not _CORES:
+        _CORES.extend((r["code"], _core(r["name"])) for r in _q("SELECT code, name FROM kb.trail ORDER BY code"))
+    return _CORES
 
 
 def _need_trail(code):
     c = resolve_trail(code)
     if not c:
-        known = ", ".join(r["code"] for r in _q("SELECT code FROM kb.trail ORDER BY code"))
-        raise ValueError(f"Unknown trail '{code}'. Known codes: {known}")
+        known = "; ".join(f"{r['code']} {r['name']}" for r in _q("SELECT code, name FROM kb.trail ORDER BY code"))
+        # 25 Oct (live, PL): "levada marokos" (Levada dos Maroços) got "there is no levada of that name"
+        if re.search(r"azenha|\bpr ?23\b", (code or "").lower()):
+            raise ValueError(OTHER_MANAGED["PR23"])
+        raise ValueError(f"'{code}' is not one of IFCN's classified PR trails ({known}). If the visitor means a levada "
+                         "or walk that is not on this list, it is a non-classified levada: nothing to book or pay on "
+                         "SIMplifica (fees_and_rules), not maintained by IFCN. Never say it doesn't exist and never "
+                         "guess or correct its name.")
     return c
 
 
@@ -820,6 +865,7 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
     sections (whole, up to ~1,800 characters each) with their page and source. Use it when no other tool fits the question."""
     lang = _lang(lang)
     limit = max(1, min(limit, 10))
+    text = _spell(text)
 
     def run(cfg_lang):
         return _q("""SELECT id, kind, subject, lang, title, url, source_id,
@@ -849,6 +895,27 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
     return {"results": [{"title": r["title"], "subject": r["subject"], "lang": r["lang"], "url": r["url"],
                          "text": re.sub(r"</?b>", "", r["snippet"]), "source": _source(r["source_id"])} for r in rows],
             **({} if rows else {"note": "Nothing found in Levadinho's knowledge for this query."})}
+
+
+_VOCAB = set()
+
+
+def _spell(text):
+    """A word our texts never use, close to one they do, is taken as that word (25 Oct, live: "levada marokos" found
+    nothing, so the model said Levada dos Maroços doesn't exist)."""
+    import difflib
+    if not _VOCAB:
+        _VOCAB.update(r["word"] for r in _q("SELECT word FROM ts_stat($$SELECT to_tsvector('simple', "
+                                            "kb.unaccent_i(coalesce(title, '') || ' ' || body)) FROM kb.doc$$) "
+                                            "WHERE length(word) >= 5"))
+
+    def fix(m):
+        w = _plain(m.group(0))
+        if len(w) < 5 or w in _VOCAB:
+            return m.group(0)
+        near = difflib.get_close_matches(w, _VOCAB, 1, 0.8)
+        return near[0] if near else m.group(0)
+    return re.sub(r"\w+", fix, text or "")
 
 
 def page_doc(subject: str, lang: str = "en") -> dict:

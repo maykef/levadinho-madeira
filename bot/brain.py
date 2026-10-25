@@ -461,7 +461,8 @@ def classify(text):
         import answers
         d = {"is_question": True, "language": answers.detect_lang(text, "other"), "intent": "other", "topic": None,
              "trail_code": None}
-    d["lang"] = d["language"] if d["language"] in LANGS else "en"
+    # 25 Oct (live, PL): "Czy levada marokos jest płatna" came back "other" and was answered in English
+    d["lang"] = d["language"] if d["language"] in LANGS else (guess_lang(text) or "en")
     d.setdefault("origin", None)
     d.setdefault("destination", None)
     return d
@@ -500,6 +501,15 @@ def _aliases():
 
 
 ALIASES = _aliases()
+WALK_RE = re.compile(r"\b((?:levada|vereda|caminho)s?(?:\s+(?:do|da|dos|das|de))?)\s+([\w'-]+(?:\s+[\w'-]+){0,2})")
+# not a bare "ticket": "can I watch the sunrise at Areeiro without a ticket?" is not a fee question (regression)
+FEE_Q = re.compile(r"\bfree\b|\bpaid\b|\bpay\b|cost|price|\bfees?\b|need (a )?tickets?|ticket for|how much|gratis|"
+                   r"gratuit|\bpag[oa]\b|pagar|preco|custa|precis\w* (de )?bilhete|payant|prix|besoin d'un billet|"
+                   r"kostenlos|kostet|gebuhr|preis|brauch\w* (ein )?ticket|darmow|platn|bilet na|potrzebuj\w* bilet|"
+                   r"koszt|\bile\b|cena")
+WALK_STOP = {"walk", "walks", "trail", "trails", "e", "is", "jest", "est", "ist", "e", "que", "which", "that", "in", "on",
+             "near", "perto", "pres", "bei", "w", "na", "to", "for", "para", "pour", "fur", "dla", "ou", "or", "oder",
+             "lub", "a", "o", "the", "um", "uma", "une", "un", "eine", "ein"}
 CODE_RE = re.compile(r"\bpr\s?-?(\d{1,2}(?:[.,]\d)?)\b")
 # topic words (accent-free, lower case) → guide page; checked as substrings of the normalized question
 TOPIC_WORDS = {
@@ -1052,6 +1062,38 @@ def answer_tools(user, text, lang, rule, meta=None):
         st = {t.get("code"): t for t in live_status().get("trails", [])}
         q += "\n\n[IFCN's official list now: " + "; ".join(
             f"{c} {st[c]['status']}: {(st[c].get('note') or {}).get('en', '')}" for c in named if c in st) + "]"
+    for m in WALK_RE.finditer(_norm(text)):  # "levada do rizco", "levada marokos": a name our alias table missed
+        head, words = m.group(1), m.group(2).split()
+        if trails_in(m.group(0)) or words[0] in WALK_STOP:
+            continue
+        code = next((c for n in range(len(words), 0, -1) if (c := brain_tools.kbtools.resolve_trail(
+            f"{head} {' '.join(words[:n])}"))), None)
+        if code:
+            named = list(dict.fromkeys(named + [code]))
+        elif words[0] == "azenha":
+            q += "\n\n[" + brain_tools.kbtools.OTHER_MANAGED["PR23"] + "]"
+        elif " " in head or (len(words[0]) >= 5 and (brain_tools.kbtools._spell("") or words[0])
+                             not in brain_tools.kbtools._VOCAB):
+            # a name ("levada dos X", or a word our texts never use), not "levada mais fácil";
+            # 25 Oct (live, PL): "levada marokos" (Levada dos Maroços) got "there is no levada of that name"
+            q += (f"\n\n[«{head} {words[0]}» is NOT one of IFCN's classified PR trails. Say exactly that: it is "
+                  "not on IFCN's list of classified trails, so there is nothing to book or pay on SIMplifica, and IFCN "
+                  "doesn't maintain it (own risk). Not \"unmarked\", not \"an IFCN path\". Keep the visitor's name "
+                  "for it; never say it doesn't exist.]")
+    if named and FEE_Q.search(_norm(text)):  # 25 Oct (test): "Is Ponta de São Lourenço free?" → "Yes, free": the
+        # model read only fees_and_rules, which has no per-trail fee
+        fees = []
+        for c in named:
+            try:
+                f = brain_tools.kbtools.trail_facts(c)
+            except Exception:
+                continue
+            fees.append(f"{c} {f['name']}: " + ("€10.50 per person for the full trail, €4.50 for Areeiro–Pedra Rija only"
+                                                 if c == "PR1" else f"€{f['fee_eur']:.2f} per person" if f["fee_eur"]
+                                                 else f["fee_note"] or "no IFCN fee")
+                        + (", booked on SIMplifica (an IFCN-fee trail, not free)" if f["fee_eur"] else ""))
+        if fees:
+            q += "\n\n[Fee: " + "; ".join(fees) + "]"
     if named:  # resolved by our alias table, so the model never has to guess a code
         q += "\n\n[Trails named in this message: " + "; ".join(f"{c} = {KB['trails'][c]['name']}" for c in named if c in KB["trails"]) + "]"
     # only off trail pages or on PR1 ones: on another trail's page the question would be about the wrong walk.
@@ -1232,6 +1274,16 @@ THANKS_RE = re.compile(r"^\W*(thanks?|thank you( very much)?|many thanks|cheers|
 THANKS = {"en": "You're welcome! Have a great walk 🥾", "pt": "De nada! Boa caminhada 🥾", "fr": "Avec plaisir ! Bonne randonnée 🥾",
           "de": "Gern geschehen! Gute Wanderung 🥾", "pl": "Proszę bardzo! Udanej wędrówki 🥾"}
 
+# a bare "ok" is not a question (25 Oct, live, PL: "Ok" after an answer got "Levada do Moinho (PR7) is closed")
+ACK_WORD = (r"ok|okay|okey|okej|oki|kk|k|great|perfect|fine|alright|all right|cool|got it|noted|understood|good|nice|"
+            r"certo|esta bem|ta bem|ta|perfeito|otimo|entendi|combinado|boa|d'?accord|dac|parfait|super|compris|"
+            r"tres bien|entendu|gut|alles klar|prima|verstanden|passt|perfekt|dobrze|dobra|jasne|rozumiem|swietnie|"
+            r"spoko|👍|👌|🙂|😊")
+THANKS_WORD = r"thanks?|thank you|cheers|obrigad[oa]|merci|danke|dziekuj\w*|dzieki"
+ACK_RE = re.compile(rf"^\W*(?:(?:{ACK_WORD}|{THANKS_WORD})(?=\W|$)[\s!.,]*)+$")
+ACK = {"en": "👍 Anything else? Just ask.", "pt": "👍 Mais alguma coisa? É só perguntar.",
+       "fr": "👍 Autre chose ? Demandez-moi.", "de": "👍 Noch etwas? Frag einfach.", "pl": "👍 Coś jeszcze? Pytaj śmiało."}
+
 
 def prepopulated(user, text, lang, meta, context=""):
     """A pre-populated answer (answers.py) for the questions people actually send, or None. No model involved, so it
@@ -1262,6 +1314,14 @@ def quick_reply(user, text, meta, u=None):
     pre_lang = answers.detect_lang(text, fallback=(u or {}).get("lang") or guess_lang(text) or "en")
     if THANKS_RE.search(answers.fold(text)) and len(text) < 60:
         reply = THANKS[pre_lang if pre_lang in THANKS else "en"]
+        store.add_turn(user, text, reply)
+        return [{"type": "text", "body": reply}]
+    hist = store.history(user, HISTORY_SINCE)
+    last = next((m.get("content") or "" for m in reversed(hist) if m.get("role") == "assistant"), "")
+    # not when our last message asked something: then "ok" is the answer to it
+    if ACK_RE.match(answers.fold(text)) and len(text) < 40 and last and not last.rstrip().endswith("?"):
+        lang = (u or {}).get("lang") or pre_lang
+        reply = (THANKS if re.search(THANKS_WORD, answers.fold(text)) else ACK)[lang if lang in ACK else "en"]
         store.add_turn(user, text, reply)
         return [{"type": "text", "body": reply}]
     return None
