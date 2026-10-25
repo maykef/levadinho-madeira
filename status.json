@@ -11,14 +11,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 7.3,
-    "humidity": 59,
+    "temp_c": 10.3,
+    "humidity": 13,
     "in_cloud": false,
-    "wind_kmh": 24,
+    "wind_kmh": 19,
     "wind_strong": false
   },
-  "stamp": "2026-10-24 06:16",
-  "date": "2026-10-24",
+  "stamp": "2026-10-25 05:32",
+  "date": "2026-10-25",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
@@ -33,8 +33,8 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 7,
-      "wind": 24,
+      "temp": 10,
+      "wind": 19,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -57,16 +57,16 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 20,
-      "wind": 16,
+      "temp": 19,
+      "wind": 10,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 20,
-      "wind": 4,
+      "temp": 18,
+      "wind": 3,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -79,7 +79,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 7,
+      "temp": 10,
       "page": "/pr1/",
       "note": {
         "en": "Pico do Areeiro ↔ Pedra Rija viewpoint: both ways. Full trail to Pico Ruivo: one way only, ending at Achada do Teixeira.",
@@ -113,7 +113,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 7,
+      "temp": 10,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "Encontra-se totalmente transitável o troço compreendido entre a Casa de Abrigo do Pico Ruivo e o Pico Ruivo.",
@@ -140,7 +140,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 20,
+      "temp": 19,
       "page": "/sao-lourenco/"
     },
     {
@@ -150,7 +150,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 7,
+      "temp": 10,
       "page": "/balcoes/"
     },
     {
@@ -170,7 +170,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 10,
       "page": "/levada-do-furado/"
     },
     {
@@ -210,7 +210,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 10,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -220,7 +220,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 10,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -230,7 +230,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 10,
       "page": "/vereda-do-burro/"
     },
     {
@@ -240,7 +240,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 20,
+      "temp": 18,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -250,7 +250,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 10,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "Percurso transitável - está disponível uma ligação sinalizada à Ribeira das Cales, junto ao Centro de Interpretação do Parque Ecológico do Funchal. A versão atual do percurso, entre o Poço da Neve (início do PR4), a Levada do Barreiro e a Ribeira das Cales, encontra-se totalmente sinalizada em ambos os sentidos.",
@@ -317,7 +317,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 10,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "Percurso transitável desde a Boca da Corrida até ao km 3,5.",

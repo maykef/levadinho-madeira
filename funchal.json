@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-24T06:16+01:00",
+ "stamp": "2026-10-25T05:33+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-24",
-   "type": "saturday",
-   "holiday": null,
-   "bus": "saturday",
-   "sunrise": "08:17",
-   "sunset": "19:25",
-   "weather": {
-    "tmin": 20,
-    "tmax": 26,
-    "rain": 2,
-    "wtype": 2,
-    "uv": 4.8
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-25",
    "type": "sunday",
@@ -30,7 +14,7 @@
     "tmax": 25,
     "rain": 0,
     "wtype": 2,
-    "uv": 5.2
+    "uv": 5.0
    },
    "fair": null
   },
@@ -42,11 +26,11 @@
    "sunrise": "07:19",
    "sunset": "18:23",
    "weather": {
-    "tmin": 18,
-    "tmax": 24,
-    "rain": 25,
+    "tmin": 19,
+    "tmax": 26,
+    "rain": 6,
     "wtype": 2,
-    "uv": 2.6
+    "uv": 2.8
    },
    "fair": null
   },
@@ -58,11 +42,11 @@
    "sunrise": "07:20",
    "sunset": "18:22",
    "weather": {
-    "tmin": 19,
-    "tmax": 25,
-    "rain": 29,
+    "tmin": 20,
+    "tmax": 26,
+    "rain": 8,
     "wtype": 3,
-    "uv": 4.3
+    "uv": 3.8
    },
    "fair": null
   },
@@ -76,9 +60,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 20,
+    "rain": 45,
     "wtype": 3,
-    "uv": null
+    "uv": 4.1
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:21",
    "sunset": "18:20",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 25,
+    "rain": 37,
+    "wtype": 2,
+    "uv": null
+   },
    "fair": {
     "theme": "fashion",
     "pt": "Moda, Bijuteria e Decoração",
@@ -179,6 +169,16 @@
    "sunset": "18:13",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-07",
+   "type": "saturday",
+   "holiday": null,
+   "bus": "saturday",
+   "sunrise": "07:29",
+   "sunset": "18:13",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -199,33 +199,6 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
    "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Winter Market",
-   "venue": "",
-   "start": "2026-10-19",
-   "end": "2026-10-24",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/winter-market/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Madeira Legend Rally",
-   "venue": "",
-   "start": "2026-10-22",
-   "end": "2026-10-24",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/rally-madeira-legend-2024/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Festival de Bandolins",
-   "venue": "Teatro Municipal Baltazar Dias",
-   "start": "2026-10-23T00:00",
-   "end": "2026-10-25T23:59",
-   "all_day": true,
-   "url": "https://cultura.funchal.pt/event/festival-de-bandolins/",
-   "src": "cultura.funchal.pt"
   },
   {
    "title": "O Rei Vai Nu",
@@ -262,10 +235,37 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/albrecht-mayer-concert-ocm/",
    "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Concert with Misha Katz & Dmitry Demyashkin | OCM",
+   "venue": "",
+   "start": "2026-11-07",
+   "end": "2026-11-07",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/concert-with-misha-katz-dmitry-demyashkin-ocm/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "MADEIRA PIANO FEST",
+   "venue": "",
+   "start": "2026-11-07",
+   "end": "2026-11-15",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/madeira-piano-fest/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Madeira Ladies Open – W50 Funchal",
+   "venue": "",
+   "start": "2026-11-08",
+   "end": "2026-11-15",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/madeira-ladies-open-w50-funchal/",
+   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-10-24",
+  "date": "2026-10-25",
   "sst": 23,
   "wave": [
    0.6,
@@ -1359,7 +1359,7 @@
   "weather": true,
   "sea": true,
   "fair": true,
-  "events": false,
+  "events": true,
   "lidos": true,
   "gtfs": true
  },
