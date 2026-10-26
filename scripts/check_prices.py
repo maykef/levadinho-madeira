@@ -74,7 +74,9 @@ def gardencable(t):
 def hfbus(t):
     fare = re.search(r"3,00\s*€", t) and "3,00"
     shuttle = re.search(r"1,20\s*€", t) and "1,20"
-    times = [x for x in ("06:00", "06:45", "13:30", "14:15", "12:15", "19:00") if x in t]
+    # last trip down: 19:00 in summer, 18:00 in winter (25 Oct–27 Mar; scripts/season_switch.py moves the pages)
+    times = [x for x in ("06:00", "06:45", "13:30", "14:15", "12:15") if x in t] + \
+            [x for x in ("18:00", "19:00") if re.search(rf"{x}\s*(?:a\))?\s*-\s*Pico do Areeiro", t)]
     if not (fare and shuttle and len(times) == 6):
         return None
     return {"fare": fare, "shuttle": shuttle, "times": ",".join(times)}
