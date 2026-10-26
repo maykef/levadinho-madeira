@@ -555,6 +555,34 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
                                "obs": [m for m in r["marks"]][:3]} for r in uniq[:12]],
                     "caveat": "Times as printed on the operators' timetables; intermediate stops are approximate.",
                     "source": [_source(s) for s in sorted({r["source_id"] for r in obs_rows})]}
+
+        # a place in a town ("Funchal market", 2026-10-26: the bot then said "no direct buses"): retry with the word
+        # of it that is a stop, and have the answer give those buses plus the walk from the stop
+        def is_stop(name, exact=False):
+            if exact:  # the word IS a stop's whole name ("Funchal"), not part of one ("Achada" in "Eira Achada")
+                return bool(_q("SELECT 1 FROM kb.bus_trip WHERE kb.unaccent_i(from_stop) ILIKE kb.unaccent_i(%s) "
+                               "OR kb.unaccent_i(to_stop) ILIKE kb.unaccent_i(%s) LIMIT 1", (name, name)))
+            return bool(_q("SELECT 1 FROM kb.bus_trip WHERE from_stop ILIKE '%%' || %s || '%%' "
+                           "OR to_stop ILIKE '%%' || %s || '%%' LIMIT 1", (name, name)))
+
+        def is_place(name):  # a trailhead or a taxi town is a place of its own ("Achada do Teixeira"), not a town + spot
+            return bool(_q("SELECT 1 FROM kb.trail WHERE kb.unaccent_i(start_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%' "
+                           "OR kb.unaccent_i(end_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%' UNION ALL "
+                           "SELECT 1 FROM kb.transport WHERE kb.unaccent_i(town) ILIKE kb.unaccent_i(%s) LIMIT 1", (name, name, name)))
+
+        def town_of(name):
+            if not name or is_stop(name) or is_place(name):
+                return None
+            return next((w for w in sorted(re.findall(r"[^\W\d_][\w'-]{3,}", name), key=len, reverse=True)
+                         if is_stop(w, exact=True)), None)
+        nf, nt = town_of(from_stop), town_of(to_stop)
+        if nf or nt:
+            res = bus(from_stop=nf or from_stop, to_stop=nt or to_stop, day=day, lang=lang)
+            if res.get("trips"):
+                said = " and ".join(f"'{o}' is served by the stop '{n}'" for o, n in ((from_stop, nf), (to_stop, nt)) if n)
+                return {"note": f"No stop has that exact name: {said}. Answer with these buses and say the visitor "
+                                "walks (or takes a taxi) between that stop and the place; for the place itself call "
+                                "place / places. Never say there is no bus.", **res}
     out = {"trips": [{"leg": r["leg"], "operator": r["operator"],
                       "line": r["line"] + (f" (new no. {r['new_line']})" if r["new_line"] else ""),
                       "from": r["from_stop"], "to": r["to_stop"], "dep": r["dep"].strftime("%H:%M"),
@@ -601,7 +629,8 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
     """Taxis for a trip: the ranks serving the PICK-UP place (a town, or a trailhead such as Achada do Teixeira or
     Rabaçal: the ranks printed on IFCN's panels there) and the DESTINATION town, plus the island-wide contacts Visit
     Madeira lists, the rules for taxis and transfers (metered fares, no quoted prices) and, for a trailhead, how to get
-    back from there. trail = the ranks on that trail's panels."""
+    back from there. trail = the ranks on that trail's panels. PR1 is one-way and ends at Achada do Teixeira: after
+    PR1, "back to the car (park) at Areeiro" is pickup='Achada do Teixeira', destination='Pico do Areeiro'."""
     out, seen = [], set()
 
     def add(rows, role):
@@ -640,6 +669,11 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
                     "the destination's. " if trailhead else
                     "Give the ranks serving the pick-up place first (call them and the destination's, compare quotes). ")
                    + "For what the ride costs call taxi_prices; never quote a fare it didn't return.")
+    # pick-up = destination (2026-10-26: "back to the car park at Arieiro" after PR1 became Areeiro → Areeiro)
+    if pickup and destination and (_plain(pickup) in _plain(destination) or _plain(destination) in _plain(pickup)):
+        res["note"] = (f"Pick-up and destination are both '{destination}': the visitor is going BACK there from where "
+                       "the walk ends. After PR1 (one-way) that is Achada do Teixeira: call again with "
+                       "pickup='Achada do Teixeira'. For another walk, use the place where it ends. " + res["note"])
     return res
 
 
@@ -666,7 +700,9 @@ def taxi_prices(pickup: str | None = None, destination: str | None = None, peopl
     """What a taxi costs on the routes a local driver has priced (owner, 2026-10-24): Funchal ↔ Pico do Areeiro,
     Funchal ↔ Ribeiro Frio, the PR1 package (hotel → Pico do Areeiro, collected at Achada do Teixeira at a set time)
     and the Ribeiro Frio → Pico do Areeiro → Achada do Teixeira → Funchal day (Balcões + PR1). Call it whenever the
-    visitor asks what a taxi, a ride or a taxi plan costs. Prices are per vehicle and INDICATIVE: car up to 4 people,
+    visitor asks what a taxi, a ride or a taxi plan costs. PR1 is one-way and ends at Achada do Teixeira, so after
+    PR1 "back to the car (park) at Areeiro" is pickup='Achada do Teixeira', destination='Pico do Areeiro' (keep the
+    pick-up the conversation already gave). Prices are per vehicle and INDICATIVE: car up to 4 people,
     van 5–10 (+20%); the fare is agreed when booking. people = the group size if the visitor gave it (adds the share
     per person). A route without a price → the metered-fare wording."""
     import json
@@ -681,11 +717,17 @@ def taxi_prices(pickup: str | None = None, destination: str | None = None, peopl
     rows = [r for r in cfg["routes"] if (not p or hit(r["from"], p)) and (not d or hit(r["to"], d))]
     exact = bool(rows) and bool(p or d)
     if not exact:  # no route matched: hand over every priced route and let the model pick the visitor's trip
-        rows = [r for r in cfg["routes"] if r.get("car_eur")]
+        rows = [r for r in cfg["routes"] if r.get("car_eur") or r.get("shared_pp_eur")]
+    # a route with a usual shared-ride price (Achada → Areeiro, 2026-10-26: the bot said "metered" and left it out)
     routes = [{"route": r["label"], "car_up_to_4_eur": r.get("car_eur"),
                **({"van_5_to_10_eur": r["van_eur"]} if r.get("van_eur") else {}),
                **({"note": r["note"]} if r.get("note") else {}),
-               "price": "indicative" if r.get("car_eur") else "no price yet: metered, ask for a quote",
+               **({"shared_ride_per_person_eur": r["shared_pp_eur"], "shared_ride": r.get("shared_note", "")}
+                  if r.get("shared_pp_eur") else {}),
+               "price": ("indicative" if r.get("car_eur") else
+                         "a shared ride usually costs about €" + r["shared_pp_eur"] + " per person (give this figure); "
+                         "a whole taxi is metered, ask for a quote" if r.get("shared_pp_eur") else
+                         "no price yet: metered, ask for a quote"),
                **({"for_your_group": _share(r, people)} if people and r.get("car_eur") else {})} for r in rows]
     res = {"routes": routes, "matched_the_trip": exact,
            "rules": ["Prices are per vehicle, not per person; when the visitor gave the group size, give for_your_group.",
