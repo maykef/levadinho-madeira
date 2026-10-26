@@ -133,8 +133,7 @@ def resolve_trail(text):
 
 
 GENERIC = {"levada", "levadas", "vereda", "veredas", "caminho", "trilho", "percurso", "pr", "do", "da", "dos", "das",
-           "de", "e", "the", "trail", "walk", "path", "hike", "na", "no", "in", "at", "to", "of", "and", "w", "z", "na",
-           "le", "la", "les", "du", "des", "der", "die", "den", "am", "zum", "zur", "szlak", "trasa", "levade", "levady",
+           "de", "e", "the", "trail", "walk", "path", "hike", "na", "no", "in", "at", "to", "of", "and", "w", "z", "le", "la", "les", "du", "des", "der", "die", "den", "am", "zum", "zur", "szlak", "trasa", "levade", "levady",
            "levadzie", "madeira", "ribeiro",  # Ribeiro Frio is a place, not Ribeira da Janela
            "is", "it", "a", "o", "um", "uma", "czy", "jest"}
 
@@ -805,7 +804,7 @@ def _ipma_now():
         if wind is None and sid == 1210974:
             wind = (latest(IPMA_WIND_FALLBACK, "intensidadeVentoKM")[1] or {}).get("intensidadeVentoKM")
         hum = val("humidade")
-        t = datetime.datetime.fromisoformat(h).replace(tzinfo=datetime.timezone.utc).astimezone(MADEIRA)
+        t = datetime.datetime.fromisoformat(h).replace(tzinfo=datetime.UTC).astimezone(MADEIRA)
         out[region] = {"region": region, "place": place, "observed_time": t.strftime("%H:%M"),
                        "temp_c": round(r["temperatura"], 1), "wind_kmh": round(wind) if wind is not None else None,
                        "rain_mm": val("precAcumulada"), **({"humidity_pct": round(hum)} if hum is not None else {}),

@@ -512,7 +512,7 @@ FEE_Q = re.compile(r"\bfree\b|\bpaid\b|\bpay\b|cost|price|\bfees?\b|need (a )?ti
                    r"gratuit|\bpag[oa]\b|pagar|preco|custa|precis\w* (de )?bilhete|payant|prix|besoin d'un billet|"
                    r"kostenlos|kostet|gebuhr|preis|brauch\w* (ein )?ticket|darmow|platn|bilet na|potrzebuj\w* bilet|"
                    r"koszt|\bile\b|cena")
-WALK_STOP = {"walk", "walks", "trail", "trails", "e", "is", "jest", "est", "ist", "e", "que", "which", "that", "in", "on",
+WALK_STOP = {"walk", "walks", "trail", "trails", "e", "is", "jest", "est", "ist", "que", "which", "that", "in", "on",
              "near", "perto", "pres", "bei", "w", "na", "to", "for", "para", "pour", "fur", "dla", "ou", "or", "oder",
              "lub", "a", "o", "the", "um", "uma", "une", "un", "eine", "ein"}
 CODE_RE = re.compile(r"\bpr\s?-?(\d{1,2}(?:[.,]\d)?)\b")
