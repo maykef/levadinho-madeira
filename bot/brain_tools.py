@@ -152,8 +152,9 @@ def _how(name, args, result, lang):
               "(run by others: not on SIMplifica, no IFCN fee).",
               "Paying: SIMplifica takes Multibanco, credit card (Visa, Mastercard) and MB WAY; Multibanco and MB WAY "
               "need a Portuguese bank account, so visitors pay by card. Taxis are never booked on SIMplifica.",
-              "A topic with no rule here (dogs, drones, bikes, camping…): say no official source covers it; never "
-              "say allowed or not allowed.",
+              "A topic with no rule here (bikes, camping, picnics…): say no official source covers it; never say "
+              "allowed or not allowed. Dogs on PR1, drones and the Pico Ruivo refuge DO have a rule in the result "
+              "(Levadinho's guide): give it.",
               "Standing at a viewpoint, a car park or a café (e.g. the sunrise at Pico do Areeiro without a ticket): "
               "these rules are about walking the trail, so say no official source confirms it either way, then that "
               "walking onto the trail needs a ticket."]
@@ -169,7 +170,9 @@ def _how(name, args, result, lang):
               "there); count about 4 hours from the start (PR1 about 3 h + 45–60 min down). In the daytime taxis "
               "usually wait there; for an early, late or off-season finish, book ahead.",
               "Taxis are paid in cash, so carry enough. Taxis are booked by phone, never on SIMplifica.",
-              "Never state a fare here: what a ride costs comes from taxi_prices."]
+              "Never state a fare here: what a ride costs comes from taxi_prices.",
+              "driving_up (Pico do Areeiro): give it whenever the visitor asks about driving, parking or their car "
+              "there — we advise against driving up for sunrise."]
     elif name == "taxi_prices":
         h += ["A route with a price: \"About €«car» by car (up to 4 people), €«van» by van (5–10) — an indicative price; "
               "the fare is agreed when you book.\" With the group size, add for_your_group. Portuguese: car = "
@@ -183,7 +186,8 @@ def _how(name, args, result, lang):
         h.append("Say when it was measured (\"measured at\" + observed_time), never \"right now\".")
     elif name == "webcam":
         h.append("The picture is sent after your reply: say in one line which camera it is and when the picture was "
-                 "taken (e.g. \"Here's the Rabaçal car park, picture from 17:26\"). Never describe the picture.")
+                 "taken (e.g. \"Here's the Rabaçal car park, picture from 17:26\"). Never describe the picture."
+                 + (" Then give the camera's advice." if '"advice"' in blob else ""))
     elif name in ("places", "place") and re.search(r"cable|monte|telef", blob[:4000], re.I):
         h.append("Monte: the cable car from the Old Town (Zona Velha) is the way up; the bus is the way down after the "
                  "cable car stops. Never answer Monte with taxis.")

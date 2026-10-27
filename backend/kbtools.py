@@ -261,8 +261,8 @@ def trail_facts(code: str, lang: str = "en") -> dict:
             "sunrise_today_tomorrow": sunrise_now(),
             "sunrise_note": "For today or tomorrow give sunrise_today_tomorrow (computed for that day). For another "
                             "month COPY the month's time from sunrise_1st_of_month, never estimate one. "
-                            "Mid-October is about 08:12 and late October 08:20 (clocks go back on the last "
-                            "Sunday of October, hence November 07:25). "
+                            "Mid-October is about 08:12; the clocks go back on the last Sunday of October, so "
+                            "late October is about 07:20 and 1 November 07:25. "
                             "Latest sunrises: December–January (~07:52–08:10), so even the 07:30 slot is "
                             "before sunrise then; only late May–July (sunrise ~07:00) needs the 07:00 slot. "
                             "Which slot: to watch the sunrise from the viewpoint first, book the first slot that "
@@ -524,8 +524,17 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
     if not rows and not code:
         guess = resolve_trail(to_stop or "") or resolve_trail(from_stop or "")
         if guess:  # "São Lourenço" is PR8, whose stop is Baía d'Abra
-            return {"note": f"No bus stop named '{to_stop or from_stop}' in our data; it is trail {guess}. Its buses:",
-                    **bus(trail=guess, day=day, lang=lang)}
+            res = bus(trail=guess, day=day, lang=lang)
+            if from_stop and to_stop:  # the trail's buses must still go to/from the other end the visitor named
+                other = _plain(to_stop if resolve_trail(to_stop or "") == guess else from_stop)
+                res["trips"] = [t for t in res["trips"] if other in _plain(t["from"]) or other in _plain(t["to"])]
+                res["timetable"] = [x for x in res["timetable"] if other in _plain(x)]
+            if res["trips"]:
+                return {"note": f"No bus stop named '{to_stop or from_stop}' in our data; it is trail {guess}. Its buses:", **res}
+            return {"trips": [], "timetable": [], "note": f"No bus between {from_stop} and {to_stop} in our data: say so "
+                    "and suggest a taxi (see the transport tool).",
+                    "notes": [_pick(n["text"], lang) for n in _q("SELECT text FROM kb.fact WHERE topic = 'bus' AND subject IS NULL ORDER BY id")],
+                    "source": [_source("siga")]}
         # a place with no timed column of its own (e.g. Lombo Galego) appears only in the sheets'
         # observations ("Via Lº Galego", "ends at Lombo Galego"): offer those trips, without a time there
         place = to_stop or from_stop
@@ -602,6 +611,8 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
         out["fares"] = [{"what": _pick(f["label"], lang), "eur": float(f["amount_eur"]),
                          **({"note": f["conditions"].get("note")} if f["conditions"] else {}), "source": _source(f["source_id"])}
                         for f in fares]
+    if not rows and not code:  # no trip: the general bus notes (no bus in our data → taxi; before the first buses…)
+        out["notes"] = [_pick(n["text"], lang) for n in _q("SELECT text FROM kb.fact WHERE topic = 'bus' AND subject IS NULL ORDER BY id")]
     if code:
         t = _q("SELECT name, start_name, end_name, route_type FROM kb.trail WHERE code = %s", (code,))[0]
         out["trail"] = {"code": code, "name": t["name"], "starts_at": t["start_name"], "ends_at": t["end_name"],
@@ -660,6 +671,10 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
     back = _q("""SELECT DISTINCT ON (id) id, subject, text, source_id FROM kb.fact WHERE topic = 'getting_back' AND confirmed
                  AND (subject = ANY(%s) OR """ + " OR ".join(["kb.unaccent_i(text->>'en') ILIKE '%%' || kb.unaccent_i(%s) || '%%'"] * len(places) or ["FALSE"])
               + ") ORDER BY id", [codes] + places)
+    car = _q("SELECT text, source_id FROM kb.fact WHERE topic = 'car' AND subject = ANY(%s) ORDER BY id", (codes,)) \
+        if any("areeiro" in _plain(p) or "arieiro" in _plain(p) for p in places) else []
+    if car:
+        res["driving_up"] = [{"text": _pick(c["text"], "en"), "source": _source(c["source_id"])} for c in car]
     if back:
         res["getting_back"] = [{"trail": b["subject"], "text": _pick(b["text"], "en"), "source": _source(b["source_id"])} for b in back]
     trailhead = bool(pickup) and bool(_q("SELECT 1 FROM kb.trail WHERE kb.unaccent_i(start_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%' "
@@ -912,7 +927,9 @@ def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: st
     for d in range(3):
         date = now.date() + datetime.timedelta(days=d)
         for part, (h0, h1) in (("morning", (6, 10)), ("day", (10, 17))):
-            ix = [i for i, t in enumerate(times) if t.date() == date and h0 <= t.hour < h1 and t >= now.replace(minute=0)]
+            # the next 24 hours only (owner, 2026-10-26: beyond that Areeiro is too hard to forecast)
+            ix = [i for i, t in enumerate(times) if t.date() == date and h0 <= t.hour < h1 and t >= now.replace(minute=0)
+                  and t <= now + datetime.timedelta(hours=24)]
             if not ix:
                 continue
             means = [round(sum(v[i] for i in ix if v[i] is not None) / n) for m in models
@@ -936,6 +953,9 @@ def forecast_tomorrow(trail: str | None = None, spot: str | None = None, day: st
     return {"forecast": w["head"].format(spot=name, h=hours) + ": " + "; ".join(lines) + ".", "next_forecast": nxt,
             "note": "Quote forecast and next_forecast as they are, in this order; add nothing. Five weather models, not yet "
                     "calibrated against our webcams: a rough guide, never a promise.",
+            "beyond_24h": "Levadinho forecasts only the next 24 hours: because of the altitude and the terrain, Pico do Areeiro's "
+                          "weather is particularly hard to forecast further ahead (Levadinho's guide). Say this when asked "
+                          "about a later day.",
             "source": _source("open_meteo" if live else rows[0]["source_id"])}
 
 
@@ -1052,7 +1072,10 @@ WEBCAMS = {  # NetMadeira cameras we grab (seo_research/funchal/webcams/grab.py)
                "trails": ["PR1.2", "PR1"], "places": ["achada do teixeira", "pico ruivo"],
                "live": "https://www.netmadeira.com/webcams/show/netmadeira/achada-do-teixeira"},
     "areeiro": {"folder": "nm_pico-do-arieiro", "name": "Pico do Areeiro",
-                "shows": "the view from Pico do Areeiro over the valley (not the car park): whether the summit is above or in the cloud",
+                "shows": "the view from Pico do Areeiro over the valley and a corner of the car park: whether the summit is above or in the cloud",
+                "advice": "The camera shows only a corner of the car park: assume it is busy. Don't drive up for sunrise: arrange a "
+                          "transfer, or a taxi (Funchal → Pico do Areeiro about €35, indicative; Táxis Madeira +351 291 764 476), "
+                          "or park at Achada do Teixeira and take a taxi up with Táxis Santana (+351 291 572 540) (Levadinho's guide).",
                 "trails": ["PR1"], "places": ["pico do areeiro", "pico do arieiro", "areeiro", "arieiro"],
                 "live": "https://www.netmadeira.com/webcams/show/netmadeira/pico-do-arieiro"},
 }
@@ -1098,7 +1121,8 @@ def webcam(trail: str | None = None, place: str | None = None) -> dict:
     for k in want[:1]:
         c = WEBCAMS[k]
         path, taken = latest_frame(k)
-        item = {"camera": c["name"], "shows": c["shows"], "live_view": c["live"], "source": _source("netmadeira")}
+        item = {"camera": c["name"], "shows": c["shows"], "live_view": c["live"], "source": _source("netmadeira"),
+                **({"advice": c["advice"]} if c.get("advice") else {})}
         if path:
             age = int((now - taken).total_seconds() // 60)
             item.update(image_url=f"{CAM_BASE}/{k}.jpg", taken=taken.strftime("%H:%M"), minutes_ago=age,

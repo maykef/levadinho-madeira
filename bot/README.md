@@ -118,6 +118,23 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
 - Regression 66/66 offline (`tools_v31`–`v35`); `pr1-back-en`, `pr1-fee-en` and `taxi-achada-machico-en` fail
   intermittently (pass on rerun).
 
+**25 Oct 2026 (live weather, 13fac3df):**
+- `weather_now` and `forecast_tomorrow` fetch live when asked (owner: "run it when someone asks, keep it for one
+  hour"): `kbtools._live(key, fetch)` keeps each result 3,600 s in the webhook process (a failed fetch is retried
+  after 300 s). Weather = IPMA observations per region (summit 1210974, north 1210965, west 1210970 → 1210987,
+  east 1210978, south 1200522; wind fallback 1210973); a region IPMA has no reading for falls back to the morning
+  row in `kb.weather_obs`. The reply says when it was measured ("measured at 13:00"), never "right now".
+  Forecast = Open-Meteo, 5 models, 3 days; the reply ends "Forecast made at HH:MM". When nobody asks, the
+  06:07 / 12:07 / 20:07 forecasts still run.
+- `guard.py` no longer reads "partly cloudy" as "partly open"; verbatim tool replies (`trace[-1]["verbatim"]`)
+  skip the guard, like `day_plan`.
+- Qwen3.5-122B-A10B (RedHatAI NVFP4) A/B against the live 35B on the same code: regression 63/66 both, training
+  108/139 both, median reply 2.3 s vs 1.1 s, different mistakes (it put PR3 on SIMplifica, invented a drive time).
+  The 35B stays. The 122B container `levadinho-llm-122b` is kept stopped; it needs `--kv-cache-memory-bytes 10G
+  --max-num-seqs 16 --limit-mm-per-prompt '{"image":0,"video":0}' --tool-call-parser qwen3_xml`.
+- Known gap: the fact check (`grounding.py`) only catches ISO dates; a reply wrote "today (Sunday 25 October)"
+  for the cruise question.
+
 **Buses (2026-10-12):** after every bus timetable `brain.bus_footer` offers directions to the stop and the taxi
 number (never for Monte). A **"bus now"** question asks for the visitor's location (WhatsApp location button; web chat
 "📍 Share my location", `location_request` message in `/webchat`); a pin within 30 min gets the nearest boarding stop

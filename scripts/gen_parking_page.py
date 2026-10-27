@@ -61,8 +61,11 @@ COPY = {
   title="Pico do Areeiro parking 2026: prices and which car park",
   desc="Pico do Areeiro parking: €4/h up to €20 a day at the top, €2/h up to €5 below. Walking the full PR1? Which car park to use and how to save. Read on.",
   h1="Pico do Areeiro parking: prices, which car park for PR1, and the morning rush",
-  sub="IFCN's two car parks at the summit, the official 2026 rates, and what they mean when your car stays there all day.",
+  sub="IFCN's two car parks at the summit, the official 2026 rates, and what they mean when your car stays there all day. We advise against driving up for sunrise.",
   body=[
+   ('Should I drive to Pico do Areeiro for sunrise?', [
+     "We advise against it. The car park at the summit is small and is full very early, and you can't park at the Radar roundabout. The road is public but steep and narrow, can be icy in winter, and is best not driven at night; it takes about 30 minutes from Funchal.",
+     'Take a taxi (Funchal → Pico do Areeiro about €35 per car, indicative; Táxis Madeira +351 291 764 476) or a transfer instead, or leave your car at Achada do Teixeira, where PR1 ends, and take a taxi up from there (Táxis Santana +351 291 572 540). Every option is in the ' + a(L('en', "/pr1-sunrise-transport/"), 'sunrise transport guide') + '.'], True),
    ("How much does parking at Pico do Areeiro cost?", [
      "There are two IFCN car parks, both with meters. The upper car park by the viewpoint, café and shop costs €4 an hour, up to €20 a day. The lower car park, on the access road below the summit, costs €2 an hour, up to €5 a day. At both the first 30 minutes are free, and you can pay by the hour or for the whole day.",
      table(["Car park", "Per hour", "First 30 minutes", "Daily maximum"],
@@ -81,7 +84,7 @@ COPY = {
      "Yes: park where you finish. Leave the car at Achada do Teixeira, where PR1 ends (we found no official parking fee there), and take a taxi to Pico do Areeiro for your slot: Táxis Santana, +351 291 572 540, is the nearest rank. When you come down, your car is waiting. Without a car, the Horários do Funchal bus reaches the top at 06:45 and 14:15 for €3.",
      "All the ways back from Achada are in " + a(L("en", "/getting-back.html"), "getting back from PR1") + "."], True),
    ("Why is parking at Pico do Areeiro so hard in the morning?", [
-     "Both car parks fill before sunrise. Cars then park along the access road, and in past years tour buses and even emergency vehicles were blocked on the bends. Don't park on the yellow lines on the bends, where cars can be towed, or on the road to the radar station: in 2022 about 15 spaces there were reserved for tour buses, vans and taxis. Arrive at least an hour before sunrise, or come mid-morning, after the sunrise crowd has gone.",
+     "Both car parks fill before sunrise. Cars then park along the access road, and in past years tour buses and even emergency vehicles were blocked on the bends. Don't park on the yellow lines on the bends, where cars can be towed, or on the road to the radar station: in 2022 about 15 spaces there were reserved for tour buses, vans and taxis. If you drive anyway, arrive at least an hour before sunrise, or come mid-morning, after the sunrise crowd has gone.",
      "Is the summit clear right now? " + a(L("en", "/pico-do-areeiro-weather/"), "Pico do Areeiro now: webcams and weather") + "."], True),
    ("Announced, not confirmed", [
      "<ul><li><b>A new car park of about 300 spaces</b> near the Casa das Sorveiras, between Poiso and the summit: its tender was due in early 2025. We found no report that it has been built.</li>"
@@ -93,8 +96,11 @@ COPY = {
   title="Estacionamento no Pico do Areeiro 2026: preços e parques",
   desc="Estacionamento no Pico do Areeiro: 4 €/h até 20 €/dia em cima, 2 €/h até 5 € em baixo. Vai fazer o PR1 completo? Que parque usar e como poupar.",
   h1="Estacionamento no Pico do Areeiro: preços, que parque para o PR1 e a confusão da manhã",
-  sub="Os dois parques do IFCN no cume, os preços oficiais de 2026 e o que significam quando o carro fica lá o dia todo.",
+  sub="Os dois parques do IFCN no cume, os preços oficiais de 2026 e o que significam quando o carro fica lá o dia todo. Desaconselhamos ir de carro para o nascer do sol.",
   body=[
+   ('Devo ir de carro ao Pico do Areeiro para o nascer do sol?', [
+     'Desaconselhamos. O parque no cume é pequeno e enche muito cedo, e não pode estacionar na rotunda do Radar. A estrada é pública, mas íngreme e estreita, pode ter gelo no inverno e é melhor não a fazer de noite; do Funchal são cerca de 30 minutos.',
+     'Em vez disso, apanhe um táxi (Funchal → Pico do Areeiro cerca de 35 € por carro, valor indicativo; Táxis Madeira +351 291 764 476) ou um transfer, ou deixe o carro na Achada do Teixeira, onde a PR1 termina, e suba de táxi a partir daí (Táxis Santana +351 291 572 540). Todas as opções estão no ' + a(L('pt', "/pr1-sunrise-transport/"), 'guia de transporte ao nascer do sol') + '.'], True),
    ("Quanto custa estacionar no Pico do Areeiro?", [
      "Há dois parques do IFCN, ambos com parquímetro. O parque de cima, junto ao miradouro, ao café e à loja, custa 4 € por hora, até 20 € por dia. O parque de baixo, na estrada de acesso abaixo do cume, custa 2 € por hora, até 5 € por dia. Em ambos os primeiros 30 minutos são grátis e pode pagar à hora ou o dia inteiro.",
      table(["Parque", "Por hora", "Primeiros 30 minutos", "Máximo diário"],
@@ -113,7 +119,7 @@ COPY = {
      "Sim: estacione onde termina. Deixe o carro na Achada do Teixeira, onde acaba o PR1 (não encontrámos preço oficial de estacionamento lá), e apanhe um táxi até ao Pico do Areeiro para o seu horário: a praça mais próxima é a dos Táxis Santana, +351 291 572 540. Quando descer, o carro está à sua espera. Sem carro, o autocarro dos Horários do Funchal chega ao cume às 06:45 e às 14:15, por 3 €.",
      "Todas as formas de regressar da Achada estão em " + a(L("pt", "/getting-back.html"), "regressar do PR1") + "."], True),
    ("Porque é tão difícil estacionar no Pico do Areeiro de manhã?", [
-     "Os dois parques enchem antes do nascer do sol. Os carros ficam então ao longo da estrada de acesso, e em anos anteriores autocarros de turismo e até viaturas de emergência ficaram bloqueados nas curvas. Não estacione nas linhas amarelas das curvas, onde os carros podem ser rebocados, nem na estrada da Estação Radar: em 2022 cerca de 15 lugares ali ficaram reservados a autocarros, carrinhas de turismo e táxis. Chegue pelo menos uma hora antes do nascer do sol, ou a meio da manhã, quando a multidão do nascer do sol já saiu.",
+     "Os dois parques enchem antes do nascer do sol. Os carros ficam então ao longo da estrada de acesso, e em anos anteriores autocarros de turismo e até viaturas de emergência ficaram bloqueados nas curvas. Não estacione nas linhas amarelas das curvas, onde os carros podem ser rebocados, nem na estrada da Estação Radar: em 2022 cerca de 15 lugares ali ficaram reservados a autocarros, carrinhas de turismo e táxis. Se mesmo assim for de carro, chegue pelo menos uma hora antes do nascer do sol, ou a meio da manhã, quando a multidão do nascer do sol já saiu.",
      "O cume está limpo agora? " + a(L("pt", "/pico-do-areeiro-weather/"), "Pico do Areeiro agora: webcams e tempo") + "."], True),
    ("Anunciado, não confirmado", [
      "<ul><li><b>Um novo parque de cerca de 300 lugares</b> junto à Casa das Sorveiras, entre o Poiso e o cume: o concurso estava previsto para o início de 2025. Não encontrámos notícia de que tenha sido construído.</li>"
@@ -125,8 +131,11 @@ COPY = {
   title="Parking du Pico do Arieiro 2026 : tarifs et quel parking",
   desc="Parking du Pico do Arieiro : 4 €/h jusqu'à 20 € par jour en haut, 2 €/h jusqu'à 5 € en bas. PR1 en entier ? Quel parking choisir et comment économiser.",
   h1="Parking du Pico do Arieiro : tarifs, quel parking pour le PR1, et la cohue du matin",
-  sub="Les deux parkings de l'IFCN au sommet, les tarifs officiels 2026, et ce qu'ils signifient quand la voiture y reste toute la journée.",
+  sub="Les deux parkings de l'IFCN au sommet, les tarifs officiels 2026, et ce qu'ils signifient quand la voiture y reste toute la journée. Nous déconseillons d'y monter en voiture pour le lever du soleil.",
   body=[
+   ('Faut-il monter en voiture au Pico do Arieiro pour le lever du soleil ?', [
+     'Nous le déconseillons. Le parking du sommet est petit et plein très tôt, et on ne peut pas se garer au rond-point du Radar. La route est publique mais raide et étroite, elle peut être verglacée en hiver et mieux vaut ne pas la prendre de nuit ; comptez environ 30 minutes depuis Funchal.',
+     'Prenez plutôt un taxi (Funchal → Pico do Areeiro environ 35 € par voiture, à titre indicatif ; Táxis Madeira +351 291 764 476) ou un transfert, ou laissez la voiture à Achada do Teixeira, où se termine le PR1, et montez en taxi depuis là (Táxis Santana +351 291 572 540). Toutes les options sont dans le ' + a(L('fr', "/pr1-sunrise-transport/"), 'guide des transports au lever du soleil') + '.'], True),
    ("Combien coûte le parking au Pico do Arieiro ?", [
      "Il y a deux parkings de l'IFCN, tous deux à horodateur. Le parking du haut, près du belvédère, du café et de la boutique, coûte 4 € de l'heure, jusqu'à 20 € par jour. Le parking du bas, sur la route d'accès sous le sommet, coûte 2 € de l'heure, jusqu'à 5 € par jour. Dans les deux, les 30 premières minutes sont gratuites, et vous pouvez payer à l'heure ou pour la journée.",
      table(["Parking", "Par heure", "30 premières minutes", "Maximum par jour"],
@@ -145,7 +154,7 @@ COPY = {
      "Oui : garez-vous là où vous terminez. Laissez la voiture à Achada do Teixeira, où finit le PR1 (nous n'y avons trouvé aucun tarif officiel de stationnement), et prenez un taxi jusqu'au Pico do Arieiro pour votre créneau : Táxis Santana, +351 291 572 540, est la station la plus proche. En redescendant, la voiture vous attend. Sans voiture, le bus des Horários do Funchal arrive au sommet à 06:45 et 14:15, pour 3 €.",
      "Toutes les façons de revenir d'Achada sont dans " + a(L("fr", "/getting-back.html"), "revenir du PR1") + "."], True),
    ("Pourquoi est-il si difficile de se garer au Pico do Arieiro le matin ?", [
-     "Les deux parkings sont pleins avant le lever du soleil. Les voitures se garent alors le long de la route d'accès, et les années passées des autocars et même des véhicules de secours ont été bloqués dans les virages. Ne vous garez pas sur les lignes jaunes des virages, où les voitures peuvent être remorquées, ni sur la route de la station radar : en 2022, une quinzaine de places y ont été réservées aux autocars, minibus de tourisme et taxis. Arrivez au moins une heure avant le lever du soleil, ou en milieu de matinée, une fois la foule du lever du soleil partie.",
+     "Les deux parkings sont pleins avant le lever du soleil. Les voitures se garent alors le long de la route d'accès, et les années passées des autocars et même des véhicules de secours ont été bloqués dans les virages. Ne vous garez pas sur les lignes jaunes des virages, où les voitures peuvent être remorquées, ni sur la route de la station radar : en 2022, une quinzaine de places y ont été réservées aux autocars, minibus de tourisme et taxis. Si vous venez quand même en voiture, arrivez au moins une heure avant le lever du soleil, ou en milieu de matinée, une fois la foule du lever du soleil partie.",
      "Le sommet est-il dégagé en ce moment ? " + a(L("fr", "/pico-do-areeiro-weather/"), "Pico do Arieiro maintenant : webcams et météo") + "."], True),
    ("Annoncé, non confirmé", [
      "<ul><li><b>Un nouveau parking d'environ 300 places</b> près de la Casa das Sorveiras, entre Poiso et le sommet : l'appel d'offres était prévu début 2025. Nous n'avons trouvé aucun article indiquant qu'il a été construit.</li>"
@@ -157,8 +166,11 @@ COPY = {
   title="Pico do Arieiro Parken 2026: Preise und welcher Parkplatz",
   desc="Parken am Pico do Arieiro: oben 4 €/h, höchstens 20 € am Tag, unten 2 €/h, höchstens 5 €. Ganzer PR1? Welcher Parkplatz passt und wie Sie sparen.",
   h1="Parken am Pico do Arieiro: Preise, welcher Parkplatz für den PR1 und der Andrang am Morgen",
-  sub="Die beiden IFCN-Parkplätze am Gipfel, die offiziellen Preise 2026 und was sie bedeuten, wenn das Auto den ganzen Tag dort steht.",
+  sub="Die beiden IFCN-Parkplätze am Gipfel, die offiziellen Preise 2026 und was sie bedeuten, wenn das Auto den ganzen Tag dort steht. Zum Sonnenaufgang raten wir vom Auto ab.",
   body=[
+   ('Soll ich zum Sonnenaufgang mit dem Auto zum Pico do Arieiro fahren?', [
+     'Wir raten davon ab. Der Parkplatz am Gipfel ist klein und sehr früh voll, und am Radar-Kreisverkehr kann man nicht parken. Die Straße ist öffentlich, aber steil und schmal, kann im Winter vereist sein und sollte nachts besser nicht befahren werden; ab Funchal sind es etwa 30 Minuten.',
+     'Nehmen Sie stattdessen ein Taxi (Funchal → Pico do Areeiro etwa 35 € pro Auto, Richtwert; Táxis Madeira +351 291 764 476) oder einen Transfer, oder lassen Sie das Auto in Achada do Teixeira, wo der PR1 endet, und fahren Sie von dort mit dem Taxi hinauf (Táxis Santana +351 291 572 540). Alle Möglichkeiten stehen im ' + a(L('de', "/pr1-sunrise-transport/"), 'Ratgeber zur Anfahrt zum Sonnenaufgang') + '.'], True),
    ("Was kostet das Parken am Pico do Arieiro?", [
      "Es gibt zwei IFCN-Parkplätze, beide mit Parkautomat. Der obere Parkplatz am Aussichtspunkt, beim Café und Laden, kostet 4 € pro Stunde, höchstens 20 € am Tag. Der untere Parkplatz an der Zufahrtsstraße unterhalb des Gipfels kostet 2 € pro Stunde, höchstens 5 € am Tag. Auf beiden sind die ersten 30 Minuten frei, und Sie können stundenweise oder für den ganzen Tag zahlen.",
      table(["Parkplatz", "Pro Stunde", "Erste 30 Minuten", "Tageshöchstbetrag"],
@@ -177,7 +189,7 @@ COPY = {
      "Ja: Parken Sie dort, wo Sie ankommen. Lassen Sie das Auto in Achada do Teixeira, wo der PR1 endet (eine offizielle Parkgebühr haben wir dort nicht gefunden), und fahren Sie mit dem Taxi zum Pico do Arieiro zu Ihrem Slot: Táxis Santana, +351 291 572 540, ist der nächste Taxistand. Wenn Sie herunterkommen, wartet das Auto. Ohne Auto erreicht der Bus von Horários do Funchal den Gipfel um 06:45 und 14:15, für 3 €.",
      "Alle Wege zurück aus Achada stehen unter " + a(L("de", "/getting-back.html"), "Rückweg vom PR1") + "."], True),
    ("Warum ist Parken am Pico do Arieiro morgens so schwierig?", [
-     "Beide Parkplätze sind vor Sonnenaufgang voll. Dann parken Autos entlang der Zufahrtsstraße, und in den vergangenen Jahren blieben Reisebusse und sogar Rettungsfahrzeuge in den Kurven stecken. Parken Sie nicht auf den gelben Linien in den Kurven, wo abgeschleppt werden kann, und nicht an der Straße zur Radarstation: Dort wurden 2022 etwa 15 Plätze für Reisebusse, Kleinbusse und Taxis reserviert. Kommen Sie mindestens eine Stunde vor Sonnenaufgang, oder am Vormittag, wenn die Sonnenaufgangsbesucher weg sind.",
+     "Beide Parkplätze sind vor Sonnenaufgang voll. Dann parken Autos entlang der Zufahrtsstraße, und in den vergangenen Jahren blieben Reisebusse und sogar Rettungsfahrzeuge in den Kurven stecken. Parken Sie nicht auf den gelben Linien in den Kurven, wo abgeschleppt werden kann, und nicht an der Straße zur Radarstation: Dort wurden 2022 etwa 15 Plätze für Reisebusse, Kleinbusse und Taxis reserviert. Wenn Sie doch mit dem Auto kommen, seien Sie mindestens eine Stunde vor Sonnenaufgang da, oder am Vormittag, wenn die Sonnenaufgangsbesucher weg sind.",
      "Ist der Gipfel gerade klar? " + a(L("de", "/pico-do-areeiro-weather/"), "Pico do Arieiro jetzt: Webcams und Wetter") + "."], True),
    ("Angekündigt, nicht bestätigt", [
      "<ul><li><b>Ein neuer Parkplatz mit etwa 300 Plätzen</b> bei der Casa das Sorveiras, zwischen Poiso und Gipfel: Die Ausschreibung war für Anfang 2025 geplant. Einen Bericht, dass er gebaut wurde, haben wir nicht gefunden.</li>"
@@ -189,8 +201,11 @@ COPY = {
   title="Parking na Pico do Arieiro 2026: ceny i który parking",
   desc="Parking na Pico do Arieiro: na górze 4 €/godz., do 20 € dziennie, na dole 2 €/godz., do 5 €. Cały PR1? Który parking wybrać i jak zaoszczędzić.",
   h1="Parking na Pico do Arieiro: ceny, który parking na PR1 i poranny tłok",
-  sub="Dwa parkingi IFCN na szczycie, oficjalne ceny na 2026 i co oznaczają, gdy auto stoi tam cały dzień.",
+  sub="Dwa parkingi IFCN na szczycie, oficjalne ceny na 2026 i co oznaczają, gdy auto stoi tam cały dzień. Na wschód słońca odradzamy jazdę autem.",
   body=[
+   ('Czy jechać autem na Pico do Arieiro na wschód słońca?', [
+     'Odradzamy. Parking na szczycie jest mały i bardzo wcześnie się zapełnia, a przy rondzie Radar nie można parkować. Droga jest publiczna, ale stroma i wąska, zimą bywa oblodzona i lepiej nie jechać nią nocą; z Funchal to około 30 minut.',
+     'Zamiast tego weź taksówkę (Funchal → Pico do Areeiro około 35 € za auto, cena orientacyjna; Táxis Madeira +351 291 764 476) lub transfer albo zostaw auto w Achada do Teixeira, gdzie kończy się PR1, i wjedź stamtąd taksówką (Táxis Santana +351 291 572 540). Wszystkie opcje są w ' + a(L('pl', "/pr1-sunrise-transport/"), 'przewodniku dojazdu na wschód słońca') + '.'], True),
    ("Ile kosztuje parking na Pico do Arieiro?", [
      "Są dwa parkingi IFCN, oba z parkomatami. Górny parking przy punkcie widokowym, kawiarni i sklepie kosztuje 4 € za godzinę, maksymalnie 20 € dziennie. Dolny parking, przy drodze dojazdowej poniżej szczytu, kosztuje 2 € za godzinę, maksymalnie 5 € dziennie. Na obu pierwsze 30 minut jest gratis, a zapłacić można za godzinę lub za cały dzień.",
      table(["Parking", "Za godzinę", "Pierwsze 30 minut", "Maksymalnie dziennie"],
@@ -209,7 +224,7 @@ COPY = {
      "Tak: zaparkuj tam, gdzie kończysz. Zostaw auto w Achada do Teixeira, gdzie kończy się PR1 (nie znaleźliśmy tam oficjalnej opłaty za parking), i podjedź taksówką na Pico do Arieiro na swój slot: najbliższy postój to Táxis Santana, +351 291 572 540. Gdy zejdziesz, auto na Ciebie czeka. Bez auta autobus Horários do Funchal dojeżdża na szczyt o 06:45 i 14:15, za 3 €.",
      "Wszystkie sposoby powrotu z Achada są w " + a(L("pl", "/getting-back.html"), "powrocie z PR1") + "."], True),
    ("Dlaczego rano tak trudno zaparkować na Pico do Arieiro?", [
-     "Oba parkingi zapełniają się przed wschodem słońca. Auta stają wtedy wzdłuż drogi dojazdowej, a w poprzednich latach autokary, a nawet pojazdy ratunkowe utykały na zakrętach. Nie parkuj na żółtych liniach na zakrętach, gdzie auta mogą zostać odholowane, ani na drodze do stacji radarowej: w 2022 około 15 miejsc zarezerwowano tam dla autokarów, busów turystycznych i taksówek. Przyjedź co najmniej godzinę przed wschodem słońca albo w połowie poranka, gdy tłum od wschodu słońca już odjedzie.",
+     "Oba parkingi zapełniają się przed wschodem słońca. Auta stają wtedy wzdłuż drogi dojazdowej, a w poprzednich latach autokary, a nawet pojazdy ratunkowe utykały na zakrętach. Nie parkuj na żółtych liniach na zakrętach, gdzie auta mogą zostać odholowane, ani na drodze do stacji radarowej: w 2022 około 15 miejsc zarezerwowano tam dla autokarów, busów turystycznych i taksówek. Jeśli mimo to jedziesz autem, przyjedź co najmniej godzinę przed wschodem słońca albo w połowie poranka, gdy tłum od wschodu słońca już odjedzie.",
      "Czy szczyt jest teraz odsłonięty? " + a(L("pl", "/pico-do-areeiro-weather/"), "Pico do Arieiro teraz: kamery i pogoda") + "."], True),
    ("Zapowiedziane, niepotwierdzone", [
      "<ul><li><b>Nowy parking na około 300 miejsc</b> przy Casa das Sorveiras, między Poiso a szczytem: przetarg miał ruszyć na początku 2025. Nie znaleźliśmy informacji, że go zbudowano.</li>"

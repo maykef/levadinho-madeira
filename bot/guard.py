@@ -49,7 +49,7 @@ NOT_TRAIL = re.compile(r"\b(cafe|caf[eé]s?|restaurant\w*|bar|shop|loja|market|m
 # even with the kb sheet in context): if the visitor asked about one and the reply asserts a prohibition,
 # the whole reply becomes the honest no-rule sentence
 NO_RULE_TOPIC = re.compile(r"\b(bike\w*|bicycl\w*|cycl\w*|mountain ?bik\w*|rower\w*|fahrr[aä]d\w*|radfahren|v[eé]los?|"
-                           r"bicicleta|dogs?|hund\w*|chien\w*|c[aã]o|c[aã]es|pies|psem|psa|pets?|drone\w*|drohne\w*|"
+                           r"bicicleta|"  # dogs (on PR1) and drones have a rule since 2026-10-26 (Levadinho's guide)
                            r"camp\w*|zelt\w*|biwak\w*|acampar|namiot\w*|picnic\w*|piquenique|barbecue|grill\w*)\b", re.I)
 PROHIBIT = re.compile(r"\b(not (allowed|permitted)|forbidden|prohibited|banned|nicht (erlaubt|gestattet)|verboten|"
                       r"interdit\w*|pas autoris\w*|n[aã]o ([eé] )?(permitid\w*|autorizad\w*)|proibid\w*|"

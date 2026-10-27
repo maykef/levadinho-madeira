@@ -218,6 +218,8 @@ def load_facts(cur):
              for i, topic, subj, text, src in seed.TRANSPORT_FACTS]
     rows += [(f"scope:{i}", topic, subj, Jsonb({"en": text}), True, src, checked_t)
              for i, topic, subj, text, src in seed.FEE_SCOPE_FACTS]
+    rows += [(f"guide:{i}", topic, subj, Jsonb({"en": text}), True, "levadinho_guide", checked_t)
+             for i, topic, subj, text in seed.OWNER_FACTS]
     # the bus sentences each trail page shows ("no bus reaches the plateau", "the only bus of the day"…), 5 languages
     checked_b = mtime("scripts/gen_bus.py")
     for code, d in gen_bus_hub.DATA.items():
@@ -397,12 +399,19 @@ def load_docs(cur):
                      key[1], checked_pr1))
     # what official sources do NOT regulate (owner, 2026-10-22, after the bot invented a cycling ban): a searchable
     # sheet so no-rule questions (bikes, dogs, drones, camping, picnics) ground on this instead of improvising
+    # the owner's first-hand answers, searchable (parking, the road, the café, crowds at Pico do Areeiro…)
+    rows.append(("facts:en:guide:areeiro", "facts", "PR1", "en",
+                 "Pico do Areeiro: driving up, parking, the road, the café, crowds, slots (Levadinho's guide)",
+                 SITE + "/pr1-sunrise-transport/",
+                 "\n".join("- " + text for i, topic, subj, text in seed.OWNER_FACTS
+                           if i in ("areeiro_car", "areeiro_cafe", "pr1_crowds", "pr1_slots", "ruivo_sunrise", "ruivo_refuge")),
+                 "english", "levadinho_guide", mtime("backend/seed.py")))
     rows.append(("facts:en:scope:unregulated", "facts", None, "en",
                  "Dogs, bicycles, drones, camping, picnics: what official sources say", SITE + "/do-i-need-a-permit/",
                  "Our official sources (IFCN, SIMplifica, Portaria 48/2026, DLR 24/2022/M) regulate access fees, "
                  "booking and closures on the classified PR trails. They contain NO rule about dogs (pets), bicycles "
                  "(bikes, cycling, mountain biking), drones, camping (overnight stays, wild camping) or picnics "
-                 "(barbecues) on the levadas and PR trails. THE ANSWER TO GIVE, word for word in the visitor's "
+                 "(barbecues) on the levadas and PR trails. EXCEPTIONS from Levadinho's guide (first-hand, give these): dogs are not allowed on PR1; flying a drone in any protected area in Madeira needs a permit; you can't stay overnight at the Pico Ruivo refuge. For the rest, THE ANSWER TO GIVE, word for word in the visitor's "
                  "language: \"There is no official rule about <topic> on the levadas in our sources, so I can't say "
                  "whether it is allowed — you can ask hello@levadinho-madeira.com.\" Saying 'not allowed' or "
                  "'forbidden' would be inventing a rule. (The PR routes are classified as percursos pedestres — "

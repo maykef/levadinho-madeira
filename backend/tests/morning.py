@@ -25,6 +25,8 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, "reports", "data", "bot_tests")
 QUESTIONS = sorted(glob.glob(os.path.join(ROOT, "seo_research", "finetune", "questions", "*.jsonl")))
+# the page a question is asked on, as the bot sees it (the #web-… tag of the page's WhatsApp link / web chat)
+PAGE_SOURCE = {"/pr1-sunrise-transport/": "web-sunrise"}
 
 
 def training(rows):
@@ -33,7 +35,8 @@ def training(rows):
     out = []
     for r in rows:
         user = "test:" + "".join(random.choices(string.ascii_lowercase, k=12))
-        store.set_user(user, lang=r["lang"], state="ready", consent="yes")
+        source = (r.get("real") or {}).get("tag") or PAGE_SOURCE.get(r.get("page"), "")
+        store.set_user(user, lang=r["lang"], state="ready", consent="yes", source=source)
         body, got, t = "", [], time.time()
         try:
             for turn in r["turns"]:

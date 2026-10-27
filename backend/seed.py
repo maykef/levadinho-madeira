@@ -29,6 +29,8 @@ SOURCES = [
     ("levadinho_research", "Levadinho verified research (from the official sources listed with each fact)", "Levadinho",
      "https://levadinho-madeira.com/about/", None, "curated"),
     ("levadinho_site", "levadinho-madeira.com", "Levadinho", "https://levadinho-madeira.com/", None, "site"),
+    ("levadinho_guide", "Levadinho's guide (first-hand field knowledge of the owner, a Madeiran guide)", "Levadinho",
+     "https://levadinho-madeira.com/about/", None, "curated"),
     # Funchal and the island (2026-10-10: every fact the bot uses lives here)
     ("funchal_places", "Opening hours of Funchal's places (each place's own website, listed with it)", "Levadinho",
      "https://levadinho-madeira.com/funchal/", None, "curated"),
@@ -94,7 +96,7 @@ FEES = [
     ("bus_areeiro", 3.00, L("Public bus Funchal ↔ Pico do Areeiro, per trip", "Autocarro Funchal ↔ Pico do Areeiro, por viagem",
                             "Bus Funchal ↔ Pico do Areeiro, par trajet", "Bus Funchal ↔ Pico do Areeiro, pro Fahrt",
                             "Autobus Funchal ↔ Pico do Areeiro, za przejazd"),
-     "Horários do Funchal Pico do Areeiro service", {"note": "Paid on board. 31 seats. Seat reservation by phone only, 291 705 555, 7 to 2 working days before."},
+     "Horários do Funchal Pico do Areeiro service", {"note": "Paid on board, in cash or by card; carry cash in case the card machine isn't working (Levadinho's guide). 31 seats. Seat reservation by phone only, 291 705 555, 7 to 2 working days before."},
      "horarios_funchal_areeiro"),
 ]
 
@@ -124,7 +126,7 @@ TRANSPORT_FACTS = [
      "booking and for a receipt. Taxis are paid in cash, so carry enough.", "levadinho_research"),
     ("taxi_no_wait", "taxi", None,
      "At Achada do Teixeira (PR1's finish) taxis usually wait in the daytime, and a shared ride back to Pico do Areeiro "
-     "costs about €15–20 per person; if none is there, wait a little. At other trailheads, and for an early, late or "
+     "costs about €15–20 per person. There is phone signal there; if no taxi is waiting, wait about 20 minutes before calling Táxis Santana (Levadinho's guide). At other trailheads, and for an early, late or "
      "off-season finish, book a set pick-up time before you start. The taxi numbers are as printed on IFCN's "
      "trailhead panels, which are undated.", "ifcn_panels"),
     ("taxi_choice", "taxi", None,
@@ -153,6 +155,44 @@ TRANSPORT_FACTS = [
     ("bus_scope", "bus", None,
      "Bus times come only from the operators' printed timetables in our data. If there is no bus in our data from the "
      "visitor's town, say so and give the taxi option. No buses on 25 December.", "siga"),
+]
+
+# The owner's first-hand answers (2026-10-26, notes on the page-2 question set): id, topic, subject, text. Source
+# levadinho_guide. Topics route them to the tools: fees_booking → fees_and_rules, taxi/transfer → transport,
+# getting_back → transport + fees_and_rules(one_way), car → transport/trail_facts for Areeiro, subject → trail_facts.
+AREEIRO_CAR = ("We advise against driving to Pico do Areeiro for sunrise: the car park at the summit is small and is full "
+               "very early (assume it is busy), and you can't park at the Radar roundabout. The road is public but steep "
+               "and narrow, can be icy in winter, and is best not driven at night; the drive from Funchal takes about 30 "
+               "minutes. Take a taxi instead (Funchal → Pico do Areeiro about €35 per car, indicative; Táxis Madeira "
+               "+351 291 764 476) or a transfer, or leave the car at Achada do Teixeira, where PR1 ends, and take a taxi "
+               "up with Táxis Santana (+351 291 572 540).")
+OWNER_FACTS = [
+    ("areeiro_car", "car", "PR1", AREEIRO_CAR),
+    ("pr1_slots", "fees_booking", "PR1", "PR1 entry slots on SIMplifica run from 07:00 to 16:00, every 30 minutes."),
+    ("pr1_crowds", "sunrise", "PR1", "The sunrise slots are very crowded. For a more relaxed walk, book a late-morning or "
+     "early-afternoon slot."),
+    ("ruivo_sunrise", "sunrise", "PR1.2", "Sunrise at Pico Ruivo isn't possible: the first entry slot to Pico Ruivo is 08:00."),
+    ("ruivo_sunrise_pr1", "sunrise", "PR1", "Sunrise at Pico Ruivo isn't possible: the first entry slot to Pico Ruivo is 08:00."),
+    ("ruivo_refuge", "fees_booking", "PR1", "You can't stay overnight at the Pico Ruivo refuge."),
+    ("areeiro_cafe", "trail", "PR1", "At Pico do Areeiro nothing is open before 08:00, when the café opens."),
+    ("pr1_dogs", "fees_booking", "PR1", "Dogs are not allowed on PR1."),
+    ("drones", "fees_booking", None, "You need a permit to fly a drone in any protected area in Madeira."),
+    ("availability", "fees_booking", None, "Free places for a date are shown only on SIMplifica: check there before you go "
+     "(https://simplifica.madeira.gov.pt/services/78-82-259). Levadinho can't see availability."),
+    ("fanal_trees", "fees_booking", "PR13", "Fanal's trees are inside PR13 Fanal: there is no way to walk among them without "
+     "a PR13 SIMplifica ticket."),
+    ("marocos", "fees_booking", None, "Levada dos Maroços (Machico) belongs to Machico council, not IFCN: it is not on "
+     "SIMplifica and needs no ticket."),
+    ("achada_ribeiro_frio", "getting_back", "PR1", "No bus runs from Achada do Teixeira to Ribeiro Frio: you need a transfer "
+     "or a taxi (Táxis Santana +351 291 572 540)."),
+    ("transfer_cancel", "transfer", None, "Transfers usually can't be cancelled: ask the company about cancellation before "
+     "you buy."),
+    ("guides", "transfer", None, "Levadinho doesn't arrange guides: ask your hotel reception, or look at the leaflets in "
+     "your Airbnb or holiday rental."),
+    ("bolt", "taxi", None, "For the mountains and trailheads (e.g. Pico do Areeiro before sunrise) don't count on Bolt: use "
+     "standard taxis, e.g. Táxis Madeira +351 291 764 476."),
+    ("dawn_to_bus", "bus", None, "Before the first buses (e.g. to the 06:00 Pico do Areeiro bus at the Teleférico stop): walk "
+     "or take a taxi from the hotel; ask which hotel to say more."),
 ]
 
 # Which walks SIMplifica actually sells (the free-walks page's rule; owner, 2026-10-22, after the bot told a
