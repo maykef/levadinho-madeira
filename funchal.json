@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-26T05:39+00:00",
+ "stamp": "2026-10-27T05:50+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-26",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:19",
-   "sunset": "18:23",
-   "weather": {
-    "tmin": 18,
-    "tmax": 25,
-    "rain": 0,
-    "wtype": 3,
-    "uv": 3.7
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-27",
    "type": "weekday",
@@ -26,11 +10,11 @@
    "sunrise": "07:20",
    "sunset": "18:22",
    "weather": {
-    "tmin": 19,
+    "tmin": 20,
     "tmax": 25,
     "rain": 0,
     "wtype": 3,
-    "uv": 3.6
+    "uv": 4.3
    },
    "fair": null
   },
@@ -43,10 +27,10 @@
    "sunset": "18:21",
    "weather": {
     "tmin": 20,
-    "tmax": 26,
-    "rain": 24,
-    "wtype": 2,
-    "uv": 3.6
+    "tmax": 25,
+    "rain": 29,
+    "wtype": 3,
+    "uv": 4.0
    },
    "fair": null
   },
@@ -60,9 +44,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 57,
+    "rain": 47,
     "wtype": 3,
-    "uv": 4.4
+    "uv": 4.5
    },
    "fair": {
     "theme": "fashion",
@@ -84,9 +68,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 67,
+    "rain": 73,
     "wtype": 7,
-    "uv": null
+    "uv": 4.3
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "saturday",
    "sunrise": "07:23",
    "sunset": "18:18",
-   "weather": null,
+   "weather": {
+    "tmin": 19,
+    "tmax": 25,
+    "rain": 67,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:12",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-09",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:31",
+   "sunset": "18:11",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -201,6 +201,24 @@
    "src": "eventsmadeira.com"
   },
   {
+   "title": "Madeira Street Arts Festival",
+   "venue": "",
+   "start": "2026-10-24",
+   "end": "2026-11-01",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/madeira-street-arts-festival/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "UIPM 2026 Biathle-Triathle-Laser Run World Championships",
+   "venue": "",
+   "start": "2026-10-26",
+   "end": "2026-11-01",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/uipm-2026-biathle-triathle-laser-run-world-championships/",
+   "src": "eventsmadeira.com"
+  },
+  {
    "title": "O Rei Vai Nu",
    "venue": "Teatro Municipal Baltazar Dias",
    "start": "2026-10-28T11:00",
@@ -216,15 +234,6 @@
    "end": "2026-11-09",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/xxv-madeira-international-bridge-open/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Chestnut Festival",
-   "venue": "",
-   "start": "2026-10-31",
-   "end": "2026-11-01",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/chestnut-festival/",
    "src": "eventsmadeira.com"
   },
   {
@@ -255,21 +264,21 @@
    "src": "eventsmadeira.com"
   },
   {
-   "title": "Madeira Ladies Open – W50 Funchal",
-   "venue": "",
-   "start": "2026-11-08",
-   "end": "2026-11-15",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/madeira-ladies-open-w50-funchal/",
-   "src": "eventsmadeira.com"
+   "title": "Tomé: Curta-metragem de André Fournier",
+   "venue": "Teatro Municipal Baltazar Dias",
+   "start": "2026-11-10T19:00",
+   "end": "2026-11-10T20:00",
+   "all_day": false,
+   "url": "https://cultura.funchal.pt/event/tome-curta-metragem-de-andre-fournier/",
+   "src": "cultura.funchal.pt"
   }
  ],
  "sea": {
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "sst": 23,
   "wave": [
-   0.6,
-   1.0
+   0.5,
+   0.7
   ],
   "warnings": []
  },
