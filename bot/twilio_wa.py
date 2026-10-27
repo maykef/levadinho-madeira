@@ -3,7 +3,7 @@
 app.py's POST /twilio checks the signature, turns Twilio's form into the same message dict the Meta
 webhook hands to process() (normalise), and answers through here (send). brain.py is unchanged:
 
-  - The sender id is the number as digits only ("447795966209"), exactly like Meta's `from`, so the
+  - The sender id is the number as digits only ("447700900123"), exactly like Meta's `from`, so the
     working store, the HMAC visitor id and privacy_request.py find the same visitor on both channels.
   - The message dict carries "channel": "twilio" (a Meta message has no channel key = "meta"). It is
     kept in the pending queue, so a reply replayed after the model wakes goes out on the same channel.
