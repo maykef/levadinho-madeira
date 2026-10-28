@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-27T05:50+00:00",
+ "stamp": "2026-10-28T06:28+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-27",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:20",
-   "sunset": "18:22",
-   "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 0,
-    "wtype": 3,
-    "uv": 4.3
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-28",
    "type": "weekday",
@@ -28,8 +12,8 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 29,
-    "wtype": 3,
+    "rain": 40,
+    "wtype": 7,
     "uv": 4.0
    },
    "fair": null
@@ -44,9 +28,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 47,
-    "wtype": 3,
-    "uv": 4.5
+    "rain": 60,
+    "wtype": 2,
+    "uv": 4.0
    },
    "fair": {
     "theme": "fashion",
@@ -68,9 +52,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 73,
+    "rain": 71,
     "wtype": 7,
-    "uv": 4.3
+    "uv": 3.9
    },
    "fair": null
   },
@@ -82,11 +66,11 @@
    "sunrise": "07:23",
    "sunset": "18:18",
    "weather": {
-    "tmin": 19,
-    "tmax": 25,
-    "rain": 67,
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 84,
     "wtype": 7,
-    "uv": null
+    "uv": 4.1
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "sunday",
    "sunrise": "07:24",
    "sunset": "18:18",
-   "weather": null,
+   "weather": {
+    "tmin": 19,
+    "tmax": 24,
+    "rain": 92,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:11",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-10",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:32",
+   "sunset": "18:10",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -207,15 +207,6 @@
    "end": "2026-11-01",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/madeira-street-arts-festival/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "UIPM 2026 Biathle-Triathle-Laser Run World Championships",
-   "venue": "",
-   "start": "2026-10-26",
-   "end": "2026-11-01",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/uipm-2026-biathle-triathle-laser-run-world-championships/",
    "src": "eventsmadeira.com"
   },
   {
@@ -274,11 +265,11 @@
   }
  ],
  "sea": {
-  "date": "2026-10-27",
+  "date": "2026-10-28",
   "sst": 23,
   "wave": [
-   0.5,
-   0.7
+   0.7,
+   1.0
   ],
   "warnings": []
  },
@@ -289,11 +280,11 @@
    "url": "https://frentemarfunchal.pt/complexos/lido-2/",
    "hours": [
     "09:00",
-    "18:30"
+    "18:00"
    ],
    "window": [
-    "2026-10-01",
-    "2026-10-24"
+    "2026-10-25",
+    "2027-03-31"
    ],
    "days": "daily"
   },
@@ -302,12 +293,12 @@
    "name": "Complexo Balnear da Ponta Gorda",
    "url": "https://frentemarfunchal.pt/complexos/ponta-gorda/",
    "hours": [
-    "09:00",
-    "18:30"
+    "09:30",
+    "18:00"
    ],
    "window": [
-    "2026-10-01",
-    "2026-10-24"
+    "2026-10-25",
+    "2027-03-31"
    ],
    "days": "daily"
   },
@@ -316,12 +307,12 @@
    "name": "Complexo Balnear da Barreirinha",
    "url": "https://frentemarfunchal.pt/complexos/barreirinha/",
    "hours": [
-    "09:00",
-    "18:30"
+    "09:30",
+    "17:30"
    ],
    "window": [
-    "2026-10-01",
-    "2026-10-24"
+    "2026-10-25",
+    "2027-03-31"
    ],
    "days": "daily"
   },
@@ -331,11 +322,11 @@
    "url": "https://frentemarfunchal.pt/complexos/pocas-do-gomes-doca-do-cavacas/",
    "hours": [
     "10:00",
-    "19:00"
+    "18:00"
    ],
    "window": [
-    "2026-10-01",
-    "2026-10-24"
+    "2026-10-25",
+    "2027-03-31"
    ],
    "days": "daily"
   }
