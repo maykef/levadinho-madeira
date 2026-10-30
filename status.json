@@ -11,14 +11,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.9,
+    "temp_c": 8.7,
     "humidity": 92,
     "in_cloud": true,
-    "wind_kmh": 4,
+    "wind_kmh": 5,
     "wind_strong": false
   },
-  "stamp": "2026-10-29 06:39",
-  "date": "2026-10-29",
+  "stamp": "2026-10-30 06:40",
+  "date": "2026-10-30",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
@@ -34,7 +34,7 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 9,
-      "wind": 4,
+      "wind": 5,
       "rain": 0.0,
       "in_cloud": true
     },

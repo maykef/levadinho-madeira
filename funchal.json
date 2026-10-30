@@ -1,31 +1,7 @@
 {
- "stamp": "2026-10-29T06:40+00:00",
+ "stamp": "2026-10-30T06:40+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-29",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:21",
-   "sunset": "18:20",
-   "weather": {
-    "tmin": 21,
-    "tmax": 25,
-    "rain": 25,
-    "wtype": 2,
-    "uv": 4.1
-   },
-   "fair": {
-    "theme": "fashion",
-    "pt": "Moda, Bijuteria e Decoração",
-    "hours": [
-     "09:00",
-     "17:00"
-    ],
-    "url": "https://mercados.funchal.pt/feiras-tematicas-outubro-2026-mercado-dos-lavradores/"
-   }
-  },
   {
    "date": "2026-10-30",
    "type": "weekday",
@@ -36,9 +12,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 47,
+    "rain": 55,
     "wtype": 3,
-    "uv": 4.2
+    "uv": 4.3
    },
    "fair": null
   },
@@ -52,9 +28,9 @@
    "weather": {
     "tmin": 19,
     "tmax": 25,
-    "rain": 86,
-    "wtype": 7,
-    "uv": 3.4
+    "rain": 78,
+    "wtype": 6,
+    "uv": 1.8
    },
    "fair": null
   },
@@ -68,9 +44,9 @@
    "weather": {
     "tmin": 19,
     "tmax": 24,
-    "rain": 90,
+    "rain": 80,
     "wtype": 6,
-    "uv": 3.3
+    "uv": 4.2
    },
    "fair": null
   },
@@ -83,10 +59,10 @@
    "sunset": "18:17",
    "weather": {
     "tmin": 20,
-    "tmax": 26,
-    "rain": 65,
+    "tmax": 24,
+    "rain": 78,
     "wtype": 7,
-    "uv": null
+    "uv": 4.3
    },
    "fair": null
   },
@@ -97,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:26",
    "sunset": "18:16",
-   "weather": null,
+   "weather": {
+    "tmin": 19,
+    "tmax": 24,
+    "rain": 84,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +161,16 @@
    "sunset": "18:10",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-12",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:34",
+   "sunset": "18:09",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -198,15 +190,6 @@
    "end": "2026-11-01",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/madeira-street-arts-festival/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "XXVIII Madeira International Bridge Open",
-   "venue": "",
-   "start": "2026-10-29",
-   "end": "2026-11-09",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/xxv-madeira-international-bridge-open/",
    "src": "eventsmadeira.com"
   },
   {
@@ -244,16 +227,41 @@
    "all_day": false,
    "url": "https://cultura.funchal.pt/event/tome-curta-metragem-de-andre-fournier/",
    "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "Sounds and Flavours of Madeira",
+   "venue": "",
+   "start": "2026-11-13",
+   "end": "2026-11-15",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/sounds-and-flavours-of-madeira/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Noites da Madeira – Homenagem a Celso Rodrigues",
+   "venue": "Teatro Municipal Baltazar Dias",
+   "start": "2026-11-13T00:00",
+   "end": "2026-11-13T23:59",
+   "all_day": true,
+   "url": "https://cultura.funchal.pt/event/noites-da-madeira-homenagem-a-celso-rodrigues/",
+   "src": "cultura.funchal.pt"
   }
  ],
  "sea": {
-  "date": "2026-10-29",
+  "date": "2026-10-30",
   "sst": 23,
   "wave": [
    0.5,
    0.8
   ],
-  "warnings": []
+  "warnings": [
+   {
+    "type": "Precipitação",
+    "level": "yellow",
+    "start": "2026-10-31T21:00:00",
+    "end": "2026-11-01T09:00:00"
+   }
+  ]
  },
  "lidos": [
   {
