@@ -1,23 +1,7 @@
 {
- "stamp": "2026-10-30T06:40+00:00",
+ "stamp": "2026-10-31T06:30+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-10-30",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:22",
-   "sunset": "18:19",
-   "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 55,
-    "wtype": 3,
-    "uv": 4.3
-   },
-   "fair": null
-  },
   {
    "date": "2026-10-31",
    "type": "saturday",
@@ -26,11 +10,11 @@
    "sunrise": "07:23",
    "sunset": "18:18",
    "weather": {
-    "tmin": 19,
+    "tmin": 20,
     "tmax": 25,
-    "rain": 78,
+    "rain": 96,
     "wtype": 6,
-    "uv": 1.8
+    "uv": 4.3
    },
    "fair": null
   },
@@ -44,9 +28,9 @@
    "weather": {
     "tmin": 19,
     "tmax": 24,
-    "rain": 80,
+    "rain": 100,
     "wtype": 6,
-    "uv": 4.2
+    "uv": 1.9
    },
    "fair": null
   },
@@ -58,9 +42,9 @@
    "sunrise": "07:25",
    "sunset": "18:17",
    "weather": {
-    "tmin": 20,
-    "tmax": 24,
-    "rain": 78,
+    "tmin": 19,
+    "tmax": 25,
+    "rain": 75,
     "wtype": 7,
     "uv": 4.3
    },
@@ -74,11 +58,11 @@
    "sunrise": "07:26",
    "sunset": "18:16",
    "weather": {
-    "tmin": 19,
+    "tmin": 18,
     "tmax": 24,
-    "rain": 84,
-    "wtype": 7,
-    "uv": null
+    "rain": 82,
+    "wtype": 6,
+    "uv": 4.7
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:27",
    "sunset": "18:15",
-   "weather": null,
+   "weather": {
+    "tmin": 18,
+    "tmax": 24,
+    "rain": 78,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -171,6 +161,16 @@
    "sunset": "18:09",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-13",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:35",
+   "sunset": "18:08",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -193,12 +193,21 @@
    "src": "eventsmadeira.com"
   },
   {
-   "title": "Albrecht Mayer Concert | OCM",
+   "title": "XXVIII Madeira International Bridge Open",
+   "venue": "",
+   "start": "2026-10-29",
+   "end": "2026-11-09",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/xxv-madeira-international-bridge-open/",
+   "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Concert Series – Ilha Secreta – Fachos de Música",
    "venue": "",
    "start": "2026-10-31",
    "end": "2026-10-31",
    "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/albrecht-mayer-concert-ocm/",
+   "url": "https://eventsmadeira.com/en/event/concert-series-ilha-secreta-fachos-de-musica/",
    "src": "eventsmadeira.com"
   },
   {
@@ -245,14 +254,23 @@
    "all_day": true,
    "url": "https://cultura.funchal.pt/event/noites-da-madeira-homenagem-a-celso-rodrigues/",
    "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "Solo Wind Quintet | OCM",
+   "venue": "",
+   "start": "2026-11-14",
+   "end": "2026-11-14",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/solo-wind-quintet-ocm/",
+   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-10-30",
+  "date": "2026-10-31",
   "sst": 23,
   "wave": [
-   0.5,
-   0.8
+   0.7,
+   1.1
   ],
   "warnings": [
    {
