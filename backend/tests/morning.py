@@ -7,7 +7,7 @@ breaks an answer shows up the next morning instead of in a visitor's chat.
 
 Runs against the live model on a copy of the bot's chat store (no visitor's history is touched, nothing is recorded
 in the analytics database). Writes reports/data/bot_tests/<date>.json and one line per run in summary.log; exit 1
-when a test that passed on the previous run now fails, so the Data collection tab shows a red dot. Skips (exit 0) when
+when a regression test fails on two runs in a row, so the Data collection tab shows a red dot. Skips (exit 0) when
 the model is down. Collect job: bot_morning_test.
 """
 import datetime
@@ -81,20 +81,25 @@ def main():
     prev = sorted(f for f in glob.glob(os.path.join(OUT, "????-??-??.json")) if not f.endswith(f"{day}.json"))
     json.dump(res, open(os.path.join(OUT, f"{day}.json"), "w"), ensure_ascii=False, indent=1)
     passed = {("r", x["id"]) for x in res["regression"] if x["ok"]} | {("t", x["id"]) for x in train if x["ok"]}
-    broke = []
+    broke, stuck = [], []
     if prev:
         p = json.load(open(prev[-1]))
         before = {("r", x["id"]) for x in p["regression"] if x["ok"]} | {("t", x["id"]) for x in p["training"] if x["ok"]}
         broke = sorted(i for _, i in before - passed)
+        # the model samples, so single tests flip from day to day (2026-10-25..31: a different 1-4 regression fails
+        # each day, training 163-178/270): alert only on a regression test that fails twice in a row
+        failed_before = {x["id"] for x in p["regression"] if not x["ok"]}
+        stuck = sorted(x["id"] for x in res["regression"] if not x["ok"] and x["id"] in failed_before)
     reg_ok = sum(1 for x in res["regression"] if x["ok"])
     tr_ok = sum(1 for x in train if x["ok"])
     line = (f"{day} regression {reg_ok}/{len(res['regression'])} · training {tr_ok}/{len(train)}"
-            + (f" · newly failing: {', '.join(broke)}" if broke else ""))
+            + (f" · newly failing: {', '.join(broke)}" if broke else "")
+            + (f" · FAILING TWICE IN A ROW: {', '.join(stuck)}" if stuck else ""))
     with open(os.path.join(OUT, "summary.log"), "a") as f:
         f.write(line + "\n")
     print(line)
     print(f"ROWS {len(res['regression']) + len(train)}")
-    return 1 if broke else 0
+    return 1 if stuck else 0
 
 
 if __name__ == "__main__":
