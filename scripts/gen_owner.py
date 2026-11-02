@@ -10,6 +10,11 @@ Writes, between marker comments (idempotent, re-run any time):
                    before </body> on every page with GoatCounter.
   * OWNER-SCHEMA -- a WebSite + Person JSON-LD block in the head of the five homepages (the WebSite carries the
                    site_entity.ENTITY sentence as its description) and the RSS link to trail-status.xml.
+  * LANGMATCH    -- right after <meta charset> on every page that exists in all five languages (owner, 2026-11-02):
+                   a visitor arriving from outside the site gets the same page in their browser's language (else
+                   English, or the language they last picked on the switcher). Crawlers, visits from our own pages
+                   and pages already in that language are left alone; GoatCounter keeps the original referrer.
+                   Dry test 2 Nov: +37 ms (fast 4G) to +197 ms (slow 4G) to first paint, only when it switches.
 
 Called by gen_spokes.py and gen_bus_hub.py after they rewrite pages. Skips bot/, the
 trails/ forwarding stubs and the local-only folders.
@@ -50,6 +55,40 @@ PRICES = {
 HOMES = {"index.html": "en", "pt/index.html": "pt", "fr/index.html": "fr", "de/index.html": "de", "pl/index.html": "pl"}
 HOME_URL = {"en": "/", "pt": "/pt/", "fr": "/fr/", "de": "/de/", "pl": "/pl/"}
 BASE = "https://levadinho-madeira.com"
+LANGS = ("pt", "fr", "de", "pl")
+LANGMATCH = r"""<script>
+/* Levadinho: open the page in the visitor's language (owner, 2026-11-02, scripts/gen_owner.py). Runs first in <head>, before anything is drawn. */
+(function () {
+  try {
+    var L = ["en", "pt", "fr", "de", "pl"], ss = window.sessionStorage, ls = window.localStorage;
+    var keep = ss && ss.getItem("lv-ref");                 /* we switched: give GoatCounter the original referrer */
+    if (keep !== null && keep !== undefined) { ss.removeItem("lv-ref"); window.goatcounter = window.goatcounter || {}; window.goatcounter.referrer = keep; return; }
+    if (/bot|crawl|spider|slurp|preview|lighthouse|headless|google-|chatgpt|gptbot|oai-|perplexity|claude|bytespider|facebookexternalhit/i.test(navigator.userAgent)) return;
+    var r = document.referrer;
+    if (r && r.indexOf("//" + location.host + "/") > 0) return;   /* came from one of our pages (incl. the switcher) */
+    var want = ls && ls.getItem("lv-lang");                    /* chosen on the switcher earlier */
+    if (L.indexOf(want) < 0) {
+      want = "en";
+      var p = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "en"];
+      for (var i = 0; i < p.length; i++) { var c = String(p[i]).slice(0, 2).toLowerCase(); if (L.indexOf(c) >= 0) { want = c; break; } }
+    }
+    var m = location.pathname.match(/^\/(pt|fr|de|pl)(\/.*|$)/), have = m ? m[1] : "en", rest = m ? (m[2] || "/") : location.pathname;
+    if (want === have) return;
+    ss.setItem("lv-ref", r || "");
+    location.replace((want === "en" ? "" : "/" + want) + rest + location.search + location.hash);
+  } catch (e) {}
+})();
+document.addEventListener("click", function (e) {           /* remember a language picked on the switcher */
+  var a = e.target.closest && e.target.closest(".langs a[hreflang]");
+  if (a) try { localStorage.setItem("lv-lang", a.getAttribute("hreflang")); } catch (x) {}
+});
+</script>"""
+
+
+def has_all_languages(rel):
+    """True when the page exists at the same path in all five languages (the switch never lands on a missing page)."""
+    parts = rel.parts[1:] if rel.parts[0] in LANGS else rel.parts
+    return all((ROOT / pathlib.Path(*parts)).exists() and (ROOT / l / pathlib.Path(*parts)).exists() for l in LANGS)
 
 
 def mark(key):
@@ -104,6 +143,8 @@ def main():
                   r"</footer>")
         if "goatcounterCode" in new:  # engagement events (owner, 2026-10-07): /engage.js, sends only when GoatCounter loaded
             new = put(new, "ENGAGE", '<script src="/engage.js" defer></script><script src="/alert.js" defer></script>', r"</body>")
+        if has_all_languages(rel):
+            new = put(new, "LANGMATCH", "\n" + LANGMATCH + "\n", r'<meta charset="UTF-8">', before=False)
         if str(rel) in HOMES:
             new = put(new, "OWNER-SIG", f'<p class="sig" style="text-align:right;font-style:italic">— {NAME}</p>',
                       r'(?s)<div class="why">.*?</p>\s*', before=False)
