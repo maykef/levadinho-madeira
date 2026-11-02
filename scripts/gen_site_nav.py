@@ -304,6 +304,10 @@ CSS = """<style>
 .guides a:hover{border-color:var(--ink-soft)}
 a.tname{color:inherit;text-decoration:none}
 a.tname:hover{text-decoration:underline}
+@media (max-width:480px){.hero,.ribbon{display:none}
+  header{min-width:0}
+  .sitenav{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .sitenav::-webkit-scrollbar{display:none}}
 </style>"""
 
 

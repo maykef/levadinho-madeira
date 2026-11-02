@@ -41,7 +41,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
 <meta name="description" content="IFCN: OPEN. PR10, Ribeiro Frio to Portela, often closes. €4.50 SIMplifica booking, how to get back from Portela and open alternatives. Check live status first.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/levada-do-furado/">
-<link rel="preload" as="image" fetchpriority="high" href="/img/furado.webp">
+<link rel="preload" as="image" fetchpriority="high" href="/img/furado.webp" media="(min-width:481px)">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://levadinho-madeira.com/levada-do-furado/">
 <meta property="og:title" content="PR10 Madeira: Levada do Furado open today? Getting back">
@@ -303,6 +303,10 @@ a.plain{color:var(--ink);font-weight:600}
 .guides a:hover{border-color:var(--ink-soft)}
 a.tname{color:inherit;text-decoration:none}
 a.tname:hover{text-decoration:underline}
+@media (max-width:480px){.hero,.ribbon{display:none}
+  header{min-width:0}
+  .sitenav{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .sitenav::-webkit-scrollbar{display:none}}
 </style>
 <script type="application/ld+json">
 {

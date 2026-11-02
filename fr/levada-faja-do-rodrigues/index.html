@@ -50,7 +50,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/img/icon-180.png">
-<link rel="preload" as="image" href="/img/levada-faja-do-rodrigues.webp" fetchpriority="high">
+<link rel="preload" as="image" href="/img/levada-faja-do-rodrigues.webp" fetchpriority="high" media="(min-width:481px)">
 
 <link rel="alternate" hreflang="en" href="https://levadinho-madeira.com/levada-faja-do-rodrigues/">
 <link rel="alternate" hreflang="pt" href="https://levadinho-madeira.com/pt/levada-faja-do-rodrigues/">
@@ -293,6 +293,10 @@ a.plain{color:var(--ink);font-weight:600}
 .guides a:hover{border-color:var(--ink-soft)}
 a.tname{color:inherit;text-decoration:none}
 a.tname:hover{text-decoration:underline}
+@media (max-width:480px){.hero,.ribbon{display:none}
+  header{min-width:0}
+  .sitenav{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .sitenav::-webkit-scrollbar{display:none}}
 </style>
 <script type="application/ld+json">
 {

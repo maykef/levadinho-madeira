@@ -713,7 +713,7 @@ def build(lang, code, full, slug, f, linear, typ, geo=None):
         webp = "/img/" + re.sub(r"\.jpe?g$", ".webp", photo["file"])
         og_img = f"{SITE}/img/{photo['file']}"
         og_alt = f"{name} ({code}), Madeira"
-        preload = f'<link rel="preload" as="image" href="{webp}" fetchpriority="high">\n'
+        preload = f'<link rel="preload" as="image" href="{webp}" fetchpriority="high" media="(min-width:481px)">\n'
         hero_rule = (f".hero{{height:210px;background:#20573a url({webp}) center/cover}}\n"
                      "@media (max-width:640px){.hero{height:150px}}")
         word, resized = PHOTO_CREDIT[lang]

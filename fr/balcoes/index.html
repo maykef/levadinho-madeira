@@ -41,7 +41,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
 <meta name="description" content="IFCN: OUVERT. Vereda dos Balcões (PR11) depuis Ribeiro Frio : la levada la plus facile de Madère, 1,5 km jusqu'au belvédère. Consultez le statut et réservez.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/fr/balcoes/">
-<link rel="preload" as="image" fetchpriority="high" href="/img/balcoes.webp">
+<link rel="preload" as="image" fetchpriority="high" href="/img/balcoes.webp" media="(min-width:481px)">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://levadinho-madeira.com/fr/balcoes/">
 <meta property="og:title" content="PR11 Madère : Levada dos Balcões ouverte ? Facile">
@@ -303,6 +303,10 @@ a.plain{color:var(--ink);font-weight:600}
 .guides a:hover{border-color:var(--ink-soft)}
 a.tname{color:inherit;text-decoration:none}
 a.tname:hover{text-decoration:underline}
+@media (max-width:480px){.hero,.ribbon{display:none}
+  header{min-width:0}
+  .sitenav{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .sitenav::-webkit-scrollbar{display:none}}
 </style>
 <script type="application/ld+json">
 {

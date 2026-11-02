@@ -41,7 +41,7 @@ const CONFIG = { goatcounterCode: "madeira-levadinho" };
 <meta name="description" content="IFCN: OUVERT. Le PR18 à São Jorge : réservation SIMplifica à 4,50 €, parking au départ de l'ETAR et marche jusqu'à Ribeiro Bonito. Consultez le statut en direct.">
 
 <link rel="canonical" href="https://levadinho-madeira.com/fr/levada-do-rei/">
-<link rel="preload" as="image" fetchpriority="high" href="/img/levada-do-rei.webp">
+<link rel="preload" as="image" fetchpriority="high" href="/img/levada-do-rei.webp" media="(min-width:481px)">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://levadinho-madeira.com/fr/levada-do-rei/">
 <meta property="og:title" content="PR18 Madère : Levada do Rei ouverte ? Réservation, parking">
@@ -303,6 +303,10 @@ a.plain{color:var(--ink);font-weight:600}
 .guides a:hover{border-color:var(--ink-soft)}
 a.tname{color:inherit;text-decoration:none}
 a.tname:hover{text-decoration:underline}
+@media (max-width:480px){.hero,.ribbon{display:none}
+  header{min-width:0}
+  .sitenav{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .sitenav::-webkit-scrollbar{display:none}}
 </style>
 <script type="application/ld+json">
 {
