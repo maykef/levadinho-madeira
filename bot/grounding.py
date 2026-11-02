@@ -32,6 +32,10 @@ DRIVE_RE = re.compile(r"\b(driv\w*|by car|car ride|de carro|conduzir|condução|
 NAME_RE = re.compile(r"\b((?:Igreja|Capela|Museu|Praia|Miradouro|Piscinas?|Forte|Quinta|Ponta|Porto|Pico|Lagoa|Ribeira|"
                      r"Achada|Fajã|Cabo|Ilhéu|[A-ZÀ-Ý][a-zà-ÿ]{2,})\s(?:(?:do|da|dos|das|de|d')\s?)"
                      r"[A-ZÀ-Ý][\wà-ÿ]+(?:\s(?:do|da|dos|das|de)\s[A-ZÀ-Ý][\wà-ÿ]+)*)")
+NOT_PLACE = set("""departs depart departures departure retour retours arrivee arrivees horaires horaire bus trajet
+    partida partidas chegada chegadas saida saidas regresso volta ida autocarro autocarros horario horarios viagem
+    abfahrt abfahrten ankunft ruckfahrt hinfahrt busse fahrt odjazd odjazdy przyjazd powrot autobus autobusy
+    departures arrivals buses return returns trips trip times""".split())
 # group sizes written as words ("we are two", "somos três", "nous sommes quatre", "wir sind zu dritt", "jest nas dwoje")
 WORD_NUM = {w: n for n, ws in {
     2: "two couple dois duas deux zwei zweit zu zweit dwa dwie dwoje dwoch para",
@@ -150,6 +154,10 @@ def unsupported(reply, ev):
                 if not any(_fold(w) in d for d in ev.drive_sents):
                     out.append(f"driving time {w}")
     for name in {m.group(1) for m in NAME_RE.finditer(reply)}:
+        # a heading word before a real place is not a place ("Départs de Funchal", 1 Nov test): check the place part
+        first, rest = name.split(" ", 1)
+        if _fold(first) in NOT_PLACE:
+            name = re.sub(r"^(?:do|da|dos|das|de|d')\s?", "", rest)
         if _fold(name) not in ev.fold:
             out.append(name)
     return list(dict.fromkeys(out))

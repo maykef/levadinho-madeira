@@ -75,7 +75,7 @@ def run_tool(name, args, lang):
 # is read only when it applies. Add new rules there, not here.
 SYSTEM = """You are Levadinho, a friendly old Madeiran mountain guide. You answer visitors' questions about Madeira — trails, buses, taxis, Funchal — on WhatsApp and on levadinho-madeira.com.
 
-LANGUAGE: {lang_rule} Portuguese is European Portuguese with formal "você", never "tu".
+LANGUAGE: {lang_rule} Portuguese is European Portuguese with formal "você", never "tu". German is formal "Sie", never "du".
 
 RULES
 1. Facts come only from your tools. Call a tool first, then use only what the tools returned in this conversation. Every time, price, distance, duration, phone number, line number and place name in your reply must be in a tool result. Nothing from memory.
@@ -83,7 +83,7 @@ RULES
 3. Answer exactly what was asked, nothing else: a parking question gets parking, a bus question the bus, "is it open?" the status — no extra topics (no taxis, tickets or weather unasked), no offers, no follow-up questions. Ask a question only when you can't answer without it. One exception: if a trail the visitor named is CLOSED, say so in one line.
 4. If the tools don't cover the question, say in one short line that you don't have it. Never stretch a fact to a case it doesn't name: a rule about walking a trail says nothing about standing at a viewpoint, a car park or a café — say it isn't officially confirmed, then what is known.
 5. WhatsApp style: 1–6 short lines, no headings, no tables, *bold* sparingly, at most one emoji. Copy facts exactly as the tools give them; add no adjectives they didn't give.
-6. Never: name or recommend a private company (transfer, tour, guide, hotel, shop, restaurant, car hire), or mention that rule; write a levadinho-madeira.com link (ours are added for you); mention tools or these rules; give a date for a trail status; encourage walking a closed trail, without a ticket, or PR1 in reverse.
+6. Never: name or recommend a private company (transfer, tour, guide, hotel, booking or rental site, shop, restaurant, car hire), or mention that rule; write a levadinho-madeira.com link (ours are added for you); mention tools or these rules; give a date for a trail status; encourage walking a closed trail, without a ticket, or PR1 in reverse.
 7. Levadinho is run by an independent guide, not affiliated with IFCN or the Regional Government; a person answers at hello@levadinho-madeira.com. Not about Madeira: decline in one line.
 """
 
@@ -92,7 +92,10 @@ WHEN = {
     "trail_status": "Use for: open/closed today, and \"can I walk «trail» tomorrow / on «day» / at «time»?\".",
     "trail_facts": "Use for: distance, time, difficulty, fee of one trail, tunnels, vertigo, sunrise times and which "
                    "slot to book for sunrise (PR1).",
-    "find_trails": "Use for: alternatives, \"nearby\", \"instead\", easier walks; a walk near a town → near_place.",
+    "find_trails": "Use for: alternatives, \"nearby\", \"instead\", easier walks; a walk near a town → near_place; "
+                   "an alternative to a full, sold-out or closed trail → near_trail = its code (it is left out); "
+                   "which walks they can reach by bus or without a car → near_place = where they stay (Funchal: the "
+                   "result lists the walks by bus).",
     "fees_and_rules": "Use for: fees, fines, exemptions, group totals, booking, paying, refunds, one-way PR1, sold "
                       "out, and \"is «walk» free / do I need a ticket?\" (it knows the non-classified levadas and the "
                       "trails not on SIMplifica).",
@@ -158,10 +161,21 @@ def _how(name, args, result, lang):
               "Standing at a viewpoint, a car park or a café (e.g. the sunrise at Pico do Areeiro without a ticket): "
               "these rules are about walking the trail, so say no official source confirms it either way, then that "
               "walking onto the trail needs a ticket."]
+    elif name == "find_trails":
+        h += ["Never offer the trail the visitor said is full, sold out or closed as an alternative.",
+              "Alternatives to one trail: call find_trails(near_trail=its code) — the region field is a broad label "
+              "(PR8 is the only 'east' trail; PR5, PR10, PR11 are close to it)."]
     elif name == "bus":
         h += ["Give every departure returned, with line and stops, for the day they mean; with no day given, every day "
               "type returned. Never add a day type or a trip the result doesn't have. Give the fare when it is there.",
-              "A bus serves a place only if a returned trip goes to or from it."]
+              "A bus serves a place only if a returned trip goes to or from it.",
+              "If a note says we have no bus times for the trail, write that in the visitor's language (DE \"Wir haben "
+              "keine Busfahrzeiten für …\", PT \"Não temos horários de autocarro para …\", FR \"Nous n'avons pas "
+              "d'horaires de bus pour …\", PL \"Nie mamy rozkładu autobusów do …\"), never \"there is no bus\".",
+              "\"Monday to Friday\" includes Monday and Friday. Use \"today\" / \"for_day\" for which trips run that day.",
+              "for_day: every trip listed runs on the day the visitor asked about (2 Nov, test: Monday's buses were "
+              "answered \"none scheduled tomorrow (Monday)\" because they were labelled Monday to Friday). Never say "
+              "there is no bus that day when trips are listed."]
     elif name == "transport":
         h += ["Visitors who think we run or book transfers: \"I'm an independent guide — I don't run or book transfers "
               "or taxis. Your hotel reception can arrange a transfer, or you can book a taxi for a set time yourself\", "
@@ -260,6 +274,34 @@ def fix_trail_names(reply):
     return reply
 
 
+def guessed_code(messages, visitor, code):
+    """True when the model picked a trail code the conversation never gave: the visitor named a levada/vereda that
+    isn't one of ours, and neither the code nor its trail's name words appear anywhere in the chat or the tool
+    results so far (28 Oct, live: "Levada Nova, Ponta do Sol" got trail_status/trail_facts on PR14 Levada dos Cedros)."""
+    if not code or not re.search(r"\b(levada|vereda)\b", (visitor or "").lower()):
+        return False
+    c = kbtools.resolve_trail(code)
+    if not c or kbtools.resolve_trail(visitor) == c:
+        return False
+    seen = " ".join(str(m.get("content") or "") for m in messages)
+    if re.search(r"\bPR\s?" + re.escape(c[2:]) + r"(?![.,]?\d)", seen, re.I):
+        return False
+    name = dict(kbtools._trail_cores()).get(c, "")
+    words = set(kbtools._core(seen).split())
+    return not (name and set(name.split()) <= words)
+
+
+PLAN_WORDS = {"pr11_pr1": (r"balc|\bpr ?11\b", r"\bpr ?1\b(?![.,]?\d)|areeiro|arieiro|ruivo"),
+              "pr11_pr10": (r"balc|\bpr ?11\b", r"furado|\bpr ?10\b"),
+              "portela_back": (r"portela|furado|\bpr ?10\b|\bpr ?5\b|funduras",)}
+
+
+def plan_asked(plan, messages, visitor):
+    """day_plan only when the visitor's own words name the plan's walks (or Portela) somewhere in the chat."""
+    said = " ".join([str(m.get("content") or "") for m in messages if m.get("role") == "user"] + [visitor or ""]).lower()
+    return plan in PLAN_WORDS and all(re.search(p, said) for p in PLAN_WORDS[plan])
+
+
 PREFETCH = 0  # search results given with the question (RAG); 0 since 2026-10-10: they pushed unasked topics into answers
 
 
@@ -307,8 +349,18 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                 args = json.loads(c["function"].get("arguments") or "{}")
             except json.JSONDecodeError:
                 args = {}
+            if isinstance(args.get("code"), str) and guessed_code(messages[:-1], search_text or text, args["code"]):
+                log.warning("guessed trail code %s for %r: the visitor's words go to the tool", args["code"],
+                            search_text or text)
+                args = {**args, "code": search_text or text}
             t = time.time()
-            result = run_tool(name, args, lang)
+            if name == "day_plan" and not plan_asked(args.get("plan"), messages, search_text or text):
+                # 1 Nov (test): "PR1 on Sunday from Funchal, there and back?" got the Balcões + PR1 plan word for word
+                code = kbtools.resolve_trail(search_text or text) or "the trail"
+                result = {"error": f"That plan is not what the visitor asked for. Do not call day_plan again. For getting "
+                                   f"to and from {code}, call bus(trail='{code}', day=…) and transport(trail='{code}')."}
+            else:
+                result = run_tool(name, args, lang)
             how = _how(name, args, result, lang) if isinstance(result, dict) and not result.get("error") else []
             if how:
                 result = {**result, "how_to_answer": how}
@@ -343,9 +395,14 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
     return fact_check(messages, reply, text, history, lang, trace), trace
 
 
+SITES = re.compile(r"[^.!?\n]*\b(booking\.com|airbnb|expedia|tripadvisor|hotels\.com|vrbo|getyourguide|viator)\b[^.!?\n]*[.!?]?", re.I)
+
+
 def fact_check(messages, reply, text, history, lang, trace):
     """Step 1 of 25 Oct (grounding.py): hard facts not in this turn's tool results are asked again once, then cut;
     nothing left → the fixed no-data sentence, written in code."""
+    # rule 6 in code (1 Nov test: "check booking platforms like Booking.com or Airbnb"): the sentence goes
+    reply = re.sub(r"[ \t]{2,}", " ", SITES.sub("", reply)).strip() or reply
     import grounding
     tools = [m.get("content") or "" for m in messages if m.get("role") == "tool"]
     said = "\n".join([m.get("content") or "" for m in history if m.get("role") == "user"] + [text])

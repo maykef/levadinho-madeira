@@ -585,12 +585,12 @@
    "lang": "en",
    "q": "We are 4 adults and 2 children (9 and 13) doing 25 Fontes. How much in total?",
    "must": [
-    "22[.,]50"
+    "22[.,]50?\\b"
    ],
    "must_not": [
-    "= ?€?18"
+    "total[^\\n]{0,20}€ ?18\\b"
    ],
-   "note": "5 pay (the 13-year-old is NOT free), the 9-year-old is free but on the booking. Was answering €18 before the group-totals prompt rule (2026-10-22)."
+   "note": "5 pay (the 13-year-old is NOT free), the 9-year-old is free but on the booking. Was answering €18 before the group-totals prompt rule (2026-10-22). 28 Oct: must_not only a TOTAL of €18 (the adults' subtotal '4 × €4.50 = €18.00' is a correct step); €22.5 counts."
   },
   {
    "id": "moinho-closed-walk-en",
@@ -665,6 +665,83 @@
     "where are you|where you are"
    ],
    "note": "Control for walk-back-where-en: the visitor said where they are, so no question back; from Pico Ruivo PR1 is one-way."
+  },
+  {
+   "id": "pr1-from-funchal-sunday",
+   "lang": "en",
+   "q": "I would like to hike PR1 on Sunday leaving from Funchal. How do I get there and back?",
+   "must": [
+    "Areeiro",
+    "Achada"
+   ],
+   "must_not": [
+    "Balc",
+    "don't have"
+   ],
+   "note": "1 Nov: got the Balcões + PR1 day_plan word for word"
+  },
+  {
+   "id": "portomoniz-monday",
+   "lang": "en",
+   "q": "Is there a bus from Porto Moniz to Funchal on Monday?",
+   "must": [
+    "06:40",
+    "17:00"
+   ],
+   "must_not": [
+    "no bus",
+    "none"
+   ],
+   "note": "1 Nov: Monday's buses answered 'none scheduled' (labelled Monday to Friday)"
+  },
+  {
+   "id": "pr10-from-funchal-de",
+   "lang": "de",
+   "q": "von funchal zum levada 10",
+   "must": [
+    "Ribeiro Frio",
+    "08:10"
+   ],
+   "must_not": [
+    "keine direkte"
+   ],
+   "note": "1 Nov live chat: 'no direct bus' then listed the direct buses"
+  },
+  {
+   "id": "two-hikes-by-bus",
+   "lang": "en",
+   "q": "I'm arriving with a friend in November, based in Funchal, Wednesday to Saturday. We want to do two hikes using public transport. Which ones?",
+   "must": [
+    "Ribeiro Frio|Baía d'Abra|Balc"
+   ],
+   "must_not": [
+    "don't have"
+   ],
+   "note": "1 Nov (Funchal social-post questions): 'I don't have information'"
+  },
+  {
+   "id": "stay-funchal-no-hotels",
+   "lang": "en",
+   "q": "Travelling to Madeira 8-10 February (3 adults) without a car. Where should we stay in central Funchal, and what is a good day trip?",
+   "must_not": [
+    "Pestana",
+    "Britania",
+    "Garret",
+    "Savoy",
+    "Booking\\.com",
+    "Airbnb"
+   ],
+   "note": "Funchal social-post questions: never name a hotel or a booking site"
+  },
+  {
+   "id": "accommodation-no-sites",
+   "lang": "en",
+   "q": "I am looking for accommodation in Funchal for three people from December 24th to December 31st. The budget is up to €180 per day. Any suggestions?",
+   "must_not": [
+    "Booking\\.com",
+    "Airbnb"
+   ],
+   "note": "1 Nov: suggested Booking.com / Airbnb (private companies, rule 6)"
   }
  ]
 }

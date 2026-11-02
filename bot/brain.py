@@ -65,7 +65,7 @@ PICKER = {
             "🔒 Para melhorar o Levadinho recolhemos alguns dados sobre a forma como o usa · "
             "To improve Levadinho we collect some data about how you use it · "
             "Nous collectons certaines données sur votre utilisation · "
-            "Wir erfassen einige Daten zu deiner Nutzung · "
+            "Wir erfassen einige Daten zu Ihrer Nutzung · "
             "Zbieramy pewne dane o tym, jak korzystasz z usługi.\n"
             "https://levadinho-madeira.com/privacy/\n\n"
             "Escolha o seu idioma para aceitar e continuar · Pick your language to accept and continue.",
@@ -83,7 +83,7 @@ TEXT_ONLY = {
     "pt": "Por agora só consigo ler mensagens de texto ✍️ Escreva-me a sua pergunta.",
     "en": "For now I can only read text messages ✍️ Type your question.",
     "fr": "Pour l'instant je ne lis que les messages texte ✍️ Écrivez-moi votre question.",
-    "de": "Im Moment kann ich nur Textnachrichten lesen ✍️ Schreib mir deine Frage.",
+    "de": "Im Moment kann ich nur Textnachrichten lesen ✍️ Schreiben Sie mir Ihre Frage.",
     "pl": "Na razie czytam tylko wiadomości tekstowe ✍️ Napisz mi pytanie.",
 }
 # After Accept with nothing waiting (owner, 2026-10-05: the long intro was useless): one short line.
@@ -91,7 +91,7 @@ ASK = {
     "pt": "Obrigado! Como posso ajudar hoje? 🥾",
     "en": "Thanks! How may I help you today? 🥾",
     "fr": "Merci ! Comment puis-je vous aider aujourd'hui ? 🥾",
-    "de": "Danke! Wie kann ich dir heute helfen? 🥾",
+    "de": "Danke! Wie kann ich Ihnen heute helfen? 🥾",
     "pl": "Dziękuję! W czym mogę dziś pomóc? 🥾",
 }
 # Getting from A to B: ask first where the visitor is staying (owner, 2026-10-05). A town or area is enough.
@@ -99,7 +99,7 @@ ASK_BASE = {
     "pt": "Para lhe indicar a melhor forma, onde está alojado (ou vai ficar)? Basta a localidade, por exemplo Funchal, Caniço ou Santana.",
     "en": "To give you the best way, where are you staying (or planning to stay)? The town or area is enough, e.g. Funchal, Caniço or Santana.",
     "fr": "Pour vous indiquer le meilleur moyen, où logez-vous (ou allez-vous loger) ? La ville suffit, par exemple Funchal, Caniço ou Santana.",
-    "de": "Damit ich dir den besten Weg nennen kann: Wo übernachtest du (oder wirst du übernachten)? Der Ort genügt, z. B. Funchal, Caniço oder Santana.",
+    "de": "Damit ich Ihnen den besten Weg nennen kann: Wo übernachten Sie (oder werden Sie übernachten)? Der Ort genügt, z. B. Funchal, Caniço oder Santana.",
     "pl": "Żebym mógł wskazać najlepszy sposób: gdzie nocujesz (lub będziesz nocować)? Wystarczy miejscowość, np. Funchal, Caniço albo Santana.",
 }
 # Greetings (typed, or a website link's pre-filled text): words → language. A greeting alone is not a request.
@@ -163,7 +163,7 @@ LOC_ASK = {
     "pt": "Para começar o guia áudio preciso de saber onde está. Toque no botão abaixo para partilhar a sua localização 📍",
     "en": "To start the audio guide I need to know where you are. Tap the button below to share your location 📍",
     "fr": "Pour lancer le guide audio, j'ai besoin de savoir où vous êtes. Touchez le bouton ci-dessous pour partager votre position 📍",
-    "de": "Um den Audioguide zu starten, muss ich wissen, wo du bist. Tippe unten auf den Button, um deinen Standort zu teilen 📍",
+    "de": "Um den Audioguide zu starten, muss ich wissen, wo Sie sind. Tippen Sie unten auf den Button, um Ihren Standort zu teilen 📍",
     "pl": "Aby uruchomić audioprzewodnik, muszę wiedzieć, gdzie jesteś. Dotknij przycisku poniżej, aby udostępnić lokalizację 📍",
 }
 WELCOME = {
@@ -173,8 +173,8 @@ WELCOME = {
           "to play each stop as you reach it:\n{link}\n\n{note}\n\nWhile you walk, keep the page open and use *Pocket mode*: the screen stays on in your pocket. Enjoy your walk!",
     "fr": "Bienvenue sur le *{title}* ! 🥾\n\nPour lancer le guide audio, touchez le lien ci-dessous. Il s'ouvre hors de WhatsApp et utilise "
           "votre position pour lancer chaque étape quand vous y arrivez :\n{link}\n\n{note}\n\nPendant la marche, gardez la page ouverte et utilisez le *Mode poche* : l'écran reste allumé dans votre poche. Bonne balade !",
-    "de": "Willkommen beim *{title}*! 🥾\n\nUm den Audioguide zu starten, tippe auf den Link unten. Er öffnet sich außerhalb von WhatsApp und "
-          "nutzt deinen Standort, um jeden Halt abzuspielen, sobald du ihn erreichst:\n{link}\n\n{note}\n\nLass die Seite beim Gehen offen und nutze den *Taschenmodus*: Der Bildschirm bleibt in der Tasche an. Viel Spaß!",
+    "de": "Willkommen beim *{title}*! 🥾\n\nUm den Audioguide zu starten, tippen Sie auf den Link unten. Er öffnet sich außerhalb von WhatsApp und "
+          "nutzt Ihren Standort, um jeden Halt abzuspielen, sobald Sie ihn erreichen:\n{link}\n\n{note}\n\nLassen Sie die Seite beim Gehen offen und nutzen Sie den *Taschenmodus*: Der Bildschirm bleibt in der Tasche an. Viel Spaß!",
     "pl": "Witamy na trasie *{title}*! 🥾\n\nAby uruchomić audioprzewodnik, dotknij linku poniżej. Otworzy się poza WhatsAppem i użyje "
           "Twojej lokalizacji, by odtwarzać każdy przystanek, gdy do niego dotrzesz:\n{link}\n\n{note}\n\nPodczas marszu trzymaj stronę otwartą i użyj *trybu kieszonkowego*: ekran pozostaje włączony w kieszeni. Miłego spaceru!",
 }
@@ -185,8 +185,8 @@ LOC_NEAR = {
           "your location to play each stop as you reach it:\n{link}\n\n{note}\n\nWhile you walk, keep the page open and use *Pocket mode*: the screen stays on in your pocket.",
     "fr": "📍 Bien reçu ! Vous êtes à {dist} du départ du *{title}*.\n\nTouchez pour ouvrir le guide audio. Il s'ouvre hors de WhatsApp "
           "et utilise votre position pour lancer chaque étape quand vous y arrivez :\n{link}\n\n{note}\n\nPendant la marche, gardez la page ouverte et utilisez le *Mode poche* : l'écran reste allumé dans votre poche.",
-    "de": "📍 Danke! Du bist {dist} vom Start des *{title}* entfernt.\n\nTippe, um den Audioguide zu öffnen. Er öffnet sich außerhalb von "
-          "WhatsApp und nutzt deinen Standort, um jeden Halt abzuspielen, sobald du ihn erreichst:\n{link}\n\n{note}\n\nLass die Seite beim Gehen offen und nutze den *Taschenmodus*: Der Bildschirm bleibt in der Tasche an.",
+    "de": "📍 Danke! Sie sind {dist} vom Start des *{title}* entfernt.\n\nTippen Sie, um den Audioguide zu öffnen. Er öffnet sich außerhalb von "
+          "WhatsApp und nutzt Ihren Standort, um jeden Halt abzuspielen, sobald Sie ihn erreichen:\n{link}\n\n{note}\n\nLassen Sie die Seite beim Gehen offen und nutzen Sie den *Taschenmodus*: Der Bildschirm bleibt in der Tasche an.",
     "pl": "📍 Dzięki! Jesteś {dist} od startu trasy *{title}*.\n\nDotknij, aby otworzyć audioprzewodnik. Otworzy się poza WhatsAppem i użyje "
           "Twojej lokalizacji, by odtwarzać każdy przystanek, gdy do niego dotrzesz:\n{link}\n\n{note}\n\nPodczas marszu trzymaj stronę otwartą i użyj *trybu kieszonkowego*: ekran pozostaje włączony w kieszeni.",
 }
@@ -197,8 +197,8 @@ LOC_FAR = {
           "The audio guide starts at the trailhead. When you're there, send me your location again (📎 → Location).",
     "fr": "📍 Bien reçu ! Vous êtes à {dist} du Pico do Areeiro, départ du PR1. PR1 aujourd'hui : *{status}* (selon la liste officielle des avis de l'IFCN).\n\n"
           "Le guide audio démarre au début du sentier. Une fois là-bas, renvoyez-moi votre position (📎 → Position).",
-    "de": "📍 Danke! Du bist {dist} vom Pico do Areeiro entfernt, wo der PR1 beginnt. PR1 heute: *{status}* (laut der offiziellen IFCN-Warnliste).\n\n"
-          "Der Audioguide startet am Wanderweg. Wenn du dort bist, schick mir deinen Standort nochmal (📎 → Standort).",
+    "de": "📍 Danke! Sie sind {dist} vom Pico do Areeiro entfernt, wo der PR1 beginnt. PR1 heute: *{status}* (laut der offiziellen IFCN-Warnliste).\n\n"
+          "Der Audioguide startet am Wanderweg. Wenn Sie dort sind, schicken Sie mir Ihren Standort nochmal (📎 → Standort).",
     "pl": "📍 Dzięki! Jesteś {dist} od Pico do Areeiro, gdzie zaczyna się PR1. PR1 dziś: *{status}* (według oficjalnej listy ostrzeżeń IFCN).\n\n"
           "Audioprzewodnik startuje na początku szlaku. Gdy tam będziesz, wyślij mi ponownie swoją lokalizację (📎 → Lokalizacja).",
 }
@@ -208,14 +208,14 @@ OFFLINE_NOTE = {
         "pt": "📶 O PR1 tem troços sem rede móvel. Abra o link agora, enquanto ainda tem sinal: o guia fica guardado no telemóvel e depois funciona sem rede.",
         "en": "📶 PR1 has stretches with no mobile signal. Open the link now, while you still have signal: the guide saves itself on your phone and then works offline.",
         "fr": "📶 Le PR1 a des passages sans réseau mobile. Ouvrez le lien maintenant, tant que vous avez du réseau : le guide s'enregistre sur votre téléphone et fonctionne ensuite hors ligne.",
-        "de": "📶 Auf dem PR1 gibt es Abschnitte ohne Mobilfunknetz. Öffne den Link jetzt, solange du Empfang hast: Der Guide speichert sich auf deinem Handy und funktioniert dann offline.",
+        "de": "📶 Auf dem PR1 gibt es Abschnitte ohne Mobilfunknetz. Öffnen Sie den Link jetzt, solange Sie Empfang haben: Der Guide speichert sich auf Ihrem Handy und funktioniert dann offline.",
         "pl": "📶 Na PR1 są odcinki bez zasięgu. Otwórz link teraz, póki masz zasięg: przewodnik zapisze się w telefonie i będzie działał offline.",
     },
     "other": {
         "pt": "📶 Pode perder a rede pelo caminho. Abra o link agora, enquanto tem sinal: o guia fica guardado no telemóvel e depois funciona sem rede.",
         "en": "📶 You may lose mobile signal along the way. Open the link now, while you have signal: the guide saves itself on your phone and then works offline.",
         "fr": "📶 Vous pourriez perdre le réseau en chemin. Ouvrez le lien maintenant, tant que vous avez du réseau : le guide s'enregistre sur votre téléphone et fonctionne ensuite hors ligne.",
-        "de": "📶 Unterwegs kann der Empfang abbrechen. Öffne den Link jetzt, solange du Empfang hast: Der Guide speichert sich auf deinem Handy und funktioniert dann offline.",
+        "de": "📶 Unterwegs kann der Empfang abbrechen. Öffnen Sie den Link jetzt, solange Sie Empfang haben: Der Guide speichert sich auf Ihrem Handy und funktioniert dann offline.",
         "pl": "📶 Po drodze możesz stracić zasięg. Otwórz link teraz, póki masz zasięg: przewodnik zapisze się w telefonie i będzie działał offline.",
     },
 }
@@ -242,7 +242,7 @@ CONSENT_ASK = {
     "fr": "Pour améliorer Levadinho et comprendre la fréquentation des sentiers, nous collectons certaines données sur votre "
           "utilisation. Plus d'infos dans notre politique de confidentialité : {url}\n\nTouchez *Accepter* pour continuer.",
     "de": "Um Levadinho zu verbessern und die Nachfrage auf den Wanderwegen zu verstehen, erfassen wir einige Daten darüber, "
-          "wie du es nutzt. Mehr in unserer Datenschutzerklärung: {url}\n\nTippe auf *Akzeptieren*, um fortzufahren.",
+          "wie Sie es nutzen. Mehr in unserer Datenschutzerklärung: {url}\n\nTippen Sie auf *Akzeptieren*, um fortzufahren.",
     "pl": "Aby ulepszać Levadinho i rozumieć ruch na szlakach, zbieramy pewne dane o tym, jak z niego korzystasz. "
           "Więcej w naszej polityce prywatności: {url}\n\nDotknij *Akceptuję*, aby kontynuować.",
 }
@@ -254,7 +254,7 @@ CONSENT_NO = {
     "pt": "Compreendido. O Levadinho não pode ser usado sem aceitar. Se mudar de ideias, basta escrever-me de novo.",
     "en": "Understood. Levadinho can't be used without accepting. If you change your mind, just write to me again.",
     "fr": "C'est noté. Levadinho ne peut pas être utilisé sans accepter. Si vous changez d'avis, écrivez-moi simplement à nouveau.",
-    "de": "Verstanden. Levadinho kann ohne Zustimmung nicht genutzt werden. Wenn du es dir anders überlegst, schreib mir einfach wieder.",
+    "de": "Verstanden. Levadinho kann ohne Zustimmung nicht genutzt werden. Wenn Sie es sich anders überlegen, schreiben Sie mir einfach wieder.",
     "pl": "Rozumiem. Z Levadinho nie można korzystać bez akceptacji. Jeśli zmienisz zdanie, po prostu napisz do mnie ponownie.",
 }
 CONSENT_WITHDRAWN = {
@@ -264,8 +264,8 @@ CONSENT_WITHDRAWN = {
           "To delete what was recorded before, email hello@levadinho-madeira.com.",
     "fr": "C'est fait : plus rien n'est enregistré, et Levadinho ne répond plus tant que vous n'acceptez pas à nouveau. "
           "Pour effacer ce qui l'a déjà été, écrivez à hello@levadinho-madeira.com.",
-    "de": "Erledigt: Es wird nichts mehr gespeichert, und Levadinho antwortet erst wieder, wenn du erneut akzeptierst. "
-          "Um bereits Gespeichertes zu löschen, schreib an hello@levadinho-madeira.com.",
+    "de": "Erledigt: Es wird nichts mehr gespeichert, und Levadinho antwortet erst wieder, wenn Sie erneut akzeptieren. "
+          "Um bereits Gespeichertes zu löschen, schreiben Sie an hello@levadinho-madeira.com.",
     "pl": "Gotowe: nic więcej nie jest zapisywane, a Levadinho nie odpowiada, dopóki ponownie nie zaakceptujesz. "
           "Aby usunąć to, co już zapisano, napisz na hello@levadinho-madeira.com.",
 }
@@ -292,12 +292,13 @@ BUSY = {
     "pt": "O Levadinho está muito ocupado neste momento. Escrevo-lhe aqui assim que estiver livre.",
     "en": "Levadinho is very busy right now. I'll message you here as soon as I'm free.",
     "fr": "Levadinho est très occupé en ce moment. Je vous écris ici dès que je suis libre.",
-    "de": "Levadinho ist gerade sehr beschäftigt. Ich schreibe dir hier, sobald ich frei bin.",
+    "de": "Levadinho ist gerade sehr beschäftigt. Ich schreibe Ihnen hier, sobald ich frei bin.",
     "pl": "Levadinho jest teraz bardzo zajęty. Napiszę do Ciebie tutaj, gdy tylko będę wolny.",
 }
 _LANG_HINTS = {  # a rough guess, only for the wake/busy notice (the model decides the answer's language)
     "pt": {"olá", "ola", "está", "esta", "aberto", "hoje", "bilhete", "bilhetes", "obrigado", "obrigada", "trilho",
-           "não", "como", "onde", "quanto", "posso", "percurso", "bom", "dia", "tempo", "você", "vocês"},
+           "não", "como", "onde", "quanto", "posso", "percurso", "bom", "dia", "tempo", "você", "vocês", "aberta",
+           "fechado", "fechada", "autocarro", "amanhã", "preço", "há"},
     "en": {"is", "the", "open", "today", "how", "where", "what", "when", "can", "hello", "hi", "ticket", "tickets",
            "trail", "thanks", "do", "i", "you", "weather", "much"},
     "fr": {"est", "le", "la", "les", "ouvert", "aujourd'hui", "bonjour", "comment", "où", "quand", "billet",
@@ -463,6 +464,13 @@ def classify(text):
              "trail_code": None}
     # 25 Oct (live, PL): "Czy levada marokos jest płatna" came back "other" and was answered in English
     d["lang"] = d["language"] if d["language"] in LANGS else (guess_lang(text) or "en")
+    # 1 Nov (test): "Vereda 18 tickets?" came back pt on the trail's Portuguese name: a language none of whose common
+    # words is in the message loses to one that has some
+    words = set(re.findall(r"[\w'-]+", (text or "").lower())) - {"do", "da", "de", "la", "le", "a", "i", "o"}  # trail names
+    g = guess_lang(" ".join(words))
+    if g and g != d["lang"] and d["lang"] in _LANG_HINTS and not words & _LANG_HINTS[d["lang"]] \
+            and not re.search(r"[łąęśżźńćäöüßãõçéèêàâ]", (text or "").lower()):
+        d["lang"] = g
     d.setdefault("origin", None)
     d.setdefault("destination", None)
     return d
@@ -508,6 +516,25 @@ PORTELA_BACK = re.compile(r"(?=.*\bportela\b)(?=.*(back|return|get to|bus|taxi|v
 BY_BUS_LINE = {"en": "🚌 Levadas by bus from Funchal:", "pt": "🚌 Levadas de autocarro a partir do Funchal:",
                "fr": "🚌 Levadas en bus depuis Funchal :", "de": "🚌 Levadas mit dem Bus ab Funchal:",
                "pl": "🚌 Lewady autobusem z Funchal:"}
+_NUMW = {"a": 1, "an": 1, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8}
+
+
+def group_of(text):
+    """(people who pay, children 12 or under) from "2 adults and a 10 year old", "4 adults and 2 children (9 and 13)"
+    — or None when the message gives no group."""
+    t = (text or "").lower()
+    adults = sum(int(n) if n.isdigit() else _NUMW.get(n, 0)
+                 for n in re.findall(r"\b(\d+|a|an|one|two|three|four|five|six|seven|eight)\s+(?:adults?|adultos?|adultes?|"
+                                     r"erwachsene|doros\w*)\b", t))
+    ages = [int(a) for a in re.findall(r"\b(\d{1,2})[- ]?(?:years?|yrs?|y\.?o\b|anos|ans\b|jahre|lat)", t)]
+    m = re.search(r"(?:child\w*|kids?|crianças|enfants|kinder|dzieci)\D{0,15}\(([\d\s,and&e et und i]+)\)", t)
+    if m:
+        ages += [int(a) for a in re.findall(r"\d{1,2}", m.group(1))]
+    if not adults and not ages:
+        return None
+    return adults + sum(a > 12 for a in ages), sum(a <= 12 for a in ages)
+
+
 FEE_Q = re.compile(r"\bfree\b|\bpaid\b|\bpay\b|cost|price|\bfees?\b|need (a )?tickets?|ticket for|how much|gratis|"
                    r"gratuit|\bpag[oa]\b|pagar|preco|custa|precis\w* (de )?bilhete|payant|prix|besoin d'un billet|"
                    r"kostenlos|kostet|gebuhr|preis|brauch\w* (ein )?ticket|darmow|platn|bilet na|potrzebuj\w* bilet|"
@@ -515,7 +542,11 @@ FEE_Q = re.compile(r"\bfree\b|\bpaid\b|\bpay\b|cost|price|\bfees?\b|need (a )?ti
 WALK_STOP = {"walk", "walks", "trail", "trails", "e", "is", "jest", "est", "ist", "que", "which", "that", "in", "on",
              "near", "perto", "pres", "bei", "w", "na", "to", "for", "para", "pour", "fur", "dla", "ou", "or", "oder",
              "lub", "a", "o", "the", "um", "uma", "une", "un", "eine", "ein"}
-CODE_RE = re.compile(r"\bpr\s?-?(\d{1,2}(?:[.,]\d)?)\b")
+STAY_Q = re.compile(r"where (should|could|to|do) (we |i )?(stay|base)|stay the whole time|split (our|the|my)? ?(stay|time|trip)|split between|"
+                    r"accommodation|onde (ficar|nos hospedar)|alojamento|wo (sollen wir |soll ich )?(übernachten|wohnen)|unterkunft|"
+                    r"où (loger|séjourner|dormir)|hébergement|gdzie (się )?(zatrzymać|nocować|spać)|nocleg", re.I)
+RIDE_APP = re.compile(r"\b(bolt|uber|ride.?hail\w*|free ?now|ride app)\b", re.I)
+CODE_RE = re.compile(r"\b(?:pr\s?-?|(?:levada|vereda|trail|percurso|trilho|sentier|wanderweg|szlak)\s+(?:n[ro]?\.?\s*)?)(\d{1,2}(?:[.,]\d)?)\b(?!\s*(?:fontes|km|m\b|min|h\b|hour|hora|heure|stund|godz|uhr|€|eur|day|dia|tag|jour|dni|dzie|people|person|pessoa))")  # "levada 10" = PR10 (1 Nov, live chat)
 # topic words (accent-free, lower case) → guide page; checked as substrings of the normalized question
 TOPIC_WORDS = {
     "abroad": ["abroad", "estrangeiro", "etranger", "ausland", "zagranic", "card", "cartao", "carte", "karte", "karta",
@@ -654,7 +685,9 @@ def site_links(reply, trails, lang, named=None):
     # the question's own trail when the reply is about it; else the trails the reply recommends; else the question's
     # a trail the reply names by code or full name (not one it only touches through a place: "Pico do Areeiro")
     in_reply = [c for c in in_reply if re.search(rf"\b{re.escape(c)}\b", reply) or (KB["trails"].get(c, {}).get("name") or "§") in reply]
-    codes = [t for t in trails if t in in_reply] or in_reply or named
+    others = [c for c in in_reply if c not in named]
+    # alternatives (1 Nov test: "PR8 is full" → PR5, PR10, PR11 recommended, only PR8 linked): link the recommended ones
+    codes = others if len(others) >= 2 else [t for t in trails if t in in_reply] or in_reply or named
     lines = []
     for code in codes:
         k = KB["trails"].get(code)
@@ -674,14 +707,14 @@ BUS_OFFER = {
     "pt": "Diga-me quando e de onde vai apanhar o autocarro, e eu indico-lhe o caminho até à paragem mais próxima.",
     "en": "Tell me when and where you'll catch the bus, and I'll give you directions to the nearest stop.",
     "fr": "Dites-moi quand et d'où vous prendrez le bus, et je vous indique le chemin jusqu'à l'arrêt le plus proche.",
-    "de": "Sag mir, wann und wo du in den Bus steigst, dann zeige ich dir den Weg zur nächsten Haltestelle.",
+    "de": "Sagen Sie mir, wann und wo Sie in den Bus steigen, dann zeige ich Ihnen den Weg zur nächsten Haltestelle.",
     "pl": "Napisz, kiedy i skąd jedziesz autobusem, a wskażę Ci drogę do najbliższego przystanku.",
 }
 BUS_OFFER_TIMES = {  # when we have no location for the stop: no directions promised
     "pt": "Diga-me o dia e onde vai apanhar o autocarro, e eu indico-lhe a paragem e os horários.",
     "en": "Tell me the day and where you'll catch the bus, and I'll give you the stop and the times.",
     "fr": "Dites-moi le jour et où vous prendrez le bus, et je vous donne l'arrêt et les horaires.",
-    "de": "Sag mir den Tag und wo du in den Bus steigst, dann nenne ich dir die Haltestelle und die Zeiten.",
+    "de": "Sagen Sie mir den Tag und wo Sie in den Bus steigen, dann nenne ich Ihnen die Haltestelle und die Zeiten.",
     "pl": "Napisz, w który dzień i skąd jedziesz autobusem, a podam Ci przystanek i godziny.",
 }
 BUS_TAXI = {"pt": "Em alternativa, um táxi: {name} {phone}.", "en": "Alternatively, a taxi: {name} {phone}.",
@@ -694,14 +727,14 @@ BUS_LOC_ASK = {
     "pt": "Partilhe a sua localização e eu indico-lhe a paragem mais próxima e o próximo autocarro 📍",
     "en": "Share your location and I'll find the nearest stop and the next bus 📍",
     "fr": "Partagez votre position et je vous trouve l'arrêt le plus proche et le prochain bus 📍",
-    "de": "Teile deinen Standort, dann finde ich die nächste Haltestelle und den nächsten Bus 📍",
+    "de": "Teilen Sie Ihren Standort, dann finde ich die nächste Haltestelle und den nächsten Bus 📍",
     "pl": "Udostępnij lokalizację, a znajdę najbliższy przystanek i najbliższy autobus 📍",
 }
 BUS_NEAREST = {
     "pt": "A paragem mais próxima com autocarro para lá: *{stop}*, a {dist}.",
     "en": "Nearest stop with a bus your way: *{stop}*, {dist} away.",
     "fr": "L'arrêt le plus proche avec un bus pour votre trajet : *{stop}*, à {dist}.",
-    "de": "Nächste Haltestelle mit einem Bus in deine Richtung: *{stop}*, {dist} entfernt.",
+    "de": "Nächste Haltestelle mit einem Bus in Ihre Richtung: *{stop}*, {dist} entfernt.",
     "pl": "Najbliższy przystanek z autobusem w Twoją stronę: *{stop}*, {dist} stąd.",
 }
 BUS_NEXT = {"pt": "Próximo: {dep}, {line} → {to}", "en": "Next: {dep}, {line} → {to}",
@@ -795,7 +828,9 @@ def bus_footer(trace, text, reply, lang, stop_link=True):
     if not guard.MONTE.search(text) and not (nobus and not args.get("trail")):
         ranks = []
         try:
-            if args.get("from_stop") and not nobus:
+            if "achada" in _norm(text):  # pick-ups at Achada do Teixeira are the Santana taxis' (28 Oct test)
+                ranks = kb._q("SELECT * FROM kb.transport WHERE kind = 'taxi' AND town = 'Santana' ORDER BY id")
+            elif args.get("from_stop") and not nobus:
                 ranks = kb._ranks_for(args["from_stop"])
                 ranks.sort(key=lambda r: _norm(args["from_stop"]).find(_norm(r["town"] or "")) < 0)
             elif args.get("trail"):
@@ -1044,6 +1079,19 @@ def answer_tools(user, text, lang, rule, meta=None):
     if gkey not in ("1day", "2day") or SHIP_Q.search(text):
         hint += (f"\nNOW IN MADEIRA: {now:%A %d %B %Y, %H:%M}; tomorrow is {tmr:%A %d %B}. Use it only to work out today, tomorrow and opening hours; "
                  "never write a date next to a trail status. For timetables and day plans, don't assume today unless the visitor says so.\n")
+    if RIDE_APP.search(text):  # 1 Nov (test): "Bolt is a valid alternative for getting back" from Achada do Teixeira
+        try:
+            bolt = brain_tools.kbtools._pick(brain_tools.kbtools._q("SELECT text FROM kb.fact WHERE id = 'guide:bolt'")[0]["text"], "en")
+        except Exception:
+            bolt = ""
+        hint += (f"\nBOLT / RIDE-HAILING APPS (Levadinho's guide): {bolt} In Madeira the ride-hailing app is Bolt. "
+                 "Never say Bolt is an option at a trailhead or in the mountains (Pico do Areeiro, Achada do Teixeira, "
+                 "Rabaçal…), and a trip to or from a trailhead counts — even when it starts or ends in Funchal: answer "
+                 "\"don't count on Bolt\" for it, then the taxi ranks (transport tool).\n")
+    if STAY_Q.search(text):  # 1 Nov (test): "split between Funchal and Monte: access to the northern levadas" (invented)
+        hint += ("\nWHERE TO STAY: we don't advise on where to stay and never name accommodation or booking sites: say "
+                 "so in one line. Without a car, add only that the buses to the trails leave from Funchal (find_trails "
+                 "near_place='Funchal'). Never describe other towns as bases or what they give access to.\n")
     named = trails_in(text)
     if not named and page_trail and not re.search(r"funchal|monte|cruise|navio|ship|schiff|statek|lido", text, re.I):
         named = [page_trail]
@@ -1103,6 +1151,18 @@ def answer_tools(user, text, lang, rule, meta=None):
                         + (", booked on SIMplifica (an IFCN-fee trail, not free)" if f["fee_eur"] else ""))
         if fees:
             q += "\n\n[Fee: " + "; ".join(fees) + "]"
+        grp = group_of(text)
+        if grp and len(named) == 1:  # 1 Nov (test): "2 adults and a 10 year old, full PR1" got no total
+            c = named[0]
+            try:
+                fee = 10.5 if c == "PR1" else float(brain_tools.kbtools.trail_facts(c)["fee_eur"] or 0)
+            except Exception:
+                fee = 0
+            pay, free = grp
+            if fee and pay:
+                q += (f"\n\n[Group total ({c}{' full route' if c == 'PR1' else ''}): {pay} paying × €{fee:.2f} = "
+                      f"€{pay * fee:.2f}" + (f"; {free} child(ren) 12 or under free but on the booking" if free else "")
+                      + ". Give this total.]")
     if named:  # resolved by our alias table, so the model never has to guess a code
         q += "\n\n[Trails named in this message: " + "; ".join(f"{c} = {KB['trails'][c]['name']}" for c in named if c in KB["trails"]) + "]"
     # only off trail pages or on PR1 ones: on another trail's page the question would be about the wrong walk.
@@ -1141,8 +1201,12 @@ def answer_tools(user, text, lang, rule, meta=None):
         # history gave the taxi template to "which slot for sunrise?")
         reply, trace = brain_tools.answer([], q, lang, rule, hint, search_text=text, page=page_doc)
     reply = re.sub(r"\*\*(.+?)\*\*", r"*\1*", reply)
-    if reply.strip().lower().startswith(text.strip().lower()) and len(reply.strip()) > len(text.strip()) + 20:
-        reply = reply.strip()[len(text.strip()):].strip()  # 24 Oct (PL): the reply began by repeating the question
+    after = reply.strip()[len(text.strip()):][:1]
+    if reply.strip().lower().startswith(text.strip().lower()) and len(reply.strip()) > len(text.strip()) + 20 \
+            and (len(text.split()) >= 4 or not after or after in "?:.!\n"):
+        # 24 Oct (PL): the reply began by repeating the question; a bare name is not a repeat (28 Oct, live:
+        # "Levada Nova" → "Levada Nova is…" lost its subject)
+        reply = reply.strip()[len(text.strip()):].strip()
     # the owner's plans and the forecast text go out untouched (25 Oct: the guard's "partly open" rule cut "partly cloudy")
     fixed = any((t["tool"] == "day_plan" or t.get("verbatim")) and not t.get("error") for t in trace)
     reply, changes = (reply, []) if fixed else guard.check(reply, text, lang, named, (store.get_user(user) or {}).get("base") or "")
@@ -1296,7 +1360,7 @@ ACK_WORD = (r"ok|okay|okey|okej|oki|kk|k|great|perfect|fine|alright|all right|co
 THANKS_WORD = r"thanks?|thank you|cheers|obrigad[oa]|merci|danke|dziekuj\w*|dzieki"
 ACK_RE = re.compile(rf"^\W*(?:(?:{ACK_WORD}|{THANKS_WORD})(?=\W|$)[\s!.,]*)+$")
 ACK = {"en": "👍 Anything else? Just ask.", "pt": "👍 Mais alguma coisa? É só perguntar.",
-       "fr": "👍 Autre chose ? Demandez-moi.", "de": "👍 Noch etwas? Frag einfach.", "pl": "👍 Coś jeszcze? Pytaj śmiało."}
+       "fr": "👍 Autre chose ? Demandez-moi.", "de": "👍 Noch etwas? Fragen Sie einfach.", "pl": "👍 Coś jeszcze? Pytaj śmiało."}
 
 
 def prepopulated(user, text, lang, meta, context=""):

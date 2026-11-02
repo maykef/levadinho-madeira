@@ -103,7 +103,7 @@ def resolve_trail(text):
     for alias, code in ALIASES.items():
         if alias in text.lower():
             return code
-    m = re.search(r"\bpr\s?-?(\d{1,2}(?:[.,]\d)?)\b", text.lower())
+    m = re.search(r"\b(?:pr\s?-?|(?:levada|vereda|trail|percurso|trilho|sentier|wanderweg|szlak)\s+(?:n[ro]?\.?\s*)?)(\d{1,2}(?:[.,]\d)?)\b(?!\s*(?:fontes|km|m\b|min|h\b|hour|hora|heure|stund|godz|uhr|€|eur|day|dia|tag|jour|dni|dzie|people|person|pessoa))", text.lower())  # "levada 10" = PR10 (1 Nov, live chat)
     if m:
         code = "PR" + m.group(1).replace(",", ".")
         if _q("SELECT 1 FROM kb.trail WHERE code = %s", (code,)):
@@ -161,8 +161,9 @@ def _need_trail(code):
             raise ValueError(OTHER_MANAGED["PR23"])
         raise ValueError(f"'{code}' is not one of IFCN's classified PR trails ({known}). If the visitor means a levada "
                          "or walk that is not on this list, it is a non-classified levada: nothing to book or pay on "
-                         "SIMplifica (fees_and_rules), not maintained by IFCN. Never say it doesn't exist and never "
-                         "guess or correct its name.")
+                         "SIMplifica (fees_and_rules), not maintained by IFCN. Call search with its name before answering "
+                         "(our free-walks guide covers several). Never say it doesn't exist and never guess or correct "
+                         "its name.")
     return c
 
 
@@ -396,11 +397,17 @@ def find_trails(region: str | None = None, max_km: float | None = None, difficul
                          t.fee_eur, t.page_url, s.status, s.note, {dist} AS km
                   FROM kb.trail t JOIN kb.trail_status s USING (code)
                   WHERE {' AND '.join(where)} ORDER BY {order} LIMIT %s""", args + [max(1, min(limit, 40))])
-    far = []
+    far, reach = [], NEAR_KM
     if near_lat is not None and near_lon is not None:   # "nearby" means nearby: trailheads within NEAR_KM only
-        far = [r for r in rows if r["km"] is not None and r["km"] > NEAR_KM]
-        rows = [r for r in rows if r["km"] is None or r["km"] <= NEAR_KM]
-    return {**({"note": f"Only trails whose start is within {NEAR_KM} km are listed."} if far else {}), **extra,
+        # alternatives to one trail: widen to NEAR_KM_ALT when fewer than 3 are that close (1 Nov test: PR8 full →
+        # only PR5 within 15 km, so the bot said "PR8 is the only walk in the east")
+        reach = NEAR_KM_ALT if near_trail and sum(1 for r in rows if r["km"] is not None and r["km"] <= NEAR_KM) < 3 else NEAR_KM
+        far = [r for r in rows if r["km"] is not None and r["km"] > reach]
+        rows = [r for r in rows if r["km"] is None or r["km"] <= reach]
+    if region and len(rows) < 3:
+        extra["region_note"] = (f"Only {len(rows)} open trail(s) carry the '{region}' label, a broad one. For alternatives "
+                                "near a trail call find_trails(near_trail=CODE); near a town, near_place.")
+    return {**({"note": f"Only trails whose start is within {reach} km are listed."} if far else {}), **extra,
             "trails": [{"code": r["code"], "name": r["name"], "status": r["status"],
                         **({"note": _pick(r["note"], lang)} if r["status"] != "OPEN" and r["note"] else {}),
                         "region": r["region"], "distance": r["distance_txt"], "duration": r["duration"],
@@ -413,6 +420,7 @@ def find_trails(region: str | None = None, max_km: float | None = None, difficul
 
 
 NEAR_KM = 15
+NEAR_KM_ALT = 25
 
 FEE_TOPICS = {"fees": ("fees_booking",), "booking": ("fees_booking",), "refunds": ("refunds",),
               "sold_out": ("sold_out",), "one_way": ("one_way", "getting_back"), "fines": ("fees_booking",)}
@@ -427,7 +435,10 @@ def fees_and_rules(topic: str | None = None, lang: str = "en") -> dict:
     fees = _q("SELECT * FROM kb.fee ORDER BY amount_eur DESC")
     if topic == "fines":
         fees = [f for f in fees if f["item"].startswith("fine")]
-    rules = _q("SELECT topic, text, source_id FROM kb.fact WHERE topic = ANY(%s) AND confirmed ORDER BY id", (list(topics),))
+    # which trails SIMplifica sells comes first: the bot cuts a result at 12,000 characters, and with ORDER BY id the
+    # "PR3/PR4/PR23 are not on SIMplifica" rule sat at character 12,066 (28 Oct: "book PR3?" → "yes, mandatory")
+    rules = _q("""SELECT topic, text, source_id FROM kb.fact WHERE topic = ANY(%s) AND confirmed
+                  ORDER BY id NOT LIKE 'scope:%%', array_position(%s, topic), id""", (list(topics), list(topics)))
     return {"fees": [{"item": f["item"], "what": _pick(f["label"], lang), "eur": float(f["amount_eur"]),
                       **({"max_eur": f["conditions"]["max_eur"]} if (f["conditions"] or {}).get("max_eur") else {}),
                       "applies_to": f["applies_to"], **({"conditions": f["conditions"]} if f["conditions"] else {}),
@@ -462,6 +473,7 @@ def _day_type(day):
     return ("mon_fri" if date.weekday() < 5 else "sat" if date.weekday() == 5 else "sun_hol"), date
 
 
+_WD = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 DAY_NAMES = {"daily": "Every day", "mon_fri": "Monday to Friday", "sat": "Saturdays", "sun_hol": "Sundays and holidays",
              "sat_sun": "Saturdays and Sundays", "sat_sun_hol": "Saturdays, Sundays and holidays"}
 
@@ -477,7 +489,7 @@ def _timetable(rows):
         groups.setdefault(key, []).append(r["dep"].strftime("%H:%M") + (f"→{r['arr'].strftime('%H:%M')}" if r["arr"] else "")
                                           + (f" ({', '.join(marks)})" if marks else ""))
     order = list(DAY_NAMES)
-    return [f"{leg} · {op} {line} {a} → {b} · {DAY_NAMES[d]}: " + ", ".join(deps)
+    return [f"{leg} · {op} {line} {a} → {b} · {DAY_NAMES[d]}: " + ", ".join(sorted(deps))
             for (leg, op, line, a, b, d), deps in sorted(groups.items(), key=lambda kv: (kv[0][0] != "there", kv[0][3], order.index(kv[0][5])))]
 
 
@@ -496,6 +508,9 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
     if trail:
         code = _need_trail(trail)
         where.append("trail_code = %s"); args.append(code)
+        # the trail's own name is not a stop (1 Nov test: trail=PR10, to_stop="Levada do Furado" → 0 trips → "no bus")
+        from_stop = None if from_stop and resolve_trail(from_stop) == code else from_stop
+        to_stop = None if to_stop and resolve_trail(to_stop) == code else to_stop
     if from_stop:
         where.append("from_stop ILIKE '%%' || %s || '%%'"); args.append(from_stop)
     if to_stop:
@@ -521,16 +536,24 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
         if k not in seen or (not (seen[k]["line"] or "")[:1].isdigit() and (r["line"] or "")[:1].isdigit()):
             seen[k] = r
     rows = list(seen.values())
+    if not rows and code and (from_stop or to_stop):  # a stop filter that matches none of the trail's buses
+        res = bus(trail=code, day=day, lang=lang)
+        if res.get("trips"):
+            return {"note": f"No trip of {code} matches {' → '.join(x for x in (from_stop, to_stop) if x)}; these are all of {code}'s buses:", **res}
     if not rows and not code:
         guess = resolve_trail(to_stop or "") or resolve_trail(from_stop or "")
         if guess:  # "São Lourenço" is PR8, whose stop is Baía d'Abra
             res = bus(trail=guess, day=day, lang=lang)
             if from_stop and to_stop:  # the trail's buses must still go to/from the other end the visitor named
-                other = _plain(to_stop if resolve_trail(to_stop or "") == guess else from_stop)
-                res["trips"] = [t for t in res["trips"] if other in _plain(t["from"]) or other in _plain(t["to"])]
-                res["timetable"] = [x for x in res["timetable"] if other in _plain(x)]
+                to_trail = resolve_trail(to_stop or "") == guess
+                other, leg = _plain(from_stop if to_trail else to_stop), "there" if to_trail else "back"
+                res["trips"] = [t for t in res["trips"] if t["leg"] == leg
+                                and (other in _plain(t["from"]) or other in _plain(t["to"]))]
+                res["timetable"] = [x for x in res["timetable"] if x.startswith(leg) and other in _plain(x)]
             if res["trips"]:
-                return {"note": f"No bus stop named '{to_stop or from_stop}' in our data; it is trail {guess}. Its buses:", **res}
+                named = to_stop if resolve_trail(to_stop or "") == guess else from_stop
+                return {"note": f"'{named}' is trail {guess}, not a stop name: these are the buses to and from its "
+                                f"start and end. Answer with them; never say there is no (direct) bus.", **res}
             return {"trips": [], "timetable": [], "note": f"No bus between {from_stop} and {to_stop} in our data: say so "
                     "and suggest a taxi (see the transport tool).",
                     "notes": [_pick(n["text"], lang) for n in _q("SELECT text FROM kb.fact WHERE topic = 'bus' AND subject IS NULL ORDER BY id")],
@@ -601,6 +624,8 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
            "timetable": _timetable(rows),
            "days_key": {"daily": "every day", "mon_fri": "Monday to Friday", "sat": "Saturdays", "sun_hol": "Sundays and holidays",
                         "sat_sun": "Saturdays and Sundays", "sat_sun_hol": "Saturdays, Sundays and holidays"},
+           **({"for_day": f"{_WD[date.weekday()]} {date.isoformat()}: the {DAY_NAMES[dtype]} timetable applies, so EVERY "
+                          "trip listed here runs that day"} if rows and dtype and day and day.lower() not in DAYS_FOR else {}),
            "caveat": "Times as printed on the operators' timetables (SIGA / Horários do Funchal); times at intermediate "
                      "stops are approximate. No buses on 25 December.",
            "source": [_source(s) for s in sorted({r["source_id"] for r in rows})] or [_source("siga")]}
@@ -620,8 +645,29 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
         notes = _q("SELECT text FROM kb.fact WHERE topic = 'bus' AND subject = %s ORDER BY id", (code,))
         out["notes"] = [_pick(n["text"], lang) for n in notes]
         if not rows and not notes:
-            out["notes"] = ["No bus information for this trail in our data: suggest a taxi (see the transport tool)."]
+            out["notes"] = ["We have no bus times for this trail. Say exactly that (not that no bus exists: 1 Nov test, 'there is "
+                            "no bus to Levada do Rei') and suggest a taxi (see the transport tool)."]
+    if code in ("PR1", "PR1.2") or "achada" in _plain(f"{from_stop or ''} {to_stop or ''}"):
+        out["notes"] = _achada_notes(lang) + out.get("notes", [])
+    if rows and "for_day" not in out:  # 1 Nov (live chat + test): "Monday to Friday" was read as "no bus on Monday"
+        now = datetime.datetime.now(MADEIRA).date()
+        today = "mon_fri" if now.weekday() < 5 else "sat" if now.weekday() == 5 else "sun_hol"
+        out["today"] = f"Today is {_WD[now.weekday()]}: the trips marked {', '.join(DAY_NAMES[d] for d in DAYS_FOR[today] if any(r['days'] == d for r in rows)) or 'for other days only'} run today"
     return out
+
+
+def _achada_notes(lang):
+    """28 Oct (morning test): "back from Achada do Teixeira to Funchal?" got the Pico do Areeiro bus from the Radar
+    roundabout, a stop the walker isn't at. No bus serves Achada; the Santana taxis do the pick-ups there."""
+    fact = _q("SELECT text FROM kb.fact WHERE id = 'pr1:transport:3'")
+    taxi = _q("SELECT name, phone FROM kb.transport WHERE kind = 'taxi' AND town = 'Santana' ORDER BY id LIMIT 1")
+    notes = [_pick(fact[0]["text"], lang)] if fact else []
+    if taxi:
+        notes.append(f"Getting back from Achada do Teixeira (where the full PR1 ends, and where PR1.2 starts) is by taxi: "
+                     f"pick-ups there are done by {taxi[0]['name']} ({', '.join(taxi[0]['phone'])}). The Pico do Areeiro "
+                     "bus leaves from the Radar roundabout at Pico do Areeiro: it only helps after the short Areeiro ↔ "
+                     "Pedra Rija walk, never from Achada do Teixeira.")
+    return notes
 
 
 def _ranks_for(place):

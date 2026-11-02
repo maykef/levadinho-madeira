@@ -70,10 +70,19 @@ MONTE = re.compile(r"\bmonte\b", re.I)
 # a cruise passenger, any language and word form ("porto de cruzeiros" slipped past answers.CRUISE_RE, 24 Oct)
 SHIP_STEM = re.compile(r"cruis|cruzeir|croisi|paquebot|kreuzfahrt|schiff|statk|wycieczkow|navio|\bship", re.I)
 TAXI_ASKED = re.compile(r"\b(taxi|táxi|taxis|táxis|taksówk\w*|uber|bolt)\b", re.I)
+MONTH = re.compile(r"(januar|februar|märz|april|mai|juni|juli|august|september|oktober|november|dezember|"
+                   r"stycz|lut|mar|kwie|maj|czerw|lip|sierp|wrze|paźdz|pazdz|listop|grud)", re.I)
 SENT = re.compile(r"(?<=[.!?])\s+|\n")
 
 
 ABBREV = re.compile(r"(?:\b(?:z|B|e\.g|i\.e|ex|p|np|bzw|usw|ca|vgl|etc|approx|aprox|env|tzn|m\.in|ok)\.|\(\s*\w{1,3}\.)$", re.I)
+
+
+ONE_DAY = re.compile(r"\b(today|tomorrow|tonight|monday|tuesday|wednesday|thursday|friday|saturday|sunday|weekend|weekday|"
+                     r"hoje|amanha|segunda|terca|quarta|quinta|sexta|sabado|domingo|fim de semana|aujourd|demain|lundi|"
+                     r"mardi|mercredi|jeudi|vendredi|samedi|dimanche|heute|morgen|montag|dienstag|mittwoch|donnerstag|"
+                     r"freitag|samstag|sonntag|wochenende|dzis|jutro|poniedzial\w*|wtor\w*|srod\w*|czwart\w*|piat\w*|sobot\w*|"
+                     r"niedziel\w*|weekend)\b", re.I)
 
 
 def _sentences(text):
@@ -83,6 +92,11 @@ def _sentences(text):
     out, start = [], 0
     for m in SENT.finditer(text):
         if m.group(0) != "\n" and "\n" not in m.group(0) and ABBREV.search(text[start:m.start()]):
+            continue
+        # a German/Polish date's ordinal dot ("den 02. November", "2. listopada") doesn't end the sentence (1 Nov test:
+        # "Am Montag, den 02." was left alone when the times after it were dropped)
+        if m.group(0) != "\n" and "\n" not in m.group(0) and re.search(r"\b\d{1,2}\.$", text[start:m.start()]) \
+                and MONTH.match(text[m.end():]):
             continue
         out.append((text[start:m.start()], m.group(0)))
         start = m.end()
@@ -155,7 +169,10 @@ def check(reply, user_text, lang, trails, context=""):
         covered = [l for l in legs if l[3] and len(said & l[3]) / len(l[3]) >= 0.5] or \
                   [l for l in [max(legs, key=lambda l: len(said & l[3]))] if len(said & l[3]) >= 3]
         known = set().union(*(l[4] for l in legs))
-        if covered and (any(l[3] - said for l in covered) or said - known):
+        # a day was asked ("amanhã", "on Sunday"): that day's trips are a correct subset, so only an invented time
+        # brings the full table back (1 Nov test: "Há autocarro para o PR8 amanhã?" got every day type, in English)
+        one_day = bool(ONE_DAY.search(answers.fold(user_text)))
+        if covered and ((not one_day and any(l[3] - said for l in covered)) or said - known):
             out, d = _drop(out, lambda s: bool(HHMM.search(s)) and (BUS_WORD.search(s) or len(HHMM.findall(s)) >= 3
                                                                    or len(re.sub(r"[\d:→,\s*\-–()|]", "", s)) < 25))
             out = re.sub(r"\n?\*[^*\n]{3,40}:\*\s*(?=\n|$)", "", out)     # day headings left without times
