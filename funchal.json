@@ -1000,18 +1000,6 @@
       "10:00",
       "18:00"
      ]
-    ],
-    "sun": [
-     [
-      "10:00",
-      "18:00"
-     ]
-    ],
-    "hol": [
-     [
-      "10:00",
-      "18:00"
-     ]
     ]
    },
    "closed": [
@@ -1315,11 +1303,35 @@
     "sat": [
      [
       "10:00",
+      "18:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
       "13:00"
+     ],
+     [
+      "14:00",
+      "18:00"
+     ]
+    ],
+    "hol": [
+     [
+      "10:00",
+      "13:00"
+     ],
+     [
+      "14:00",
+      "18:00"
      ]
     ]
    },
-   "url": "https://cultura.madeira.gov.pt/index.php/madeira-wine-company---adegas-de-sao-francisco"
+   "closed": [
+    "12-25",
+    "12-26"
+   ],
+   "url": "https://www.blandyswinelodge.com/en/contacts/"
   }
  ],
  "parking": {

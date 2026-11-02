@@ -339,7 +339,7 @@ PLACES = [
     {"id": "acucar", "kind": "museum", "area": "centre", "name": "Museu A Cidade do Açúcar", "free": True,
      "hours": H(WK, ("09:00", "17:30")), "url": DRC + "museu-a-cidade-do-acucar"},
     {"id": "historianatural", "kind": "museum", "area": "sao-pedro", "name": "Museu de História Natural do Funchal",
-     "hours": H(("tue", "wed", "thu", "fri", "sat", "sun", "hol"), ("10:00", "18:00")), "closed": ["01-01", "05-01", "08-21", "12-25", "12-26"],
+     "hours": H(("tue", "wed", "thu", "fri", "sat"), ("10:00", "18:00")), "closed": ["01-01", "05-01", "08-21", "12-25", "12-26"],
      "url": DRC + "museu-de-historia-natural-do-funchal"},
     {"id": "fotografia", "kind": "museum", "area": "centre", "name": "Museu de Fotografia da Madeira – Atelier Vicente's",
      "hours": H(("tue", "wed", "thu", "fri", "sat"), ("10:00", "17:00")), "url": DRC + "museu-de-fotografia-da-madeira-atelier-vicente-s"},
@@ -353,8 +353,9 @@ PLACES = [
     {"id": "designcenter", "kind": "museum", "area": "centre", "name": "Design Center Nini Andrade Silva",
      "hours": H(WK + ("sat", "sun"), ("10:00", "23:00")), "url": DRC + "design-center-nini-andrade-silva"},
     {"id": "winecompany", "kind": "museum", "area": "centre", "name": "Madeira Wine Company – Adegas de São Francisco",
-     "hours": merge(H(WK, ("10:00", "18:30")), H(("sat",), ("10:00", "13:00"))),
-     "url": DRC + "madeira-wine-company---adegas-de-sao-francisco"},
+     "hours": merge(H(WK, ("10:00", "18:30")), H(("sat",), ("10:00", "18:00")),
+                    H(("sun", "hol"), ("10:00", "13:00"), ("14:00", "18:00"))), "closed": ["12-25", "12-26"],
+     "url": "https://www.blandyswinelodge.com/en/contacts/"},
 ]
 PARKING = {"paid": merge(H(WK, ("08:00", "20:00")), H(("sat",), ("08:00", "14:00"))),
            "url": "https://frentemarfunchal.pt/mobilidade-2/parquimetros/"}
@@ -421,8 +422,60 @@ def lastbus_html(data, lang):
     return "".join(rows)
 
 
+CRUISE_PAGES = ["funchal", "madeira-cruise-port", "monte", "one-day-in-madeira", "two-days-in-madeira"]
+CRUISE_I18N = {  # owner, 2026-11-02: number of large ships + expected people only, never names; 1,500+ passengers
+    "en": ("Today in port: {n} large cruise {s}, about {p} passengers (estimate from the ships' capacity, APRAM schedule). "
+           "Expect more people than usual at the cable car, the market and in Monte.", ("ship", "ships")),
+    "pt": ("Hoje no porto: {n} {s}, cerca de {p} passageiros (estimativa pela capacidade dos navios, horário da APRAM). "
+           "Conte com mais gente do que o habitual no teleférico, no mercado e no Monte.",
+           ("grande navio de cruzeiro", "grandes navios de cruzeiro")),
+    "fr": ("Aujourd'hui au port : {n} {s}, environ {p} passagers (estimation d'après la capacité des navires, programme de "
+           "l'APRAM). Attendez-vous à plus de monde que d'habitude au téléphérique, au marché et à Monte.",
+           ("grand navire de croisière", "grands navires de croisière")),
+    "de": ("Heute im Hafen: {n} {s}, etwa {p} Passagiere (Schätzung nach der Kapazität der Schiffe, APRAM-Fahrplan). "
+           "Rechnen Sie mit mehr Andrang als sonst an der Seilbahn, am Markt und in Monte.",
+           ("großes Kreuzfahrtschiff", "große Kreuzfahrtschiffe")),
+    "pl": ("Dziś w porcie: {n} {s}, około {p} pasażerów (szacunek według pojemności statków, harmonogram APRAM). "
+           "Spodziewaj się większego tłoku niż zwykle przy kolejce linowej, na targu i w Monte.",
+           ("duży statek wycieczkowy", "duże statki wycieczkowe", "dużych statków wycieczkowych")),
+}
+
+
+def cruise_html(today, lang):
+    """The STATIC-CRUISE line from /cruise.json (published by the workstation, scripts/gen_cruise_day.py).
+    Empty when no large ship is in, or when the file has no entry for today."""
+    try:
+        days = json.load(open(os.path.join(ROOT, "cruise.json"), encoding="utf-8"))["days"]
+    except (OSError, ValueError, KeyError):
+        return ""
+    day = next((d for d in days if d["date"] == today.isoformat()), None)
+    if not day or not day["ships"]:
+        return ""
+    n, p = day["ships"], int(day["people"])
+    text, forms = CRUISE_I18N[lang]
+    if lang == "pl":
+        s = forms[0] if n == 1 else forms[1] if n % 10 in (2, 3, 4) and n % 100 not in (12, 13, 14) else forms[2]
+    else:
+        s = forms[0] if n == 1 else forms[1]
+    sep = {"en": ",", "de": "."}.get(lang, "\u00a0")
+    ps = f"{p:,}".replace(",", sep) if p >= 10000 or lang in ("en", "de") else str(p)
+    return ('<p class="cruise-today" style="margin:12px 0;padding:10px 14px;border:1px solid var(--line);'
+            'border-radius:8px">' + html.escape(text.format(n=n, s=s, p=ps)) + "</p>")
+
+
 def fill_pages(data, today):
     changed = []
+    for lang in LANGS:
+        for slug in CRUISE_PAGES:
+            path = os.path.join(ROOT, PREFIX[lang], slug, "index.html")
+            if not os.path.exists(path):
+                continue
+            s = open(path, encoding="utf-8").read()
+            new = re.sub(r"(<!-- STATIC-CRUISE:START -->).*?(<!-- STATIC-CRUISE:END -->)",
+                         lambda m: m[1] + cruise_html(today, lang) + m[2], s, flags=re.S)
+            if new != s:
+                open(path, "w", encoding="utf-8").write(new)
+                changed.append(os.path.relpath(path, ROOT))
     for lang in LANGS:
         path = os.path.join(ROOT, PREFIX[lang], "funchal", "index.html")
         if not os.path.exists(path):
@@ -435,7 +488,7 @@ def fill_pages(data, today):
         if new != s:
             open(path, "w", encoding="utf-8").write(new)
             changed.append(os.path.relpath(path, ROOT))
-    return changed
+    return sorted(set(changed))
 
 
 def bump(changed, now):

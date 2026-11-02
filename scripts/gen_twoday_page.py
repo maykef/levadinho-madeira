@@ -87,7 +87,7 @@ COPY = {
             ["14:00", "Monte–Botanical Garden cable car (09:00–17:00; €19 one way with garden entry) across the valley"],
             ["14:15", "Botanical Garden (€10 over-12s, €3 ages 6–12, under-6 free; open to 17:30)"],
             ["16:30", "Taxi down to town — they wait at the garden's exits, about €12 to the cable-car station — or the bus"]]),
-     "The alternative without the Botanical Garden: after Monte Palace, start the descent on the Carreiros do Monte wicker toboggans (Monday–Saturday 09:00–18:00) and continue by bus or taxi."], True),
+     "The alternative without the Botanical Garden: after Monte Palace, start the descent on the Carreiros do Monte wicker toboggans (Monday–Saturday 09:00–18:00), which end at Livramento, 2 km down: from there it is about half an hour on foot to the cathedral, or bus 19 to the seafront (" + a(L("en", "/monte/"), "getting back from Livramento") + ")."], True),
    ("How much do two days in Madeira cost?", [
      "Per adult, at 2026 prices: day one is the taxi loop — about €160 for the car for 6 hours (indicative; split it between everyone in the taxi) plus €5 for Cabo Girão. Day two: €16 cable car up to Monte, €18 Monte Palace, then either the Botanical Garden leg — €19 for the combo ticket (cable one way + entry), plus about €12 for the taxi down to the cable-car station (they wait at the garden's exits), or €24 for the combo with the garden cable there and back or the toboggan ride instead (€30 a sled for one, €40 for two, €60 for three). The Mercado, the Old Town, the viewpoints and both towns on day one cost nothing beyond the taxi."], True),
    ("Should I rent a car for two days in Madeira?", [
@@ -129,7 +129,7 @@ COPY = {
             ["14:00", "Teleférico Monte–Jardim Botânico (09:00–17:00; 19 € num sentido com entrada no jardim) a atravessar o vale"],
             ["14:15", "Jardim Botânico (10 € maiores de 12, 3 € dos 6 aos 12, menores de 6 grátis; aberto até às 17:30)"],
             ["16:30", "Táxi para a baixa — esperam às saídas do jardim, cerca de 12 € até à estação do teleférico — ou o autocarro"]]),
-     "A alternativa sem o Jardim Botânico: depois do Monte Palace, comece a descida nos carros de cesto dos Carreiros do Monte (segunda a sábado, 09:00–18:00) e continue de autocarro ou táxi."], True),
+     "A alternativa sem o Jardim Botânico: depois do Monte Palace, comece a descida nos carros de cesto dos Carreiros do Monte (segunda a sábado, 09:00–18:00), que terminam no Livramento, 2 km abaixo: de lá é cerca de meia hora a pé até à Sé, ou o autocarro 19 até à frente-mar (" + a(L("pt", "/monte/"), "como voltar do Livramento") + ")."], True),
    ("Quanto custam dois dias na Madeira?", [
      "Por adulto, a preços de 2026: o primeiro dia é a volta de táxi — cerca de 160 € pelo carro durante 6 horas (indicativo; divida por todos os ocupantes) mais 5 € do Cabo Girão. O segundo dia: 16 € de teleférico até ao Monte, 18 € do Monte Palace, e depois ou a parte do Jardim Botânico — 19 € do bilhete combinado (teleférico num sentido + entrada), mais cerca de 12 € do táxi até à estação do teleférico (esperam às saídas do jardim), ou 24 € do combinado com o teleférico do jardim ida e volta ou, em vez disso, os carros de cesto (30 € por carro para um, 40 € para dois, 60 € para três). O Mercado, a Zona Velha, os miradouros e as duas vilas do primeiro dia não custam nada além do táxi."], True),
    ("Vale a pena alugar carro para dois dias na Madeira?", [
@@ -171,7 +171,7 @@ COPY = {
             ["14h00", "Téléphérique Monte–Jardin botanique (09h00–17h00 ; 19 € l'aller avec entrée au jardin) au-dessus de la vallée"],
             ["14h15", "Jardin botanique (10 € plus de 12 ans, 3 € de 6 à 12 ans, moins de 6 ans gratuit ; ouvert jusqu'à 17h30)"],
             ["16h30", "Taxi vers le centre — ils attendent aux sorties du jardin, environ 12 € jusqu'à la gare du téléphérique — ou le bus"]]),
-     "L'alternative sans le Jardin botanique : après Monte Palace, entamez la descente en luge d'osier des Carreiros do Monte (lundi–samedi 09h00–18h00) et continuez en bus ou en taxi."], True),
+     "L'alternative sans le Jardin botanique : après Monte Palace, entamez la descente en luge d'osier des Carreiros do Monte (lundi–samedi 09h00–18h00) ; elle s'arrête au Livramento, 2 km plus bas : de là, environ une demi-heure à pied jusqu'à la cathédrale, ou le bus 19 jusqu'au front de mer (" + a(L("fr", "/monte/"), "revenir du Livramento") + ")."], True),
    ("Combien coûtent deux jours à Madère ?", [
      "Par adulte, aux prix 2026 : le premier jour, la boucle en taxi — environ 160 € la voiture pour 6 heures (indicatif ; à partager entre les occupants) plus 5 € pour le Cabo Girão. Le second jour : 16 € de téléphérique vers Monte, 18 € pour Monte Palace, puis soit l'étape du Jardin botanique — 19 € pour le billet combiné (téléphérique dans un sens + entrée), plus environ 12 € de taxi jusqu'à la gare du téléphérique (ils attendent aux sorties du jardin), soit 24 € pour le combiné avec le téléphérique du jardin aller-retour, soit la luge à la place (30 € la luge pour un, 40 € pour deux, 60 € pour trois). Le Mercado, la vieille ville, les belvédères et les deux bourgs du premier jour ne coûtent rien au-delà du taxi."], True),
    ("Faut-il louer une voiture pour deux jours à Madère ?", [
@@ -213,7 +213,7 @@ COPY = {
             ["14:00", "Seilbahn Monte–Botanischer Garten (09:00–17:00; 19 € einfach mit Garteneintritt) über das Tal"],
             ["14:15", "Botanischer Garten (10 € über 12, 3 € von 6 bis 12, unter 6 frei; bis 17:30)"],
             ["16:30", "Taxi hinunter in die Stadt — sie warten an den Ausgängen des Gartens, etwa 12 € bis zur Talstation der Seilbahn — oder der Bus"]]),
-     "Die Alternative ohne Botanischen Garten: nach Monte Palace die Abfahrt mit den Korbschlitten der Carreiros do Monte beginnen (Montag–Samstag 09:00–18:00) und mit Bus oder Taxi weiterfahren."], True),
+     "Die Alternative ohne Botanischen Garten: nach Monte Palace die Abfahrt mit den Korbschlitten der Carreiros do Monte beginnen (Montag–Samstag 09:00–18:00); sie enden in Livramento, 2 km weiter unten: von dort etwa eine halbe Stunde zu Fuß zur Kathedrale oder mit Bus 19 an die Uferpromenade (" + a(L("de", "/monte/"), "zurück von Livramento") + ")."], True),
    ("Was kosten zwei Tage auf Madeira?", [
      "Pro Erwachsenem, zu Preisen von 2026: Tag eins ist die Taxirunde — etwa 160 € für den Wagen für 6 Stunden (Richtwert; durch alle Mitfahrer teilen) plus 5 € für den Cabo Girão. Tag zwei: 16 € Seilbahn nach Monte, 18 € Monte Palace, dann entweder der Botanische Garten — 19 € für das Kombiticket (Seilbahn einfach + Eintritt), plus etwa 12 € fürs Taxi zur Talstation der Seilbahn (sie warten an den Gartenausgängen), oder 24 € für das Kombiticket mit der Gartenseilbahn hin und zurück oder stattdessen die Schlittenfahrt (30 € pro Schlitten für eine Person, 40 € für zwei, 60 € für drei). Der Mercado, die Altstadt, die Aussichtspunkte und die beiden Orte von Tag eins kosten nichts über das Taxi hinaus."], True),
    ("Lohnt sich ein Mietwagen für zwei Tage auf Madeira?", [
@@ -255,7 +255,7 @@ COPY = {
             ["14:00", "Kolejka Monte–Ogród Botaniczny (09:00–17:00; 19 € w jedną stronę ze wstępem do ogrodu) nad doliną"],
             ["14:15", "Ogród Botaniczny (10 € powyżej 12 lat, 3 € od 6 do 12, poniżej 6 za darmo; do 17:30)"],
             ["16:30", "Taksówka do centrum — czekają przy wyjściach z ogrodu, około 12 € do stacji kolejki — albo autobus"]]),
-     "Alternatywa bez Ogrodu Botanicznego: po Monte Palace zacznij zjazd wiklinowymi saniami Carreiros do Monte (poniedziałek–sobota 09:00–18:00) i jedź dalej autobusem lub taksówką."], True),
+     "Alternatywa bez Ogrodu Botanicznego: po Monte Palace zacznij zjazd wiklinowymi saniami Carreiros do Monte (poniedziałek–sobota 09:00–18:00); zjazd kończy się w Livramento, 2 km niżej: stamtąd około pół godziny pieszo do katedry albo autobus 19 na nabrzeże (" + a(L("pl", "/monte/"), "jak wrócić z Livramento") + ")."], True),
    ("Ile kosztują dwa dni na Maderze?", [
      "Od dorosłego, w cenach 2026: pierwszy dzień to pętla taksówką — około 160 € za auto na 6 godzin (orientacyjnie; podziel między wszystkich pasażerów) plus 5 € za Cabo Girão. Drugi dzień: 16 € kolejka na Monte, 18 € Monte Palace, potem albo odcinek z Ogrodem Botanicznym — 19 € za bilet łączony (kolejka w jedną stronę + wstęp), plus około 12 € za taksówkę do stacji kolejki (czekają przy wyjściach z ogrodu), albo 24 € za bilet łączony z kolejką ogrodową w obie strony, albo zamiast tego zjazd saniami (30 € za sanie dla jednej osoby, 40 € dla dwóch, 60 € dla trzech). Mercado, starówka, punkty widokowe i oba miasteczka pierwszego dnia nie kosztują nic poza taksówką."], True),
    ("Czy warto wynająć auto na dwa dni na Maderze?", [

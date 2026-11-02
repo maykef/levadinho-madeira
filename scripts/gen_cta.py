@@ -230,6 +230,18 @@ def place_top(html, body, path):
     sys.exit(f"FATAL: no top spot for the WhatsApp block in {path}")
 
 
+def cruise_line(html, lang, rel):
+    """Owner, 2026-11-02: on the cruise pages, a 'today in port' line (large ships + estimated people) right below
+    the WhatsApp block, between STATIC-CRUISE markers that update_funchal.py refills daily from /cruise.json."""
+    import update_funchal as uf
+    if rel not in {f"{s}/index.html" for s in uf.CRUISE_PAGES} or "<!-- STATIC-CRUISE:START -->" in html:
+        return html
+    end = MARK["LEVADINHO-CTA"][1] + "\n"
+    import datetime as dt
+    line = uf.cruise_html(dt.datetime.now(uf.TZ).date(), lang)
+    return html.replace(end, end + "<!-- STATIC-CRUISE:START -->" + line + "<!-- STATIC-CRUISE:END -->\n", 1)
+
+
 def pages():
     for p in sorted(ROOT.rglob("*.html")):
         parts = p.relative_to(ROOT).parts
@@ -252,6 +264,7 @@ def main():
             sys.exit(f"FATAL: tag {tag} used by both {tags[(lang, tag)]} and {rel}")
         html = put(html, "LEVADINHO-CTA-HEAD", CSS, ["<!-- SITE-NAV-HEAD:START", "</head>"], p)
         html = place_top(html, block_html(lang, tag), p)
+        html = cruise_line(html, lang, rel)
         p.write_text(html, encoding="utf-8")
         n += 1
     print(f"WhatsApp CTA written to {n} pages ({len({t for _, t in tags})} tags)")
