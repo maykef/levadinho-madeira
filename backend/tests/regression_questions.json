@@ -619,7 +619,7 @@
    "lang": "en",
    "q": "Can I start the full PR1 at 3 PM today?",
    "must": [
-    "19[:h.]?00"
+    "19[:h.]?00|\\b7 ?(PM|p\\.?m\\.?)"
    ],
    "must_not": [
     "not possible",
