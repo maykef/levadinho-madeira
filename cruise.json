@@ -1,0 +1,111 @@
+{
+ "min_capacity": 1500,
+ "basis": "Large cruise ships (1,500+ passengers) in Funchal between 09:00 and 17:00; people = the ships' passenger capacity, an estimate, not people on board. Source: APRAM port schedule.",
+ "days": [
+  {
+   "date": "2026-11-02",
+   "ships": 1,
+   "people": 3100
+  },
+  {
+   "date": "2026-11-03",
+   "ships": 1,
+   "people": 4800
+  },
+  {
+   "date": "2026-11-04",
+   "ships": 2,
+   "people": 6500
+  },
+  {
+   "date": "2026-11-05",
+   "ships": 2,
+   "people": 5400
+  },
+  {
+   "date": "2026-11-06",
+   "ships": 1,
+   "people": 2300
+  },
+  {
+   "date": "2026-11-07",
+   "ships": 1,
+   "people": 2900
+  },
+  {
+   "date": "2026-11-08",
+   "ships": 2,
+   "people": 5900
+  },
+  {
+   "date": "2026-11-09",
+   "ships": 2,
+   "people": 7100
+  },
+  {
+   "date": "2026-11-10",
+   "ships": 2,
+   "people": 5900
+  },
+  {
+   "date": "2026-11-11",
+   "ships": 2,
+   "people": 8900
+  },
+  {
+   "date": "2026-11-12",
+   "ships": 0,
+   "people": 0
+  },
+  {
+   "date": "2026-11-13",
+   "ships": 0,
+   "people": 0
+  },
+  {
+   "date": "2026-11-14",
+   "ships": 1,
+   "people": 2300
+  },
+  {
+   "date": "2026-11-15",
+   "ships": 2,
+   "people": 3900
+  },
+  {
+   "date": "2026-11-16",
+   "ships": 2,
+   "people": 6300
+  },
+  {
+   "date": "2026-11-17",
+   "ships": 0,
+   "people": 0
+  },
+  {
+   "date": "2026-11-18",
+   "ships": 1,
+   "people": 4000
+  },
+  {
+   "date": "2026-11-19",
+   "ships": 1,
+   "people": 4800
+  },
+  {
+   "date": "2026-11-20",
+   "ships": 1,
+   "people": 5200
+  },
+  {
+   "date": "2026-11-21",
+   "ships": 2,
+   "people": 5400
+  },
+  {
+   "date": "2026-11-22",
+   "ships": 2,
+   "people": 5100
+  }
+ ]
+}
