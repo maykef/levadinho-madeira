@@ -526,7 +526,8 @@
     "Multibanco|cart(ã|a)o"
    ],
    "must_not": [
-    "[Nn]ão (é possível|aceita).{0,20}MB ?WAY"
+    "[Nn]ão (é possível|aceita).{0,20}MB ?WAY",
+    "MB ?WAY não (é|está)"
    ],
    "note": "Multibanco, card and MB WAY (PT bank account needed for the first and last) — SIMplifica's own payment help. pr1_facts.md said 'Visa or Mastercard' only until 2026-10-22."
   },

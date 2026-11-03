@@ -126,9 +126,27 @@ PR1_TIME = ("PR1 is open every day unless the status says otherwise; there is no
             "«time + 4 h», written as HH:MM (e.g. 15:00 → 19:00).")
 
 
-def _how(name, args, result, lang):
-    """The answer rules for this result (bot only). Each line is used only when it applies."""
+# question-triggered rules go FIRST: in the general list the model skipped them (3 Nov morning test: "Aceitam MB Way?"
+# got MB WAY only; "sunrise without a ticket?" got a flat "Yes")
+PAY_Q = re.compile(r"\bpa(y|ie|yer|yment)|pag(ar|amento|o)|mb ?way|multibanco|\bcard|cart(ão|ao|e)|zahl|karte|płac|kart", re.I)
+SUNRISE_Q = re.compile(r"sunrise|nascer do sol|lever du soleil|sonnenaufgang|wsch[oó]d", re.I)
+TICKET_Q = re.compile(r"ticket|bilhete|billet|karte|bilet|book|reserv|pay|pag|fee|taxa", re.I)
+PAY_RULE = ("The visitor asks how to pay: name ALL three methods, even if they ask about one — Multibanco, credit card "
+            "(Visa, Mastercard) and MB WAY — and say Multibanco and MB WAY need a Portuguese bank account, so "
+            "visitors pay by card.")
+SUNRISE_RULE = ("Sunrise at the Pico do Areeiro viewpoint without a ticket: begin with \"It isn't officially confirmed\" "
+                "(in the visitor's language), never with \"Yes\"; then: the viewpoint is by the car park, outside the "
+                "trail, so it should not need a ticket; walking onto PR1 needs a SIMplifica ticket.")
+
+
+def _how(name, args, result, lang, q=""):
+    """The answer rules for this result (bot only). Each line is used only when it applies.
+    q = the visitor's own words, for the rules that apply to one kind of question."""
     h = []
+    if name in ("fees_and_rules", "trail_facts") and SUNRISE_Q.search(q) and TICKET_Q.search(q):
+        h.append(SUNRISE_RULE)
+    if name == "fees_and_rules" and PAY_Q.search(q):
+        h.append(PAY_RULE)
     blob = json.dumps(result, ensure_ascii=False, default=str)
     code = (result.get("code") if isinstance(result, dict) else None) or ""
     if name == "trail_status":
@@ -361,9 +379,9 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                                    f"to and from {code}, call bus(trail='{code}', day=…) and transport(trail='{code}')."}
             else:
                 result = run_tool(name, args, lang)
-            how = _how(name, args, result, lang) if isinstance(result, dict) and not result.get("error") else []
-            if how:
-                result = {**result, "how_to_answer": how}
+            how = _how(name, args, result, lang, search_text or text) if isinstance(result, dict) and not result.get("error") else []
+            if how:  # first: results are cut at MAX_RESULT_CHARS, and at the end fees_and_rules' rules (~13,200) were cut
+                result = {"how_to_answer": how, **result}  # off every time (3 Nov: payment + sunrise rules never seen)
             out = json.dumps(result, ensure_ascii=False, default=str)
             if len(out) > MAX_RESULT_CHARS:
                 out = out[:MAX_RESULT_CHARS] + "…(cut)"

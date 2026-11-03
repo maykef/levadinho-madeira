@@ -81,7 +81,10 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
   description (`WHEN`, bot only: the public MCP keeps the plain docstrings); how to answer with a result travels inside
   that result as `how_to_answer` lines (`_how()`), so a rule is read only when it applies (PR1 tickets with PR1's
   status, the taxi templates with taxi_prices / transport, Monte with the cable car…). New rules go there, not in the
-  prompt.
+  prompt. `how_to_answer` goes FIRST in the result (since 2026-11-03): results are cut at `MAX_RESULT_CHARS` (12,000)
+  and fees_and_rules runs to ~14,800, so at the end its rules were never seen. `_how()` also gets the visitor's words
+  for question-triggered rules (`PAY_RULE`: all three SIMplifica payment methods; `SUNRISE_RULE`: sunrise without a
+  ticket opens with "It isn't officially confirmed").
 - **Fact check** (`bot/grounding.py`): every time, price, phone number, km, driving time and Portuguese-style place name
   in a reply must be in this turn's tool results or the visitor's own words (group-size arithmetic and the PR1
   start + 3–5 h finish allowed); dates are never allowed. Unsupported → the model is asked again once → what is still
