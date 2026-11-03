@@ -11,37 +11,37 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.5,
-    "humidity": 94,
+    "temp_c": 8.2,
+    "humidity": 92,
     "in_cloud": true,
-    "wind_kmh": 14,
+    "wind_kmh": 10,
     "wind_strong": false
   },
-  "stamp": "2026-11-02 07:00",
-  "date": "2026-11-02",
+  "stamp": "2026-11-03 07:25",
+  "date": "2026-11-03",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
-    "updated": "14/09/2026"
+    "updated": "02/11/2026"
   },
   "counts": {
-    "OPEN": 29,
+    "OPEN": 28,
     "PARTIAL": 4,
-    "CLOSED": 4
+    "CLOSED": 5
   },
   "regions": [
     {
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 8,
-      "wind": 14,
+      "wind": 10,
       "rain": 0.0,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 16,
+      "temp": 14,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -58,7 +58,7 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 20,
-      "wind": 9,
+      "wind": 7,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -66,7 +66,7 @@
       "key": "south",
       "place": "Funchal",
       "temp": 20,
-      "wind": 4,
+      "wind": 5,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -130,7 +130,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 16,
+      "temp": 14,
       "page": "/caldeirao-verde/"
     },
     {
@@ -166,7 +166,7 @@
     {
       "code": "PR10",
       "name": "Levada do Furado",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
@@ -180,7 +180,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 16,
+      "temp": 14,
       "page": "/levada-do-rei/"
     },
     {
@@ -200,7 +200,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 14,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -267,7 +267,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 14,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -481,7 +481,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 14,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ],

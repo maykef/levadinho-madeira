@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-02T07:00+00:00",
+ "stamp": "2026-11-03T07:25+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-02",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:25",
-   "sunset": "18:17",
-   "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 60,
-    "wtype": 3,
-    "uv": 2.6
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-03",
    "type": "weekday",
@@ -26,11 +10,11 @@
    "sunrise": "07:26",
    "sunset": "18:16",
    "weather": {
-    "tmin": 19,
+    "tmin": 20,
     "tmax": 24,
     "rain": 96,
     "wtype": 7,
-    "uv": 2.7
+    "uv": 4.1
    },
    "fair": null
   },
@@ -43,10 +27,10 @@
    "sunset": "18:15",
    "weather": {
     "tmin": 19,
-    "tmax": 24,
-    "rain": 94,
+    "tmax": 23,
+    "rain": 86,
     "wtype": 7,
-    "uv": 4.6
+    "uv": 4.3
    },
    "fair": null
   },
@@ -60,9 +44,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 24,
-    "rain": 88,
+    "rain": 100,
     "wtype": 7,
-    "uv": 3.8
+    "uv": 4.0
    },
    "fair": {
     "theme": "antiques",
@@ -84,9 +68,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 86,
-    "wtype": 6,
-    "uv": null
+    "rain": 98,
+    "wtype": 7,
+    "uv": 3.3
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "saturday",
    "sunrise": "07:29",
    "sunset": "18:13",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 100,
+    "wtype": 11,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -187,18 +177,19 @@
    "sunset": "18:07",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-16",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:38",
+   "sunset": "18:07",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
-  {
-   "title": "Madeira International Guitar Festival",
-   "venue": "",
-   "start": "2026-10-02",
-   "end": "2026-11-02",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/madeira-international-guitar-festival/",
-   "src": "eventsmadeira.com"
-  },
   {
    "title": "XXVIII Madeira International Bridge Open",
    "venue": "",
@@ -209,21 +200,12 @@
    "src": "eventsmadeira.com"
   },
   {
-   "title": "Concert with Misha Katz & Dmitry Demyashkin | OCM",
+   "title": "Mandolin Orchestra Weekly Concerts",
    "venue": "",
-   "start": "2026-11-07",
-   "end": "2026-11-07",
+   "start": "2026-11-04",
+   "end": "2026-11-25",
    "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/concert-with-misha-katz-dmitry-demyashkin-ocm/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "MADEIRA PIANO FEST",
-   "venue": "",
-   "start": "2026-11-07",
-   "end": "2026-11-15",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/madeira-piano-fest/",
+   "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
    "src": "eventsmadeira.com"
   },
   {
@@ -234,15 +216,6 @@
    "all_day": false,
    "url": "https://cultura.funchal.pt/event/tome-curta-metragem-de-andre-fournier/",
    "src": "cultura.funchal.pt"
-  },
-  {
-   "title": "Sounds and Flavours of Madeira",
-   "venue": "",
-   "start": "2026-11-13",
-   "end": "2026-11-15",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/sounds-and-flavours-of-madeira/",
-   "src": "eventsmadeira.com"
   },
   {
    "title": "Noites da Madeira – Homenagem a Celso Rodrigues",
@@ -273,11 +246,11 @@
   }
  ],
  "sea": {
-  "date": "2026-11-02",
+  "date": "2026-11-03",
   "sst": 23,
   "wave": [
-   0.6,
-   1.0
+   0.4,
+   0.5
   ],
   "warnings": []
  },
