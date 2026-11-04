@@ -743,6 +743,200 @@
     "Airbnb"
    ],
    "note": "1 Nov: suggested Booking.com / Airbnb (private companies, rule 6)"
+  },
+  {
+   "id": "taxi-number-not-working-en",
+   "lang": "en",
+   "base": null,
+   "source": "web-back",
+   "q": "hello my friend and I are hiking the whole pr 1 route and we need to book a taxi back. The number on your website is not working on our phones. Can you please help us",
+   "must": [
+    "\\+351 ?291 572 540",
+    "sorry|(not|n.t) (working|connecting|getting through)|trouble|if .{0,30}(still|can.t|does)"
+   ],
+   "note": "3 Nov real chat: repeated the number without acknowledging the problem"
+  },
+  {
+   "id": "forecast-tomorrow-fr",
+   "lang": "fr",
+   "base": null,
+   "source": "web-weather",
+   "q": "L'es prévisions pour demain",
+   "must": [
+    "nuages|prévision"
+   ],
+   "note": "3 Nov real chat: first turn"
+  },
+  {
+   "id": "forecast-sunrise-fr",
+   "lang": "fr",
+   "base": null,
+   "source": "web-weather",
+   "before": [
+    "L'es prévisions pour demain"
+   ],
+   "q": "Ai-je une chance de voir le lever du soleil ?",
+   "must": [
+    "lever du soleil"
+   ],
+   "note": "3 Nov real chat: got the forecast again, sunrise never answered"
+  },
+  {
+   "id": "forecast-date-fr",
+   "lang": "fr",
+   "base": null,
+   "source": "web-weather",
+   "before": [
+    "L'es prévisions pour demain",
+    "Ai-je une chance de voir le lever du soleil ?"
+   ],
+   "q": "On sera le 4-11",
+   "must_not": [
+    "webcam",
+    "parking"
+   ],
+   "note": "3 Nov real chat: a date given as a follow-up"
+  },
+  {
+   "id": "forecast-meaning-fr",
+   "lang": "fr",
+   "base": null,
+   "source": "web-weather",
+   "before": [
+    "L'es prévisions pour demain"
+   ],
+   "q": "Ça veut dire quoi",
+   "must": [
+    "nuag|dégagé|ciel|soleil"
+   ],
+   "must_not": [
+    "webcam",
+    "parking"
+   ],
+   "note": "3 Nov real chat: got the Achada car park webcam"
+  },
+  {
+   "id": "forecast-morning-fr",
+   "lang": "fr",
+   "base": null,
+   "source": "web-weather",
+   "before": [
+    "L'es prévisions pour demain"
+   ],
+   "q": "Demain matin ?",
+   "must": [
+    "matin"
+   ],
+   "must_not": [
+    "webcam",
+    "parking"
+   ],
+   "note": "3 Nov real chat: was right"
+  },
+  {
+   "id": "pr13-taxi-end-to-start-pt",
+   "lang": "pt",
+   "base": null,
+   "q": "Como conseguir um táxi no pr13. Vou de carro até o fim e quero pregar um táxi para o início.",
+   "must": [
+    "Porto Moniz",
+    "291 852 243"
+   ],
+   "must_not": [
+    "Pico do Areeiro",
+    "táxi no início",
+    "Fanal \\(início",
+    "por metro"
+   ],
+   "note": "3 Nov real chat: pick-up is at the END of PR13; bot said at the start, and that taxis wait at Pico do Areeiro (they wait at Achada)"
+  },
+  {
+   "id": "pr13-taxi-price-pt",
+   "lang": "pt",
+   "base": null,
+   "before": [
+    "Como conseguir um táxi no pr13. Vou de carro até o fim e quero pregar um táxi para o início."
+   ],
+   "q": "Qual a média de preço?",
+   "must": [
+    "taxímetro|contador|orçamento|cotação"
+   ],
+   "must_not": [
+    "Funchal",
+    "semelhante em distância"
+   ],
+   "note": "3 Nov real chat: invented a Fanal to Funchal trip; the trip is end to start of PR13"
+  },
+  {
+   "id": "bus-after-hike-en",
+   "lang": "en",
+   "base": null,
+   "source": "web-back",
+   "before": [
+    "Is there a bus from Santana to Funchal?"
+   ],
+   "q": "We will finish the hike around 14:00. Where can we find the nearest bus station to take us back to Funchal",
+   "must": [
+    "Santana",
+    "\\d{2}:\\d{2}"
+   ],
+   "note": "3 Nov real chat: finish at 14:00"
+  },
+  {
+   "id": "bus-after-hike-thursday-en",
+   "lang": "en",
+   "base": null,
+   "source": "web-back",
+   "before": [
+    "Is there a bus from Santana to Funchal?",
+    "We will finish the hike around 14:00. Where can we find the nearest bus station to take us back to Funchal"
+   ],
+   "q": "We will do the hike at Thursday",
+   "must": [
+    "Thursday",
+    "17:25"
+   ],
+   "note": "3 Nov real chat: was right"
+  },
+  {
+   "id": "bus-no-long-wait-en",
+   "lang": "en",
+   "base": null,
+   "source": "web-back",
+   "before": [
+    "Is there a bus from Santana to Funchal?",
+    "We will finish the hike around 14:00. Where can we find the nearest bus station to take us back to Funchal",
+    "We will do the hike at Thursday"
+   ],
+   "q": "But we will finish the hike only in 14:00 and we don’t want to wait that long for a bus",
+   "must": [
+    "taxi"
+   ],
+   "must_not": [
+    "15.20",
+    "14:25 bus"
+   ],
+   "note": "3 Nov real chat: quoted the Pico do Areeiro shared-ride price (€15-20) for a taxi to Santana"
+  },
+  {
+   "id": "bus-other-places-en",
+   "lang": "en",
+   "base": null,
+   "source": "web-back",
+   "before": [
+    "Is there a bus from Santana to Funchal?",
+    "We will finish the hike around 14:00. Where can we find the nearest bus station to take us back to Funchal",
+    "We will do the hike at Thursday",
+    "But we will finish the hike only in 14:00 and we don’t want to wait that long for a bus"
+   ],
+   "q": "Is there other close places the taxi can take us to take bus to Funchal",
+   "must": [
+    "Machico"
+   ],
+   "must_not": [
+    "no other"
+   ],
+   "note": "3 Nov real chat: said no other places; our data has Machico buses to Funchal after 14:00 every day"
   }
  ]
 }

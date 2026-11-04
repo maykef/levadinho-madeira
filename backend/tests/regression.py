@@ -5,7 +5,7 @@
   python3 backend/tests/regression.py score OUT.json      # re-score a saved run
   REGRESSION_QUESTIONS=backend/tests/heldout_questions.json …   # another question set
 
-Each question goes to a fresh test visitor (no history) with "Staying in: Funchal" already known, through
+Each question goes to a fresh test visitor (no history, or the "before" turns replayed first) with "Staying in: Funchal" already known, through
 brain.classify + brain.respond, as on WhatsApp after the privacy notice. LEVADINHO_DB is pointed at a scratch
 file so nothing reaches the live bot store; brain writes no analytics (app.py does). Needs the model up.
 """
@@ -55,6 +55,8 @@ def baseline(out, mode="baseline"):
         t = time.time()
         r = dict(q)
         try:
+            for turn in q.get("before", []):  # a follow-up: the earlier turns of the real chat, on the same visitor
+                brain.respond(user, turn, q["lang"], {"events": []}, brain.classify(turn))
             c = brain.classify(q["q"])
             r["classified"] = c
             meta = {"events": []}

@@ -94,10 +94,11 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
   only call (a model told "we don't know" makes something up). First user: `places(near_place=…)` outside Funchal /
   Monte ("I only list places in Funchal and Monte…").
 - `places(near_place=…)` and `find_trails(near_place=…)` take a town name (38 OpenStreetMap centres in `kbtools.TOWNS`).
-- **Morning test:** collect job `bot_morning_test` (06:45) runs `backend/tests/morning.py`: the regression set plus the
+- **Morning test:** collect job `bot_morning_test` (08:05) runs `backend/tests/morning.py`: the regression set plus the
   training question set (`seo_research/finetune/questions/*.jsonl`, local) on a copy of the chat store →
-  `reports/data/bot_tests/<date>.json` and `summary.log`; exit 1 (red dot on the Data collection tab) when a test that
-  passed the previous morning fails.
+  `reports/data/bot_tests/<date>.json` and `summary.log`; exit 1 (red dot on the Data collection tab) when a regression
+  test fails twice in a row. Since 2026-11-04 the set has 84 questions, and a question can carry `before` (earlier turns of a
+  real chat, replayed on the same visitor), so follow-ups are tested.
 - Misspelt and non-classified levadas: `resolve_trail` matches the distinctive words only; a levada name that is no PR
   trail gets a "not on IFCN's classified list" note (never "doesn't exist"); fee questions carry the named trail's fee;
   a bare "ok" gets a short acknowledgement.
@@ -135,6 +136,7 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
   108/139 both, median reply 2.3 s vs 1.1 s, different mistakes (it put PR3 on SIMplifica, invented a drive time).
   The 35B stays. The 122B container `levadinho-llm-122b` is kept stopped; it needs `--kv-cache-memory-bytes 10G
   --max-num-seqs 16 --limit-mm-per-prompt '{"image":0,"video":0}' --tool-call-parser qwen3_xml`.
+- **Rule test, 2026-11-04** (`how_to_answer` lines full / half / none, 2 rounds each; patches, guard and prompt unchanged): regression 72 → 70 → 69 of 72; training 170–178 of 270 in every arm (noise); no rules invented answers and dropped facts. The rules stay. Real answers graded since 5 Oct: 20 good, 14 flawed, 15 wrong of 49; follow-ups go wrong twice as often as first messages. Known causes, not fixed yet: repeated forecast (verbatim return + retry without history), `taxi_prices` returns every route, `transport` lacks trail start/end, no tool for nearby towns with buses.
 - Known gap: the fact check (`grounding.py`) only catches ISO dates; a reply wrote "today (Sunday 25 October)"
   for the cruise question.
 
