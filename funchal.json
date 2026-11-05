@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-04T07:07+00:00",
+ "stamp": "2026-11-05T07:36+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-04",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:27",
-   "sunset": "18:15",
-   "weather": {
-    "tmin": 19,
-    "tmax": 24,
-    "rain": 94,
-    "wtype": 7,
-    "uv": 4.1
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-05",
    "type": "weekday",
@@ -26,11 +10,11 @@
    "sunrise": "07:27",
    "sunset": "18:14",
    "weather": {
-    "tmin": 19,
-    "tmax": 24,
+    "tmin": 20,
+    "tmax": 25,
     "rain": 100,
     "wtype": 7,
-    "uv": 4.0
+    "uv": 4.1
    },
    "fair": {
     "theme": "antiques",
@@ -50,7 +34,7 @@
    "sunrise": "07:28",
    "sunset": "18:13",
    "weather": {
-    "tmin": 20,
+    "tmin": 21,
     "tmax": 25,
     "rain": 100,
     "wtype": 7,
@@ -70,7 +54,7 @@
     "tmax": 24,
     "rain": 100,
     "wtype": 9,
-    "uv": 1.6
+    "uv": 1.9
    },
    "fair": null
   },
@@ -83,10 +67,10 @@
    "sunset": "18:12",
    "weather": {
     "tmin": 20,
-    "tmax": 25,
+    "tmax": 24,
     "rain": 100,
-    "wtype": 23,
-    "uv": null
+    "wtype": 6,
+    "uv": 3.5
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "weekday",
    "sunrise": "07:31",
    "sunset": "18:11",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 100,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -180,6 +170,16 @@
   },
   {
    "date": "2026-11-17",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:39",
+   "sunset": "18:06",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-11-18",
    "type": "weekday",
    "holiday": null,
    "bus": "weekday",
@@ -273,18 +273,24 @@
   }
  ],
  "sea": {
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "sst": 23,
   "wave": [
-   0.4,
-   0.5
+   0.6,
+   0.8
   ],
   "warnings": [
    {
     "type": "Precipitação",
     "level": "yellow",
+    "start": "2026-11-05T09:00:00",
+    "end": "2026-11-05T15:00:00"
+   },
+   {
+    "type": "Precipitação",
+    "level": "yellow",
     "start": "2026-11-06T00:00:00",
-    "end": "2026-11-06T09:00:00"
+    "end": "2026-11-06T15:00:00"
    }
   ]
  },
