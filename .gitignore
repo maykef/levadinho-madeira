@@ -49,3 +49,6 @@ bot/geoip/
 collect/
 WPA_Implementation_Plan.md
 *.bak-*
+
+# owner's original photos and videos (172 MB+; web copies go to img/)
+pictures_&_videos/

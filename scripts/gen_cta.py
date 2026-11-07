@@ -81,6 +81,7 @@ TAGS = {
     "areeiro-pedra-rija/index.html": "web-pedrarija",
     "monte/index.html": "web-monte",
     "botanical-garden/index.html": "web-botanical",
+    "funchal-gardens-trail/index.html": "web-gardens",
 }
 WEB_TAG = re.compile(r"web-[a-z0-9-]{1,40}")   # must match bot/brain.py
 
