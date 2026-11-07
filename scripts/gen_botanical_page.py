@@ -94,7 +94,7 @@ FIGS = {
 # Sections: (heading, parts, is_question). A question's FAQ answer is its first paragraph, verbatim.
 COPY = {
  "en": dict(
-  title="Madeira Botanical Garden: worth it, prices, how to go",
+  title="Funchal Botanical Garden: worth it? Prices, hours, access",
   desc="Is Madeira's Botanical Garden worth it? A resounding yes: €10 entry or the €19 cable-car combo, a plant collector's verdict and the right day order.",
   h1="The Botanical Garden: worth it, and how to do it right",
   sub="Written from a visit with a botanical collector's eye: what's genuinely good, the one weak spot, the honest prices and the order that lets you fit Monte and the toboggans into the same day.",
@@ -122,7 +122,7 @@ COPY = {
    ("Sources", [None], False),
   ]),
  "pt": dict(
-  title="Jardim Botânico da Madeira: vale a pena? Preços e acesso",
+  title="Jardim Botânico da Madeira, Funchal: preços, horário, acesso",
   desc="O Jardim Botânico vale a pena? Um sim rotundo: 10 € de entrada ou 19 € combinado com o teleférico, o olhar de um coletor e a ordem certa do dia.",
   h1="O Jardim Botânico: vale a pena, e como fazer bem",
   sub="Escrito a partir de uma visita com olho de coletor botânico: o que é mesmo bom, o ponto fraco, os preços honestos e a ordem que permite juntar o Monte e os carros de cesto no mesmo dia.",
@@ -150,7 +150,7 @@ COPY = {
    ("Fontes", [None], False),
   ]),
  "fr": dict(
-  title="Jardin botanique de Madère : ça vaut le coup ? Prix, accès",
+  title="Jardin botanique de Funchal : prix, horaires, accès",
   desc="Le Jardin botanique vaut-il le coup ? Un oui franc : entrée 10 € ou combiné téléphérique à 19 €, l'avis d'un collectionneur et le bon ordre du jour.",
   h1="Le Jardin botanique : ça vaut le coup, et comment bien faire",
   sub="Écrit après une visite avec un œil de collectionneur botanique : ce qui est vraiment bien, le point faible, les prix honnêtes et l'ordre qui permet de caser Monte et les luges le même jour.",
@@ -178,7 +178,7 @@ COPY = {
    ("Sources", [None], False),
   ]),
  "de": dict(
-  title="Botanischer Garten Madeira: lohnt er sich? Preise, Anfahrt",
+  title="Botanischer Garten Funchal: Preise, Öffnungszeiten, Anfahrt",
   desc="Lohnt sich der Botanische Garten? Ein klares Ja: 10 € Eintritt oder 19 € Kombiticket mit Seilbahn, das Urteil eines Sammlers und die kluge Reihenfolge.",
   h1="Der Botanische Garten: er lohnt sich — so machen Sie es richtig",
   sub="Geschrieben nach einem Besuch mit dem Blick eines Pflanzensammlers: was wirklich gut ist, die eine Schwäche, die ehrlichen Preise und die Reihenfolge, mit der Monte und die Korbschlitten in denselben Tag passen.",
@@ -206,7 +206,7 @@ COPY = {
    ("Quellen", [None], False),
   ]),
  "pl": dict(
-  title="Ogród Botaniczny na Maderze: czy warto? Ceny i dojazd",
+  title="Ogród Botaniczny w Funchal: czy warto? Ceny, godziny, dojazd",
   desc="Czy Ogród Botaniczny jest wart wizyty? Zdecydowanie tak: wstęp 10 € albo 19 € z kolejką w cenie, ocena kolekcjonera roślin i dobra kolejność dnia.",
   h1="Ogród Botaniczny: warto — i jak to zrobić dobrze",
   sub="Napisane po wizycie okiem kolekcjonera roślin: co jest naprawdę dobre, jedna słabość, uczciwe ceny i kolejność, dzięki której Monte i sanie zmieszczą się w tym samym dniu.",
