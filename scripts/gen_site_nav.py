@@ -82,6 +82,8 @@ NAV = [
                                      "de": "Schönste Levadas", "pl": "Najlepsze lewady"}),
     ("1day", "/one-day-in-madeira/", {"en": "One day in Madeira", "pt": "Um dia na Madeira", "fr": "Madère en un jour",
                                       "de": "Ein Tag auf Madeira", "pl": "Jeden dzień na Maderze"}),
+    ("gardens", "/funchal-gardens-trail/", {"en": "Gardens trail", "pt": "Trilho dos jardins", "fr": "Parcours des jardins",
+                                            "de": "Gartenroute", "pl": "Szlak ogrodów"}),
 ]
 
 # Guide pages (not trails). key -> path, breadcrumb parent key (None = homepage),
