@@ -1140,8 +1140,21 @@ def main():
     stamp = now.strftime("%Y-%m-%d %H:%M")
     today = now.strftime("%Y-%m-%d")
 
-    # Status board from IFCN (fails loud on scrape/parse error).
-    trails, notes = build_trails()
+    # Status board from IFCN (fails loud on scrape/parse error). One exception (owner's fire test, 2026-11-08): during
+    # an IFCN blanket closure IFCN takes its trail list down (404) and posts only the closure notice. Then the board is
+    # built from yesterday's trails and storm.apply() below closes every one of them; any other failure stays fatal.
+    blanket = storm.blanket()
+    try:
+        trails, notes = build_trails()
+    except requests.RequestException as e:
+        if blanket.get("state") != "closed":
+            raise
+        print(f"storm: IFCN trail list unavailable ({e}) during a blanket closure -> previous board as base",
+              file=sys.stderr)
+        prev = json.load(open(STATUS_JSON, encoding="utf-8"))["trails"]
+        trails = [{k: t[k] for k in ("code", "name", "fee", "region", "popular")}
+                  | {"status": t.get("ifcn_status") or t["status"]} for t in prev]
+        notes = {}
     for t in trails:
         if t["code"] in notes:
             t["note"] = oneway_note(t["code"], notes[t["code"]]) or translate_note(notes[t["code"]])
@@ -1151,7 +1164,6 @@ def main():
 
     # Storm-ready status (2026-10-10, scripts/storm.py): a blanket closure notice from IFCN closes every trail
     # (fails loud like the main scrape); orange/red IPMA warnings only drive the banner (degrade gracefully).
-    blanket = storm.blanket()
     ipma = storm.ipma_alert()
     if storm.apply(trails, blanket):
         print(f"storm: IFCN blanket closure in force -> all {len(trails)} trails CLOSED", file=sys.stderr)
