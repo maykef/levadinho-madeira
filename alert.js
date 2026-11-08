@@ -109,9 +109,26 @@
     return el;
   }
 
+  // "Trail closures" in the menu, right after "All trails", only during an IFCN island-wide closure (owner, 2026-11-08);
+  // gone again as soon as status.json no longer says blanket = "closed". Added here, not in the generated menu, so the
+  // ~300 pages don't change twice per storm.
+  var MENU = { en: "Trail closures", pt: "Percursos encerrados", fr: "Sentiers fermés", de: "Gesperrte Wege", pl: "Zamknięte szlaki" };
+  function closuresMenu(a) {
+    var nav = document.querySelector("nav.sitenav");
+    if (!nav || !a || a.blanket !== "closed" || nav.querySelector("a[data-closures]")) return;
+    var pre = lang === "en" || !MENU[lang] ? "" : "/" + lang, href = pre + "/trail-closures/";
+    var x = document.createElement("a");
+    x.href = href; x.textContent = MENU[lang] || MENU.en; x.setAttribute("data-closures", "1");
+    x.style.color = "#a8231a";
+    if (location.pathname === href || location.pathname === href + "index.html") x.setAttribute("aria-current", "page");
+    var first = nav.querySelector("a");
+    if (first && first.nextSibling) nav.insertBefore(x, first.nextSibling); else nav.appendChild(x);
+  }
+
   fetch("/status.json", { cache: "no-cache" })
     .then(function (r) { return r.json(); })
     .then(function (d) {
+      if (d) closuresMenu(d.alert);
       if (!d || (!d.alert && !d.outlook) || document.getElementById("stormAlert")) return;
       var el = banner(d.alert, d.outlook);
       if (el) document.body.insertBefore(el, document.body.firstChild);
