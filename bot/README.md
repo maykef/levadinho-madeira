@@ -122,6 +122,18 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
 - Regression 66/66 offline (`tools_v31`–`v35`); `pr1-back-en`, `pr1-fee-en` and `taxi-achada-machico-en` fail
   intermittently (pass on rerun).
 
+**8 Nov 2026 (storm day: IPMA 5-day forecast, 92164005 + 0c3e1a69):**
+- Bot-only tool `kbtools.weather_forecast(trail, place, region, lang)`: IPMA's 5-day forecast per place
+  (`scripts/ipma_forecast.py`, the weather card's five places), `text` = "IPMA forecast for «area»:" + day lines,
+  plus warnings in force, bad-weather days coming and the trail's status; reopening is IFCN's decision (never
+  predicted). `forecast_tomorrow` stays for the summit cloud / sunrise question only.
+- Reopening questions ("when will the trails reopen?", 5 languages, `brain_tools.REOPEN_Q`) while the trail or every
+  trail is closed: `answer()` prefetches `weather_forecast` before the model's first round (the model called
+  `trail_status` only, 6 of 6 replays). The storm chip in chat.js asks exactly this.
+- Storm mode: guard keeps one status head during a blanket closure; `STORM_LEAD` once per 6 h, never for web users.
+- MCP test: `backend/.venv/bin/python backend/tests/test_mcp.py` (the public MCP keeps 14 tools; weather_forecast is
+  bot-only).
+
 **25 Oct 2026 (live weather, 13fac3df):**
 - `weather_now` and `forecast_tomorrow` fetch live when asked (owner: "run it when someone asks, keep it for one
   hour"): `kbtools._live(key, fetch)` keeps each result 3,600 s in the webhook process (a failed fetch is retried
