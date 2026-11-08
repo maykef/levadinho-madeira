@@ -317,10 +317,13 @@ def titles(lang, code, n):
              f"{fA} {n} ({c}) est-{fpr} ouvert{fe} aujourd'hui ? Selon la liste officielle de l'IFCN. Statut en direct, tarifs et réservation sur SIMplifica.",
              f"{fA} {n} ({c}) ouvert{fe} aujourd'hui ? Selon la liste officielle de l'IFCN. Statut en direct, tarifs, réservation sur SIMplifica."]
     elif lang == "de":
-        t = [f"{c} Madeira: {n} heute geöffnet? Buchung", f"{c} Madeira: {n} heute geöffnet?",
-             f"{c}: {n} heute geöffnet?", f"{c}: {n} geöffnet?"]
-        d = [f"Ist {da_} {n} ({c}) heute geöffnet? Status laut offizieller Hinweisliste des IFCN. Live-Status, Gebühren und Buchung auf SIMplifica prüfen.",
-             f"Ist {da_} {n} ({c}) heute geöffnet? Laut offizieller IFCN-Liste. Live-Status, Gebühren und Buchung auf SIMplifica prüfen."]
+        # "offen oder gesperrt?" (owner, 2026-11-08): German searchers type "<trail> gesperrt" (pr7 madeira gesperrt, levada
+        # do caldeirão verde gesperrt…: ~15 queries at rank 9-11, almost no clicks, 25 Oct-7 Nov) and the titles said only "geöffnet?"
+        t = [f"{c} Madeira: {n} offen oder gesperrt? Buchung", f"{c} Madeira: {n} offen oder gesperrt?",
+             f"{c}: {n} offen oder gesperrt?", f"{c} Madeira: {n} gesperrt?", f"{c}: {n} gesperrt?"]
+        d = [f"Ist {da_} {n} ({c}) heute offen oder gesperrt? Status laut offizieller Hinweisliste des IFCN. Live-Status, Gebühren und Buchung auf SIMplifica prüfen.",
+             f"Ist {da_} {n} ({c}) heute offen oder gesperrt? Laut offizieller IFCN-Liste. Live-Status, Gebühren und Buchung auf SIMplifica prüfen.",
+             f"{n} ({c}) heute offen oder gesperrt? Laut offizieller IFCN-Liste. Live-Status, Gebühren und Buchung auf SIMplifica prüfen."]
     else:  # pl
         t = [f"{c} Madera: {n} – czy dziś otwarta? Rezerwacja", f"{c} Madera: {n} – czy dziś otwarta?",
              f"{c} Madera: {n} – dziś otwarta?", f"{c}: {n} – dziś otwarta?", f"{c}: {n} – otwarta?"]
@@ -426,8 +429,8 @@ def no_fee_texts(lang, code, name, full, body):
             cl_h=f"Was, wenn der {code} gesperrt ist?",
             cl=f"Zeigt der {code} gesperrt, gehen Sie ihn nicht: Sperrungen gelten für alle, mit oder ohne Ticket. Für offene Alternativen {board}die Live-Übersicht prüfen</a>.",
             kn0=f"<b>Kein Ticket nötig.</b> SIMplifica-Buchung und IFCN-Gebühr gelten nur für vom IFCN verwaltete Wege; der {code} gehört zur {body} ({faq}).",
-            desc=[f"Ist der {name} ({code}) heute geöffnet? Live-Status laut offizieller IFCN-Liste. Von der Stadt Funchal verwaltet: ohne Ticket und ohne IFCN-Gebühr.",
-                  f"{name} ({code}) heute geöffnet? Live-Status laut IFCN. Von der Stadt Funchal verwaltet: kein SIMplifica-Ticket, keine IFCN-Gebühr."])
+            desc=[f"Ist der {name} ({code}) heute offen oder gesperrt? Live-Status laut offizieller IFCN-Liste. Von der Stadt Funchal verwaltet: ohne Ticket und ohne IFCN-Gebühr.",
+                  f"{name} ({code}) heute offen oder gesperrt? Live-Status laut IFCN. Von der Stadt Funchal verwaltet: kein SIMplifica-Ticket, keine IFCN-Gebühr."])
     return dict(
         sub=f"{ANS} To sklasyfikowany szlak PR zarządzany przez {body}, a nie przez IFCN: nie ma go w SIMplifica i nie ma opłaty IFCN.",
         book_h=f"Czy {name} trzeba rezerwować?",

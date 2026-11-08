@@ -160,6 +160,10 @@ ABOUT = {
 
 BOARD = "<p class=\"static-status\"><!-- STATIC-STATUS-BOARD:START --><!-- STATIC-STATUS-BOARD:END --></p>"
 TABLE = "<!-- STATIC-CLOSURES:START --><!-- STATIC-CLOSURES:END -->"
+# "When will the trails reopen?" and the line under the table: written by the updater (update_status.reopen_section /
+# closures_rest), the section only during an IFCN blanket closure (owner, 2026-11-08)
+REOPEN = "<!-- STATIC-REOPEN:START --><!-- STATIC-REOPEN:END -->"
+REST = "<p><!-- STATIC-CLOSURES-REST:START --><!-- STATIC-CLOSURES-REST:END --></p>"
 FEEDS = f'{a("/trail-status.xml", "RSS")} · {a("/history/status-daily.jsonl", "JSON Lines")} · {a("/status.json", "status.json")}'
 CLOSURES = {
  "en": dict(
@@ -168,7 +172,8 @@ CLOSURES = {
   h1="Madeira trail closures: which trails are closed today?", sub="Every official PR trail that is closed or only partly open on IFCN's trail-warnings list, with IFCN's own note.",
   body=[
    (None, [BOARD]),
-   ("Closed and partly open trails", [TABLE, "Every other classified trail is open on IFCN's list. The " + a("/", "live board") + " shows all of them."]),
+   (None, [REOPEN]),
+   ("Closed and partly open trails", [TABLE, REST]),
    ("What closed and partly open mean", ["<ul>"
      "<li><b>Closed:</b> IFCN lists the trail as closed or restricted. Don't walk it: entering a closed trail is an administrative offence, with fines of €250–€2,500 for individuals.</li>"
      "<li><b>Partly open:</b> a section is closed or restricted. IFCN's note says which part you can walk.</li>"
@@ -183,7 +188,8 @@ CLOSURES = {
   h1="Percursos encerrados na Madeira: quais estão fechados hoje?", sub="Todos os percursos PR oficiais encerrados ou só parcialmente abertos na lista de avisos do IFCN, com a nota do próprio IFCN.",
   body=[
    (None, [BOARD]),
-   ("Percursos encerrados e parcialmente abertos", [TABLE, "Todos os outros percursos classificados estão abertos na lista do IFCN. O " + a("/pt/", "quadro em direto") + " mostra-os todos."]),
+   (None, [REOPEN]),
+   ("Percursos encerrados e parcialmente abertos", [TABLE, REST]),
    ("O que significa encerrado e parcialmente aberto", ["<ul>"
      "<li><b>Encerrado:</b> o IFCN lista o percurso como encerrado ou condicionado. Não o percorra: entrar num percurso encerrado é contraordenação, com coimas de 250 € a 2500 € para pessoas singulares.</li>"
      "<li><b>Parcialmente aberto:</b> um troço está encerrado ou condicionado. A nota do IFCN diz que parte pode percorrer.</li>"
@@ -198,7 +204,8 @@ CLOSURES = {
   h1="Sentiers fermés à Madère : lesquels sont fermés aujourd'hui ?", sub="Tous les sentiers PR officiels fermés ou seulement partiellement ouverts sur la liste des avis de l'IFCN, avec la note de l'IFCN.",
   body=[
    (None, [BOARD]),
-   ("Sentiers fermés et partiellement ouverts", [TABLE, "Tous les autres sentiers classés sont ouverts sur la liste de l'IFCN. Le " + a("/fr/", "tableau en direct") + " les montre tous."]),
+   (None, [REOPEN]),
+   ("Sentiers fermés et partiellement ouverts", [TABLE, REST]),
    ("Fermé, partiellement ouvert : ce que cela veut dire", ["<ul>"
      "<li><b>Fermé :</b> l'IFCN indique le sentier comme fermé ou soumis à restriction. Ne l'empruntez pas : entrer sur un sentier fermé est une infraction administrative, avec des amendes de 250 € à 2 500 € pour les particuliers.</li>"
      "<li><b>Partiellement ouvert :</b> un tronçon est fermé ou restreint. La note de l'IFCN précise quelle partie reste praticable.</li>"
@@ -213,7 +220,8 @@ CLOSURES = {
   h1="Gesperrte Wanderwege auf Madeira: welche sind heute zu?", sub="Alle offiziellen PR-Wege, die auf der Hinweisliste des IFCN gesperrt oder nur teilweise geöffnet sind, mit dem Hinweis des IFCN.",
   body=[
    (None, [BOARD]),
-   ("Gesperrte und teilweise geöffnete Wege", [TABLE, "Alle anderen klassifizierten Wege sind auf der IFCN-Liste geöffnet. Die " + a("/de/", "Live-Übersicht") + " zeigt alle."]),
+   (None, [REOPEN]),
+   ("Gesperrte und teilweise geöffnete Wege", [TABLE, REST]),
    ("Was gesperrt und teilweise geöffnet bedeutet", ["<ul>"
      "<li><b>Gesperrt:</b> Das IFCN führt den Weg als gesperrt oder eingeschränkt. Gehen Sie ihn nicht: Das Betreten eines gesperrten Weges ist eine Ordnungswidrigkeit, mit Bußgeldern von 250 € bis 2.500 € für Privatpersonen.</li>"
      "<li><b>Teilweise geöffnet:</b> Ein Abschnitt ist gesperrt oder eingeschränkt. Der Hinweis des IFCN sagt, welcher Teil begehbar ist.</li>"
@@ -228,7 +236,8 @@ CLOSURES = {
   h1="Zamknięte szlaki na Maderze: które są dziś zamknięte?", sub="Wszystkie oficjalne szlaki PR zamknięte lub tylko częściowo otwarte na liście komunikatów IFCN, z notą samego IFCN.",
   body=[
    (None, [BOARD]),
-   ("Szlaki zamknięte i częściowo otwarte", [TABLE, "Wszystkie pozostałe szlaki klasyfikowane są otwarte na liście IFCN. " + a("/pl/", "Tablica na żywo") + " pokazuje je wszystkie."]),
+   (None, [REOPEN]),
+   ("Szlaki zamknięte i częściowo otwarte", [TABLE, REST]),
    ("Co znaczy zamknięty i częściowo otwarty", ["<ul>"
      "<li><b>Zamknięty:</b> IFCN podaje szlak jako zamknięty lub z ograniczeniami. Nie wchodź na niego: wejście na zamknięty szlak to wykroczenie administracyjne, z karami od 250 € do 2500 € dla osób fizycznych.</li>"
      "<li><b>Częściowo otwarty:</b> odcinek jest zamknięty lub ograniczony. Nota IFCN mówi, którą część można przejść.</li>"
@@ -277,13 +286,15 @@ def build(slug, lang, c, ptype):
     # main content: everything between the CTA and the "More guides" block
     m1, m2 = h.index("<!-- LEVADINHO-CTA:END -->") + len("<!-- LEVADINHO-CTA:END -->"), h.index("<!-- SITE-NAV-GUIDES:START")
     h = h[:m1] + "\n\n" + body_html(c["body"]) + "\n\n" + h[m2:]
+    # no chat here unless gen_chat.py adds it: the free-walks shell carries its CHAT block
+    h = re.sub(r"<!-- CHAT:START.*?<!-- CHAT:END -->", "", h, count=1, flags=re.S)
     # drop the live-badge script (no badges here); the analytics script stays
     h = re.sub(r"<script>\n/\* Live status badges:.*?</script>\n", "", h, count=1, flags=re.S)
     out = os.path.join(ROOT, PREFIX[lang].lstrip("/"), slug, "index.html")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     old = open(out, encoding="utf-8").read() if os.path.exists(out) else None
     if old:  # keep what the updater last wrote between the STATIC markers (else they stay empty until its next run)
-        for key in ("STATIC-STATUS-BOARD", "STATIC-CLOSURES"):
+        for key in ("STATIC-STATUS-BOARD", "STATIC-CLOSURES", "STATIC-REOPEN", "STATIC-CLOSURES-REST"):
             m = re.search(rf"<!-- {key}:START -->(.*?)<!-- {key}:END -->", old, re.S)
             if m:
                 h = h.replace(f"<!-- {key}:START --><!-- {key}:END -->", f"<!-- {key}:START -->{m.group(1)}<!-- {key}:END -->")

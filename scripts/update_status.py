@@ -894,6 +894,120 @@ def closures_table(data, lang):
             f'<tbody>{"".join(rows)}</tbody></table></div>')
 
 
+# /trail-closures/ "When will the trails reopen?" (owner, 2026-11-08: storm days; the closures page ranks 9-11 for "madeira
+# hiking trails closed", "wanderwege madeira gesperrt aktuell"). Shown only during an IFCN blanket closure; empty otherwise.
+# Day names, never dates. The booking rule is the one on every trail page (gen_spokes.py, IFCN's FAQ).
+STATIC_REOPEN_RE = re.compile(r"(<!--\s*STATIC-REOPEN:START\s*-->)(.*?)(<!--\s*STATIC-REOPEN:END\s*-->)", re.S)
+STATIC_REST_RE = re.compile(r"(<!--\s*STATIC-CLOSURES-REST:START\s*-->)(.*?)(<!--\s*STATIC-CLOSURES-REST:END\s*-->)", re.S)
+IPMA_FC = "https://www.ipma.pt/pt/otempo/prev.localidade.hora/#Madeira"
+REOPEN_I18N = {
+    "en": dict(h="When will the trails reopen?",
+               when="IFCN hasn't announced a reopening yet. It reopens the trails with a new notice on its warnings list, and this page, the {board} and every trail page change as soon as it does.",
+               board="live board", fc="IPMA's forecast for the coming days: {what} {days} ({src}).",
+               booked="<b>Booked a closed day?</b> Email helpdesk.ifcn@madeira.gov.pt within 10 working days with your tickets and invoice, and ask for a new date within a year or a refund. Rain or a change of plans doesn't count, and the SIMplifica contact centre can't change bookings.",
+               meanwhile="<b>Meanwhile:</b> {funchal} and the {gardens}.", funchal="what's on in Funchal today", gardens="Funchal gardens trail",
+               rest_storm="IFCN's notice closes every classified trail, so the table lists them all. The {board} shows each one.",
+               rest="Every other classified trail is open on IFCN's list. The {board} shows all of them.",
+               on="on", and_="and", days=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+               r=dict(heavy_rain="heavy rain", thunder="thunderstorms", strong_wind="strong wind", hail="hail", snow="snow", warning="an IPMA {lvl} warning")),
+    "pt": dict(h="Quando reabrem os percursos?",
+               when="O IFCN ainda não anunciou a reabertura. Reabre os percursos com um novo aviso na sua lista de avisos, e esta página, o {board} e todas as páginas dos percursos mudam assim que isso acontece.",
+               board="quadro em direto", fc="Previsão do IPMA para os próximos dias: {what} {days} ({src}).",
+               booked="<b>Tinha reserva para um dia encerrado?</b> Envie um email para helpdesk.ifcn@madeira.gov.pt no prazo de 10 dias úteis, com os bilhetes e a fatura, e peça uma nova data no prazo de um ano ou o reembolso. Chuva ou mudança de planos não contam, e o centro de contacto do SIMplifica não altera reservas.",
+               meanwhile="<b>Entretanto:</b> {funchal} e o {gardens}.", funchal="o que há hoje no Funchal", gardens="percurso dos jardins do Funchal",
+               rest_storm="O aviso do IFCN encerra todos os percursos classificados, por isso a tabela mostra-os todos. O {board} mostra cada um.",
+               rest="Todos os outros percursos classificados estão abertos na lista do IFCN. O {board} mostra-os todos.",
+               on=None, and_="e", days=["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"],
+               r=dict(heavy_rain="chuva forte", thunder="trovoada", strong_wind="vento forte", hail="granizo", snow="neve", warning="aviso {lvl} do IPMA")),
+    "fr": dict(h="Quand les sentiers rouvriront-ils ?",
+               when="L'IFCN n'a pas encore annoncé de réouverture. Il rouvre les sentiers par un nouvel avis sur sa liste d'avis, et cette page, le {board} et toutes les pages des sentiers changent dès qu'il le fait.",
+               board="tableau en direct", fc="Prévision de l'IPMA pour les prochains jours : {what} {days} ({src}).",
+               booked="<b>Réservé pour un jour de fermeture ?</b> Écrivez à helpdesk.ifcn@madeira.gov.pt dans les 10 jours ouvrés avec vos billets et la facture, et demandez une nouvelle date dans l'année ou un remboursement. La pluie ou un changement de programme ne comptent pas, et le centre de contact SIMplifica ne modifie pas les réservations.",
+               meanwhile="<b>En attendant :</b> {funchal} et le {gardens}.", funchal="que faire à Funchal aujourd'hui", gardens="circuit des jardins de Funchal",
+               rest_storm="L'avis de l'IFCN ferme tous les sentiers classés : le tableau les liste donc tous. Le {board} montre chacun d'eux.",
+               rest="Tous les autres sentiers classés sont ouverts sur la liste de l'IFCN. Le {board} les montre tous.",
+               on="", and_="et", days=["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"],
+               r=dict(heavy_rain="fortes pluies", thunder="orages", strong_wind="vent fort", hail="grêle", snow="neige", warning="vigilance {lvl} de l'IPMA")),
+    "de": dict(h="Wann öffnen die Wege wieder?",
+               when="Das IFCN hat noch keine Wiederöffnung angekündigt. Es öffnet die Wege mit einem neuen Hinweis auf seiner Hinweisliste wieder, und diese Seite, die {board} und jede Wegseite ändern sich, sobald das geschieht.",
+               board="Live-Übersicht", fc="IPMA-Vorhersage für die nächsten Tage: {what} {days} ({src}).",
+               booked="<b>Für einen gesperrten Tag gebucht?</b> Schreiben Sie innerhalb von 10 Werktagen mit Tickets und Rechnung an helpdesk.ifcn@madeira.gov.pt und bitten Sie um einen neuen Termin innerhalb eines Jahres oder um Erstattung. Regen oder geänderte Pläne zählen nicht, und das SIMplifica-Kontaktcenter ändert keine Buchungen.",
+               meanwhile="<b>In der Zwischenzeit:</b> {funchal} und der {gardens}.", funchal="was heute in Funchal los ist", gardens="Gartenweg durch Funchal",
+               rest_storm="Der Hinweis des IFCN sperrt alle klassifizierten Wege, daher stehen alle in der Tabelle. Die {board} zeigt jeden einzeln.",
+               rest="Alle anderen klassifizierten Wege sind auf der IFCN-Liste geöffnet. Die {board} zeigt alle.",
+               on="am", and_="und", days=["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
+               r=dict(heavy_rain="Starkregen", thunder="Gewitter", strong_wind="starker Wind", hail="Hagel", snow="Schnee", warning="IPMA-Warnstufe {lvl}")),
+    "pl": dict(h="Kiedy szlaki zostaną otwarte?",
+               when="IFCN nie ogłosił jeszcze otwarcia. Otwiera szlaki nowym komunikatem na swojej liście komunikatów, a ta strona, {board} i strony wszystkich szlaków zmieniają się, gdy tylko to zrobi.",
+               board="tablica na żywo", fc="Prognoza IPMA na najbliższe dni: {what} {days} ({src}).",
+               booked="<b>Masz rezerwację na zamknięty dzień?</b> W ciągu 10 dni roboczych napisz na helpdesk.ifcn@madeira.gov.pt z biletami i fakturą i poproś o nowy termin w ciągu roku albo zwrot. Deszcz czy zmiana planów się nie liczą, a centrum kontaktowe SIMplifica nie zmienia rezerwacji.",
+               meanwhile="<b>W międzyczasie:</b> {funchal} i {gardens}.", funchal="co dziś w Funchal", gardens="szlak ogrodów Funchal",
+               rest_storm="Komunikat IFCN zamyka wszystkie sklasyfikowane szlaki, dlatego tabela wymienia je wszystkie. {Board} pokazuje każdy z nich.",
+               rest="Wszystkie pozostałe szlaki klasyfikowane są otwarte na liście IFCN. {Board} pokazuje je wszystkie.",
+               on=None, and_="i", days=["w poniedziałek", "we wtorek", "w środę", "w czwartek", "w piątek", "w sobotę", "w niedzielę"],
+               r=dict(heavy_rain="ulewny deszcz", thunder="burze", strong_wind="silny wiatr", hail="grad", snow="śnieg", warning="ostrzeżenie IPMA ({lvl})")),
+}
+
+
+def _link(href, text):
+    return f'<a class="plain" href="{href}">{htmllib.escape(text, quote=False)}</a>'
+
+
+def outlook_sentence(outlook, lang, today):
+    """IPMA's bad-weather days after today as one sentence (alert.js outlookText, from tomorrow), or ""."""
+    R = REOPEN_I18N[lang]
+    days = [d for d in (outlook or {}).get("days", []) if d["date"] > today.isoformat()][:4]
+    if not days:
+        return ""
+    what = []
+    for d in days:
+        for r in d["reasons"]:
+            w = R["r"]["warning"].format(lvl=storm.LEVEL_NAME.get(r[8:], {}).get(lang, r[8:])) if r.startswith("warning_") else R["r"].get(r)
+            if w and w not in what:
+                what.append(w)
+    names = []
+    for d in days:
+        wd = datetime.date.fromisoformat(d["date"]).weekday()
+        n = R["days"][wd]
+        if lang == "pt":
+            n = ("no " if wd >= 5 else "na ") + n
+        elif R["on"]:
+            n = R["on"] + " " + n
+        names.append(n)
+    day_str = names[0] if len(names) == 1 else ", ".join(names[:-1]) + f" {R['and_']} " + names[-1]
+    return R["fc"].format(what=htmllib.escape(", ".join(what), quote=False), days=htmllib.escape(day_str, quote=False),
+                          src=f'<a class="plain" href="{IPMA_FC}" target="_blank" rel="noopener">IPMA</a>')
+
+
+def reopen_section(data, lang, today):
+    """The section's HTML during an IFCN blanket closure, else ""."""
+    a = data.get("alert") or {}
+    if a.get("blanket") != "closed":
+        return ""
+    lang = lang if lang in REOPEN_I18N else "en"
+    R, pre = REOPEN_I18N[lang], LANG_PREFIX.get(lang, "")
+    when = R["when"].format(board=_link(pre + "/", R["board"]))
+    if a.get("blanket_reopen") == (today + datetime.timedelta(days=1)).isoformat():
+        # IFCN's reopening notice is out: its sentence replaces "hasn't announced a reopening yet"
+        when = storm.REOPEN_TOMORROW[lang].strip() + " " + when.split(". ", 1)[1]
+    parts = [f"<h2>{htmllib.escape(R['h'], quote=False)}</h2>", f"<p>{when}</p>"]
+    fc = outlook_sentence(data.get("outlook"), lang, today)
+    if fc:
+        parts.append(f"<p>{fc}</p>")
+    parts.append(f"<p>{R['booked']}</p>")
+    parts.append("<p>" + R["meanwhile"].format(funchal=_link(pre + "/funchal/", R["funchal"]),
+                                               gardens=_link(pre + "/funchal-gardens-trail/", R["gardens"])) + "</p>")
+    return "".join(parts)
+
+
+def closures_rest(data, lang):
+    lang = lang if lang in REOPEN_I18N else "en"
+    R = REOPEN_I18N[lang]
+    key = "rest_storm" if (data.get("alert") or {}).get("blanket") == "closed" else "rest"
+    href = LANG_PREFIX.get(lang, "") + "/"
+    return R[key].format(board=_link(href, R["board"]), Board=_link(href, R["board"][:1].upper() + R["board"][1:]))
+
+
 def answer_sentence(trail, lang):
     """'Levada do Risco (PR6.1) is OPEN on IFCN's official trail-warnings list.' in the page language."""
     lang = lang if lang in STATIC_ANSWER_I18N else "en"
@@ -1069,7 +1183,7 @@ def write_static_status(data):
             continue
         with open(path, encoding="utf-8") as f:
             s = f.read()
-        if not any(k in s for k in ("STATIC-STATUS", "STATIC-WEATHER", "STATIC-BADGE", "STATIC-ANSWER", "STATIC-CLOSURES")):
+        if not any(k in s for k in ("STATIC-STATUS", "STATIC-WEATHER", "STATIC-BADGE", "STATIC-ANSWER", "STATIC-CLOSURES", "STATIC-REOPEN")):
             continue
         m = HTML_LANG_RE.search(s)
         lang = m.group(1).lower() if m else "en"
@@ -1120,6 +1234,8 @@ def write_static_status(data):
         new = STATIC_BADGE_RE.sub(badge_sub, new)
         new = sync_answers(new, lang, by_code)
         new = STATIC_CLOSURES_RE.sub(lambda mm: mm.group(1) + closures_table(data, lang) + mm.group(3), new)
+        new = STATIC_REOPEN_RE.sub(lambda mm: mm.group(1) + reopen_section(data, lang, date) + mm.group(3), new)
+        new = STATIC_REST_RE.sub(lambda mm: mm.group(1) + closures_rest(data, lang) + mm.group(3), new)
         card = TRAIL_CARD_RE.search(new)
         if card and card.group(1) in by_code and IFCN_UPDATED and "STATIC-WEATHER" in new:  # trail pages only
             t = by_code[card.group(1)]
