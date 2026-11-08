@@ -231,20 +231,47 @@
       return '<div class="wwarn" style="grid-column:1/-1;' + WCOL[top] + ';border-radius:8px;padding:8px 12px;font-size:14px;font-weight:600;line-height:1.4">⚠ ' +
         T.wlevel[top] + " (" + T.wsrc + "): " + esc(parts.join(" · ")) + "</div>";
     }
-    el("weatherStrip").innerHTML = (d.regions || []).map(function (r) {
-      var t = (r.temp != null) ? num(r.temp, T) + "°C" : "—";
-      var bits = [];
-      if (r.wind != null) bits.push(T.wind + " " + r.wind + " km/h");
-      if (r.rain != null && r.rain > 0) bits.push('<span class="alert">' + T.rain + " " + num(r.rain, T) + " mm</span>");
-      if (r.in_cloud) bits.push('<span class="alert">' + T.fog + "</span>");
-      // forecast first (owner, 2026-11-08), then the reading measured now
-      var fc = fcRows((d.forecast || {})[r.key], lang, false);
-      return '<div class="wx"><b>' + T.region[r.key] + " · " + esc(r.place) + "</b>" + fc +
-        '<span class="wext" style="margin-top:4px"><b>' + (FCW[lang] || FCW.en).now + ":</b> " + t +
-        (bits.length ? " · " + bits.join(" · ") : "") + "</span></div>";
-    }).join("") + warnBar() + '<div class="note">' + T.mmnote + "</div>";
-    if (d.forecast && Object.keys(d.forecast).length)   // the heading leads the card
-      el("weatherStrip").insertAdjacentHTML("afterbegin", '<div class="note" style="grid-column:1/-1;font-weight:700;color:var(--ink)">' + (FCW[lang] || FCW.en).head + "</div>");
+    // one long line per weekday across the five places (owner, 2026-11-08), then one "Now" line with the readings
+    var F = FCW[lang] || FCW.en, today = fcToday(), fcd = d.forecast || {}, regs = d.regions || [];
+    var dates = [];
+    regs.forEach(function (r) { (fcd[r.key] || []).forEach(function (x) { if (x.date >= today && dates.indexOf(x.date) < 0) dates.push(x.date); }); });
+    dates = dates.sort().slice(0, 5);
+    var warn = "color:var(--partial,#8a5a00);font-weight:700", HEAVY = "color:var(--closed,#b3261e);font-weight:800";
+    function seg(r, x) {   // compact so a weekday fits on one line: 💧 = chance of rain, 💨 = wind km/h
+      var rain = x.rain_prob != null && x.rain_prob >= 20
+        ? ' <span style="' + ((x.rain_int || 0) >= 3 ? HEAVY : x.rain_prob >= 60 || (x.rain_int || 0) >= 2 ? warn : "") + '">💧' + x.rain_prob + "%</span>" : "";
+      var strong = (x.wind_class || 0) >= 3 || (x.wind_kmh || 0) >= 50;
+      var wind = x.wind_kmh != null && (strong || x.wind_kmh >= 30)
+        ? ' <span style="' + (strong ? warn : "") + '">💨' + x.wind_kmh + "</span>" : "";
+      var t = (x.tmin != null && x.tmax != null) ? x.tmin + "–" + x.tmax + "°" : "";
+      return '<span><b class="rl">' + T.region[r.key] + " </b>" + fcIcon(x.type) + t + rain + wind + "</span>";
+    }
+    var CSS = "<style>.fcg{grid-column:1/-1;display:grid;grid-template-columns:84px repeat(" + regs.length + ",minmax(0,1fr));" +
+      "gap:0 10px;font-size:13px;line-height:1.4}.fcg>*{padding:5px 0;border-top:1px solid rgba(0,0,0,.07);white-space:nowrap}" +
+      ".fcg .dn{font-weight:800}.fcg .hd{font-weight:700;color:var(--ink-soft);font-size:12px;border-top:0}.fcg .rl{display:none}" +
+      ".fcg .nw{color:var(--ink-soft);white-space:normal}" +
+      "@media(max-width:720px){.fcg{display:block}.fcg>*{display:inline-block;margin-right:12px;border:0;padding:1px 0}" +
+      ".fcg .dn{display:block;margin:6px 0 0;padding-top:5px;border-top:1px solid rgba(0,0,0,.07)}.fcg .hd{display:none}.fcg .rl{display:inline}}</style>";
+    function cell(html, cls) { return '<span' + (cls ? ' class="' + cls + '"' : "") + ">" + html + "</span>"; }
+    var rows = !dates.length ? "" : cell("", "hd") + regs.map(function (r) { return cell(T.region[r.key] + " · " + esc(r.place), "hd"); }).join("") +
+      dates.map(function (iso) {
+        return cell(fcDay(iso, lang), "dn") + regs.map(function (r) {
+          var x = (fcd[r.key] || []).filter(function (y) { return y.date === iso; })[0];
+          return x ? seg(r, x) : cell("—");
+        }).join("");
+      }).join("");
+    var nowSegs = regs.map(function (r) {
+      var bits = [r.temp != null ? num(r.temp, T) + "°C" : "—"];
+      if (r.wind != null) bits.push("💨" + r.wind);
+      if (r.rain != null && r.rain > 0) bits.push('<span style="' + warn + '">' + num(r.rain, T) + " mm</span>");
+      if (r.in_cloud) bits.push('<span style="' + warn + '">' + T.fog + "</span>");
+      return cell('<b class="rl">' + T.region[r.key] + " </b>" + bits.join(" "), "nw");
+    });
+    var grid = CSS + '<div class="fcg">' + rows + cell(F.now, "dn") + nowSegs.join("") + "</div>";
+    el("weatherStrip").innerHTML =
+      (dates.length ? '<div class="note" style="grid-column:1/-1;font-weight:700;color:var(--ink)">' + F.head +
+        ' <span style="font-weight:400;color:var(--ink-soft)">· 💧 ' + F.rain + ' (<span style="' + HEAVY + '">' + F.ri[3] + "</span>) · 💨 " + F.wind + " km/h</span></div>" : "") +
+      grid + warnBar() + '<div class="note">' + T.mmnote + "</div>";
 
     var trails = (d.trails || []).slice();
     var byPop = function (a, b) { return (b.popular - a.popular) || a.code.localeCompare(b.code, undefined, { numeric: true }); };
