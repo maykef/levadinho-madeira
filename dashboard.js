@@ -148,31 +148,36 @@
       '<span><span class="dot PARTIAL"></span><b>' + c.PARTIAL + "</b> " + T.restricted + "</span>" +
       '<span><span class="dot CLOSED"></span><b>' + c.CLOSED + "</b> " + T.closed + "</span>";
 
-    // IPMA warnings (yellow and up) on each region of the card (owner, 2026-11-08). IPMA areas: mountains / north
-    // coast / south coast; São Lourenço sits between the two coasts, so it shows both.
-    var AREAS = { summit: ["mountains"], west: ["mountains"], north: ["north"], south: ["south"], east: ["north", "south"] };
+    // IPMA warnings for Madeira (yellow and up): one bar across the bottom of the card (owner, 2026-11-08), one item per
+    // warning type: highest level, strongest gust, earliest start to latest end. Porto Santo is left out by storm.py.
     var WCOL = { yellow: "background:#F6D743;color:#3a2f00", orange: "background:#F08A24;color:#fff", red: "background:#C62828;color:#fff" };
     var RANKW = { yellow: 1, orange: 2, red: 3 };
-    var todayISO = (d.ipma_warnings || []).length ? new Date().toLocaleDateString("sv-SE", { timeZone: "Atlantic/Madeira" }) : "";
+    var todayISO = new Date().toLocaleDateString("sv-SE", { timeZone: "Atlantic/Madeira" });
     function hm(iso) {   // "2026-11-08T21:00" -> "21:00", or "tomorrow 06:00": never a date on the page
       return (iso.slice(0, 10) !== todayISO ? T.wtomorrow + " " : "") + iso.slice(11, 16);
     }
-    function warnFor(key) {
-      var ws = (d.ipma_warnings || []).filter(function (w) { return (AREAS[key] || []).indexOf(w.area) >= 0; });
+    function warnBar() {
+      var ws = d.ipma_warnings || [];
       if (!ws.length) return "";
-      var top = ws.reduce(function (a, w) { return RANKW[w.level] > RANKW[a] ? w.level : a; }, "yellow");
-      var seen = {}, parts = [];
-      ws.sort(function (a, b) { return RANKW[b.level] - RANKW[a.level] || (b.gust || 0) - (a.gust || 0); });
+      var top = "yellow", by = {}, order = [];
       ws.forEach(function (w) {
-        if (seen[w.type]) return;
-        seen[w.type] = 1;
-        var txt = T.wtype[w.type] || T.wtype.other;
-        if (w.gust) txt += " (" + T.wgust + " " + w.gust + " km/h)";
-        txt += w.now ? " " + T.wuntil + " " + hm(w.end) : " " + hm(w.start) + "–" + hm(w.end);
-        parts.push(txt);
+        if (RANKW[w.level] > RANKW[top]) top = w.level;
+        var g = by[w.type];
+        if (!g) { g = by[w.type] = { type: w.type, start: w.start, end: w.end, now: w.now, gust: w.gust, rank: RANKW[w.level] }; order.push(g); return; }
+        if (w.start < g.start) g.start = w.start;
+        if (w.end > g.end) g.end = w.end;
+        g.now = g.now || w.now;
+        if ((w.gust || 0) > (g.gust || 0)) g.gust = w.gust;
+        g.rank = Math.max(g.rank, RANKW[w.level]);
       });
-      return '<span class="wwarn" style="' + WCOL[top] + ';border-radius:6px;padding:3px 7px;margin-top:4px;font-size:12.5px;font-weight:600;line-height:1.35">⚠ ' +
-        T.wlevel[top] + " (" + T.wsrc + "): " + esc(parts.join(" · ")) + "</span>";
+      order.sort(function (a, b) { return b.rank - a.rank || (a.start < b.start ? -1 : 1); });
+      var parts = order.map(function (g) {
+        var txt = T.wtype[g.type] || T.wtype.other;
+        if (g.gust) txt += " (" + T.wgust + " " + g.gust + " km/h)";
+        return txt + (g.now ? " " + T.wuntil + " " + hm(g.end) : " " + hm(g.start) + "–" + hm(g.end));
+      });
+      return '<div class="wwarn" style="grid-column:1/-1;' + WCOL[top] + ';border-radius:8px;padding:8px 12px;font-size:14px;font-weight:600;line-height:1.4">⚠ ' +
+        T.wlevel[top] + " (" + T.wsrc + "): " + esc(parts.join(" · ")) + "</div>";
     }
     el("weatherStrip").innerHTML = (d.regions || []).map(function (r) {
       var t = (r.temp != null) ? num(r.temp, T) + "°C" : "—";
@@ -182,8 +187,8 @@
       if (r.in_cloud) bits.push('<span class="alert">' + T.fog + "</span>");
       return '<div class="wx"><b>' + T.region[r.key] + " · " + esc(r.place) + "</b>" +
         '<span class="wtemp">' + t + "</span>" +
-        (bits.length ? '<span class="wext">' + bits.join(" · ") + "</span>" : "") + warnFor(r.key) + "</div>";
-    }).join("") + '<div class="note">' + T.mmnote + "</div>";
+        (bits.length ? '<span class="wext">' + bits.join(" · ") + "</span>" : "") + "</div>";
+    }).join("") + warnBar() + '<div class="note">' + T.mmnote + "</div>";
 
     var trails = (d.trails || []).slice();
     var byPop = function (a, b) { return (b.popular - a.popular) || a.code.localeCompare(b.code, undefined, { numeric: true }); };

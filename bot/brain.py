@@ -1243,7 +1243,50 @@ def answer_tools(user, text, lang, rule, meta=None):
     return reply
 
 
+# Storm mode (owner, 2026-11-08 fire test): while IFCN's island-wide closure is in force (status.json alert.blanket =
+# "closed", written by scripts/storm.py), the bot's first message to each visitor starts with this line, whatever was
+# asked. Wording follows IFCN's notice (closure + "no recreational activities in forest areas").
+STORM_LEAD = {
+    "en": "⚠️ *All classified trails in Madeira are closed today.* IFCN closed them because of the IPMA weather warning: "
+          "don't walk any trail and stay out of forest areas.",
+    "pt": "⚠️ *Todos os percursos pedestres classificados da Madeira estão encerrados hoje.* O IFCN encerrou-os devido ao "
+          "aviso meteorológico do IPMA: não faça nenhum percurso e evite as zonas florestais.",
+    "fr": "⚠️ *Tous les sentiers classés de Madère sont fermés aujourd'hui.* L'IFCN les a fermés en raison de l'avis "
+          "météorologique de l'IPMA : ne faites aucun sentier et évitez les zones forestières.",
+    "de": "⚠️ *Alle klassifizierten Wanderwege auf Madeira sind heute gesperrt.* Das IFCN hat sie wegen der Wetterwarnung "
+          "des IPMA gesperrt: Gehen Sie keinen Weg und meiden Sie Waldgebiete.",
+    "pl": "⚠️ *Wszystkie sklasyfikowane szlaki na Maderze są dziś zamknięte.* IFCN zamknął je z powodu ostrzeżenia "
+          "pogodowego IPMA: nie wchodź na żaden szlak i unikaj terenów leśnych.",
+}
+STORM_TOLD_S = 6 * 3600   # told within the last 6 h -> don't repeat it on every reply
+
+
+def storm_lead(user, reply, lang):
+    """Prefix STORM_LEAD during a blanket closure, once per visitor per 6 h. Not on the web chat: chat.js opens with
+    the same line on every page in storm mode, so the visitor has just read it."""
+    if str(user).startswith("web:"):
+        return reply
+    try:
+        if ((live_status().get("alert") or {}).get("blanket")) != "closed":
+            return reply
+    except Exception:  # noqa: BLE001
+        return reply
+    line = STORM_LEAD.get(lang) or STORM_LEAD["en"]
+    told = any(m.get("role") == "assistant" and (m.get("content") or "").startswith("⚠️ *")
+               for m in store.history(user, time.time() - STORM_TOLD_S))
+    return reply if told or (reply or "").startswith("⚠️ *") else f"{line}\n\n{reply}"
+
+
 def answer(user, text, lang, meta=None, c=None):
+    """Every model answer; in storm mode it starts with STORM_LEAD (see storm_lead)."""
+    reply = _answer(user, text, lang, meta, c)
+    lead = storm_lead(user, reply, lang)
+    if lead is not reply:
+        store.fix_last_answer(user, lead)
+    return lead
+
+
+def _answer(user, text, lang, meta=None, c=None):
     rule = (f"Write your reply ONLY in {LANG_NAMES[lang]}, whatever language earlier messages used. "
             f"Keep place and trail names (Pico do Areeiro, Levada das 25 Fontes…) as they are.")
     if TOOLS_MODE:
@@ -1325,7 +1368,10 @@ def handle_consent(user, yes, meta=None):
         return [welcome(user, CAMPAIGNS[arg], lang, meta, campaign=arg)]
     if kind == "c" and is_web_tag(arg):  # came from a website link: a source only, no guide link
         meta["campaign"] = arg
-        return [{"type": "text", "body": ASK[lang]}]
+        body = storm_lead(user, ASK[lang], lang)
+        if body is not ASK[lang]:
+            store.add_turn(user, "(opened the chat)", body)   # so the next answer doesn't repeat the storm line
+        return [{"type": "text", "body": body}]
     if kind == "q" and arg:  # what they wrote before accepting
         ready = quick_reply(user, arg, meta)
         if ready is not None:

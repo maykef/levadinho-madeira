@@ -59,6 +59,26 @@
     de: { line: "<b>GESPERRT</b> laut offizieller Hinweisliste des IFCN: Gehen Sie ihn nicht, solange er gesperrt ist.", near: "Geöffnete Wege in der Nähe", away: "entfernt" },
     pl: { line: "<b>ZAMKNIĘTY</b> według oficjalnej listy komunikatów IFCN: nie wchodź na szlak, dopóki jest zamknięty.", near: "Otwarte szlaki w pobliżu", away: "" }
   };
+  // Storm mode (owner, 2026-11-08): during IFCN's island-wide closure (status.json alert.blanket = "closed") the chat on
+  // every page opens with this, before anything else; same words as the bot's STORM_LEAD (bot/brain.py).
+  var STORM = {
+    en: "<b>All classified trails in Madeira are closed today.</b> IFCN closed them because of the IPMA weather warning: don't walk any trail and stay out of forest areas.",
+    pt: "<b>Todos os percursos pedestres classificados da Madeira estão encerrados hoje.</b> O IFCN encerrou-os devido ao aviso meteorológico do IPMA: não faça nenhum percurso e evite as zonas florestais.",
+    fr: "<b>Tous les sentiers classés de Madère sont fermés aujourd'hui.</b> L'IFCN les a fermés en raison de l'avis météorologique de l'IPMA : ne faites aucun sentier et évitez les zones forestières.",
+    de: "<b>Alle klassifizierten Wanderwege auf Madeira sind heute gesperrt.</b> Das IFCN hat sie wegen der Wetterwarnung des IPMA gesperrt: Gehen Sie keinen Weg und meiden Sie Waldgebiete.",
+    pl: "<b>Wszystkie sklasyfikowane szlaki na Maderze są dziś zamknięte.</b> IFCN zamknął je z powodu ostrzeżenia pogodowego IPMA: nie wchodź na żaden szlak i unikaj terenów leśnych."
+  };
+  CHIPS.storm = { en: ["When will the trails reopen?", "What can I do in Funchal today?"],
+                  pt: ["Quando reabrem os percursos?", "O que posso fazer hoje no Funchal?"],
+                  fr: ["Quand les sentiers rouvrent-ils ?", "Que faire à Funchal aujourd'hui ?"],
+                  de: ["Wann öffnen die Wege wieder?", "Was kann ich heute in Funchal machen?"],
+                  pl: ["Kiedy szlaki zostaną otwarte?", "Co mogę dziś robić w Funchal?"] };
+  async function stormOn() {
+    try { var st = await (await fetch("/status.json", { cache: "no-store" })).json(); return ((st.alert || {}).blanket) === "closed"; }
+    catch (e) { return false; }
+  }
+  // trail pages carry chat.js with data-storm-only (scripts/gen_chat.py): the chat appears there only in storm mode
+  var STORM_ONLY = !!(document.currentScript && document.currentScript.hasAttribute("data-storm-only"));
   var U = UI[LANG] || UI.en;
   // the owner's devices (#skipgc on any page sets it, #countme clears it): chats answered but never recorded
   var OWNER = (function () { try { return localStorage.getItem("gc-skip") === "1"; } catch (e) { return false; } })();
@@ -210,7 +230,11 @@
     var open = openingRows();
     var waLink = document.querySelector('a[href*="wa.me/447455718697"]');
     var tag = waLink ? (decodeURIComponent(waLink.getAttribute("href")).match(/#(web-[a-z0-9-]+)/) || [])[1] : null;
-    if (!open || !open.rows.length || !tag) return false;
+    if (!tag) return false;
+    if (!open || !open.rows.length) {
+      if (!STORM_ONLY) return false;
+      open = { rows: [], kind: "storm" };   // a storm-only page without a quick-answers card (PR1): the storm line is enough
+    }
     var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
     var sec = document.createElement("section");
     sec.id = "lvc"; sec.setAttribute("aria-label", "Levadinho");
@@ -334,6 +358,10 @@
       var fresh = openingRows() || open;
       var closed = open.kind === "trail" ? await closedRows() : null;
       if (closed) { fresh = { rows: closed, kind: "closed" }; open.kind = "closed"; }
+      if (await stormOn()) {   // storm mode: the island-wide closure first, then nothing that suggests walking
+        fresh = { rows: [["", "⚠️ " + (STORM[LANG] || STORM.en)]], kind: "storm" };
+        open.kind = "storm"; open.chips = null;
+      }
       for (var i = 0; i < fresh.rows.length; i++) {
         var t = typing(); await wait(600); done(t);
         var m = add("lvc-msg lvc-bot", fresh.rows[i][0] ? '<span class="h">' + esc(fresh.rows[i][0]) + "</span>" : "");
@@ -347,7 +375,8 @@
     return true;
   }
 
-  function start() {
+  async function start() {
+    if (STORM_ONLY && !(await stormOn())) return;   // normal day on a trail page: no chat, no count
     var ctl = window.AbortController ? new AbortController() : null;
     var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
     fetch(API + "/health", { signal: ctl ? ctl.signal : undefined, cache: "no-store" })

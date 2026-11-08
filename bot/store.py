@@ -73,6 +73,13 @@ def history(uid, since=0.0):
     return msgs
 
 
+def fix_last_answer(uid, answer):
+    """Replace the answer of the visitor's latest turn (brain.storm_lead prefixes the storm line after the fact)."""
+    _db.execute("UPDATE turns SET answer=? WHERE rowid=(SELECT rowid FROM turns WHERE user=? ORDER BY at DESC LIMIT 1)",
+                (answer, uid))
+    _db.commit()
+
+
 def add_turn(uid, question, answer):
     _db.execute("INSERT INTO turns VALUES (?,?,?,?)", (uid, time.time(), question, answer))
     # The privacy policy promises conversations are kept 24 h — delete, don't just ignore.
