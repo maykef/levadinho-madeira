@@ -1236,12 +1236,11 @@ def write_static_status(data):
         new = STATIC_CLOSURES_RE.sub(lambda mm: mm.group(1) + closures_table(data, lang) + mm.group(3), new)
         new = STATIC_REOPEN_RE.sub(lambda mm: mm.group(1) + reopen_section(data, lang, date) + mm.group(3), new)
         new = STATIC_REST_RE.sub(lambda mm: mm.group(1) + closures_rest(data, lang) + mm.group(3), new)
-        card = TRAIL_CARD_RE.search(new)
-        if card and card.group(1) in by_code and IFCN_UPDATED and "STATIC-WEATHER" in new:  # trail pages only
-            t = by_code[card.group(1)]
-            assert_not_contradictory(t["status"], t.get("note") or {}, what=f"description {t['code']}")
-            prefix = f"IFCN: {L['st'][t['status']]}. "
-            new = DESC_STATUS_RE.sub(lambda mm: mm.group(1) + prefix, new, count=1)
+        # No status word in meta descriptions (owner, 2026-11-08): Google re-crawls the median page every ~29 days, so
+        # its snippet showed a weeks-old "IFCN: OPEN" (and during the blanket closure the prefix wasn't even refreshed).
+        # The live status stays in the page (STATIC-* lines); here the old prefix is only stripped.
+        if TRAIL_CARD_RE.search(new):
+            new = DESC_STATUS_RE.sub(lambda mm: mm.group(1), new, count=1)
         if new != s:
             with open(path, "w", encoding="utf-8") as f:
                 f.write(new)
