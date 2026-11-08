@@ -10,24 +10,40 @@
     en: { closed: "All classified trails are closed.", note: "IFCN has closed all classified trails because of IPMA weather warnings.",
           reopen: " IFCN says they reopen tomorrow.", announced: "IFCN has announced that all classified trails will close{w} because of IPMA weather warnings.",
           tomorrow: " tomorrow", ipma: "IPMA {lvl} warning for Madeira{w}. During past warnings IFCN closed all classified trails: check before you go.",
-          now: " in force", soon: " in the next 24 hours", lvl: { orange: "orange", red: "red" }, src: "Sources" },
+          now: " in force", soon: " in the next 24 hours", lvl: { yellow: "yellow", orange: "orange", red: "red" }, src: "Sources" },
     pt: { closed: "Todos os percursos classificados estão encerrados.", note: "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
           reopen: " Reabrem amanhã, segundo o IFCN.", announced: "O IFCN anunciou o encerramento de todos os percursos pedestres classificados{w} devido aos avisos meteorológicos do IPMA.",
           tomorrow: " amanhã", ipma: "Aviso {lvl} do IPMA para a Madeira{w}. Em avisos anteriores o IFCN encerrou todos os percursos classificados: confirme antes de ir.",
-          now: " em vigor", soon: " nas próximas 24 horas", lvl: { orange: "laranja", red: "vermelho" }, src: "Fontes" },
+          now: " em vigor", soon: " nas próximas 24 horas", lvl: { yellow: "amarelo", orange: "laranja", red: "vermelho" }, src: "Fontes" },
     fr: { closed: "Tous les sentiers classés sont fermés.", note: "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
           reopen: " Selon l'IFCN, ils rouvrent demain.", announced: "L'IFCN a annoncé la fermeture de tous les sentiers classés{w} en raison des avis météorologiques de l'IPMA.",
           tomorrow: " demain", ipma: "Avis {lvl} de l'IPMA pour Madère{w}. Lors d'avis précédents, l'IFCN a fermé tous les sentiers classés : vérifiez avant de partir.",
-          now: " en vigueur", soon: " dans les prochaines 24 heures", lvl: { orange: "orange", red: "rouge" }, src: "Sources" },
+          now: " en vigueur", soon: " dans les prochaines 24 heures", lvl: { yellow: "jaune", orange: "orange", red: "rouge" }, src: "Sources" },
     de: { closed: "Alle klassifizierten Wege sind gesperrt.", note: "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
           reopen: " Laut IFCN öffnen sie morgen wieder.", announced: "Das IFCN hat angekündigt, alle klassifizierten Wege{w} wegen der Wetterwarnungen des IPMA zu sperren.",
           tomorrow: " morgen", ipma: "IPMA-Warnstufe {lvl} für Madeira{w}. Bei früheren Warnungen hat das IFCN alle klassifizierten Wege gesperrt: Prüfen Sie vor dem Losgehen.",
-          now: " in Kraft", soon: " in den nächsten 24 Stunden", lvl: { orange: "Orange", red: "Rot" }, src: "Quellen" },
+          now: " in Kraft", soon: " in den nächsten 24 Stunden", lvl: { yellow: "Gelb", orange: "Orange", red: "Rot" }, src: "Quellen" },
     pl: { closed: "Wszystkie sklasyfikowane szlaki są zamknięte.", note: "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA.",
           reopen: " Według IFCN zostaną otwarte jutro.", announced: "IFCN zapowiedział zamknięcie wszystkich sklasyfikowanych szlaków{w} z powodu ostrzeżeń pogodowych IPMA.",
           tomorrow: " jutro", ipma: "Ostrzeżenie IPMA ({lvl}) dla Madery{w}. Podczas wcześniejszych ostrzeżeń IFCN zamykał wszystkie sklasyfikowane szlaki: sprawdź przed wyjściem.",
-          now: " obowiązuje", soon: " w ciągu najbliższych 24 godzin", lvl: { orange: "pomarańczowe", red: "czerwone" }, src: "Źródła" }
+          now: " obowiązuje", soon: " w ciągu najbliższych 24 godzin", lvl: { yellow: "żółte", orange: "pomarańczowe", red: "czerwone" }, src: "Źródła" }
   };
+  // "Bad weather coming" (owner, 2026-11-08): status.json "outlook" = IPMA's forecast / later warnings for the next days
+  // (scripts/ipma_forecast.py). Amber, above everything, before anything closes. Day names, never dates.
+  var O = {
+    en: { head: "Bad weather coming", txt: "IPMA forecast for Madeira: {what} {days}. During past warnings IFCN closed all classified trails: book flexibly and check here first.",
+          today: "today", on: "on", and: "and", heavy_rain: "heavy rain", thunder: "thunderstorms", strong_wind: "strong wind", hail: "hail", snow: "snow", warning: "an IPMA {lvl} warning" },
+    pt: { head: "Mau tempo a caminho", txt: "Previsão do IPMA para a Madeira: {what} {days}. Em avisos anteriores o IFCN encerrou todos os percursos classificados: reserve com flexibilidade e confirme aqui primeiro.",
+          today: "hoje", on: "na/no", and: "e", heavy_rain: "chuva forte", thunder: "trovoada", strong_wind: "vento forte", hail: "granizo", snow: "neve", warning: "aviso {lvl} do IPMA" },
+    fr: { head: "Mauvais temps en approche", txt: "Prévision de l'IPMA pour Madère : {what} {days}. Lors d'avis précédents, l'IFCN a fermé tous les sentiers classés : réservez avec souplesse et vérifiez ici d'abord.",
+          today: "aujourd'hui", on: "", and: "et", heavy_rain: "fortes pluies", thunder: "orages", strong_wind: "vent fort", hail: "grêle", snow: "neige", warning: "vigilance {lvl} de l'IPMA" },
+    de: { head: "Schlechtes Wetter im Anmarsch", txt: "IPMA-Vorhersage für Madeira: {what} {days}. Bei früheren Warnungen hat das IFCN alle klassifizierten Wege gesperrt: Buchen Sie flexibel und prüfen Sie hier zuerst.",
+          today: "heute", on: "am", and: "und", heavy_rain: "Starkregen", thunder: "Gewitter", strong_wind: "starker Wind", hail: "Hagel", snow: "Schnee", warning: "IPMA-Warnstufe {lvl}" },
+    pl: { head: "Nadchodzi zła pogoda", txt: "Prognoza IPMA dla Madery: {what} {days}. Podczas wcześniejszych ostrzeżeń IFCN zamykał wszystkie sklasyfikowane szlaki: rezerwuj elastycznie i sprawdzaj najpierw tutaj.",
+          today: "dziś", on: "w", and: "i", heavy_rain: "ulewny deszcz", thunder: "burze", strong_wind: "silny wiatr", hail: "grad", snow: "śnieg", warning: "ostrzeżenie IPMA ({lvl})" }
+  };
+  var PL_ON = { 1: "w poniedziałek", 2: "we wtorek", 3: "w środę", 4: "w czwartek", 5: "w piątek", 6: "w sobotę", 0: "w niedzielę" };
+  var PT_ON = { 1: "na", 2: "na", 3: "na", 4: "na", 5: "na", 6: "no", 0: "no" };   // na segunda … no sábado / domingo
   var lang = (document.documentElement.lang || "en").slice(0, 2);
   var L = T[lang] || T.en;
 
@@ -39,20 +55,51 @@
     return '<a href="' + href + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">' + text + "</a>";
   }
 
-  function banner(a) {
-    var red = !!a.blanket, html;
+  function dayName(iso) {
+    var n = new Intl.DateTimeFormat(lang, { weekday: "long", timeZone: "UTC" }).format(new Date(iso + "T12:00:00Z"));
+    return lang === "de" || lang === "en" ? n.charAt(0).toUpperCase() + n.slice(1) : n;
+  }
+  function outlookText(o, fromDay) {   // the outlook sentence for the days from `fromDay` on, or ""
+    var P = O[lang] || O.en, L2 = T[lang] || T.en;
+    var days = ((o && o.days) || []).filter(function (x) { return x.date >= fromDay; }).slice(0, 4);
+    if (!days.length) return "";
+    var what = [];
+    days.forEach(function (x) {
+      x.reasons.forEach(function (r) {
+        var w = r.indexOf("warning_") === 0 ? P.warning.replace("{lvl}", L2.lvl[r.slice(8)] || r.slice(8)) : P[r];
+        if (w && what.indexOf(w) < 0) what.push(w);
+      });
+    });
+    var names = days.map(function (x) {
+      if (x.date === madeiraDate(0)) return P.today;
+      var wd = new Date(x.date + "T12:00:00Z").getUTCDay();
+      if (lang === "pl") return PL_ON[wd];
+      var on = lang === "pt" ? PT_ON[wd] : P.on;
+      return (on ? on + " " : "") + dayName(x.date);
+    });
+    var dayStr = names.length > 1 ? names.slice(0, -1).join(", ") + " " + P.and + " " + names[names.length - 1] : names[0];
+    return P.txt.replace("{what}", what.join(", ")).replace("{days}", dayStr);
+  }
+
+  function banner(a, o) {
+    a = a || {};
+    var red = !!a.blanket, html, P = O[lang] || O.en;
     if (a.blanket === "closed") {
       html = "<b>" + L.closed + "</b> " + L.note + (a.blanket_reopen === madeiraDate(1) ? L.reopen : "");
     } else if (a.blanket === "announced") {
       html = "<b>" + L.announced.replace("{w}", a.blanket_from === madeiraDate(1) ? L.tomorrow : "") + "</b>";
     } else if (a.ipma_level) {
       html = L.ipma.replace("{lvl}", L.lvl[a.ipma_level] || a.ipma_level).replace("{w}", a.ipma_now ? L.now : L.soon);
+    } else if (outlookText(o, madeiraDate(0))) {
+      html = "<b>" + P.head + ".</b> " + outlookText(o, madeiraDate(0));
     } else {
       return null;
     }
+    if ((a.blanket || a.ipma_level) && outlookText(o, madeiraDate(1)))   // an alert today, more bad days to come
+      html += "<br><b>" + P.head + ":</b> " + outlookText(o, madeiraDate(1));
     var src = [];
     if (a.ifcn_source) src.push(link(a.ifcn_source, "IFCN"));
-    if (a.ipma_level && a.ipma_source) src.push(link(a.ipma_source, "IPMA"));
+    if ((a.ipma_level || (o && o.days && o.days.length)) && (a.ipma_source || (o && o.source))) src.push(link(a.ipma_source || o.source, "IPMA"));
     var el = document.createElement("div");
     el.id = "stormAlert";
     el.setAttribute("role", "alert");
@@ -65,8 +112,8 @@
   fetch("/status.json", { cache: "no-cache" })
     .then(function (r) { return r.json(); })
     .then(function (d) {
-      if (!d || !d.alert || document.getElementById("stormAlert")) return;
-      var el = banner(d.alert);
+      if (!d || (!d.alert && !d.outlook) || document.getElementById("stormAlert")) return;
+      var el = banner(d.alert, d.outlook);
       if (el) document.body.insertBefore(el, document.body.firstChild);
     })
     .catch(function () { /* no banner without data */ });

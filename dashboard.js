@@ -141,6 +141,58 @@
       '<div class="tmeta"><span class="tfee">' + esc(fee(t.fee, T)) + temp + "</span>" + link + "</div></div>";
   }
 
+  // ---- IPMA 5-day forecast (owner, 2026-11-08: "lead with the forecast 5 days ahead ... include rain"). Same block in
+  // dashboard.js and status.js: keep them in sync. Day names, never dates. Data: status.json "forecast" (update_status.py).
+  var FCW = {
+    en: { today: "Today", rain: "rain", ri: ["", "light", "moderate", "heavy"], wind: "wind", head: "Next 5 days · IPMA forecast", now: "Now" },
+    pt: { today: "Hoje", rain: "chuva", ri: ["", "fraca", "moderada", "forte"], wind: "vento", head: "Próximos 5 dias · previsão IPMA", now: "Agora" },
+    fr: { today: "Aujourd'hui", rain: "pluie", ri: ["", "faible", "modérée", "forte"], wind: "vent", head: "5 prochains jours · prévision IPMA", now: "Maintenant" },
+    de: { today: "Heute", rain: "Regen", ri: ["", "leicht", "mäßig", "stark"], wind: "Wind", head: "Nächste 5 Tage · IPMA-Vorhersage", now: "Jetzt" },
+    pl: { today: "Dziś", rain: "deszcz", ri: ["", "słaby", "umiarkowany", "silny"], wind: "wiatr", head: "Najbliższe 5 dni · prognoza IPMA", now: "Teraz" }
+  };
+  function fcIcon(t) {
+    if (t === 1) return "☀️";
+    if (t === 2 || t === 3 || t === 25) return "⛅";
+    if (t === 19 || t === 20 || t === 23) return "⛈️";
+    if (t === 8 || t === 11 || t === 14 || t === 6 || t === 9 || t === 12) return "🌧️";
+    if (t === 7 || t === 10 || t === 13 || t === 15) return "🌦️";
+    if (t === 16 || t === 17 || t === 26) return "🌫️";
+    if (t === 18 || t === 28) return "🌨️";
+    if (t === 21) return "🧊";
+    return "☁️";
+  }
+  function fcToday() { return new Intl.DateTimeFormat("en-CA", { timeZone: "Atlantic/Madeira" }).format(new Date()); }
+  function fcDay(iso, lng) {   // "Today" or the weekday name in the page language
+    if (iso === fcToday()) return (FCW[lng] || FCW.en).today;
+    var n = new Intl.DateTimeFormat(lng, { weekday: "long", timeZone: "UTC" }).format(new Date(iso + "T12:00:00Z"));
+    return n.charAt(0).toUpperCase() + n.slice(1);
+  }
+  function fcRows(days, lng, wide) {   // wide = one column per day (trail cards); else one line per day (homepage strip)
+    var F = FCW[lng] || FCW.en, today = fcToday();
+    var list = (days || []).filter(function (x) { return x.date >= today; }).slice(0, 5);
+    if (!list.length) return "";
+    var warn = "color:var(--partial,#8a5a00);font-weight:700";
+    var cells = list.map(function (x) {
+      var rain = x.rain_prob != null && x.rain_prob >= 20
+        ? '<span style="' + (x.rain_prob >= 60 || (x.rain_int || 0) >= 2 ? warn : "") + '">' + F.rain + " " + x.rain_prob + "%" +
+          ((x.rain_int || 0) >= 2 ? " · " + F.ri[x.rain_int] : "") + "</span>" : "";
+      var strong = (x.wind_class || 0) >= 3 || (x.wind_kmh || 0) >= 50;
+      var wind = x.wind_kmh != null && (strong || x.wind_kmh >= 30)
+        ? '<span style="' + (strong ? warn : "") + '">' + F.wind + " " + x.wind_kmh + " km/h</span>" : "";
+      var t = (x.tmin != null && x.tmax != null) ? x.tmin + "–" + x.tmax + "°" : "";
+      var extra = [rain, wind].filter(Boolean).join(" · ");
+      return wide
+        ? '<div style="text-align:center;min-width:0"><div style="font-weight:700;font-size:12.5px">' + fcDay(x.date, lng) +
+          '</div><div style="font-size:22px;line-height:1.2">' + fcIcon(x.type) + '</div><div style="font-weight:700">' + t +
+          '</div><div style="font-size:12px;line-height:1.35">' + (extra || "&nbsp;") + "</div></div>"
+        : '<div style="font-size:12.5px;line-height:1.35;padding:2px 0;border-top:1px solid rgba(0,0,0,.06)"><b>' +
+          fcDay(x.date, lng) + "</b> " + fcIcon(x.type) + " " + t + (extra ? "<br>" + extra : "") + "</div>";
+    });
+    return wide
+      ? '<div class="fc5" style="display:grid;grid-template-columns:repeat(' + cells.length + ',1fr);gap:6px;margin:6px 0">' + cells.join("") + "</div>"
+      : '<div class="fc5" style="margin:4px 0 2px">' + cells.join("") + "</div>";
+  }
+
   function render(d, T, lang) {
     var c = d.counts || { OPEN: 0, PARTIAL: 0, CLOSED: 0 };
     el("summary").innerHTML =
@@ -153,8 +205,8 @@
     var WCOL = { yellow: "background:#F6D743;color:#3a2f00", orange: "background:#F08A24;color:#fff", red: "background:#C62828;color:#fff" };
     var RANKW = { yellow: 1, orange: 2, red: 3 };
     var todayISO = new Date().toLocaleDateString("sv-SE", { timeZone: "Atlantic/Madeira" });
-    function hm(iso) {   // "2026-11-08T21:00" -> "21:00", or "tomorrow 06:00": never a date on the page
-      return (iso.slice(0, 10) !== todayISO ? T.wtomorrow + " " : "") + iso.slice(11, 16);
+    function hm(iso) {   // "2026-11-08T21:00" -> "21:00", or "Monday 06:00": day names, never a date on the page
+      return (iso.slice(0, 10) !== todayISO ? fcDay(iso.slice(0, 10), lang) + " " : "") + iso.slice(11, 16);
     }
     function warnBar() {
       var ws = d.ipma_warnings || [];
@@ -185,10 +237,14 @@
       if (r.wind != null) bits.push(T.wind + " " + r.wind + " km/h");
       if (r.rain != null && r.rain > 0) bits.push('<span class="alert">' + T.rain + " " + num(r.rain, T) + " mm</span>");
       if (r.in_cloud) bits.push('<span class="alert">' + T.fog + "</span>");
-      return '<div class="wx"><b>' + T.region[r.key] + " · " + esc(r.place) + "</b>" +
-        '<span class="wtemp">' + t + "</span>" +
-        (bits.length ? '<span class="wext">' + bits.join(" · ") + "</span>" : "") + "</div>";
+      // forecast first (owner, 2026-11-08), then the reading measured now
+      var fc = fcRows((d.forecast || {})[r.key], lang, false);
+      return '<div class="wx"><b>' + T.region[r.key] + " · " + esc(r.place) + "</b>" + fc +
+        '<span class="wext" style="margin-top:4px"><b>' + (FCW[lang] || FCW.en).now + ":</b> " + t +
+        (bits.length ? " · " + bits.join(" · ") : "") + "</span></div>";
     }).join("") + warnBar() + '<div class="note">' + T.mmnote + "</div>";
+    if (d.forecast && Object.keys(d.forecast).length)   // the heading leads the card
+      el("weatherStrip").insertAdjacentHTML("afterbegin", '<div class="note" style="grid-column:1/-1;font-weight:700;color:var(--ink)">' + (FCW[lang] || FCW.en).head + "</div>");
 
     var trails = (d.trails || []).slice();
     var byPop = function (a, b) { return (b.popular - a.popular) || a.code.localeCompare(b.code, undefined, { numeric: true }); };

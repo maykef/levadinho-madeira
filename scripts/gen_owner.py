@@ -142,7 +142,7 @@ def main():
                   f'<span class="owner" style="display:block;margin-top:6px">{LINE[lang]}{about}</span>',
                   r"</footer>")
         if "goatcounterCode" in new:  # engagement events (owner, 2026-10-07): /engage.js, sends only when GoatCounter loaded
-            new = put(new, "ENGAGE", '<script src="/engage.js" defer></script><script src="/alert.js" defer></script>', r"</body>")
+            new = put(new, "ENGAGE", '<script src="/engage.js" defer></script><script src="/alert.js?v=20261108f" defer></script>', r"</body>")
         if has_all_languages(rel):
             new = put(new, "LANGMATCH", "\n" + LANGMATCH + "\n", r'<meta charset="UTF-8">', before=False)
         if str(rel) in HOMES:

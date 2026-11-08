@@ -78,6 +78,7 @@ import requests
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import storm  # noqa: E402  blanket closures + IPMA warnings (2026-10-10)
+import ipma_forecast  # noqa: E402  IPMA 5-day forecast + "bad weather coming" outlook (2026-11-08)
 
 IFCN_UPDATED = ""   # the "ATUALIZADO: dd/mm/yyyy" date printed on the IFCN page, set by ifcn_statuses()
 IFCN_AVISOS = ("https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos"
@@ -291,8 +292,7 @@ def ifcn_statuses():
     Fails loud (rule 3) on any fetch or structure problem. Porto Santo items
     and codes outside PAGES are excluded with a log line.
     """
-    r = requests.get(IFCN_AVISOS, headers=UA, timeout=30)
-    r.raise_for_status()
+    r = storm.patient_get(IFCN_AVISOS, headers=UA)   # slow server: up to 4 attempts over ~3.5 min
     page = r.text
 
     upd = re.search(r"ATUALIZADO:\s*(\d{1,2}/\d{1,2}/\d{4})", page)
@@ -366,8 +366,7 @@ def note_text(segments, lang=NOTE_SOURCE_LANG, texts=None):
 def visit_madeira_statuses():
     """Secondary source: {code: status} from the Visit Madeira hiking index.
     Called only when IFCN omits a PAGES trail; fails loud if unusable."""
-    r = requests.get(TRAILS_INDEX, headers=UA, timeout=30)
-    r.raise_for_status()
+    r = storm.patient_get(TRAILS_INDEX, headers=UA)
     out = {}
     for m in VM_TRAIL_RE.finditer(r.text):
         raw = m.group(1)
@@ -1188,6 +1187,14 @@ def main():
         except ValueError:
             pass
     ipma = storm.ipma_alert()
+    try:   # degrades gracefully, like the weather: yesterday's forecast (if any) rather than none
+        forecast = ipma_forecast.fetch()
+    except Exception as e:  # noqa: BLE001
+        print(f"ipma forecast failed, keeping the previous one: {e}", file=sys.stderr)
+        try:
+            forecast = json.load(open(STATUS_JSON, encoding="utf-8")).get("forecast") or {}
+        except (OSError, ValueError):
+            forecast = {}
     if storm.apply(trails, blanket):
         print(f"storm: IFCN blanket closure in force -> all {len(trails)} trails CLOSED", file=sys.stderr)
     apply_trail_closures(trails, storm.trail_closures())
@@ -1247,8 +1254,11 @@ def main():
         "trails": trails,
         # Storm-ready banner (scripts/storm.py): blanket IFCN closure and/or orange/red IPMA warning; null = none.
         "alert": alert,
-        # Every IPMA warning for Madeira (yellow and up) in force or within 24 h, for the weather card (owner, 2026-11-08).
+        # Every IPMA warning for Madeira (yellow and up) not yet over, the whole feed (~3 days), for the weather card.
         "ipma_warnings": ipma.get("all", []) if ipma.get("ok") else [],
+        # IPMA's 5-day forecast for the five card places and the "bad weather coming" outlook (owner, 2026-11-08).
+        "forecast": forecast,
+        "outlook": ipma_forecast.outlook(forecast, ipma.get("all") if ipma.get("ok") else []),
     }
     with open(STATUS_JSON, "w") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)

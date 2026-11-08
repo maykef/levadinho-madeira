@@ -57,7 +57,7 @@ def tell(lines):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+    now = datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")
     lines, n_new = [], {"ifcn": 0, "ipma": 0}
 
     # IFCN AVISOS (storm.notices exits non-zero when the page structure changed)
@@ -97,6 +97,16 @@ def main():
             n_new["ipma"] += 1
             lines.append(f"- {now} IPMA {rec['level']} warning, {rec['area']}: {rec['type']} {rec['start']}→{rec['end']} "
                          f"{rec['text']}".rstrip())
+
+    # IPMA's 5-day forecast for the card's five places + its outlook, one snapshot per run (how early IPMA called it)
+    try:
+        import ipma_forecast
+        fc = ipma_forecast.fetch()
+        with open(os.path.join(OUT, "forecast.jsonl"), "a", encoding="utf-8") as f:
+            f.write(json.dumps({"at": now, "forecast": fc, "outlook": ipma_forecast.outlook(fc, storm.ipma_alert().get("all", []))},
+                               ensure_ascii=False) + "\n")
+    except Exception as e:  # noqa: BLE001
+        print("forecast snapshot failed:", e, file=sys.stderr)
 
     if "--seed" in sys.argv:                      # first run: archive what is already out, tell nobody
         lines = []

@@ -31,6 +31,7 @@ import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import storm  # noqa: E402
+import ipma_forecast  # noqa: E402  "bad weather coming" outlook (2026-11-08)
 
 REPO = "maykef/levadinho-madeira"
 SITE_STATUS = "https://levadinho-madeira.com/status.json"
@@ -139,7 +140,19 @@ def main(dry):
     if social_err:
         rec["social_errors"] = social_err
 
+    # IPMA's "bad weather coming" outlook (owner, 2026-11-08): the bad days the forecast shows now vs the site's.
+    try:
+        src_out = ipma_forecast.outlook(ipma_forecast.fetch(), ipma.get("all") if ipma.get("ok") else [])
+        src_days = [(d["date"], d["reasons"]) for d in (src_out or {}).get("days", [])]
+    except Exception as e:  # noqa: BLE001
+        src_days = None
+        rec["outlook_error"] = repr(e)
+    site_days = [(d["date"], d["reasons"]) for d in ((site_all or {}).get("outlook") or {}).get("days", [])]
+    rec.update(outlook=[d for d, _r in src_days] if src_days is not None else "unknown", site_outlook=[d for d, _r in site_days])
+
     reasons = []
+    if site is not None and src_days is not None and src_days != site_days:
+        reasons.append(f"IPMA outlook {[d for d, _r in src_days]} vs site {[d for d, _r in site_days]}")
     if site is not None:
         if b.get("state") != "unknown" and b.get("state") != site.get("blanket"):
             reasons.append(f"IFCN blanket {b.get('state')} vs site {site.get('blanket')}")
@@ -151,7 +164,7 @@ def main(dry):
         site_closed = (site or {}).get("blanket") in ("closed", "announced")
         if (s["kind"] == "closure") != site_closed:
             reasons.append(f"{s['source']} says {s['kind']} ({s['posted']})")
-    active = b.get("state") in ("closed", "announced") or (ipma.get("ok") and ipma.get("level"))
+    active = b.get("state") in ("closed", "announced") or (ipma.get("ok") and ipma.get("level")) or bool(src_days)
     last = state.get("last_trigger")
     mins = (now - datetime.datetime.fromisoformat(last)).total_seconds() / 60 if last else 1e9
     if active and mins >= ACTIVE_EVERY_MIN:

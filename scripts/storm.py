@@ -73,12 +73,35 @@ def _get(url, fixture_env):
         return open(fx, encoding="utf-8").read()
     if url in _PAGES:                      # one fetch per run: blanket() and trail_closures() read the same page
         return _PAGES[url]
-    import requests
-    r = requests.get(url, headers=UA, timeout=30)
-    r.raise_for_status()
+    r = patient_get(url)
     r.encoding = r.encoding or "utf-8"
     _PAGES[url] = r.text
     return r.text
+
+
+PATIENT_WAITS = (20, 60, 120)   # seconds between attempts (owner, 2026-11-08: "IFCN is very slow, but not down")
+
+
+def patient_get(url, headers=None):
+    """GET with a long timeout and 4 attempts over ~3.5 min: IFCN's server is slow and sometimes answers 404/5xx for a
+    moment. Raises the last error when every attempt failed (the callers fail loud or fall back, as before)."""
+    import time
+    import requests
+    last = None
+    for wait in (0,) + PATIENT_WAITS:
+        if wait:
+            print(f"slow source, retrying in {wait} s: {url} ({last})", file=sys.stderr)
+            time.sleep(wait)
+        try:
+            r = requests.get(url, headers=headers or UA, timeout=(30, 120))
+            r.raise_for_status()
+            return r
+        except requests.RequestException as e:
+            last = e
+            code = getattr(getattr(e, "response", None), "status_code", None)
+            if code is not None and 400 <= code < 500 and code not in (404, 408, 429):
+                break                       # a real client error: waiting won't help
+    raise last
 
 
 def _text(fragment):
@@ -296,7 +319,8 @@ def closure_text(c, detail):
 
 
 def ipma_alert(raw=None):
-    """Yellow/orange/red IPMA warnings for Madeira in force now or within 24 h -> {"ok", "level", "warnings": [...]}."""
+    """"all": every IPMA warning for Madeira not yet over (the whole feed, ~3 days: weather card + outlook).
+    "level"/"warnings": yellow/orange/red IPMA warnings for Madeira in force now or within 24 h -> {"ok", "level", "warnings": [...]}."""
     try:
         data = json.loads(raw if raw is not None else _get(IPMA_WARNINGS, "STORM_FIXTURE_IPMA"))
         now = _now()
@@ -308,14 +332,14 @@ def ipma_alert(raw=None):
                 continue
             start = datetime.datetime.fromisoformat(w["startTime"]).replace(tzinfo=TZ)
             end = datetime.datetime.fromisoformat(w["endTime"]).replace(tzinfo=TZ)
-            if end <= now or start > horizon:
+            if end <= now:
                 continue
             gust = re.search(r"Rajadas\s+at[ée]\s+(\d+)\s*km/h", w.get("text") or "", re.I)
             every.append({"area": MADEIRA_AREAS[area], "type": TYPE_KEY.get(w.get("awarenessTypeName", ""), "other"),
                           "level": level, "start": w["startTime"][:16], "end": w["endTime"][:16],
                           "now": start <= now, "gust": int(gust.group(1)) if gust else None})
-            if level not in LEVELS or w.get("awarenessTypeName") == "Agitação Marítima":   # sea alone never closes trails
-                continue
+            if start > horizon or level not in LEVELS or w.get("awarenessTypeName") == "Agitação Marítima":
+                continue    # storm mode: within 24 h only, and sea alone never closes trails; "all" keeps the whole feed
             found.append({"area": MADEIRA_AREAS[area], "type": w.get("awarenessTypeName", ""), "level": level,
                           "start": w["startTime"], "end": w["endTime"], "now": start <= now})
         top = max((LEVELS[f["level"]] for f in found), default=0)

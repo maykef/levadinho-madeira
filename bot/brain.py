@@ -1261,20 +1261,74 @@ STORM_LEAD = {
 STORM_TOLD_S = 6 * 3600   # told within the last 6 h -> don't repeat it on every reply
 
 
+# "Bad weather coming" (owner, 2026-11-08): when IPMA's forecast or a later IPMA warning shows bad weather in the next
+# days (status.json "outlook", scripts/ipma_forecast.py) and nothing is closed yet, the first reply leads with it.
+# Same words as the site's banner (alert.js). Day names, never dates.
+OUTLOOK_LEAD = {
+    "en": "🌧️ *Bad weather coming.* IPMA forecast for Madeira: {what} {days}. During past warnings IFCN closed all classified trails: book flexibly and check before you go.",
+    "pt": "🌧️ *Mau tempo a caminho.* Previsão do IPMA para a Madeira: {what} {days}. Em avisos anteriores o IFCN encerrou todos os percursos classificados: reserve com flexibilidade e confirme antes de ir.",
+    "fr": "🌧️ *Mauvais temps en approche.* Prévision de l'IPMA pour Madère : {what} {days}. Lors d'avis précédents, l'IFCN a fermé tous les sentiers classés : réservez avec souplesse et vérifiez avant de partir.",
+    "de": "🌧️ *Schlechtes Wetter im Anmarsch.* IPMA-Vorhersage für Madeira: {what} {days}. Bei früheren Warnungen hat das IFCN alle klassifizierten Wege gesperrt: Buchen Sie flexibel und prüfen Sie vor dem Losgehen.",
+    "pl": "🌧️ *Nadchodzi zła pogoda.* Prognoza IPMA dla Madery: {what} {days}. Podczas wcześniejszych ostrzeżeń IFCN zamykał wszystkie sklasyfikowane szlaki: rezerwuj elastycznie i sprawdź przed wyjściem.",
+}
+OUTLOOK_WORDS = {
+    "en": {"heavy_rain": "heavy rain", "thunder": "thunderstorms", "strong_wind": "strong wind", "hail": "hail", "snow": "snow", "warning": "an IPMA {lvl} warning", "today": "today", "and": "and",
+           "lvl": {"yellow": "yellow", "orange": "orange", "red": "red"},
+           "days": ["on Monday", "on Tuesday", "on Wednesday", "on Thursday", "on Friday", "on Saturday", "on Sunday"]},
+    "pt": {"heavy_rain": "chuva forte", "thunder": "trovoada", "strong_wind": "vento forte", "hail": "granizo", "snow": "neve", "warning": "aviso {lvl} do IPMA", "today": "hoje", "and": "e",
+           "lvl": {"yellow": "amarelo", "orange": "laranja", "red": "vermelho"},
+           "days": ["na segunda-feira", "na terça-feira", "na quarta-feira", "na quinta-feira", "na sexta-feira", "no sábado", "no domingo"]},
+    "fr": {"heavy_rain": "fortes pluies", "thunder": "orages", "strong_wind": "vent fort", "hail": "grêle", "snow": "neige", "warning": "vigilance {lvl} de l'IPMA", "today": "aujourd'hui", "and": "et",
+           "lvl": {"yellow": "jaune", "orange": "orange", "red": "rouge"},
+           "days": ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]},
+    "de": {"heavy_rain": "Starkregen", "thunder": "Gewitter", "strong_wind": "starker Wind", "hail": "Hagel", "snow": "Schnee", "warning": "IPMA-Warnstufe {lvl}", "today": "heute", "and": "und",
+           "lvl": {"yellow": "Gelb", "orange": "Orange", "red": "Rot"},
+           "days": ["am Montag", "am Dienstag", "am Mittwoch", "am Donnerstag", "am Freitag", "am Samstag", "am Sonntag"]},
+    "pl": {"heavy_rain": "ulewny deszcz", "thunder": "burze", "strong_wind": "silny wiatr", "hail": "grad", "snow": "śnieg", "warning": "ostrzeżenie IPMA ({lvl})", "today": "dziś", "and": "i",
+           "lvl": {"yellow": "żółte", "orange": "pomarańczowe", "red": "czerwone"},
+           "days": ["w poniedziałek", "we wtorek", "w środę", "w czwartek", "w piątek", "w sobotę", "w niedzielę"]},
+}
+
+
+def outlook_line(status, lang):
+    """The OUTLOOK_LEAD sentence for today onward, or None."""
+    import datetime as _dt
+    import zoneinfo as _zi
+    o = (status or {}).get("outlook") or {}
+    today = _dt.datetime.now(_zi.ZoneInfo("Atlantic/Madeira")).date().isoformat()
+    days = [d for d in o.get("days", []) if d.get("date", "") >= today][:4]
+    if not days:
+        return None
+    W = OUTLOOK_WORDS.get(lang) or OUTLOOK_WORDS["en"]
+    what = []
+    for d in days:
+        for r in d.get("reasons", []):
+            w = W["warning"].format(lvl=W["lvl"].get(r[8:], r[8:])) if r.startswith("warning_") else W.get(r)
+            if w and w not in what:
+                what.append(w)
+    names = [W["today"] if d["date"] == today else W["days"][_dt.date.fromisoformat(d["date"]).weekday()] for d in days]
+    day_str = names[0] if len(names) == 1 else ", ".join(names[:-1]) + f" {W['and']} " + names[-1]
+    return (OUTLOOK_LEAD.get(lang) or OUTLOOK_LEAD["en"]).format(what=", ".join(what), days=day_str)
+
+
 def storm_lead(user, reply, lang):
     """Prefix STORM_LEAD during a blanket closure, once per visitor per 6 h. Not on the web chat: chat.js opens with
     the same line on every page in storm mode, so the visitor has just read it."""
     if str(user).startswith("web:"):
         return reply
     try:
-        if ((live_status().get("alert") or {}).get("blanket")) != "closed":
-            return reply
+        st = live_status()
+        if ((st.get("alert") or {}).get("blanket")) == "closed":
+            line = STORM_LEAD.get(lang) or STORM_LEAD["en"]
+        else:   # nothing closed: IPMA's "bad weather coming" outlook, if any
+            line = outlook_line(st, lang)
     except Exception:  # noqa: BLE001
         return reply
-    line = STORM_LEAD.get(lang) or STORM_LEAD["en"]
-    told = any(m.get("role") == "assistant" and (m.get("content") or "").startswith("⚠️ *")
+    if not line:
+        return reply
+    told = any(m.get("role") == "assistant" and (m.get("content") or "").startswith(("⚠️ *", "🌧️ *"))
                for m in store.history(user, time.time() - STORM_TOLD_S))
-    return reply if told or (reply or "").startswith("⚠️ *") else f"{line}\n\n{reply}"
+    return reply if told or (reply or "").startswith(line[:4]) else f"{line}\n\n{reply}"
 
 
 def answer(user, text, lang, meta=None, c=None):

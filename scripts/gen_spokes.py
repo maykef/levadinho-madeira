@@ -778,7 +778,7 @@ const CONFIG = {{ goatcounterCode: "madeira-levadinho" }};
 {preload}
 {alts}
 
-<script src="/status.js" defer></script>
+<script src="/status.js?v=20261108f" defer></script>
 
 <script type="application/ld+json">
 {json.dumps(faq, ensure_ascii=False, indent=2)}
