@@ -1,39 +1,7 @@
 {
- "stamp": "2026-11-06T07:31+00:00",
+ "stamp": "2026-11-08T09:24+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-06",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:28",
-   "sunset": "18:13",
-   "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 100,
-    "wtype": 7,
-    "uv": 3.9
-   },
-   "fair": null
-  },
-  {
-   "date": "2026-11-07",
-   "type": "saturday",
-   "holiday": null,
-   "bus": "saturday",
-   "sunrise": "07:29",
-   "sunset": "18:13",
-   "weather": {
-    "tmin": 20,
-    "tmax": 24,
-    "rain": 100,
-    "wtype": 6,
-    "uv": 2.9
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-08",
    "type": "sunday",
@@ -42,11 +10,11 @@
    "sunrise": "07:30",
    "sunset": "18:12",
    "weather": {
-    "tmin": 20,
+    "tmin": 21,
     "tmax": 24,
     "rain": 100,
     "wtype": 20,
-    "uv": 3.7
+    "uv": 3.1
    },
    "fair": null
   },
@@ -60,9 +28,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 24,
-    "rain": 96,
+    "rain": 100,
     "wtype": 7,
-    "uv": 3.4
+    "uv": 3.7
    },
    "fair": null
   },
@@ -76,9 +44,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 24,
-    "rain": 98,
-    "wtype": 7,
-    "uv": null
+    "rain": 100,
+    "wtype": 9,
+    "uv": 1.7
    },
    "fair": null
   },
@@ -89,7 +57,13 @@
    "bus": "weekday",
    "sunrise": "07:33",
    "sunset": "18:10",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 26,
+    "rain": 98,
+    "wtype": 8,
+    "uv": 4.0
+   },
    "fair": null
   },
   {
@@ -99,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:34",
    "sunset": "18:09",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 24,
+    "wtype": 2,
+    "uv": null
+   },
    "fair": {
     "theme": "handcraft",
     "pt": "Artesanato",
@@ -187,6 +167,26 @@
     ],
     "url": "https://mercados.funchal.pt/feiras-tematicas-novembro-2026-mercado-dos-lavradores/"
    }
+  },
+  {
+   "date": "2026-11-20",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:41",
+   "sunset": "18:05",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-11-21",
+   "type": "saturday",
+   "holiday": null,
+   "bus": "saturday",
+   "sunrise": "07:42",
+   "sunset": "18:04",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -206,15 +206,6 @@
    "end": "2026-11-25",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Concert with Misha Katz & Dmitry Demyashkin | OCM",
-   "venue": "",
-   "start": "2026-11-07",
-   "end": "2026-11-07",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/concert-with-misha-katz-dmitry-demyashkin-ocm/",
    "src": "eventsmadeira.com"
   },
   {
@@ -279,51 +270,42 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/nomadis-dance-project/",
    "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Chamber Music Concert – Legno Duo | OCM",
+   "venue": "",
+   "start": "2026-11-21",
+   "end": "2026-11-21",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/chamber-music-concert-legno-duo-ocm/",
+   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-11-06",
+  "date": "2026-11-08",
   "sst": 22,
   "wave": [
-   0.6,
-   0.9
+   0.2,
+   3.0
   ],
   "warnings": [
    {
-    "type": "Precipitação",
-    "level": "orange",
-    "start": "2026-11-07T18:00:00",
-    "end": "2026-11-08T03:00:00"
-   },
-   {
     "type": "Vento",
-    "level": "orange",
-    "start": "2026-11-07T18:00:00",
-    "end": "2026-11-08T00:00:00"
+    "level": "yellow",
+    "start": "2026-11-08T09:00:00",
+    "end": "2026-11-08T21:00:00"
    },
    {
-    "type": "Precipitação",
+    "type": "Agitação Marítima",
     "level": "yellow",
-    "start": "2026-11-06T00:00:00",
-    "end": "2026-11-06T15:00:00"
+    "start": "2026-11-08T12:00:00",
+    "end": "2026-11-09T06:00:00"
    },
    {
     "type": "Precipitação",
     "level": "yellow",
-    "start": "2026-11-07T12:00:00",
-    "end": "2026-11-07T18:00:00"
-   },
-   {
-    "type": "Vento",
-    "level": "yellow",
-    "start": "2026-11-07T12:00:00",
-    "end": "2026-11-07T18:00:00"
-   },
-   {
-    "type": "Vento",
-    "level": "yellow",
-    "start": "2026-11-08T00:00:00",
-    "end": "2026-11-08T03:00:00"
+    "start": "2026-11-08T12:00:00",
+    "end": "2026-11-08T18:00:00"
    }
   ]
  },
