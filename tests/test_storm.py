@@ -89,7 +89,22 @@ class Ipma(unittest.TestCase):
             {"idAreaAviso": "MCN", "awarenessLevelID": "yellow", "awarenessTypeName": "Vento",
              "startTime": "2026-05-05T06:00:00", "endTime": "2026-05-05T21:00:00", "text": ""}])
         a = storm.ipma_alert(raw)
-        self.assertEqual((a["level"], len(a["warnings"]), a["warnings"][0]["now"]), ("orange", 1, True))
+        # yellow counts in storm mode since 2026-11-08 (owner); Porto Santo never does
+        self.assertEqual((a["level"], len(a["warnings"]), a["warnings"][0]["now"]), ("orange", 2, True))
+        self.assertEqual(len(a["all"]), 2)
+
+    def test_yellow_counts_sea_alone_does_not(self):
+        os.environ["STORM_NOW"] = "2026-11-08T10:00:00"
+        raw = json.dumps([
+            {"idAreaAviso": "MCS", "awarenessLevelID": "yellow", "awarenessTypeName": "Agitação Marítima",
+             "startTime": "2026-11-08T12:00:00", "endTime": "2026-11-09T06:00:00", "text": ""}])
+        a = storm.ipma_alert(raw)
+        self.assertEqual((a["level"], len(a["warnings"]), len(a["all"])), (None, 0, 1))   # card yes, storm mode no
+        raw = json.dumps([
+            {"idAreaAviso": "MRM", "awarenessLevelID": "yellow", "awarenessTypeName": "Vento",
+             "startTime": "2026-11-08T09:00:00", "endTime": "2026-11-08T21:00:00", "text": "Rajadas até 110 km/h."}])
+        a = storm.ipma_alert(raw)
+        self.assertEqual((a["level"], a["all"][0]["gust"]), ("yellow", 110))
 
     def test_orange_tomorrow_counts_expired_does_not(self):
         os.environ["STORM_NOW"] = "2026-05-04T20:00:00"
