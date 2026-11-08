@@ -115,7 +115,8 @@ def classify(text):
 
 
 def blanket(page_html=None):
-    """{"state": None|"closed"|"announced", "from": date|None, "reopen": date|None, "text": pt notice, "source": url}"""
+    """{"state": None|"closed"|"announced", "from": date|None, "reopen": date|None, "text": pt notice, "source": url}
+    (+ "last": the last day a dated closure notice names; update_status uses it with IFCN's restored list)."""
     today = _today()
     items = notices(page_html if page_html is not None else _get(IFCN_AVISOS_CAT, "STORM_FIXTURE_IFCN"))
     out = {"state": None, "from": None, "reopen": None, "text": "", "source": IFCN_AVISOS_CAT}
@@ -130,6 +131,8 @@ def blanket(page_html=None):
         if kind == "closure":
             ds = _dates(text, today)
             start = min(ds) if ds else None
+            if ds:   # last day the notice names. It does NOT end the closure: in March 2026 "encerrados no dia 03"
+                out["last"] = max(ds).isoformat()   # stayed closed on the 4th, reopened by a notice on the 5th
             if start and start > today:
                 out.update(state="announced", **{"from": start.isoformat()}, text=text)
             else:

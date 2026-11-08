@@ -1147,14 +1147,24 @@ def main():
     try:
         trails, notes = build_trails()
     except requests.RequestException as e:
-        if blanket.get("state") != "closed":
-            raise
-        print(f"storm: IFCN trail list unavailable ({e}) during a blanket closure -> previous board as base",
-              file=sys.stderr)
         prev = json.load(open(STATUS_JSON, encoding="utf-8"))["trails"]
-        trails = [{k: t[k] for k in ("code", "name", "fee", "region", "popular")}
-                  | {"status": t.get("ifcn_status") or t["status"]} for t in prev]
+        base = [{k: t[k] for k in ("code", "name", "fee", "region", "popular")} for t in prev]
         notes = {}
+        if blanket.get("state") == "closed":
+            print(f"storm: IFCN trail list unavailable ({e}) during a blanket closure -> previous board as base",
+                  file=sys.stderr)
+            trails = [b | {"status": t.get("ifcn_status") or t["status"]} for b, t in zip(base, prev)]
+        else:
+            # After the closure (owner, 2026-11-08: the reopening must be caught) IFCN may still have its list down:
+            # take every trail's status from the Visit Madeira index (the Region's official tourism site, the existing
+            # secondary source) rather than failing and leaving "all closed" up. Fails loud if that is unusable too.
+            vm = visit_madeira_statuses()
+            missing = [b["code"] for b in base if b["code"] not in vm]
+            if missing:
+                sys.exit(f"FATAL: IFCN list down ({e}) and Visit Madeira lacks {', '.join(missing)}")
+            print(f"storm: IFCN trail list unavailable ({e}), no closure in force -> all statuses from Visit Madeira",
+                  file=sys.stderr)
+            trails = [b | {"status": vm[b["code"]]} for b in base]
     for t in trails:
         if t["code"] in notes:
             t["note"] = oneway_note(t["code"], notes[t["code"]]) or translate_note(notes[t["code"]])
@@ -1164,6 +1174,19 @@ def main():
 
     # Storm-ready status (2026-10-10, scripts/storm.py): a blanket closure notice from IFCN closes every trail
     # (fails loud like the main scrape); orange/red IPMA warnings only drive the banner (degrade gracefully).
+    # The closure stays until IFCN posts a reopening notice (storm.blanket). Second way out (owner, 2026-11-08): IFCN may
+    # just put its trail list back instead. Once the notice's last day has passed, a list that loads again and carries
+    # an "ATUALIZADO" date after that day wins over the old notice.
+    if blanket.get("state") == "closed" and blanket.get("last") and IFCN_UPDATED:
+        try:
+            upd = datetime.datetime.strptime(IFCN_UPDATED, "%d/%m/%Y").date()
+            last = datetime.date.fromisoformat(blanket["last"])
+            if last < now.date() and upd > last:
+                print(f"storm: IFCN list is back (ATUALIZADO {IFCN_UPDATED}) after the closure of {blanket['last']} -> "
+                      "the list decides", file=sys.stderr)
+                blanket = dict(blanket, state=None)
+        except ValueError:
+            pass
     ipma = storm.ipma_alert()
     if storm.apply(trails, blanket):
         print(f"storm: IFCN blanket closure in force -> all {len(trails)} trails CLOSED", file=sys.stderr)

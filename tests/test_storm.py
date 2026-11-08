@@ -69,6 +69,18 @@ class Blanket(unittest.TestCase):
         with self.assertRaises(SystemExit):
             storm.blanket("<html>nothing here</html>")
 
+    def test_dated_closure_stays_and_keeps_its_last_day(self):   # the 8 Nov 2026 fire test notice
+        txt = ("O Instituto das Florestas e Conservação da Natureza informa que todos os percursos pedestres classificados "
+               "da Região Autónoma da Madeira estarão encerrados no dia 8 de novembro de 2026, na sequência do aviso "
+               "meteorológico emitido pelo IPMA.")
+        os.environ["STORM_TODAY"] = "2026-11-07"
+        self.assertEqual(storm.blanket(page(txt))["state"], "announced")
+        os.environ["STORM_TODAY"] = "2026-11-08"
+        self.assertEqual(storm.blanket(page(txt))["state"], "closed")
+        os.environ["STORM_TODAY"] = "2026-11-09"   # still closed (March 2026 precedent), last day kept for the list check
+        b = storm.blanket(page(txt))
+        self.assertEqual((b["state"], b["last"]), ("closed", "2026-11-08"))
+
     def test_apply_closes_every_trail(self):
         trails = [{"code": "PR1", "status": "PARTIAL"}, {"code": "PR6", "status": "OPEN"}]
         os.environ["STORM_TODAY"] = "2026-03-03"
