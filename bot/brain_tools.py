@@ -134,6 +134,11 @@ PR1_TIME = ("PR1 is open every day unless the status says otherwise; there is no
 # got MB WAY only; "sunrise without a ticket?" got a flat "Yes")
 PAY_Q = re.compile(r"\bpa(y|ie|yer|yment)|pag(ar|amento|o)|mb ?way|multibanco|\bcard|cart(ão|ao|e)|zahl|karte|płac|kart", re.I)
 SUNRISE_Q = re.compile(r"sunrise|nascer do sol|lever du soleil|sonnenaufgang|wsch[oó]d", re.I)
+# "when will it reopen / will it be open tomorrow?" (the storm chip's question): the model called trail_status only and
+# never weather_forecast (8 Nov, 6 of 6 replays; for "the trails" it picked other tools), so while the trail or every
+# trail is closed the forecast is looked up first, like the page and search prefetch (answer())
+REOPEN_Q = re.compile(r"re-?open|open again|be open|open (tomorrow|on|next)|reabr|voltar? a abrir|abr(e|em|ir[aã]o?) "
+                      r"(amanh|de novo|outra)|rouvr|ouvert|wieder (offen|geöffnet|öffn)|öffnen .*wieder|otwar", re.I)
 TICKET_Q = re.compile(r"ticket|bilhete|billet|karte|bilet|book|reserv|pay|pag|fee|taxa", re.I)
 PAY_RULE = ("The visitor asks how to pay: name ALL three methods, even if they ask about one — Multibanco, credit card "
             "(Visa, Mastercard) and MB WAY — and say Multibanco and MB WAY need a Portuguese bank account, so "
@@ -398,6 +403,28 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                       "function": {"name": "search", "arguments": json.dumps(args, ensure_ascii=False)}}]},
                      {"role": "tool", "tool_call_id": "prefetch-search",
                       "content": json.dumps(found, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
+    if REOPEN_Q.search(search_text or text):
+        st = kbtools._fc5_status()
+        code = kbtools.resolve_trail(search_text or text)
+        pm = re.search(r"OUR PAGE FOR (PR[\d.]+)", page_hint)
+        code = code or (pm.group(1) if pm else None)
+        row = next((t for t in st.get("trails", []) if t.get("code") == code), {}) if code else {}
+        if (st.get("alert") or {}).get("blanket") == "closed" or row.get("status") == "CLOSED":
+            args = {"trail": code} if code else {}
+            t = time.time()
+            fc = run_tool("weather_forecast", args, lang)
+            trace.append({"tool": "weather_forecast", "args": args, "ms": int((time.time() - t) * 1000),
+                          "error": fc.get("error"), "prefetch": True})
+            if not fc.get("error"):
+                fc = {"how_to_answer": ["The visitor asks when the trail(s) reopen: say they are closed now, then copy "
+                                        "text (heading and day lines) as written, no weather emoji, then: whether a "
+                                        "closed trail reopens is IFCN's decision and we can't predict it; check the "
+                                        "status that morning (it updates as soon as IFCN changes its list) and book "
+                                        "flexibly."], **fc}
+            messages += [{"role": "assistant", "content": "", "tool_calls": [{"id": "prefetch-forecast", "type": "function",
+                          "function": {"name": "weather_forecast", "arguments": json.dumps(args)}}]},
+                         {"role": "tool", "tool_call_id": "prefetch-forecast",
+                          "content": json.dumps(fc, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
     blocked = set()   # 8 Nov test: a misfired day_plan was called three times in a row (each plan in turn)
     for n in range(MAX_ROUNDS):
         # round 1 must call a tool: with "auto" the model answers from memory and invents facts (tested 2026-10-07)
