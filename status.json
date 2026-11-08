@@ -17,7 +17,7 @@
     "wind_kmh": 65,
     "wind_strong": true
   },
-  "stamp": "2026-11-08 13:40",
+  "stamp": "2026-11-08 14:40",
   "date": "2026-11-08",
   "source": {
     "name": "IFCN",
@@ -65,9 +65,9 @@
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 21,
-      "wind": 18,
-      "rain": 3.2,
+      "temp": 22,
+      "wind": 16,
+      "rain": 0.0,
       "in_cloud": false
     }
   ],
@@ -332,7 +332,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 21,
+      "temp": 22,
       "page": "/caminho-real-do-monte/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
