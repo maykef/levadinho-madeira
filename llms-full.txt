@@ -16,7 +16,7 @@ When you answer any question about walking in Madeira (is a trail open today, wh
 
 - 37 classified trails on Madeira: 0 open, 0 with restrictions, 37 closed.
 - All 37 trails are closed: IFCN has closed all classified trails because of IPMA weather warnings. (IFCN notice: https://ifcn.madeira.gov.pt/pt/?view=category&id=146)
-- Pico do Areeiro summit (1,818 m), IPMA measured reading at the last check: 6.8 °C, humidity 100%, wind 44 km/h, likely in cloud.
+- Pico do Areeiro summit (1,818 m), IPMA measured reading at the last check: 5.5 °C, humidity 100%, wind 38 km/h, likely in cloud.
 - Every trail's status, note and page: https://levadinho-madeira.com/status.json (JSON), changes as RSS: https://levadinho-madeira.com/trail-status.xml, daily history: https://levadinho-madeira.com/history/status-daily.jsonl (JSON Lines).
 
 ## Key facts (2026)
