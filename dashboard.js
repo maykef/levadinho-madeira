@@ -17,6 +17,7 @@
       wind: "wind", rain: "rain", fog: "likely in cloud",
       today: "Today's status →", nomatch: "No trail matches that.",
       mmnote: "mountain ≠ coast; fog and wind change fast up high.",
+      wlevel: {"yellow":"Yellow warning","orange":"Orange warning","red":"Red warning"}, wtype: {"wind":"wind","rain":"rain","thunder":"thunderstorms","fog":"fog","snow":"snow","sea":"rough sea","heat":"heat","cold":"cold","other":"weather"}, wgust: "gusts up to", wuntil: "until", wtomorrow: "tomorrow", wsrc: "IPMA",
       loading: "Live status is loading… if it doesn't appear, check the official sources below.",
       xfNoVert: "No vertigo", xfTunnels: "Has tunnels",
       xfNote: "Only trails with sourced tunnel/vertigo data are shown (mostly IFCN trailhead panels)."
@@ -33,6 +34,7 @@
       wind: "vento", rain: "chuva", fog: "provavelmente dentro das nuvens",
       today: "Estado de hoje →", nomatch: "Nenhum percurso corresponde à pesquisa.",
       mmnote: "montanha ≠ costa; o nevoeiro e o vento mudam depressa em altitude.",
+      wlevel: {"yellow":"Aviso amarelo","orange":"Aviso laranja","red":"Aviso vermelho"}, wtype: {"wind":"vento","rain":"chuva","thunder":"trovoada","fog":"nevoeiro","snow":"neve","sea":"agitação marítima","heat":"tempo quente","cold":"tempo frio","other":"tempo"}, wgust: "rajadas até", wuntil: "até", wtomorrow: "amanhã", wsrc: "IPMA",
       loading: "O estado em direto está a carregar… se não aparecer, consulte as fontes oficiais abaixo.",
       xfNoVert: "Sem vertigens", xfTunnels: "Com túneis",
       xfNote: "Só são mostrados os percursos com dados documentados sobre túneis/vertigens (sobretudo painéis do IFCN).",
@@ -50,6 +52,7 @@
       wind: "vent", rain: "pluie", fog: "sans doute dans les nuages",
       today: "État du jour →", nomatch: "Aucun sentier ne correspond.",
       mmnote: "montagne ≠ côte ; le brouillard et le vent changent vite en altitude.",
+      wlevel: {"yellow":"Vigilance jaune","orange":"Vigilance orange","red":"Vigilance rouge"}, wtype: {"wind":"vent","rain":"pluie","thunder":"orages","fog":"brouillard","snow":"neige","sea":"mer agitée","heat":"chaleur","cold":"froid","other":"météo"}, wgust: "rafales jusqu'à", wuntil: "jusqu'à", wtomorrow: "demain", wsrc: "IPMA",
       xfNoVert: "Sans vertige", xfTunnels: "Avec tunnels",
       xfNote: "Seuls les sentiers avec des données sourcées sur les tunnels et le vertige sont affichés (surtout les panneaux IFCN)."
     },
@@ -65,6 +68,7 @@
       wind: "Wind", rain: "Regen", fog: "wohl in Wolken",
       today: "Heutiger Status →", nomatch: "Kein Weg passt dazu.",
       mmnote: "Berg ≠ Küste; Nebel und Wind ändern sich oben schnell.",
+      wlevel: {"yellow":"Warnstufe Gelb","orange":"Warnstufe Orange","red":"Warnstufe Rot"}, wtype: {"wind":"Wind","rain":"Regen","thunder":"Gewitter","fog":"Nebel","snow":"Schnee","sea":"hoher Seegang","heat":"Hitze","cold":"Kälte","other":"Wetter"}, wgust: "Böen bis", wuntil: "bis", wtomorrow: "morgen", wsrc: "IPMA",
       xfNoVert: "Ohne Schwindelgefahr", xfTunnels: "Mit Tunneln",
       xfNote: "Nur Wege mit belegten Tunnel-/Schwindel-Daten werden angezeigt (meist IFCN-Infotafeln)."
     },
@@ -80,6 +84,7 @@
       wind: "wiatr", rain: "deszcz", fog: "pewnie we mgle",
       today: "Dzisiejszy status →", nomatch: "Brak pasujących szlaków.",
       mmnote: "góry ≠ wybrzeże; mgła i wiatr szybko się zmieniają na wysokości.",
+      wlevel: {"yellow":"Ostrzeżenie żółte","orange":"Ostrzeżenie pomarańczowe","red":"Ostrzeżenie czerwone"}, wtype: {"wind":"wiatr","rain":"deszcz","thunder":"burze","fog":"mgła","snow":"śnieg","sea":"wzburzone morze","heat":"upał","cold":"mróz","other":"pogoda"}, wgust: "porywy do", wuntil: "do", wtomorrow: "jutro", wsrc: "IPMA",
       xfNoVert: "Bez lęku wysokości", xfTunnels: "Z tunelami",
       xfNote: "Pokazano tylko szlaki z udokumentowanymi danymi o tunelach i ekspozycji (głównie tablice IFCN)."
     }
@@ -143,6 +148,32 @@
       '<span><span class="dot PARTIAL"></span><b>' + c.PARTIAL + "</b> " + T.restricted + "</span>" +
       '<span><span class="dot CLOSED"></span><b>' + c.CLOSED + "</b> " + T.closed + "</span>";
 
+    // IPMA warnings (yellow and up) on each region of the card (owner, 2026-11-08). IPMA areas: mountains / north
+    // coast / south coast; São Lourenço sits between the two coasts, so it shows both.
+    var AREAS = { summit: ["mountains"], west: ["mountains"], north: ["north"], south: ["south"], east: ["north", "south"] };
+    var WCOL = { yellow: "background:#F6D743;color:#3a2f00", orange: "background:#F08A24;color:#fff", red: "background:#C62828;color:#fff" };
+    var RANKW = { yellow: 1, orange: 2, red: 3 };
+    var todayISO = (d.ipma_warnings || []).length ? new Date().toLocaleDateString("sv-SE", { timeZone: "Atlantic/Madeira" }) : "";
+    function hm(iso) {   // "2026-11-08T21:00" -> "21:00", or "tomorrow 06:00": never a date on the page
+      return (iso.slice(0, 10) !== todayISO ? T.wtomorrow + " " : "") + iso.slice(11, 16);
+    }
+    function warnFor(key) {
+      var ws = (d.ipma_warnings || []).filter(function (w) { return (AREAS[key] || []).indexOf(w.area) >= 0; });
+      if (!ws.length) return "";
+      var top = ws.reduce(function (a, w) { return RANKW[w.level] > RANKW[a] ? w.level : a; }, "yellow");
+      var seen = {}, parts = [];
+      ws.sort(function (a, b) { return RANKW[b.level] - RANKW[a.level] || (b.gust || 0) - (a.gust || 0); });
+      ws.forEach(function (w) {
+        if (seen[w.type]) return;
+        seen[w.type] = 1;
+        var txt = T.wtype[w.type] || T.wtype.other;
+        if (w.gust) txt += " (" + T.wgust + " " + w.gust + " km/h)";
+        txt += w.now ? " " + T.wuntil + " " + hm(w.end) : " " + hm(w.start) + "–" + hm(w.end);
+        parts.push(txt);
+      });
+      return '<span class="wwarn" style="' + WCOL[top] + ';border-radius:6px;padding:3px 7px;margin-top:4px;font-size:12.5px;font-weight:600;line-height:1.35">⚠ ' +
+        T.wlevel[top] + " (" + T.wsrc + "): " + esc(parts.join(" · ")) + "</span>";
+    }
     el("weatherStrip").innerHTML = (d.regions || []).map(function (r) {
       var t = (r.temp != null) ? num(r.temp, T) + "°C" : "—";
       var bits = [];
@@ -151,7 +182,7 @@
       if (r.in_cloud) bits.push('<span class="alert">' + T.fog + "</span>");
       return '<div class="wx"><b>' + T.region[r.key] + " · " + esc(r.place) + "</b>" +
         '<span class="wtemp">' + t + "</span>" +
-        (bits.length ? '<span class="wext">' + bits.join(" · ") + "</span>" : "") + "</div>";
+        (bits.length ? '<span class="wext">' + bits.join(" · ") + "</span>" : "") + warnFor(r.key) + "</div>";
     }).join("") + '<div class="note">' + T.mmnote + "</div>";
 
     var trails = (d.trails || []).slice();

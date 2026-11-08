@@ -1224,6 +1224,8 @@ def main():
         "trails": trails,
         # Storm-ready banner (scripts/storm.py): blanket IFCN closure and/or orange/red IPMA warning; null = none.
         "alert": alert,
+        # Every IPMA warning for Madeira (yellow and up) in force or within 24 h, for the weather card (owner, 2026-11-08).
+        "ipma_warnings": ipma.get("all", []) if ipma.get("ok") else [],
     }
     with open(STATUS_JSON, "w") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)

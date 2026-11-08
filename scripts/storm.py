@@ -38,7 +38,10 @@ IPMA_WARNINGS = "https://api.ipma.pt/open-data/forecast/warnings/warnings_www.js
 IPMA_PAGE = "https://www.ipma.pt/pt/otempo/prev-sam/?p=MAD"
 UA = {"User-Agent": "Mozilla/5.0 (compatible; LevadinhoStatusBot/5.0; +https://levadinho-madeira.com)"}
 MADEIRA_AREAS = {"MCN": "north", "MCS": "south", "MRM": "mountains"}   # MPS = Porto Santo, no trails on our board
-LEVELS = {"orange": 2, "red": 3}
+LEVELS = {"yellow": 1, "orange": 2, "red": 3}   # storm mode counts yellow too (owner, 2026-11-08: IFCN closed every trail on a yellow)
+ALL_LEVELS = {"yellow": 1, "orange": 2, "red": 3}   # the weather card shows every level (owner, 2026-11-08)
+TYPE_KEY = {"Vento": "wind", "Precipitação": "rain", "Trovoada": "thunder", "Nevoeiro": "fog", "Neve": "snow",
+            "Agitação Marítima": "sea", "Tempo Quente": "heat", "Tempo Frio": "cold"}
 
 MONTHS = {"janeiro": 1, "fevereiro": 2, "março": 3, "marco": 3, "abril": 4, "maio": 5, "junho": 6, "julho": 7,
           "agosto": 8, "setembro": 9, "outubro": 10, "novembro": 11, "dezembro": 12}
@@ -290,24 +293,31 @@ def closure_text(c, detail):
 
 
 def ipma_alert(raw=None):
-    """Orange/red IPMA warnings for Madeira in force now or within 24 h -> {"ok", "level", "warnings": [...]}."""
+    """Yellow/orange/red IPMA warnings for Madeira in force now or within 24 h -> {"ok", "level", "warnings": [...]}."""
     try:
         data = json.loads(raw if raw is not None else _get(IPMA_WARNINGS, "STORM_FIXTURE_IPMA"))
         now = _now()
         horizon = now + datetime.timedelta(hours=24)
-        found = []
+        found, every = [], []
         for w in data:
             area, level = w.get("idAreaAviso"), w.get("awarenessLevelID")
-            if area not in MADEIRA_AREAS or level not in LEVELS:
+            if area not in MADEIRA_AREAS or level not in ALL_LEVELS:
                 continue
             start = datetime.datetime.fromisoformat(w["startTime"]).replace(tzinfo=TZ)
             end = datetime.datetime.fromisoformat(w["endTime"]).replace(tzinfo=TZ)
             if end <= now or start > horizon:
                 continue
+            gust = re.search(r"Rajadas\s+at[ée]\s+(\d+)\s*km/h", w.get("text") or "", re.I)
+            every.append({"area": MADEIRA_AREAS[area], "type": TYPE_KEY.get(w.get("awarenessTypeName", ""), "other"),
+                          "level": level, "start": w["startTime"][:16], "end": w["endTime"][:16],
+                          "now": start <= now, "gust": int(gust.group(1)) if gust else None})
+            if level not in LEVELS or w.get("awarenessTypeName") == "Agitação Marítima":   # sea alone never closes trails
+                continue
             found.append({"area": MADEIRA_AREAS[area], "type": w.get("awarenessTypeName", ""), "level": level,
                           "start": w["startTime"], "end": w["endTime"], "now": start <= now})
         top = max((LEVELS[f["level"]] for f in found), default=0)
-        return {"ok": True, "level": {2: "orange", 3: "red"}.get(top), "warnings": found, "source": IPMA_PAGE}
+        return {"ok": True, "level": {1: "yellow", 2: "orange", 3: "red"}.get(top), "warnings": found, "all": every,
+                "source": IPMA_PAGE}
     except Exception as e:
         print("ipma warnings failed (banner skipped):", e, file=sys.stderr)
         return {"ok": False}
@@ -379,7 +389,8 @@ IPMA_LINE = {
     "de": "IPMA-Warnstufe {lvl} für Madeira{w}. Bei früheren Warnungen hat das IFCN alle klassifizierten Wege gesperrt: Prüfen Sie vor dem Losgehen.",
     "pl": "Ostrzeżenie IPMA ({lvl}) dla Madery{w}. Podczas wcześniejszych ostrzeżeń IFCN zamykał wszystkie sklasyfikowane szlaki: sprawdź przed wyjściem.",
 }
-LEVEL_NAME = {"orange": {"pt": "laranja", "en": "orange", "fr": "orange", "de": "Orange", "pl": "pomarańczowe"},
+LEVEL_NAME = {"yellow": {"pt": "amarelo", "en": "yellow", "fr": "jaune", "de": "Gelb", "pl": "żółte"},
+              "orange": {"pt": "laranja", "en": "orange", "fr": "orange", "de": "Orange", "pl": "pomarańczowe"},
               "red": {"pt": "vermelho", "en": "red", "fr": "rouge", "de": "Rot", "pl": "czerwone"}}
 IPMA_WHEN = {True: {"pt": " em vigor", "en": " in force", "fr": " en vigueur", "de": " in Kraft", "pl": " obowiązuje"},
              False: {"pt": " nas próximas 24 horas", "en": " in the next 24 hours", "fr": " dans les prochaines 24 heures",

@@ -17,7 +17,7 @@
     "wind_kmh": 63,
     "wind_strong": true
   },
-  "stamp": "2026-11-08 09:13",
+  "stamp": "2026-11-08 09:21",
   "date": "2026-11-08",
   "source": {
     "name": "IFCN",
@@ -744,9 +744,77 @@
     "blanket_from": "2026-11-08",
     "blanket_reopen": null,
     "ifcn_source": "https://ifcn.madeira.gov.pt/pt/?view=category&id=146",
-    "ipma_level": null,
-    "ipma_types": [],
-    "ipma_now": false,
+    "ipma_level": "yellow",
+    "ipma_types": [
+      "Precipitação",
+      "Vento"
+    ],
+    "ipma_now": true,
     "ipma_source": "https://www.ipma.pt/pt/otempo/prev-sam/?p=MAD"
-  }
+  },
+  "ipma_warnings": [
+    {
+      "area": "mountains",
+      "type": "wind",
+      "level": "yellow",
+      "start": "2026-11-08T09:00",
+      "end": "2026-11-08T21:00",
+      "now": true,
+      "gust": 110
+    },
+    {
+      "area": "mountains",
+      "type": "rain",
+      "level": "yellow",
+      "start": "2026-11-08T12:00",
+      "end": "2026-11-08T18:00",
+      "now": false,
+      "gust": null
+    },
+    {
+      "area": "north",
+      "type": "wind",
+      "level": "yellow",
+      "start": "2026-11-08T09:00",
+      "end": "2026-11-08T21:00",
+      "now": true,
+      "gust": 90
+    },
+    {
+      "area": "north",
+      "type": "rain",
+      "level": "yellow",
+      "start": "2026-11-08T12:00",
+      "end": "2026-11-08T18:00",
+      "now": false,
+      "gust": null
+    },
+    {
+      "area": "south",
+      "type": "wind",
+      "level": "yellow",
+      "start": "2026-11-08T09:00",
+      "end": "2026-11-08T21:00",
+      "now": true,
+      "gust": 90
+    },
+    {
+      "area": "south",
+      "type": "sea",
+      "level": "yellow",
+      "start": "2026-11-08T12:00",
+      "end": "2026-11-09T06:00",
+      "now": false,
+      "gust": null
+    },
+    {
+      "area": "south",
+      "type": "rain",
+      "level": "yellow",
+      "start": "2026-11-08T12:00",
+      "end": "2026-11-08T18:00",
+      "now": false,
+      "gust": null
+    }
+  ]
 }
