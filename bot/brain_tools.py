@@ -25,7 +25,7 @@ MAX_ROUNDS = 5
 MAX_RESULT_CHARS = 12000
 
 # Every public MCP tool (owner, 2026-10-10: every fact in the knowledge store, every answer from it).
-BOT_TOOLS = list(kbtools.TOOLS) + [kbtools.taxi_prices, kbtools.day_plan]  # bot only, not on the public MCP server
+BOT_TOOLS = list(kbtools.TOOLS) + [kbtools.taxi_prices, kbtools.day_plan, kbtools.weather_forecast]  # bot only, not on the public MCP server
 BY_NAME = {f.__name__: f for f in BOT_TOOLS}
 JSON_TYPE = {str: "string", int: "integer", float: "number", bool: "boolean"}
 _TRAIL = ("A trail code (PR9) or, if you are not sure of the code, the trail's name or place exactly as the visitor "
@@ -106,7 +106,11 @@ WHEN = {
     "webcam": "Use for: is the car park full NOW, is it cloudy up there NOW (Rabaçal, Achada do Teixeira, Pico do "
               "Areeiro). Not for where to park in general (search).",
     "weather_now": "Use for: the weather now.",
-    "forecast_tomorrow": "Use for: will it be cloudy tomorrow / later at the summit.",
+    "forecast_tomorrow": "Use for: will it be cloudy / clear / a sea of clouds at the summit (Areeiro, Achada, Rabaçal) "
+                         "in the next 24 hours. Not for rain, wind or later days (weather_forecast).",
+    "weather_forecast": "Use for: the weather forecast for tomorrow or the next days (rain, wind, temperature, storms) "
+                        "anywhere — pass the trail, or the place as the visitor wrote it (Serra d'Água, Santana…). "
+                        "Also \"will it open / be open tomorrow\" while a trail is closed, together with trail_status.",
     "closures": "Use for: what closed or reopened.",
     "places": "Use for: Funchal and Monte only — cable cars, market, museums, gardens, lidos, toboggan, opening hours "
               "(then place(id) for one place).",
@@ -147,8 +151,43 @@ def _how(name, args, result, lang, q=""):
         h.append(SUNRISE_RULE)
     if name == "fees_and_rules" and PAY_Q.search(q):
         h.append(PAY_RULE)
+    if name in ("bus", "transport", "places", "place") and re.search(r"\bmonte\b", q, re.I):
+        # 8 Nov test: "How do I get to Monte?" got only the cable car's hours
+        h.append("Getting to Monte: the cable car (Teleférico do Funchal) from the Old Town (Zona Velha) is the way up: "
+                 "say where it leaves from and its hours (place('cablecar')); city buses are the way down after it stops.")
+    if re.search(r"accommodation|where (should|could|to|do) (we |i )?(stay|base)|alojamento|onde ficar|unterkunft|"
+                 r"übernachten|hébergement|où (loger|dormir)|nocleg|gdzie (się )?(zatrzymać|nocować)", q, re.I):
+        h.append("Where to stay: say only that Levadinho doesn't advise on accommodation. Never suggest booking platforms, "
+                 "agencies, tourist offices or any other place to look.")
     blob = json.dumps(result, ensure_ascii=False, default=str)
     code = (result.get("code") if isinstance(result, dict) else None) or ""
+    if name in ("transport", "taxi_prices") and not re.search(r"tax[ií]|cab\b|uber|bolt|transfer", q, re.I):
+        # 8 Nov test: "PR1 on Sunday from Funchal, how do I get there and back?" got taxis only (bus first, owner)
+        h.append("The visitor didn't ask for a taxi: if the trip has a bus, give the bus first (call bus with the trail "
+                 "or the stops and the day), then taxis only where no bus goes (e.g. back from Achada do Teixeira).")
+    if name == "transport" and re.search(r"not (working|connecting|going through)|doesn.t work|can.t (get through|reach|call)|"
+                                         r"n[ãa]o (funciona|atende|consigo ligar)|ne (marche|fonctionne) pas|funktioniert nicht|"
+                                         r"nie działa|nie mog\w* się dodzwonić", q, re.I):
+        try:
+            isl = "; ".join(f"{x['name']} {', '.join(x['phone'] or [])}" for x in kbtools.transport()["taxis"] if x["role"] == "island-wide")
+        except Exception:  # noqa: BLE001
+            isl = ""
+        # 3 Nov real chat / 8 Nov test: the number was repeated with no word about the problem
+        h.append("The visitor says the number doesn't work: say sorry first; tell them to dial it in full with +351 (a "
+                 "foreign SIM won't connect without the country code) and to try again in a few minutes; then give the "
+                 "island-wide contacts as a backup" + (f" ({isl})" if isl else "") + ". If they are already walking, "
+                 "never say \"before you start\".")
+    if name == "transport":
+        h.append("Metered fares: PT \"pelo taxímetro\" (never \"por metro\"), FR \"au compteur\", DE \"nach Taxameter\", "
+                 "PL \"według taksometru\".")
+        if re.search(r"\b(fim|final|end|ende|fin|koniec)\b", q, re.I) and re.search(r"\b(in[ií]cio|start|beginning|anfang|d[ée]but|pocz[aą]tek)\b", q, re.I):
+            # 3 Nov real chat / 8 Nov test: car at the END, taxi back to the START; the bot said "a taxi at the start"
+            h.append("The visitor leaves the car at the END of the trail and wants a taxi from there back to the START: "
+                     "say the taxi picks them up at the end (where the car is) and drops them at the start, booked for a "
+                     "set time. No town they didn't name.")
+    if name == "bus" and re.search(r"\b(finish|end|done|arrive|be there|terminar|acabar|chegar|fini|finir|arriver|fertig|ankommen|skończ|koniec)\w*\b.{0,40}\b\d{1,2}([:h.]\d{2})?\b|\b\d{1,2}[:h]\d{2}\b", q, re.I):
+        h.append("The visitor gave a time they will be at the stop: list only the trips that leave AFTER that time, on "
+                 "the day they asked about; never a bus that has already left.")
     if name == "trail_status":
         h.append("Say it is according to IFCN's official warnings list. If the trail is partly open, say which part is "
                  "open, as the note says, in the visitor's language. No date.")
@@ -214,6 +253,14 @@ def _how(name, args, result, lang, q=""):
               "The shared ride back from Achada do Teixeira to Pico do Areeiro: about €15–20 per person; for «n» people "
               "about €«15×n»–«20×n» in total. A question about that shared ride gets only this, not a car price.",
               "If the visitor's own sum is right, start with \"Yes\"."]
+    elif name == "weather_forecast":
+        h += ["Copy from text the heading (IPMA forecast for «area») and the line(s) of the day(s) asked, as written; no weather emoji.",
+              "\"Will it open?\" for a closed trail: it is IFCN's decision and we can't predict it; give the forecast, "
+              "then: check the status that morning (it updates as soon as IFCN changes its list) and book flexibly."]
+    elif name == "forecast_tomorrow" and SUNRISE_Q.search(q):
+        h.append("Sunrise question: first answer it in one line from tomorrow's morning (06–10) sky — clear = a good "
+                 "chance, partly cloudy = some chance, cloudy = little chance (a rough guide) — then copy the forecast "
+                 "and next_forecast lines as they are.")
     elif name == "weather_now":
         h.append("Say when it was measured (\"measured at\" + observed_time), never \"right now\".")
     elif name == "webcam":
@@ -254,13 +301,13 @@ def unloop(messages, reply):
     return (m.get("content") or "").strip()
 
 
-def _call(messages, max_tokens=900, use_tools=True, choice="auto", extra=None):
+def _call(messages, max_tokens=900, use_tools=True, choice="auto", extra=None, drop=()):
     import brain  # llm settings and the wake-on-demand check live there
     if brain.llm_control.ON_DEMAND and not brain.llm_control.is_up():
         raise brain.LLMDown()
     body = {"model": brain.LLM_MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": 0, "chat_template_kwargs": {"enable_thinking": False}}
     if use_tools:
-        body.update(tools=TOOLS, tool_choice=choice)
+        body.update(tools=[t for t in TOOLS if t["function"]["name"] not in drop], tool_choice=choice)
     body.update(extra or {})
     req = urllib.request.Request(brain.LLM_URL, data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
     try:
@@ -351,11 +398,12 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                       "function": {"name": "search", "arguments": json.dumps(args, ensure_ascii=False)}}]},
                      {"role": "tool", "tool_call_id": "prefetch-search",
                       "content": json.dumps(found, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
+    blocked = set()   # 8 Nov test: a misfired day_plan was called three times in a row (each plan in turn)
     for n in range(MAX_ROUNDS):
         # round 1 must call a tool: with "auto" the model answers from memory and invents facts (tested 2026-10-07)
         # with the page given, round 1 still calls a tool: when the page doesn't answer (the café's hours on the
         # sunrise page, 24 Oct) the model otherwise said "I don't know" without looking
-        m = _call(messages, choice="required" if n == 0 else "auto")
+        m = _call(messages, choice="required" if n == 0 else "auto", drop=blocked)
         calls = m.get("tool_calls") or []
         if not calls:
             reply = fix_trail_names(unloop(messages, (m.get("content") or "").strip()))
@@ -375,6 +423,7 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
             if name == "day_plan" and not plan_asked(args.get("plan"), messages, search_text or text):
                 # 1 Nov (test): "PR1 on Sunday from Funchal, there and back?" got the Balcões + PR1 plan word for word
                 code = kbtools.resolve_trail(search_text or text) or "the trail"
+                blocked.add("day_plan")
                 result = {"error": f"That plan is not what the visitor asked for. Do not call day_plan again. For getting "
                                    f"to and from {code}, call bus(trail='{code}', day=…) and transport(trail='{code}')."}
             else:
@@ -389,7 +438,9 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
             if name == "bus":  # brain.bus_footer adds the follow-up offer and a taxi after a timetable
                 trace[-1]["trips"] = len(result.get("trips") or [])
                 trace[-1]["trip_rows"] = result.get("trips") or []
-            if name == "forecast_tomorrow" and result.get("forecast") and len(calls) == 1:
+            if name == "forecast_tomorrow" and result.get("forecast") and len(calls) == 1 and not SUNRISE_Q.search(search_text or text):
+                # a sunrise question needs the direct answer first (8 Nov test: "a chance to see the sunrise?" got the
+                # bare forecast): the model writes it with the rule from _how
                 # the forecast goes out as the tool wrote it (owner, 2026-10-24: "simply cite what the tool says"); the
                 # model's paraphrase turned a clear summit into "no sea of clouds expected"
                 trace[-1]["verbatim"] = True

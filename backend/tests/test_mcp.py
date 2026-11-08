@@ -38,7 +38,9 @@ CALLS = [
     ("trail_status", {"code": "pr 1"}, lambda d: d["code"] == "PR1" and d["status"] in ("OPEN", "PARTIAL", "CLOSED") and d["source"]["url"]),
     ("trail_status", {}, lambda d: sum(d["counts"].values()) == len(d["trails"]) >= 30),
     ("trail_facts", {"code": "caldeirao verde", "lang": "pt"}, lambda d: d["code"] == "PR9" and "/pt/" in d["page"]),
-    ("find_trails", {"no_vertigo": True}, lambda d: all(t["exposure"] == "low" and t["status"] == "OPEN" for t in d["trails"])),
+    # storm mode (8 Nov): with every trail closed the list is for planning, flagged all_closed
+    ("find_trails", {"no_vertigo": True}, lambda d: d["trails"] and all(t["exposure"] == "low" and (t["status"] == "OPEN" or d.get("all_closed"))
+                                                                       for t in d["trails"])),
     ("fees_and_rules", {"topic": "fees"}, lambda d: any(f["item"] == "pr1_full" and f["eur"] == 10.5 for f in d["fees"])),
     ("bus", {"trail": "PR8", "day": "sat"}, lambda d: len(d["trips"]) > 5 and all(t["days"] in ("daily", "sat", "sat_sun", "sat_sun_hol") for t in d["trips"])),
     ("transport", {"trail": "PR1.2"}, lambda d: any(t["name"] == "Táxis Santana" for t in d["taxis"])),
@@ -67,7 +69,7 @@ async def main():
                 print("     ", e, str(res)[:300])
             check(ok, f"{name}({args})")
         res = await c.call_tool("trail_facts", {"code": "PR99"})
-        check(res.is_error and "Unknown trail" in res.content[0].text, "unknown trail → readable tool error")
+        check(res.is_error and "not one of IFCN's classified PR trails" in res.content[0].text, "unknown trail → readable tool error")
         res = await c.call_tool("bus", {})
         check(res.is_error, "bus without arguments → tool error")
 

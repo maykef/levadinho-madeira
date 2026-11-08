@@ -233,6 +233,25 @@ def sunrise_now():
     return out
 
 
+def _slot_after(t):
+    slot = t.replace(second=0, microsecond=0) + datetime.timedelta(minutes=(30 - t.minute % 30) % 30)
+    return slot + datetime.timedelta(minutes=30) if slot <= t else slot
+
+
+def sunrise_months():
+    """{"November": "1st 07:25 (first slot after sunrise 07:30); 15th …; 30th …"} for the 12 months ahead."""
+    import calendar
+    today, out = datetime.datetime.now(MADEIRA).date(), {}
+    for i in range(12):
+        m = (today.month - 1 + i) % 12 + 1
+        y = today.year + (today.month - 1 + i) // 12
+        days = (1, 15, calendar.monthrange(y, m)[1])
+        out[calendar.month_name[m]] = "; ".join(
+            f"{d}{'st' if d in (1, 31) else 'th'} sunrise {areeiro_sunrise(datetime.date(y, m, d)):%H:%M} (first slot after "
+            f"sunrise {_slot_after(areeiro_sunrise(datetime.date(y, m, d))):%H:%M})" for d in days)
+    return out
+
+
 def trail_facts(code: str, lang: str = "en") -> dict:
     """Facts about one trail: distance, time, difficulty, altitude, start/end, fee, tunnels/torch/exposure,
     trailhead coordinates, today's status, our page and the official page, plus curated notes."""
@@ -256,20 +275,15 @@ def trail_facts(code: str, lang: str = "en") -> dict:
            if c == "PR1" else {}),
         # sunrise on the 1st of each month at Pico do Areeiro, Madeira time ±2 min (our sunrise page's computed
         # table) — a structured field because the model misread the prose note and invented December times
-        **({"sunrise_1st_of_month": {"Jan": "08:10", "Feb": "08:03", "Mar": "07:36", "Apr": "07:56",
-                                     "May": "07:21", "Jun": "07:01", "Jul": "07:03", "Aug": "07:21",
-                                     "Sep": "07:42", "Oct": "08:02", "Nov": "07:25", "Dec": "07:52"},
+        # sunrise per month (1st / 15th / last day) with the first slot after it, computed (areeiro_sunrise): the
+        # model did the slot arithmetic itself and got it wrong (8 Nov: "07:25 sunrise, the 07:30 slot is before it")
+        **({"sunrise_by_month": sunrise_months(),
             "sunrise_today_tomorrow": sunrise_now(),
             "sunrise_note": "For today or tomorrow give sunrise_today_tomorrow (computed for that day). For another "
-                            "month COPY the month's time from sunrise_1st_of_month, never estimate one. "
-                            "Mid-October is about 08:12; the clocks go back on the last Sunday of October, so "
-                            "late October is about 07:20 and 1 November 07:25. "
-                            "Latest sunrises: December–January (~07:52–08:10), so even the 07:30 slot is "
-                            "before sunrise then; only late May–July (sunrise ~07:00) needs the 07:00 slot. "
-                            "Which slot: to watch the sunrise from the viewpoint first, book the first slot that "
-                            "starts after sunrise (the slots are every 30 minutes); a slot before sunrise means "
-                            "starting the walk in the dark with a headlamp. From August to April the 07:00 and "
-                            "07:30 slots are before sunrise. "
+                            "month COPY the times and slots from sunrise_by_month, never estimate or compute one. "
+                            "Which slot: to watch the sunrise from the viewpoint first, book the first slot after "
+                            "sunrise as given there (slots every 30 minutes, 07:00–16:00); an earlier slot means "
+                            "starting the walk in the dark with a headlamp. "
                             "The slot is only for walking onto PR1: the viewpoint by the car park is outside "
                             "the classified trail, so just watching the sunrise should not need a ticket "
                             "(no explicit official statement — say so)."}
@@ -381,6 +395,12 @@ def find_trails(region: str | None = None, max_km: float | None = None, difficul
         where.append("t.exposure = 'low'")
     if has_tunnels is True:
         where.append("t.tunnels IS TRUE")
+    if open_only and not _q("SELECT 1 FROM kb.trail_status WHERE status = 'OPEN' LIMIT 1"):
+        # storm mode (owner, 2026-11-08): every trail closed → an empty list made the bot say "no easy levadas without
+        # vertigo" and invent facts; planning questions get the trails, each with today's CLOSED status
+        open_only = False
+        extra["all_closed"] = ("Every classified trail is CLOSED today (IFCN). These trails are listed for planning a "
+                               "later day: say once that they are closed today, then answer the question with them.")
     if open_only:
         where.append("s.status = 'OPEN'")
     if exclude:
@@ -614,6 +634,9 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
                 return {"note": f"No stop has that exact name: {said}. Answer with these buses and say the visitor "
                                 "walks (or takes a taxi) between that stop and the place; for the place itself call "
                                 "place / places. Never say there is no bus.", **res}
+    # in day-type then time order (8 Nov test: an unsorted list came out as "08:10 → 09:35 and 17:28 → 19:20")
+    DORDER = {"daily": 0, "mon_fri": 1, "sat": 2, "sat_sun": 3, "sat_sun_hol": 3, "sun_hol": 4}
+    rows = sorted(rows, key=lambda r: (str(r["leg"] or ""), DORDER.get(r["days"], 9), r["dep"]))
     out = {"trips": [{"leg": r["leg"], "operator": r["operator"],
                       "line": r["line"] + (f" (new no. {r['new_line']})" if r["new_line"] else ""),
                       "from": r["from_stop"], "to": r["to_stop"], "dep": r["dep"].strftime("%H:%M"),
@@ -667,6 +690,10 @@ def _achada_notes(lang):
                      f"pick-ups there are done by {taxi[0]['name']} ({', '.join(taxi[0]['phone'])}). The Pico do Areeiro "
                      "bus leaves from the Radar roundabout at Pico do Areeiro: it only helps after the short Areeiro ↔ "
                      "Pedra Rija walk, never from Achada do Teixeira.")
+        # 3 Nov real chat / 8 Nov test: "other places the taxi can take us for a bus to Funchal?" → "no other"
+        notes.append("Taxi from Achada do Teixeira to a bus to Funchal: Santana (the nearest, few buses) or Machico "
+                     "(buses to Funchal about every hour until the evening, every day): for times call "
+                     "bus(from_stop='Machico', to_stop='Funchal'). Never say there is no other place.")
     return notes
 
 
@@ -686,7 +713,9 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
     Rabaçal: the ranks printed on IFCN's panels there) and the DESTINATION town, plus the island-wide contacts Visit
     Madeira lists, the rules for taxis and transfers (metered fares, no quoted prices) and, for a trailhead, how to get
     back from there. trail = the ranks on that trail's panels. PR1 is one-way and ends at Achada do Teixeira: after
-    PR1, "back to the car (park) at Areeiro" is pickup='Achada do Teixeira', destination='Pico do Areeiro'."""
+    PR1, "back to the car (park) at Areeiro" is pickup='Achada do Teixeira', destination='Pico do Areeiro'. A car parked
+    at one end of a linear trail and a taxi back to the other end: pickup = where they finish (the trail), destination
+    = the trail's other end; never put a town the visitor didn't name."""
     out, seen = [], set()
 
     def add(rows, role):
@@ -701,11 +730,18 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
         add(_ranks_for(pickup), f"serves the pick-up place ({pickup})")
     if trail:
         add(_q("SELECT * FROM kb.transport WHERE kind = 'taxi' AND %s = ANY(trails)", (_need_trail(trail),)), f"printed on the {trail} panels")
-    if destination:
+    # a trailhead pick-up (a trailhead name, or a trail named as the place: "Vereda do Fanal") is served only by its own
+    # ranks; the destination's ranks don't pick up there (8 Nov test: Fanal pick-up got Táxis Funchal and AITRAM)
+    at_trail = bool(pickup) and (bool(resolve_trail(pickup)) or bool(_q(
+        "SELECT 1 FROM kb.trail WHERE kb.unaccent_i(start_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%' "
+        "OR kb.unaccent_i(end_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%'", (pickup, pickup)))) and not _q(
+        "SELECT 1 FROM kb.transport WHERE kb.unaccent_i(town) ILIKE kb.unaccent_i(%s)", (pickup,))   # a town is no trailhead
+    if destination and not (at_trail and out):
         add(_ranks_for(destination), f"serves the destination ({destination})")
     if not (pickup or destination or trail):
         add(_q("SELECT * FROM kb.transport WHERE kind = 'taxi' ORDER BY id"), "taxi rank")
-    add(_q("SELECT * FROM kb.transport WHERE kind = 'taxi_island' ORDER BY id"), "island-wide")
+    if not (at_trail and out):   # island-wide contacts don't do trailhead pick-ups either
+        add(_q("SELECT * FROM kb.transport WHERE kind = 'taxi_island' ORDER BY id"), "island-wide")
     facts = _q("SELECT text, source_id FROM kb.fact WHERE topic IN ('taxi', 'transfer') ORDER BY id")
     res = {"taxis": out, "rules": [{"text": _pick(f["text"], "en"), "source": _source(f["source_id"])} for f in facts]}
     # a trail starting or ending at the pick-up/destination place (PR1 starts at Areeiro, ends at Achada do Teixeira):
@@ -723,8 +759,24 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
         res["driving_up"] = [{"text": _pick(c["text"], "en"), "source": _source(c["source_id"])} for c in car]
     if back:
         res["getting_back"] = [{"trail": b["subject"], "text": _pick(b["text"], "en"), "source": _source(b["source_id"])} for b in back]
-    trailhead = bool(pickup) and bool(_q("SELECT 1 FROM kb.trail WHERE kb.unaccent_i(start_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%' "
-                                         "OR kb.unaccent_i(end_name) ILIKE '%%' || kb.unaccent_i(%s) || '%%'", (pickup, pickup)))
+    if pickup and destination:
+        # 8 Nov test: "PR1 on Sunday from Funchal?" → transport only → "there is no public bus to Pico do Areeiro" (false)
+        try:
+            b = bus(from_stop=pickup, to_stop=destination)
+            trips = [t for t in b.get("trips") or [] if t.get("dep")]
+        except Exception:  # noqa: BLE001
+            trips = []
+        if trips:
+            days = {}
+            for t in trips:
+                days.setdefault(t["days"], []).append(f"{t['dep']}→{t['arr'] or '?'} ({t['operator']} {t['line']})")
+            res["bus_for_this_trip"] = {"trips": {b["days_key"].get(k, k): v for k, v in days.items()},
+                                        "rule": "There IS a bus for this trip: give it first, then taxis. Never say there is no bus."}
+    if any("achada" in _plain(p) for p in places):
+        res["bus_after_taxi"] = ("A taxi from Achada do Teixeira can take you to a bus to Funchal: Santana (the nearest, few "
+                                 "buses) or Machico (buses to Funchal about every hour until the evening, every day; times: "
+                                 "bus(from_stop='Machico', to_stop='Funchal')). Never say Santana is the only option.")
+    trailhead = at_trail
     res["note"] = (("A pick-up at a trailhead is done only by the ranks that serve the pick-up place: give only those, not "
                     "the destination's. " if trailhead else
                     "Give the ranks serving the pick-up place first (call them and the destination's, compare quotes). ")
@@ -776,8 +828,13 @@ def taxi_prices(pickup: str | None = None, destination: str | None = None, peopl
         return any(_plain(k) in text for k in keys)
     rows = [r for r in cfg["routes"] if (not p or hit(r["from"], p)) and (not d or hit(r["to"], d))]
     exact = bool(rows) and bool(p or d)
-    if not exact:  # no route matched: hand over every priced route and let the model pick the visitor's trip
+    known_p = not p or any(hit(r["from"], p) for r in cfg["routes"])
+    known_d = not d or any(hit(r["to"], d) for r in cfg["routes"])
+    if not exact and known_p and known_d:  # places we price, other combination: show the priced routes to pick from
         rows = [r for r in cfg["routes"] if r.get("car_eur") or r.get("shared_pp_eur")]
+    elif not exact:
+        # a place no route covers (8 Nov test: "Fanal → Funchal" got the Funchal → Areeiro price as "para o Funchal")
+        rows = []
     # a route with a usual shared-ride price (Achada → Areeiro, 2026-10-26: the bot said "metered" and left it out)
     routes = [{"route": r["label"], "car_up_to_4_eur": r.get("car_eur"),
                **({"van_5_to_10_eur": r["van_eur"]} if r.get("van_eur") else {}),
@@ -795,8 +852,11 @@ def taxi_prices(pickup: str | None = None, destination: str | None = None, peopl
                      "Pick-ups at Achada do Teixeira are done by the Santana taxis; for the numbers call transport.",
                      "Achada do Teixeira → Pico do Areeiro: a shared ride with other hikers usually costs about €15–20 per person."],
            "source": {"name": "Indicative prices: a local taxi driver, and hikers' reports where noted", "url": None}}
-    if not exact:
+    if not exact and rows:
         res["note"] = "No priced route matches this trip exactly: use one of these only if it IS the visitor's trip; otherwise taxis are metered, ask for a quote."
+    elif not exact:
+        res["note"] = ("We have no price for this trip: say only that taxis are metered at the official tariff and to ask "
+                       "for a quote when booking. Never give another route's price.")
     return res
 
 
@@ -1097,10 +1157,32 @@ def notices(subject: str | None = None, lang: str = "en") -> dict:
         code = resolve_trail(subject)
         where.append("(subject = %s OR subject ILIKE '%%' || %s || '%%')"); args += [code or subject, subject]
     rows = _q(f"SELECT * FROM kb.notice WHERE {' AND '.join(where)} ORDER BY starts NULLS FIRST LIMIT 30", args)
+    cruise = [r for r in rows if r["kind"] == "cruise" and r["starts"]]
     res = {"notices": [{"subject": r["subject"], "kind": r["kind"],
                         "starts": r["starts"].astimezone(MADEIRA).isoformat() if r["starts"] else None,
                         "ends": r["ends"].astimezone(MADEIRA).isoformat() if r["ends"] else None,
-                        "text": _pick(r["text"], lang), "source": _source(r["source_id"])} for r in rows]}
+                        "text": _pick(r["text"], lang), "source": _source(r["source_id"])}
+                       for r in rows if r not in cruise]}
+    if cruise:
+        # owner (told 3×, 2 Nov): cruise days = how many ships, never their names; days by name, never dates (8 Nov test)
+        today, days = datetime.datetime.now(MADEIRA).date(), {}
+        for r in cruise:
+            st, en = r["starts"].astimezone(MADEIRA), (r["ends"] or r["starts"]).astimezone(MADEIRA)
+            d = days.setdefault(st.date(), {"n": 0, "arr": [], "dep": []})
+            d["n"] += 1; d["arr"].append(st.strftime("%H:%M"))
+            d["dep"].append(en.strftime("%H:%M") + ("" if en.date() == st.date() else " the next day or later"))
+        out = []
+        for day, d in sorted(days.items()):
+            n = (day - today).days
+            name = "today" if n == 0 else "tomorrow" if n == 1 else day.strftime("%A") if n < 7 else None
+            if name is None:
+                continue
+            out.append(f"{name[0].upper() + name[1:]}: {d['n']} cruise ship{'s' if d['n'] > 1 else ''} in Funchal port, "
+                       f"arriving {', '.join(sorted(set(d['arr'])))}, leaving {', '.join(sorted(set(d['dep'])))}.")
+        res["cruise_days"] = out
+        res["cruise_rule"] = ("Give the number of ships and the times only: never name a ship, never give a date (day "
+                              "names only). It is the port's schedule, not the visitor's booking.")
+        res["cruise_source"] = _source(cruise[0]["source_id"])
     if not rows:
         res["note"] = "No notices in our data for this query. Trail closures are in trail_status / closures."
     return res
@@ -1211,9 +1293,18 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
         pinned = _q("SELECT id, kind, subject, lang, title, url, source_id, body snippet, 1 rank "
                     "FROM kb.doc WHERE id = 'facts:en:scope:unregulated'")
         rows = pinned + [r for r in rows if r["id"] != "facts:en:scope:unregulated"][:limit - 1]
-    return {"results": [{"title": r["title"], "subject": r["subject"], "lang": r["lang"], "url": r["url"],
-                         "text": re.sub(r"</?b>", "", r["snippet"]), "source": _source(r["source_id"])} for r in rows],
-            **({} if rows else {"note": "Nothing found in Levadinho's knowledge for this query."})}
+    res = [{"title": r["title"], "subject": r["subject"], "lang": r["lang"], "url": r["url"],
+            "text": re.sub(r"</?b>", "", r["snippet"]), "source": _source(r["source_id"])} for r in rows]
+    if re.search(r"sun ?rise|nascer do sol|lever du soleil|sonnenaufgang|wsch[oó]d s[lł]o[nń]ca|amanhecer", text, re.I):
+        # 8 Nov test: "sunrise at Areeiro in mid-October?" → search found no time, the bot said "not in my sources"
+        res.insert(0, {"title": "Sunrise at Pico do Areeiro (computed, Madeira time) and the first SIMplifica slot after it",
+                       "subject": "guide:sunrise", "lang": "en", "url": SITE + "/pr1-sunrise-transport/",
+                       "text": "Today and tomorrow: " + "; ".join(
+                           f"{k} ({v['weekday']}) sunrise {v['sunrise']} (first slot after sunrise {v['first_slot_after_sunrise']})"
+                           for k, v in sunrise_now().items()) + ". By month: "
+                           + "; ".join(f"{k}: {v}" for k, v in sunrise_months().items()),
+                       "source": {"name": "Computed (NOAA formula) for Pico do Areeiro", "url": None}})
+    return {"results": res, **({} if res else {"note": "Nothing found in Levadinho's knowledge for this query."})}
 
 
 _VOCAB = set()
@@ -1254,8 +1345,7 @@ def page_doc(subject: str, lang: str = "en") -> dict:
                                            f"clear east horizon {v['summit_clear_horizon']}; the first SIMplifica slot "
                                            f"after sunrise is {v['first_slot_after_sunrise']}" for k, v in sr.items())
                                  + ". For another month or part of a month (computed the same way): "
-                                 + "; ".join(f"{datetime.date(2026, m, 1):%B} 1st {areeiro_sunrise(datetime.date(_y(m), m, 1)):%H:%M}, "
-                                             f"15th {areeiro_sunrise(datetime.date(_y(m), m, 15)):%H:%M}" for m in range(1, 13))
+                                 + "; ".join(f"{k}: {v}" for k, v in sunrise_months().items())
                                  + ". "
                                    "To watch the sunrise from the viewpoint before you start, book the first SIMplifica "
                                    "slot after sunrise (above); an earlier slot means walking the ridge in the dark."})
@@ -1341,6 +1431,159 @@ PLAN_TEXT = {  # day_plan's text, per language (owner, 2026-10-24); {…} filled
                "Przed wyjściem zarezerwuj Táxis Machico (+351 291 962 189 / +351 291 962 480), żeby odebrali cię z punktu widokowego Portela i zawieźli do Machico (ok. 15 €).",
                "Z Machico autobus do Funchal: {mach}.", "Zarezerwuj oba szlaki w SIMplifica. Ceny są orientacyjne."]},
 }
+
+
+# IPMA's 5-day forecast (owner, 2026-11-08, after a visitor asked "Serra d'Água, forecast for tomorrow, will it be open?"
+# and got "no forecast"): the same data as the site's weather card (scripts/ipma_forecast.py, five places), fetched
+# when asked and kept an hour, else status.json's copy. Day names, never dates (feedback-no-dates-on-pages).
+FC5_PLACES = {   # words in a place name -> the card region whose IPMA place is nearest
+    "north": ("santana", "faial", "sao jorge", "boaventura", "sao vicente", "seixal", "porto moniz", "ponta delgada",
+              "arco de sao jorge", "queimadas", "caldeirao verde", "ilha"),
+    "west": ("rabacal", "paul da serra", "calheta", "encumeada", "serra de agua", "serra d'agua", "prazeres",
+             "ponta do pargo", "fanal", "25 fontes", "risco", "bica da cana", "lombada", "jardim do mar", "ponta do sol"),
+    "east": ("machico", "canical", "sao lourenco", "santa cruz", "portela", "porto da cruz", "furado", "camacha", "canico"),
+    "south": ("funchal", "monte", "camara de lobos", "ribeira brava", "cabo girao", "estreito", "garajau"),
+    "summit": ("areeiro", "arieiro", "ruivo", "achada do teixeira", "ribeiro frio", "curral", "balcoes", "poiso",
+               "pico grande", "eira do serrado"),
+}
+FC5_SKY = {   # IPMA idTipoTempo -> coarse sky words
+    "en": {"sun": "sunny", "part": "partly cloudy", "cloud": "cloudy", "showers": "showers", "rain": "rain",
+           "heavy": "heavy rain", "thunder": "thunderstorms", "fog": "fog", "snow": "snow", "hail": "hail"},
+    "pt": {"sun": "sol", "part": "parcialmente nublado", "cloud": "nublado", "showers": "aguaceiros", "rain": "chuva",
+           "heavy": "chuva forte", "thunder": "trovoada", "fog": "nevoeiro", "snow": "neve", "hail": "granizo"},
+    "fr": {"sun": "ensoleillé", "part": "partiellement nuageux", "cloud": "nuageux", "showers": "averses", "rain": "pluie",
+           "heavy": "forte pluie", "thunder": "orages", "fog": "brouillard", "snow": "neige", "hail": "grêle"},
+    "de": {"sun": "sonnig", "part": "teils bewölkt", "cloud": "bewölkt", "showers": "Schauer", "rain": "Regen",
+           "heavy": "starker Regen", "thunder": "Gewitter", "fog": "Nebel", "snow": "Schnee", "hail": "Hagel"},
+    "pl": {"sun": "słonecznie", "part": "częściowe zachmurzenie", "cloud": "pochmurno", "showers": "przelotne opady",
+           "rain": "deszcz", "heavy": "silny deszcz", "thunder": "burze", "fog": "mgła", "snow": "śnieg", "hail": "grad"},
+}
+FC5_WORDS = {
+    "en": {"today": "today", "tomorrow": "tomorrow", "rain": "chance of rain", "ri": ["", "light", "moderate", "heavy"],
+           "wind": "wind", "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]},
+    "pt": {"today": "hoje", "tomorrow": "amanhã", "rain": "probabilidade de chuva", "ri": ["", "fraca", "moderada", "forte"],
+           "wind": "vento", "days": ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"]},
+    "fr": {"today": "aujourd'hui", "tomorrow": "demain", "rain": "risque de pluie", "ri": ["", "faible", "modérée", "forte"],
+           "wind": "vent", "days": ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]},
+    "de": {"today": "heute", "tomorrow": "morgen", "rain": "Regenwahrscheinlichkeit", "ri": ["", "leicht", "mäßig", "stark"],
+           "wind": "Wind", "days": ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]},
+    "pl": {"today": "dziś", "tomorrow": "jutro", "rain": "szansa na deszcz", "ri": ["", "słaby", "umiarkowany", "silny"],
+           "wind": "wiatr", "days": ["poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela"]},
+}
+FC5_REGION_NAMES = {"summit": "Pico do Areeiro (summit)", "north": "Santana (north)", "west": "Bica da Cana / Rabaçal (west)",
+                    "east": "Caniçal / São Lourenço (east)", "south": "Funchal (south coast)"}
+
+
+def _sky(t):
+    if t == 1: return "sun"
+    if t in (2, 3, 25): return "part"
+    if t in (19, 20, 23): return "thunder"
+    if t in (8, 11, 14): return "heavy"
+    if t in (6, 9, 12): return "rain"
+    if t in (7, 10, 13, 15): return "showers"
+    if t in (16, 17, 26): return "fog"
+    if t in (18, 28): return "snow"
+    if t == 21: return "hail"
+    return "cloud"
+
+
+def _fc5_live():
+    import sys as _sys
+    _sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
+    import ipma_forecast
+    return ipma_forecast.fetch()
+
+
+def _fc5_status():
+    try:
+        return json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "status.json")))
+    except (OSError, ValueError):
+        return {}
+
+
+def _fc5_warnings(ws, w, today):
+    """IPMA warnings for Madeira merged per type (all areas): highest level, earliest start, latest end, day names."""
+    rank, by = {"yellow": 1, "orange": 2, "red": 3}, {}
+    for x in ws:
+        if x.get("type") == "sea" or not x.get("start"):
+            continue
+        g = by.setdefault(x["type"], {"type": x["type"], "level": x["level"], "start": x["start"], "end": x["end"]})
+        if rank.get(x["level"], 0) > rank.get(g["level"], 0):
+            g["level"] = x["level"]
+        g["start"], g["end"] = min(g["start"], x["start"]), max(g["end"], x["end"])
+
+    def when(iso):
+        n = (datetime.date.fromisoformat(iso[:10]) - today).days
+        d = w["today"] if n <= 0 else w["tomorrow"] if n == 1 else w["days"][datetime.date.fromisoformat(iso[:10]).weekday()]
+        return f"{d} {iso[11:16]}"
+    return [{"level": g["level"], "type": g["type"], "from": when(g["start"]), "until": when(g["end"])} for g in by.values()]
+
+
+def weather_forecast(trail: str | None = None, place: str | None = None, region: str | None = None,
+                     lang: str = "en") -> dict:
+    """IPMA's official forecast for the next 5 days (today + 4) as ready text per day: sky, min–max temperature,
+    chance of rain and its intensity, strongest wind. For a trail's area, a place (town, trailhead) or a region
+    (summit|north|west|east|south); all five areas when none matches. Also IPMA's weather warnings for Madeira and the
+    trail's status. IPMA forecasts the weather; whether a closed trail reopens is IFCN's decision."""
+    w, sky = FC5_WORDS[_lang(lang)], FC5_SKY[_lang(lang)]
+    regions, matched = list(REGIONS), None
+    if trail:
+        try:
+            c = _need_trail(trail)
+            regions, matched = [_q("SELECT region FROM kb.trail WHERE code = %s", (c,))[0]["region"]], c
+        except (ValueError, IndexError):
+            place = place or trail
+    if not matched and (place or region):
+        if region and region.lower() in REGIONS:
+            regions = [region.lower()]
+        else:
+            s = _plain(place or region).replace("’", "'")
+            hit = [g for g, words in FC5_PLACES.items() if any(x in s for x in words)]
+            if hit:
+                regions = hit[:1]
+    st = _fc5_status()
+    fc = _live("fc5", _fc5_live) or st.get("forecast") or {}
+    today = datetime.datetime.now(MADEIRA).date()
+    out = {}
+    for g in regions:
+        lines = []
+        for x in fc.get(g) or []:
+            d = datetime.date.fromisoformat(x["date"])
+            if not 0 <= (d - today).days <= 4:
+                continue
+            n = (d - today).days
+            day = w["today"] if n == 0 else f"{w['tomorrow']} ({w['days'][d.weekday()]})" if n == 1 else w["days"][d.weekday()]
+            bits = [sky[_sky(x.get("type"))]]
+            if x.get("tmin") is not None and x.get("tmax") is not None:
+                bits.append(f"{x['tmin']}–{x['tmax']}°C")
+            if x.get("rain_prob") is not None:
+                bits.append(f"{w['rain']} {x['rain_prob']}%" + (f" ({w['ri'][x['rain_int']]})" if (x.get("rain_int") or 0) >= 1 else ""))
+            if x.get("wind_kmh") is not None:
+                bits.append(f"{w['wind']} {x['wind_kmh']} km/h")
+            lines.append(day + ": " + ", ".join(bits))
+        if lines:
+            out[FC5_REGION_NAMES[g]] = lines
+    head = {"en": "IPMA forecast for", "pt": "Previsão do IPMA para", "fr": "Prévision de l'IPMA pour",
+            "de": "IPMA-Vorhersage für", "pl": "Prognoza IPMA dla"}[_lang(lang)]
+    res = {"forecast": out or None,
+           "text": "\n\n".join(f"{head} {area}:\n" + "\n".join("• " + x for x in lines) for area, lines in out.items()) or None,
+           "warnings_now": _fc5_warnings(st.get("ipma_warnings") or [], w, today),
+           "bad_weather_days_coming": [{"day": w["days"][datetime.date.fromisoformat(x["date"]).weekday()],
+                                        "why": x.get("reasons")} for x in ((st.get("outlook") or {}).get("days") or [])
+                                       if datetime.date.fromisoformat(x["date"]) > today],
+           "note": "IPMA's official forecast (Portuguese weather service). Copy the lines of text for the day(s) asked, "
+                   "with its heading (the area it is for); no weather emoji. Days by name, never "
+                   "dates. Whether a closed trail reopens is IFCN's decision, announced on its trail-warnings list: never "
+                   "predict it. During past IPMA warnings IFCN closed all classified trails, so a wet or windy day ahead "
+                   "means: book flexibly and check the status that morning.",
+           "source": {"name": "IPMA", "url": "https://www.ipma.pt/pt/otempo/prev.localidade.hora/#Madeira"}}
+    if matched:
+        tr = next((x for x in st.get("trails") or [] if x.get("code") == matched), None)
+        if tr:
+            note = tr.get("note")
+            res["trail_status_now"] = {"trail": matched, "status": tr.get("status"),
+                                       "note": note.get(_lang(lang)) or note.get("en") if isinstance(note, dict) else note}
+    return res
 
 
 def day_plan(plan: str, day: str | None = None, lang: str = "en") -> dict:

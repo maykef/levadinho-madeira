@@ -120,6 +120,16 @@ def _names_company(s):
     return any(m.group(1).lower() not in ALLOWED_MADEIRA for m in X_MADEIRA.finditer(s))
 
 
+STAY_ASK = re.compile(r"accommodation|where (should|could|to|do) (we |i )?(stay|base)|alojamento|onde (ficar|nos hospedar)|"
+                      r"unterkunft|übernachten|hébergement|où (loger|dormir|séjourner)|nocleg|gdzie (się )?(zatrzymać|nocować)", re.I)
+STAY_TIP = re.compile(r"booking (platform|site|website)|platforms?\b|plataforma|tourism office|tourist office|posto de turismo|"
+                      r"office de tourisme|touristeninformation|informacj\w* turystyczn|airbnb|booking\.com|expedia|"
+                      r"agenc(y|ies)|agência|agence|reisebüro|biur\w* podróży|hotel website", re.I)
+STAY_ANSWER = {"en": "Levadinho doesn't advise on where to stay.", "pt": "O Levadinho não dá conselhos sobre alojamento.",
+               "fr": "Levadinho ne donne pas de conseils d'hébergement.", "de": "Levadinho gibt keine Empfehlungen zu Unterkünften.",
+               "pl": "Levadinho nie doradza w sprawie noclegów."}
+
+
 def check(reply, user_text, lang, trails, context=""):
     """Returns (reply, changes)."""
     changes = []
@@ -144,6 +154,11 @@ def check(reply, user_text, lang, trails, context=""):
                 pass
     out, d = _drop(out, lambda s: bool(WORKAROUND.search(s)))
     changes += [f"invented workaround dropped: {x[:80]}" for x in d]
+    if STAY_ASK.search(user_text):   # owner: never point to accommodation / booking sites (8 Nov test: "check booking platforms")
+        out, d = _drop(out, lambda s: bool(STAY_TIP.search(s)))
+        changes += [f"accommodation tip dropped: {x[:80]}" for x in d]
+        if d and not re.search(r"[A-Za-zÀ-ž]{3}", out):
+            out = STAY_ANSWER.get(lang, STAY_ANSWER["en"])
     if NO_RULE_TOPIC.search(user_text) and any(PROHIBIT.search(s) and NO_RULE_TOPIC.search(s) for s, _ in _sentences(out)):
         out = NO_RULE_ANSWER.get(lang, NO_RULE_ANSWER["en"])
         changes.append("invented prohibition replaced with the no-rule answer")
@@ -188,11 +203,16 @@ def check(reply, user_text, lang, trails, context=""):
             else:
                 out += "\n\n" + table
     heads = []
+    CLOSED_WORDS = re.compile(r"\b(closed|clos|fechad\w*|encerrad\w*|ferm[ée]e?s?|geschlossen|gesperrt|zamkni\w*)\b", re.I)
     # "is the café / market / cable car open?" is not a question about a trail's status
     asked_status = bool(answers.STATUS_RE.search(answers.fold(user_text))) and not NOT_TRAIL.search(answers.fold(user_text))
     # a trail's state, not the sky: "partly cloudy", "parcialmente nublado", "partiellement nuageux"… stay (25 Oct)
     partial_rx = re.compile(r"\b(partly|partially|partial|parcialmente|partiellement|partiel|teilweise|częściowo|czesciowo)\b"
                             r"(?!\s+(cloud|nublad|nuag|bewölk|bewolk|pochmur|zachmurz|słonecz|sunny|ensolarad|ensoleill))", re.I)
+    try:
+        blanket = ((answers._status_data().get("alert") or {}).get("blanket")) == "closed"
+    except Exception:  # noqa: BLE001
+        blanket = False
     for code in trails[:2]:
         t = answers._trail(code)
         if not t:
@@ -214,6 +234,13 @@ def check(reply, user_text, lang, trails, context=""):
         # owner, 2026-10-10: answer only what was asked — the status goes first only when the question is about it,
         # or the trail is CLOSED (safety); never pasted in front of a parking or bus answer
         words = [answers.ST[t["status"]][lang].lower()]
+        if blanket:
+            # storm mode (owner, 2026-11-08 test): the storm lead / the web chat's opening already says every trail is
+            # closed; a CLOSED block per trail on top said it two or three times. Only a status question whose reply
+            # doesn't say it gets one line, for one trail.
+            if asked_status and not heads and not CLOSED_WORDS.search(out):
+                heads.append(answers.status_line(code, lang))
+            continue
         if (asked_status or t["status"] == "CLOSED") and not any(w in out.lower() for w in words):
             heads.append(answers.status_line(code, lang))
     if heads:
