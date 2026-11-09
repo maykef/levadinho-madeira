@@ -73,8 +73,13 @@
                   fr: ["Quand les sentiers rouvrent-ils ?", "Que faire à Funchal aujourd'hui ?"],
                   de: ["Wann öffnen die Wege wieder?", "Was kann ich heute in Funchal machen?"],
                   pl: ["Kiedy szlaki zostaną otwarte?", "Co mogę dziś robić w Funchal?"] };
+  var AHEAD = null;   // status.json alert.ahead_text: IPMA's warnings ahead + the day after's forecast (storm.py, 2026-11-09)
   async function stormOn() {
-    try { var st = await (await fetch("/status.json", { cache: "no-store" })).json(); return ((st.alert || {}).blanket) === "closed"; }
+    try {
+      var st = await (await fetch("/status.json", { cache: "no-store" })).json(), a = st.alert || {};
+      AHEAD = a.ahead_text ? (a.ahead_text[LANG] || a.ahead_text.en) : null;
+      return a.blanket === "closed";
+    }
     catch (e) { return false; }
   }
   // trail pages carry chat.js with data-storm-only (scripts/gen_chat.py): the chat appears there only in storm mode
@@ -360,6 +365,7 @@
       if (closed) { fresh = { rows: closed, kind: "closed" }; open.kind = "closed"; }
       if (await stormOn()) {   // storm mode: the island-wide closure first, then nothing that suggests walking
         fresh = { rows: [["", "⚠️ " + (STORM[LANG] || STORM.en)]], kind: "storm" };
+        if (AHEAD) fresh.rows.push(["", "<b>" + esc(AHEAD.head) + "</b> " + esc(AHEAD.body)]);   // same words as the banner
         open.kind = "storm"; open.chips = null;
       }
       for (var i = 0; i < fresh.rows.length; i++) {
