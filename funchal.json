@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-09T15:50+00:00",
+ "stamp": "2026-11-09T16:50+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -191,6 +191,15 @@
  ],
  "events": [
   {
+   "title": "11th Madeira International Mandolin Festival",
+   "venue": "",
+   "start": "2026-10-23",
+   "end": "2026-11-14",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/10th-madeira-international-mandolin-festival/",
+   "src": "eventsmadeira.com"
+  },
+  {
    "title": "XXVIII Madeira International Bridge Open",
    "venue": "",
    "start": "2026-10-29",
@@ -260,15 +269,6 @@
    "end": "2026-11-18",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/atlantida-wind-quintet-ocm/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "NOMADIS Dance Project",
-   "venue": "",
-   "start": "2026-11-20",
-   "end": "2026-11-20",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/nomadis-dance-project/",
    "src": "eventsmadeira.com"
   },
   {

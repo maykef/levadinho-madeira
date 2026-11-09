@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.4,
+    "temp_c": 8.0,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 41,
+    "wind_kmh": 42,
     "wind_strong": true
   },
-  "stamp": "2026-11-09 15:50",
+  "stamp": "2026-11-09 16:50",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -34,7 +34,7 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 8,
-      "wind": 41,
+      "wind": 42,
       "rain": 0.0,
       "in_cloud": true
     },
@@ -57,8 +57,8 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 22,
-      "wind": 10,
+      "temp": 24,
+      "wind": 9,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -140,7 +140,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 22,
+      "temp": 24,
       "page": "/sao-lourenco/"
     },
     {
