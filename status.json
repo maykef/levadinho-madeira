@@ -17,7 +17,7 @@
     "wind_kmh": 37,
     "wind_strong": false
   },
-  "stamp": "2026-11-09 21:00",
+  "stamp": "2026-11-09 21:22",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -519,7 +519,7 @@
     },
     "ahead_text": {
       "en": {
-        "head": "IFCN has reopened the trails, but IPMA still has a orange warning. Exercise caution on the trails and check the latest announcements from IFCN and IPMA.",
+        "head": "IFCN has reopened the trails, but IPMA still has an orange warning. Exercise caution on the trails and check the latest announcements from IFCN and IPMA.",
         "body": "IPMA warnings from Tuesday 21:00 to Wednesday 12:00: heavy, persistent rain and gusts up to 130 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 45%, Santana 59%, Paul da Serra 84%, Caniçal 2%, Funchal 2%."
       },
       "pt": {
