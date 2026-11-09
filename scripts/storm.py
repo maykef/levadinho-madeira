@@ -456,7 +456,8 @@ def ahead(ipma, now=None):
     no_day = (end - datetime.timedelta(days=1)).date() if end.hour < 6 else end.date()
     gm = [w["gust"] for w in ws if w["type"] == "wind" and w["gust"] and w["area"] == "mountains"]
     gc = [w["gust"] for w in ws if w["type"] == "wind" and w["gust"] and w["area"] != "mountains"]
-    return {"types": [t for t in AHEAD_TYPES if any(w["type"] == t for w in ws)],
+    return {"level": max((w["level"] for w in ws), key=lambda l: ALL_LEVELS.get(l, 0)),
+            "types": [t for t in AHEAD_TYPES if any(w["type"] == t for w in ws)],
             "gust_mountains": max(gm) if gm else None, "gust": max(gc) if gc else None,
             "start": start.isoformat(timespec="minutes") if start > now else None,
             "end": end.isoformat(timespec="minutes"), "no_day": no_day.isoformat(),
@@ -469,7 +470,27 @@ AHEAD_PLACES = (("summit", "Pico do Areeiro"), ("north", "Santana"), ("west", "P
                 ("east", "Caniçal"), ("south", "Funchal"))
 
 
-def ahead_text(ah, forecast=None):
+REOPENED_LEAD = {   # owner, 2026-11-09: after a reopening, say so first, then the warning and the caution line
+    "en": "IFCN has reopened the trails, but IPMA still has a {lvl} warning.",
+    "pt": "O IFCN reabriu os percursos, mas o IPMA mantém um aviso {lvl}.",
+    "fr": "L'IFCN a rouvert les sentiers, mais l'IPMA maintient une vigilance {lvl}.",
+    "de": "Das IFCN hat die Wege wieder geöffnet, aber das IPMA hat weiterhin eine Warnung der Stufe {lvl}.",
+    "pl": "IFCN ponownie otworzył szlaki, ale IPMA nadal utrzymuje {lvl} ostrzeżenie.",
+}
+REOPENED_RE = re.compile(r"percursos\s+pedestres\s+classificados\s+da\s+RAM[^.]{0,120}?j[aá]\s+se\s+encontram\s+transit[aá]veis", re.I)
+
+
+def reopened_notice(page_html=None):
+    """True while IFCN's notices page carries a reopening of all classified trails ("... já se encontram transitáveis")."""
+    try:
+        items = notices(page_html if page_html is not None else _get(IFCN_AVISOS_CAT, "STORM_FIXTURE_IFCN"))
+    except (Exception, SystemExit) as e:  # noqa: BLE001
+        print("reopening notice: IFCN notices unreadable:", e, file=sys.stderr)
+        return False
+    return any(REOPENED_RE.search(html.unescape(re.sub(r"<[^>]+>", " ", t))) for t in items)
+
+
+def ahead_text(ah, forecast=None, reopened=False):
     """{lang: {"head", "body"}} for the banner, the closures page and the bot, or None. With `forecast` (status.json
     "forecast") the body ends with IPMA's rain chance per place for the day after."""
     if not ah:
@@ -492,7 +513,10 @@ def ahead_text(ah, forecast=None):
         noday = A["days"][nd]
         span = (A["span_f"].format(s=at(ah["start"]), e=at(ah["end"])) if ah["start"]
                 else A["span_n"].format(e=at(ah["end"])))
-        out[lang] = {"head": A["head"], "body": A["body"].format(span=span, what_l=what_s[:1].lower() + what_s[1:] if lang != "de" else what_s,
+        head = A["head"]
+        if reopened:
+            head = REOPENED_LEAD[lang].format(lvl=LEVEL_NAME.get(ah.get("level"), {}).get(lang, ah.get("level"))) + " " + head
+        out[lang] = {"head": head, "body": A["body"].format(span=span, what_l=what_s[:1].lower() + what_s[1:] if lang != "de" else what_s,
             what=what_s, start=A["from"].format(d=at(ah["start"])) if ah["start"] else "", end=at(ah["end"]),
             noday=noday[:1].upper() + noday[1:], next=A["acc"][nx] if lang == "pl" else A["days"][nx])}
         rows = [(name, next((x for x in (forecast or {}).get(key) or [] if x["date"] == ah["next_day"]), None))
@@ -511,7 +535,8 @@ def alert(b, ipma, forecast=None):
          "ifcn_source": b.get("source"), "ipma_level": ipma.get("level") if ipma.get("ok") else None,
          "ipma_types": sorted({w["type"] for w in ipma.get("warnings", [])}) if ipma.get("ok") else [],
          "ipma_now": any(w["now"] for w in ipma.get("warnings", [])) if ipma.get("ok") else False,
-         "ipma_source": IPMA_PAGE, "ahead": ah, "ahead_text": ahead_text(ah, forecast)}
+         "ipma_source": IPMA_PAGE, "ahead": ah,
+         "ahead_text": ahead_text(ah, forecast, reopened=bool(ah) and not b.get("state") and reopened_notice())}
     return a if (a["blanket"] or a["ipma_level"] or ah) else None   # warnings ahead alone keep the notice (owner, 2026-11-09)
 
 
