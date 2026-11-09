@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-08T23:13+00:00",
+ "stamp": "2026-11-09T00:03+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-08",
-   "type": "sunday",
-   "holiday": null,
-   "bus": "sunday",
-   "sunrise": "07:30",
-   "sunset": "18:12",
-   "weather": {
-    "tmin": 21,
-    "tmax": 24,
-    "rain": 100,
-    "wtype": 20,
-    "uv": 3.6
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-09",
    "type": "weekday",
@@ -187,6 +171,16 @@
    "sunset": "18:04",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-22",
+   "type": "sunday",
+   "holiday": null,
+   "bus": "sunday",
+   "sunrise": "07:43",
+   "sunset": "18:04",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -292,13 +286,13 @@
    {
     "type": "Agitação Marítima",
     "level": "yellow",
-    "start": "2026-11-08T18:47:00",
+    "start": "2026-11-08T23:03:00",
     "end": "2026-11-09T06:00:00"
    },
    {
     "type": "Precipitação",
     "level": "yellow",
-    "start": "2026-11-10T21:00:00",
+    "start": "2026-11-10T18:00:00",
     "end": "2026-11-11T12:00:00"
    },
    {
