@@ -17,7 +17,7 @@
     "wind_kmh": 37,
     "wind_strong": false
   },
-  "stamp": "2026-11-09 20:40",
+  "stamp": "2026-11-09 21:00",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -497,8 +497,11 @@
     "blanket_from": null,
     "blanket_reopen": null,
     "ifcn_source": "https://ifcn.madeira.gov.pt/pt/?view=category&id=146",
-    "ipma_level": null,
-    "ipma_types": [],
+    "ipma_level": "orange",
+    "ipma_types": [
+      "Precipitação",
+      "Vento"
+    ],
     "ipma_now": false,
     "ipma_source": "https://www.ipma.pt/pt/otempo/prev-sam/?p=MAD",
     "ahead": {
@@ -877,14 +880,6 @@
   "outlook": {
     "days": [
       {
-        "date": "2026-11-10",
-        "reasons": [
-          "warning_orange",
-          "warning_yellow"
-        ],
-        "places": []
-      },
-      {
         "date": "2026-11-11",
         "reasons": [
           "heavy_rain",
@@ -896,7 +891,7 @@
         ]
       }
     ],
-    "first": "2026-11-10",
+    "first": "2026-11-11",
     "source": "https://www.ipma.pt/pt/otempo/prev.localidade.hora/#Madeira"
   }
 }
