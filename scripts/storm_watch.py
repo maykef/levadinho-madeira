@@ -150,9 +150,9 @@ def track_announcements(now, dry):
         if fresh:
             f.write("# Official notices (official_notices.py / official_alert.py / storm_watch.py)\n\n"
                     "Check IFCN / IPMA against the site status, then delete this file.\n\n")
-        for what, k, v in changes:
+        for what, _k, v in changes:
             f.write(f"- {stamp} IFCN announcement {what.upper()} ({storm.classify(v) or 'notice'}): {v[:400]}\n")
-    return [f"{what}: {v[:120]}" for what, k, v in changes]
+    return [f"{what}: {v[:120]}" for what, _k, v in changes]
 
 
 def main(dry):
