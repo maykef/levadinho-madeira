@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.6,
+    "temp_c": 8.3,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 41,
-    "wind_strong": true
+    "wind_kmh": 37,
+    "wind_strong": false
   },
-  "stamp": "2026-11-09 20:20",
+  "stamp": "2026-11-09 20:40",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -33,15 +33,15 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 9,
-      "wind": 41,
-      "rain": 0.2,
+      "temp": 8,
+      "wind": 37,
+      "rain": 0.0,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 18,
+      "temp": 17,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -57,8 +57,8 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 22,
-      "wind": 24,
+      "temp": 21,
+      "wind": 17,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -79,7 +79,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 9,
+      "temp": 8,
       "page": "/pr1/",
       "note": {
         "pt": "Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija.",
@@ -113,7 +113,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 9,
+      "temp": 8,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "Encontra-se totalmente transitável o troço compreendido entre a Casa de Abrigo do Pico Ruivo e o Pico Ruivo.",
@@ -130,7 +130,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 18,
+      "temp": 17,
       "page": "/caldeirao-verde/"
     },
     {
@@ -140,7 +140,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 22,
+      "temp": 21,
       "page": "/sao-lourenco/"
     },
     {
@@ -150,7 +150,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 9,
+      "temp": 8,
       "page": "/balcoes/"
     },
     {
@@ -170,7 +170,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 9,
+      "temp": 8,
       "page": "/levada-do-furado/"
     },
     {
@@ -180,7 +180,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 18,
+      "temp": 17,
       "page": "/levada-do-rei/"
     },
     {
@@ -200,7 +200,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 17,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -210,7 +210,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 9,
+      "temp": 8,
       "page": "/vereda-da-encumeada/",
       "note": {
         "pt": "Transitável: Vereda da Encumeada. Parcialmente transitável: Percurso transitável entre o Pico Ruivo e a Boca das Torrinhas.",
@@ -227,7 +227,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 9,
+      "temp": 8,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -237,7 +237,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 9,
+      "temp": 8,
       "page": "/vereda-do-burro/"
     },
     {
@@ -257,7 +257,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 9,
+      "temp": 8,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "Percurso transitável - está disponível uma ligação sinalizada à Ribeira das Cales, junto ao Centro de Interpretação do Parque Ecológico do Funchal. A versão atual do percurso, entre o Poço da Neve (início do PR4), a Levada do Barreiro e a Ribeira das Cales, encontra-se totalmente sinalizada em ambos os sentidos.",
@@ -274,7 +274,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 17,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -324,7 +324,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 9,
+      "temp": 8,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "Percurso transitável desde a Boca da Corrida até ao km 3,5.",
@@ -488,7 +488,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 17,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ],
@@ -517,23 +517,23 @@
     "ahead_text": {
       "en": {
         "head": "IFCN has reopened the trails, but IPMA still has a orange warning. Exercise caution on the trails and check the latest announcements from IFCN and IPMA.",
-        "body": "IPMA warnings from Tuesday 21:00 to Wednesday 12:00: heavy, persistent rain and gusts up to 130 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 49%, Santana 71%, Paul da Serra 86%, Caniçal 8%, Funchal 8%."
+        "body": "IPMA warnings from Tuesday 21:00 to Wednesday 12:00: heavy, persistent rain and gusts up to 130 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 45%, Santana 59%, Paul da Serra 84%, Caniçal 2%, Funchal 2%."
       },
       "pt": {
         "head": "O IFCN reabriu os percursos, mas o IPMA mantém um aviso laranja. Tenha sempre cuidado e consulte os últimos avisos do IFCN e do IPMA.",
-        "body": "Avisos do IPMA de terça-feira às 21:00 a quarta-feira às 12:00: chuva por vezes forte e persistente e rajadas até 130 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 49%, Santana 71%, Paul da Serra 86%, Caniçal 8%, Funchal 8%."
+        "body": "Avisos do IPMA de terça-feira às 21:00 a quarta-feira às 12:00: chuva por vezes forte e persistente e rajadas até 130 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 45%, Santana 59%, Paul da Serra 84%, Caniçal 2%, Funchal 2%."
       },
       "fr": {
         "head": "L'IFCN a rouvert les sentiers, mais l'IPMA maintient une vigilance orange. Soyez prudent en tout temps et consultez les derniers avis de l'IFCN et de l'IPMA.",
-        "body": "Avis de l'IPMA de mardi 21:00 à mercredi 12:00 : pluie parfois forte et persistante et rafales jusqu'à 130 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 49%, Santana 71%, Paul da Serra 86%, Caniçal 8%, Funchal 8%."
+        "body": "Avis de l'IPMA de mardi 21:00 à mercredi 12:00 : pluie parfois forte et persistante et rafales jusqu'à 130 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 45%, Santana 59%, Paul da Serra 84%, Caniçal 2%, Funchal 2%."
       },
       "de": {
         "head": "Das IFCN hat die Wege wieder geöffnet, aber das IPMA hat weiterhin eine Warnung der Stufe Orange. Seien Sie jederzeit vorsichtig und prüfen Sie die neuesten Hinweise von IFCN und IPMA.",
-        "body": "IPMA-Warnungen von Dienstag 21:00 Uhr bis Mittwoch 12:00 Uhr: Zeitweise starker, anhaltender Regen und Böen bis 130 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 49%, Santana 71%, Paul da Serra 86%, Caniçal 8%, Funchal 8%."
+        "body": "IPMA-Warnungen von Dienstag 21:00 Uhr bis Mittwoch 12:00 Uhr: Zeitweise starker, anhaltender Regen und Böen bis 130 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 45%, Santana 59%, Paul da Serra 84%, Caniçal 2%, Funchal 2%."
       },
       "pl": {
         "head": "IFCN ponownie otworzył szlaki, ale IPMA nadal utrzymuje pomarańczowe ostrzeżenie. Zachowaj ostrożność przez cały czas i sprawdzaj najnowsze komunikaty IFCN i IPMA.",
-        "body": "Ostrzeżenia IPMA od wtorku 21:00 do środy 12:00: okresami silny, uporczywy deszcz i porywy do 130 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 49%, Santana 71%, Paul da Serra 86%, Caniçal 8%, Funchal 8%."
+        "body": "Ostrzeżenia IPMA od wtorku 21:00 do środy 12:00: okresami silny, uporczywy deszcz i porywy do 130 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 45%, Santana 59%, Paul da Serra 84%, Caniçal 2%, Funchal 2%."
       }
     }
   },
@@ -569,7 +569,7 @@
       "area": "north",
       "type": "sea",
       "level": "yellow",
-      "start": "2026-11-09T14:06",
+      "start": "2026-11-09T19:03",
       "end": "2026-11-10T00:00",
       "now": true,
       "gust": null
@@ -606,7 +606,7 @@
       "type": "sea",
       "level": "yellow",
       "start": "2026-11-11T06:00",
-      "end": "2026-11-11T15:00",
+      "end": "2026-11-11T21:00",
       "now": false,
       "gust": null
     }
@@ -629,9 +629,9 @@
         "rain_prob": 100,
         "rain_int": 2,
         "wind_class": 3,
-        "wind_kmh": 52,
+        "wind_kmh": 62,
         "tmin": 10,
-        "tmax": 14
+        "tmax": 15
       },
       {
         "date": "2026-11-11",
@@ -639,29 +639,29 @@
         "rain_prob": 100,
         "rain_int": 3,
         "wind_class": 3,
-        "wind_kmh": 98,
-        "tmin": 9,
+        "wind_kmh": 114,
+        "tmin": 10,
         "tmax": 17
       },
       {
         "date": "2026-11-12",
         "type": 3,
-        "rain_prob": 49,
+        "rain_prob": 45,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 32,
-        "tmin": 8,
-        "tmax": 14
+        "wind_kmh": 31,
+        "tmin": 9,
+        "tmax": 15
       },
       {
         "date": "2026-11-13",
-        "type": 6,
-        "rain_prob": 98,
-        "rain_int": 2,
+        "type": 7,
+        "rain_prob": 96,
+        "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 20,
-        "tmin": 7,
-        "tmax": 14
+        "wind_kmh": 19,
+        "tmin": 8,
+        "tmax": 15
       }
     ],
     "north": [
@@ -671,47 +671,47 @@
         "rain_prob": 60,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 18,
+        "wind_kmh": 19,
         "tmin": 18,
         "tmax": 23
       },
       {
         "date": "2026-11-10",
-        "type": 10,
-        "rain_prob": 98,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 8,
-        "tmin": 18,
-        "tmax": 23
-      },
-      {
-        "date": "2026-11-11",
-        "type": 20,
+        "type": 6,
         "rain_prob": 100,
-        "rain_int": 3,
-        "wind_class": 2,
-        "wind_kmh": 41,
-        "tmin": 18,
-        "tmax": 24
-      },
-      {
-        "date": "2026-11-12",
-        "type": 7,
-        "rain_prob": 71,
-        "rain_int": 1,
-        "wind_class": 2,
-        "wind_kmh": 25,
+        "rain_int": 2,
+        "wind_class": 1,
+        "wind_kmh": 9,
         "tmin": 18,
         "tmax": 22
       },
       {
+        "date": "2026-11-11",
+        "type": 6,
+        "rain_prob": 100,
+        "rain_int": 2,
+        "wind_class": 2,
+        "wind_kmh": 42,
+        "tmin": 18,
+        "tmax": 23
+      },
+      {
+        "date": "2026-11-12",
+        "type": 2,
+        "rain_prob": 59,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 23,
+        "tmin": 18,
+        "tmax": 21
+      },
+      {
         "date": "2026-11-13",
         "type": 7,
-        "rain_prob": 92,
+        "rain_prob": 76,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 17,
+        "wind_kmh": 16,
         "tmin": 18,
         "tmax": 22
       }
@@ -733,37 +733,37 @@
         "rain_prob": 100,
         "rain_int": 2,
         "wind_class": 2,
-        "wind_kmh": 41,
+        "wind_kmh": 49,
         "tmin": 10,
-        "tmax": 13
+        "tmax": 14
       },
       {
         "date": "2026-11-11",
-        "type": 8,
+        "type": 6,
         "rain_prob": 100,
-        "rain_int": 3,
+        "rain_int": 2,
         "wind_class": 3,
-        "wind_kmh": 76,
-        "tmin": 8,
+        "wind_kmh": 88,
+        "tmin": 9,
         "tmax": 16
       },
       {
         "date": "2026-11-12",
         "type": 7,
-        "rain_prob": 86,
+        "rain_prob": 84,
         "rain_int": 1,
         "wind_class": 2,
         "wind_kmh": 34,
-        "tmin": 7,
+        "tmin": 9,
         "tmax": 14
       },
       {
         "date": "2026-11-13",
         "type": 7,
-        "rain_prob": 73,
+        "rain_prob": 69,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 21,
+        "wind_kmh": 20,
         "tmin": 8,
         "tmax": 14
       }
@@ -775,44 +775,44 @@
         "rain_prob": 2,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 9,
+        "wind_kmh": 12,
         "tmin": 19,
         "tmax": 24
       },
       {
         "date": "2026-11-10",
-        "type": 9,
+        "type": 6,
         "rain_prob": 100,
         "rain_int": 2,
         "wind_class": 2,
-        "wind_kmh": 64,
+        "wind_kmh": 66,
         "tmin": 19,
         "tmax": 23
       },
       {
         "date": "2026-11-11",
-        "type": 20,
+        "type": 6,
         "rain_prob": 100,
-        "rain_int": 3,
-        "wind_class": 3,
-        "wind_kmh": 75,
+        "rain_int": 2,
+        "wind_class": 4,
+        "wind_kmh": 80,
         "tmin": 20,
-        "tmax": 22
+        "tmax": 23
       },
       {
         "date": "2026-11-12",
         "type": 2,
-        "rain_prob": 8,
+        "rain_prob": 2,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 37,
-        "tmin": 19,
+        "wind_kmh": 31,
+        "tmin": 20,
         "tmax": 22
       },
       {
         "date": "2026-11-13",
         "type": 2,
-        "rain_prob": 37,
+        "rain_prob": 35,
         "rain_int": null,
         "wind_class": 2,
         "wind_kmh": 27,
@@ -827,48 +827,48 @@
         "rain_prob": 100,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 15,
+        "wind_kmh": 16,
         "tmin": 20,
         "tmax": 24
       },
       {
         "date": "2026-11-10",
-        "type": 9,
+        "type": 6,
         "rain_prob": 100,
         "rain_int": 2,
-        "wind_class": 1,
-        "wind_kmh": 13,
+        "wind_class": 2,
+        "wind_kmh": 19,
         "tmin": 19,
         "tmax": 24
       },
       {
         "date": "2026-11-11",
-        "type": 8,
+        "type": 6,
         "rain_prob": 100,
-        "rain_int": 3,
+        "rain_int": 2,
         "wind_class": 2,
-        "wind_kmh": 26,
+        "wind_kmh": 27,
         "tmin": 20,
-        "tmax": 26
+        "tmax": 24
       },
       {
         "date": "2026-11-12",
         "type": 2,
-        "rain_prob": 8,
+        "rain_prob": 2,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 11,
-        "tmin": 19,
+        "wind_kmh": 12,
+        "tmin": 20,
         "tmax": 24
       },
       {
         "date": "2026-11-13",
         "type": 7,
-        "rain_prob": 82,
+        "rain_prob": 65,
         "rain_int": 1,
         "wind_class": 1,
-        "wind_kmh": 9,
-        "tmin": 18,
+        "wind_kmh": 11,
+        "tmin": 19,
         "tmax": 24
       }
     ]
@@ -888,15 +888,11 @@
         "date": "2026-11-11",
         "reasons": [
           "heavy_rain",
-          "strong_wind",
-          "thunder"
+          "strong_wind"
         ],
         "places": [
           "east",
-          "north",
-          "south",
-          "summit",
-          "west"
+          "summit"
         ]
       }
     ],
