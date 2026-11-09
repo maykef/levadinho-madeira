@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-09T06:33+00:00",
+ "stamp": "2026-11-09T07:33+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -289,12 +289,6 @@
    2.5
   ],
   "warnings": [
-   {
-    "type": "Agitação Marítima",
-    "level": "yellow",
-    "start": "2026-11-08T23:03:00",
-    "end": "2026-11-09T06:00:00"
-   },
    {
     "type": "Precipitação",
     "level": "yellow",
