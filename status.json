@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 6.1,
+    "temp_c": 6.2,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 42,
+    "wind_kmh": 45,
     "wind_strong": true
   },
-  "stamp": "2026-11-09 03:20",
+  "stamp": "2026-11-09 04:20",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -34,14 +34,14 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 6,
-      "wind": 42,
-      "rain": 0.2,
+      "wind": 45,
+      "rain": 0.7,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 15,
+      "temp": 16,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -57,16 +57,16 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 19,
-      "wind": 28,
+      "temp": 20,
+      "wind": 39,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 20,
-      "wind": 11,
+      "temp": 21,
+      "wind": 13,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -134,7 +134,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/caldeirao-verde/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -152,7 +152,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 19,
+      "temp": 20,
       "page": "/sao-lourenco/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -224,7 +224,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/levada-do-rei/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -260,7 +260,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/vereda-da-ilha/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -332,7 +332,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 20,
+      "temp": 21,
       "page": "/caminho-real-do-monte/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -368,7 +368,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/vereda-das-funduras/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -728,7 +728,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
