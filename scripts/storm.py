@@ -476,7 +476,7 @@ AHEAD_PLACES = (("summit", "Pico do Areeiro"), ("north", "Santana"), ("west", "P
 
 
 REOPENED_LEAD = {   # owner, 2026-11-09: after a reopening, say so first, then the warning and the caution line
-    "en": "IFCN has reopened the trails, but IPMA still has a {lvl} warning.",
+    "en": "IFCN has reopened the trails, but IPMA still has {a} {lvl} warning.",
     "pt": "O IFCN reabriu os percursos, mas o IPMA mantém um aviso {lvl}.",
     "fr": "L'IFCN a rouvert les sentiers, mais l'IPMA maintient une vigilance {lvl}.",
     "de": "Das IFCN hat die Wege wieder geöffnet, aber das IPMA hat weiterhin eine Warnung der Stufe {lvl}.",
@@ -520,7 +520,8 @@ def ahead_text(ah, forecast=None, reopened=False):
                 else A["span_n"].format(e=at(ah["end"])))
         head = A["head"]
         if reopened:
-            head = REOPENED_LEAD[lang].format(lvl=LEVEL_NAME.get(ah.get("level"), {}).get(lang, ah.get("level"))) + " " + head
+            lvl = LEVEL_NAME.get(ah.get("level"), {}).get(lang, ah.get("level"))
+            head = REOPENED_LEAD[lang].format(lvl=lvl, a="an" if str(lvl)[:1].lower() in "aeiou" else "a") + " " + head
         out[lang] = {"head": head, "body": A["body"].format(span=span, what_l=what_s[:1].lower() + what_s[1:] if lang != "de" else what_s,
             what=what_s, start=A["from"].format(d=at(ah["start"])) if ah["start"] else "", end=at(ah["end"]),
             noday=noday[:1].upper() + noday[1:], next=A["acc"][nx] if lang == "pl" else A["days"][nx])}
