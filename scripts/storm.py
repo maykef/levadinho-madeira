@@ -405,32 +405,32 @@ def apply(trails, b):
 # forecast". Day names and times, never dates. Fixed wording, no machine translation at run time.
 AHEAD_TYPES = ("rain", "wind", "thunder", "snow")
 AHEAD = {
-    "en": {"head": "No levadas or trails{span}: IPMA warnings.", "span_f": " from {s} to {e}", "span_n": " until {e}",
-           "body": "{what}. Don't be on a levada or trail during that time, even where you see others walking. {noday} is a no. For {next}, wait for IPMA's forecast: this notice changes as soon as it does.",
+    "en": {"head": "Exercise caution at all times and check the latest announcements from IFCN and IPMA.", "span_f": "IPMA warnings from {s} to {e}", "span_n": "IPMA warnings until {e}",
+           "body": "{span}: {what_l}. Don't be on a levada or trail during that time, even where you see others walking. {noday} is a no. For {next}, wait for IPMA's forecast: this notice changes as soon as it does.",
            "from": " from {d}", "and": "and", "rain": "heavy, persistent rain", "thunder": "thunderstorms", "snow": "snow",
            "wind": "strong wind", "gust_m": "gusts up to {g} km/h in the mountains", "gust": "gusts up to {g} km/h",
            "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "at": "{day} {t}",
            "fc": "IPMA's forecast for {next} so far, chance of rain: {list}."},
-    "pt": {"head": "Nenhuma levada nem percurso{span}: avisos do IPMA.", "span_f": " de {s} a {e}", "span_n": " até {e}",
-           "body": "{what}. Não esteja em nenhuma levada ou percurso durante esse período, mesmo que veja outras pessoas a caminhar. {noday} está fora de questão. Para {next}, aguarde a previsão do IPMA: este aviso muda assim que ela mudar.",
+    "pt": {"head": "Tenha sempre cuidado e consulte os últimos avisos do IFCN e do IPMA.", "span_f": "Avisos do IPMA de {s} a {e}", "span_n": "Avisos do IPMA até {e}",
+           "body": "{span}: {what_l}. Não esteja em nenhuma levada ou percurso durante esse período, mesmo que veja outras pessoas a caminhar. {noday} está fora de questão. Para {next}, aguarde a previsão do IPMA: este aviso muda assim que ela mudar.",
            "from": " a partir de {d}", "and": "e", "rain": "chuva por vezes forte e persistente", "thunder": "trovoada", "snow": "neve",
            "wind": "vento forte", "gust_m": "rajadas até {g} km/h nas regiões montanhosas", "gust": "rajadas até {g} km/h",
            "days": ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"], "at": "{day} às {t}",
            "fc": "Previsão do IPMA para {next}, por agora, probabilidade de chuva: {list}."},
-    "fr": {"head": "Aucune levada ni aucun sentier{span} : avis de l'IPMA.", "span_f": " de {s} à {e}", "span_n": " jusqu'à {e}",
-           "body": "{what}. Ne soyez sur aucune levada ni aucun sentier pendant cette période, même si vous voyez d'autres randonneurs. {noday} : c'est non. Pour {next}, attendez la prévision de l'IPMA : cet avis change dès qu'elle change.",
+    "fr": {"head": "Soyez prudent en tout temps et consultez les derniers avis de l'IFCN et de l'IPMA.", "span_f": "Avis de l'IPMA de {s} à {e}", "span_n": "Avis de l'IPMA jusqu'à {e}",
+           "body": "{span} : {what_l}. Ne soyez sur aucune levada ni aucun sentier pendant cette période, même si vous voyez d'autres randonneurs. {noday} : c'est non. Pour {next}, attendez la prévision de l'IPMA : cet avis change dès qu'elle change.",
            "from": " à partir de {d}", "and": "et", "rain": "pluie parfois forte et persistante", "thunder": "orages", "snow": "neige",
            "wind": "vent fort", "gust_m": "rafales jusqu'à {g} km/h en montagne", "gust": "rafales jusqu'à {g} km/h",
            "days": ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"], "at": "{day} {t}",
            "fc": "Prévision de l'IPMA pour {next}, pour l'instant, probabilité de pluie : {list}."},
-    "de": {"head": "Keine Levadas und Wanderwege{span}: IPMA-Warnungen.", "span_f": " von {s} bis {e}", "span_n": " bis {e}",
-           "body": "{what}. Seien Sie in dieser Zeit auf keiner Levada und keinem Wanderweg, auch wenn Sie andere dort sehen. {noday} geht nicht. Für {next} warten Sie die IPMA-Vorhersage ab: Dieser Hinweis ändert sich, sobald sie sich ändert.",
+    "de": {"head": "Seien Sie jederzeit vorsichtig und prüfen Sie die neuesten Hinweise von IFCN und IPMA.", "span_f": "IPMA-Warnungen von {s} bis {e}", "span_n": "IPMA-Warnungen bis {e}",
+           "body": "{span}: {what_l}. Seien Sie in dieser Zeit auf keiner Levada und keinem Wanderweg, auch wenn Sie andere dort sehen. {noday} geht nicht. Für {next} warten Sie die IPMA-Vorhersage ab: Dieser Hinweis ändert sich, sobald sie sich ändert.",
            "from": " ab {d}", "and": "und", "rain": "zeitweise starker, anhaltender Regen", "thunder": "Gewitter", "snow": "Schnee",
            "wind": "starker Wind", "gust_m": "Böen bis {g} km/h in den Bergen", "gust": "Böen bis {g} km/h",
            "days": ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"], "at": "{day} {t} Uhr",
            "fc": "IPMA-Vorhersage für {next}, Stand jetzt, Regenwahrscheinlichkeit: {list}."},
-    "pl": {"head": "Żadnych lewad ani szlaków{span}: ostrzeżenia IPMA.", "span_f": " od {s} do {e}", "span_n": " do {e}",
-           "body": "{what}. W tym czasie nie wchodź na żadną lewadę ani szlak, nawet jeśli widzisz tam innych. {noday} odpada. Na {next} poczekaj na prognozę IPMA: ten komunikat zmieni się, gdy tylko ona się zmieni.",
+    "pl": {"head": "Zachowaj ostrożność przez cały czas i sprawdzaj najnowsze komunikaty IFCN i IPMA.", "span_f": "Ostrzeżenia IPMA od {s} do {e}", "span_n": "Ostrzeżenia IPMA do {e}",
+           "body": "{span}: {what_l}. W tym czasie nie wchodź na żadną lewadę ani szlak, nawet jeśli widzisz tam innych. {noday} odpada. Na {next} poczekaj na prognozę IPMA: ten komunikat zmieni się, gdy tylko ona się zmieni.",
            "from": " od {d}", "and": "i", "rain": "okresami silny, uporczywy deszcz", "thunder": "burze", "snow": "śnieg",
            "wind": "silny wiatr", "gust_m": "porywy do {g} km/h w górach", "gust": "porywy do {g} km/h",
            "days": ["poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela"], "at": "{day} {t}",
@@ -492,7 +492,7 @@ def ahead_text(ah, forecast=None):
         noday = A["days"][nd]
         span = (A["span_f"].format(s=at(ah["start"]), e=at(ah["end"])) if ah["start"]
                 else A["span_n"].format(e=at(ah["end"])))
-        out[lang] = {"head": A["head"].format(span=span), "body": A["body"].format(
+        out[lang] = {"head": A["head"], "body": A["body"].format(span=span, what_l=what_s[:1].lower() + what_s[1:] if lang != "de" else what_s,
             what=what_s, start=A["from"].format(d=at(ah["start"])) if ah["start"] else "", end=at(ah["end"]),
             noday=noday[:1].upper() + noday[1:], next=A["acc"][nx] if lang == "pl" else A["days"][nx])}
         rows = [(name, next((x for x in (forecast or {}).get(key) or [] if x["date"] == ah["next_day"]), None))
