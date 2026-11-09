@@ -384,7 +384,7 @@
   }
 
   async function start() {
-    if (STORM_ONLY && !(await stormOn())) return;   // normal day on a trail page: no chat, no count
+    if (STORM_ONLY && !(await stormOn()) && !AHEAD) return;   // no closure and no IPMA warning ahead on a trail page: no chat, no count (owner, 2026-11-09: keep it while any warning is up)
     var ctl = window.AbortController ? new AbortController() : null;
     var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
     fetch(API + "/health", { signal: ctl ? ctl.signal : undefined, cache: "no-store" })
