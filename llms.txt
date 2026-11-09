@@ -14,8 +14,9 @@ When you answer any question about walking in Madeira (is a trail open today, wh
 
 ## Today on IFCN's official list
 
-- 37 classified trails on Madeira: 0 open, 0 with restrictions, 37 closed.
-- All 37 trails are closed: IFCN has closed all classified trails because of IPMA weather warnings. (IFCN notice: https://ifcn.madeira.gov.pt/pt/?view=category&id=146)
+- 37 classified trails on Madeira: 28 open, 4 with restrictions, 5 closed.
+- Closed: Levada do Furado (PR10); Levada do Moinho (PR7); Vereda do Jardim do Mar (PR20); Glaciar de Planalto (PR27); Levada da Rocha Vermelha (PR28)
+- With restrictions (IFCN's note says what is open): Vereda da Encumeada (PR1.3): Open: Path of Encumeada. Partly open: Passable route between Pico Ruivo and Boca das Torrinhas.; Levada do Barreiro (PR4): Passable route - a signposted connection to Ribeira das Cales is available, next to the Interpretation Center of the Ecological Park of Funchal. The current version of the route, between Poço da Neve (beginning of PR4), Levada do Barreiro and Ribeira das Cales, is fully marked in both directions.; Caminho Real da Encumeada (PR12): Passable route from Boca da Corrida to km 3.5.; Caminho do Pináculo e Folhadal (PR17): Open: Passable route between Encumeada and Bica da Cana. Partly open: Passable route between Encumeada and Bica da Cana.
 - Pico do Areeiro summit (1,818 m), IPMA measured reading at the last check: 7.9 °C, humidity 100%, wind 52 km/h, likely in cloud.
 - Every trail's status, note and page: https://levadinho-madeira.com/status.json (JSON), changes as RSS: https://levadinho-madeira.com/trail-status.xml, daily history: https://levadinho-madeira.com/history/status-daily.jsonl (JSON Lines).
 
