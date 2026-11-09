@@ -137,9 +137,23 @@ def classify(text):
     return None
 
 
+# Owner's hold (2026-11-09): IFCN took its 8 Nov closure notice down and put back its pre-storm list (dated 2 Nov)
+# without announcing a reopening, with IPMA warnings for Tue-Wed; the owner: "change everything back to closed".
+# While scripts/blanket_hold.json exists ({"from": "YYYY-MM-DD"}) the blanket closure stays in force whatever IFCN's
+# pages say; only deleting the file lifts it. Not used by the --fixture tests (page_html given).
+HOLD = os.path.join(os.path.dirname(os.path.abspath(__file__)), "blanket_hold.json")
+
+
 def blanket(page_html=None):
     """{"state": None|"closed"|"announced", "from": date|None, "reopen": date|None, "text": pt notice, "source": url}
     (+ "last": the last day a dated closure notice names; update_status uses it with IFCN's restored list)."""
+    if page_html is None and os.path.exists(HOLD):
+        try:
+            h = json.load(open(HOLD))
+        except (OSError, ValueError):
+            h = {}
+        return {"state": "closed", "from": h.get("from"), "reopen": None, "text": "", "source": IFCN_AVISOS_CAT,
+                "hold": True}
     today = _today()
     items = notices(page_html if page_html is not None else _get(IFCN_AVISOS_CAT, "STORM_FIXTURE_IFCN"))
     out = {"state": None, "from": None, "reopen": None, "text": "", "source": IFCN_AVISOS_CAT}
