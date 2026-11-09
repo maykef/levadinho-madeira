@@ -90,13 +90,16 @@
       html = "<b>" + L.announced.replace("{w}", a.blanket_from === madeiraDate(1) ? L.tomorrow : "") + "</b>";
     } else if (a.ipma_level) {
       html = L.ipma.replace("{lvl}", L.lvl[a.ipma_level] || a.ipma_level).replace("{w}", a.ipma_now ? L.now : L.soon);
+    } else if (a.ahead_text) {   // no closure, IPMA warnings ahead: the notice alone (owner, 2026-11-09)
+      var ah0 = a.ahead_text[lang] || a.ahead_text.en;
+      html = "<b>" + ah0.head + "</b> " + ah0.body;
     } else if (outlookText(o, madeiraDate(0))) {
       html = "<b>" + P.head + ".</b> " + outlookText(o, madeiraDate(0));
     } else {
       return null;
     }
     var ah = a.ahead_text && (a.ahead_text[lang] || a.ahead_text.en);
-    if (ah)   // IPMA warnings ahead as advice + IPMA's forecast for the day after (storm.py ahead_text, owner 2026-11-09)
+    if (ah && (a.blanket || a.ipma_level))   // IPMA warnings ahead as advice + IPMA's forecast for the day after (storm.py ahead_text, owner 2026-11-09)
       html += "<br><b>" + ah.head + "</b> " + ah.body;
     else if ((a.blanket || a.ipma_level) && outlookText(o, madeiraDate(1)))   // an alert today, more bad days to come
       html += "<br><b>" + P.head + ":</b> " + outlookText(o, madeiraDate(1));

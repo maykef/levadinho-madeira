@@ -367,6 +367,8 @@
         fresh = { rows: [["", "⚠️ " + (STORM[LANG] || STORM.en)]], kind: "storm" };
         if (AHEAD) fresh.rows.push(["", "<b>" + esc(AHEAD.head) + "</b> " + esc(AHEAD.body)]);   // same words as the banner
         open.kind = "storm"; open.chips = null;
+      } else if (AHEAD) {   // no closure, IPMA warnings ahead: the notice first (owner, 2026-11-09)
+        fresh = { rows: [["", "🌧️ <b>" + esc(AHEAD.head) + "</b> " + esc(AHEAD.body)]].concat(fresh.rows || []), kind: fresh.kind };
       }
       for (var i = 0; i < fresh.rows.length; i++) {
         var t = typing(); await wait(600); done(t);

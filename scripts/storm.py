@@ -406,31 +406,31 @@ def apply(trails, b):
 AHEAD_TYPES = ("rain", "wind", "thunder", "snow")
 AHEAD = {
     "en": {"head": "IPMA warnings: don't walk any levada or trail.",
-           "body": "{what}{start} until {end}. Don't go out on a levada or trail before then, even where you see others walking. {noday} is a no. For {next}, wait for IPMA's forecast: this notice changes as soon as it does.",
+           "body": "{what}{start} until {end}. Don't be on a levada or trail during that time, even where you see others walking. {noday} is a no. For {next}, wait for IPMA's forecast: this notice changes as soon as it does.",
            "from": " from {d}", "and": "and", "rain": "heavy, persistent rain", "thunder": "thunderstorms", "snow": "snow",
            "wind": "strong wind", "gust_m": "gusts up to {g} km/h in the mountains", "gust": "gusts up to {g} km/h",
            "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "at": "{day} {t}",
            "fc": "IPMA's forecast for {next} so far, chance of rain: {list}."},
     "pt": {"head": "Avisos do IPMA: não faça nenhuma levada nem percurso.",
-           "body": "{what}{start} até {end}. Não vá para nenhuma levada ou percurso antes disso, mesmo que veja outras pessoas a caminhar. {noday} está fora de questão. Para {next}, aguarde a previsão do IPMA: este aviso muda assim que ela mudar.",
+           "body": "{what}{start} até {end}. Não esteja em nenhuma levada ou percurso durante esse período, mesmo que veja outras pessoas a caminhar. {noday} está fora de questão. Para {next}, aguarde a previsão do IPMA: este aviso muda assim que ela mudar.",
            "from": " a partir de {d}", "and": "e", "rain": "chuva por vezes forte e persistente", "thunder": "trovoada", "snow": "neve",
            "wind": "vento forte", "gust_m": "rajadas até {g} km/h nas regiões montanhosas", "gust": "rajadas até {g} km/h",
            "days": ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"], "at": "{day} às {t}",
            "fc": "Previsão do IPMA para {next}, por agora, probabilidade de chuva: {list}."},
     "fr": {"head": "Avis de l'IPMA : ne faites aucune levada ni aucun sentier.",
-           "body": "{what}{start} jusqu'à {end}. N'allez sur aucune levada ni aucun sentier avant, même si vous voyez d'autres randonneurs. {noday} : c'est non. Pour {next}, attendez la prévision de l'IPMA : cet avis change dès qu'elle change.",
+           "body": "{what}{start} jusqu'à {end}. Ne soyez sur aucune levada ni aucun sentier pendant cette période, même si vous voyez d'autres randonneurs. {noday} : c'est non. Pour {next}, attendez la prévision de l'IPMA : cet avis change dès qu'elle change.",
            "from": " à partir de {d}", "and": "et", "rain": "pluie parfois forte et persistante", "thunder": "orages", "snow": "neige",
            "wind": "vent fort", "gust_m": "rafales jusqu'à {g} km/h en montagne", "gust": "rafales jusqu'à {g} km/h",
            "days": ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"], "at": "{day} {t}",
            "fc": "Prévision de l'IPMA pour {next}, pour l'instant, probabilité de pluie : {list}."},
     "de": {"head": "IPMA-Warnungen: Gehen Sie keine Levada und keinen Wanderweg.",
-           "body": "{what}{start} bis {end}. Gehen Sie vorher auf keine Levada und keinen Wanderweg, auch wenn Sie andere dort sehen. {noday} geht nicht. Für {next} warten Sie die IPMA-Vorhersage ab: Dieser Hinweis ändert sich, sobald sie sich ändert.",
+           "body": "{what}{start} bis {end}. Seien Sie in dieser Zeit auf keiner Levada und keinem Wanderweg, auch wenn Sie andere dort sehen. {noday} geht nicht. Für {next} warten Sie die IPMA-Vorhersage ab: Dieser Hinweis ändert sich, sobald sie sich ändert.",
            "from": " ab {d}", "and": "und", "rain": "zeitweise starker, anhaltender Regen", "thunder": "Gewitter", "snow": "Schnee",
            "wind": "starker Wind", "gust_m": "Böen bis {g} km/h in den Bergen", "gust": "Böen bis {g} km/h",
            "days": ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"], "at": "{day} {t} Uhr",
            "fc": "IPMA-Vorhersage für {next}, Stand jetzt, Regenwahrscheinlichkeit: {list}."},
     "pl": {"head": "Ostrzeżenia IPMA: nie wchodź na żadną lewadę ani szlak.",
-           "body": "{what}{start} do {end}. Do tego czasu nie wchodź na żadną lewadę ani szlak, nawet jeśli widzisz tam innych. {noday} odpada. Na {next} poczekaj na prognozę IPMA: ten komunikat zmieni się, gdy tylko ona się zmieni.",
+           "body": "{what}{start} do {end}. W tym czasie nie wchodź na żadną lewadę ani szlak, nawet jeśli widzisz tam innych. {noday} odpada. Na {next} poczekaj na prognozę IPMA: ten komunikat zmieni się, gdy tylko ona się zmieni.",
            "from": " od {d}", "and": "i", "rain": "okresami silny, uporczywy deszcz", "thunder": "burze", "snow": "śnieg",
            "wind": "silny wiatr", "gust_m": "porywy do {g} km/h w górach", "gust": "porywy do {g} km/h",
            "days": ["poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela"], "at": "{day} {t}",
@@ -510,7 +510,7 @@ def alert(b, ipma, forecast=None):
          "ipma_types": sorted({w["type"] for w in ipma.get("warnings", [])}) if ipma.get("ok") else [],
          "ipma_now": any(w["now"] for w in ipma.get("warnings", [])) if ipma.get("ok") else False,
          "ipma_source": IPMA_PAGE, "ahead": ah, "ahead_text": ahead_text(ah, forecast)}
-    return a if (a["blanket"] or a["ipma_level"]) else None
+    return a if (a["blanket"] or a["ipma_level"] or ah) else None   # warnings ahead alone keep the notice (owner, 2026-11-09)
 
 
 if __name__ == "__main__":
@@ -553,6 +553,9 @@ def static_alert(a, lang):
         return ANNOUNCED[lang].format(w=WHEN_TOMORROW[lang] if a.get("blanket_from") == tomorrow else "")
     if a.get("blanket") == "closed":
         return ""
+    ah = (a.get("ahead_text") or {}).get(lang)
+    if ah:   # IPMA's warnings ahead as advice + the day after's forecast (owner, 2026-11-09: keep it after the reopening)
+        return ah["head"] + " " + ah["body"]
     if a.get("ipma_level"):
         w = IPMA_WHEN[bool(a.get("ipma_now"))][lang]
         return IPMA_LINE[lang].format(lvl=LEVEL_NAME[a["ipma_level"]][lang], w=w)

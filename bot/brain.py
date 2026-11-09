@@ -1324,8 +1324,10 @@ def storm_lead(user, reply, lang):
             ah = ah.get(lang) or ah.get("en")
             if ah:   # IPMA's warnings ahead + the day after's forecast (storm.ahead_text, owner 2026-11-09)
                 line += f"\n\n*{ah['head']}* {ah['body']}"
-        else:   # nothing closed: IPMA's "bad weather coming" outlook, if any
-            line = outlook_line(st, lang)
+        else:   # nothing closed: IPMA's warnings-ahead notice (storm.ahead_text, owner 2026-11-09), else the outlook
+            ah = ((st.get("alert") or {}).get("ahead_text") or {})
+            ah = ah.get(lang) or ah.get("en")
+            line = f"🌧️ *{ah['head']}* {ah['body']}" if ah else outlook_line(st, lang)
     except Exception:  # noqa: BLE001
         return reply
     if not line:
