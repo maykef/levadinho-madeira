@@ -128,8 +128,13 @@ def notices(page_html):
 
 
 def classify(text):
-    if STANDING_LIST_RE.search(text) and not CLOSURE_RE.search(text[:400]):
+    # 9 Nov 2026: IFCN put its reopening at the TOP of the standing list (article 627), not in a notice of its own:
+    # a closure or reopening in the article's first sentences counts; the list further down doesn't.
+    head = text[:600]
+    if STANDING_LIST_RE.search(text) and not CLOSURE_RE.search(head) and not REOPEN_RE.search(head):
         return None
+    if STANDING_LIST_RE.search(text):
+        text = head
     if REOPEN_RE.search(text) and not re.search(r"estar[aã]o\s+encerrad|ser[aã]o\s+encerrad", text, re.I):
         return "reopen"
     if CLOSURE_RE.search(text):

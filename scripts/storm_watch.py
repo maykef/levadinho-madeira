@@ -22,6 +22,7 @@ at least once an hour (fresh weather, the midnight flip from "announced" to "clo
 """
 import datetime
 import html
+import hashlib
 import json
 import os
 import re
@@ -95,6 +96,65 @@ def social_signals(now):
     return out, errors
 
 
+# Changes between IFCN notices (owner, 2026-11-09: "the thing to monitor is changes between notices"; IFCN's notices
+# have no dates and pile events into one text, and the 9 Nov reopening was prepended to its standing list). Every run
+# splits IFCN's AVISOS page into announcements (each "O Instituto das Florestas…" / "O IFCN informa…" sentence group)
+# and compares them with the previous run: a new or removed announcement is archived in notices/ifcn.jsonl, written to
+# reports/data/official_alert.md (read at every session start) and starts the site update.
+NOTICES_ARCHIVE = "/mnt/tank/levadinho/notices/ifcn.jsonl"
+SEEN = os.path.join(DIR, "ifcn_announcements.json")
+ALERT_MD = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "reports", "data", "official_alert.md")
+
+
+def announcements(page_html):
+    out = {}
+    for item in storm.notices(page_html):
+        body = re.sub(r"^.*?Categoria:\s*AVISOS\s*", "", item)
+        if not re.search(r"Instituto|Institute|IFCN", body):
+            continue
+        body = re.split(r"O\s+IFCN\s+informa\s+que\s+os\s+seguintes\s+percursos", body)[0]   # the standing list itself: not an announcement
+        for part in storm.ANNOUNCE_SPLIT.split(body):
+            part = re.sub(r"\s+", " ", part).strip()
+            if len(part) > 60 and re.match(r"(O\s+Instituto|O\s+IFCN)", part):
+                out[hashlib.sha1(part[:500].encode()).hexdigest()[:16]] = part
+    return out
+
+
+def track_announcements(now, dry):
+    """-> list of change lines ('new: …' / 'removed: …'); [] when nothing changed or the page can't be read."""
+    try:
+        cur = announcements(storm._get(storm.IFCN_AVISOS_CAT, "STORM_FIXTURE_IFCN"))
+    except (Exception, SystemExit) as e:  # noqa: BLE001
+        print("announcements: IFCN page unreadable:", e, file=sys.stderr)
+        return []
+    try:
+        old = json.load(open(SEEN))
+    except (OSError, ValueError):
+        old = None
+    if dry:
+        return []
+    json.dump(cur, open(SEEN, "w"), ensure_ascii=False, indent=1)
+    if old is None:                       # first run: baseline only
+        return []
+    changes = [("new", k, v) for k, v in cur.items() if k not in old] + [("removed", k, v) for k, v in old.items() if k not in cur]
+    if not changes:
+        return []
+    stamp = now.isoformat(timespec="seconds")
+    with open(NOTICES_ARCHIVE, "a", encoding="utf-8") as f:
+        for what, k, v in changes:
+            f.write(json.dumps({"id": k, "first_seen" if what == "new" else "removed_at": stamp, "kind": storm.classify(v) or "notice",
+                                "change": what, "text": v, "source": storm.IFCN_AVISOS_CAT}, ensure_ascii=False) + "\n")
+    os.makedirs(os.path.dirname(ALERT_MD), exist_ok=True)
+    fresh = not os.path.exists(ALERT_MD)
+    with open(ALERT_MD, "a", encoding="utf-8") as f:
+        if fresh:
+            f.write("# Official notices (official_notices.py / official_alert.py / storm_watch.py)\n\n"
+                    "Check IFCN / IPMA against the site status, then delete this file.\n\n")
+        for what, k, v in changes:
+            f.write(f"- {stamp} IFCN announcement {what.upper()} ({storm.classify(v) or 'notice'}): {v[:400]}\n")
+    return [f"{what}: {v[:120]}" for what, k, v in changes]
+
+
 def main(dry):
     now = datetime.datetime.now(datetime.UTC)
     os.makedirs(DIR, exist_ok=True)
@@ -151,6 +211,10 @@ def main(dry):
     rec.update(outlook=[d for d, _r in src_days] if src_days is not None else "unknown", site_outlook=[d for d, _r in site_days])
 
     reasons = []
+    ann = track_announcements(now, dry)
+    if ann:
+        rec["ifcn_changes"] = ann
+        reasons.append(f"IFCN announcements changed: {len(ann)}")
     if site is not None and src_days is not None and src_days != site_days:
         reasons.append(f"IPMA outlook {[d for d, _r in src_days]} vs site {[d for d, _r in site_days]}")
     if site is not None:
