@@ -560,3 +560,20 @@ def static_alert(a, lang):
         w = IPMA_WHEN[bool(a.get("ipma_now"))][lang]
         return IPMA_LINE[lang].format(lvl=LEVEL_NAME[a["ipma_level"]][lang], w=w)
     return ""
+
+
+# The forest road Eira do Serrado - Pico do Areeiro (owner, 2026-11-09): IFCN closes it with the trails in storms and
+# may keep it closed after the trails reopen ("... mantém-se encerrada", 9 Nov 2026). Not a trail. "closed" while any
+# IFCN notice says it stays closed, else None (also when the page can't be read: the line just disappears).
+ROAD_CLOSED_RE = re.compile(r"Estrada\s+Florestal\s+que\s+liga\s+a\s+Eira\s+do\s+Serrado\s+ao\s+Pico\s+do\s+Areeiro\s+"
+                            r"mant[ée]m-se\s+encerrada", re.I)
+
+
+def forest_road(page_html=None):
+    try:
+        items = notices(page_html if page_html is not None else _get(IFCN_AVISOS_CAT, "STORM_FIXTURE_IFCN"))
+    except (Exception, SystemExit) as e:  # noqa: BLE001
+        print("forest road: IFCN notices unreadable:", e, file=sys.stderr)
+        return None
+    return "closed" if any(ROAD_CLOSED_RE.search(html.unescape(re.sub(r"<[^>]+>", " ", t))) for t in items) else None
+

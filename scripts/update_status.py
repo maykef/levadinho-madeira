@@ -897,6 +897,29 @@ def closures_table(data, lang):
 # /trail-closures/ "When will the trails reopen?" (owner, 2026-11-08: storm days; the closures page ranks 9-11 for "madeira
 # hiking trails closed", "wanderwege madeira gesperrt aktuell"). Shown only during an IFCN blanket closure; empty otherwise.
 # Day names, never dates. The booking rule is the one on every trail page (gen_spokes.py, IFCN's FAQ).
+STATIC_ROAD_RE = re.compile(r"(<!--\s*STATIC-ROAD:START\s*-->)(.*?)(<!--\s*STATIC-ROAD:END\s*-->)", re.S)
+# Pages that carry the forest-road line (owner, 2026-11-09: PR1 and the Pico do Areeiro pages); the markers are put in
+# before the WhatsApp block when missing, so regenerated pages get them back.
+ROAD_PAGES = {os.path.join(d, slug, "index.html") for d in ("", "pt", "fr", "de", "pl")
+              for slug in ("pr1", "pico-do-areeiro-parking", "pr1-sunrise-transport", "pico-do-areeiro-weather")}
+ROAD_I18N = {
+    "en": "The forest road from Eira do Serrado to Pico do Areeiro is still closed ({src}). Drive up on the ER202 via Poiso.",
+    "pt": "A Estrada Florestal que liga a Eira do Serrado ao Pico do Areeiro mantém-se encerrada ({src}). Suba pela ER202, via Poiso.",
+    "fr": "La route forestière d'Eira do Serrado au Pico do Areeiro reste fermée ({src}). Montez par l'ER202, via Poiso.",
+    "de": "Die Forststraße von Eira do Serrado zum Pico do Areeiro bleibt gesperrt ({src}). Fahren Sie über die ER202 via Poiso hinauf.",
+    "pl": "Droga leśna z Eira do Serrado na Pico do Areeiro pozostaje zamknięta ({src}). Jedź na górę drogą ER202 przez Poiso.",
+}
+
+
+def road_line(data, lang):
+    if data.get("forest_road") != "closed":
+        return ""
+    lang = lang if lang in ROAD_I18N else "en"
+    src = f'<a class="plain" href="{storm.IFCN_AVISOS_CAT}" target="_blank" rel="noopener">IFCN</a>'
+    return ('<p class="road-note" style="margin:12px 0;padding:10px 14px;border-left:4px solid #a8660a;background:#fff1d6;'
+            'color:#4d3205">' + ROAD_I18N[lang].format(src=src) + "</p>")
+
+
 STATIC_REOPEN_RE = re.compile(r"(<!--\s*STATIC-REOPEN:START\s*-->)(.*?)(<!--\s*STATIC-REOPEN:END\s*-->)", re.S)
 STATIC_REST_RE = re.compile(r"(<!--\s*STATIC-CLOSURES-REST:START\s*-->)(.*?)(<!--\s*STATIC-CLOSURES-REST:END\s*-->)", re.S)
 IPMA_FC = "https://www.ipma.pt/pt/otempo/prev.localidade.hora/#Madeira"
@@ -1187,7 +1210,11 @@ def write_static_status(data):
             continue
         with open(path, encoding="utf-8") as f:
             s = f.read()
-        if not any(k in s for k in ("STATIC-STATUS", "STATIC-WEATHER", "STATIC-BADGE", "STATIC-ANSWER", "STATIC-CLOSURES", "STATIC-REOPEN")):
+        if path in ROAD_PAGES and "STATIC-ROAD" not in s and "<!-- LEVADINHO-CTA:START" in s:
+            s_old, s = s, s.replace("<!-- LEVADINHO-CTA:START", "<!-- STATIC-ROAD:START --><!-- STATIC-ROAD:END -->\n<!-- LEVADINHO-CTA:START", 1)
+        else:
+            s_old = s
+        if not any(k in s for k in ("STATIC-STATUS", "STATIC-WEATHER", "STATIC-BADGE", "STATIC-ANSWER", "STATIC-CLOSURES", "STATIC-REOPEN", "STATIC-ROAD")):
             continue
         m = HTML_LANG_RE.search(s)
         lang = m.group(1).lower() if m else "en"
@@ -1245,12 +1272,13 @@ def write_static_status(data):
         new = STATIC_CLOSURES_RE.sub(lambda mm: mm.group(1) + closures_table(data, lang) + mm.group(3), new)
         new = STATIC_REOPEN_RE.sub(lambda mm: mm.group(1) + reopen_section(data, lang, date) + mm.group(3), new)
         new = STATIC_REST_RE.sub(lambda mm: mm.group(1) + closures_rest(data, lang) + mm.group(3), new)
+        new = STATIC_ROAD_RE.sub(lambda mm: mm.group(1) + road_line(data, lang) + mm.group(3), new)
         # No status word in meta descriptions (owner, 2026-11-08): Google re-crawls the median page every ~29 days, so
         # its snippet showed a weeks-old "IFCN: OPEN" (and during the blanket closure the prefix wasn't even refreshed).
         # The live status stays in the page (STATIC-* lines); here the old prefix is only stripped.
         if TRAIL_CARD_RE.search(new):
             new = DESC_STATUS_RE.sub(lambda mm: mm.group(1), new, count=1)
-        if new != s:
+        if new != s_old:
             with open(path, "w", encoding="utf-8") as f:
                 f.write(new)
             changed.append(path)
@@ -1382,6 +1410,7 @@ def main():
         "ipma_warnings": ipma.get("all", []) if ipma.get("ok") else [],
         # IPMA's 5-day forecast for the five card places and the "bad weather coming" outlook (owner, 2026-11-08).
         "forecast": forecast,
+        "forest_road": storm.forest_road(),
         "outlook": ipma_forecast.outlook(forecast, ipma.get("all") if ipma.get("ok") else []),
     }
     with open(STATUS_JSON, "w") as f:
