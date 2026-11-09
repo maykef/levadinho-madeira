@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.0,
+    "temp_c": 8.2,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 48,
+    "wind_kmh": 46,
     "wind_strong": true
   },
-  "stamp": "2026-11-09 18:00",
+  "stamp": "2026-11-09 19:10",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -34,14 +34,14 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 8,
-      "wind": 48,
+      "wind": 46,
       "rain": 0.0,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 21,
+      "temp": 19,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -58,14 +58,14 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 23,
-      "wind": 9,
+      "wind": 7,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 24,
+      "temp": 22,
       "wind": 14,
       "rain": 0.0,
       "in_cloud": false
@@ -130,7 +130,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 21,
+      "temp": 19,
       "page": "/caldeirao-verde/"
     },
     {
@@ -180,7 +180,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 21,
+      "temp": 19,
       "page": "/levada-do-rei/"
     },
     {
@@ -200,7 +200,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 21,
+      "temp": 19,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -247,7 +247,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 24,
+      "temp": 22,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -274,7 +274,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 21,
+      "temp": 19,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -488,7 +488,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 21,
+      "temp": 19,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ],
