@@ -95,11 +95,14 @@
     } else {
       return null;
     }
-    if ((a.blanket || a.ipma_level) && outlookText(o, madeiraDate(1)))   // an alert today, more bad days to come
+    var ah = a.ahead_text && (a.ahead_text[lang] || a.ahead_text.en);
+    if (ah)   // IPMA warnings ahead as advice + IPMA's forecast for the day after (storm.py ahead_text, owner 2026-11-09)
+      html += "<br><b>" + ah.head + "</b> " + ah.body;
+    else if ((a.blanket || a.ipma_level) && outlookText(o, madeiraDate(1)))   // an alert today, more bad days to come
       html += "<br><b>" + P.head + ":</b> " + outlookText(o, madeiraDate(1));
     var src = [];
     if (a.ifcn_source) src.push(link(a.ifcn_source, "IFCN"));
-    if ((a.ipma_level || (o && o.days && o.days.length)) && (a.ipma_source || (o && o.source))) src.push(link(a.ipma_source || o.source, "IPMA"));
+    if ((a.ipma_level || a.ahead_text || (o && o.days && o.days.length)) && (a.ipma_source || (o && o.source))) src.push(link(a.ipma_source || o.source, "IPMA"));
     var el = document.createElement("div");
     el.id = "stormAlert";
     el.setAttribute("role", "alert");

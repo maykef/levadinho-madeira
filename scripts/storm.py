@@ -384,13 +384,118 @@ def apply(trails, b):
     return True
 
 
-def alert(b, ipma):
+# IPMA's warnings ahead, as advice (owner, 2026-11-09: "if it's going to get worse, people shouldn't be doing levadas;
+# Wednesday is a no, and we'll wait for IPMA's forecasts for Thursday"). Built from every IPMA rain / wind / thunder /
+# snow warning for Madeira not yet over (sea alone doesn't count): what, gusts, from when (if not yet in force), until
+# when. The last warning's day is "a no" (the day before when it ends before 06:00); the next day = "wait for IPMA's
+# forecast". Day names and times, never dates. Fixed wording, no machine translation at run time.
+AHEAD_TYPES = ("rain", "wind", "thunder", "snow")
+AHEAD = {
+    "en": {"head": "IPMA warnings: don't walk any levada or trail.",
+           "body": "{what}{start} until {end}. Don't go out on a levada or trail before then, even where you see others walking. {noday} is a no. For {next}, wait for IPMA's forecast: this notice changes as soon as it does.",
+           "from": " from {d}", "and": "and", "rain": "heavy, persistent rain", "thunder": "thunderstorms", "snow": "snow",
+           "wind": "strong wind", "gust_m": "gusts up to {g} km/h in the mountains", "gust": "gusts up to {g} km/h",
+           "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], "at": "{day} {t}",
+           "fc": "IPMA's forecast for {next} so far, chance of rain: {list}."},
+    "pt": {"head": "Avisos do IPMA: não faça nenhuma levada nem percurso.",
+           "body": "{what}{start} até {end}. Não vá para nenhuma levada ou percurso antes disso, mesmo que veja outras pessoas a caminhar. {noday} está fora de questão. Para {next}, aguarde a previsão do IPMA: este aviso muda assim que ela mudar.",
+           "from": " a partir de {d}", "and": "e", "rain": "chuva por vezes forte e persistente", "thunder": "trovoada", "snow": "neve",
+           "wind": "vento forte", "gust_m": "rajadas até {g} km/h nas regiões montanhosas", "gust": "rajadas até {g} km/h",
+           "days": ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira", "sábado", "domingo"], "at": "{day} às {t}",
+           "fc": "Previsão do IPMA para {next}, por agora, probabilidade de chuva: {list}."},
+    "fr": {"head": "Avis de l'IPMA : ne faites aucune levada ni aucun sentier.",
+           "body": "{what}{start} jusqu'à {end}. N'allez sur aucune levada ni aucun sentier avant, même si vous voyez d'autres randonneurs. {noday} : c'est non. Pour {next}, attendez la prévision de l'IPMA : cet avis change dès qu'elle change.",
+           "from": " à partir de {d}", "and": "et", "rain": "pluie parfois forte et persistante", "thunder": "orages", "snow": "neige",
+           "wind": "vent fort", "gust_m": "rafales jusqu'à {g} km/h en montagne", "gust": "rafales jusqu'à {g} km/h",
+           "days": ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"], "at": "{day} {t}",
+           "fc": "Prévision de l'IPMA pour {next}, pour l'instant, probabilité de pluie : {list}."},
+    "de": {"head": "IPMA-Warnungen: Gehen Sie keine Levada und keinen Wanderweg.",
+           "body": "{what}{start} bis {end}. Gehen Sie vorher auf keine Levada und keinen Wanderweg, auch wenn Sie andere dort sehen. {noday} geht nicht. Für {next} warten Sie die IPMA-Vorhersage ab: Dieser Hinweis ändert sich, sobald sie sich ändert.",
+           "from": " ab {d}", "and": "und", "rain": "zeitweise starker, anhaltender Regen", "thunder": "Gewitter", "snow": "Schnee",
+           "wind": "starker Wind", "gust_m": "Böen bis {g} km/h in den Bergen", "gust": "Böen bis {g} km/h",
+           "days": ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"], "at": "{day} {t} Uhr",
+           "fc": "IPMA-Vorhersage für {next}, Stand jetzt, Regenwahrscheinlichkeit: {list}."},
+    "pl": {"head": "Ostrzeżenia IPMA: nie wchodź na żadną lewadę ani szlak.",
+           "body": "{what}{start} do {end}. Do tego czasu nie wchodź na żadną lewadę ani szlak, nawet jeśli widzisz tam innych. {noday} odpada. Na {next} poczekaj na prognozę IPMA: ten komunikat zmieni się, gdy tylko ona się zmieni.",
+           "from": " od {d}", "and": "i", "rain": "okresami silny, uporczywy deszcz", "thunder": "burze", "snow": "śnieg",
+           "wind": "silny wiatr", "gust_m": "porywy do {g} km/h w górach", "gust": "porywy do {g} km/h",
+           "days": ["poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela"], "at": "{day} {t}",
+           "fc": "Prognoza IPMA na {next} na razie, szansa opadów: {list}.",
+           # "od wtorku 18:00", "do środy 12:00", "na czwartek": genitive / accusative forms
+           "gen": ["poniedziałku", "wtorku", "środy", "czwartku", "piątku", "soboty", "niedzieli"],
+           "acc": ["poniedziałek", "wtorek", "środę", "czwartek", "piątek", "sobotę", "niedzielę"]},
+}
+
+
+def ahead(ipma, now=None):
+    """IPMA rain/wind/thunder/snow warnings for Madeira not yet over -> {"types", "gust_mountains", "gust", "start"
+    (None when already in force), "end", "no_day", "next_day"} (ISO strings), or None."""
+    if not ipma.get("ok"):
+        return None
+    ws = [w for w in ipma.get("all", []) if w["type"] in AHEAD_TYPES]
+    if not ws:
+        return None
+    now = now or _now()
+    starts = [datetime.datetime.fromisoformat(w["start"]).replace(tzinfo=TZ) for w in ws]
+    end = max(datetime.datetime.fromisoformat(w["end"]).replace(tzinfo=TZ) for w in ws)
+    start = min(starts)
+    no_day = (end - datetime.timedelta(days=1)).date() if end.hour < 6 else end.date()
+    gm = [w["gust"] for w in ws if w["type"] == "wind" and w["gust"] and w["area"] == "mountains"]
+    gc = [w["gust"] for w in ws if w["type"] == "wind" and w["gust"] and w["area"] != "mountains"]
+    return {"types": [t for t in AHEAD_TYPES if any(w["type"] == t for w in ws)],
+            "gust_mountains": max(gm) if gm else None, "gust": max(gc) if gc else None,
+            "start": start.isoformat(timespec="minutes") if start > now else None,
+            "end": end.isoformat(timespec="minutes"), "no_day": no_day.isoformat(),
+            "next_day": (no_day + datetime.timedelta(days=1)).isoformat()}
+
+
+# The day after the warnings, from our IPMA forecast collection (status.json "forecast", scripts/ipma_forecast.py):
+# rain chance per weather-card place, mountains first (owner, 2026-11-09: "check the IPMA data we collect").
+AHEAD_PLACES = (("summit", "Pico do Areeiro"), ("north", "Santana"), ("west", "Paul da Serra"),
+                ("east", "Caniçal"), ("south", "Funchal"))
+
+
+def ahead_text(ah, forecast=None):
+    """{lang: {"head", "body"}} for the banner, the closures page and the bot, or None. With `forecast` (status.json
+    "forecast") the body ends with IPMA's rain chance per place for the day after."""
+    if not ah:
+        return None
+    out = {}
+    for lang, A in AHEAD.items():
+        def at(iso, case="gen"):
+            d = datetime.datetime.fromisoformat(iso)
+            day = A[case][d.weekday()] if lang == "pl" else A["days"][d.weekday()]
+            return A["at"].format(day=day, t=d.strftime("%H:%M"))
+        what = [A[t] for t in ah["types"] if t != "wind" or not (ah["gust_mountains"] or ah["gust"])]
+        if ah["gust_mountains"]:
+            what.append(A["gust_m"].format(g=ah["gust_mountains"]))
+        elif ah["gust"]:
+            what.append(A["gust"].format(g=ah["gust"]))
+        what_s = what[0] if len(what) == 1 else ", ".join(what[:-1]) + f" {A['and']} " + what[-1]
+        what_s = what_s[:1].upper() + what_s[1:]
+        nd = datetime.date.fromisoformat(ah["no_day"]).weekday()
+        nx = datetime.date.fromisoformat(ah["next_day"]).weekday()
+        noday = A["days"][nd]
+        out[lang] = {"head": A["head"], "body": A["body"].format(
+            what=what_s, start=A["from"].format(d=at(ah["start"])) if ah["start"] else "", end=at(ah["end"]),
+            noday=noday[:1].upper() + noday[1:], next=A["acc"][nx] if lang == "pl" else A["days"][nx])}
+        rows = [(name, next((x for x in (forecast or {}).get(key) or [] if x["date"] == ah["next_day"]), None))
+                for key, name in AHEAD_PLACES]
+        rows = [f"{name} {int(x['rain_prob'])}%" for name, x in rows if x and x.get("rain_prob") is not None]
+        if rows:
+            out[lang]["body"] += " " + A["fc"].format(next=A["acc"][nx] if lang == "pl" else A["days"][nx],
+                                                      list=", ".join(rows))
+    return out
+
+
+def alert(b, ipma, forecast=None):
     """The status.json "alert" block that status.js / dashboard.js show as a banner (None = no banner)."""
+    ah = ahead(ipma)
     a = {"blanket": b.get("state"), "blanket_from": b.get("from"), "blanket_reopen": b.get("reopen"),
          "ifcn_source": b.get("source"), "ipma_level": ipma.get("level") if ipma.get("ok") else None,
          "ipma_types": sorted({w["type"] for w in ipma.get("warnings", [])}) if ipma.get("ok") else [],
          "ipma_now": any(w["now"] for w in ipma.get("warnings", [])) if ipma.get("ok") else False,
-         "ipma_source": IPMA_PAGE}
+         "ipma_source": IPMA_PAGE, "ahead": ah, "ahead_text": ahead_text(ah, forecast)}
     return a if (a["blanket"] or a["ipma_level"]) else None
 
 

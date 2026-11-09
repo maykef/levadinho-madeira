@@ -1320,6 +1320,10 @@ def storm_lead(user, reply, lang):
         st = live_status()
         if ((st.get("alert") or {}).get("blanket")) == "closed":
             line = STORM_LEAD.get(lang) or STORM_LEAD["en"]
+            ah = ((st.get("alert") or {}).get("ahead_text") or {})
+            ah = ah.get(lang) or ah.get("en")
+            if ah:   # IPMA's warnings ahead + the day after's forecast (storm.ahead_text, owner 2026-11-09)
+                line += f"\n\n*{ah['head']}* {ah['body']}"
         else:   # nothing closed: IPMA's "bad weather coming" outlook, if any
             line = outlook_line(st, lang)
     except Exception:  # noqa: BLE001

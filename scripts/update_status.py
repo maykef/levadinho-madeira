@@ -991,8 +991,12 @@ def reopen_section(data, lang, today):
         # IFCN's reopening notice is out: its sentence replaces "hasn't announced a reopening yet"
         when = storm.REOPEN_TOMORROW[lang].strip() + " " + when.split(". ", 1)[1]
     parts = [f"<h2>{htmllib.escape(R['h'], quote=False)}</h2>", f"<p>{when}</p>"]
+    ah = (a.get("ahead_text") or {}).get(lang)
     fc = outlook_sentence(data.get("outlook"), lang, today)
-    if fc:
+    if ah:   # IPMA's warnings ahead as advice + the day after's forecast (storm.ahead_text, owner 2026-11-09)
+        parts.append(f"<p><strong>{htmllib.escape(ah['head'], quote=False)}</strong> {htmllib.escape(ah['body'], quote=False)} "
+                     f'(<a class="plain" href="{storm.IPMA_PAGE}" target="_blank" rel="noopener">IPMA</a>)</p>')
+    elif fc:
         parts.append(f"<p>{fc}</p>")
     parts.append(f"<p>{R['booked']}</p>")
     parts.append("<p>" + R["meanwhile"].format(funchal=_link(pre + "/funchal/", R["funchal"]),
@@ -1202,7 +1206,12 @@ def write_static_status(data):
                                      p=c.get("PARTIAL", 0), c=c.get("CLOSED", 0))
             a = data.get("alert") or {}
             if a.get("blanket") == "closed":      # every trail closed by IFCN's notice: one sentence, not 37 names
-                return mm.group(1) + htmllib.escape(storm.blanket_note({"reopen": a.get("blanket_reopen")})[lang if lang in storm.BLANKET_NOTE else "en"], quote=False) + mm.group(3)
+                lg = lang if lang in storm.BLANKET_NOTE else "en"
+                txt = storm.blanket_note({"reopen": a.get("blanket_reopen")})[lg]
+                ah = (a.get("ahead_text") or {}).get(lg)
+                if ah:
+                    txt += " " + ah["head"] + " " + ah["body"]
+                return mm.group(1) + htmllib.escape(txt, quote=False) + mm.group(3)
             for st, fmt in zip(("CLOSED", "PARTIAL"), STATIC_BOARD_LISTS.get(lang, STATIC_BOARD_LISTS["en"])):
                 names = [f"{t['name']} ({t['code']})" for t in data["trails"] if t["status"] == st]
                 if names:
@@ -1315,7 +1324,7 @@ def main():
     apply_trail_closures(trails, storm.trail_closures())
     for t in trails:
         assert_not_contradictory(t["status"], t.get("note"), what=t["code"])
-    alert = storm.alert(blanket, ipma)
+    alert = storm.alert(blanket, ipma, forecast)
     if alert:
         print(f"storm: alert {alert}", file=sys.stderr)
 
