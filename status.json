@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.3,
+    "temp_c": 8.5,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 42,
+    "wind_kmh": 45,
     "wind_strong": true
   },
-  "stamp": "2026-11-09 13:29",
+  "stamp": "2026-11-09 14:20",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -34,14 +34,14 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 8,
-      "wind": 42,
+      "wind": 45,
       "rain": 0.1,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 21,
+      "temp": 22,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -58,7 +58,7 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 23,
-      "wind": 35,
+      "wind": 4,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -66,8 +66,8 @@
       "key": "south",
       "place": "Funchal",
       "temp": 24,
-      "wind": 17,
-      "rain": 0.0,
+      "wind": 16,
+      "rain": 0.1,
       "in_cloud": false
     }
   ],
@@ -130,7 +130,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 21,
+      "temp": 22,
       "page": "/caldeirao-verde/"
     },
     {
@@ -180,7 +180,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 21,
+      "temp": 22,
       "page": "/levada-do-rei/"
     },
     {
@@ -200,7 +200,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 21,
+      "temp": 22,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -274,7 +274,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 21,
+      "temp": 22,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -488,7 +488,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 21,
+      "temp": 22,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
     }
   ],
