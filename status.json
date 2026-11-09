@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.1,
+    "temp_c": 8.3,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 41,
-    "wind_strong": true
+    "wind_kmh": 39,
+    "wind_strong": false
   },
-  "stamp": "2026-11-09 22:00",
+  "stamp": "2026-11-09 23:10",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -34,7 +34,7 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 8,
-      "wind": 41,
+      "wind": 39,
       "rain": 0.0,
       "in_cloud": true
     },
@@ -66,8 +66,8 @@
       "key": "south",
       "place": "Funchal",
       "temp": 21,
-      "wind": 12,
-      "rain": 0.8,
+      "wind": 10,
+      "rain": 0.2,
       "in_cloud": false
     }
   ],
@@ -572,7 +572,7 @@
       "area": "north",
       "type": "sea",
       "level": "yellow",
-      "start": "2026-11-09T19:03",
+      "start": "2026-11-09T22:08",
       "end": "2026-11-10T00:00",
       "now": true,
       "gust": null
