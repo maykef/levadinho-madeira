@@ -17,7 +17,7 @@
     "wind_kmh": 42,
     "wind_strong": true
   },
-  "stamp": "2026-11-09 13:20",
+  "stamp": "2026-11-09 13:29",
   "date": "2026-11-09",
   "source": {
     "name": "IFCN",
@@ -25,9 +25,9 @@
     "updated": ""
   },
   "counts": {
-    "OPEN": 28,
+    "OPEN": 27,
     "PARTIAL": 4,
-    "CLOSED": 5
+    "CLOSED": 6
   },
   "regions": [
     {
@@ -347,7 +347,7 @@
     {
       "code": "PR16",
       "name": "Levada Fajã do Rodrigues",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
