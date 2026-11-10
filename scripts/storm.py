@@ -171,7 +171,11 @@ def blanket(page_html=None):
         if at and _now() < datetime.datetime.fromisoformat(at).replace(tzinfo=TZ):
             out = _blanket_ifcn(None, use_hold=False)
             out["closing_at"] = at
-            return out
+        else:
+            out = _blanket_ifcn(page_html)
+        if h.get("storm") and _today().isoformat() == h.get("from"):   # the owner's storm notice, on the hold's day only
+            out["storm"] = h["storm"]
+        return out
     return _blanket_ifcn(page_html)
 
 
@@ -531,6 +535,13 @@ CLOSING_HEAD = {
     "de": "Levadinho zeigt alle Wege ab heute {t} Uhr als gesperrt. Beginnen Sie heute Abend keine Wanderung.",
     "pl": "Levadinho pokazuje wszystkie szlaki jako zamknięte od dziś od {t}. Nie zaczynaj dziś wieczorem wędrówki.",
 }
+STORM_NOTICE = {   # owner, 2026-11-10 (Depressão Charles), shown on the hold's day; "tomorrow" = the IFCN closure day
+    "en": "Storm {n} is hitting Madeira tonight. Tomorrow all trails are closed. Check the official IPMA and IFCN pages for updates.",
+    "pt": "A depressão {n} atinge a Madeira esta noite. Amanhã todos os percursos estão encerrados. Consulte as páginas oficiais do IPMA e do IFCN para atualizações.",
+    "fr": "La tempête {n} frappe Madère cette nuit. Demain, tous les sentiers sont fermés. Consultez les pages officielles de l'IPMA et de l'IFCN pour les mises à jour.",
+    "de": "Sturm {n} trifft Madeira heute Nacht. Morgen sind alle Wege gesperrt. Aktuelle Hinweise finden Sie auf den offiziellen Seiten von IPMA und IFCN.",
+    "pl": "Sztorm {n} uderza dziś w nocy w Maderę. Jutro wszystkie szlaki są zamknięte. Sprawdzaj aktualizacje na oficjalnych stronach IPMA i IFCN.",
+}
 CLOSED_HEAD = {
     "en": "The trails stay closed until IFCN reopens them. Check the latest announcements from IFCN and IPMA.",
     "pt": "Os percursos mantêm-se encerrados até o IFCN os reabrir. Consulte os últimos avisos do IFCN e do IPMA.",
@@ -540,7 +551,7 @@ CLOSED_HEAD = {
 }
 
 
-def ahead_text(ah, forecast=None, reopened=False, closing_at=None, closed=False):
+def ahead_text(ah, forecast=None, reopened=False, closing_at=None, closed=False, storm=None):
     """{lang: {"head", "body"}} for the banner, the closures page and the bot, or None. With `forecast` (status.json
     "forecast") the body ends with IPMA's rain chance per place for the day after."""
     if not ah:
@@ -564,7 +575,9 @@ def ahead_text(ah, forecast=None, reopened=False, closing_at=None, closed=False)
         span = (A["span_f"].format(s=at(ah["start"]), e=at(ah["end"])) if ah["start"]
                 else A["span_n"].format(e=at(ah["end"])))
         head = A["head"]
-        if closing_at:
+        if storm:
+            head = STORM_NOTICE[lang].format(n=storm) + (" " + CLOSING_HEAD[lang].format(t=closing_at[11:16]) if closing_at else "")
+        elif closing_at:
             head = CLOSING_HEAD[lang].format(t=closing_at[11:16])
         elif closed:
             head = CLOSED_HEAD[lang]
@@ -593,7 +606,8 @@ def alert(b, ipma, forecast=None):
          "ipma_source": IPMA_PAGE, "ahead": ah,
          "closing_at": b.get("closing_at"),
          "ahead_text": ahead_text(ah, forecast, reopened=bool(ah) and not b.get("state") and reopened_notice(),
-                                  closing_at=b.get("closing_at"), closed=b.get("state") == "closed")}
+                                  closing_at=b.get("closing_at"), closed=b.get("state") == "closed",
+                                  storm=b.get("storm"))}
     return a if (a["blanket"] or a["ipma_level"] or ah) else None   # warnings ahead alone keep the notice (owner, 2026-11-09)
 
 
