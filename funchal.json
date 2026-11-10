@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-10T11:51+00:00",
+ "stamp": "2026-11-10T12:50+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -14,7 +14,7 @@
     "tmax": 24,
     "rain": 100,
     "wtype": 9,
-    "uv": 1.4
+    "uv": 2.4
    },
    "fair": null
   },
@@ -30,7 +30,7 @@
     "tmax": 25,
     "rain": 100,
     "wtype": 6,
-    "uv": 3.4
+    "uv": 4.1
    },
    "fair": null
   },
@@ -46,7 +46,7 @@
     "tmax": 24,
     "rain": 0,
     "wtype": 2,
-    "uv": 3.7
+    "uv": 3.4
    },
    "fair": {
     "theme": "handcraft",
@@ -70,7 +70,7 @@
     "tmax": 24,
     "rain": 61,
     "wtype": 7,
-    "uv": 4.0
+    "uv": 3.8
    },
    "fair": null
   },
@@ -86,7 +86,7 @@
     "tmax": 22,
     "rain": 47,
     "wtype": 7,
-    "uv": null
+    "uv": 3.5
    },
    "fair": null
   },
@@ -301,7 +301,7 @@
    {
     "type": "Agitação Marítima",
     "level": "yellow",
-    "start": "2026-11-11T06:00:00",
+    "start": "2026-11-11T00:00:00",
     "end": "2026-11-11T21:00:00"
    }
   ]
