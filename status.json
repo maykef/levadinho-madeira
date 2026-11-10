@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 11.5,
+    "temp_c": 12.4,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 63,
+    "wind_kmh": 49,
     "wind_strong": true
   },
-  "stamp": "2026-11-10 21:40",
+  "stamp": "2026-11-10 22:50",
   "date": "2026-11-10",
   "source": {
     "name": "IFCN",
@@ -34,8 +34,8 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 12,
-      "wind": 63,
-      "rain": 26.1,
+      "wind": 49,
+      "rain": 22.2,
       "in_cloud": true
     },
     {
@@ -43,7 +43,7 @@
       "place": "Santana",
       "temp": 16,
       "wind": null,
-      "rain": 8.3,
+      "rain": 9.3,
       "in_cloud": false
     },
     {
@@ -58,16 +58,16 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 20,
-      "wind": 57,
-      "rain": 7.1,
+      "wind": 71,
+      "rain": 5.1,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
       "temp": 21,
-      "wind": 13,
-      "rain": 4.7,
+      "wind": 15,
+      "rain": 10.3,
       "in_cloud": false
     }
   ],
