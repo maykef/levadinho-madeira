@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-10T19:11+00:00",
+ "stamp": "2026-11-10T20:21+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -1404,7 +1404,7 @@
   "weather": true,
   "sea": true,
   "fair": true,
-  "events": false,
+  "events": true,
   "lidos": true,
   "gtfs": true
  },
