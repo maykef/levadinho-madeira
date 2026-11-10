@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 10.5,
+    "temp_c": 11.5,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 51,
+    "wind_kmh": 63,
     "wind_strong": true
   },
-  "stamp": "2026-11-10 20:40",
+  "stamp": "2026-11-10 21:40",
   "date": "2026-11-10",
   "source": {
     "name": "IFCN",
@@ -33,9 +33,9 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 10,
-      "wind": 51,
-      "rain": 17.4,
+      "temp": 12,
+      "wind": 63,
+      "rain": 26.1,
       "in_cloud": true
     },
     {
@@ -43,7 +43,7 @@
       "place": "Santana",
       "temp": 16,
       "wind": null,
-      "rain": 4.3,
+      "rain": 8.3,
       "in_cloud": false
     },
     {
@@ -58,16 +58,16 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 20,
-      "wind": 49,
-      "rain": 11.5,
+      "wind": 57,
+      "rain": 7.1,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
       "temp": 21,
-      "wind": 12,
-      "rain": 7.8,
+      "wind": 13,
+      "rain": 4.7,
       "in_cloud": false
     }
   ],
@@ -80,7 +80,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 10,
+      "temp": 12,
       "page": "/pr1/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -116,7 +116,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 10,
+      "temp": 12,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -170,7 +170,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 10,
+      "temp": 12,
       "page": "/balcoes/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -206,7 +206,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "CLOSED",
-      "temp": 10,
+      "temp": 12,
       "page": "/levada-do-furado/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -278,7 +278,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 10,
+      "temp": 12,
       "page": "/vereda-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -296,7 +296,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "OPEN",
-      "temp": 10,
+      "temp": 12,
       "page": "/vereda-do-urzal/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -314,7 +314,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "OPEN",
-      "temp": 10,
+      "temp": 12,
       "page": "/vereda-do-burro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -350,7 +350,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 10,
+      "temp": 12,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -458,7 +458,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 10,
+      "temp": 12,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -749,7 +749,7 @@
       "Precipitação",
       "Vento"
     ],
-    "ipma_now": false,
+    "ipma_now": true,
     "ipma_source": "https://www.ipma.pt/pt/otempo/prev-sam/?p=MAD",
     "ahead": {
       "level": "red",
@@ -759,7 +759,7 @@
       ],
       "gust_mountains": 140,
       "gust": 100,
-      "start": "2026-11-10T21:00+00:00",
+      "start": null,
       "end": "2026-11-11T12:00+00:00",
       "no_day": "2026-11-11",
       "next_day": "2026-11-12"
@@ -769,23 +769,23 @@
     "ahead_text": {
       "en": {
         "head": "Storm Charles is hitting Madeira tonight. Tomorrow all trails are closed. Check the official IPMA and IFCN pages for updates.",
-        "body": "IPMA warnings from Tuesday 21:00 to Wednesday 12:00: heavy, persistent rain and gusts up to 140 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "IPMA warnings until Wednesday 12:00: heavy, persistent rain and gusts up to 140 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       },
       "pt": {
         "head": "A depressão Charles atinge a Madeira esta noite. Amanhã todos os percursos estão encerrados. Consulte as páginas oficiais do IPMA e do IFCN para atualizações.",
-        "body": "Avisos do IPMA de terça-feira às 21:00 a quarta-feira às 12:00: chuva por vezes forte e persistente e rajadas até 140 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "Avisos do IPMA até quarta-feira às 12:00: chuva por vezes forte e persistente e rajadas até 140 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       },
       "fr": {
         "head": "La tempête Charles frappe Madère cette nuit. Demain, tous les sentiers sont fermés. Consultez les pages officielles de l'IPMA et de l'IFCN pour les mises à jour.",
-        "body": "Avis de l'IPMA de mardi 21:00 à mercredi 12:00 : pluie parfois forte et persistante et rafales jusqu'à 140 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "Avis de l'IPMA jusqu'à mercredi 12:00 : pluie parfois forte et persistante et rafales jusqu'à 140 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       },
       "de": {
         "head": "Sturm Charles trifft Madeira heute Nacht. Morgen sind alle Wege gesperrt. Aktuelle Hinweise finden Sie auf den offiziellen Seiten von IPMA und IFCN.",
-        "body": "IPMA-Warnungen von Dienstag 21:00 Uhr bis Mittwoch 12:00 Uhr: Zeitweise starker, anhaltender Regen und Böen bis 140 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "IPMA-Warnungen bis Mittwoch 12:00 Uhr: Zeitweise starker, anhaltender Regen und Böen bis 140 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       },
       "pl": {
         "head": "Sztorm Charles uderza dziś w nocy w Maderę. Jutro wszystkie szlaki są zamknięte. Sprawdzaj aktualizacje na oficjalnych stronach IPMA i IFCN.",
-        "body": "Ostrzeżenia IPMA od wtorku 21:00 do środy 12:00: okresami silny, uporczywy deszcz i porywy do 140 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "Ostrzeżenia IPMA do środy 12:00: okresami silny, uporczywy deszcz i porywy do 140 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       }
     }
   },
@@ -796,7 +796,7 @@
       "level": "red",
       "start": "2026-11-10T21:00",
       "end": "2026-11-11T06:00",
-      "now": false,
+      "now": true,
       "gust": null
     },
     {
@@ -814,7 +814,7 @@
       "level": "orange",
       "start": "2026-11-10T21:00",
       "end": "2026-11-11T00:00",
-      "now": false,
+      "now": true,
       "gust": 130
     },
     {
@@ -838,10 +838,10 @@
     {
       "area": "north",
       "type": "rain",
-      "level": "orange",
+      "level": "red",
       "start": "2026-11-10T21:00",
-      "end": "2026-11-11T09:00",
-      "now": false,
+      "end": "2026-11-11T06:00",
+      "now": true,
       "gust": null
     },
     {
@@ -850,8 +850,17 @@
       "level": "orange",
       "start": "2026-11-10T21:00",
       "end": "2026-11-11T12:00",
-      "now": false,
+      "now": true,
       "gust": 100
+    },
+    {
+      "area": "north",
+      "type": "rain",
+      "level": "orange",
+      "start": "2026-11-11T06:00",
+      "end": "2026-11-11T09:00",
+      "now": false,
+      "gust": null
     },
     {
       "area": "north",
@@ -868,7 +877,7 @@
       "level": "red",
       "start": "2026-11-10T21:00",
       "end": "2026-11-11T06:00",
-      "now": false,
+      "now": true,
       "gust": null
     },
     {
@@ -877,7 +886,7 @@
       "level": "orange",
       "start": "2026-11-10T21:00",
       "end": "2026-11-11T12:00",
-      "now": false,
+      "now": true,
       "gust": 100
     },
     {
