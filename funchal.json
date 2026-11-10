@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-09T23:10+00:00",
+ "stamp": "2026-11-10T00:20+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-09",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:31",
-   "sunset": "18:11",
-   "weather": {
-    "tmin": 20,
-    "tmax": 24,
-    "rain": 100,
-    "wtype": 7,
-    "uv": 3.5
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-10",
    "type": "weekday",
@@ -187,6 +171,16 @@
    "sunset": "18:04",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-23",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:44",
+   "sunset": "18:04",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -197,15 +191,6 @@
    "end": "2026-11-14",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/10th-madeira-international-mandolin-festival/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "XXVIII Madeira International Bridge Open",
-   "venue": "",
-   "start": "2026-10-29",
-   "end": "2026-11-09",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/xxv-madeira-international-bridge-open/",
    "src": "eventsmadeira.com"
   },
   {
