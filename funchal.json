@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-10T07:20+00:00",
+ "stamp": "2026-11-10T07:40+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -282,15 +282,21 @@
   "warnings": [
    {
     "type": "Precipitação",
-    "level": "orange",
+    "level": "red",
     "start": "2026-11-10T21:00:00",
-    "end": "2026-11-11T12:00:00"
+    "end": "2026-11-11T06:00:00"
    },
    {
     "type": "Vento",
     "level": "orange",
     "start": "2026-11-10T21:00:00",
     "end": "2026-11-11T12:00:00"
+   },
+   {
+    "type": "Precipitação",
+    "level": "orange",
+    "start": "2026-11-11T06:00:00",
+    "end": "2026-11-11T09:00:00"
    },
    {
     "type": "Agitação Marítima",
