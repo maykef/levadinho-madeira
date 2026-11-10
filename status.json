@@ -1,23 +1,23 @@
 {
-  "status": "OPEN",
+  "status": "CLOSED",
   "note": {
-    "pt": "Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija.",
-    "en": "Route in both directions between Pico do Areeiro and Miradouro da Pedra Rija.",
-    "fr": "Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija.",
-    "de": "Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija.",
-    "pl": "Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija."
+    "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+    "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+    "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+    "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+    "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
   },
   "closure": null,
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.8,
+    "temp_c": 9.4,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 41,
+    "wind_kmh": 42,
     "wind_strong": true
   },
-  "stamp": "2026-11-10 17:10",
+  "stamp": "2026-11-10 18:00",
   "date": "2026-11-10",
   "source": {
     "name": "IFCN",
@@ -25,17 +25,17 @@
     "updated": ""
   },
   "counts": {
-    "OPEN": 27,
-    "PARTIAL": 4,
-    "CLOSED": 6
+    "OPEN": 0,
+    "PARTIAL": 0,
+    "CLOSED": 37
   },
   "regions": [
     {
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 9,
-      "wind": 41,
-      "rain": 2.5,
+      "wind": 42,
+      "rain": 3.7,
       "in_cloud": true
     },
     {
@@ -57,9 +57,9 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 21,
-      "wind": 48,
-      "rain": 0.0,
+      "temp": 20,
+      "wind": 44,
+      "rain": 0.4,
       "in_cloud": false
     },
     {
@@ -75,93 +75,128 @@
     {
       "code": "PR1",
       "name": "Vereda do Areeiro",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "10.50",
       "region": "summit",
       "popular": true,
+      "ifcn_status": "OPEN",
       "temp": 9,
       "page": "/pr1/",
       "note": {
-        "pt": "Percurso nos dois sentidos entre o Pico do Areeiro e o Miradouro da Pedra Rija.",
-        "en": "Route in both directions between Pico do Areeiro and Miradouro da Pedra Rija.",
-        "fr": "Itinéraire dans les deux sens entre Pico do Areeiro et Miradouro da Pedra Rija.",
-        "de": "Route in beide Richtungen zwischen Pico do Areeiro und Miradouro da Pedra Rija.",
-        "pl": "Trasa w obu kierunkach między Pico do Areeiro i Miradouro da Pedra Rija."
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
       }
     },
     {
       "code": "PR6",
       "name": "Levada das 25 Fontes",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": true,
+      "ifcn_status": "OPEN",
       "temp": null,
       "page": "/25-fontes/",
       "note": {
-        "pt": "Circulação controlada num único sentido: Rabaçal – 25 Fontes (ida) pela Levada das 25 Fontes e 25 Fontes – Rabaçal (regresso) pelo troço alternativo, denominado de Bypass.",
-        "en": "Circulation controlled in one direction: Rabaçal – 25 Fontes (one way) by Levada das 25 Fontes and 25 Fontes – Rabaçal (return) by the alternative section, called Bypass.",
-        "fr": "Circulation contrôlée dans un sens : Rabaçal – 25 Fontes (aller simple) par Levada das 25 Fontes et 25 Fontes – Rabaçal (retour) par la section alternative, appelée Bypass.",
-        "de": "Die Zirkulation wird in eine Richtung gesteuert: Rabaçal – 25 Fontes (einfache Fahrt) durch Levada das 25 Fontes und 25 Fontes – Rabaçal (Rückfahrt) durch den alternativen Abschnitt, genannt Bypass.",
-        "pl": "Cyrkulacja kontrolowana w jednym kierunku: Rabaçal – 25 Fontes (w jedną stronę) przez Levada das 25 Fontes i 25 Fontes – Rabaçal (powrót) przez sekcję alternatywną, zwaną Bypass."
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
       }
     },
     {
       "code": "PR1.2",
       "name": "Vereda do Pico Ruivo",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": true,
+      "ifcn_status": "OPEN",
       "temp": 9,
       "page": "/pico-ruivo/",
       "note": {
-        "pt": "Encontra-se totalmente transitável o troço compreendido entre a Casa de Abrigo do Pico Ruivo e o Pico Ruivo.",
-        "en": "The section between the Pico Ruivo Shelter and Pico Ruivo is totally walkable.",
-        "fr": "La section entre l'abri Pico Ruivo et Pico Ruivo est totalement praticable à pied.",
-        "de": "Der Abschnitt zwischen dem Pico Ruivo Shelter und dem Pico Ruivo ist vollständig begehbar.",
-        "pl": "Odcinek między schroniskiem Pico Ruivo a schroniskiem Pico Ruivo jest w pełni przystosowany do spacerów."
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
       }
     },
     {
       "code": "PR9",
       "name": "Levada do Caldeirão Verde",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "north",
       "popular": true,
+      "ifcn_status": "OPEN",
       "temp": 19,
-      "page": "/caldeirao-verde/"
+      "page": "/caldeirao-verde/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR8",
       "name": "Vereda da Ponta de São Lourenço",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 21,
-      "page": "/sao-lourenco/"
+      "ifcn_status": "OPEN",
+      "temp": 20,
+      "page": "/sao-lourenco/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR11",
       "name": "Vereda dos Balcões",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": true,
+      "ifcn_status": "OPEN",
       "temp": 9,
-      "page": "/balcoes/"
+      "page": "/balcoes/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR13",
       "name": "Vereda do Fanal",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": true,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/fanal/"
+      "page": "/fanal/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR10",
@@ -170,142 +205,232 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
+      "ifcn_status": "CLOSED",
       "temp": 9,
-      "page": "/levada-do-furado/"
+      "page": "/levada-do-furado/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR18",
       "name": "Levada do Rei",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "north",
       "popular": true,
+      "ifcn_status": "OPEN",
       "temp": 19,
-      "page": "/levada-do-rei/"
+      "page": "/levada-do-rei/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR14",
       "name": "Levada dos Cedros",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-dos-cedros/"
+      "page": "/levada-dos-cedros/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR1.1",
       "name": "Vereda da Ilha",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "north",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": 19,
-      "page": "/vereda-da-ilha/"
+      "page": "/vereda-da-ilha/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR1.3",
       "name": "Vereda da Encumeada",
-      "status": "PARTIAL",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
+      "ifcn_status": "PARTIAL",
       "temp": 9,
       "page": "/vereda-da-encumeada/",
       "note": {
-        "pt": "Transitável: Vereda da Encumeada. Parcialmente transitável: Percurso transitável entre o Pico Ruivo e a Boca das Torrinhas.",
-        "en": "Open: Path of Encumeada. Partly open: Passable route between Pico Ruivo and Boca das Torrinhas.",
-        "fr": "Praticable : Chemin d'Encumeada. Partiellement praticable : Itinéraire praticable entre Pico Ruivo et Boca das Torrinhas.",
-        "de": "Begehbar: Pfad von Encumeada. Teilweise begehbar: Passierbare Route zwischen Pico Ruivo und Boca das Torrinhas.",
-        "pl": "Dostępny: Ścieżka Encumeady. Częściowo dostępny: Przejezdna trasa między Pico Ruivo a Boca das Torrinhas."
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
       }
     },
     {
       "code": "PR2",
       "name": "Vereda do Urzal",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": 9,
-      "page": "/vereda-do-urzal/"
+      "page": "/vereda-do-urzal/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR3",
       "name": "Vereda do Burro",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": null,
       "region": "summit",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": 9,
-      "page": "/vereda-do-burro/"
+      "page": "/vereda-do-burro/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR3.1",
       "name": "Caminho Real do Monte",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": null,
       "region": "south",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": 22,
-      "page": "/caminho-real-do-monte/"
+      "page": "/caminho-real-do-monte/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR4",
       "name": "Levada do Barreiro",
-      "status": "PARTIAL",
+      "status": "CLOSED",
       "fee": null,
       "region": "summit",
       "popular": false,
+      "ifcn_status": "PARTIAL",
       "temp": 9,
       "page": "/levada-do-barreiro/",
       "note": {
-        "pt": "Percurso transitável - está disponível uma ligação sinalizada à Ribeira das Cales, junto ao Centro de Interpretação do Parque Ecológico do Funchal. A versão atual do percurso, entre o Poço da Neve (início do PR4), a Levada do Barreiro e a Ribeira das Cales, encontra-se totalmente sinalizada em ambos os sentidos.",
-        "en": "Passable route - a signposted connection to Ribeira das Cales is available, next to the Interpretation Center of the Ecological Park of Funchal. The current version of the route, between Poço da Neve (beginning of PR4), Levada do Barreiro and Ribeira das Cales, is fully marked in both directions.",
-        "fr": "Itinéraire praticable - une connexion signalétique à Ribeira das Cales est disponible, à côté du centre d'interprétation du parc écologique de Funchal. La version actuelle de l'itinéraire, entre Poço da Neve (début du PR4), Levada do Barreiro et Ribeira das Cales, est entièrement balisée dans les deux sens.",
-        "de": "Passierbare Route - eine ausgeschilderte Verbindung nach Ribeira das Cales ist verfügbar, neben dem Interpretationszentrum des Ökologischen Parks von Funchal. Die aktuelle Version der Route zwischen Poço da Neve (Beginn von PR4), Levada do Barreiro und Ribeira das Cales ist in beide Richtungen vollständig markiert.",
-        "pl": "Trasa przejezdna - dostępne jest oznakowane połączenie z Ribeira das Cales, obok Centrum Interpretacji Parku Ekologicznego Funchal. Obecna wersja trasy, pomiędzy Poço da Neve (początek PR4), Levada do Barreiro i Ribeira das Cales, jest w pełni oznaczona w obu kierunkach."
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
       }
     },
     {
       "code": "PR5",
       "name": "Vereda das Funduras",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "north",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": 19,
-      "page": "/vereda-das-funduras/"
+      "page": "/vereda-das-funduras/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR6.1",
       "name": "Levada do Risco",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": true,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-do-risco/"
+      "page": "/levada-do-risco/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR6.2",
       "name": "Levada do Alecrim",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-do-alecrim/"
+      "page": "/levada-do-alecrim/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR6.3",
       "name": "Vereda da Lagoa do Vento",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-da-lagoa-do-vento/"
+      "page": "/vereda-da-lagoa-do-vento/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR7",
@@ -314,35 +439,52 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/levada-do-moinho/"
+      "page": "/levada-do-moinho/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR12",
       "name": "Caminho Real da Encumeada",
-      "status": "PARTIAL",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
+      "ifcn_status": "PARTIAL",
       "temp": 9,
       "page": "/caminho-real-da-encumeada/",
       "note": {
-        "pt": "Percurso transitável desde a Boca da Corrida até ao km 3,5.",
-        "en": "Passable route from Boca da Corrida to km 3.5.",
-        "fr": "Itinéraire praticable de Boca da Corrida au km 3.5.",
-        "de": "Befahrbare Strecke von Boca da Corrida bis km 3.5.",
-        "pl": "Przejezdna trasa z Boca da Corrida do km 3,5."
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
       }
     },
     {
       "code": "PR15",
       "name": "Vereda da Ribeira da Janela",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-da-ribeira-da-janela/"
+      "page": "/vereda-da-ribeira-da-janela/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR16",
@@ -351,35 +493,52 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/levada-faja-do-rodrigues/"
+      "page": "/levada-faja-do-rodrigues/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR17",
       "name": "Caminho do Pináculo e Folhadal",
-      "status": "PARTIAL",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "PARTIAL",
       "temp": null,
       "page": "/caminho-do-pinaculo-e-folhadal/",
       "note": {
-        "pt": "Transitável: Percurso transitável entre a Encumeada e a Bica da Cana. Parcialmente transitável: Percurso transitável entre a Encumeada e a Bica da Cana.",
-        "en": "Open: Passable route between Encumeada and Bica da Cana. Partly open: Passable route between Encumeada and Bica da Cana.",
-        "fr": "Praticable : Itinéraire praticable entre Encumeada et Bica da Cana. Partiellement praticable : Itinéraire praticable entre Encumeada et Bica da Cana.",
-        "de": "Begehbar: Passierbare Route zwischen Encumeada und Bica da Cana. Teilweise begehbar: Passierbare Route zwischen Encumeada und Bica da Cana.",
-        "pl": "Dostępny: Przejezdna trasa między Encumeada i Bica da Cana. Częściowo dostępny: Przejezdna trasa między Encumeada i Bica da Cana."
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
       }
     },
     {
       "code": "PR19",
       "name": "Caminho Real do Paul do Mar",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/caminho-real-do-paul-do-mar/"
+      "page": "/caminho-real-do-paul-do-mar/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR20",
@@ -388,28 +547,52 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/vereda-do-jardim-do-mar/"
+      "page": "/vereda-do-jardim-do-mar/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR21",
       "name": "Caminho do Norte",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/caminho-do-norte/"
+      "page": "/caminho-do-norte/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR22",
       "name": "Vereda do Chão dos Louros",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-do-chao-dos-louros/"
+      "page": "/vereda-do-chao-dos-louros/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR27",
@@ -418,18 +601,34 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/glaciar-de-planalto/"
+      "page": "/glaciar-de-planalto/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR6.6",
       "name": "Vereda do Túnel do Cavalo",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-do-tunel-do-cavalo/"
+      "page": "/vereda-do-tunel-do-cavalo/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR28",
@@ -438,63 +637,111 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/levada-da-rocha-vermelha/"
+      "page": "/levada-da-rocha-vermelha/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR6.8",
       "name": "Levada do Paul II - Um caminho para todos",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-do-paul-ii-um-caminho-para-todos/"
+      "page": "/levada-do-paul-ii-um-caminho-para-todos/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR6.4",
       "name": "Levada Velha do Rabaçal",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-velha-do-rabacal/"
+      "page": "/levada-velha-do-rabacal/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR6.5",
       "name": "Vereda do Pico Fernandes",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-do-pico-fernandes/"
+      "page": "/vereda-do-pico-fernandes/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR13.1",
       "name": "Vereda da Palha Carga",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-da-palha-carga/"
+      "page": "/vereda-da-palha-carga/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     },
     {
       "code": "PR9.1",
       "name": "Levada do Caldeirão Verde - um caminho para todos",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "north",
       "popular": false,
+      "ifcn_status": "OPEN",
       "temp": 19,
-      "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/"
+      "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
+      "note": {
+        "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
+        "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
+        "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
+        "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
+        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA."
+      }
     }
   ],
   "alert": {
-    "blanket": "announced",
-    "blanket_from": "2026-11-11",
+    "blanket": "closed",
+    "blanket_from": "2026-11-10",
     "blanket_reopen": null,
     "ifcn_source": "https://ifcn.madeira.gov.pt/pt/?view=category&id=146",
     "ipma_level": "red",
@@ -517,27 +764,27 @@
       "no_day": "2026-11-11",
       "next_day": "2026-11-12"
     },
-    "closing_at": "2026-11-10T18:00",
+    "closing_at": null,
     "storm": "Charles",
     "ahead_text": {
       "en": {
-        "head": "Storm Charles is hitting Madeira tonight. Tomorrow all trails are closed. Check the official IPMA and IFCN pages for updates. Levadinho shows all trails as closed from 18:00 today. Don't start a walk this evening.",
+        "head": "Storm Charles is hitting Madeira tonight. Tomorrow all trails are closed. Check the official IPMA and IFCN pages for updates.",
         "body": "IPMA warnings from Tuesday 21:00 to Wednesday 12:00: heavy, persistent rain and gusts up to 140 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       },
       "pt": {
-        "head": "A depressão Charles atinge a Madeira esta noite. Amanhã todos os percursos estão encerrados. Consulte as páginas oficiais do IPMA e do IFCN para atualizações. O Levadinho mostra todos os percursos encerrados a partir das 18:00 de hoje. Não comece uma caminhada esta noite.",
+        "head": "A depressão Charles atinge a Madeira esta noite. Amanhã todos os percursos estão encerrados. Consulte as páginas oficiais do IPMA e do IFCN para atualizações.",
         "body": "Avisos do IPMA de terça-feira às 21:00 a quarta-feira às 12:00: chuva por vezes forte e persistente e rajadas até 140 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       },
       "fr": {
-        "head": "La tempête Charles frappe Madère cette nuit. Demain, tous les sentiers sont fermés. Consultez les pages officielles de l'IPMA et de l'IFCN pour les mises à jour. Levadinho affiche tous les sentiers fermés à partir de 18:00 aujourd'hui. Ne commencez pas de randonnée ce soir.",
+        "head": "La tempête Charles frappe Madère cette nuit. Demain, tous les sentiers sont fermés. Consultez les pages officielles de l'IPMA et de l'IFCN pour les mises à jour.",
         "body": "Avis de l'IPMA de mardi 21:00 à mercredi 12:00 : pluie parfois forte et persistante et rafales jusqu'à 140 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       },
       "de": {
-        "head": "Sturm Charles trifft Madeira heute Nacht. Morgen sind alle Wege gesperrt. Aktuelle Hinweise finden Sie auf den offiziellen Seiten von IPMA und IFCN. Levadinho zeigt alle Wege ab heute 18:00 Uhr als gesperrt. Beginnen Sie heute Abend keine Wanderung.",
+        "head": "Sturm Charles trifft Madeira heute Nacht. Morgen sind alle Wege gesperrt. Aktuelle Hinweise finden Sie auf den offiziellen Seiten von IPMA und IFCN.",
         "body": "IPMA-Warnungen von Dienstag 21:00 Uhr bis Mittwoch 12:00 Uhr: Zeitweise starker, anhaltender Regen und Böen bis 140 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       },
       "pl": {
-        "head": "Sztorm Charles uderza dziś w nocy w Maderę. Jutro wszystkie szlaki są zamknięte. Sprawdzaj aktualizacje na oficjalnych stronach IPMA i IFCN. Levadinho pokazuje wszystkie szlaki jako zamknięte od dziś od 18:00. Nie zaczynaj dziś wieczorem wędrówki.",
+        "head": "Sztorm Charles uderza dziś w nocy w Maderę. Jutro wszystkie szlaki są zamknięte. Sprawdzaj aktualizacje na oficjalnych stronach IPMA i IFCN.",
         "body": "Ostrzeżenia IPMA od wtorku 21:00 do środy 12:00: okresami silny, uporczywy deszcz i porywy do 140 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       }
     }
