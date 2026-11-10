@@ -17,7 +17,7 @@
     "wind_kmh": 37,
     "wind_strong": false
   },
-  "stamp": "2026-11-10 13:19",
+  "stamp": "2026-11-10 13:21",
   "date": "2026-11-10",
   "source": {
     "name": "IFCN",
@@ -518,6 +518,7 @@
       "next_day": "2026-11-12"
     },
     "closing_at": "2026-11-10T18:00",
+    "storm": "Charles",
     "ahead_text": {
       "en": {
         "head": "Storm Charles is hitting Madeira tonight. Tomorrow all trails are closed. Check the official IPMA and IFCN pages for updates. Levadinho shows all trails as closed from 18:00 today. Don't start a walk this evening.",
