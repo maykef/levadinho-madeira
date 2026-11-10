@@ -160,9 +160,25 @@ HOLD = os.path.join(os.path.dirname(os.path.abspath(__file__)), "blanket_hold.js
 
 
 def blanket(page_html=None):
+    """Owner's hold first (optionally timed: {"from": day, "at": "YYYY-MM-DDTHH:MM"} Madeira time = closed from then;
+    before then IFCN's pages decide and the result carries "closing_at"), else IFCN's notices (_blanket_ifcn)."""
+    if page_html is None and os.path.exists(HOLD):
+        try:
+            h = json.load(open(HOLD))
+        except (OSError, ValueError):
+            h = {}
+        at = h.get("at")
+        if at and _now() < datetime.datetime.fromisoformat(at).replace(tzinfo=TZ):
+            out = _blanket_ifcn(None, use_hold=False)
+            out["closing_at"] = at
+            return out
+    return _blanket_ifcn(page_html)
+
+
+def _blanket_ifcn(page_html=None, use_hold=True):
     """{"state": None|"closed"|"announced", "from": date|None, "reopen": date|None, "text": pt notice, "source": url}
     (+ "last": the last day a dated closure notice names; update_status uses it with IFCN's restored list)."""
-    if page_html is None and os.path.exists(HOLD):
+    if use_hold and page_html is None and os.path.exists(HOLD):
         try:
             h = json.load(open(HOLD))
         except (OSError, ValueError):
@@ -505,7 +521,26 @@ def reopened_notice(page_html=None):
     return any(REOPENED_RE.search(html.unescape(re.sub(r"<[^>]+>", " ", t))) for t in items)
 
 
-def ahead_text(ah, forecast=None, reopened=False):
+# Owner, 2026-11-10: IFCN closed every trail for Wed 11 Nov; the owner closed them on the site from 18:00 the day
+# before (timed hold). Before the hold time the notice leads with it; during any blanket closure "Exercise caution on
+# the trails" would contradict the closure, so the head says they stay closed.
+CLOSING_HEAD = {
+    "en": "Levadinho shows all trails as closed from {t} today. Don't start a walk this evening.",
+    "pt": "O Levadinho mostra todos os percursos encerrados a partir das {t} de hoje. Não comece uma caminhada esta noite.",
+    "fr": "Levadinho affiche tous les sentiers fermés à partir de {t} aujourd'hui. Ne commencez pas de randonnée ce soir.",
+    "de": "Levadinho zeigt alle Wege ab heute {t} Uhr als gesperrt. Beginnen Sie heute Abend keine Wanderung.",
+    "pl": "Levadinho pokazuje wszystkie szlaki jako zamknięte od dziś od {t}. Nie zaczynaj dziś wieczorem wędrówki.",
+}
+CLOSED_HEAD = {
+    "en": "The trails stay closed until IFCN reopens them. Check the latest announcements from IFCN and IPMA.",
+    "pt": "Os percursos mantêm-se encerrados até o IFCN os reabrir. Consulte os últimos avisos do IFCN e do IPMA.",
+    "fr": "Les sentiers restent fermés jusqu'à leur réouverture par l'IFCN. Consultez les derniers avis de l'IFCN et de l'IPMA.",
+    "de": "Die Wege bleiben gesperrt, bis das IFCN sie wieder öffnet. Prüfen Sie die neuesten Hinweise von IFCN und IPMA.",
+    "pl": "Szlaki pozostają zamknięte, dopóki IFCN ich nie otworzy. Sprawdzaj najnowsze komunikaty IFCN i IPMA.",
+}
+
+
+def ahead_text(ah, forecast=None, reopened=False, closing_at=None, closed=False):
     """{lang: {"head", "body"}} for the banner, the closures page and the bot, or None. With `forecast` (status.json
     "forecast") the body ends with IPMA's rain chance per place for the day after."""
     if not ah:
@@ -529,7 +564,11 @@ def ahead_text(ah, forecast=None, reopened=False):
         span = (A["span_f"].format(s=at(ah["start"]), e=at(ah["end"])) if ah["start"]
                 else A["span_n"].format(e=at(ah["end"])))
         head = A["head"]
-        if reopened:
+        if closing_at:
+            head = CLOSING_HEAD[lang].format(t=closing_at[11:16])
+        elif closed:
+            head = CLOSED_HEAD[lang]
+        elif reopened:
             lvl = LEVEL_NAME.get(ah.get("level"), {}).get(lang, ah.get("level"))
             head = REOPENED_LEAD[lang].format(lvl=lvl, a="an" if str(lvl)[:1].lower() in "aeiou" else "a") + " " + head
         out[lang] = {"head": head, "body": A["body"].format(span=span, what_l=what_s[:1].lower() + what_s[1:] if lang != "de" else what_s,
@@ -552,7 +591,9 @@ def alert(b, ipma, forecast=None):
          "ipma_types": sorted({w["type"] for w in ipma.get("warnings", [])}) if ipma.get("ok") else [],
          "ipma_now": any(w["now"] for w in ipma.get("warnings", [])) if ipma.get("ok") else False,
          "ipma_source": IPMA_PAGE, "ahead": ah,
-         "ahead_text": ahead_text(ah, forecast, reopened=bool(ah) and not b.get("state") and reopened_notice())}
+         "closing_at": b.get("closing_at"),
+         "ahead_text": ahead_text(ah, forecast, reopened=bool(ah) and not b.get("state") and reopened_notice(),
+                                  closing_at=b.get("closing_at"), closed=b.get("state") == "closed")}
     return a if (a["blanket"] or a["ipma_level"] or ah) else None   # warnings ahead alone keep the notice (owner, 2026-11-09)
 
 
@@ -593,7 +634,9 @@ def static_alert(a, lang):
     lang = lang if lang in BLANKET_NOTE else "en"
     if a.get("blanket") == "announced":
         tomorrow = (_today() + datetime.timedelta(days=1)).isoformat()
-        return ANNOUNCED[lang].format(w=WHEN_TOMORROW[lang] if a.get("blanket_from") == tomorrow else "")
+        line = ANNOUNCED[lang].format(w=WHEN_TOMORROW[lang] if a.get("blanket_from") == tomorrow else "")
+        ah = (a.get("ahead_text") or {}).get(lang)
+        return line + " " + ah["head"] if a.get("closing_at") and ah else line
     if a.get("blanket") == "closed":
         return ""
     ah = (a.get("ahead_text") or {}).get(lang)
