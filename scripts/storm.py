@@ -119,6 +119,16 @@ def _dates(text, today):
     return out
 
 
+def _notice_dates(text, today, rx):
+    """Dates that belong to the closure/reopening sentence itself. 10 Nov 2026: IFCN's closure notice shared a
+    category item with the PR16 notice ("modelo de taxas ... em vigor desde o dia 01 de janeiro de 2026"); min() of
+    every date in the item gave 1 Jan, and the site showed all 37 trails CLOSED today instead of announced for the
+    11th, for 20 minutes. Only dates from the match to 200 characters after it count, and never one over 30 days old."""
+    m = rx.search(text)
+    ds = _dates(text[m.start():m.end() + 200], today) if m else []
+    return [d for d in (ds or _dates(text, today)) if d >= today - datetime.timedelta(days=30)]
+
+
 def notices(page_html):
     """IFCN AVISOS category page -> [notice text], newest first. Fatal if the page structure changed."""
     parts = page_html.split("com-content-category-blog__item")[1:]
@@ -165,13 +175,13 @@ def blanket(page_html=None):
     for text in items:                       # newest first: the first closure/reopening notice decides
         kind = classify(text)
         if kind == "reopen":
-            ds = _dates(text, today)
+            ds = _notice_dates(text, today, REOPEN_RE)
             reopen = max(ds) if ds else None
             if reopen and reopen > today:    # announced for a later day: still closed until then
                 out.update(state="closed", reopen=reopen.isoformat(), text=text)
             return out
         if kind == "closure":
-            ds = _dates(text, today)
+            ds = _notice_dates(text, today, CLOSURE_RE)
             start = min(ds) if ds else None
             if ds:   # last day the notice names. It does NOT end the closure: in March 2026 "encerrados no dia 03"
                 out["last"] = max(ds).isoformat()   # stayed closed on the 4th, reopened by a notice on the 5th
