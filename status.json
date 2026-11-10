@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 9.9,
+    "temp_c": 10.1,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 37,
+    "wind_kmh": 39,
     "wind_strong": false
   },
-  "stamp": "2026-11-10 13:23",
+  "stamp": "2026-11-10 14:30",
   "date": "2026-11-10",
   "source": {
     "name": "IFCN",
@@ -34,8 +34,8 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 10,
-      "wind": 37,
-      "rain": 1.6,
+      "wind": 39,
+      "rain": 1.4,
       "in_cloud": true
     },
     {
@@ -58,16 +58,16 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 21,
-      "wind": 45,
+      "wind": 27,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 22,
-      "wind": 13,
-      "rain": 0.1,
+      "temp": 20,
+      "wind": 9,
+      "rain": 0.3,
       "in_cloud": false
     }
   ],
@@ -247,7 +247,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 22,
+      "temp": 20,
       "page": "/caminho-real-do-monte/"
     },
     {
