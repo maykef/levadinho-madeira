@@ -17,7 +17,7 @@
     "wind_kmh": 37,
     "wind_strong": false
   },
-  "stamp": "2026-11-10 13:15",
+  "stamp": "2026-11-10 13:19",
   "date": "2026-11-10",
   "source": {
     "name": "IFCN",
@@ -520,23 +520,23 @@
     "closing_at": "2026-11-10T18:00",
     "ahead_text": {
       "en": {
-        "head": "Levadinho shows all trails as closed from 18:00 today. Don't start a walk this evening.",
+        "head": "Storm Charles is hitting Madeira tonight. Tomorrow all trails are closed. Check the official IPMA and IFCN pages for updates. Levadinho shows all trails as closed from 18:00 today. Don't start a walk this evening.",
         "body": "IPMA warnings from Tuesday 21:00 to Wednesday 12:00: heavy, persistent rain and gusts up to 140 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       },
       "pt": {
-        "head": "O Levadinho mostra todos os percursos encerrados a partir das 18:00 de hoje. Não comece uma caminhada esta noite.",
+        "head": "A depressão Charles atinge a Madeira esta noite. Amanhã todos os percursos estão encerrados. Consulte as páginas oficiais do IPMA e do IFCN para atualizações. O Levadinho mostra todos os percursos encerrados a partir das 18:00 de hoje. Não comece uma caminhada esta noite.",
         "body": "Avisos do IPMA de terça-feira às 21:00 a quarta-feira às 12:00: chuva por vezes forte e persistente e rajadas até 140 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       },
       "fr": {
-        "head": "Levadinho affiche tous les sentiers fermés à partir de 18:00 aujourd'hui. Ne commencez pas de randonnée ce soir.",
+        "head": "La tempête Charles frappe Madère cette nuit. Demain, tous les sentiers sont fermés. Consultez les pages officielles de l'IPMA et de l'IFCN pour les mises à jour. Levadinho affiche tous les sentiers fermés à partir de 18:00 aujourd'hui. Ne commencez pas de randonnée ce soir.",
         "body": "Avis de l'IPMA de mardi 21:00 à mercredi 12:00 : pluie parfois forte et persistante et rafales jusqu'à 140 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       },
       "de": {
-        "head": "Levadinho zeigt alle Wege ab heute 18:00 Uhr als gesperrt. Beginnen Sie heute Abend keine Wanderung.",
+        "head": "Sturm Charles trifft Madeira heute Nacht. Morgen sind alle Wege gesperrt. Aktuelle Hinweise finden Sie auf den offiziellen Seiten von IPMA und IFCN. Levadinho zeigt alle Wege ab heute 18:00 Uhr als gesperrt. Beginnen Sie heute Abend keine Wanderung.",
         "body": "IPMA-Warnungen von Dienstag 21:00 Uhr bis Mittwoch 12:00 Uhr: Zeitweise starker, anhaltender Regen und Böen bis 140 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       },
       "pl": {
-        "head": "Levadinho pokazuje wszystkie szlaki jako zamknięte od dziś od 18:00. Nie zaczynaj dziś wieczorem wędrówki.",
+        "head": "Sztorm Charles uderza dziś w nocy w Maderę. Jutro wszystkie szlaki są zamknięte. Sprawdzaj aktualizacje na oficjalnych stronach IPMA i IFCN. Levadinho pokazuje wszystkie szlaki jako zamknięte od dziś od 18:00. Nie zaczynaj dziś wieczorem wędrówki.",
         "body": "Ostrzeżenia IPMA od wtorku 21:00 do środy 12:00: okresami silny, uporczywy deszcz i porywy do 140 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 55%, Santana 41%, Paul da Serra 60%, Caniçal 0%, Funchal 0%."
       }
     }
