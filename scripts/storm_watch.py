@@ -220,6 +220,8 @@ def main(dry):
     if site is not None:
         if b.get("state") != "unknown" and b.get("state") != site.get("blanket"):
             reasons.append(f"IFCN blanket {b.get('state')} vs site {site.get('blanket')}")
+        if b.get("state") != "unknown" and b.get("storm") != site.get("storm"):   # owner's storm notice starts/ends (midnight)
+            reasons.append(f"storm notice {b.get('storm')} vs site {site.get('storm')}")
         if ipma.get("ok") and ipma.get("level") != site.get("ipma_level"):
             reasons.append(f"IPMA {ipma.get('level')} vs site {site.get('ipma_level')}")
         if closures is not None and src_cl != site_cl:

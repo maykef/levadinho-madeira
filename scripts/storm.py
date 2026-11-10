@@ -605,6 +605,7 @@ def alert(b, ipma, forecast=None):
          "ipma_now": any(w["now"] for w in ipma.get("warnings", [])) if ipma.get("ok") else False,
          "ipma_source": IPMA_PAGE, "ahead": ah,
          "closing_at": b.get("closing_at"),
+         "storm": b.get("storm"),
          "ahead_text": ahead_text(ah, forecast, reopened=bool(ah) and not b.get("state") and reopened_notice(),
                                   closing_at=b.get("closing_at"), closed=b.get("state") == "closed",
                                   storm=b.get("storm"))}
