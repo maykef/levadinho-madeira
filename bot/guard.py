@@ -130,6 +130,17 @@ STAY_ANSWER = {"en": "Levadinho doesn't advise on where to stay.", "pt": "O Leva
                "pl": "Levadinho nie doradza w sprawie noclegów."}
 
 
+_TOOL_NAMES = "|".join(sorted({f.__name__ for f in answers.kbtools.TOOLS} | {"taxi_prices", "day_plan", "weather_forecast"},
+                               key=len, reverse=True))
+# 11 Nov real chat: "For contact numbers, call the transport tool." The model's own plumbing never reaches a visitor.
+TOOL_LEAK = re.compile(r"\b(" + _TOOL_NAMES + r")\s*\(|\b(" + "|".join(n for n in _TOOL_NAMES.split("|") if "_" in n)
+                       + r")\b|how_to_answer|reply_exactly|\b(call|use|chame|chamar|use a|usar|appele[zr]?|utilise[zr]?|aufrufen|"
+                       r"verwende\w*|nutze\w*|wywołaj|użyj)\b.{0,30}\b(tool|tools|ferramenta\w*|outil\w*|werkzeug\w*|"
+                       r"narzędzi\w*)\b|\b(" + _TOOL_NAMES + r")\s+(tool|ferramenta|outil|werkzeug|narzędzi\w*)\b|"
+                       r"\b(tool|werkzeug|outil|narzędzi\w*)\s+[«\"']?(" + _TOOL_NAMES + r")\b",
+                       re.I)
+
+
 def check(reply, user_text, lang, trails, context=""):
     """Returns (reply, changes)."""
     changes = []
@@ -138,6 +149,8 @@ def check(reply, user_text, lang, trails, context=""):
         out, n = rx.subn(rep, out)
         if n:
             changes.append(f"typo fixed x{n}")
+    out, d = _drop(out, lambda s: bool(TOOL_LEAK.search(s)))
+    changes += [f"tool wording dropped: {x[:80]}" for x in d]
     out, d = _drop(out, _names_company)
     changes += [f"company sentence dropped: {x[:80]}" for x in d]
     if not WHO.search(user_text):

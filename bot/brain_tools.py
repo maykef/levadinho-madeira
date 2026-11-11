@@ -239,6 +239,8 @@ def _how(name, args, result, lang, q=""):
               "answered \"none scheduled tomorrow (Monday)\" because they were labelled Monday to Friday). Never say "
               "there is no bus that day when trips are listed."]
     elif name == "transport":
+        if BOOK_TAXI.search(q):
+            h.append(BOOK_HINT)
         h += ["Visitors who think we run or book transfers: \"I'm an independent guide — I don't run or book transfers "
               "or taxis. Your hotel reception can arrange a transfer, or you can book a taxi for a set time yourself\", "
               "then the numbers. Never name a transfer company.",
@@ -250,6 +252,9 @@ def _how(name, args, result, lang, q=""):
               "driving_up (Pico do Areeiro): give it whenever the visitor asks about driving, parking or their car "
               "there — we advise against driving up for sunrise."]
     elif name == "taxi_prices":
+        if BOOK_TAXI.search(q):
+            # 11 Nov real chat: "I'd like to book for tomorrow" got the price again and "call the transport tool"
+            h.append(BOOK_HINT)
         h += ["A route with a price: \"About €«car» by car (up to 4 people), €«van» by van (5–10) — an indicative price; "
               "the fare is agreed when you book.\" With the group size, add for_your_group. Portuguese: car = "
               "\"carro\", van = \"carrinha\".",
@@ -370,6 +375,14 @@ def plan_asked(plan, messages, visitor):
     """day_plan only when the visitor's own words name the plan's walks (or Portela) somewhere in the chat."""
     said = " ".join([str(m.get("content") or "") for m in messages if m.get("role") == "user"] + [visitor or ""]).lower()
     return plan in PLAN_WORDS and all(re.search(p, said) for p in PLAN_WORDS[plan])
+
+
+BOOK_TAXI = re.compile(r"\b(book|booking|reserve|arrange|order)\b|reserv(ar|a|e)\b|marcar|agendar|r[ée]serv\w*|"
+                       r"buchen|bestellen|reservier\w*|zarezerw\w*|zamówi\w*|zamow\w*", re.I)
+BOOK_HINT = ("The visitor wants to book the taxi: say Levadinho doesn't book taxis, they call the taxi rank themselves "
+             "and agree a pick-up time and the fare; give the rank's name and full phone number from the result. Never "
+             "mention tools, calls to tools or anything about how you look things up. If every classified trail is "
+             "closed now, add one line: the trails are closed, and they reopen only when IFCN says so.")
 
 
 PREFETCH = 0  # search results given with the question (RAG); 0 since 2026-10-10: they pushed unasked topics into answers
@@ -501,6 +514,9 @@ def fact_check(messages, reply, text, history, lang, trace):
     reply = re.sub(r"[ \t]{2,}", " ", SITES.sub("", reply)).strip() or reply
     import grounding
     tools = [m.get("content") or "" for m in messages if m.get("role") == "tool"]
+    # our own earlier replies passed this check when they were written: a follow-up may repeat them (11 Nov test:
+    # "I'd like to book for tomorrow" → the price from the turn before was cut as unsupported)
+    tools += [m.get("content") or "" for m in history if m.get("role") == "assistant"]
     said = "\n".join([m.get("content") or "" for m in history if m.get("role") == "user"] + [text])
     ev = grounding.Evidence(tools, said)
     bad = grounding.unsupported(reply, ev)

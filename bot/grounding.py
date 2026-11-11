@@ -78,8 +78,18 @@ def _times(text):
     return out
 
 
+# a range carries the currency once: "€15–20", "15–20 €", "15 to 20 euros" (11 Nov test: the other end was "unsupported")
+RANGE_RE = re.compile(rf"€\s?({NUM})\s?(?:–|-|to|a|à|bis|do)\s?€?\s?({NUM})|({NUM})\s?(?:–|-|to|a|à|bis|do)\s?({NUM})\s?"
+                      rf"(?:€|eur\b|euros?\b|euro\b)", re.I)
+
+
 def _money(text):
-    return {_num(a or b) for a, b in MONEY_RE.findall(text or "")}
+    out = {_num(a or b) for a, b in MONEY_RE.findall(text or "")}
+    for a, b, c, d in RANGE_RE.findall(text or ""):
+        lo, hi = (a, b) if a else (c, d)
+        if _num(hi) > _num(lo):   # "€4.50 - 2 people" is no range
+            out |= {_num(lo), _num(hi)}
+    return out
 
 
 def _phones(text):

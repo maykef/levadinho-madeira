@@ -808,6 +808,16 @@ def _share(r, people):
     return f"{'car' if people <= 4 else 'van'} €{eur} ÷ {people} = about €{eur / people:.2f} each".replace(".00 each", " each")
 
 
+def _santana_rule():
+    """The number in the result itself (11 Nov real chat: "for the numbers call transport" reached the visitor as
+    "call the transport tool")."""
+    taxi = _q("SELECT name, phone FROM kb.transport WHERE kind = 'taxi' AND town = 'Santana' ORDER BY id LIMIT 1")
+    if taxi:
+        return (f"Pick-ups at Achada do Teixeira are done by {taxi[0]['name']} ({', '.join(taxi[0]['phone'])}): give "
+                "this number whenever the visitor wants to book or arrange that taxi.")
+    return "Pick-ups at Achada do Teixeira are done by the Santana taxis."
+
+
 def taxi_prices(pickup: str | None = None, destination: str | None = None, people: int | None = None) -> dict:
     """What a taxi costs on the routes a local driver has priced (owner, 2026-10-24): Funchal ↔ Pico do Areeiro,
     Funchal ↔ Ribeiro Frio, the PR1 package (hotel → Pico do Areeiro, collected at Achada do Teixeira at a set time)
@@ -849,7 +859,7 @@ def taxi_prices(pickup: str | None = None, destination: str | None = None, peopl
     res = {"routes": routes, "matched_the_trip": exact,
            "rules": ["Prices are per vehicle, not per person; when the visitor gave the group size, give for_your_group.",
                      "Always say the price is indicative and that the fare is agreed when booking (most are a local driver's prices; a route's note says when it is a hiker's report instead).",
-                     "Pick-ups at Achada do Teixeira are done by the Santana taxis; for the numbers call transport.",
+                     _santana_rule(),
                      "Achada do Teixeira → Pico do Areeiro: a shared ride with other hikers usually costs about €15–20 per person."],
            "source": {"name": "Indicative prices: a local taxi driver, and hikers' reports where noted", "url": None}}
     if not exact and rows:

@@ -1352,9 +1352,27 @@ def reopen_reply(user, text, lang, meta):
     return [{"type": "text", "body": body}]
 
 
+def strip_echo(reply):
+    """11 Nov test: the model copied the closure lead and the reopening offer from its previous message into the next
+    one. Only storm_lead / reopen_notify.offer add them (once each)."""
+    try:
+        import reopen_notify
+        offers = [o.split("\n")[0][:40] for o in list(reopen_notify.OFFER.values()) + list(reopen_notify.OFFER_WEB.values())]
+    except Exception:  # noqa: BLE001
+        offers = []
+    leads = [v[:40] for v in STORM_LEAD.values()]
+    paras = (reply or "").split("\n\n")
+    kept = [p for p in paras if not any(p.strip().startswith(x) for x in leads + offers)]
+    return "\n\n".join(kept).strip() if kept and kept != paras else reply
+
+
 def answer(user, text, lang, meta=None, c=None):
     """Every model answer; in storm mode it starts with STORM_LEAD (see storm_lead)."""
     reply = _answer(user, text, lang, meta, c)
+    clean = strip_echo(reply)
+    if clean != reply:
+        store.fix_last_answer(user, clean)
+        reply = clean
     lead = storm_lead(user, reply, lang)
     try:   # during a blanket closure: "want a message when IFCN reopens?" (reopen_notify.py, owner 2026-11-11)
         import reopen_notify
