@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 13.1,
+    "temp_c": 13.2,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 75,
+    "wind_kmh": 63,
     "wind_strong": true
   },
-  "stamp": "2026-11-11 04:50",
+  "stamp": "2026-11-11 06:00",
   "date": "2026-11-11",
   "source": {
     "name": "IFCN",
@@ -34,8 +34,8 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 13,
-      "wind": 75,
-      "rain": 16.5,
+      "wind": 63,
+      "rain": 15.0,
       "in_cloud": true
     },
     {
@@ -43,7 +43,7 @@
       "place": "Santana",
       "temp": 18,
       "wind": null,
-      "rain": null,
+      "rain": 4.3,
       "in_cloud": false
     },
     {
@@ -58,16 +58,16 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 21,
-      "wind": 78,
-      "rain": 0.8,
+      "wind": 59,
+      "rain": 3.3,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
       "temp": 22,
-      "wind": 13,
-      "rain": 1.3,
+      "wind": 15,
+      "rain": 2.9,
       "in_cloud": false
     }
   ],
@@ -744,7 +744,7 @@
     "blanket_from": "2026-11-10",
     "blanket_reopen": null,
     "ifcn_source": "https://ifcn.madeira.gov.pt/pt/?view=category&id=146",
-    "ipma_level": "red",
+    "ipma_level": "orange",
     "ipma_types": [
       "Precipitação",
       "Vento"
@@ -752,12 +752,12 @@
     "ipma_now": true,
     "ipma_source": "https://www.ipma.pt/pt/otempo/prev-sam/?p=MAD",
     "ahead": {
-      "level": "red",
+      "level": "orange",
       "types": [
         "rain",
         "wind"
       ],
-      "gust_mountains": 140,
+      "gust_mountains": 130,
       "gust": 100,
       "start": null,
       "end": "2026-11-11T12:00+00:00",
@@ -769,23 +769,23 @@
     "ahead_text": {
       "en": {
         "head": "The trails stay closed until IFCN reopens them. Check the latest announcements from IFCN and IPMA.",
-        "body": "IPMA warnings until Wednesday 12:00: heavy, persistent rain and gusts up to 140 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "IPMA warnings until Wednesday 12:00: heavy, persistent rain and gusts up to 130 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       },
       "pt": {
         "head": "Os percursos mantêm-se encerrados até o IFCN os reabrir. Consulte os últimos avisos do IFCN e do IPMA.",
-        "body": "Avisos do IPMA até quarta-feira às 12:00: chuva por vezes forte e persistente e rajadas até 140 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "Avisos do IPMA até quarta-feira às 12:00: chuva por vezes forte e persistente e rajadas até 130 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       },
       "fr": {
         "head": "Les sentiers restent fermés jusqu'à leur réouverture par l'IFCN. Consultez les derniers avis de l'IFCN et de l'IPMA.",
-        "body": "Avis de l'IPMA jusqu'à mercredi 12:00 : pluie parfois forte et persistante et rafales jusqu'à 140 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "Avis de l'IPMA jusqu'à mercredi 12:00 : pluie parfois forte et persistante et rafales jusqu'à 130 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       },
       "de": {
         "head": "Die Wege bleiben gesperrt, bis das IFCN sie wieder öffnet. Prüfen Sie die neuesten Hinweise von IFCN und IPMA.",
-        "body": "IPMA-Warnungen bis Mittwoch 12:00 Uhr: Zeitweise starker, anhaltender Regen und Böen bis 140 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "IPMA-Warnungen bis Mittwoch 12:00 Uhr: Zeitweise starker, anhaltender Regen und Böen bis 130 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       },
       "pl": {
         "head": "Szlaki pozostają zamknięte, dopóki IFCN ich nie otworzy. Sprawdzaj najnowsze komunikaty IFCN i IPMA.",
-        "body": "Ostrzeżenia IPMA do środy 12:00: okresami silny, uporczywy deszcz i porywy do 140 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
+        "body": "Ostrzeżenia IPMA do środy 12:00: okresami silny, uporczywy deszcz i porywy do 130 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 61%, Santana 29%, Paul da Serra 60%, Caniçal 0%, Funchal 4%."
       }
     }
   },
@@ -793,28 +793,10 @@
     {
       "area": "mountains",
       "type": "rain",
-      "level": "red",
-      "start": "2026-11-10T21:00",
-      "end": "2026-11-11T06:00",
-      "now": true,
-      "gust": null
-    },
-    {
-      "area": "mountains",
-      "type": "wind",
-      "level": "red",
-      "start": "2026-11-11T00:00",
-      "end": "2026-11-11T06:00",
-      "now": true,
-      "gust": 140
-    },
-    {
-      "area": "mountains",
-      "type": "rain",
       "level": "orange",
       "start": "2026-11-11T06:00",
       "end": "2026-11-11T09:00",
-      "now": false,
+      "now": true,
       "gust": null
     },
     {
@@ -823,17 +805,8 @@
       "level": "orange",
       "start": "2026-11-11T06:00",
       "end": "2026-11-11T12:00",
-      "now": false,
-      "gust": 130
-    },
-    {
-      "area": "north",
-      "type": "rain",
-      "level": "red",
-      "start": "2026-11-10T21:00",
-      "end": "2026-11-11T06:00",
       "now": true,
-      "gust": null
+      "gust": 130
     },
     {
       "area": "north",
@@ -850,7 +823,7 @@
       "level": "orange",
       "start": "2026-11-11T06:00",
       "end": "2026-11-11T09:00",
-      "now": false,
+      "now": true,
       "gust": null
     },
     {
@@ -864,15 +837,6 @@
     },
     {
       "area": "south",
-      "type": "rain",
-      "level": "red",
-      "start": "2026-11-10T21:00",
-      "end": "2026-11-11T06:00",
-      "now": true,
-      "gust": null
-    },
-    {
-      "area": "south",
       "type": "wind",
       "level": "orange",
       "start": "2026-11-10T21:00",
@@ -886,7 +850,7 @@
       "level": "orange",
       "start": "2026-11-11T06:00",
       "end": "2026-11-11T09:00",
-      "now": false,
+      "now": true,
       "gust": null
     },
     {
