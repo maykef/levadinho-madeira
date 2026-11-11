@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-10T23:51+00:00",
+ "stamp": "2026-11-11T00:11+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-10",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:32",
-   "sunset": "18:10",
-   "weather": {
-    "tmin": 18,
-    "tmax": 24,
-    "rain": 100,
-    "wtype": 9,
-    "uv": 2.4
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-11",
    "type": "weekday",
@@ -187,6 +171,16 @@
    "sunset": "18:04",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-24",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:45",
+   "sunset": "18:03",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -216,15 +210,6 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/madeira-piano-fest/",
    "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Tomé: Curta-metragem de André Fournier",
-   "venue": "Teatro Municipal Baltazar Dias",
-   "start": "2026-11-10T19:00",
-   "end": "2026-11-10T20:00",
-   "all_day": false,
-   "url": "https://cultura.funchal.pt/event/tome-curta-metragem-de-andre-fournier/",
-   "src": "cultura.funchal.pt"
   },
   {
    "title": "Noites da Madeira – Homenagem a Celso Rodrigues",
