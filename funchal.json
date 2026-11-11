@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-11T19:51+00:00",
+ "stamp": "2026-11-11T21:01+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -26,9 +26,9 @@
    "sunrise": "07:34",
    "sunset": "18:09",
    "weather": {
-    "tmin": 19,
+    "tmin": 18,
     "tmax": 24,
-    "rain": 2,
+    "rain": 0,
     "wtype": 2,
     "uv": 3.4
    },
@@ -52,7 +52,7 @@
    "weather": {
     "tmin": 19,
     "tmax": 24,
-    "rain": 27,
+    "rain": 14,
     "wtype": 2,
     "uv": 3.8
    },
@@ -66,9 +66,9 @@
    "sunrise": "07:36",
    "sunset": "18:08",
    "weather": {
-    "tmin": 18,
+    "tmin": 19,
     "tmax": 23,
-    "rain": 75,
+    "rain": 78,
     "wtype": 7,
     "uv": 3.8
    },
@@ -83,9 +83,9 @@
    "sunset": "18:07",
    "weather": {
     "tmin": 17,
-    "tmax": 23,
-    "rain": 2,
-    "wtype": 2,
+    "tmax": 24,
+    "rain": 6,
+    "wtype": 3,
     "uv": 2.9
    },
    "fair": null
