@@ -1627,7 +1627,7 @@ def weather_forecast(trail: str | None = None, place: str | None = None, region:
                    "with its heading (the area it is for); no weather emoji. Days by name, never "
                    "dates. Whether a closed trail reopens is IFCN's decision, announced on its trail-warnings list: never "
                    "predict it. During past IPMA warnings IFCN closed all classified trails, so a wet or windy day ahead "
-                   "means: book flexibly and check the status that morning.",
+                   "means: book flexibly.",
            "source": {"name": "IPMA", "url": "https://www.ipma.pt/pt/otempo/prev.localidade.hora/#Madeira"}}
     if matched:
         tr = next((x for x in st.get("trails") or [] if x.get("code") == matched), None)

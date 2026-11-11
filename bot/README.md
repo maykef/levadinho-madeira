@@ -477,3 +477,14 @@ WhatsApp → Twilio sandbox (+1 415 523 8886) → POST …/levadinho/twilio (app
   (WhatsApp Flows plus a payment link).
 - The bot can't track location in the background. Visitors share a pin or say where they're
   going. Messages the bot initiates outside the 24 h window need approved templates.
+
+## Reopening alerts (since 2026-11-11)
+
+During an IFCN island-wide closure the bot's first answer to each visitor ends with "Want a WhatsApp message as soon as
+IFCN reopens the trails? Reply YES" (web chat: a wa.me link that sends "Notify me when the trails reopen #web-reopen").
+YES / "notify me" puts the number on `reopen_watch` in `bot/levadinho.db` (STOP removes it; 30-day expiry; erased with
+the working store). `scripts/storm_watch.py` WhatsApps the owner (`OWNER_WA` in `bot/.env`) on every new or removed IFCN
+announcement; the owner's reply **SEND** (within 48 h) sends the reopening message to everyone waiting and removes each
+number once WhatsApp accepts it. Outside the 24-hour window these go out as approved templates
+(`twilio_content.py`: `levadinho_reopen_<lang>_v1`, `levadinho_owner_alert_v1`, category UTILITY).
+`python3 bot/reopen_notify.py status` | `test-owner`. Code: `bot/reopen_notify.py`. Privacy policy section "Reopening alerts".

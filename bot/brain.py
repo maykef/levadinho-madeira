@@ -230,7 +230,7 @@ STATUS_WORDS = {
 # Accepting the notice is a condition of using the assistant: nothing is answered until the visitor
 # taps Accept. The chat record rests on legitimate interest (the privacy policy says so), not on
 # consent; the guide's GPS log is a separate opt-in inside the guide. Declines are counted anonymously.
-CONSENT_VERSION = "2026-10-10"   # date of the privacy policy the visitor accepted
+CONSENT_VERSION = "2026-11-11"   # date of the privacy policy the visitor accepted
 POLICY_URL = "https://levadinho-madeira.com/privacy/#{lang}"
 PRIVACY_WORDS = {"privacy", "privacidade", "privacité", "confidentialité", "confidentialite", "datenschutz",
                  "prywatność", "prywatnosc", "rgpd", "gdpr", "dsgvo", "rodo"}
@@ -1337,10 +1337,32 @@ def storm_lead(user, reply, lang):
     return reply if told or (reply or "").startswith(line[:4]) else f"{line}\n\n{reply}"
 
 
+def reopen_reply(user, text, lang, meta):
+    """A YES to the reopening offer, "notify me…" or STOP (reopen_notify.py) → [message], else None."""
+    try:
+        import answers
+        import reopen_notify
+        body = reopen_notify.intercept(user, text, answers.detect_lang(text, fallback=lang or "en"), live_status(), meta)
+    except Exception:  # noqa: BLE001
+        log.exception("reopen_notify failed")
+        return None
+    if not body:
+        return None
+    store.add_turn(user, text, body)
+    return [{"type": "text", "body": body}]
+
+
 def answer(user, text, lang, meta=None, c=None):
     """Every model answer; in storm mode it starts with STORM_LEAD (see storm_lead)."""
     reply = _answer(user, text, lang, meta, c)
     lead = storm_lead(user, reply, lang)
+    try:   # during a blanket closure: "want a message when IFCN reopens?" (reopen_notify.py, owner 2026-11-11)
+        import reopen_notify
+        line = reopen_notify.offer(user, lang, live_status())
+    except Exception:  # noqa: BLE001
+        line = None
+    if line:
+        lead = f"{lead}\n\n{line}"
     if lead is not reply:
         store.fix_last_answer(user, lead)
     return lead
@@ -1433,7 +1455,7 @@ def handle_consent(user, yes, meta=None):
             store.add_turn(user, "(opened the chat)", body)   # so the next answer doesn't repeat the storm line
         return [{"type": "text", "body": body}]
     if kind == "q" and arg:  # what they wrote before accepting
-        ready = quick_reply(user, arg, meta)
+        ready = reopen_reply(user, arg, lang, meta) or quick_reply(user, arg, meta)
         if ready is not None:
             return ready
         try:
@@ -1702,7 +1724,7 @@ def handle(user, text=None, choice=None, meta=None):
         store.set_user(user, state="ready")  # a new question instead: carry on with it
 
     # Pre-populated answers first (owner, 2026-10-10): no model needed, so they go out even while it sleeps.
-    ready = quick_reply(user, text, meta, u)
+    ready = reopen_reply(user, text, (u or {}).get("lang"), meta) or quick_reply(user, text, meta, u)
     if ready is not None:
         return ready
 

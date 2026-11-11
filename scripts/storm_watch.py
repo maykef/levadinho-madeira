@@ -152,7 +152,17 @@ def track_announcements(now, dry):
                     "Check IFCN / IPMA against the site status, then delete this file.\n\n")
         for what, _k, v in changes:
             f.write(f"- {stamp} IFCN announcement {what.upper()} ({storm.classify(v) or 'notice'}): {v[:400]}\n")
-    return [f"{what}: {v[:120]}" for what, _k, v in changes]
+    # WhatsApp to the owner (owner, 2026-11-11: "Let me know first"); his SEND reply sends the reopening message
+    # to the visitors waiting for it (bot/reopen_notify.py). Never breaks the watch.
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "bot"))
+        import reopen_notify
+        sent = reopen_notify.alert_owner([(what, storm.classify(v) or "notice", v) for what, _k, v in changes],
+                                         storm.IFCN_AVISOS_CAT)
+    except Exception as e:  # noqa: BLE001
+        sent = f"failed: {e!r}"
+    print("owner alert:", sent, file=sys.stderr)
+    return [f"{what}: {v[:120]}" for what, _k, v in changes] + [f"owner alert: {sent}"]
 
 
 def main(dry):

@@ -31,6 +31,7 @@ import os
 import urllib.request
 
 import re
+import threading
 import time
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
@@ -52,6 +53,7 @@ import geo  # noqa: E402
 import llm_control  # noqa: E402
 import store  # noqa: E402
 import twilio_wa  # noqa: E402
+import reopen_notify  # noqa: E402
 
 WA_TOKEN = os.environ.get("WA_TOKEN", "")
 WA_PHONE_NUMBER_ID = os.environ.get("WA_PHONE_NUMBER_ID", "")
@@ -142,6 +144,18 @@ def process(message, replay=None):
         if last and time.time() - last > TEST_FRESH_S:
             store.erase(sender)
             log.info("test number …%s: new session, working store erased", sender[-4:])
+    if replay is None and kind == "text":   # the owner's SEND after a reopening alert (reopen_notify.py)
+        cmd = reopen_notify.owner_command(sender, message["text"]["body"])
+        if cmd:
+            store.note_inbound(sender)
+            send(message, {"type": "text", "body": cmd[0]})
+            if cmd[1]:
+                def go():
+                    summary = reopen_notify.broadcast(log.info)
+                    log.info("reopen broadcast: %s", summary)
+                    send(message, {"type": "text", "body": summary})
+                threading.Thread(target=go, daemon=True).start()
+            return
     if replay is None:
         llm_control.touch()
         store.note_inbound(sender)

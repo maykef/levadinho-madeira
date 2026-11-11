@@ -60,6 +60,30 @@ def wanted():
                       "twilio/text": {"body": "{{1}}"}}}
 
 
+# Messages we start ourselves (reopen_notify.py, 2026-11-11): outside the 24-hour window WhatsApp only delivers
+# approved templates, so these are also submitted for approval (category UTILITY). Own version: changing their text
+# means a new name and a new approval.
+NOTIFY_VERSION = "v1"
+
+
+def notify_wanted():
+    import reopen_notify as rn
+    for lang, body in rn.REOPENED.items():
+        yield f"levadinho_reopen_{lang}_{NOTIFY_VERSION}", {
+            "language": {"pt": "pt_PT"}.get(lang, lang), "types": {"twilio/text": {"body": body}}}
+    yield f"levadinho_owner_alert_{NOTIFY_VERSION}", {
+        "language": "en", "variables": {"1": "IFCN closure notice new", "2": "O IFCN informa que...",
+                                        "3": "https://ifcn.madeira.gov.pt/", "4": "3"},
+        "types": {"twilio/text": {"body": rn.OWNER_ALERT.format(kind="{{1}}", text="{{2}}", link="{{3}}", n="{{4}}")}}}
+
+
+def approval(sid):
+    try:
+        return _req("GET", f"{API}/{sid}/ApprovalRequests").get("whatsapp") or {}
+    except Exception as e:  # noqa: BLE001
+        return {"status": f"unknown ({e})"}
+
+
 def main():
     have = existing()
     sids = {}
@@ -68,6 +92,15 @@ def main():
             have[name] = _req("POST", API, {"friendly_name": name, **spec})["sid"]
             print("created", name, have[name])
         sids[name.removesuffix(f"_{VERSION}")] = have[name]
+    for name, spec in notify_wanted():
+        if name not in have:
+            have[name] = _req("POST", API, {"friendly_name": name, **spec})["sid"]
+            print("created", name, have[name])
+        st = approval(have[name])
+        if not st.get("status") or st.get("status") == "unsubmitted":
+            st = _req("POST", f"{API}/{have[name]}/ApprovalRequests/whatsapp", {"name": name, "category": "UTILITY"})
+        print(f"{name}: WhatsApp approval {st.get('status')} {st.get('rejection_reason') or ''}")
+        sids[name.removesuffix(f"_{NOTIFY_VERSION}")] = have[name]
     json.dump(sids, open(OUT, "w"), indent=1)
     print(f"wrote {OUT}: {sids}")
 

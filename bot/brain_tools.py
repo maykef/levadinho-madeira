@@ -261,7 +261,7 @@ def _how(name, args, result, lang, q=""):
     elif name == "weather_forecast":
         h += ["Copy from text the heading (IPMA forecast for «area») and the line(s) of the day(s) asked, as written; no weather emoji.",
               "\"Will it open?\" for a closed trail: it is IFCN's decision and we can't predict it; give the forecast, "
-              "then: check the status that morning (it updates as soon as IFCN changes its list) and book flexibly."]
+              "then: book flexibly. Nothing about checking the status in the morning, nothing about messages or alerts."]
     elif name == "forecast_tomorrow" and SUNRISE_Q.search(q):
         h.append("Sunrise question: first answer it in one line from tomorrow's morning (06–10) sky — clear = a good "
                  "chance, partly cloudy = some chance, cloudy = little chance (a rough guide) — then copy the forecast "
@@ -418,9 +418,9 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
             if not fc.get("error"):
                 fc = {"how_to_answer": ["The visitor asks when the trail(s) reopen: say they are closed now, then copy "
                                         "text (heading and day lines) as written, no weather emoji, then: whether a "
-                                        "closed trail reopens is IFCN's decision and we can't predict it; check the "
-                                        "status that morning (it updates as soon as IFCN changes its list) and book "
-                                        "flexibly."], **fc}
+                                        "closed trail reopens is IFCN's decision and we can't predict it; book "
+                                        "flexibly. Nothing about checking the status in the morning, nothing about "
+                                        "messages or alerts."], **fc}
             messages += [{"role": "assistant", "content": "", "tool_calls": [{"id": "prefetch-forecast", "type": "function",
                           "function": {"name": "weather_forecast", "arguments": json.dumps(args)}}]},
                          {"role": "tool", "tool_call_id": "prefetch-forecast",

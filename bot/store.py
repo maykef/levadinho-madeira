@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS guide_tokens (token TEXT PRIMARY KEY, user TEXT, rout
 CREATE TABLE IF NOT EXISTS pending (id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT, at REAL, reason TEXT, payload TEXT);
 CREATE TABLE IF NOT EXISTS last_inbound (user TEXT PRIMARY KEY, at REAL);
 CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT);
+-- reopening alerts (reopen_notify.py, 2026-11-11): visitors waiting for "IFCN has reopened the trails"
+CREATE TABLE IF NOT EXISTS reopen_watch (user TEXT PRIMARY KEY, lang TEXT, at REAL);
 """)
 # consent: the privacy notice — None (not answered), "yes" (accepted) or "no" (declined: no service).
 # (consent_asked is a leftover column from the first consent design; unused.)
@@ -171,8 +173,10 @@ def set_flag(k, v):
 
 
 def reset(uid):
-    for table, col in (("users", "id"), ("turns", "user"), ("pending", "user"), ("last_inbound", "user")):
+    for table, col in (("users", "id"), ("turns", "user"), ("pending", "user"), ("last_inbound", "user"),
+                       ("reopen_watch", "user")):
         _db.execute(f"DELETE FROM {table} WHERE {col}=?", (uid,))
+    _db.execute("DELETE FROM kv WHERE k=?", (f"reopen_offer:{uid}",))
     _db.commit()
 
 
@@ -180,7 +184,8 @@ def erase(uid):
     """Everything held about a phone number here (erasure request). Returns rows deleted per table."""
     n = {}
     for table, col in (("users", "id"), ("turns", "user"), ("guide_tokens", "user"), ("pending", "user"),
-                       ("last_inbound", "user")):
+                       ("last_inbound", "user"), ("reopen_watch", "user")):
         n[table] = _db.execute(f"DELETE FROM {table} WHERE {col}=?", (uid,)).rowcount
+    n["reopen_offer"] = _db.execute("DELETE FROM kv WHERE k=?", (f"reopen_offer:{uid}",)).rowcount
     _db.commit()
     return n
