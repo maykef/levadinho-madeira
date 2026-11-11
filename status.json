@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 12.7,
+    "temp_c": 12.8,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 49,
+    "wind_kmh": 53,
     "wind_strong": true
   },
-  "stamp": "2026-11-11 00:10",
+  "stamp": "2026-11-11 01:20",
   "date": "2026-11-11",
   "source": {
     "name": "IFCN",
@@ -34,8 +34,8 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 13,
-      "wind": 49,
-      "rain": 16.0,
+      "wind": 53,
+      "rain": 19.0,
       "in_cloud": true
     },
     {
@@ -43,7 +43,7 @@
       "place": "Santana",
       "temp": 17,
       "wind": null,
-      "rain": 5.7,
+      "rain": 5.0,
       "in_cloud": false
     },
     {
@@ -57,17 +57,17 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 20,
-      "wind": 71,
-      "rain": 5.1,
+      "temp": 21,
+      "wind": 77,
+      "rain": 1.6,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
       "temp": 22,
-      "wind": 22,
-      "rain": 4.9,
+      "wind": 17,
+      "rain": 1.8,
       "in_cloud": false
     }
   ],
@@ -152,7 +152,7 @@
       "region": "east",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 20,
+      "temp": 21,
       "page": "/sao-lourenco/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
