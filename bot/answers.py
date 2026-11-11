@@ -36,15 +36,27 @@ STOP = {
     "de": "der die das und ich wir ist mit fur wie wo nicht ein eine zum zur mein morgen heute bitte danke hallo",
     "pl": "i w na z do jak gdzie czy jest sie nie to mam chce moj jutro dzisiaj prosze dziekuje",
 }
+# Spanish is not one of our languages: it gets English (11 Nov real chat: a Spanish message scored as Portuguese)
+STOP["es"] = "y el los las del en cuando si ya estan hola gracias quiero manana hoy senderos rutas abiertos cerrados abren cierran aparecen puestos pero tambien porque usted ustedes hay"
 STOP = {k: set(v.split()) for k, v in STOP.items()}
 
 
 def detect_lang(text, fallback="en"):
-    """Language of a message by common words (accents folded); unclear -> fallback (the visitor's chosen language)."""
+    """Language of a message by common words (accents folded); unclear -> fallback (the visitor's chosen language).
+    Spanish -> English (five languages only)."""
     words = re.findall(r"[a-z]+", fold(text))
     scores = sorted(((sum(w in STOP[l] for w in words), l) for l in STOP), reverse=True)
     (best, lang), (second, _) = scores[0], scores[1]
-    return lang if best >= 2 and best > second else fallback
+    if best >= 2 and best > second:
+        return "en" if lang == "es" else lang
+    return fallback
+
+
+def spanish(text):
+    """True when the message reads as Spanish (it gets English)."""
+    words = re.findall(r"[a-z]+", fold(text))
+    scores = sorted(((sum(w in STOP[l] for w in words), l) for l in STOP), reverse=True)
+    return scores[0][1] == "es" and scores[0][0] >= 2 and scores[0][0] > scores[1][0]
 
 
 def fold(t):

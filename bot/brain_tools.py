@@ -385,6 +385,24 @@ BOOK_HINT = ("The visitor wants to book the taxi: say Levadinho doesn't book tax
              "closed now, add one line: the trails are closed, and they reopen only when IFCN says so.")
 
 
+# "IFCN's site / page / list says they are open" (PT/ES/EN/FR/DE/PL, accents folded)
+SITE_SAYS_OPEN = re.compile(r"(ifcn|site|website|web|page|pagina|seite|webseite|strona|stronie|liste?|lista)\b.{0,80}"
+                            r"\b(open|opened|aberto?s?|abertas?|abiertos?|abiertas?|ouverts?|ouvertes?|offen|geoffnet|"
+                            r"otwarte|otwarty|transitave(l|is))\b|\b(open|aberto?s?|abiertos?|ouverts?|offen|geoffnet|"
+                            r"otwarte)\b.{0,60}\b(ifcn|site|website|page|pagina|seite|webseite|strona|stronie)\b")
+SITE_OPEN_RULE = ("The visitor says IFCN's website or list shows trails as open. Answer: every classified trail is CLOSED. "
+                  "IFCN announced it in the communiqué at the top of its homepage (ifcn.madeira.gov.pt) and on its "
+                  "Instagram and Facebook; the trail-warnings list further down that site is not updated during an "
+                  "island-wide closure, so the communiqué is what counts. The trails reopen when IFCN announces it in "
+                  "a new communiqué. Never say or suggest the trails reopened or that the list showing them open means "
+                  "anything. Nothing about messages, alerts or WhatsApp.")
+
+
+def answers_fold(t):
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFKD", (t or "").lower()) if not unicodedata.combining(c))
+
+
 PREFETCH = 0  # search results given with the question (RAG); 0 since 2026-10-10: they pushed unasked topics into answers
 
 
@@ -416,7 +434,7 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                       "function": {"name": "search", "arguments": json.dumps(args, ensure_ascii=False)}}]},
                      {"role": "tool", "tool_call_id": "prefetch-search",
                       "content": json.dumps(found, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
-    if REOPEN_Q.search(search_text or text):
+    if REOPEN_Q.search(search_text or text) and not SITE_SAYS_OPEN.search(answers_fold(search_text or text)):
         st = kbtools._fc5_status()
         code = kbtools.resolve_trail(search_text or text)
         pm = re.search(r"OUR PAGE FOR (PR[\d.]+)", page_hint)
@@ -438,6 +456,19 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                           "function": {"name": "weather_forecast", "arguments": json.dumps(args)}}]},
                          {"role": "tool", "tool_call_id": "prefetch-forecast",
                           "content": json.dumps(fc, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
+    if SITE_SAYS_OPEN.search(answers_fold(search_text or text)):
+        st = kbtools._fc5_status()
+        if (st.get("alert") or {}).get("blanket") == "closed":
+            # 11 Nov real chat: "IFCN's page shows them open" → "then IFCN has reopened them" (wrong: IFCN's trail list
+            # isn't updated during an island-wide closure; the communiqué at the top of its homepage closes them)
+            fc = {"how_to_answer": [SITE_OPEN_RULE], "all_classified_trails": "CLOSED",
+                  "closure_source": "IFCN's communiqué at the top of its homepage, https://ifcn.madeira.gov.pt/pt/ "
+                                    "(and its Instagram/Facebook posts)"}
+            trace.append({"tool": "trail_status", "args": {}, "ms": 0, "error": None, "prefetch": True})
+            messages += [{"role": "assistant", "content": "", "tool_calls": [{"id": "prefetch-siteopen", "type": "function",
+                          "function": {"name": "trail_status", "arguments": "{}"}}]},
+                         {"role": "tool", "tool_call_id": "prefetch-siteopen",
+                          "content": json.dumps(fc, ensure_ascii=False)}]
     blocked = set()   # 8 Nov test: a misfired day_plan was called three times in a row (each plan in turn)
     for n in range(MAX_ROUNDS):
         # round 1 must call a tool: with "auto" the model answers from memory and invents facts (tested 2026-10-07)

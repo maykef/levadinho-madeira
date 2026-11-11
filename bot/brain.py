@@ -471,6 +471,9 @@ def classify(text):
     if g and g != d["lang"] and d["lang"] in _LANG_HINTS and not words & _LANG_HINTS[d["lang"]] \
             and not re.search(r"[łąęśżźńćäöüßãõçéèêàâ]", (text or "").lower()):
         d["lang"] = g
+    import answers
+    if answers.spanish(text):   # 11 Nov real chat: Spanish came back pt; Spanish gets English (five languages only)
+        d["lang"] = "en"
     d.setdefault("origin", None)
     d.setdefault("destination", None)
     return d
@@ -1352,6 +1355,78 @@ def reopen_reply(user, text, lang, meta):
     return [{"type": "text", "body": body}]
 
 
+# the model's own version of the reopening offer (11 Nov real chat: "Quer que o avisemos por WhatsApp assim que os
+# percursos reabrirem? Envie esta mensagem: …"); only reopen_notify.offer makes it
+OWN_OFFER = re.compile(r"(whats ?app|wa\.me).{0,120}(reabr|reopen|rouvr|wieder ?(er)?öffn|wieder ?offen|ponownie otw|otworz|"
+                       r"reabr|abran|abren)|(reabr|reopen|rouvr|wieder ?(er)?öffn|ponownie otw).{0,120}(whats ?app|wa\.me)",
+                       re.I)
+# a claim that IFCN reopened the trails (removed only while every trail is closed)
+REOPENED_CLAIM = re.compile(r"(IFCN (has |have )?reopened|(it|that) means (they|the trails) (are|have) (re)?open|"
+                            r"o IFCN (os |as )?reabriu|(é|e) porque (o IFCN )?(os |as )?reabriu|el IFCN (los )?(ha )?reabierto|"
+                            r"l'IFCN les a rouverts|IFCN (sie )?wieder geöffnet hat|IFCN ponownie (je )?otworzył)")
+
+
+SITE_OPEN_LINE = {
+    "en": "IFCN closed every classified trail in the communiqué at the top of its homepage (ifcn.madeira.gov.pt), also "
+          "posted on its Instagram and Facebook. The trail-warnings list further down that site isn't updated during an "
+          "island-wide closure, so the communiqué is what counts. The trails reopen when IFCN announces it in a new one.",
+    "pt": "O IFCN encerrou todos os percursos classificados no comunicado no topo da sua página inicial "
+          "(ifcn.madeira.gov.pt), também publicado no Instagram e no Facebook. A lista de avisos mais abaixo não é "
+          "atualizada durante um encerramento de toda a ilha, por isso o que conta é o comunicado. Os percursos reabrem "
+          "quando o IFCN o anunciar num novo comunicado.",
+    "fr": "L'IFCN a fermé tous les sentiers classés dans le communiqué en haut de sa page d'accueil (ifcn.madeira.gov.pt), "
+          "publié aussi sur Instagram et Facebook. La liste des avis plus bas sur ce site n'est pas mise à jour pendant une "
+          "fermeture de toute l'île : c'est le communiqué qui compte. Les sentiers rouvriront quand l'IFCN l'annoncera "
+          "dans un nouveau communiqué.",
+    "de": "Das IFCN hat alle klassifizierten Wanderwege in der Mitteilung oben auf seiner Startseite (ifcn.madeira.gov.pt) "
+          "gesperrt, auch auf Instagram und Facebook veröffentlicht. Die Hinweisliste weiter unten auf der Seite wird "
+          "während einer inselweiten Sperrung nicht aktualisiert, es zählt die Mitteilung. Die Wege öffnen wieder, wenn "
+          "das IFCN es in einer neuen Mitteilung bekannt gibt.",
+    "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki komunikatem na górze swojej strony głównej (ifcn.madeira.gov.pt), "
+          "opublikowanym też na Instagramie i Facebooku. Lista komunikatów niżej na tej stronie nie jest aktualizowana "
+          "podczas zamknięcia całej wyspy, więc liczy się komunikat. Szlaki zostaną otwarte, gdy IFCN ogłosi to w nowym "
+          "komunikacie.",
+}
+SITE_OPEN_SAID = re.compile(r"communiqu|comunicado|mitteilung|komunikat|statement|announcement|anúncio|déclaration|erklärung|bekanntmachung|ogłoszeni|oświadczeni", re.I)
+
+
+def site_open_line(text, lang, reply):
+    """'IFCN's page shows them open' during an island-wide closure → the fixed explanation (11 Nov real chat), unless
+    the reply already gives it."""
+    try:
+        import answers
+        import brain_tools
+        if not brain_tools.SITE_SAYS_OPEN.search(answers.fold(text)) or SITE_OPEN_SAID.search(reply or ""):
+            return None
+        if ((live_status().get("alert") or {}).get("blanket")) != "closed":
+            return None
+    except Exception:  # noqa: BLE001
+        return None
+    return SITE_OPEN_LINE.get(lang) or SITE_OPEN_LINE["en"]
+
+
+def in_language(reply, lang):
+    """11 Nov real chat (web): a Spanish question got Portuguese although the rule said English. A reply plainly in
+    another of our languages is translated once; names, numbers and links stay."""
+    import answers
+    body = re.sub(r"https?://\S+", " ", reply or "")
+    if not TOOLS_MODE or len(body.split()) < 8 or answers.detect_lang(body, fallback=lang) in (lang, "es"):
+        return reply
+    try:
+        import brain_tools
+        m = brain_tools._call([{"role": "system", "content": f"Translate the message into {LANG_NAMES[lang]}. Keep "
+                                "place and trail names, numbers, prices, times, phone numbers, links, emoji, *bold* and "
+                                "line breaks exactly as they are. Output only the translation."},
+                               {"role": "user", "content": reply}], use_tools=False)
+        out = (m.get("content") or "").strip()
+    except Exception:  # noqa: BLE001
+        return reply
+    if out and answers.detect_lang(re.sub(r"https?://\S+", " ", out), fallback=lang) == lang:
+        log.warning("reply in the wrong language, translated to %s: %r", lang, (reply or "")[:120])
+        return out
+    return reply
+
+
 def strip_echo(reply):
     """11 Nov test: the model copied the closure lead and the reopening offer from its previous message into the next
     one. Only storm_lead / reopen_notify.offer add them (once each)."""
@@ -1361,15 +1436,26 @@ def strip_echo(reply):
     except Exception:  # noqa: BLE001
         offers = []
     leads = [v[:40] for v in STORM_LEAD.values()]
+    try:
+        blanket = ((live_status().get("alert") or {}).get("blanket")) == "closed"
+    except Exception:  # noqa: BLE001
+        blanket = False
     paras = (reply or "").split("\n\n")
-    kept = [p for p in paras if not any(p.strip().startswith(x) for x in leads + offers)]
+    kept = [p for p in paras if not any(p.strip().startswith(x) for x in leads + offers) and not OWN_OFFER.search(p)]
+    if blanket:   # 11 Nov real chat: "if IFCN's page shows them open, IFCN has reopened them" during the closure
+        kept = [re.sub(r"[^.!?\n]*" + REOPENED_CLAIM.pattern + r"[^.!?\n]*[.!?]?\s*", "", p, flags=re.I).strip()
+                for p in kept]
+        kept = [p for p in kept if p]
     return "\n\n".join(kept).strip() if kept and kept != paras else reply
 
 
 def answer(user, text, lang, meta=None, c=None):
     """Every model answer; in storm mode it starts with STORM_LEAD (see storm_lead)."""
     reply = _answer(user, text, lang, meta, c)
-    clean = strip_echo(reply)
+    clean = strip_echo(in_language(reply, lang))
+    line = site_open_line(text, lang, clean)
+    if line:
+        clean = f"{line}\n\n{clean}"
     if clean != reply:
         store.fix_last_answer(user, clean)
         reply = clean
