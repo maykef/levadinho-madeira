@@ -181,6 +181,33 @@ OWNER_FACTS = [
      "(https://simplifica.madeira.gov.pt/services/78-82-259). Levadinho can't see availability."),
     ("fanal_trees", "fees_booking", "PR13", "Fanal's trees are inside PR13 Fanal: there is no way to walk among them without "
      "a PR13 SIMplifica ticket."),
+    # owner 2026-11-11, after "a partir de quelle heure les contrôles sur le pico to pico" got the slot times
+    # in 5 languages: translated on the fly the model added "checks happen all day" (PL) / "no official time" (PT)
+    ("ticket_checks", "fees_booking", None, {
+        "en": "Ticket checks / controls (when, where, how often), whatever is asked about them: the whole reply is "
+              "this and nothing before it: \"You need a valid SIMplifica ticket to walk any classified PR trail, "
+              "whatever the time of day. The only exceptions are PR3, PR3.1 and PR4 (Funchal council) and PR23 (Caniço "
+              "parish), which need no ticket. Book on SIMplifica before you set off.\" Say nothing about the checks themselves: not whether, when or "
+              "where they happen.",
+        "pt": "Fiscalização / controlo de bilhetes (a que horas, onde, com que frequência), seja qual for a pergunta: a "
+              "resposta completa é esta, sem nada antes: «Precisa de um bilhete SIMplifica válido para percorrer "
+              "qualquer percurso PR classificado, a qualquer hora do dia. As únicas exceções são o PR3, o PR3.1 e o PR4 "
+              "(Câmara Municipal do Funchal) e o PR23 (Junta de Freguesia do Caniço), que não precisam de bilhete. "
+              "Reserve no SIMplifica antes de sair.»",
+        "fr": "Contrôles des billets (à quelle heure, où, à quelle fréquence), quelle que soit la question : toute la "
+              "réponse est celle-ci, sans rien avant : « Il vous faut un billet SIMplifica valable pour marcher sur "
+              "n'importe quel sentier PR classé, quelle que soit l'heure. Les seules exceptions sont PR3, PR3.1 et PR4 "
+              "(mairie de Funchal) et PR23 (paroisse de Caniço), qui ne demandent pas de billet. Réservez sur "
+              "SIMplifica avant de partir. »",
+        "de": "Ticketkontrollen (wann, wo, wie oft), egal was gefragt wird: die ganze Antwort ist diese, nichts davor: "
+              "„Für jeden klassifizierten PR-Wanderweg brauchen Sie ein gültiges SIMplifica-Ticket, egal zu welcher "
+              "Tageszeit. Die einzigen Ausnahmen sind PR3, PR3.1 und PR4 (Stadt Funchal) sowie PR23 (Gemeinde Caniço): "
+              "Dafür brauchen Sie kein Ticket. Buchen Sie auf SIMplifica, bevor Sie losgehen.“",
+        "pl": "Kontrole biletów (o której godzinie, gdzie, jak często), o cokolwiek pytają: cała odpowiedź to poniższy "
+              "tekst, bez niczego przed nim: „Na każdy sklasyfikowany szlak PR potrzebny jest ważny bilet SIMplifica, "
+              "bez względu na porę dnia. Jedyne wyjątki to PR3, PR3.1 i PR4 (gmina Funchal) oraz PR23 (parafia "
+              "Caniço), na które bilet nie jest potrzebny. Bilet należy zarezerwować w SIMplifica przed wyjściem na "
+              "szlak.”"}),
     ("marocos", "fees_booking", None, "Levada dos Maroços (Machico) belongs to Machico council, not IFCN: it is not on "
      "SIMplifica and needs no ticket."),
     ("achada_ribeiro_frio", "getting_back", "PR1", "No bus runs from Achada do Teixeira to Ribeiro Frio: you need a transfer "

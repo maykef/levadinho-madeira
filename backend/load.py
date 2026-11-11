@@ -218,8 +218,8 @@ def load_facts(cur):
              for i, topic, subj, text, src in seed.TRANSPORT_FACTS]
     rows += [(f"scope:{i}", topic, subj, Jsonb({"en": text}), True, src, checked_t)
              for i, topic, subj, text, src in seed.FEE_SCOPE_FACTS]
-    rows += [(f"guide:{i}", topic, subj, Jsonb({"en": text}), True, "levadinho_guide", checked_t)
-             for i, topic, subj, text in seed.OWNER_FACTS]
+    rows += [(f"guide:{i}", topic, subj, Jsonb(text if isinstance(text, dict) else {"en": text}), True, "levadinho_guide", checked_t)
+             for i, topic, subj, text in seed.OWNER_FACTS]  # a dict = the text already in 5 languages
     # the bus sentences each trail page shows ("no bus reaches the plateau", "the only bus of the day"…), 5 languages
     checked_b = mtime("scripts/gen_bus.py")
     for code, d in gen_bus_hub.DATA.items():

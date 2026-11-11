@@ -111,9 +111,8 @@ Compiled 2026-09-26, brought in line with the verified research in seo_research/
 - **Fine:** walking an IFCN classified trail without a valid SIMplifica ticket is an
   administrative offence (Portaria 801/2025 art. 10; Decreto Legislativo Regional 24/2022/M
   art. 13). The law sets fines for individuals of **€250 to €2,500**. Entering a closed trail
-  carries the same range. Never say "up to €250". Tickets are checked on the trail: add the
-  ticket to your phone's wallet like any other ticket, so it opens without signal. Never discuss how often tickets are
-  checked.
+  carries the same range. Never say "up to €250". Add the ticket to your phone's wallet like
+  any other ticket, so it opens without signal. Never discuss ticket checks (when, where, how often).
 - Buy tickets in advance, before setting off: don't count on buying at the trailhead. You can't check the signal or
   the free slots once you are there, and the popular trails sell out.
 - SIMplifica tips for visitors:
