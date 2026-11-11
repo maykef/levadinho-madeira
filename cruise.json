@@ -3,14 +3,9 @@
  "basis": "Large cruise ships (1,500+ passengers) in Funchal between 09:00 and 17:00; people = the ships' passenger capacity, an estimate, not people on board. Source: APRAM port schedule.",
  "days": [
   {
-   "date": "2026-11-10",
-   "ships": 2,
-   "people": 5900
-  },
-  {
    "date": "2026-11-11",
-   "ships": 2,
-   "people": 8900
+   "ships": 1,
+   "people": 6700
   },
   {
    "date": "2026-11-12",
@@ -106,6 +101,11 @@
    "date": "2026-11-30",
    "ships": 0,
    "people": 0
+  },
+  {
+   "date": "2026-12-01",
+   "ships": 2,
+   "people": 3700
   }
  ]
 }
