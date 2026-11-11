@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-11T08:21+00:00",
+ "stamp": "2026-11-11T08:41+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -11,9 +11,9 @@
    "sunset": "18:10",
    "weather": {
     "tmin": 20,
-    "tmax": 24,
+    "tmax": 26,
     "rain": 100,
-    "wtype": 6,
+    "wtype": 8,
     "uv": 4.1
    },
    "fair": null
@@ -28,7 +28,7 @@
    "weather": {
     "tmin": 19,
     "tmax": 24,
-    "rain": 4,
+    "rain": 2,
     "wtype": 2,
     "uv": 3.4
    },
@@ -52,8 +52,8 @@
    "weather": {
     "tmin": 19,
     "tmax": 24,
-    "rain": 40,
-    "wtype": 7,
+    "rain": 27,
+    "wtype": 2,
     "uv": 3.8
    },
    "fair": null
@@ -68,7 +68,7 @@
    "weather": {
     "tmin": 18,
     "tmax": 23,
-    "rain": 65,
+    "rain": 75,
     "wtype": 7,
     "uv": 3.5
    },
@@ -83,9 +83,9 @@
    "sunset": "18:07",
    "weather": {
     "tmin": 17,
-    "tmax": 22,
-    "rain": 12,
-    "wtype": 3,
+    "tmax": 23,
+    "rain": 2,
+    "wtype": 2,
     "uv": null
    },
    "fair": null
@@ -268,25 +268,25 @@
   "sst": 22,
   "wave": [
    0.4,
-   4.0
+   3.8
   ],
   "warnings": [
    {
-    "type": "Vento",
-    "level": "orange",
-    "start": "2026-11-10T21:00:00",
-    "end": "2026-11-11T12:00:00"
-   },
-   {
     "type": "Precipitação",
     "level": "orange",
-    "start": "2026-11-11T06:00:00",
+    "start": "2026-11-11T07:33:00",
     "end": "2026-11-11T09:00:00"
+   },
+   {
+    "type": "Vento",
+    "level": "orange",
+    "start": "2026-11-11T07:33:00",
+    "end": "2026-11-11T12:00:00"
    },
    {
     "type": "Agitação Marítima",
     "level": "yellow",
-    "start": "2026-11-11T00:00:00",
+    "start": "2026-11-11T07:33:00",
     "end": "2026-11-11T21:00:00"
    }
   ]
@@ -1388,8 +1388,8 @@
  "ok": {
   "weather": true,
   "sea": true,
-  "fair": true,
-  "events": true,
+  "fair": false,
+  "events": false,
   "lidos": true,
   "gtfs": true
  },
