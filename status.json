@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 13.6,
+    "temp_c": 14.6,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 53,
+    "wind_kmh": 58,
     "wind_strong": true
   },
-  "stamp": "2026-11-11 07:24",
+  "stamp": "2026-11-11 08:20",
   "date": "2026-11-11",
   "source": {
     "name": "IFCN",
@@ -33,9 +33,9 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 14,
-      "wind": 53,
-      "rain": 24.9,
+      "temp": 15,
+      "wind": 58,
+      "rain": 20.7,
       "in_cloud": true
     },
     {
@@ -43,7 +43,7 @@
       "place": "Santana",
       "temp": 19,
       "wind": null,
-      "rain": 4.4,
+      "rain": 3.8,
       "in_cloud": false
     },
     {
@@ -57,17 +57,17 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 21,
-      "wind": 68,
-      "rain": 9.5,
+      "temp": 22,
+      "wind": 29,
+      "rain": 13.5,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
       "temp": 22,
-      "wind": 9,
-      "rain": 17.1,
+      "wind": 25,
+      "rain": 3.5,
       "in_cloud": false
     }
   ],
@@ -80,7 +80,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 14,
+      "temp": 15,
       "page": "/pr1/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -116,7 +116,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 14,
+      "temp": 15,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -152,7 +152,7 @@
       "region": "east",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 21,
+      "temp": 22,
       "page": "/sao-lourenco/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -170,7 +170,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 14,
+      "temp": 15,
       "page": "/balcoes/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -206,7 +206,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "CLOSED",
-      "temp": 14,
+      "temp": 15,
       "page": "/levada-do-furado/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -278,7 +278,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 14,
+      "temp": 15,
       "page": "/vereda-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -296,7 +296,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "OPEN",
-      "temp": 14,
+      "temp": 15,
       "page": "/vereda-do-urzal/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -314,7 +314,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "OPEN",
-      "temp": 14,
+      "temp": 15,
       "page": "/vereda-do-burro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -350,7 +350,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 14,
+      "temp": 15,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -458,7 +458,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 14,
+      "temp": 15,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
