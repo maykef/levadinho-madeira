@@ -1093,6 +1093,43 @@ PLACES_AREA = {"en": "places around {t}", "pt": "locais perto de {t}", "fr": "de
                "de": "Orte bei {t}", "pl": "miejsc w okolicy {t}"}
 
 
+# Rainy day / rough sea in Funchal (owner, 2026-11-11, after the bot sent a visitor to the sea pools with 100 % rain and
+# a rough-sea warning): from the live funchal.json (IPMA Funchal forecast + south-coast warnings, update_funchal.py)
+HEAVY_RAIN_TYPES = {8, 11, 14, 20, 23}   # IPMA idWeatherType: heavy showers, heavy rain, intermittent heavy rain, + thunder
+OUTDOOR = {"sea_pool", "garden", "toboggan"}
+# instructions to the model, in English on purpose: written in the visitor's language they were copied into the reply
+RAIN_NOTE = ("For you, not to quote: IPMA forecasts heavy rain in Funchal today. Say it's a rainy day and suggest the "
+             "museums first (indoors: e.g. Museu CR7, Museu Quinta das Cruzes, MAMMA – A Star is Born), with their hours "
+             "today. Leave out the sea pools, gardens and the toboggan.")
+SEA_NOTE = ("For you, not to quote: IPMA has a rough-sea warning for the south coast until {end} today. Leave out the sea "
+            "pools; if the visitor asks about them, say the sea is rough today (IPMA warning until {end}).")
+
+
+def _funchal_weather():
+    """(rainy today, rough-sea warning end 'HH:MM' or None) from the live funchal.json; (False, None) when unreachable."""
+    f = _live("funchal.json", lambda: _get_json(SITE + "/funchal.json"))
+    if not f:
+        return False, None
+    now = datetime.datetime.now(MADEIRA)
+    today = now.date().isoformat()
+    w = next((d.get("weather") or {} for d in f.get("days", []) if d.get("date") == today), {})
+    sea_end, rain_warn = None, False
+    for x in (f.get("sea") or {}).get("warnings", []):
+        try:
+            st = datetime.datetime.fromisoformat(x["start"]).replace(tzinfo=MADEIRA)
+            en = datetime.datetime.fromisoformat(x["end"]).replace(tzinfo=MADEIRA)
+        except (KeyError, ValueError):
+            continue
+        if en < now or st.date() > now.date():
+            continue
+        if x.get("type") == "Agitação Marítima":
+            sea_end = en.strftime("%H:%M")
+        elif x.get("type") == "Precipitação":
+            rain_warn = True
+    rainy = rain_warn or w.get("wtype") in HEAVY_RAIN_TYPES or (w.get("rain") or 0) >= 80
+    return rainy, sea_end
+
+
 def places(category: str | None = None, neighbourhood: str | None = None, near_place: str | None = None,
            near_lat: float | None = None, near_lon: float | None = None, limit: int = 10, lang: str = "en") -> dict:
     """Places in Funchal and Monte (museum, sea_pool, cable_car, garden, market, toboggan…), by category,
@@ -1130,7 +1167,22 @@ def places(category: str | None = None, neighbourhood: str | None = None, near_p
                        "municipality": r["municipality"], "description": _pick(r["description"], lang),
                        **({"km_from_point": round(r["km"], 1)} if r["km"] is not None else {}),
                        "source": _source(r["source_id"])} for r in rows]}
-    if not rows:
+    rainy, sea_end = _funchal_weather()
+    if rainy or sea_end:
+        drop = OUTDOOR if rainy else {"sea_pool"}
+        res["places"] = [p for p in res["places"] if not set(p["category"]) & drop]
+        if rainy and not category:   # a general "what can I do" question: the museums, then the rest (market, cable car…)
+            museums = _q("SELECT id, name, category, neighbourhood, municipality, description, source_id FROM kb.place "
+                         "WHERE 'museum' = ANY(category) ORDER BY name")
+            have = {p["id"] for p in res["places"]}
+            res["places"] = [{"id": r["id"], "name": r["name"], "category": r["category"],
+                              "neighbourhood": r["neighbourhood"], "municipality": r["municipality"],
+                              "description": _pick(r["description"], lang), "source": _source(r["source_id"])}
+                             for r in museums if r["id"] not in have] + res["places"]
+            res["places"].sort(key=lambda p: "museum" not in p["category"])
+            res["places"] = res["places"][:max(limit, 12)]
+        res["weather_today"] = " ".join(([RAIN_NOTE] if rainy else []) + ([SEA_NOTE.format(end=sea_end)] if sea_end else []))
+    if not res["places"]:
         res["note"] = "No places in our data for this query yet."
     return res
 

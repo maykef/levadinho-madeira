@@ -357,6 +357,14 @@ PLACES = [
                     H(("sun", "hol"), ("10:00", "13:00"), ("14:00", "18:00"))), "closed": ["12-25", "12-26"],
      "url": "https://www.blandyswinelodge.com/en/contacts/"},
 ]
+
+# Bot only (owner, 2026-11-11): named on rainy days, kept off the /funchal/ page and funchal.json.
+# Museu CR7: the museum's own site (museucr7.com, checked 2026-11-11): every day 10:00-17:00, closures announced on its
+# social media; no price on it (visit.funchal.pt's €5 is an old image caption: not used)
+BOT_ONLY_PLACES = [
+    {"id": "cr7", "kind": "museum", "area": "centre", "name": "Museu CR7",
+     "hours": H(WK + ("sat", "sun", "hol"), ("10:00", "17:00")), "url": "https://museucr7.com/"},
+]
 PARKING = {"paid": merge(H(WK, ("08:00", "20:00")), H(("sat",), ("08:00", "14:00"))),
            "url": "https://frentemarfunchal.pt/mobilidade-2/parquimetros/"}
 

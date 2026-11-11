@@ -445,7 +445,9 @@ def hours_text(hours):
 
 def load_places(cur):
     """Funchal's places and lidos from funchal.json (the same data /funchal/ shows; opening rules in update_funchal.py)."""
-    f = rj("funchal.json")
+    import update_funchal
+    f = json.loads(live("funchal.json"))  # the live copy: this checkout isn't pulled (it was 3 days old on 11 Nov)
+    f["places"] = update_funchal.PLACES + update_funchal.BOT_ONLY_PLACES  # opening rules straight from the code
     rows = []
     for p in f.get("places", []):
         text = f"{p['name']}: {hours_text(p.get('hours'))}."
