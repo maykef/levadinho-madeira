@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 7.7,
+    "temp_c": 7.6,
     "humidity": 68,
     "in_cloud": false,
-    "wind_kmh": 26,
+    "wind_kmh": 28,
     "wind_strong": false
   },
-  "stamp": "2026-11-11 21:00",
+  "stamp": "2026-11-11 22:10",
   "date": "2026-11-11",
   "source": {
     "name": "IFCN",
@@ -34,7 +34,7 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 8,
-      "wind": 26,
+      "wind": 28,
       "rain": 0.0,
       "in_cloud": false
     },
