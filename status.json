@@ -17,7 +17,7 @@
     "wind_kmh": 17,
     "wind_strong": false
   },
-  "stamp": "2026-11-11 11:40",
+  "stamp": "2026-11-11 12:00",
   "date": "2026-11-11",
   "source": {
     "name": "IFCN",
@@ -744,68 +744,16 @@
     "blanket_from": "2026-11-10",
     "blanket_reopen": null,
     "ifcn_source": "https://ifcn.madeira.gov.pt/pt/?view=category&id=146",
-    "ipma_level": "orange",
-    "ipma_types": [
-      "Vento"
-    ],
-    "ipma_now": true,
+    "ipma_level": null,
+    "ipma_types": [],
+    "ipma_now": false,
     "ipma_source": "https://www.ipma.pt/pt/otempo/prev-sam/?p=MAD",
-    "ahead": {
-      "level": "orange",
-      "types": [
-        "wind"
-      ],
-      "gust_mountains": 130,
-      "gust": 100,
-      "start": null,
-      "end": "2026-11-11T12:00+00:00",
-      "no_day": "2026-11-11",
-      "next_day": "2026-11-12"
-    },
+    "ahead": null,
     "closing_at": null,
     "storm": null,
-    "ahead_text": {
-      "en": {
-        "head": "The trails stay closed until IFCN reopens them. Check the latest announcements from IFCN and IPMA.",
-        "body": "IPMA warnings until Wednesday 12:00: gusts up to 130 km/h in the mountains. Report fallen trees, rocks or other obstacles on the trails to IFCN: ifcn@madeira.gov.pt. IPMA's forecast for Thursday so far, chance of rain: Pico do Areeiro 67%, Santana 31%, Paul da Serra 59%, Caniçal 2%, Funchal 2%."
-      },
-      "pt": {
-        "head": "Os percursos mantêm-se encerrados até o IFCN os reabrir. Consulte os últimos avisos do IFCN e do IPMA.",
-        "body": "Avisos do IPMA até quarta-feira às 12:00: rajadas até 130 km/h nas regiões montanhosas. Comunique árvores caídas, pedras ou outros obstáculos nos percursos ao IFCN: ifcn@madeira.gov.pt. Previsão do IPMA para quinta-feira, por agora, probabilidade de chuva: Pico do Areeiro 67%, Santana 31%, Paul da Serra 59%, Caniçal 2%, Funchal 2%."
-      },
-      "fr": {
-        "head": "Les sentiers restent fermés jusqu'à leur réouverture par l'IFCN. Consultez les derniers avis de l'IFCN et de l'IPMA.",
-        "body": "Avis de l'IPMA jusqu'à mercredi 12:00 : rafales jusqu'à 130 km/h en montagne. Signalez les arbres tombés, les pierres ou tout autre obstacle sur les sentiers à l'IFCN : ifcn@madeira.gov.pt. Prévision de l'IPMA pour jeudi, pour l'instant, probabilité de pluie : Pico do Areeiro 67%, Santana 31%, Paul da Serra 59%, Caniçal 2%, Funchal 2%."
-      },
-      "de": {
-        "head": "Die Wege bleiben gesperrt, bis das IFCN sie wieder öffnet. Prüfen Sie die neuesten Hinweise von IFCN und IPMA.",
-        "body": "IPMA-Warnungen bis Mittwoch 12:00 Uhr: Böen bis 130 km/h in den Bergen. Melden Sie umgestürzte Bäume, Steine oder andere Hindernisse auf den Wegen dem IFCN: ifcn@madeira.gov.pt. IPMA-Vorhersage für Donnerstag, Stand jetzt, Regenwahrscheinlichkeit: Pico do Areeiro 67%, Santana 31%, Paul da Serra 59%, Caniçal 2%, Funchal 2%."
-      },
-      "pl": {
-        "head": "Szlaki pozostają zamknięte, dopóki IFCN ich nie otworzy. Sprawdzaj najnowsze komunikaty IFCN i IPMA.",
-        "body": "Ostrzeżenia IPMA do środy 12:00: porywy do 130 km/h w górach. Zgłaszaj powalone drzewa, kamienie i inne przeszkody na szlakach do IFCN: ifcn@madeira.gov.pt. Prognoza IPMA na czwartek na razie, szansa opadów: Pico do Areeiro 67%, Santana 31%, Paul da Serra 59%, Caniçal 2%, Funchal 2%."
-      }
-    }
+    "ahead_text": null
   },
   "ipma_warnings": [
-    {
-      "area": "mountains",
-      "type": "wind",
-      "level": "orange",
-      "start": "2026-11-11T07:33",
-      "end": "2026-11-11T12:00",
-      "now": true,
-      "gust": 130
-    },
-    {
-      "area": "north",
-      "type": "wind",
-      "level": "orange",
-      "start": "2026-11-11T07:33",
-      "end": "2026-11-11T12:00",
-      "now": true,
-      "gust": 100
-    },
     {
       "area": "north",
       "type": "sea",
@@ -814,15 +762,6 @@
       "end": "2026-11-11T21:00",
       "now": true,
       "gust": null
-    },
-    {
-      "area": "south",
-      "type": "wind",
-      "level": "orange",
-      "start": "2026-11-11T07:33",
-      "end": "2026-11-11T12:00",
-      "now": true,
-      "gust": 100
     },
     {
       "area": "south",
