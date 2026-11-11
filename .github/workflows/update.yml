@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          ref: main   # a run queued behind another (concurrency) must start from the latest commit, not the trigger-time one (11 Nov: rebase conflict)
 
       - uses: actions/setup-python@v6
         with:
