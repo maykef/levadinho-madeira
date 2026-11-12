@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.0,
-    "humidity": 47,
+    "temp_c": 9.2,
+    "humidity": 48,
     "in_cloud": false,
-    "wind_kmh": 29,
+    "wind_kmh": 14,
     "wind_strong": false
   },
-  "stamp": "2026-11-12 09:24",
+  "stamp": "2026-11-12 09:40",
   "date": "2026-11-12",
   "source": {
     "name": "IFCN",
@@ -33,17 +33,17 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 8,
-      "wind": 29,
+      "temp": 9,
+      "wind": 14,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 15,
+      "temp": 16,
       "wind": null,
-      "rain": 0.1,
+      "rain": 0.0,
       "in_cloud": false
     },
     {
@@ -57,7 +57,7 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 19,
+      "temp": 20,
       "wind": 5,
       "rain": 0.0,
       "in_cloud": false
@@ -65,8 +65,8 @@
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 19,
-      "wind": 3,
+      "temp": 20,
+      "wind": 2,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -80,7 +80,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/pr1/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -116,7 +116,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -134,7 +134,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/caldeirao-verde/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -152,7 +152,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 19,
+      "temp": 20,
       "page": "/sao-lourenco/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -170,7 +170,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/balcoes/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -206,7 +206,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "CLOSED",
-      "temp": 8,
+      "temp": 9,
       "page": "/levada-do-furado/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -224,7 +224,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/levada-do-rei/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -260,7 +260,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/vereda-da-ilha/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -278,7 +278,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "PARTIAL",
-      "temp": 8,
+      "temp": 9,
       "page": "/vereda-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -296,7 +296,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/vereda-do-urzal/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -314,7 +314,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/vereda-do-burro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -332,7 +332,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 19,
+      "temp": 20,
       "page": "/caminho-real-do-monte/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -350,7 +350,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "PARTIAL",
-      "temp": 8,
+      "temp": 9,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -368,7 +368,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/vereda-das-funduras/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -458,7 +458,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "PARTIAL",
-      "temp": 8,
+      "temp": 9,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -728,7 +728,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 15,
+      "temp": 16,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
