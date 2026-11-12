@@ -165,6 +165,69 @@ def track_announcements(now, dry):
     return [f"{what}: {v[:120]}" for what, _k, v in changes] + [f"owner alert: {sent}"]
 
 
+def _owner(head, text, link):
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "bot"))
+        import reopen_notify
+        return reopen_notify.tell_owner(head, text, link)
+    except Exception as e:  # noqa: BLE001
+        return f"failed: {e!r}"
+
+
+def check_update_runs(state, now, dry):
+    """Owner, 2026-11-12: the 18:00 update (IFCN's partial reopening) failed and nobody knew. Every failed update.yml
+    run of the last 3 h -> one WhatsApp to the owner with the error line. -> list of lines for the log."""
+    try:
+        r = subprocess.run(["gh", "run", "list", "--workflow", "update.yml", "-R", REPO, "-L", "8", "--json",
+                            "databaseId,conclusion,createdAt,url"], capture_output=True, text=True, timeout=60)
+        runs = json.loads(r.stdout or "[]")
+    except Exception as e:  # noqa: BLE001
+        return [f"update runs unreadable: {e!r}"]
+    told, out = state.setdefault("failed_runs_told", []), []
+    for run in runs:
+        rid = run["databaseId"]
+        age_h = (now - datetime.datetime.fromisoformat(run["createdAt"].replace("Z", "+00:00"))).total_seconds() / 3600
+        if run.get("conclusion") != "failure" or rid in told or age_h > 3:
+            continue
+        err = ""
+        try:
+            log = subprocess.run(["gh", "run", "view", str(rid), "-R", REPO, "--log-failed"], capture_output=True,
+                                 text=True, timeout=60).stdout
+            err = next((l.split("Z ", 1)[-1] for l in reversed(log.splitlines()) if "FATAL" in l or "Error" in l), "")
+        except Exception:  # noqa: BLE001
+            pass
+        if dry:
+            out.append(f"would tell owner: update run {rid} failed: {err[:150]}")
+            continue
+        sent = _owner("the site update FAILED, the site still shows the previous status",
+                      (err or "see the run log")[:300], run["url"])
+        told.append(rid)
+        out.append(f"update run {rid} failed -> owner {sent}")
+    state["failed_runs_told"] = told[-30:]
+    return out
+
+
+def check_hold(state, now, dry):
+    """While the owner's hold (scripts/blanket_hold.json) forces the closure and IFCN's own pages no longer say closed:
+    one WhatsApp to the owner per IFCN state, so the hold never hides a reopening unnoticed (owner, 2026-11-12)."""
+    if not os.path.exists(storm.HOLD):
+        state.pop("hold_told", None)
+        return []
+    try:
+        ifcn = storm._blanket_ifcn(None, use_hold=False).get("state")
+    except (Exception, SystemExit) as e:  # noqa: BLE001
+        return [f"hold check: IFCN unreadable ({e!r})"]
+    key = f"{ifcn}"
+    if ifcn == "closed" or state.get("hold_told") == key:
+        return []
+    if dry:
+        return [f"would tell owner: IFCN says {ifcn}, hold keeps the site closed"]
+    sent = _owner("IFCN no longer shows an island-wide closure, but your hold keeps the site CLOSED",
+                  "Delete scripts/blanket_hold.json (or tell Claude to) to show IFCN's own list.", storm.IFCN_AVISOS_CAT)
+    state["hold_told"] = key
+    return [f"hold vs IFCN {ifcn} -> owner {sent}"]
+
+
 def main(dry):
     now = datetime.datetime.now(datetime.UTC)
     os.makedirs(DIR, exist_ok=True)
@@ -221,6 +284,9 @@ def main(dry):
     rec.update(outlook=[d for d, _r in src_days] if src_days is not None else "unknown", site_outlook=[d for d, _r in site_days])
 
     reasons = []
+    told = check_update_runs(state, now, dry) + check_hold(state, now, dry)
+    if told:
+        rec["owner_alerts"] = told
     ann = track_announcements(now, dry)
     if ann:
         rec["ifcn_changes"] = ann

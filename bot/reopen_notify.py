@@ -279,6 +279,20 @@ def alert_owner(changes, link, arm=True):
         return f"failed: {e}"
 
 
+def tell_owner(head, text, link):
+    """A plain alert to the owner (storm_watch.py: failed site update, hold vs IFCN's reopening). Plain text inside
+    WhatsApp's 24-hour window, else the owner-alert template. Never arms SEND. Never raises."""
+    to = owner()
+    if not to:
+        return "no OWNER_WA"
+    body = f"Levadinho alert: {head}. {text} Link: {link}"
+    v = {"1": _param(head, 80), "2": _param(text, 400), "3": link, "4": str(len(everyone()))}
+    try:
+        return "sent " + _send(to, body, _content().get("levadinho_owner_alert"), v)
+    except Exception as e:  # noqa: BLE001
+        return f"failed: {e}"
+
+
 def broadcast(log=print):
     """The owner replied SEND: the reopening message to everyone waiting. A number leaves the list once its message
     is accepted by WhatsApp (sent / delivered / read); failures stay for a retry. → summary line for the owner."""
