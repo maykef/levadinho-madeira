@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-11T23:21+00:00",
+ "stamp": "2026-11-12T00:01+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-11",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:33",
-   "sunset": "18:10",
-   "weather": {
-    "tmin": 20,
-    "tmax": 26,
-    "rain": 100,
-    "wtype": 8,
-    "uv": 3.9
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-12",
    "type": "weekday",
@@ -184,6 +168,16 @@
    "holiday": null,
    "bus": "weekday",
    "sunrise": "07:45",
+   "sunset": "18:03",
+   "weather": null,
+   "fair": null
+  },
+  {
+   "date": "2026-11-25",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:46",
    "sunset": "18:03",
    "weather": null,
    "fair": null

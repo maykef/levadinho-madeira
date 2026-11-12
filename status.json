@@ -11,14 +11,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 8.2,
-    "humidity": 59,
+    "temp_c": 8.6,
+    "humidity": 51,
     "in_cloud": false,
-    "wind_kmh": 31,
+    "wind_kmh": 25,
     "wind_strong": false
   },
-  "stamp": "2026-11-11 23:20",
-  "date": "2026-11-11",
+  "stamp": "2026-11-12 00:00",
+  "date": "2026-11-12",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
@@ -33,8 +33,8 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 8,
-      "wind": 31,
+      "temp": 9,
+      "wind": 25,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -58,7 +58,7 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 20,
-      "wind": 15,
+      "wind": 8,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -66,7 +66,7 @@
       "key": "south",
       "place": "Funchal",
       "temp": 20,
-      "wind": 9,
+      "wind": 1,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -80,7 +80,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/pr1/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -116,7 +116,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -170,7 +170,7 @@
       "region": "summit",
       "popular": true,
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/balcoes/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -206,7 +206,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "CLOSED",
-      "temp": 8,
+      "temp": 9,
       "page": "/levada-do-furado/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -278,7 +278,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 8,
+      "temp": 9,
       "page": "/vereda-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -296,7 +296,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/vereda-do-urzal/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -314,7 +314,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "OPEN",
-      "temp": 8,
+      "temp": 9,
       "page": "/vereda-do-burro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -350,7 +350,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 8,
+      "temp": 9,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -458,7 +458,7 @@
       "region": "summit",
       "popular": false,
       "ifcn_status": "PARTIAL",
-      "temp": 8,
+      "temp": 9,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
@@ -757,16 +757,6 @@
   "forecast": {
     "summit": [
       {
-        "date": "2026-11-11",
-        "type": 8,
-        "rain_prob": 100,
-        "rain_int": 3,
-        "wind_class": 3,
-        "wind_kmh": 94,
-        "tmin": 9,
-        "tmax": 16
-      },
-      {
         "date": "2026-11-12",
         "type": 7,
         "rain_prob": 69,
@@ -805,19 +795,19 @@
         "wind_kmh": 21,
         "tmin": 6,
         "tmax": 13
+      },
+      {
+        "date": "2026-11-16",
+        "type": 4,
+        "rain_prob": 49,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 33,
+        "tmin": 8,
+        "tmax": 14
       }
     ],
     "north": [
-      {
-        "date": "2026-11-11",
-        "type": 20,
-        "rain_prob": 100,
-        "rain_int": 3,
-        "wind_class": 2,
-        "wind_kmh": 37,
-        "tmin": 19,
-        "tmax": 25
-      },
       {
         "date": "2026-11-12",
         "type": 2,
@@ -857,19 +847,19 @@
         "wind_kmh": 15,
         "tmin": 17,
         "tmax": 22
+      },
+      {
+        "date": "2026-11-16",
+        "type": 3,
+        "rain_prob": 35,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 19,
+        "tmin": 18,
+        "tmax": 23
       }
     ],
     "west": [
-      {
-        "date": "2026-11-11",
-        "type": 8,
-        "rain_prob": 100,
-        "rain_int": 3,
-        "wind_class": 3,
-        "wind_kmh": 71,
-        "tmin": 9,
-        "tmax": 16
-      },
       {
         "date": "2026-11-12",
         "type": 3,
@@ -909,19 +899,19 @@
         "wind_kmh": 22,
         "tmin": 6,
         "tmax": 13
+      },
+      {
+        "date": "2026-11-16",
+        "type": 10,
+        "rain_prob": 63,
+        "rain_int": 1,
+        "wind_class": 2,
+        "wind_kmh": 30,
+        "tmin": 8,
+        "tmax": 14
       }
     ],
     "east": [
-      {
-        "date": "2026-11-11",
-        "type": 20,
-        "rain_prob": 100,
-        "rain_int": 3,
-        "wind_class": 3,
-        "wind_kmh": 83,
-        "tmin": 20,
-        "tmax": 23
-      },
       {
         "date": "2026-11-12",
         "type": 2,
@@ -961,19 +951,19 @@
         "wind_kmh": 14,
         "tmin": 18,
         "tmax": 22
+      },
+      {
+        "date": "2026-11-16",
+        "type": 3,
+        "rain_prob": 20,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 24,
+        "tmin": 19,
+        "tmax": 24
       }
     ],
     "south": [
-      {
-        "date": "2026-11-11",
-        "type": 8,
-        "rain_prob": 100,
-        "rain_int": 3,
-        "wind_class": 2,
-        "wind_kmh": 27,
-        "tmin": 20,
-        "tmax": 26
-      },
       {
         "date": "2026-11-12",
         "type": 2,
@@ -1013,29 +1003,19 @@
         "wind_kmh": 12,
         "tmin": 17,
         "tmax": 24
+      },
+      {
+        "date": "2026-11-16",
+        "type": 3,
+        "rain_prob": 45,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 13,
+        "tmin": 20,
+        "tmax": 24
       }
     ]
   },
   "forest_road": null,
-  "outlook": {
-    "days": [
-      {
-        "date": "2026-11-11",
-        "reasons": [
-          "heavy_rain",
-          "strong_wind",
-          "thunder"
-        ],
-        "places": [
-          "east",
-          "north",
-          "south",
-          "summit",
-          "west"
-        ]
-      }
-    ],
-    "first": "2026-11-11",
-    "source": "https://www.ipma.pt/pt/otempo/prev.localidade.hora/#Madeira"
-  }
+  "outlook": null
 }
