@@ -17,7 +17,7 @@
     "wind_kmh": 25,
     "wind_strong": false
   },
-  "stamp": "2026-11-12 18:40",
+  "stamp": "2026-11-12 18:43",
   "date": "2026-11-12",
   "source": {
     "name": "IFCN",
@@ -450,7 +450,48 @@
       }
     }
   ],
-  "alert": null,
+  "alert": {
+    "blanket": null,
+    "blanket_from": null,
+    "blanket_reopen": null,
+    "ifcn_source": "https://ifcn.madeira.gov.pt/pt/?view=category&id=146",
+    "ipma_level": null,
+    "ipma_types": [],
+    "ipma_now": false,
+    "ipma_source": "https://www.ipma.pt/pt/otempo/prev-sam/?p=MAD",
+    "ahead": null,
+    "closing_at": null,
+    "storm": null,
+    "ahead_text": null,
+    "partial": {
+      "closed": 20,
+      "total": 37,
+      "pr1": true,
+      "source": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
+      "text": {
+        "en": {
+          "head": "Many trails are closed.",
+          "body": "20 of 37 classified trails are closed on IFCN's list, including PR1 Vereda do Areeiro (Pico do Areeiro). Check each trail's status before you go."
+        },
+        "pt": {
+          "head": "Muitos percursos estão encerrados.",
+          "body": "20 dos 37 percursos classificados estão encerrados na lista do IFCN, incluindo o PR1 Vereda do Areeiro (Pico do Areeiro). Confirme o estado de cada percurso antes de ir."
+        },
+        "fr": {
+          "head": "De nombreux sentiers sont fermés.",
+          "body": "20 des 37 sentiers classés sont fermés sur la liste de l'IFCN, dont le PR1 Vereda do Areeiro (Pico do Areeiro). Vérifiez l'état de chaque sentier avant de partir."
+        },
+        "de": {
+          "head": "Viele Wege sind gesperrt.",
+          "body": "20 von 37 klassifizierten Wegen sind laut IFCN-Liste gesperrt, darunter PR1 Vereda do Areeiro (Pico do Areeiro). Prüfen Sie vor dem Losgehen den Status jedes Weges."
+        },
+        "pl": {
+          "head": "Wiele szlaków jest zamkniętych.",
+          "body": "20 z 37 sklasyfikowanych szlaków jest zamkniętych według listy IFCN, w tym PR1 Vereda do Areeiro (Pico do Areeiro). Sprawdź stan szlaku przed wyjściem."
+        }
+      }
+    }
+  },
   "ipma_warnings": [],
   "forecast": {
     "summit": [
