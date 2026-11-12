@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-12T00:01+00:00",
+ "stamp": "2026-11-12T01:11+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -81,7 +81,13 @@
    "bus": "weekday",
    "sunrise": "07:38",
    "sunset": "18:07",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 45,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -258,11 +264,11 @@
   }
  ],
  "sea": {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "sst": 22,
   "wave": [
-   0.4,
-   3.8
+   1.7,
+   2.4
   ],
   "warnings": []
  },
