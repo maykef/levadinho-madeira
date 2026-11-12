@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-12T11:53+00:00",
+ "stamp": "2026-11-12T12:53+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -14,7 +14,7 @@
     "tmax": 24,
     "rain": 2,
     "wtype": 2,
-    "uv": 3.4
+    "uv": 4.0
    },
    "fair": {
     "theme": "handcraft",
@@ -38,7 +38,7 @@
     "tmax": 24,
     "rain": 20,
     "wtype": 2,
-    "uv": 3.8
+    "uv": 3.5
    },
    "fair": null
   },
@@ -54,7 +54,7 @@
     "tmax": 23,
     "rain": 94,
     "wtype": 7,
-    "uv": 3.8
+    "uv": 3.7
    },
    "fair": null
   },
@@ -70,7 +70,7 @@
     "tmax": 23,
     "rain": 12,
     "wtype": 5,
-    "uv": 2.9
+    "uv": 3.2
    },
    "fair": null
   },
@@ -86,7 +86,7 @@
     "tmax": 24,
     "rain": 59,
     "wtype": 7,
-    "uv": null
+    "uv": 1.3
    },
    "fair": null
   },
