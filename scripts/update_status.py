@@ -105,7 +105,9 @@ MYMEMORY_MAX_BYTES = 450                       # MyMemory rejects q > 500 bytes;
 
 # --- IFCN list parsing ---------------------------------------------------------
 HEADINGS = [   # (regex over the raw HTML, status, heading name for logs)
-    (r">\s*ENCERRADOS\s*/\s*CONDICIONADOS\s*:?\s*<", "CLOSED", "ENCERRADOS/CONDICIONADOS"),
+    # 12 Nov 2026 (partial reopening after storm Charles): IFCN wrote plain "ENCERRADOS" and dropped the
+    # PARCIALMENTE TRANSITÁVEIS section. Each heading may appear at most once; TRANSITÁVEIS must be there.
+    (r">\s*ENCERRADOS(?:\s*/\s*CONDICIONADOS)?\s*:?\s*<", "CLOSED", "ENCERRADOS/CONDICIONADOS"),
     (r">\s*PARCIALMENTE\s+TRANSIT(?:Á|&Aacute;)VEIS\s*:?\s*<", "PARTIAL", "PARCIALMENTE TRANSITÁVEIS"),
     (r">\s*TRANSIT(?:Á|&Aacute;)VEIS\s*:?\s*<", "OPEN", "TRANSITÁVEIS"),
 ]
@@ -306,8 +308,11 @@ def ifcn_statuses():
     entries = {}
     for pattern, status, label in HEADINGS:
         hits = list(re.finditer(pattern, page))
-        if len(hits) != 1:
+        if len(hits) > 1 or (not hits and status == "OPEN"):
             sys.exit(f"FATAL: IFCN heading {label!r} found {len(hits)} times (expected 1) — page changed?")
+        if not hits:
+            print(f"ifcn: no {label!r} section on the list today", file=sys.stderr)
+            continue
         ul = re.compile(r"(?s)<ul\b[^>]*>(.*?)</ul>").search(page, hits[0].end())
         if not ul:
             sys.exit(f"FATAL: no list after IFCN heading {label!r}")
