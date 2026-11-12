@@ -16,7 +16,8 @@ import re
 import answers
 
 ALLOWED_MADEIRA = {"visit", "taxis", "táxis", "radio", "rádio", "governo", "região", "regiao", "ilha", "da", "de", "do",
-                   "in", "on", "of", "to", "for", "around", "across", "about", "explore", "welcome", "enjoy", "the"}
+                   "in", "on", "of", "to", "for", "around", "across", "about", "explore", "welcome", "enjoy", "the",
+                   "palace"}   # Monte Palace Madeira, the garden in our places list (12 Nov: dropped as a company)
 COMPANIES = re.compile(r"\b(beyond madeira|doit madeira|do it madeira|gettohikes|get to hikes|madeira transfers?|"
                        r"happy transfers?|pico transfers|picotransfers|madeira explorers|lido tours|walkme\w*|"
                        r"madeirahiking|madeira hiking|viator|getyourguide|get your guide|civitatis|klook|uber|"

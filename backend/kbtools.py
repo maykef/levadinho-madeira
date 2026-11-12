@@ -1140,6 +1140,76 @@ def _funchal_weather():
     return rainy, sea_end
 
 
+# Today's suggestions follow the weather (owner, 2026-11-12: "a sunny day with decent temp could include the Lido
+# swimming pools; a rainy day indoor places; the gardens, toboggan, Monte and the Botanical work well on a cloudy day.
+# That's what Levadinho is for"). IPMA idWeatherType: 1 clear, 2 few clouds, 3 partly cloudy, 4 cloudy, 5 high
+# cloud, 6+ showers / rain / drizzle / fog.
+SKY = {1: "clear sky", 2: "mostly sunny, a few clouds", 3: "partly cloudy", 4: "cloudy", 5: "cloudy (high cloud)", 6: "showers",
+       7: "light showers", 9: "rain", 10: "light rain", 12: "intermittent rain", 13: "intermittent light rain",
+       15: "drizzle", 16: "mist", 17: "fog"}
+GROUP_ORDER = {   # group order of a general "what can I do in Funchal today?"
+    "sunny": ["sea_pool", "monte", "garden", "market", "museum"],
+    "cloudy": ["monte", "garden", "market", "museum", "sea_pool"],   # sea pools only when warm (see places())
+    "rainy": ["museum", "market"],
+}
+# Monte is one outing: cable car up, Monte Palace, the toboggan down, the garden cable car to the Botanical Garden
+MONTE = ["cablecar", "montepalace", "toboggan", "gardencable", "botanical"]
+# best known first; at most PER_GROUP per group so the reply stays a recommendation, not the whole list
+PICK = {"garden": ["orchids", "quintadopoco", "santacatarina"],
+        "museum": ["cr7", "imom", "quintadascruzes", "mamma", "acucar", "winecompany", "fredericodefreitas", "designcenter",
+                   "historianatural", "artesacra", "santaclara", "fotografia", "casadaluz", "fortalezapico"],
+        "sea_pool": ["lido-lido", "lido-ponta-gorda", "lido-barreirinha", "lido-doca-do-cavacas"]}
+WHAT = {"toboggan": "the traditional wicker-sledge toboggan ride down from Monte, pushed by two drivers (Portuguese: "
+                    "carrinhos de cesto; never a boat)",
+        "cablecar": "the way up to Monte, from the Old Town", "gardencable": "Monte to the Botanical Garden",
+        "montepalace": "tropical garden in Monte", "botanical": "botanical garden above the city",
+        "market": "farmers' market: fruit, flowers, fish",
+        "imom": "immersive art museum: a 360° projection hall with two films on Madeira, VR",
+        "orchids": "orchid collection run by the Garton family since the 1960s",
+        "quintadopoco": "quiet municipal garden with a viewpoint over the city and the bay",
+        "santacatarina": "park above the harbour, with the chapel of Santa Catarina (1425); open until 22:00 "
+                         "from 22 March to 22 September"}
+GARDENS_TRAIL = {"en": "/funchal-gardens-trail/", "pt": "/pt/funchal-gardens-trail/", "fr": "/fr/funchal-gardens-trail/",
+                 "de": "/de/funchal-gardens-trail/", "pl": "/pl/funchal-gardens-trail/"}
+PER_GROUP = {"museum": 4, "sea_pool": 3, "monte": 5, "market": 1, "garden": 3}
+DAY_KEYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+
+
+def _funchal_today():
+    """(mode 'sunny'|'cloudy'|'rainy', one-line IPMA summary for the model, holiday today?) from funchal.json."""
+    f = _live("funchal.json", lambda: _get_json(SITE + "/funchal.json")) or {}
+    today = datetime.datetime.now(MADEIRA).date().isoformat()
+    day = next((d for d in f.get("days", []) if d.get("date") == today), {})
+    w = day.get("weather") or {}
+    rainy, sea_end = _funchal_weather()
+    if not w:
+        return ("rainy" if rainy else "cloudy"), "", bool(day.get("holiday"))
+    t, rain, wt = w.get("tmax"), w.get("rain") or 0, w.get("wtype")
+    sst = ((f.get("sea") or {}).get("sst") if (f.get("sea") or {}).get("date") == today else None)
+    mode = ("rainy" if rainy else
+            "sunny" if wt in (1, 2, 3) and (t or 0) >= 22 and rain < 30 and not sea_end else "cloudy")
+    line = (f"IPMA forecast for Funchal today: {SKY.get(wt, 'mixed')}, {w.get('tmin')}–{t} °C, chance of rain {rain}%"
+            + (f", sea {sst} °C" if sst else "") + ".")
+    return mode, line, bool(day.get("holiday"))
+
+
+def _tmax(line):
+    m = re.search(r"–(\d+) °C", line)
+    return int(m.group(1)) if m else 0
+
+
+def _open_today(hours, holiday):
+    """Today's opening hours 'HH:MM–HH:MM[, …]' from kb.place.hours, or None when closed today."""
+    if not hours:
+        return None
+    now = datetime.datetime.now(MADEIRA)
+    if "window" in hours:   # lidos: one daily span inside a season window
+        lo, hi = hours["window"]
+        return "–".join(hours["hours"]) if lo <= now.date().isoformat() <= hi else None
+    spans = hours.get("hol") if holiday else hours.get(DAY_KEYS[now.weekday()])
+    return ", ".join("–".join(x) for x in spans) if spans else None
+
+
 def places(category: str | None = None, neighbourhood: str | None = None, near_place: str | None = None,
            near_lat: float | None = None, near_lon: float | None = None, limit: int = 10, lang: str = "en") -> dict:
     """Places in Funchal and Monte (museum, sea_pool, cable_car, garden, market, toboggan…), by category,
@@ -1178,6 +1248,51 @@ def places(category: str | None = None, neighbourhood: str | None = None, near_p
                        **({"km_from_point": round(r["km"], 1)} if r["km"] is not None else {}),
                        "source": _source(r["source_id"])} for r in rows]}
     rainy, sea_end = _funchal_weather()
+    if not category and not neighbourhood:   # "what can I do in Funchal today?": everything open today, by weather
+        mode, line, holiday = _funchal_today()
+        allrows = _q("SELECT id, name, category, neighbourhood, municipality, description, source_id, hours FROM kb.place "
+                     "ORDER BY name")
+        order = list(GROUP_ORDER[mode])
+        warm = mode == "sunny" or _tmax(line) >= 22
+        if mode == "cloudy" and not warm:
+            order.remove("sea_pool")
+        groups = {}
+        for r in allrows:
+            today = _open_today(r["hours"], holiday)
+            cat = "monte" if r["id"] in MONTE else next((c for c in r["category"] if c in order), None)
+            if not today or cat not in order or (cat == "sea_pool" and sea_end):
+                continue
+            # today's hours only: the weekly description ("closed Mon, Sun") made the model call a place closed today
+            d = _pick(r["description"], "en") or ""
+            extra = {k: v for k, v in (("what", WHAT.get(r["id"])),
+                                       ("entry", "free" if "Free entry" in d else
+                                        (re.search(r"Entry ([^.]+)", d).group(1) if "Entry " in d else None))) if v}
+            groups.setdefault(cat, []).append({"id": r["id"], "name": r["name"], "open_today": today, **extra})
+        for c, ps in groups.items():
+            rank = MONTE if c == "monte" else PICK.get(c, [])
+            ps.sort(key=lambda x: rank.index(x["id"]) if x["id"] in rank else 99)
+            n = 2 if (mode == "cloudy" and c == "sea_pool") else 5 if (mode == "rainy" and c == "museum") else PER_GROUP.get(c, 4)
+            groups[c] = ps[:n]
+        res = {"weather_today": line, "suits_today": mode,
+               "open_today_by_group": [{"group": c, "places": groups[c]} for c in order if c in groups],
+               "how_to_answer": [
+                   "Start with one short line on today's weather in Funchal from weather_today (in the visitor's "
+                   "language). Then recommend what suits it, group by group in the order given (it is already ordered "
+                   "for today's weather), every place listed with its open_today hours, all groups, a few words on why "
+                   "each group suits today. Monte is one outing: cable car up from the Old Town, Monte Palace, the "
+                   "toboggan down, the garden cable car to the Botanical Garden ("
+                   + {"sunny": "sunny and warm: the lidos first, then gardens and Monte", 
+                      "cloudy": "cloudy but dry: Monte (cable car, Monte Palace, toboggan, Botanical Garden) is "
+                                "good; the sea pools last, for a swim if they like",
+                      "rainy": "rain: indoor places, the museums first"}[mode]
+                   + "). Only places listed here; nothing about trails."
+                   + (" After the gardens group, one line: our Funchal gardens trail links these gardens in a walk, "
+                      "with its link (gardens_trail)." if "garden" in groups else "")]}
+        if "garden" in groups:
+            res["gardens_trail"] = SITE + GARDENS_TRAIL[lang]
+        if sea_end:
+            res["weather_today"] += f" IPMA rough-sea warning for the south coast until {sea_end}: no sea pools."
+        return res
     if rainy or sea_end:
         drop = OUTDOOR if rainy else {"sea_pool"}
         res["places"] = [p for p in res["places"] if not set(p["category"]) & drop]

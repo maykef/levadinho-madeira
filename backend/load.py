@@ -457,6 +457,8 @@ def load_places(cur):
             text += " These hours apply in months " + ", ".join(map(str, p["months"])) + "."
         if p.get("free"):
             text += " Free entry."
+        if p.get("entry"):
+            text += f" Entry {p['entry']}."
         if p["id"] == "cablecar":
             lb = (f.get("last_bus") or {}).get("monte") or {}
             last = "; ".join(f"{k} {v[0]} (line {v[1]})" for k, v in lb.items())
@@ -480,6 +482,10 @@ def load_places(cur):
 
 
 CRUISE_CALLS = os.path.join(ROOT, "seo_research/funchal/mobility/data/cruise_calls.json")
+NOT_CRUISE_NAMES = {"LOHANKA"}   # 12 Nov: a 40 m private yacht, listed by APRAM at the South Terminal 8-14 Nov
+# Owner, 12 Nov: the cameras only CONFIRM a call until the São Roque cam is validated (13-15 Nov calls); Pontinha alone
+# missed 54 of 168 big-ship grabs (far end of the South Terminal), so a "not seen" must not drop a call yet.
+CAMERA_VETO = False
 
 
 def load_notices(cur):
@@ -490,12 +496,22 @@ def load_notices(cur):
         calls = json.load(open(CRUISE_CALLS, encoding="utf-8"))["calls"]
     except (OSError, ValueError, KeyError):
         calls = []
+    try:
+        seen = json.load(open(os.path.join(os.path.dirname(CRUISE_CALLS), "cruise_seen.json"), encoding="utf-8"))
+    except (OSError, ValueError):
+        seen = {}
     for c in calls:
         a, d = c.get("arrival") or "", c.get("departure") or ""
         if c.get("port") != "Funchal" or not a or not (today.isoformat() <= a[:10] <= horizon):
             continue
         # APRAM lists every ship: leave out cargo and the Porto Santo ferry (cement terminal, anchorage, Transinsular)
         if re.search(r"Cimenteiro|Fora das 3", c.get("berth") or "") or (c.get("agent") or "").startswith("Transinsular"):
+            continue
+        if c["ship"].upper().strip() in NOT_CRUISE_NAMES:   # private yachts at the cruise terminals (cruise_watch.py)
+            continue
+        # the camera decides (owner, 12 Nov): due an hour ago but no cruise ship on Pontinha's camera today -> not in port
+        if CAMERA_VETO and seen.get("date") == today.isoformat() and seen.get("seen") is False and a[:10] <= today.isoformat() \
+                and datetime.datetime.fromisoformat(a) + datetime.timedelta(hours=1) <= NOW.astimezone(MADEIRA).replace(tzinfo=None):
             continue
         ship = " ".join(w if len(w) <= 3 else w.title() for w in c["ship"].split())
         rows.append((f"cruise:{c['ship']}:{a}", "funchal-port", "cruise",

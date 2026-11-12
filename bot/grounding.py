@@ -22,7 +22,8 @@ import re
 import unicodedata
 
 NUM = r"\d+(?:[.,]\d+)?"
-TIME_RE = re.compile(r"(?<![\d.,:])([01]?\d|2[0-3])\s?(?:[:h]\s?([0-5]\d)|h(?![a-z]))(?![\d])", re.I)
+# (?<!…[A-Za-z]): 12 Nov, "Museu CR7: 10:00" was read as 07:10 and the line cut
+TIME_RE = re.compile(r"(?<![\d.,:A-Za-z])([01]?\d|2[0-3])\s?(?:[:h]\s?([0-5]\d)|h(?![a-z]))(?![\d])", re.I)
 MONEY_RE = re.compile(rf"€\s?({NUM})|({NUM})\s?(?:€|eur\b|euros?\b|euro\b)", re.I)
 PHONE_RE = re.compile(r"(?:\+?351[\s.]?)?(?:2\d{2}|9\d{2}|800)[\s.]?\d{3}[\s.]?\d{3}")
 KM_RE = re.compile(rf"({NUM})\s?km\b", re.I)

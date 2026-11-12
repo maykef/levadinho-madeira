@@ -364,6 +364,22 @@ PLACES = [
 BOT_ONLY_PLACES = [
     {"id": "cr7", "kind": "museum", "area": "centre", "name": "Museu CR7",
      "hours": H(WK + ("sat", "sun", "hol"), ("10:00", "17:00")), "url": "https://museucr7.com/"},
+    # owner, 2026-11-12 ("what to do in Funchal today" should name them). IMOM: its own site (imom.pt, checked 12 Nov):
+    # Mon-Sat 10:00-20:00 (last entry 19:00), Sun 10:00-18:00, Regular ticket €22, free under 6; holidays not stated
+    {"id": "imom", "kind": "museum", "area": "sao-pedro", "name": "IMOM – Immersive Museum of Madeira",
+     "hours": merge(H(WK + ("sat",), ("10:00", "20:00")), H(("sun",), ("10:00", "18:00"))),
+     "entry": "€22, free under 6; last entry an hour before closing", "url": "https://imom.pt/"},
+    # the gardens of our Funchal gardens trail (/funchal-gardens-trail/, scripts/gen_gardens_trail_page.py): hours and
+    # entry from visit.funchal.pt, checked by the owner on 7 Nov 2026
+    {"id": "orchids", "kind": "garden", "area": "sao-goncalo", "name": "Quinta da Boa Vista orchid garden",
+     "hours": H(WK + ("sat",), ("09:00", "18:00")), "entry": "€5 for over-17s",
+     "url": "https://levadinho-madeira.com/funchal-gardens-trail/"},
+    {"id": "quintadopoco", "kind": "garden", "area": "sao-pedro", "name": "Jardins da Quinta do Poço",
+     "hours": H(WK, ("09:00", "17:30")), "free": True, "url": "https://levadinho-madeira.com/funchal-gardens-trail/"},
+    # 07:00-20:00 from 23 Sep to 21 Mar, until 22:00 from 22 Mar to 22 Sep (the winter hours are kept all year: never late)
+    {"id": "santacatarina", "kind": "garden", "area": "centre", "name": "Parque de Santa Catarina",
+     "hours": H(WK + ("sat", "sun", "hol"), ("07:00", "20:00")),
+     "url": "https://levadinho-madeira.com/funchal-gardens-trail/"},
 ]
 PARKING = {"paid": merge(H(WK, ("08:00", "20:00")), H(("sat",), ("08:00", "14:00"))),
            "url": "https://frentemarfunchal.pt/mobilidade-2/parquimetros/"}
