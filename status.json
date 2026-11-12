@@ -1,23 +1,23 @@
 {
   "status": "CLOSED",
   "note": {
-    "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-    "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-    "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-    "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-    "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
+    "pt": "",
+    "en": "",
+    "fr": "",
+    "de": "",
+    "pl": ""
   },
   "closure": null,
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 11.2,
-    "humidity": 89,
+    "temp_c": 10.1,
+    "humidity": 88,
     "in_cloud": false,
-    "wind_kmh": 15,
+    "wind_kmh": 11,
     "wind_strong": false
   },
-  "stamp": "2026-11-12 17:20",
+  "stamp": "2026-11-12 18:04",
   "date": "2026-11-12",
   "source": {
     "name": "IFCN",
@@ -25,23 +25,23 @@
     "updated": ""
   },
   "counts": {
-    "OPEN": 0,
+    "OPEN": 17,
     "PARTIAL": 0,
-    "CLOSED": 37
+    "CLOSED": 20
   },
   "regions": [
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 11,
-      "wind": 15,
+      "temp": 10,
+      "wind": 11,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 20,
+      "temp": 19,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -57,8 +57,8 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 21,
-      "wind": 6,
+      "temp": 22,
+      "wind": 13,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -66,7 +66,7 @@
       "key": "south",
       "place": "Funchal",
       "temp": 23,
-      "wind": 8,
+      "wind": 5,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -75,684 +75,382 @@
     {
       "code": "PR1",
       "name": "Vereda do Areeiro",
+      "status": "CLOSED",
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 11,
-      "page": "/pr1/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/pr1/"
     },
     {
       "code": "PR6",
       "name": "Levada das 25 Fontes",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/25-fontes/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/25-fontes/"
     },
     {
       "code": "PR1.2",
       "name": "Vereda do Pico Ruivo",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 11,
-      "page": "/pico-ruivo/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/pico-ruivo/"
     },
     {
       "code": "PR9",
       "name": "Levada do Caldeirão Verde",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 20,
-      "page": "/caldeirao-verde/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 19,
+      "page": "/caldeirao-verde/"
     },
     {
       "code": "PR8",
       "name": "Vereda da Ponta de São Lourenço",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 21,
-      "page": "/sao-lourenco/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 22,
+      "page": "/sao-lourenco/"
     },
     {
       "code": "PR11",
       "name": "Vereda dos Balcões",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 11,
-      "page": "/balcoes/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/balcoes/"
     },
     {
       "code": "PR13",
       "name": "Vereda do Fanal",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/fanal/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/fanal/"
     },
     {
       "code": "PR10",
       "name": "Levada do Furado",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "CLOSED",
-      "temp": 11,
-      "page": "/levada-do-furado/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/levada-do-furado/"
     },
     {
       "code": "PR18",
       "name": "Levada do Rei",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 20,
-      "page": "/levada-do-rei/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 19,
+      "page": "/levada-do-rei/"
     },
     {
       "code": "PR14",
       "name": "Levada dos Cedros",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-dos-cedros/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/levada-dos-cedros/"
     },
     {
       "code": "PR1.1",
       "name": "Vereda da Ilha",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 20,
-      "page": "/vereda-da-ilha/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 19,
+      "page": "/vereda-da-ilha/"
     },
     {
       "code": "PR1.3",
       "name": "Vereda da Encumeada",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "PARTIAL",
-      "temp": 11,
-      "page": "/vereda-da-encumeada/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/vereda-da-encumeada/"
     },
     {
       "code": "PR2",
       "name": "Vereda do Urzal",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 11,
-      "page": "/vereda-do-urzal/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/vereda-do-urzal/"
     },
     {
       "code": "PR3",
       "name": "Vereda do Burro",
+      "status": "CLOSED",
       "fee": null,
       "region": "summit",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 11,
-      "page": "/vereda-do-burro/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/vereda-do-burro/"
     },
     {
       "code": "PR3.1",
       "name": "Caminho Real do Monte",
+      "status": "CLOSED",
       "fee": null,
       "region": "south",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": 23,
-      "page": "/caminho-real-do-monte/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/caminho-real-do-monte/"
     },
     {
       "code": "PR4",
       "name": "Levada do Barreiro",
+      "status": "CLOSED",
       "fee": null,
       "region": "summit",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "PARTIAL",
-      "temp": 11,
-      "page": "/levada-do-barreiro/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/levada-do-barreiro/"
     },
     {
       "code": "PR5",
       "name": "Vereda das Funduras",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 20,
-      "page": "/vereda-das-funduras/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 19,
+      "page": "/vereda-das-funduras/"
     },
     {
       "code": "PR6.1",
       "name": "Levada do Risco",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-do-risco/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/levada-do-risco/"
     },
     {
       "code": "PR6.2",
       "name": "Levada do Alecrim",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-do-alecrim/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/levada-do-alecrim/"
     },
     {
       "code": "PR6.3",
       "name": "Vereda da Lagoa do Vento",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-da-lagoa-do-vento/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/vereda-da-lagoa-do-vento/"
     },
     {
       "code": "PR7",
       "name": "Levada do Moinho",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/levada-do-moinho/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/levada-do-moinho/"
     },
     {
       "code": "PR12",
       "name": "Caminho Real da Encumeada",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "PARTIAL",
-      "temp": 11,
-      "page": "/caminho-real-da-encumeada/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "temp": 10,
+      "page": "/caminho-real-da-encumeada/"
     },
     {
       "code": "PR15",
       "name": "Vereda da Ribeira da Janela",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-da-ribeira-da-janela/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/vereda-da-ribeira-da-janela/"
     },
     {
       "code": "PR16",
       "name": "Levada Fajã do Rodrigues",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/levada-faja-do-rodrigues/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/levada-faja-do-rodrigues/"
     },
     {
       "code": "PR17",
       "name": "Caminho do Pináculo e Folhadal",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "PARTIAL",
       "temp": null,
-      "page": "/caminho-do-pinaculo-e-folhadal/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
       "code": "PR19",
       "name": "Caminho Real do Paul do Mar",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/caminho-real-do-paul-do-mar/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/caminho-real-do-paul-do-mar/"
     },
     {
       "code": "PR20",
       "name": "Vereda do Jardim do Mar",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/vereda-do-jardim-do-mar/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/vereda-do-jardim-do-mar/"
     },
     {
       "code": "PR21",
       "name": "Caminho do Norte",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/caminho-do-norte/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/caminho-do-norte/"
     },
     {
       "code": "PR22",
       "name": "Vereda do Chão dos Louros",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-do-chao-dos-louros/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/vereda-do-chao-dos-louros/"
     },
     {
       "code": "PR27",
       "name": "Glaciar de Planalto",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/glaciar-de-planalto/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/glaciar-de-planalto/"
     },
     {
       "code": "PR6.6",
       "name": "Vereda do Túnel do Cavalo",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-do-tunel-do-cavalo/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/vereda-do-tunel-do-cavalo/"
     },
     {
       "code": "PR28",
       "name": "Levada da Rocha Vermelha",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "CLOSED",
       "temp": null,
-      "page": "/levada-da-rocha-vermelha/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/levada-da-rocha-vermelha/"
     },
     {
       "code": "PR6.8",
       "name": "Levada do Paul II - Um caminho para todos",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-do-paul-ii-um-caminho-para-todos/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/levada-do-paul-ii-um-caminho-para-todos/"
     },
     {
       "code": "PR6.4",
       "name": "Levada Velha do Rabaçal",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/levada-velha-do-rabacal/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/levada-velha-do-rabacal/"
     },
     {
       "code": "PR6.5",
       "name": "Vereda do Pico Fernandes",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-do-pico-fernandes/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/vereda-do-pico-fernandes/"
     },
     {
       "code": "PR13.1",
       "name": "Vereda da Palha Carga",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
       "temp": null,
-      "page": "/vereda-da-palha-carga/",
-      "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
-      }
+      "page": "/vereda-da-palha-carga/"
     },
     {
       "code": "PR9.1",
       "name": "Levada do Caldeirão Verde - um caminho para todos",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "status": "CLOSED",
-      "ifcn_status": "OPEN",
-      "temp": 20,
+      "temp": 19,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
-        "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
-        "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
-        "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
-        "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
-        "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN)."
+        "pt": "Um Caminho para todos.",
+        "en": "A way for everyone",
+        "fr": "Un chemin pour tous.",
+        "de": "Ein Weg für alle.",
+        "pl": "Droga dla wszystkich."
       }
     }
   ],
-  "alert": {
-    "blanket": "closed",
-    "blanket_from": "2026-11-10",
-    "blanket_reopen": null,
-    "ifcn_source": "https://ifcn.madeira.gov.pt/pt/?view=category&id=146",
-    "ipma_level": null,
-    "ipma_types": [],
-    "ipma_now": false,
-    "ipma_source": "https://www.ipma.pt/pt/otempo/prev-sam/?p=MAD",
-    "ahead": null,
-    "closing_at": null,
-    "storm": null,
-    "ahead_text": null
-  },
+  "alert": null,
   "ipma_warnings": [],
   "forecast": {
     "summit": [
@@ -1016,6 +714,6 @@
       }
     ]
   },
-  "forest_road": null,
+  "forest_road": "closed",
   "outlook": null
 }
