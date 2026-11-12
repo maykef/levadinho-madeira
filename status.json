@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 13.3,
-    "humidity": 74,
+    "temp_c": 12.4,
+    "humidity": 82,
     "in_cloud": false,
-    "wind_kmh": 16,
+    "wind_kmh": 9,
     "wind_strong": false
   },
-  "stamp": "2026-11-12 15:00",
+  "stamp": "2026-11-12 16:10",
   "date": "2026-11-12",
   "source": {
     "name": "IFCN",
@@ -33,15 +33,15 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 13,
-      "wind": 16,
+      "temp": 12,
+      "wind": 9,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 21,
+      "temp": 19,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -58,15 +58,15 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 21,
-      "wind": 8,
+      "wind": 23,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 25,
-      "wind": 10,
+      "temp": 24,
+      "wind": 8,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -80,7 +80,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 13,
+      "temp": 12,
       "page": "/pr1/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -116,7 +116,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 13,
+      "temp": 12,
       "page": "/pico-ruivo/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -134,7 +134,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 21,
+      "temp": 19,
       "page": "/caldeirao-verde/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -170,7 +170,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 13,
+      "temp": 12,
       "page": "/balcoes/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -206,7 +206,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "CLOSED",
-      "temp": 13,
+      "temp": 12,
       "page": "/levada-do-furado/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -224,7 +224,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 21,
+      "temp": 19,
       "page": "/levada-do-rei/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -260,7 +260,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 21,
+      "temp": 19,
       "page": "/vereda-da-ilha/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -278,7 +278,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "PARTIAL",
-      "temp": 13,
+      "temp": 12,
       "page": "/vereda-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -296,7 +296,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 13,
+      "temp": 12,
       "page": "/vereda-do-urzal/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -314,7 +314,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 13,
+      "temp": 12,
       "page": "/vereda-do-burro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -332,7 +332,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 25,
+      "temp": 24,
       "page": "/caminho-real-do-monte/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -350,7 +350,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "PARTIAL",
-      "temp": 13,
+      "temp": 12,
       "page": "/levada-do-barreiro/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -368,7 +368,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 21,
+      "temp": 19,
       "page": "/vereda-das-funduras/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -458,7 +458,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "PARTIAL",
-      "temp": 13,
+      "temp": 12,
       "page": "/caminho-real-da-encumeada/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -728,7 +728,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 21,
+      "temp": 19,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
