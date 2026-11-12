@@ -73,11 +73,18 @@
                   fr: ["Quand les sentiers rouvrent-ils ?", "Que faire à Funchal aujourd'hui ?"],
                   de: ["Wann öffnen die Wege wieder?", "Was kann ich heute in Funchal machen?"],
                   pl: ["Kiedy szlaki zostaną otwarte?", "Co mogę dziś robić w Funchal?"] };
+  var TRAIL_CLOSED = false;   // this page's trail is CLOSED on today's list (owner, 2026-11-12: the chat opens on it)
+  function pageCode() {   // the trail this page is about: the quick-answers card, else the status card (PR1 has no data-trail)
+    var c = document.querySelector("#answers [data-trail]") || document.querySelector("#statusCard[data-trail]");
+    return c ? c.getAttribute("data-trail") : (document.getElementById("statusCard") ? "PR1" : null);
+  }
   var AHEAD = null;   // status.json alert.ahead_text: IPMA's warnings ahead + the day after's forecast (storm.py, 2026-11-09)
   async function stormOn() {
     try {
       var st = await (await fetch("/status.json", { cache: "no-store" })).json(), a = st.alert || {};
       AHEAD = a.ahead_text ? (a.ahead_text[LANG] || a.ahead_text.en) : null;
+      var code = pageCode();
+      TRAIL_CLOSED = !!code && (st.trails || []).some(function (t) { return t.code === code && t.status === "CLOSED"; });
       return a.blanket === "closed";
     }
     catch (e) { return false; }
@@ -211,14 +218,14 @@
   // CLOSED on today's list → [status row, open nearby trails row]; otherwise null (status.json, same as the card)
   async function closedRows() {
     var card = document.querySelector("#answers [data-trail]");
-    if (!card) return null;
-    var code = card.getAttribute("data-trail"), st;
+    var code = pageCode(), st;
+    if (!code) return null;
     try { st = await (await fetch("/status.json", { cache: "no-store" })).json(); } catch (e) { return null; }
     var by = {}; (st.trails || []).forEach(function (t) { by[t.code] = t; });
     if (!by[code] || by[code].status !== "CLOSED") return null;
     var C = CLOSED[LANG] || CLOSED.en, note = by[code].note;
     note = note && typeof note === "object" ? (note[LANG] || note.en || "") : (note || "");
-    var rows = [[txt(document.querySelector("#answers .qa-q")), C.line + (note ? " " + esc(note) : "")]];
+    var rows = [[card ? txt(document.querySelector("#answers .qa-q")) : "", C.line + (note ? " " + esc(note) : "")]];
     var open = [];
     document.querySelectorAll("#nearby li a").forEach(function (a) {
       var m = txt(a).match(/^(PR[\d.]+)/), t = m && by[m[1]];
@@ -361,8 +368,8 @@
       if (h1) add("lvc-q", esc(txt(h1)));
       await wait(500);  // status.js fills the card's live status first
       var fresh = openingRows() || open;
-      var closed = open.kind === "trail" ? await closedRows() : null;
-      if (closed) { fresh = { rows: closed, kind: "closed" }; open.kind = "closed"; }
+      var closed = open.kind === "trail" || TRAIL_CLOSED ? await closedRows() : null;
+      if (closed) { fresh = { rows: closed, kind: "closed" }; open.kind = "closed"; open.chips = null; }   // closed: the "open nearby" chips, not the page's own
       if (await stormOn()) {   // storm mode: the island-wide closure first, then nothing that suggests walking
         fresh = { rows: [["", "⚠️ " + (STORM[LANG] || STORM.en)]], kind: "storm" };
         if (AHEAD) fresh.rows.push(["", "<b>" + esc(AHEAD.head) + "</b> " + esc(AHEAD.body)]);   // same words as the banner
@@ -384,7 +391,9 @@
   }
 
   async function start() {
-    if (STORM_ONLY && !(await stormOn()) && !AHEAD) return;   // no closure and no IPMA warning ahead on a trail page: no chat, no count (owner, 2026-11-09: keep it while any warning is up)
+    // trail pages (data-storm-only): the chat only during an island-wide closure, an IPMA warning ahead (owner,
+    // 2026-11-09) or while this page's trail is CLOSED (owner, 2026-11-12: it opens saying the trail is still closed)
+    if (STORM_ONLY && !(await stormOn()) && !AHEAD && !TRAIL_CLOSED) return;
     var ctl = window.AbortController ? new AbortController() : null;
     var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
     fetch(API + "/health", { signal: ctl ? ctl.signal : undefined, cache: "no-store" })

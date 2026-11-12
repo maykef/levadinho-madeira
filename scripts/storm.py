@@ -596,7 +596,44 @@ def ahead_text(ah, forecast=None, reopened=False, closing_at=None, closed=False,
     return out
 
 
-def alert(b, ipma, forecast=None):
+# Many trails closed without an island-wide closure (owner, 2026-11-12, IFCN's partial reopening after Charles: 20 of
+# 37 still closed, PR1 among them): one notice on every page (alert.js) and in the bot's first WhatsApp reply
+# (brain.py storm_lead). Shown when at least PARTIAL_SHARE of the trails are CLOSED or PR1 is. No cause, no date.
+PARTIAL_SHARE = 0.25
+PARTIAL_HEAD = {"en": "Many trails are closed.", "pt": "Muitos percursos estão encerrados.",
+                "fr": "De nombreux sentiers sont fermés.", "de": "Viele Wege sind gesperrt.",
+                "pl": "Wiele szlaków jest zamkniętych."}
+PARTIAL_BODY = {
+    "en": "{n} of {total} classified trails are closed on IFCN's list{pr1}. Check each trail's status before you go.",
+    "pt": "{n} dos {total} percursos classificados estão encerrados na lista do IFCN{pr1}. Confirme o estado de cada percurso antes de ir.",
+    "fr": "{n} des {total} sentiers classés sont fermés sur la liste de l'IFCN{pr1}. Vérifiez l'état de chaque sentier avant de partir.",
+    "de": "{n} von {total} klassifizierten Wegen sind laut IFCN-Liste gesperrt{pr1}. Prüfen Sie vor dem Losgehen den Status jedes Weges.",
+    "pl": "{n} z {total} sklasyfikowanych szlaków jest zamkniętych według listy IFCN{pr1}. Sprawdź stan szlaku przed wyjściem.",
+}
+PARTIAL_PR1 = {"en": ", including PR1 Vereda do Areeiro (Pico do Areeiro)",
+               "pt": ", incluindo o PR1 Vereda do Areeiro (Pico do Areeiro)",
+               "fr": ", dont le PR1 Vereda do Areeiro (Pico do Areeiro)",
+               "de": ", darunter PR1 Vereda do Areeiro (Pico do Areeiro)",
+               "pl": ", w tym PR1 Vereda do Areeiro (Pico do Areeiro)"}
+IFCN_LIST = "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos"
+
+
+def partial(trails, b):
+    """The "many trails closed" notice for status.json alert.partial, or None (also during a blanket closure)."""
+    if not trails or b.get("state") == "closed":
+        return None
+    closed = [t["code"] for t in trails if t.get("status") == "CLOSED"]
+    pr1 = "PR1" in closed
+    if not (pr1 or len(closed) >= PARTIAL_SHARE * len(trails)):
+        return None
+    return {"closed": len(closed), "total": len(trails), "pr1": pr1, "source": IFCN_LIST,
+            "text": {lang: {"head": PARTIAL_HEAD[lang],
+                            "body": PARTIAL_BODY[lang].format(n=len(closed), total=len(trails),
+                                                              pr1=PARTIAL_PR1[lang] if pr1 else "")}
+                     for lang in PARTIAL_HEAD}}
+
+
+def alert(b, ipma, forecast=None, trails=None):
     """The status.json "alert" block that status.js / dashboard.js show as a banner (None = no banner)."""
     ah = ahead(ipma)
     a = {"blanket": b.get("state"), "blanket_from": b.get("from"), "blanket_reopen": b.get("reopen"),
@@ -608,8 +645,9 @@ def alert(b, ipma, forecast=None):
          "storm": b.get("storm"),
          "ahead_text": ahead_text(ah, forecast, reopened=bool(ah) and not b.get("state") and reopened_notice(),
                                   closing_at=b.get("closing_at"), closed=b.get("state") == "closed",
-                                  storm=b.get("storm"))}
-    return a if (a["blanket"] or a["ipma_level"] or ah) else None   # warnings ahead alone keep the notice (owner, 2026-11-09)
+                                  storm=b.get("storm")),
+         "partial": partial(trails, b)}
+    return a if (a["blanket"] or a["ipma_level"] or ah or a["partial"]) else None   # warnings ahead alone keep the notice (owner, 2026-11-09)
 
 
 if __name__ == "__main__":

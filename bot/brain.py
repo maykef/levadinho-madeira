@@ -1331,6 +1331,10 @@ def storm_lead(user, reply, lang):
             ah = ((st.get("alert") or {}).get("ahead_text") or {})
             ah = ah.get(lang) or ah.get("en")
             line = f"🌧️ *{ah['head']}* {ah['body']}" if ah else outlook_line(st, lang)
+            pt = (((st.get("alert") or {}).get("partial") or {}).get("text") or {})
+            pt = pt.get(lang) or pt.get("en")
+            if pt:   # many trails closed, no island-wide closure (storm.py partial, owner 2026-11-12)
+                line = f"⚠️ *{pt['head']}* {pt['body']}" + (f"\n\n*{ah['head']}* {ah['body']}" if ah else "")
     except Exception:  # noqa: BLE001
         return reply
     if not line:

@@ -1357,7 +1357,7 @@ def main():
     apply_trail_closures(trails, storm.trail_closures())
     for t in trails:
         assert_not_contradictory(t["status"], t.get("note"), what=t["code"])
-    alert = storm.alert(blanket, ipma, forecast)
+    alert = storm.alert(blanket, ipma, forecast, trails)
     if alert:
         print(f"storm: alert {alert}", file=sys.stderr)
 

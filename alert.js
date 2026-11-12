@@ -3,6 +3,8 @@
    - IFCN blanket closure in force   -> red:   all classified trails closed (IFCN notice)
    - IFCN closure announced          -> red:   all classified trails close (tomorrow)
    - orange/red IPMA warning only    -> amber: warning + "IFCN closed all trails in past warnings, check"
+   - many trails closed, no blanket  -> red:   "N of M classified trails are closed on IFCN's list (incl. PR1)"
+                                               (storm.py partial(), owner 2026-11-12), with a link to the closures page
    Wording mirrors storm.py (keep them in sync). No dates shown, only "tomorrow". Injected by gen_owner.py. */
 (function () {
   "use strict";
@@ -83,11 +85,16 @@
 
   function banner(a, o) {
     a = a || {};
-    var red = !!a.blanket, html, P = O[lang] || O.en;
+    var red = !!a.blanket || !!a.partial, html, P = O[lang] || O.en;
+    var pt = a.partial && a.partial.text && (a.partial.text[lang] || a.partial.text.en);
     if (a.blanket === "closed") {
       html = "<b>" + L.closed + "</b> " + L.note + (a.blanket_reopen === madeiraDate(1) ? L.reopen : "");
     } else if (a.blanket === "announced") {
       html = "<b>" + L.announced.replace("{w}", a.blanket_from === madeiraDate(1) ? L.tomorrow : "") + "</b>";
+    } else if (pt) {   // many trails closed without an island-wide closure (storm.py partial)
+      var pre = lang === "en" || !MENU[lang] ? "" : "/" + lang;
+      html = "<b>" + pt.head + "</b> " + pt.body + ' <a href="' + pre + '/trail-closures/" style="color:inherit;text-decoration:underline">' + (MENU[lang] || MENU.en) + "</a>";
+      if (a.ipma_level) html += "<br>" + L.ipma.replace("{lvl}", L.lvl[a.ipma_level] || a.ipma_level).replace("{w}", a.ipma_now ? L.now : L.soon);
     } else if (a.ipma_level) {
       html = L.ipma.replace("{lvl}", L.lvl[a.ipma_level] || a.ipma_level).replace("{w}", a.ipma_now ? L.now : L.soon);
     } else if (a.ahead_text) {   // no closure, IPMA warnings ahead: the notice alone (owner, 2026-11-09)
@@ -99,12 +106,12 @@
       return null;
     }
     var ah = a.ahead_text && (a.ahead_text[lang] || a.ahead_text.en);
-    if (ah && (a.blanket || a.ipma_level))   // IPMA warnings ahead as advice + IPMA's forecast for the day after (storm.py ahead_text, owner 2026-11-09)
+    if (ah && (a.blanket || a.ipma_level || pt))   // IPMA warnings ahead as advice + IPMA's forecast for the day after (storm.py ahead_text, owner 2026-11-09)
       html += "<br><b>" + ah.head + "</b> " + ah.body;
-    else if ((a.blanket || a.ipma_level) && outlookText(o, madeiraDate(1)))   // an alert today, more bad days to come
+    else if ((a.blanket || a.ipma_level || pt) && outlookText(o, madeiraDate(1)))   // an alert today, more bad days to come
       html += "<br><b>" + P.head + ":</b> " + outlookText(o, madeiraDate(1));
     var src = [];
-    if (a.ifcn_source) src.push(link(a.ifcn_source, "IFCN"));
+    if (a.ifcn_source || (a.partial && a.partial.source)) src.push(link(a.ifcn_source || a.partial.source, "IFCN"));
     if ((a.ipma_level || a.ahead_text || (o && o.days && o.days.length)) && (a.ipma_source || (o && o.source))) src.push(link(a.ipma_source || o.source, "IPMA"));
     var el = document.createElement("div");
     el.id = "stormAlert";
@@ -121,7 +128,7 @@
   var MENU = { en: "Trail closures", pt: "Percursos encerrados", fr: "Sentiers fermés", de: "Gesperrte Wege", pl: "Zamknięte szlaki" };
   function closuresMenu(a) {
     var nav = document.querySelector("nav.sitenav");
-    if (!nav || !a || a.blanket !== "closed" || nav.querySelector("a[data-closures]")) return;
+    if (!nav || !a || (a.blanket !== "closed" && !a.partial) || nav.querySelector("a[data-closures]")) return;
     var pre = lang === "en" || !MENU[lang] ? "" : "/" + lang, href = pre + "/trail-closures/";
     var x = document.createElement("a");
     x.href = href; x.textContent = MENU[lang] || MENU.en; x.setAttribute("data-closures", "1");
