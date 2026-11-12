@@ -194,8 +194,13 @@ def _how(name, args, result, lang, q=""):
         h.append("The visitor gave a time they will be at the stop: list only the trips that leave AFTER that time, on "
                  "the day they asked about; never a bus that has already left.")
     if name == "trail_status":
-        h.append("Say it is according to IFCN's official warnings list. If the trail is partly open, say which part is "
-                 "open, as the note says, in the visitor's language. No date.")
+        if (kbtools._fc5_status().get("alert") or {}).get("blanket") == "closed":
+            # 12 Nov real chat: "according to IFCN's official warnings list" right after "the list isn't updated"
+            h.append("IFCN has closed every classified trail: say it is according to IFCN's communiqué on its "
+                     "homepage, never 'the warnings list' and never a cause (weather, warning, storm). No date.")
+        else:
+            h.append("Say it is according to IFCN's official warnings list. If the trail is partly open, say which "
+                     "part is open, as the note says, in the visitor's language. No date.")
         if code == "PR1" or '"PR1"' in blob[:200]:
             h += [PR1_TIME, PR1_TICKETS + " Give both when they ask about walking PR1."]
         if '"CLOSED"' in blob:

@@ -401,11 +401,11 @@ def ipma_alert(raw=None):
 
 # Fixed wording (no machine translation): the note every trail gets during a blanket closure, and its reopening day.
 BLANKET_NOTE = {
-    "pt": "O IFCN encerrou todos os percursos pedestres classificados devido aos avisos meteorológicos do IPMA.",
-    "en": "IFCN has closed all classified trails because of IPMA weather warnings.",
-    "fr": "L'IFCN a fermé tous les sentiers classés en raison des avis météorologiques de l'IPMA.",
-    "de": "Das IFCN hat wegen der Wetterwarnungen des IPMA alle klassifizierten Wege gesperrt.",
-    "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki z powodu ostrzeżeń pogodowych IPMA.",
+    "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
+    "en": "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
+    "fr": "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
+    "de": "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
+    "pl": "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN).",
 }
 REOPEN_TOMORROW = {
     "pt": " Reabrem amanhã, segundo o IFCN.", "en": " IFCN says they reopen tomorrow.",
@@ -620,11 +620,11 @@ if __name__ == "__main__":
 
 # Crawlable wording for the updater's static lines (status.js / dashboard.js carry the same sentences live).
 ANNOUNCED = {
-    "pt": "O IFCN anunciou o encerramento de todos os percursos pedestres classificados{w} devido aos avisos meteorológicos do IPMA.",
-    "en": "IFCN has announced that all classified trails will close{w} because of IPMA weather warnings.",
-    "fr": "L'IFCN a annoncé la fermeture de tous les sentiers classés{w} en raison des avis météorologiques de l'IPMA.",
-    "de": "Das IFCN hat angekündigt, alle klassifizierten Wege{w} wegen der Wetterwarnungen des IPMA zu sperren.",
-    "pl": "IFCN zapowiedział zamknięcie wszystkich sklasyfikowanych szlaków{w} z powodu ostrzeżeń pogodowych IPMA.",
+    "pt": "O IFCN anunciou o encerramento de todos os percursos pedestres classificados{w}.",
+    "en": "IFCN has announced that all classified trails will close{w}.",
+    "fr": "L'IFCN a annoncé la fermeture de tous les sentiers classés{w}.",
+    "de": "Das IFCN hat angekündigt, alle klassifizierten Wege{w} zu sperren.",
+    "pl": "IFCN zapowiedział zamknięcie wszystkich sklasyfikowanych szlaków{w}.",
 }
 WHEN_TOMORROW = {"pt": " amanhã", "en": " tomorrow", "fr": " demain", "de": " morgen", "pl": " jutro"}
 IPMA_LINE = {

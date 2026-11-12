@@ -62,11 +62,11 @@
   // Storm mode (owner, 2026-11-08): during IFCN's island-wide closure (status.json alert.blanket = "closed") the chat on
   // every page opens with this, before anything else; same words as the bot's STORM_LEAD (bot/brain.py).
   var STORM = {
-    en: "<b>All classified trails in Madeira are closed today.</b> IFCN closed them because of the IPMA weather warning: don't walk any trail and stay out of forest areas.",
-    pt: "<b>Todos os percursos pedestres classificados da Madeira estão encerrados hoje.</b> O IFCN encerrou-os devido ao aviso meteorológico do IPMA: não faça nenhum percurso e evite as zonas florestais.",
-    fr: "<b>Tous les sentiers classés de Madère sont fermés aujourd'hui.</b> L'IFCN les a fermés en raison de l'avis météorologique de l'IPMA : ne faites aucun sentier et évitez les zones forestières.",
-    de: "<b>Alle klassifizierten Wanderwege auf Madeira sind heute gesperrt.</b> Das IFCN hat sie wegen der Wetterwarnung des IPMA gesperrt: Gehen Sie keinen Weg und meiden Sie Waldgebiete.",
-    pl: "<b>Wszystkie sklasyfikowane szlaki na Maderze są dziś zamknięte.</b> IFCN zamknął je z powodu ostrzeżenia pogodowego IPMA: nie wchodź na żaden szlak i unikaj terenów leśnych."
+    en: "<b>All classified trails in Madeira are closed today.</b> IFCN has closed them: don't walk any trail and stay out of forest areas.",
+    pt: "<b>Todos os percursos pedestres classificados da Madeira estão encerrados hoje.</b> O IFCN encerrou-os: não faça nenhum percurso e evite as zonas florestais.",
+    fr: "<b>Tous les sentiers classés de Madère sont fermés aujourd'hui.</b> L'IFCN les a fermés : ne faites aucun sentier et évitez les zones forestières.",
+    de: "<b>Alle klassifizierten Wanderwege auf Madeira sind heute gesperrt.</b> Das IFCN hat sie gesperrt: Gehen Sie keinen Weg und meiden Sie Waldgebiete.",
+    pl: "<b>Wszystkie sklasyfikowane szlaki na Maderze są dziś zamknięte.</b> IFCN je zamknął: nie wchodź na żaden szlak i unikaj terenów leśnych."
   };
   CHIPS.storm = { en: ["When will the trails reopen?", "What can I do in Funchal today?"],
                   pt: ["Quando reabrem os percursos?", "O que posso fazer hoje no Funchal?"],

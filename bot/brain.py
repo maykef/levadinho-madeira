@@ -1250,16 +1250,16 @@ def answer_tools(user, text, lang, rule, meta=None):
 # "closed", written by scripts/storm.py), the bot's first message to each visitor starts with this line, whatever was
 # asked. Wording follows IFCN's notice (closure + "no recreational activities in forest areas").
 STORM_LEAD = {
-    "en": "⚠️ *All classified trails in Madeira are closed today.* IFCN closed them because of the IPMA weather warning: "
+    "en": "⚠️ *All classified trails in Madeira are closed today.* IFCN has closed them: "
           "don't walk any trail and stay out of forest areas.",
-    "pt": "⚠️ *Todos os percursos pedestres classificados da Madeira estão encerrados hoje.* O IFCN encerrou-os devido ao "
-          "aviso meteorológico do IPMA: não faça nenhum percurso e evite as zonas florestais.",
-    "fr": "⚠️ *Tous les sentiers classés de Madère sont fermés aujourd'hui.* L'IFCN les a fermés en raison de l'avis "
-          "météorologique de l'IPMA : ne faites aucun sentier et évitez les zones forestières.",
-    "de": "⚠️ *Alle klassifizierten Wanderwege auf Madeira sind heute gesperrt.* Das IFCN hat sie wegen der Wetterwarnung "
-          "des IPMA gesperrt: Gehen Sie keinen Weg und meiden Sie Waldgebiete.",
-    "pl": "⚠️ *Wszystkie sklasyfikowane szlaki na Maderze są dziś zamknięte.* IFCN zamknął je z powodu ostrzeżenia "
-          "pogodowego IPMA: nie wchodź na żaden szlak i unikaj terenów leśnych.",
+    "pt": "⚠️ *Todos os percursos pedestres classificados da Madeira estão encerrados hoje.* O IFCN encerrou-os: "
+          "não faça nenhum percurso e evite as zonas florestais.",
+    "fr": "⚠️ *Tous les sentiers classés de Madère sont fermés aujourd'hui.* L'IFCN les a fermés : "
+          "ne faites aucun sentier et évitez les zones forestières.",
+    "de": "⚠️ *Alle klassifizierten Wanderwege auf Madeira sind heute gesperrt.* Das IFCN hat sie gesperrt: "
+          "Gehen Sie keinen Weg und meiden Sie Waldgebiete.",
+    "pl": "⚠️ *Wszystkie sklasyfikowane szlaki na Maderze są dziś zamknięte.* IFCN je zamknął: "
+          "nie wchodź na żaden szlak i unikaj terenów leśnych.",
 }
 STORM_TOLD_S = 6 * 3600   # told within the last 6 h -> don't repeat it on every reply
 

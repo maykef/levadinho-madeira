@@ -184,7 +184,7 @@ def board_lines(d):
         return [f"- All {len(d['trails'])} trails are closed: {d['trails'][0]['note']['en']} (IFCN notice: {a.get('ifcn_source')})"]
     out = []
     if a.get("blanket") == "announced":
-        out.append(f"- IFCN has announced that all classified trails will close on {a.get('blanket_from')} because of IPMA weather warnings (IFCN notice: {a.get('ifcn_source')}).")
+        out.append(f"- IFCN has announced that all classified trails will close on {a.get('blanket_from')} (IFCN notice: {a.get('ifcn_source')}).")
     if a.get("ipma_level"):
         out.append(f"- IPMA {a['ipma_level']} weather warning for Madeira {'in force' if a.get('ipma_now') else 'in the next 24 hours'} ({', '.join(a.get('ipma_types') or [])}). During past warnings IFCN closed all classified trails: check IFCN before walking.")
     by = {"CLOSED": [], "PARTIAL": []}
