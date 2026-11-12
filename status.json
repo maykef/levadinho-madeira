@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 12.8,
-    "humidity": 63,
+    "temp_c": 13.3,
+    "humidity": 74,
     "in_cloud": false,
-    "wind_kmh": 9,
+    "wind_kmh": 16,
     "wind_strong": false
   },
-  "stamp": "2026-11-12 14:00",
+  "stamp": "2026-11-12 15:00",
   "date": "2026-11-12",
   "source": {
     "name": "IFCN",
@@ -34,7 +34,7 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": 13,
-      "wind": 9,
+      "wind": 16,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -57,16 +57,16 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 22,
-      "wind": 11,
+      "temp": 21,
+      "wind": 8,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 24,
-      "wind": 12,
+      "temp": 25,
+      "wind": 10,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -152,7 +152,7 @@
       "popular": true,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 22,
+      "temp": 21,
       "page": "/sao-lourenco/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
@@ -332,7 +332,7 @@
       "popular": false,
       "status": "CLOSED",
       "ifcn_status": "OPEN",
-      "temp": 24,
+      "temp": 25,
       "page": "/caminho-real-do-monte/",
       "note": {
         "pt": "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
