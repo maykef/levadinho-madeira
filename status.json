@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 10.1,
-    "humidity": 88,
-    "in_cloud": false,
-    "wind_kmh": 11,
+    "temp_c": 8.7,
+    "humidity": 93,
+    "in_cloud": true,
+    "wind_kmh": 25,
     "wind_strong": false
   },
-  "stamp": "2026-11-12 18:20",
+  "stamp": "2026-11-12 18:40",
   "date": "2026-11-12",
   "source": {
     "name": "IFCN",
@@ -33,15 +33,15 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 10,
-      "wind": 11,
+      "temp": 9,
+      "wind": 25,
       "rain": 0.0,
-      "in_cloud": false
+      "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 19,
+      "temp": 17,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -65,8 +65,8 @@
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 23,
-      "wind": 5,
+      "temp": 22,
+      "wind": 4,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -79,7 +79,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 10,
+      "temp": 9,
       "page": "/pr1/"
     },
     {
@@ -99,7 +99,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 10,
+      "temp": 9,
       "page": "/pico-ruivo/"
     },
     {
@@ -109,7 +109,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 19,
+      "temp": 17,
       "page": "/caldeirao-verde/"
     },
     {
@@ -129,7 +129,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 10,
+      "temp": 9,
       "page": "/balcoes/"
     },
     {
@@ -149,7 +149,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 10,
+      "temp": 9,
       "page": "/levada-do-furado/"
     },
     {
@@ -159,7 +159,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 19,
+      "temp": 17,
       "page": "/levada-do-rei/"
     },
     {
@@ -179,7 +179,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 19,
+      "temp": 17,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -189,7 +189,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 10,
+      "temp": 9,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -199,7 +199,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 10,
+      "temp": 9,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -209,7 +209,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 10,
+      "temp": 9,
       "page": "/vereda-do-burro/"
     },
     {
@@ -219,7 +219,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 23,
+      "temp": 22,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -229,7 +229,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 10,
+      "temp": 9,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -239,7 +239,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 19,
+      "temp": 17,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -289,7 +289,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 10,
+      "temp": 9,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -439,7 +439,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 19,
+      "temp": 17,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "Um Caminho para todos.",
