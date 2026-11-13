@@ -22,12 +22,46 @@ QFILE = os.environ.get("REGRESSION_QUESTIONS", os.path.join(HERE, "regression_qu
 QUESTIONS = json.load(open(QFILE, encoding="utf-8"))["questions"]
 
 
+def live_status():
+    try:
+        return json.load(open(os.path.join(ROOT, "status.json"), encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def trail_status(st, code):
+    return next((t.get("status") for t in st.get("trails") or [] if t.get("code") == code), None)
+
+
+def lead_heads(st):
+    """Bold heads of the closure / warnings banners the bot puts before its answer (brain.storm_lead), all languages."""
+    a = st.get("alert") or {}
+    return [x["head"] for k in ("partial", "ahead_text") for x in ((a.get(k) or {}).get("text", a.get(k)) or {}).values()
+            if isinstance(x, dict) and x.get("head")]
+
+
+def without_lead(answer, heads):
+    """The answer minus the leading banner paragraphs (owner, 2026-11-13: the many-trails-closed banner names
+    'PR1 … (Pico do Areeiro)', which failed must_not checks on answers that were right)."""
+    paras = answer.split("\n\n")
+    while paras and (paras[0].startswith(("⚠️ *", "🌧️ *")) or any(h in paras[0] for h in heads)):
+        paras.pop(0)
+    return "\n\n".join(paras)
+
+
 def score(results):
     passed = 0
     current = {q["id"]: q for q in QUESTIONS}  # always score against today's checks
+    st = live_status()
+    heads = lead_heads(st)
     for r in results:
         r.update({k: current[r["id"]].get(k, []) for k in ("must", "must_not")} if r["id"] in current else {})
-        a = r["answer"] or ""
+        # a question written for an open / partly open trail: its "when_closed" checks apply while the trail was
+        # CLOSED at run time (owner, 2026-11-13: PR1 closed, the "Pedra Rija" checks failed right answers)
+        wc = (current.get(r["id"]) or {}).get("when_closed")
+        if wc and (r.get("trail_status_at_run") or trail_status(st, wc["trail"])) == "CLOSED":
+            r["must"], r["must_not"] = wc.get("must", []), wc.get("must_not", [])
+        a = without_lead(r["answer"] or "", heads)   # the bot's own answer, both ways
         miss = [p for p in r.get("must", []) if not re.search(p, a, re.I)]
         bad = [p for p in r.get("must_not", []) if re.search(p, a, re.I)]
         r["ok"] = not miss and not bad and not r.get("error")
@@ -54,6 +88,8 @@ def baseline(out, mode="baseline"):
         store.set_user(user, lang=q["lang"], consent="yes", state="ready", base=q.get("base", "Funchal"), source=q.get("source"))
         t = time.time()
         r = dict(q)
+        if q.get("when_closed"):
+            r["trail_status_at_run"] = trail_status(live_status(), q["when_closed"]["trail"])
         try:
             for turn in q.get("before", []):  # a follow-up: the earlier turns of the real chat, on the same visitor
                 brain.respond(user, turn, q["lang"], {"events": []}, brain.classify(turn))

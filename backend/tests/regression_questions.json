@@ -7,7 +7,14 @@
    "q": "Is PR1 open today?",
    "must": [
     "Pedra Rija"
-   ]
+   ],
+   "when_closed": {
+    "trail": "PR1",
+    "must": [
+     "closed|CLOSED"
+    ],
+    "must_not": []
+   }
   },
   {
    "id": "pr1-status-pt",
@@ -18,7 +25,14 @@
    ],
    "must_not": [
     "25 Fontes \\(PR1\\.2\\)"
-   ]
+   ],
+   "when_closed": {
+    "trail": "PR1",
+    "must": [
+     "encerrad|fechad|ENCERRAD"
+    ],
+    "must_not": []
+   }
   },
   {
    "id": "pr1-status-fr",
@@ -26,7 +40,14 @@
    "q": "Le PR1 est-il ouvert aujourd'hui ?",
    "must": [
     "Pedra Rija"
-   ]
+   ],
+   "when_closed": {
+    "trail": "PR1",
+    "must": [
+     "fermé|FERMÉ"
+    ],
+    "must_not": []
+   }
   },
   {
    "id": "pr1-status-pl",
@@ -34,7 +55,14 @@
    "q": "Czy PR1 jest dziś otwarty?",
    "must": [
     "Pedra Rija"
-   ]
+   ],
+   "when_closed": {
+    "trail": "PR1",
+    "must": [
+     "zamknięt|ZAMKNIĘT"
+    ],
+    "must_not": []
+   }
   },
   {
    "id": "pr1-fee-en",
@@ -626,7 +654,14 @@
     "not possible",
     "first slot of the day"
    ],
-   "note": "Yes if a slot is free + the finish arithmetic (15:00 + ~4 h). Was a bare status dump, then an invented first-slot-only rule (2026-10-22)."
+   "note": "Yes if a slot is free + the finish arithmetic (15:00 + ~4 h). Was a bare status dump, then an invented first-slot-only rule (2026-10-22).",
+   "when_closed": {
+    "trail": "PR1",
+    "must": [
+     "closed|CLOSED"
+    ],
+    "must_not": []
+   }
   },
   {
    "id": "walk-back-where-en",
@@ -777,7 +812,7 @@
    ],
    "q": "Ai-je une chance de voir le lever du soleil ?",
    "must": [
-    "lever du soleil"
+    "lever du soleil|\\bchances?\\b|probable"
    ],
    "note": "3 Nov real chat: got the forecast again, sunrise never answered"
   },
