@@ -1374,7 +1374,7 @@ WEBCAMS = {  # NetMadeira cameras we grab (seo_research/funchal/webcams/grab.py)
                 "live": "https://www.netmadeira.com/webcams/show/netmadeira/rabacal-madeira"},
     "achada": {"folder": "nm_achada-do-teixeira", "name": "Achada do Teixeira car park",
                "shows": "the Achada do Teixeira car park (start of PR1.2 to Pico Ruivo, where PR1 ends): how full it is, and the cloud",
-               "trails": ["PR1.2", "PR1"], "places": ["achada do teixeira", "pico ruivo"],
+               "trails": ["PR1.2", "PR1"], "places": ["achada do teixeira", "pico ruivo"],  # PR1 second: it ends here
                "live": "https://www.netmadeira.com/webcams/show/netmadeira/achada-do-teixeira"},
     "areeiro": {"folder": "nm_pico-do-arieiro", "name": "Pico do Areeiro",
                 "shows": "the view from Pico do Areeiro over the valley and a corner of the car park: whether the summit is above or in the cloud",
@@ -1387,19 +1387,40 @@ WEBCAMS = {  # NetMadeira cameras we grab (seo_research/funchal/webcams/grab.py)
 
 
 def latest_frame(cam_id):
-    """(path, taken datetime) of the newest grabbed frame of one camera, or (None, None)."""
+    """(path, taken datetime) of the newest REAL frame of one camera, or (None, None). A camera that stops sending
+    leaves NetMadeira serving its last picture (or an "image not found" card) in every new slot, and our grabber
+    saves it again each time with a fresh file time: Areeiro froze on 10 Nov 10:00 and the bot sent that picture as
+    "from 04:50" on 13 Nov. Real frames are never byte-identical, so a frame whose content repeats is not new."""
+    import hashlib
     folder = os.path.join(WEBCAM_DIR, WEBCAMS[cam_id]["folder"])
     days = sorted((d for d in os.listdir(folder) if re.fullmatch(r"\d{4}-\d{2}-\d{2}", d)), reverse=True) if os.path.isdir(folder) else []
+    frames = []
     for d in days[:2]:
-        frames = sorted((f for f in os.listdir(os.path.join(folder, d)) if f.endswith(".jpg")),
-                        key=lambda f: os.path.getmtime(os.path.join(folder, d, f)), reverse=True)
-        if frames:
-            path = os.path.join(folder, d, frames[0])
-            return path, datetime.datetime.fromtimestamp(os.path.getmtime(path), MADEIRA)
+        frames += [os.path.join(folder, d, f) for f in os.listdir(os.path.join(folder, d)) if f.endswith(".jpg")]
+    frames.sort(key=lambda f: (os.path.basename(os.path.dirname(f)), os.path.basename(f)), reverse=True)
+    digest = {f: hashlib.md5(open(f, "rb").read()).hexdigest() for f in frames}
+    seen = {}
+    for h in digest.values():
+        seen[h] = seen.get(h, 0) + 1
+    for f in frames:
+        if seen[digest[f]] == 1:   # the slot's own time (folder + HHMMSS, camera time = Madeira), not when we grabbed it
+            m = re.fullmatch(r"(\d{2})(\d{2})(\d{2})\.jpg", os.path.basename(f))
+            day = os.path.basename(os.path.dirname(f))
+            if m:
+                return f, datetime.datetime.strptime(day + "".join(m.groups()), "%Y-%m-%d%H%M%S").replace(tzinfo=MADEIRA)
+            return f, datetime.datetime.fromtimestamp(os.path.getmtime(f), MADEIRA)
     return None, None
 
 
-def webcam(trail: str | None = None, place: str | None = None) -> dict:
+# a closed trail behind the camera goes first in the reply (13 Nov: Areeiro picture sent, PR1 CLOSED never said)
+CLOSED_LINE = {"en": "{name} ({code}) is CLOSED on IFCN's official trail-warnings list.",
+               "pt": "{name} ({code}): ENCERRADO na lista oficial de avisos do IFCN.",
+               "fr": "{name} ({code}) : FERMÉ sur la liste officielle des avis de l'IFCN.",
+               "de": "{name} ({code}): GESCHLOSSEN laut der offiziellen Hinweisliste des IFCN.",
+               "pl": "{name} ({code}): ZAMKNIĘTY według oficjalnej listy komunikatów IFCN."}
+
+
+def webcam(trail: str | None = None, place: str | None = None, lang: str = "en") -> dict:
     """The latest picture from the webcam at a trailhead or car park (Rabaçal, Achada do Teixeira, Pico do Areeiro):
     use it for 'is the car park full?', 'is there parking now?', 'is it cloudy up there now?'. Returns the picture's
     URL, when it was taken and what the camera shows; no camera for that place → says so."""
@@ -1412,7 +1433,8 @@ def webcam(trail: str | None = None, place: str | None = None) -> dict:
         want = by_place(place)
     if trail and not want:
         code = resolve_trail(trail)
-        want = [k for k, c in WEBCAMS.items() if code and code in c["trails"]]
+        # the camera at the trail's start first: PR1 → Areeiro, not Achada where it ends (13 Nov)
+        want = sorted((k for k, c in WEBCAMS.items() if code and code in c["trails"]), key=lambda k: WEBCAMS[k]["trails"].index(code))
         if not want and code:   # a trail starting or ending at a camera's place
             r = _q("SELECT start_name, end_name FROM kb.trail WHERE code = %s", (code,))
             if r:
@@ -1421,21 +1443,29 @@ def webcam(trail: str | None = None, place: str | None = None) -> dict:
             want = by_place(trail)
     if not want:
         return {"webcams": [], "note": "We have no webcam for that place. Cameras: Rabaçal car park, Achada do Teixeira car park, Pico do Areeiro."}
+    lang = _lang(lang)
     now = datetime.datetime.now(MADEIRA)
-    out = []
+    out, closed = [], None
     for k in want[:1]:
         c = WEBCAMS[k]
         path, taken = latest_frame(k)
-        item = {"camera": c["name"], "shows": c["shows"], "live_view": c["live"], "source": _source("netmadeira"),
+        item = {"camera": c["name"], "shows": c["shows"], "source": _source("netmadeira"),
                 **({"advice": c["advice"]} if c.get("advice") else {})}
-        if path:
-            age = int((now - taken).total_seconds() // 60)
-            item.update(image_url=f"{CAM_BASE}/{k}.jpg", taken=taken.strftime("%H:%M"), minutes_ago=age,
-                        **({"note": "This picture is more than 2 hours old."} if age > 120 else {}))
-        else:
-            item["note"] = "No recent picture stored; the live view link works."
+        age = int((now - taken).total_seconds() // 60) if path else None
+        if path and age <= 120:
+            item.update(image_url=f"{CAM_BASE}/{k}.jpg", taken=taken.strftime("%H:%M"), minutes_ago=age)
+        else:   # frozen or down: no picture at all, never an old one passed off as new
+            item["note"] = ("This camera is not sending pictures at the moment: say so in one line, then give the advice."
+                            if c.get("advice") else "This camera is not sending pictures at the moment: say so in one line.")
+            if c.get("advice", "").startswith("The camera shows only"):   # no picture: the car-park sentence goes
+                item["advice"] = c["advice"].split(": assume it is busy. ", 1)[-1]
+        code = resolve_trail(trail) if trail else None
+        code = code if code in c["trails"] else c["trails"][0]
+        r = _q("SELECT t.name, s.status FROM kb.trail t JOIN kb.trail_status s USING (code) WHERE t.code = %s", (code,))
+        if r and r[0]["status"] == "CLOSED":
+            closed = CLOSED_LINE[lang].format(name=r[0]["name"], code=code)
         out.append(item)
-    return {"webcams": out}
+    return {"webcams": out, **({"trail_closed": closed} if closed else {})}
 
 
 def search(text: str, lang: str = "en", limit: int = 5) -> dict:

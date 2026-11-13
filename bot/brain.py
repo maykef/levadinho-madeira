@@ -1237,6 +1237,21 @@ def answer_tools(user, text, lang, rule, meta=None):
         meta["answer"]["guard"] = changes
         meta["events"].append(("answer_sent", {"lang": lang, "latency_ms": meta["answer"]["latency_ms"],
                                                "guard": changes}))
+    closed = next((t["trail_closed"] for t in trace if t.get("trail_closed")), None)
+    word = next((w for w in ("CLOSED", "ENCERRADO", "FERMÉ", "GESCHLOSSEN", "ZAMKNIĘTY") if closed and w in closed), "")
+    paras = reply.strip().split("\n\n")
+    if closed and word not in paras[0]:
+        # the webcam's trail is CLOSED: that comes first, whatever the model wrote (13 Nov, Areeiro); the model's own
+        # closure paragraph further down moves up rather than appearing twice
+        own = next((p for p in paras[1:] if word in p), None)
+        reply = "\n\n".join([own or closed] + [p for p in paras if p is not own])
+    adv = next((t["advice"] for t in trace if t.get("advice")), None)
+    if adv and lang == "en" and not re.search(r"\+351|€", reply):
+        # the camera's advice is standard (owner, 13 Nov); the model dropped it when the camera was down. English only:
+        # it is written in English, other languages keep the model's own copy
+        adv = re.sub(r"\s*\(Levadinho's guide\)\.?$", ".", adv)
+        cut = re.search(r"\n🥾 ", reply)
+        reply = (reply[:cut.start()].rstrip() + "\n\n" + adv + "\n" + reply[cut.start():]) if cut else reply.rstrip() + "\n\n" + adv
     img = next((t["image_url"] for t in trace if t.get("image_url")), None)
     if img:  # the picture is sent as a picture after the reply (with_media): no raw link in the text
         reply = "\n".join(l for l in reply.split("\n") if img not in l).strip() or reply

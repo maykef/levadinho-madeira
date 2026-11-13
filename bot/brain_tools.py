@@ -279,9 +279,11 @@ def _how(name, args, result, lang, q=""):
     elif name == "weather_now":
         h.append("Say when it was measured (\"measured at\" + observed_time), never \"right now\".")
     elif name == "webcam":
-        h.append("The picture is sent after your reply: say in one line which camera it is and when the picture was "
-                 "taken (e.g. \"Here's the Rabaçal car park, picture from 17:26\"). Never describe the picture."
-                 + (" Then give the camera's advice." if '"advice"' in blob else ""))
+        h.append(("The picture is sent after your reply: say in one line which camera it is and when the picture was "
+                  "taken (e.g. \"Here's the Rabaçal car park, picture from 17:26\"). Never describe the picture."
+                  if '"image_url"' in blob else
+                  "There is no picture: say in one line that this camera is not sending pictures at the moment.")
+                 + (" Then give the camera's advice, all of it, in the reply's language." if '"advice"' in blob else ""))
     elif name in ("places", "place") and re.search(r"cable|monte|telef", blob[:4000], re.I):
         h.append("Monte: the cable car from the Old Town (Zona Velha) is the way up; the bus is the way down after the "
                  "cable car stops. Never answer Monte with taxis.")
@@ -532,6 +534,11 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                 imgs = [w["image_url"] for w in result.get("webcams", []) if w.get("image_url")]
                 if imgs:
                     trace[-1]["image_url"] = imgs[0]
+                if result.get("trail_closed"):   # brain.answer_tools puts it first
+                    trace[-1]["trail_closed"] = result["trail_closed"]
+                adv = next((w["advice"] for w in result.get("webcams", []) if w.get("advice")), None)
+                if adv:   # the camera's standard advice, added by brain.answer_tools when the model leaves it out
+                    trace[-1]["advice"] = adv
             messages.append({"role": "tool", "tool_call_id": c.get("id"), "content": out})
     # out of rounds: one last call without tools so the model has to answer from what it has
     messages.append({"role": "user", "content": "(Answer now from the tool results above; say you don't know what they don't cover.)"})
