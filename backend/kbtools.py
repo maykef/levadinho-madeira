@@ -1281,7 +1281,7 @@ def places(category: str | None = None, neighbourhood: str | None = None, near_p
                    "for today's weather), every place listed with its open_today hours, all groups, a few words on why "
                    "each group suits today. Monte is one outing: cable car up from the Old Town, Monte Palace, the "
                    "toboggan down, the garden cable car to the Botanical Garden ("
-                   + {"sunny": "sunny and warm: the lidos first, then gardens and Monte", 
+                   + {"sunny": "sunny and warm: the lidos first, then gardens and Monte",
                       "cloudy": "cloudy but dry: Monte (cable car, Monte Palace, toboggan, Botanical Garden) is "
                                 "good; the sea pools last, for a swim if they like",
                       "rainy": "rain: indoor places, the museums first"}[mode]
