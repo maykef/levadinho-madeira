@@ -12,23 +12,23 @@
     en: { closed: "All classified trails are closed.", note: "IFCN has closed all classified trails (communiqué on IFCN's homepage).",
           reopen: " IFCN says they reopen tomorrow.", announced: "IFCN has announced that all classified trails will close{w}.",
           tomorrow: " tomorrow", ipma: "IPMA {lvl} warning for Madeira{w}. During past warnings IFCN closed all classified trails: check before you go.",
-          now: " in force", soon: " in the next 24 hours", lvl: { yellow: "yellow", orange: "orange", red: "red" }, src: "Sources" },
+          now: " in force", soon: " in the next 24 hours", lvl: { yellow: "yellow", orange: "orange", red: "red" }, src: "Sources", close: "Close" },
     pt: { closed: "Todos os percursos classificados estão encerrados.", note: "O IFCN encerrou todos os percursos pedestres classificados (comunicado na página inicial do IFCN).",
           reopen: " Reabrem amanhã, segundo o IFCN.", announced: "O IFCN anunciou o encerramento de todos os percursos pedestres classificados{w}.",
           tomorrow: " amanhã", ipma: "Aviso {lvl} do IPMA para a Madeira{w}. Em avisos anteriores o IFCN encerrou todos os percursos classificados: confirme antes de ir.",
-          now: " em vigor", soon: " nas próximas 24 horas", lvl: { yellow: "amarelo", orange: "laranja", red: "vermelho" }, src: "Fontes" },
+          now: " em vigor", soon: " nas próximas 24 horas", lvl: { yellow: "amarelo", orange: "laranja", red: "vermelho" }, src: "Fontes", close: "Fechar" },
     fr: { closed: "Tous les sentiers classés sont fermés.", note: "L'IFCN a fermé tous les sentiers classés (communiqué sur la page d'accueil de l'IFCN).",
           reopen: " Selon l'IFCN, ils rouvrent demain.", announced: "L'IFCN a annoncé la fermeture de tous les sentiers classés{w}.",
           tomorrow: " demain", ipma: "Avis {lvl} de l'IPMA pour Madère{w}. Lors d'avis précédents, l'IFCN a fermé tous les sentiers classés : vérifiez avant de partir.",
-          now: " en vigueur", soon: " dans les prochaines 24 heures", lvl: { yellow: "jaune", orange: "orange", red: "rouge" }, src: "Sources" },
+          now: " en vigueur", soon: " dans les prochaines 24 heures", lvl: { yellow: "jaune", orange: "orange", red: "rouge" }, src: "Sources", close: "Fermer" },
     de: { closed: "Alle klassifizierten Wege sind gesperrt.", note: "Das IFCN hat alle klassifizierten Wege gesperrt (Mitteilung auf der Startseite des IFCN).",
           reopen: " Laut IFCN öffnen sie morgen wieder.", announced: "Das IFCN hat angekündigt, alle klassifizierten Wege{w} zu sperren.",
           tomorrow: " morgen", ipma: "IPMA-Warnstufe {lvl} für Madeira{w}. Bei früheren Warnungen hat das IFCN alle klassifizierten Wege gesperrt: Prüfen Sie vor dem Losgehen.",
-          now: " in Kraft", soon: " in den nächsten 24 Stunden", lvl: { yellow: "Gelb", orange: "Orange", red: "Rot" }, src: "Quellen" },
+          now: " in Kraft", soon: " in den nächsten 24 Stunden", lvl: { yellow: "Gelb", orange: "Orange", red: "Rot" }, src: "Quellen", close: "Schließen" },
     pl: { closed: "Wszystkie sklasyfikowane szlaki są zamknięte.", note: "IFCN zamknął wszystkie sklasyfikowane szlaki (komunikat na stronie głównej IFCN).",
           reopen: " Według IFCN zostaną otwarte jutro.", announced: "IFCN zapowiedział zamknięcie wszystkich sklasyfikowanych szlaków{w}.",
           tomorrow: " jutro", ipma: "Ostrzeżenie IPMA ({lvl}) dla Madery{w}. Podczas wcześniejszych ostrzeżeń IFCN zamykał wszystkie sklasyfikowane szlaki: sprawdź przed wyjściem.",
-          now: " obowiązuje", soon: " w ciągu najbliższych 24 godzin", lvl: { yellow: "żółte", orange: "pomarańczowe", red: "czerwone" }, src: "Źródła" }
+          now: " obowiązuje", soon: " w ciągu najbliższych 24 godzin", lvl: { yellow: "żółte", orange: "pomarańczowe", red: "czerwone" }, src: "Źródła", close: "Zamknij" }
   };
   // "Bad weather coming" (owner, 2026-11-08): status.json "outlook" = IPMA's forecast / later warnings for the next days
   // (scripts/ipma_forecast.py). Amber, above everything, before anything closes. Day names, never dates.
@@ -116,9 +116,22 @@
     var el = document.createElement("div");
     el.id = "stormAlert";
     el.setAttribute("role", "alert");
-    el.style.cssText = "margin:0;padding:12px 16px;font-size:15px;line-height:1.45;border-bottom:3px solid " +
+    // Fixed to the bottom of the screen (14 Nov): inserted at the top after load it pushed the whole page down
+    // (Lighthouse CLS 0.14 of the homepage's 0.19). A fixed bar moves nothing; the body gets matching bottom padding
+    // (below the fold, so no shift either) and the × hides it for the rest of the visit, until the wording changes.
+    el.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:9999;max-height:40vh;overflow:auto;margin:0;" +
+      "padding:12px 44px 12px 16px;font-size:15px;line-height:1.45;box-shadow:0 -2px 10px rgba(0,0,0,.18);border-top:3px solid " +
       (red ? "#8f1d14;background:#fbe3df;color:#5a120c" : "#a8660a;background:#fff1d6;color:#4d3205");
     el.innerHTML = html + (src.length ? ' <span style="font-size:13px;opacity:.85">(' + L.src + ": " + src.join(" · ") + ")</span>" : "");
+    var x = document.createElement("button");
+    x.type = "button"; x.textContent = "×"; x.setAttribute("aria-label", L.close || "Close");
+    x.style.cssText = "position:absolute;top:6px;right:8px;border:0;background:none;color:inherit;font-size:24px;line-height:1;cursor:pointer;padding:4px 8px";
+    x.onclick = function () {
+      el.parentNode.removeChild(el); document.body.style.paddingBottom = "";
+      try { sessionStorage.setItem("stormAlertHidden", el.getAttribute("data-key")); } catch (e) {}
+    };
+    el.appendChild(x);
+    el.setAttribute("data-key", String(html.length) + ":" + html.slice(0, 80));
     return el;
   }
 
@@ -144,7 +157,10 @@
       if (d) closuresMenu(d.alert);
       if (!d || (!d.alert && !d.outlook) || document.getElementById("stormAlert")) return;
       var el = banner(d.alert, d.outlook);
-      if (el) document.body.insertBefore(el, document.body.firstChild);
+      if (!el) return;
+      try { if (sessionStorage.getItem("stormAlertHidden") === el.getAttribute("data-key")) return; } catch (e) {}
+      document.body.appendChild(el);
+      document.body.style.paddingBottom = el.offsetHeight + "px";
     })
     .catch(function () { /* no banner without data */ });
 })();
