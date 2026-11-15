@@ -1086,7 +1086,14 @@ def closures(since: str | None = None, lang: str = "en") -> dict:
                       SELECT day, code, status, source, lag(status) OVER (PARTITION BY code ORDER BY day) prev
                       FROM kb.status_day) x
                     WHERE prev IS NOT NULL AND prev <> status AND day >= %s ORDER BY day, code""", (since,))
-    return {"not_open_now": [{"code": r["code"], "name": r["name"], "status": r["status"], "note": _pick(r["note"], lang)} for r in now],
+    # 15 Nov tests: given only the closed list, the model answered "Are all the trails closed?" with "Yes, all the
+    # trails on the IFCN list are closed" while 17 of 37 were open: say how many are open, and which (with names: given
+    # bare codes it named them itself, "PR5 (Levada do Furado)")
+    opn = [{"code": r["code"], "name": r["name"]} for r in _q(
+        "SELECT t.code, t.name FROM kb.trail_status s JOIN kb.trail t USING (code) WHERE s.status = 'OPEN' ORDER BY t.code")]
+    return {"counts_now": {"open": len(opn), "not_open": len(now), "total": len(opn) + len(now)},
+            "open_now": opn,
+            "not_open_now": [{"code": r["code"], "name": r["name"], "status": r["status"], "note": _pick(r["note"], lang)} for r in now],
             "changes": [{"date": r["day"].isoformat(), "code": r["code"], "from": r["prev"], "to": r["status"]} for r in changes],
             "note": "History before 2026-09-30 comes from Visit Madeira's index; from then on from IFCN's warnings list.",
             "source": _source("ifcn_warnings")}
@@ -1701,11 +1708,26 @@ def _fc5_live():
     return ipma_forecast.fetch()
 
 
+_STATUS_URL = os.environ.get("STATUS_URL", "https://levadinho-madeira.com/status.json")
+_status_cache = {"at": 0.0, "data": None}
+
+
 def _fc5_status():
+    """The live site's status.json (what visitors see), kept 5 min; the local copy only if the site can't be read.
+    15 Nov real chat: the local copy in the main checkout was a week old (8 Nov blanket closure, 37 of 37 closed)
+    and the bot told a visitor every classified trail was closed while 17 were open."""
+    if _status_cache["data"] and time.time() - _status_cache["at"] < 300:
+        return _status_cache["data"]
     try:
-        return json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "status.json")))
-    except (OSError, ValueError):
-        return {}
+        with urllib.request.urlopen(_STATUS_URL, timeout=8) as r:
+            data = json.load(r)
+    except Exception:
+        try:
+            data = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "status.json")))
+        except (OSError, ValueError):
+            return _status_cache["data"] or {}
+    _status_cache.update(at=time.time(), data=data)
+    return data
 
 
 def _fc5_warnings(ws, w, today):
