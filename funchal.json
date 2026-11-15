@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-14T07:15+00:00",
+ "stamp": "2026-11-15T07:24+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-14",
-   "type": "saturday",
-   "holiday": null,
-   "bus": "saturday",
-   "sunrise": "07:36",
-   "sunset": "18:08",
-   "weather": {
-    "tmin": 18,
-    "tmax": 23,
-    "rain": 57,
-    "wtype": 7,
-    "uv": 3.7
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-15",
    "type": "sunday",
@@ -28,9 +12,9 @@
    "weather": {
     "tmin": 18,
     "tmax": 23,
-    "rain": 18,
+    "rain": 16,
     "wtype": 3,
-    "uv": 3.4
+    "uv": 3.3
    },
    "fair": null
   },
@@ -44,9 +28,9 @@
    "weather": {
     "tmin": 18,
     "tmax": 24,
-    "rain": 65,
-    "wtype": 7,
-    "uv": 3.8
+    "rain": 37,
+    "wtype": 3,
+    "uv": 2.3
    },
    "fair": null
   },
@@ -59,10 +43,10 @@
    "sunset": "18:06",
    "weather": {
     "tmin": 20,
-    "tmax": 24,
-    "rain": 40,
-    "wtype": 7,
-    "uv": 4.0
+    "tmax": 25,
+    "rain": 51,
+    "wtype": 3,
+    "uv": 3.9
    },
    "fair": null
   },
@@ -76,9 +60,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 37,
+    "rain": 18,
     "wtype": 3,
-    "uv": null
+    "uv": 3.1
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:40",
    "sunset": "18:05",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 73,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": {
     "theme": "gastronomy",
     "pt": "Gastronomia",
@@ -187,18 +177,19 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-28",
+   "type": "saturday",
+   "holiday": null,
+   "bus": "saturday",
+   "sunrise": "07:49",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
-  {
-   "title": "11th Madeira International Mandolin Festival",
-   "venue": "",
-   "start": "2026-10-23",
-   "end": "2026-11-14",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/10th-madeira-international-mandolin-festival/",
-   "src": "eventsmadeira.com"
-  },
   {
    "title": "Mandolin Orchestra Weekly Concerts",
    "venue": "",
@@ -215,15 +206,6 @@
    "end": "2026-11-15",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/madeira-piano-fest/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Solo Wind Quintet | OCM",
-   "venue": "",
-   "start": "2026-11-14",
-   "end": "2026-11-14",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/solo-wind-quintet-ocm/",
    "src": "eventsmadeira.com"
   },
   {
@@ -255,11 +237,11 @@
   }
  ],
  "sea": {
-  "date": "2026-11-14",
+  "date": "2026-11-15",
   "sst": 22,
   "wave": [
-   0.8,
-   1.1
+   0.7,
+   0.8
   ],
   "warnings": []
  },
@@ -1360,8 +1342,8 @@
  "ok": {
   "weather": true,
   "sea": true,
-  "fair": true,
-  "events": true,
+  "fair": false,
+  "events": false,
   "lidos": true,
   "gtfs": true
  },
