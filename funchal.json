@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-15T08:20+00:00",
+ "stamp": "2026-11-16T07:30+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-15",
-   "type": "sunday",
-   "holiday": null,
-   "bus": "sunday",
-   "sunrise": "07:37",
-   "sunset": "18:07",
-   "weather": {
-    "tmin": 18,
-    "tmax": 23,
-    "rain": 16,
-    "wtype": 3,
-    "uv": 3.3
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-16",
    "type": "weekday",
@@ -26,11 +10,11 @@
    "sunrise": "07:38",
    "sunset": "18:07",
    "weather": {
-    "tmin": 18,
+    "tmin": 19,
     "tmax": 24,
-    "rain": 37,
-    "wtype": 3,
-    "uv": 2.3
+    "rain": 41,
+    "wtype": 7,
+    "uv": 1.7
    },
    "fair": null
   },
@@ -44,9 +28,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 51,
+    "rain": 10,
     "wtype": 3,
-    "uv": 3.9
+    "uv": 3.8
    },
    "fair": null
   },
@@ -58,11 +42,11 @@
    "sunrise": "07:39",
    "sunset": "18:06",
    "weather": {
-    "tmin": 20,
+    "tmin": 19,
     "tmax": 25,
-    "rain": 18,
-    "wtype": 3,
-    "uv": 3.1
+    "rain": 8,
+    "wtype": 2,
+    "uv": 3.9
    },
    "fair": null
   },
@@ -74,11 +58,11 @@
    "sunrise": "07:40",
    "sunset": "18:05",
    "weather": {
-    "tmin": 20,
+    "tmin": 19,
     "tmax": 24,
-    "rain": 73,
+    "rain": 82,
     "wtype": 7,
-    "uv": null
+    "uv": 3.4
    },
    "fair": {
     "theme": "gastronomy",
@@ -97,7 +81,13 @@
    "bus": "weekday",
    "sunrise": "07:41",
    "sunset": "18:05",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 24,
+    "rain": 71,
+    "wtype": 6,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -187,6 +177,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-29",
+   "type": "sunday",
+   "holiday": null,
+   "bus": "sunday",
+   "sunrise": "07:49",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -197,15 +197,6 @@
    "end": "2026-11-25",
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "MADEIRA PIANO FEST",
-   "venue": "",
-   "start": "2026-11-07",
-   "end": "2026-11-15",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/madeira-piano-fest/",
    "src": "eventsmadeira.com"
   },
   {
@@ -237,11 +228,11 @@
   }
  ],
  "sea": {
-  "date": "2026-11-15",
+  "date": "2026-11-16",
   "sst": 22,
   "wave": [
-   0.7,
-   0.8
+   0.6,
+   0.9
   ],
   "warnings": []
  },
