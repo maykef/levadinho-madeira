@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-16T07:30+00:00",
+ "stamp": "2026-11-17T08:42+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-16",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:38",
-   "sunset": "18:07",
-   "weather": {
-    "tmin": 19,
-    "tmax": 24,
-    "rain": 41,
-    "wtype": 7,
-    "uv": 1.7
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-17",
    "type": "weekday",
@@ -26,11 +10,11 @@
    "sunrise": "07:39",
    "sunset": "18:06",
    "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 10,
+    "tmin": 21,
+    "tmax": 26,
+    "rain": 4,
     "wtype": 3,
-    "uv": 3.8
+    "uv": 4.0
    },
    "fair": null
   },
@@ -42,11 +26,11 @@
    "sunrise": "07:39",
    "sunset": "18:06",
    "weather": {
-    "tmin": 19,
-    "tmax": 25,
-    "rain": 8,
-    "wtype": 2,
-    "uv": 3.9
+    "tmin": 20,
+    "tmax": 26,
+    "rain": 18,
+    "wtype": 3,
+    "uv": 3.6
    },
    "fair": null
   },
@@ -61,8 +45,8 @@
     "tmin": 19,
     "tmax": 24,
     "rain": 82,
-    "wtype": 7,
-    "uv": 3.4
+    "wtype": 10,
+    "uv": 3.7
    },
    "fair": {
     "theme": "gastronomy",
@@ -84,9 +68,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 24,
-    "rain": 71,
-    "wtype": 6,
-    "uv": null
+    "rain": 86,
+    "wtype": 7,
+    "uv": 3.1
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "saturday",
    "sunrise": "07:42",
    "sunset": "18:04",
-   "weather": null,
+   "weather": {
+    "tmin": 20,
+    "tmax": 25,
+    "rain": 84,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -187,6 +177,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-11-30",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:50",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -200,24 +200,6 @@
    "src": "eventsmadeira.com"
   },
   {
-   "title": "Madeira Ladies Open – W50 Funchal",
-   "venue": "",
-   "start": "2026-11-15",
-   "end": "2026-11-22",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/madeira-ladies-open-w50-funchal/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Atlântida Wind Quintet | OCM",
-   "venue": "",
-   "start": "2026-11-18",
-   "end": "2026-11-18",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/atlantida-wind-quintet-ocm/",
-   "src": "eventsmadeira.com"
-  },
-  {
    "title": "Chamber Music Concert – Legno Duo | OCM",
    "venue": "",
    "start": "2026-11-21",
@@ -228,11 +210,11 @@
   }
  ],
  "sea": {
-  "date": "2026-11-16",
+  "date": "2026-11-17",
   "sst": 22,
   "wave": [
-   0.6,
-   0.9
+   0.7,
+   1.0
   ],
   "warnings": []
  },
