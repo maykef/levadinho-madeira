@@ -21,7 +21,14 @@ ALLOWED_MADEIRA = {"visit", "taxis", "táxis", "radio", "rádio", "governo", "re
 COMPANIES = re.compile(r"\b(beyond madeira|doit madeira|do it madeira|gettohikes|get to hikes|madeira transfers?|"
                        r"happy transfers?|pico transfers|picotransfers|madeira explorers|lido tours|walkme\w*|"
                        r"madeirahiking|madeira hiking|viator|getyourguide|get your guide|civitatis|klook|uber|"
-                       r"madeira adventure kingdom|madeira island tours|hike madeira|true spirit|terras de aventura)\b", re.I)
+                       r"madeira adventure kingdom|madeira island tours|hike madeira|true spirit|terras de aventura|madeira\.best|madeira best)\b", re.I)
+# 18 Nov real chat: "Some operators listed in Visit Madeira's official directories include: - madeira.best: …"
+OPERATOR_LIST = re.compile(r"\b(operators?|companies|empresas|opérateurs|op[ée]rateurs|anbieter|unternehmen|firmy|przewoźni\w*)\b"
+                           r"[^.\n]{0,80}\b(include|includes|listed|such as|incluem|como|comme|incluent|wie|zum beispiel|takie jak|np\.)",
+                           re.I)
+WEB_NAME = re.compile(r"\b(?:www\.)?([a-z0-9-]+(?:\.[a-z0-9-]+)*)\.(best|com|pt|net|org|eu|de|fr|uk|io|travel|tours)\b", re.I)
+OK_DOMAINS = re.compile(r"madeira\.gov|simplifica|visitmadeira|levadinho|ipma|horariosdofunchal|rodoeste|sam\.pt|cam\.pt|"
+                        r"taxismadeira|aitram|funchal\.pt|apram|ana\.pt|aeroportomadeira|netmadeira|portaldoclima", re.I)
 BRAND = re.compile(r"\b([A-Z][\w'&-]+(?:\s[A-Z][\w'&-]+)*)\s(Transfers?|Tours?|Hikes|Hiking|Excursions|Adventures?|"
                    r"Experiences|Trips|Travel|Shuttles?)\b")
 X_MADEIRA = re.compile(r"\b([A-Z][\w'-]+)\s+Madeira\b")
@@ -115,8 +122,40 @@ def _drop(text, pred):
     return re.sub(r"\n{3,}", "\n\n", "".join(kept)).strip(), dropped
 
 
+# 18 Nov real chats: "When will PR1 reopen?" -> "I don't have information about when it will reopen" (owner: never)
+REOPEN_ASK = re.compile(r"re-?open|open again|reabr|volt\w* a abrir|rouvr|wieder (offen|geöffnet|öffn)|öffnen .*wieder|"
+                        r"ponownie otwar|zostan\w* otwart|kiedy\b.*otwar", re.I)
+NO_INFO = re.compile(r"\b(I|we) (don'?t|do not|cannot|can'?t) (have|give)\b[^.\n]{0,50}\b(date|information|info|forecast|timeline)|"
+                     r"\bn[aã]o (tenho|temos|há)\b[^.\n]{0,40}\b(informa|data|previs)|"
+                     r"\b(je n'ai|nous n'avons) (pas|aucune?)\b[^.\n]{0,40}\b(date|information|pr[ée]vision)|"
+                     r"\b(ich habe|wir haben) keine\b[^.\n]{0,40}\b(datum|information|angabe|prognose)|"
+                     r"\bnie (mam|mamy)\b[^.\n]{0,40}\b(informacj|dat|prognoz)", re.I)
+REOPEN_LINE = {
+    "en": "Whether a closed trail reopens is IFCN's decision, announced on its trail-warnings list: we can't predict it, so book flexibly.",
+    "pt": "A reabertura de um percurso encerrado é decisão do IFCN, anunciada na sua lista de avisos: não a podemos prever, por isso reserve com flexibilidade.",
+    "fr": "La réouverture d'un sentier fermé est une décision de l'IFCN, annoncée sur sa liste d'avis : nous ne pouvons pas la prévoir, réservez donc avec souplesse.",
+    "de": "Ob ein gesperrter Weg wieder öffnet, entscheidet das IFCN auf seiner Hinweisliste: Wir können das nicht vorhersagen, buchen Sie also flexibel.",
+    "pl": "O ponownym otwarciu zamkniętego szlaku decyduje IFCN na swojej liście ostrzeżeń: nie możemy tego przewidzieć, więc rezerwuj elastycznie.",
+}
+# 14 Nov real chat: "And tomorrow" -> "PR1.3 is closed tomorrow according to IFCN" (IFCN's list gives today only)
+TOMORROW_ASK = re.compile(r"tomorrow|amanh[aã]|demain|morgen|jutr", re.I)
+TOMORROW_W = re.compile(r"\b(tomorrow|amanh[aã]|demain|morgen|jutr\w*)\b", re.I)
+STATUS_W = re.compile(r"\b(closed|open|encerrad\w*|fechad\w*|abert\w*|ferm[ée]e?s?|ouvert\w*|gesperrt|geschlossen|geöffnet|offen|"
+                      r"zamkni\w*|otwart\w*)\b", re.I)
+SKY_W = re.compile(r"cloud|nuv|nubl|nuag|wolk|bewölk|chmur|rain|chuv|pluie|regen|deszcz|wind|vent|sun|sol|soleil|sonne|słoń", re.I)
+NO_TOMORROW = {
+    "en": "IFCN's list gives today's status only, not tomorrow's: check it again tomorrow morning.",
+    "pt": "A lista do IFCN indica apenas o estado de hoje, não o de amanhã: confirme-a de novo amanhã de manhã.",
+    "fr": "La liste de l'IFCN ne donne que l'état du jour, pas celui de demain : revérifiez-la demain matin.",
+    "de": "Die IFCN-Liste zeigt nur den heutigen Status, nicht den von morgen: Prüfen Sie sie morgen früh erneut.",
+    "pl": "Lista IFCN podaje tylko dzisiejszy stan, nie jutrzejszy: sprawdź ją ponownie jutro rano.",
+}
+
+
 def _names_company(s):
-    if COMPANIES.search(s) or BRAND.search(s) or COMPANY_OFFER.search(s):
+    if COMPANIES.search(s) or BRAND.search(s) or COMPANY_OFFER.search(s) or OPERATOR_LIST.search(s):
+        return True
+    if any(not OK_DOMAINS.search(m.group(0)) for m in WEB_NAME.finditer(s) if "@" not in s[max(0, m.start() - 1):m.start()]):
         return True
     return any(m.group(1).lower() not in ALLOWED_MADEIRA for m in X_MADEIRA.finditer(s))
 
@@ -166,6 +205,21 @@ def check(reply, user_text, lang, trails, context=""):
                 out = answers.kbtools.place("cablecar")["description"]
             except Exception:
                 pass
+    if REOPEN_ASK.search(user_text):
+        out, d = _drop(out, lambda s: bool(NO_INFO.search(s)))
+        if d:
+            changes += [f"'no information' about reopening dropped: {x[:80]}" for x in d]
+            if not re.search(r"IFCN[^.\n]{0,60}(decis|décision|entscheid|decyduj)|(decis|décision|entscheid|decyduj)[^.\n]{0,60}IFCN", out, re.I):
+                out = out.rstrip() + "\n\n" + REOPEN_LINE.get(lang, REOPEN_LINE["en"])
+    if TOMORROW_ASK.search(user_text):
+        out, d = _drop(out, lambda s: bool(TOMORROW_W.search(s) and STATUS_W.search(s) and not SKY_W.search(s)))
+        if d:
+            changes += [f"status for tomorrow dropped: {x[:80]}" for x in d]
+            for code in trails[:1]:
+                line = answers.status_line(code, lang)
+                if line and line[:40] not in out:
+                    out = line + "\n\n" + out
+            out = out.rstrip() + "\n\n" + NO_TOMORROW.get(lang, NO_TOMORROW["en"])
     out, d = _drop(out, lambda s: bool(WORKAROUND.search(s)))
     changes += [f"invented workaround dropped: {x[:80]}" for x in d]
     if STAY_ASK.search(user_text):   # owner: never point to accommodation / booking sites (8 Nov test: "check booking platforms")

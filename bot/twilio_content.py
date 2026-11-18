@@ -75,6 +75,10 @@ def notify_wanted():
         "language": "en", "variables": {"1": "IFCN closure notice new", "2": "O IFCN informa que...",
                                         "3": "https://ifcn.madeira.gov.pt/", "4": "3"},
         "types": {"twilio/text": {"body": rn.OWNER_ALERT.format(kind="{{1}}", text="{{2}}", link="{{3}}", n="{{4}}")}}}
+    # collect/run.py data-collector alerts (owner, 2026-11-18)
+    yield f"levadinho_ops_alert_{NOTIFY_VERSION}", {
+        "language": "en", "variables": {"1": "easyJet fares not working", "2": "the run saved 0 rows"},
+        "types": {"twilio/text": {"body": rn.OPS_ALERT.format(what="{{1}}", text="{{2}}")}}}
 
 
 def approval(sid):

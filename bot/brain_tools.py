@@ -137,8 +137,19 @@ SUNRISE_Q = re.compile(r"sunrise|nascer do sol|lever du soleil|sonnenaufgang|wsc
 # "when will it reopen / will it be open tomorrow?" (the storm chip's question): the model called trail_status only and
 # never weather_forecast (8 Nov, 6 of 6 replays; for "the trails" it picked other tools), so while the trail or every
 # trail is closed the forecast is looked up first, like the page and search prefetch (answer())
-REOPEN_Q = re.compile(r"re-?open|open again|be open|open (tomorrow|on|next)|reabr|voltar? a abrir|abr(e|em|ir[aã]o?) "
+REOPEN_Q = re.compile(r"re-?open|open again|be open|open (tomorrow|on|next)|reabr|volt\w* a abrir|abr(e|em|ir[aã]o?) "
                       r"(amanh|de novo|outra)|rouvr|ouvert|wieder (offen|geöffnet|öffn)|öffnen .*wieder|otwar", re.I)
+BUS_HUB_Q = re.compile(r"where can (i|we) (get|go)\b[^?]*\bbus|which (trails?|levadas?|walks?|hikes?)\b[^?]*\bbus|"
+                       r"directly by bus|only there\b|by bus without|dojad\w* autobus|wohin\b[^?]*\bbus|"
+                       r"welche (wege|levadas?|wanderungen)\b[^?]*\bbus|o[uù]\b[^?]*\b(en )?bus|quels? (sentiers?|levadas?)\b[^?]*bus|"
+                       r"onde\b[^?]*\bautocarro|que (percursos|levadas)\b[^?]*autocarro", re.I)
+TAXI_W = re.compile(r"\btax[ií]s?\b|\btaxi\w*|cab\b|taks[oó]w", re.I)
+SUNRISE_OTHER_Q = re.compile(r"\b(bus|buses|autocarro|autobus|navette|uber|bolt|taxi\w*|t[aá]xi\w*|transfer\w*|shuttle|ticket\w*|"
+                             r"bilhete|billet|bilet\w*|slot|cr[ée]neau|book\w*|reserv\w*|park\w*|estaciona\w*|toilet\w*|wc|"
+                             r"caf[eé]|where|onde|o[uù]|wo|gdzie|radar|summit|cost|price|pre[cç]o|prix|preis|cena|"
+                             r"fahr\w*|drive|driving|car|carro|voiture|auto|samoch\w*)\b", re.I)
+END_W = re.compile(r"\b(fim|final|end|fin|ende|koniec\w*|końc\w*)\b", re.I)
+START_W = re.compile(r"\b(in[ií]cio|come[cç]o|start\w*|beginning|d[ée]but|d[ée]part|anfang|start|pocz[aą]t\w*)\b", re.I)
 TICKET_Q = re.compile(r"ticket|bilhete|billet|karte|bilet|book|reserv|pay|pag|fee|taxa", re.I)
 ARRIVE_Q = re.compile(r"\b(arriv\w*|be there|on time|late|chegar|atras\w*|em ponto|en retard|à l'heure|pünktlich|"
                       r"verspät\w*|zu spät|ankommen|spóźni\w*|punktualnie|na czas)\b", re.I)
@@ -286,7 +297,8 @@ def _how(name, args, result, lang, q=""):
         if BOOK_TAXI.search(q):
             # 11 Nov real chat: "I'd like to book for tomorrow" got the price again and "call the transport tool"
             h.append(BOOK_HINT)
-        h += ["A route with a price: \"About €«car» by car (up to 4 people), €«van» by van (5–10) — an indicative price; "
+        h += ["Taxis are paid in cash, so carry enough; asked how to pay, say that first.",
+              "A route with a price: \"About €«car» by car (up to 4 people), €«van» by van (5–10) — an indicative price; "
               "the fare is agreed when you book.\" With the group size, add for_your_group. Portuguese: car = "
               "\"carro\", van = \"carrinha\".",
               "No price for their trip: taxis are metered at the official tariff — ask for a quote when booking. "
@@ -448,6 +460,35 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
     messages = [{"role": "system", "content": SYSTEM.format(lang_rule=lang_rule) + page_hint}] + history \
         + [{"role": "user", "content": text}]
     trace = []
+    q_now = search_text or text
+    prev_user = next((m.get("content") or "" for m in reversed(history) if m.get("role") == "user"), "")
+    extra = []
+    # 18 Nov real chat (bus page): "So where can i get directly by bus" after a PR8 answer got PR8 only
+    if BUS_HUB_Q.search(q_now) and not kbtools.resolve_trail(q_now):
+        extra.append("[General question: which trails they can reach by bus, not one trail. Answer from the Levadas by "
+                     "bus list: the trails there and back by bus (PR8 São Lourenço, PR11 Balcões, PR19/PR20…), then "
+                     "those with a bus at one end only, then where no bus goes. Not only the trail talked about before.]")
+    # 18 Nov real chat (FR): "Can I pay by card?" then "Le taxi ?" got the fare, not the payment answer
+    if TAXI_W.search(q_now) and (PAY_Q.search(q_now) or (PAY_Q.search(prev_user) and len(q_now) < 40)):
+        extra.append("[They ask how to pay the taxi: say first that taxis are paid in cash, so carry enough.]")
+    # sunrise-ticket-en (regression, failing since 17 Nov): the rule rode on fees_and_rules / trail_facts only, and the
+    # model answered from search with a flat "No, you should not need a ticket"
+    if SUNRISE_Q.search(q_now) and TICKET_Q.search(q_now):
+        extra.append("[" + SUNRISE_RULE + "]")
+    # pr13-taxi-end-to-start-pt (3 Nov real chat): car left at the END, taxi wanted from the end back to the START; the
+    # bot put the pick-up "at the start"
+    code_now = kbtools.resolve_trail(q_now)
+    if code_now and TAXI_W.search(q_now) and END_W.search(q_now) and START_W.search(q_now):
+        try:
+            tr = kbtools.trail_facts(code_now, lang)
+            st_name, en_name = tr.get("start_name") or tr.get("start"), tr.get("end_name") or tr.get("end")
+        except Exception:  # noqa: BLE001
+            st_name = en_name = None
+        if st_name and en_name:
+            extra.append(f"[They leave the car at the END of {code_now} ({en_name}) and want a taxi from there to the "
+                         f"START ({st_name}): the pick-up is at {en_name}, booked for a set time before they set off.]")
+    if extra:
+        messages[-1] = {"role": "user", "content": text + "\n\n" + " ".join(extra)}
     if page and page.get("sections"):
         args = {"page": page["page"]}
         trace.append({"tool": "page", "args": args, "ms": 0, "error": None, "prefetch": True})
@@ -474,23 +515,28 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
         pm = re.search(r"OUR PAGE FOR (PR[\d.]+)", page_hint)
         code = code or (pm.group(1) if pm else None)
         row = next((t for t in st.get("trails", []) if t.get("code") == code), {}) if code else {}
-        if (st.get("alert") or {}).get("blanket") == "closed" or row.get("status") == "CLOSED":
+        al = st.get("alert") or {}
+        # 18 Nov real chats: PR1 PARTIAL and "15 of 37 closed" (no blanket) got "I don't have information" with no forecast
+        if al.get("blanket") == "closed" or row.get("status") in ("CLOSED", "PARTIAL") or (not code and al.get("partial")):
             args = {"trail": code} if code else {}
             t = time.time()
             fc = run_tool("weather_forecast", args, lang)
             trace.append({"tool": "weather_forecast", "args": args, "ms": int((time.time() - t) * 1000),
                           "error": fc.get("error"), "prefetch": True})
             if not fc.get("error"):
-                fc = {"how_to_answer": ["The visitor asks when the trail(s) reopen: say they are closed now, then copy "
+                fc = {"how_to_answer": ["The visitor asks when the trail(s) reopen: say what is closed now, then copy "
                                         "text (heading and day lines) as written, no weather emoji, then: whether a "
                                         "closed trail reopens is IFCN's decision and we can't predict it; book "
-                                        "flexibly. Nothing about checking the status in the morning, nothing about "
-                                        "messages or alerts."], **fc}
+                                        "flexibly. Never write that you don't have a date or information. Nothing about "
+                                        "checking the status in the morning, nothing about messages or alerts."], **fc}
             messages += [{"role": "assistant", "content": "", "tool_calls": [{"id": "prefetch-forecast", "type": "function",
                           "function": {"name": "weather_forecast", "arguments": json.dumps(args)}}]},
                          {"role": "tool", "tool_call_id": "prefetch-forecast",
                           "content": json.dumps(fc, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
-    if SUNRISE_Q.search(text) and not REOPEN_Q.search(search_text or text):
+    sq = search_text or text
+    # 18 Nov full test: prefetching the forecast for EVERY sunrise question stopped the bus / taxi / uber / ticket / where
+    # sunrise questions from calling their own tools (7 tests). Only questions about the sky (or a bare follow-up).
+    if SUNRISE_Q.search(sq) and not REOPEN_Q.search(sq) and not SUNRISE_OTHER_Q.search(sq):
         # 17 Nov real chat: "So no nice sunrise, then?" after the forecast → no tool call, no answer (only the email
         # line survived the guard). Every sunrise question gets tomorrow's summit forecast first.
         t = time.time()

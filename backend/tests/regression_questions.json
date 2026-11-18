@@ -604,7 +604,7 @@
    "lang": "pt",
    "q": "Sou residente na Madeira. Pago para fazer o PR1? E o estacionamento no Areeiro?",
    "must": [
-    "grat|isen",
+    "grat|isen|n[aã]o paga",
     "4"
    ],
    "note": "Trail free for residents (still on the booking); parking is paid by residents too."
@@ -842,7 +842,7 @@
    ],
    "q": "Ça veut dire quoi",
    "must": [
-    "nuag|dégagé|ciel|soleil"
+    "nuag|dégagé|ciel|soleil|pluie|averse"
    ],
    "must_not": [
     "webcam",

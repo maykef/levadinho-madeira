@@ -106,6 +106,9 @@ REOPENED = {
 }
 OWNER_ALERT = ("Levadinho alert: a new official notice was detected. {kind}: {text} Link: {link} — {n} visitors are waiting "
                "for the reopening message. Reply SEND to send it, or ignore this message.")
+# Data-collector alerts (collect/run.py, owner 2026-11-18). Also the levadinho_ops_alert template's text (twilio_content.py).
+OPS_ALERT = ("Levadinho data alert: {what}. Details: {text}. "
+             "Check the Data collection tab on the dashboard.")
 
 YES = {"yes", "yes please", "yep", "sim", "sim por favor", "claro", "oui", "oui merci", "ja", "ja bitte", "ja gerne", "tak", "tak prosze"}
 STOP = {"stop", "stopp", "parar", "cancel", "cancelar", "annuler", "abbrechen", "anuluj"}
@@ -289,6 +292,41 @@ def tell_owner(head, text, link):
     v = {"1": _param(head, 80), "2": _param(text, 400), "3": link, "4": str(len(everyone()))}
     try:
         return "sent " + _send(to, body, _content().get("levadinho_owner_alert"), v)
+    except Exception as e:  # noqa: BLE001
+        return f"failed: {e}"
+
+
+def _approved(sid):
+    """WhatsApp approval status of a Content template ('approved' = deliverable outside the 24-hour window)."""
+    try:
+        sid_, tok = os.environ["TWILIO_ACCOUNT_SID"], os.environ["TWILIO_AUTH_TOKEN"]
+        req = urllib.request.Request(f"https://content.twilio.com/v1/Content/{sid}/ApprovalRequests",
+                                     headers={"Authorization": "Basic " + base64.b64encode(f"{sid_}:{tok}".encode()).decode()})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return ((json.load(r).get("whatsapp") or {}).get("status") or "").lower()
+    except Exception:  # noqa: BLE001
+        return ""
+
+
+def tell_ops(what, text):
+    """Owner, 2026-11-18 ("We cannot lose data"): a data collector (fares, socials) is not working -> WhatsApp to the
+    owner (collect/run.py). Plain text inside the 24-hour window; outside it the levadinho_ops_alert template once
+    WhatsApp has approved it, else the owner-alert template. Never arms SEND. Never raises."""
+    to = owner()
+    if not to:
+        return "no OWNER_WA"
+    body = OPS_ALERT.format(what=_param(what, 80), text=_param(text, 400))
+    tpl = _content()
+    ops = tpl.get("levadinho_ops_alert")
+    try:
+        if ops and _approved(ops) == "approved":
+            return "sent " + _send(to, body, ops, {"1": _param(what, 80), "2": _param(text, 400)})
+        last = store.last_inbound(to)
+        if last and time.time() - last < WINDOW_S:
+            return "sent " + _send(to, body)
+        v = {"1": _param(f"DATA ALERT, not a notice: {what}", 80), "2": _param(text, 400),
+             "3": "http://microscopy-rig-system:18320/dashboard#collect", "4": str(len(everyone()))}
+        return "sent " + _send(to, body, tpl.get("levadinho_owner_alert"), v)
     except Exception as e:  # noqa: BLE001
         return f"failed: {e}"
 
