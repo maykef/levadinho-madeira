@@ -11,14 +11,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 12.5,
-    "humidity": 94,
-    "in_cloud": true,
-    "wind_kmh": 14,
+    "temp_c": 13.2,
+    "humidity": 68,
+    "in_cloud": false,
+    "wind_kmh": 18,
     "wind_strong": false
   },
-  "stamp": "2026-11-17 08:42",
-  "date": "2026-11-17",
+  "stamp": "2026-11-18 08:06",
+  "date": "2026-11-18",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
@@ -33,15 +33,15 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 12,
-      "wind": 14,
+      "temp": 13,
+      "wind": 18,
       "rain": 0.0,
-      "in_cloud": true
+      "in_cloud": false
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 18,
+      "temp": 16,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -57,16 +57,16 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 21,
-      "wind": 0,
+      "temp": 20,
+      "wind": 6,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 21,
-      "wind": 0,
+      "temp": 20,
+      "wind": 5,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -79,7 +79,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 12,
+      "temp": 13,
       "page": "/pr1/"
     },
     {
@@ -99,7 +99,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 12,
+      "temp": 13,
       "page": "/pico-ruivo/"
     },
     {
@@ -109,7 +109,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 18,
+      "temp": 16,
       "page": "/caldeirao-verde/"
     },
     {
@@ -119,7 +119,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 21,
+      "temp": 20,
       "page": "/sao-lourenco/"
     },
     {
@@ -129,7 +129,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 12,
+      "temp": 13,
       "page": "/balcoes/"
     },
     {
@@ -149,7 +149,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-do-furado/"
     },
     {
@@ -159,7 +159,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 18,
+      "temp": 16,
       "page": "/levada-do-rei/"
     },
     {
@@ -179,7 +179,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 16,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -189,7 +189,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -199,7 +199,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -209,7 +209,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-do-burro/"
     },
     {
@@ -219,7 +219,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 21,
+      "temp": 20,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -229,7 +229,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -239,7 +239,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 16,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -289,7 +289,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -439,7 +439,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 18,
+      "temp": 16,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "Um Caminho para todos.",
@@ -496,24 +496,14 @@
   "forecast": {
     "summit": [
       {
-        "date": "2026-11-17",
-        "type": 10,
-        "rain_prob": 51,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 15,
-        "tmin": 13,
-        "tmax": 19
-      },
-      {
         "date": "2026-11-18",
         "type": 7,
-        "rain_prob": 65,
+        "rain_prob": 63,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 15,
-        "tmin": 12,
-        "tmax": 20
+        "wind_kmh": 16,
+        "tmin": 11,
+        "tmax": 19
       },
       {
         "date": "2026-11-19",
@@ -521,56 +511,56 @@
         "rain_prob": 98,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 14,
-        "tmin": 9,
-        "tmax": 14
+        "wind_kmh": 16,
+        "tmin": 10,
+        "tmax": 15
       },
       {
         "date": "2026-11-20",
-        "type": 7,
-        "rain_prob": 82,
-        "rain_int": 1,
+        "type": 3,
+        "rain_prob": 55,
+        "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 19,
-        "tmin": 10,
-        "tmax": 17
+        "wind_kmh": 21,
+        "tmin": 12,
+        "tmax": 18
       },
       {
         "date": "2026-11-21",
         "type": 7,
-        "rain_prob": 84,
+        "rain_prob": 86,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 24,
-        "tmin": 10,
-        "tmax": 16
+        "wind_kmh": 27,
+        "tmin": 11,
+        "tmax": 18
+      },
+      {
+        "date": "2026-11-22",
+        "type": 10,
+        "rain_prob": 90,
+        "rain_int": 1,
+        "wind_class": 1,
+        "wind_kmh": 17,
+        "tmin": 11,
+        "tmax": 15
       }
     ],
     "north": [
       {
-        "date": "2026-11-17",
-        "type": 2,
-        "rain_prob": 2,
-        "rain_int": null,
-        "wind_class": 2,
-        "wind_kmh": 17,
-        "tmin": 19,
-        "tmax": 22
-      },
-      {
         "date": "2026-11-18",
-        "type": 3,
+        "type": 2,
         "rain_prob": 0,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 17,
+        "wind_kmh": 18,
         "tmin": 18,
         "tmax": 22
       },
       {
         "date": "2026-11-19",
         "type": 10,
-        "rain_prob": 69,
+        "rain_prob": 84,
         "rain_int": 1,
         "wind_class": 1,
         "wind_kmh": 14,
@@ -579,8 +569,8 @@
       },
       {
         "date": "2026-11-20",
-        "type": 3,
-        "rain_prob": 20,
+        "type": 2,
+        "rain_prob": 0,
         "rain_int": null,
         "wind_class": 1,
         "wind_kmh": 13,
@@ -590,32 +580,32 @@
       {
         "date": "2026-11-21",
         "type": 7,
-        "rain_prob": 86,
+        "rain_prob": 75,
         "rain_int": 1,
         "wind_class": 1,
         "wind_kmh": 15,
         "tmin": 18,
         "tmax": 22
+      },
+      {
+        "date": "2026-11-22",
+        "type": 7,
+        "rain_prob": 78,
+        "rain_int": 1,
+        "wind_class": 2,
+        "wind_kmh": 16,
+        "tmin": 17,
+        "tmax": 21
       }
     ],
     "west": [
       {
-        "date": "2026-11-17",
-        "type": 3,
-        "rain_prob": 10,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 13,
-        "tmin": 13,
-        "tmax": 19
-      },
-      {
         "date": "2026-11-18",
-        "type": 3,
-        "rain_prob": 8,
+        "type": 2,
+        "rain_prob": 0,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 17,
+        "wind_kmh": 18,
         "tmin": 11,
         "tmax": 20
       },
@@ -625,121 +615,121 @@
         "rain_prob": 98,
         "rain_int": 1,
         "wind_class": 1,
-        "wind_kmh": 11,
-        "tmin": 8,
+        "wind_kmh": 13,
+        "tmin": 9,
         "tmax": 15
       },
       {
         "date": "2026-11-20",
-        "type": 7,
-        "rain_prob": 80,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 14,
-        "tmin": 10,
+        "type": 3,
+        "rain_prob": 59,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 15,
+        "tmin": 12,
         "tmax": 17
       },
       {
         "date": "2026-11-21",
-        "type": 10,
-        "rain_prob": 92,
+        "type": 7,
+        "rain_prob": 84,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 20,
-        "tmin": 10,
-        "tmax": 16
+        "wind_kmh": 19,
+        "tmin": 11,
+        "tmax": 17
+      },
+      {
+        "date": "2026-11-22",
+        "type": 7,
+        "rain_prob": 92,
+        "rain_int": 1,
+        "wind_class": 1,
+        "wind_kmh": 14,
+        "tmin": 11,
+        "tmax": 15
       }
     ],
     "east": [
       {
-        "date": "2026-11-17",
-        "type": 3,
-        "rain_prob": 2,
-        "rain_int": null,
-        "wind_class": 2,
-        "wind_kmh": 25,
-        "tmin": 20,
-        "tmax": 23
-      },
-      {
         "date": "2026-11-18",
         "type": 3,
-        "rain_prob": 2,
+        "rain_prob": 0,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 32,
+        "wind_kmh": 34,
         "tmin": 19,
         "tmax": 23
       },
       {
         "date": "2026-11-19",
-        "type": 7,
-        "rain_prob": 63,
+        "type": 10,
+        "rain_prob": 65,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 23,
+        "wind_kmh": 24,
         "tmin": 19,
         "tmax": 23
       },
       {
         "date": "2026-11-20",
         "type": 2,
-        "rain_prob": 39,
+        "rain_prob": 10,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 30,
-        "tmin": 19,
+        "wind_kmh": 28,
+        "tmin": 20,
         "tmax": 23
       },
       {
         "date": "2026-11-21",
-        "type": 3,
-        "rain_prob": 43,
+        "type": 2,
+        "rain_prob": 25,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 31,
+        "wind_kmh": 26,
         "tmin": 19,
         "tmax": 23
+      },
+      {
+        "date": "2026-11-22",
+        "type": 7,
+        "rain_prob": 75,
+        "rain_int": 1,
+        "wind_class": 2,
+        "wind_kmh": 14,
+        "tmin": 19,
+        "tmax": 22
       }
     ],
     "south": [
       {
-        "date": "2026-11-17",
-        "type": 3,
-        "rain_prob": 4,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 10,
-        "tmin": 21,
-        "tmax": 26
-      },
-      {
         "date": "2026-11-18",
-        "type": 3,
-        "rain_prob": 18,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 12,
-        "tmin": 20,
-        "tmax": 26
-      },
-      {
-        "date": "2026-11-19",
-        "type": 10,
-        "rain_prob": 82,
+        "type": 7,
+        "rain_prob": 43,
         "rain_int": 1,
         "wind_class": 1,
         "wind_kmh": 9,
         "tmin": 19,
+        "tmax": 26
+      },
+      {
+        "date": "2026-11-19",
+        "type": 3,
+        "rain_prob": 51,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 9,
+        "tmin": 20,
         "tmax": 24
       },
       {
         "date": "2026-11-20",
         "type": 7,
-        "rain_prob": 86,
+        "rain_prob": 90,
         "rain_int": 1,
         "wind_class": 1,
-        "wind_kmh": 6,
+        "wind_kmh": 8,
         "tmin": 20,
         "tmax": 24
       },
@@ -749,9 +739,19 @@
         "rain_prob": 84,
         "rain_int": 1,
         "wind_class": 1,
-        "wind_kmh": 10,
+        "wind_kmh": 9,
         "tmin": 20,
         "tmax": 25
+      },
+      {
+        "date": "2026-11-22",
+        "type": 3,
+        "rain_prob": 53,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 9,
+        "tmin": 20,
+        "tmax": 24
       }
     ]
   },

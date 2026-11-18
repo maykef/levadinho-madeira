@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-17T08:42+00:00",
+ "stamp": "2026-11-18T08:06+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-17",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:39",
-   "sunset": "18:06",
-   "weather": {
-    "tmin": 21,
-    "tmax": 26,
-    "rain": 4,
-    "wtype": 3,
-    "uv": 4.0
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-18",
    "type": "weekday",
@@ -26,10 +10,10 @@
    "sunrise": "07:39",
    "sunset": "18:06",
    "weather": {
-    "tmin": 20,
+    "tmin": 19,
     "tmax": 26,
-    "rain": 18,
-    "wtype": 3,
+    "rain": 59,
+    "wtype": 7,
     "uv": 3.6
    },
    "fair": null
@@ -43,10 +27,10 @@
    "sunset": "18:05",
    "weather": {
     "tmin": 19,
-    "tmax": 24,
-    "rain": 82,
+    "tmax": 23,
+    "rain": 88,
     "wtype": 10,
-    "uv": 3.7
+    "uv": 3.5
    },
    "fair": {
     "theme": "gastronomy",
@@ -68,7 +52,7 @@
    "weather": {
     "tmin": 20,
     "tmax": 24,
-    "rain": 86,
+    "rain": 94,
     "wtype": 7,
     "uv": 3.1
    },
@@ -84,9 +68,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 84,
+    "rain": 86,
     "wtype": 7,
-    "uv": null
+    "uv": 3.5
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "sunday",
    "sunrise": "07:43",
    "sunset": "18:04",
-   "weather": null,
+   "weather": {
+    "tmin": 19,
+    "tmax": 23,
+    "rain": 47,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -187,6 +177,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-12-01",
+   "type": "holiday",
+   "holiday": "Restauração da Independência",
+   "bus": "sunday",
+   "sunrise": "07:51",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -210,10 +210,10 @@
   }
  ],
  "sea": {
-  "date": "2026-11-17",
+  "date": "2026-11-18",
   "sst": 22,
   "wave": [
-   0.7,
+   0.8,
    1.0
   ],
   "warnings": []
