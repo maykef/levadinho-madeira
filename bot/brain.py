@@ -1467,7 +1467,7 @@ def pr1_closed_line(user, text, lang, reply, meta=None):
         rows = {t.get("code"): t.get("status") for t in st.get("trails", [])}
         if rows.get("PR1") != "CLOSED":
             return None
-        tag = str(((meta or {}).get("campaign") or (store.get_user(user) or {}).get("source") or ""))
+        tag = str((meta or {}).get("campaign") or (store.get_user(user) or {}).get("source") or "")
         if not (PR1_Q.search(text or "") or re.search(r"web-(pr1(?!-[13])|weather|sunrise|oneway|back)\b", tag)):
             return None
         en, ruivo, cars = PR1_CLOSED_LINE.get(lang) or PR1_CLOSED_LINE["en"]
