@@ -1,23 +1,23 @@
 {
-  "status": "CLOSED",
+  "status": "PARTIAL",
   "note": {
-    "pt": "",
-    "en": "",
-    "fr": "",
-    "de": "",
-    "pl": ""
+    "pt": "Transitável: Vereda do Areeiro (até ao Miradouro da Pedra Rija). Encerrado/condicionado: Vereda do Areeiro (sentido único).",
+    "en": "Open: Vereda do Areeiro (up to the Pedra Rija Viewpoint). Closed/restricted: Vereda do Areeiro (one-way).",
+    "fr": "Praticable : Sentier de l'Areeiro (jusqu'au belvédère de Pedra Rija). Fermé/restreint : Vereda do Areeiro (sens unique).",
+    "de": "Begehbar: Vereda do Areeiro (bis zum Aussichtspunkt Pedra Rija). Gesperrt/eingeschränkt: Vereda do Areeiro (Einbahnstraße).",
+    "pl": "Dostępny: Vereda do Areeiro (do punktu widokowego Pedra Rija). Zamknięty/ograniczony: Vereda do Areeiro (jednokierunkowa)."
   },
   "closure": null,
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 13.2,
-    "humidity": 68,
+    "temp_c": 17.6,
+    "humidity": 55,
     "in_cloud": false,
-    "wind_kmh": 18,
+    "wind_kmh": 17,
     "wind_strong": false
   },
-  "stamp": "2026-11-18 08:06",
+  "stamp": "2026-11-18 12:00",
   "date": "2026-11-18",
   "source": {
     "name": "IFCN",
@@ -25,23 +25,23 @@
     "updated": ""
   },
   "counts": {
-    "OPEN": 17,
-    "PARTIAL": 0,
-    "CLOSED": 20
+    "OPEN": 20,
+    "PARTIAL": 2,
+    "CLOSED": 15
   },
   "regions": [
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 13,
-      "wind": 18,
+      "temp": 18,
+      "wind": 17,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 16,
+      "temp": 21,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -57,16 +57,16 @@
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 20,
-      "wind": 6,
+      "temp": 23,
+      "wind": 5,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 20,
-      "wind": 5,
+      "temp": 24,
+      "wind": 7,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -75,12 +75,19 @@
     {
       "code": "PR1",
       "name": "Vereda do Areeiro",
-      "status": "CLOSED",
+      "status": "PARTIAL",
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 13,
-      "page": "/pr1/"
+      "temp": 18,
+      "page": "/pr1/",
+      "note": {
+        "pt": "Transitável: Vereda do Areeiro (até ao Miradouro da Pedra Rija). Encerrado/condicionado: Vereda do Areeiro (sentido único).",
+        "en": "Open: Vereda do Areeiro (up to the Pedra Rija Viewpoint). Closed/restricted: Vereda do Areeiro (one-way).",
+        "fr": "Praticable : Sentier de l'Areeiro (jusqu'au belvédère de Pedra Rija). Fermé/restreint : Vereda do Areeiro (sens unique).",
+        "de": "Begehbar: Vereda do Areeiro (bis zum Aussichtspunkt Pedra Rija). Gesperrt/eingeschränkt: Vereda do Areeiro (Einbahnstraße).",
+        "pl": "Dostępny: Vereda do Areeiro (do punktu widokowego Pedra Rija). Zamknięty/ograniczony: Vereda do Areeiro (jednokierunkowa)."
+      }
     },
     {
       "code": "PR6",
@@ -99,7 +106,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 13,
+      "temp": 18,
       "page": "/pico-ruivo/"
     },
     {
@@ -109,7 +116,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 16,
+      "temp": 21,
       "page": "/caldeirao-verde/"
     },
     {
@@ -119,7 +126,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 20,
+      "temp": 23,
       "page": "/sao-lourenco/"
     },
     {
@@ -129,13 +136,13 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 13,
+      "temp": 18,
       "page": "/balcoes/"
     },
     {
       "code": "PR13",
       "name": "Vereda do Fanal",
-      "status": "CLOSED",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": true,
@@ -149,7 +156,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 13,
+      "temp": 18,
       "page": "/levada-do-furado/"
     },
     {
@@ -159,7 +166,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 16,
+      "temp": 21,
       "page": "/levada-do-rei/"
     },
     {
@@ -179,7 +186,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 21,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -189,7 +196,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 13,
+      "temp": 18,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -199,7 +206,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 13,
+      "temp": 18,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -209,7 +216,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 13,
+      "temp": 18,
       "page": "/vereda-do-burro/"
     },
     {
@@ -219,17 +226,17 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 20,
+      "temp": 24,
       "page": "/caminho-real-do-monte/"
     },
     {
       "code": "PR4",
       "name": "Levada do Barreiro",
-      "status": "CLOSED",
+      "status": "PARTIAL",
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 13,
+      "temp": 18,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -239,7 +246,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 21,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -289,13 +296,13 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 13,
+      "temp": 18,
       "page": "/caminho-real-da-encumeada/"
     },
     {
       "code": "PR15",
       "name": "Vereda da Ribeira da Janela",
-      "status": "CLOSED",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
@@ -425,7 +432,7 @@
     {
       "code": "PR13.1",
       "name": "Vereda da Palha Carga",
-      "status": "CLOSED",
+      "status": "OPEN",
       "fee": "4.50",
       "region": "west",
       "popular": false,
@@ -439,7 +446,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 16,
+      "temp": 21,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "Um Caminho para todos.",
@@ -464,30 +471,30 @@
     "storm": null,
     "ahead_text": null,
     "partial": {
-      "closed": 20,
+      "closed": 15,
       "total": 37,
-      "pr1": true,
+      "pr1": false,
       "source": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
       "text": {
         "en": {
           "head": "Many trails are closed.",
-          "body": "20 of 37 classified trails are closed on IFCN's list, including PR1 Vereda do Areeiro (Pico do Areeiro). Check each trail's status before you go."
+          "body": "15 of 37 classified trails are closed on IFCN's list. Check each trail's status before you go."
         },
         "pt": {
           "head": "Muitos percursos estão encerrados.",
-          "body": "20 dos 37 percursos classificados estão encerrados na lista do IFCN, incluindo o PR1 Vereda do Areeiro (Pico do Areeiro). Confirme o estado de cada percurso antes de ir."
+          "body": "15 dos 37 percursos classificados estão encerrados na lista do IFCN. Confirme o estado de cada percurso antes de ir."
         },
         "fr": {
           "head": "De nombreux sentiers sont fermés.",
-          "body": "20 des 37 sentiers classés sont fermés sur la liste de l'IFCN, dont le PR1 Vereda do Areeiro (Pico do Areeiro). Vérifiez l'état de chaque sentier avant de partir."
+          "body": "15 des 37 sentiers classés sont fermés sur la liste de l'IFCN. Vérifiez l'état de chaque sentier avant de partir."
         },
         "de": {
           "head": "Viele Wege sind gesperrt.",
-          "body": "20 von 37 klassifizierten Wegen sind laut IFCN-Liste gesperrt, darunter PR1 Vereda do Areeiro (Pico do Areeiro). Prüfen Sie vor dem Losgehen den Status jedes Weges."
+          "body": "15 von 37 klassifizierten Wegen sind laut IFCN-Liste gesperrt. Prüfen Sie vor dem Losgehen den Status jedes Weges."
         },
         "pl": {
           "head": "Wiele szlaków jest zamkniętych.",
-          "body": "20 z 37 sklasyfikowanych szlaków jest zamkniętych według listy IFCN, w tym PR1 Vereda do Areeiro (Pico do Areeiro). Sprawdź stan szlaku przed wyjściem."
+          "body": "15 z 37 sklasyfikowanych szlaków jest zamkniętych według listy IFCN. Sprawdź stan szlaku przed wyjściem."
         }
       }
     }
@@ -755,6 +762,6 @@
       }
     ]
   },
-  "forest_road": "closed",
+  "forest_road": null,
   "outlook": null
 }
