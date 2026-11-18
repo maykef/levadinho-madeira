@@ -488,3 +488,14 @@ announcement; the owner's reply **SEND** (within 48 h) sends the reopening messa
 number once WhatsApp accepts it. Outside the 24-hour window these go out as approved templates
 (`twilio_content.py`: `levadinho_reopen_<lang>_v1`, `levadinho_owner_alert_v1`, category UTILITY).
 `python3 bot/reopen_notify.py status` | `test-owner`. Code: `bot/reopen_notify.py`. Privacy policy section "Reopening alerts".
+
+## Data alerts (since 2026-11-18)
+
+Collect jobs marked `alert: fares|socials` in `collect/jobs.yaml` (the 7 fare collectors and social_pipeline,
+phone_agents, phone_power, social_youtube, official_alert) WhatsApp the owner through `reopen_notify.tell_ops()` when
+their last attempt fails, times out or saves fewer than `min_rows`, with a reminder every 6 h and a "back to normal"
+message on the next good run (sub-hourly jobs only after 30 min of failure). `collect/run.py` also alerts when a job
+hasn't started 20 min after its scheduled time (catch-up jobs whose time fell in the 22:00–09:00 quiet hours are judged
+from 09:00). State: `collect/state/alerts.json`. Sending order: the `levadinho_ops_alert_v1` template once WhatsApp
+approves it (`python3 bot/twilio_content.py` shows its status), plain text inside the 24-hour window, else the owner-alert
+template prefixed "DATA ALERT, not a notice". A new fare or social job needs an `alert:` line.
