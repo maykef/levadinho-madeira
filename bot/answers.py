@@ -90,6 +90,14 @@ T = {
                  "fr": "*Vereda do Areeiro (PR1)*, sur la liste officielle des avis de l'IFCN :\n• Pico do Areeiro ↔ belvédère de Pedra Rija : *dans les deux sens*.\n• Parcours complet jusqu'au Pico Ruivo : *sens unique*, arrivée à Achada do Teixeira.",
                  "de": "*Vereda do Areeiro (PR1)*, laut offizieller Hinweisliste des IFCN:\n• Pico do Areeiro ↔ Aussichtspunkt Pedra Rija: *in beide Richtungen*.\n• Ganze Strecke bis zum Pico Ruivo: *nur in eine Richtung*, Ende in Achada do Teixeira.",
                  "pl": "*Vereda do Areeiro (PR1)*, według oficjalnej listy komunikatów IFCN:\n• Pico do Areeiro ↔ punkt widokowy Pedra Rija: *w obie strony*.\n• Cała trasa na Pico Ruivo: *tylko w jedną stronę*, z końcem w Achada do Teixeira."},
+ # 18 Nov 2026: IFCN reopened PR1 only up to Pedra Rija; the one-way section to Pico Ruivo stays ENCERRADO. The card
+ # above read "one way only" (= open) for a closed section.
+ "pr1_pedra_only": {"en": "*Vereda do Areeiro (PR1)*, on IFCN's official warnings list:\n• Pico do Areeiro ↔ Pedra Rija viewpoint: *OPEN*, both ways (€4.50 SIMplifica ticket).\n• Beyond Pedra Rija to Pico Ruivo: *CLOSED*.\nFor Pico Ruivo, take the Pico Ruivo trail (PR1.2) from Achada do Teixeira{ruivo}.",
+                    "pt": "*Vereda do Areeiro (PR1)*, na lista oficial de avisos do IFCN:\n• Pico do Areeiro ↔ Miradouro da Pedra Rija: *ABERTO*, nos dois sentidos (bilhete SIMplifica de 4,50 €).\n• Da Pedra Rija até ao Pico Ruivo: *ENCERRADO*.\nPara o Pico Ruivo, faça a Vereda do Pico Ruivo (PR1.2) a partir da Achada do Teixeira{ruivo}.",
+                    "fr": "*Vereda do Areeiro (PR1)*, sur la liste officielle des avis de l'IFCN :\n• Pico do Areeiro ↔ belvédère de Pedra Rija : *OUVERT*, dans les deux sens (billet SIMplifica de 4,50 €).\n• Au-delà de Pedra Rija jusqu'au Pico Ruivo : *FERMÉ*.\nPour le Pico Ruivo, prenez le sentier du Pico Ruivo (PR1.2) depuis Achada do Teixeira{ruivo}.",
+                    "de": "*Vereda do Areeiro (PR1)*, laut offizieller Hinweisliste des IFCN:\n• Pico do Areeiro ↔ Aussichtspunkt Pedra Rija: *GEÖFFNET*, in beide Richtungen (SIMplifica-Ticket 4,50 €).\n• Ab Pedra Rija bis zum Pico Ruivo: *GESPERRT*.\nZum Pico Ruivo geht es über den Pico-Ruivo-Weg (PR1.2) ab Achada do Teixeira{ruivo}.",
+                    "pl": "*Vereda do Areeiro (PR1)*, według oficjalnej listy komunikatów IFCN:\n• Pico do Areeiro ↔ punkt widokowy Pedra Rija: *OTWARTY*, w obie strony (bilet SIMplifica 4,50 €).\n• Za Pedra Rija do Pico Ruivo: *ZAMKNIĘTY*.\nNa Pico Ruivo prowadzi szlak Pico Ruivo (PR1.2) z Achada do Teixeira{ruivo}."},
+ "ruivo_open": {"en": ", which is open", "pt": ", que está aberta", "fr": ", qui est ouvert", "de": ", der geöffnet ist", "pl": ", który jest otwarty"},
  "partial": {"en": "*{name} ({code})*, on IFCN's official warnings list: {n}", "pt": "*{name} ({code})*, na lista oficial de avisos do IFCN: {n}",
              "fr": "*{name} ({code})*, sur la liste officielle des avis de l'IFCN : {n}", "de": "*{name} ({code})*, laut offizieller Hinweisliste des IFCN: {n}",
              "pl": "*{name} ({code})*, według oficjalnej listy komunikatów IFCN: {n}"},
@@ -194,6 +202,11 @@ def status_line(code, lang):
     text = note.get(lang) or note.get("en") or "" if isinstance(note, dict) else note
     # Owner, 2026-10-10: never "PARTLY OPEN" (confusing); OPEN / CLOSED, or the full description of what is open.
     if t["status"] == "PARTIAL":
+        pt_note = (note.get("pt") if isinstance(note, dict) else note) or ""
+        if code == "PR1" and re.search(r"(encerrad|condicionad)\w*/?\w*:[^.]*sentido [uú]nico", pt_note, re.I) \
+                and re.search(r"transit[aá]vel:[^.]*pedra rija", pt_note, re.I):
+            r12 = _trail("PR1.2") or {}
+            return T["pr1_pedra_only"][lang].format(ruivo=T["ruivo_open"][lang] if r12.get("status") == "OPEN" else "")
         if code == "PR1" and re.search(r"sentido [uú]nico|one-way", json.dumps(note, ensure_ascii=False), re.I):
             return T["pr1_partial"][lang]
         return T["partial"][lang].format(name=t["name"], code=code, n=text or ST["PARTIAL"][lang])

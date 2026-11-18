@@ -217,7 +217,16 @@ def _how(name, args, result, lang, q=""):
             h.append("Say it is according to IFCN's official warnings list. If the trail is partly open, say which "
                      "part is open, as the note says, in the visitor's language. No date.")
         if code == "PR1" or '"PR1"' in blob[:200]:
-            h += [PR1_TIME, PR1_TICKETS + " Give both when they ask about walking PR1."]
+            pr1 = next((t for t in kbtools._fc5_status().get("trails", []) if t.get("code") == "PR1"), {})
+            pn = ((pr1.get("note") or {}).get("pt") or "") if isinstance(pr1.get("note"), dict) else ""
+            if pr1.get("status") == "PARTIAL" and re.search(r"(encerrad|condicionad)\w*/?\w*:[^.]*sentido [uú]nico", pn, re.I):
+                # 18 Nov: IFCN reopened only Areeiro ↔ Pedra Rija; the model said "you cannot walk to Pico Ruivo"
+                h.append("PR1 now: only Pico do Areeiro ↔ Pedra Rija is open (both ways, the €4.50 ticket); the section "
+                         "beyond Pedra Rija to Pico Ruivo is closed, so the €10.50 full traverse can't be walked. Pico Ruivo "
+                         "itself is reachable by the Pico Ruivo trail (PR1.2) from Achada do Teixeira when that is OPEN: "
+                         "never say they can't get to Pico Ruivo. Don't repeat the status lines already given.")
+            else:
+                h += [PR1_TIME, PR1_TICKETS + " Give both when they ask about walking PR1."]
         if '"CLOSED"' in blob:
             h.append("Walking or entering a CLOSED trail is an administrative offence, like walking without a ticket "
                      "(fines €250–€2,500): say so if they ask whether they can still go.")
