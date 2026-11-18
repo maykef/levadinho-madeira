@@ -417,6 +417,33 @@ def load_docs(cur):
                  "'forbidden' would be inventing a rule. (The PR routes are classified as percursos pedestres — "
                  "walking routes; that is a name, not a stated ban on anything.)",
                  "english", "levadinho_research", checked_pr1))
+    # two different walks called "Levada Nova" (owner, 2026-11-16, after a live WhatsApp question "is levada nova at
+    # corujeira open"); facts in seo_research/facts/levada_nova.md
+    rows.append(("facts:en:walk:levada-nova", "facts", None, "en",
+                 "Levada Nova (Corujeira, Ribeira da Tabua valley, Ribeira Brava; and Lombada, Ponta do Sol): is it open, do I need a ticket",
+                 SITE + "/free-walks/",
+                 "Several levadas are called \"Levada Nova\". Neither of the two walked ones below is an IFCN classified PR "
+                 "trail: they are not on IFCN's trail-warnings list, so they have NO official open/closed status, are not "
+                 "on SIMplifica, need no ticket, and IFCN does not maintain or recommend them (walk at your own risk). "
+                 "THE ANSWER TO GIVE when asked if one is open: say it is a non-classified levada with no official "
+                 "open/closed status, then the facts of the right walk below; never call it OPEN or CLOSED.\n"
+                 "- Levada Nova from Corujeira (also called Levada Nova de Corujeira / da Corujeira / na Corujeira; Ribeira da Tabua valley, municipality of Ribeira Brava, south-west coast; "
+                 "NOT the Corujeira above Monte in Funchal): start at a small car park (2–3 cars) by the \"Levada Nova\" "
+                 "sign at Corujeira, reached by the narrow road up from Ribeira Brava church towards Furna. It follows "
+                 "the levada west along the Tabua valley to the edge of Candelária and back the same way: about 12.8 km "
+                 "there and back, about 3 h 20 min, easy, highest point 445 m, about 140 m up and down; some exposed "
+                 "sections and a 75 m tunnel. No PR trail on this walk, and it has NOTHING to do with PR7 Levada do Moinho: for "
+                 "Corujeira, Tabua, Ribeira Brava, Furna or Candelária never mention PR7. (Source: Bergwelten route description.)\n"
+                 "- Levada Nova from Lombada, Ponta do Sol (also called Levada Nova da Lombada / de Ponta do Sol; loop start at Lombada church): the popular loop combines it "
+                 "with a \"Levada do Moinho\". The long tunnel people mention on Levada do Moinho walks is on this "
+                 "unofficial Levada Nova extension, not on PR7. Any part of the route on IFCN's PR7 Levada do Moinho "
+                 "(Ribeira da Cruz) IS classified: it needs a €4.50 SIMplifica ticket and follows PR7's IFCN status — "
+                 "call trail_status PR7 and give it (if PR7 is CLOSED, say the Levada do Moinho part is closed). "
+                 "(Source: Levadinho's free-walks and tunnels pages.)\n"
+                 "- If the visitor doesn't say which Levada Nova, name both walks in one line each (Corujeira / Ribeira Brava: "
+                 "no official status; Lombada / Ponta do Sol: no official status, but its Levada do Moinho part is PR7 — "
+                 "say PR7's actual status from trail_status).",
+                 "english", "levadinho_research", mtime("backend/load.py")))
     cur.execute("DELETE FROM kb.doc")
     cur.executemany("""INSERT INTO kb.doc (id, kind, subject, lang, title, url, body, cfg, source_id, checked_at)
                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s::regconfig,%s,%s)""", rows)

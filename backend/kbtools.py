@@ -1507,6 +1507,15 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
         pinned = _q("SELECT id, kind, subject, lang, title, url, source_id, body snippet, 1 rank "
                     "FROM kb.doc WHERE id = 'facts:en:scope:unregulated'")
         rows = pinned + [r for r in rows if r["id"] != "facts:en:scope:unregulated"][:limit - 1]
+    if re.search(r"levada\s+nova", text, re.I):
+        # two walks share the name (owner, 2026-11-16): pin the sheet and give PR7's live status for the Ponta do Sol loop
+        pinned = _q("SELECT id, kind, subject, lang, title, url, source_id, body snippet, 1 rank "
+                    "FROM kb.doc WHERE id = 'facts:en:walk:levada-nova'")
+        pr7 = _q("SELECT status FROM kb.trail_status WHERE code = 'PR7' ORDER BY checked_at DESC LIMIT 1")
+        if pinned and pr7:
+            pinned[0]["snippet"] += (f"\n- LIVE NOW: PR7 Levada do Moinho is {pr7[0]['status']} on IFCN's list. Whenever "
+                                     "you mention PR7 or the Ponta do Sol / Lombada loop, say this status.")
+        rows = pinned + [r for r in rows if r["id"] != "facts:en:walk:levada-nova"][:limit - 1]
     res = [{"title": r["title"], "subject": r["subject"], "lang": r["lang"], "url": r["url"],
             "text": re.sub(r"</?b>", "", r["snippet"]), "source": _source(r["source_id"])} for r in rows]
     if re.search(r"sun ?rise|nascer do sol|lever du soleil|sonnenaufgang|wsch[oó]d s[lł]o[nń]ca|amanhecer", text, re.I):

@@ -140,6 +140,19 @@ SUNRISE_Q = re.compile(r"sunrise|nascer do sol|lever du soleil|sonnenaufgang|wsc
 REOPEN_Q = re.compile(r"re-?open|open again|be open|open (tomorrow|on|next)|reabr|voltar? a abrir|abr(e|em|ir[aã]o?) "
                       r"(amanh|de novo|outra)|rouvr|ouvert|wieder (offen|geöffnet|öffn)|öffnen .*wieder|otwar", re.I)
 TICKET_Q = re.compile(r"ticket|bilhete|billet|karte|bilet|book|reserv|pay|pag|fee|taxa", re.I)
+ARRIVE_Q = re.compile(r"\b(arriv\w*|be there|on time|late|chegar|atras\w*|em ponto|en retard|à l'heure|pünktlich|"
+                      r"verspät\w*|zu spät|ankommen|spóźni\w*|punktualnie|na czas)\b", re.I)
+SLOT_Q = re.compile(r"slot|booking|booked|reserv|horário|hora da|créneau|heure de|zeitfenster|uhrzeit der buchung|"
+                    r"gebucht|buchung|rezerwac|godzin", re.I)
+ARRIVE_RULE = ("Arriving for a booked slot: entry is in 30-minute slots with about 15 minutes' tolerance either side; a "
+               "missed slot loses the whole ticket (no refund, no change). Say both. Never say it depends on free places.")
+DRIVE_Q = re.compile(r"\b(drive|driving|car park|parking|road|by car|conduzir|de carro|subir de carro|estacionamento|"
+                     r"parque|estrada|en voiture|parking|route|fahren|hochfahren|auto|parkplatz|straße|strasse|"
+                     r"samochod\w*|parking\w*|drog\w*|dojecha\w*)\b", re.I)
+DRIVE_RULE = ("A trail closure does not close the road or the car park: never say they can't drive up (or that the car "
+              "park is closed) because a trail is closed. Our data has no road or car-park closure at Pico do Areeiro; "
+              "IFCN lists only the Eira do Serrado–Pico do Areeiro forest road as closed. Say what the status says "
+              "about the trail, and that we have no information about the road or car park beyond that.")
 PAY_RULE = ("The visitor asks how to pay: name ALL three methods, even if they ask about one — Multibanco, credit card "
             "(Visa, Mastercard) and MB WAY — and say Multibanco and MB WAY need a Portuguese bank account, so "
             "visitors pay by card.")
@@ -164,6 +177,8 @@ def _how(name, args, result, lang, q=""):
                  r"übernachten|hébergement|où (loger|dormir)|nocleg|gdzie (się )?(zatrzymać|nocować)", q, re.I):
         h.append("Where to stay: say only that Levadinho doesn't advise on accommodation. Never suggest booking platforms, "
                  "agencies, tourist offices or any other place to look.")
+    if ARRIVE_Q.search(q) and SLOT_Q.search(q):   # 17 Nov real chat: "a few minutes before or after, as long as there are places" (invented)
+        h.append(ARRIVE_RULE)
     blob = json.dumps(result, ensure_ascii=False, default=str)
     code = (result.get("code") if isinstance(result, dict) else None) or ""
     if name in ("transport", "taxi_prices") and not re.search(r"tax[ií]|cab\b|uber|bolt|transfer", q, re.I):
@@ -206,6 +221,8 @@ def _how(name, args, result, lang, q=""):
         if '"CLOSED"' in blob:
             h.append("Walking or entering a CLOSED trail is an administrative offence, like walking without a ticket "
                      "(fines €250–€2,500): say so if they ask whether they can still go.")
+            if DRIVE_Q.search(q):   # 17 Nov real chat: "PR1 is closed, so you can't drive up" (no source for that)
+                h.append(DRIVE_RULE)
     elif name == "trail_facts":
         if code == "PR1":
             h += [PR1_TICKETS + " Give every price for the trail.", PR1_TIME,
@@ -431,8 +448,9 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                       "content": json.dumps({"results": [{"title": s["title"], "url": page["page"], "text": s["text"]}
                                                          for s in page["sections"]]},
                                             ensure_ascii=False)[:MAX_RESULT_CHARS]}]
-    if PREFETCH:
-        args = {"text": search_text or text, "limit": PREFETCH}
+    nova = bool(re.search(r"levada\s+nova", search_text or text, re.I))  # two walks share the name (16 Nov): the sheet + PR7 live
+    if PREFETCH or nova:
+        args = {"text": search_text or text, "limit": PREFETCH or 3}
         t = time.time()
         found = run_tool("search", args, lang)
         trace.append({"tool": "search", "args": args, "ms": int((time.time() - t) * 1000), "error": found.get("error"),
@@ -463,6 +481,19 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                           "function": {"name": "weather_forecast", "arguments": json.dumps(args)}}]},
                          {"role": "tool", "tool_call_id": "prefetch-forecast",
                           "content": json.dumps(fc, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
+    if SUNRISE_Q.search(text) and not REOPEN_Q.search(search_text or text):
+        # 17 Nov real chat: "So no nice sunrise, then?" after the forecast → no tool call, no answer (only the email
+        # line survived the guard). Every sunrise question gets tomorrow's summit forecast first.
+        t = time.time()
+        fc = run_tool("forecast_tomorrow", {}, lang)
+        trace.append({"tool": "forecast_tomorrow", "args": {}, "ms": int((time.time() - t) * 1000),
+                      "error": fc.get("error"), "prefetch": True})
+        if not fc.get("error"):
+            fc = {"how_to_answer": _how("forecast_tomorrow", {}, fc, lang, text), **fc}
+        messages += [{"role": "assistant", "content": "", "tool_calls": [{"id": "prefetch-sunrise", "type": "function",
+                      "function": {"name": "forecast_tomorrow", "arguments": "{}"}}]},
+                     {"role": "tool", "tool_call_id": "prefetch-sunrise",
+                      "content": json.dumps(fc, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
     if SITE_SAYS_OPEN.search(answers_fold(search_text or text)):
         st = kbtools._fc5_status()
         if (st.get("alert") or {}).get("blanket") == "closed":

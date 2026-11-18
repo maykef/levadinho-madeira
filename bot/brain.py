@@ -1409,6 +1409,81 @@ SITE_OPEN_LINE = {
 SITE_OPEN_SAID = re.compile(r"communiqu|comunicado|mitteilung|komunikat|statement|announcement|anúncio|déclaration|erklärung|bekanntmachung|ogłoszeni|oświadczeni", re.I)
 
 
+# Owner, 18 Nov 2026: IFCN's list puts PR1 "(sentido único)" AND "(até ao Miradouro da Pedra Rija)" under ENCERRADOS, and
+# IFCN's intermediate control gate at Pedra Rija is shut. Until IFCN reopens PR1 the only way up is Pico Ruivo (PR1.2)
+# from Achada do Teixeira; cars at Achada don't mean PR1 is open. Written in code so the model can't drop it.
+PR1_Q = re.compile(r"\bpr ?1\b(?!\.[13])|are[e]?iro|arieiro|aireiro|airo\b|pedra rija|pico ruivo|\bruivo|achada|teixeira|"
+                   r"sunrise|nascer do sol|lever du soleil|sonnenaufgang|wsch[oó]d", re.I)
+CARS_Q = re.compile(r"\b(cars?|people|crowd|carros?|pessoas|gente|voitures?|gens|monde|autos?|leute|menschen|"
+                    r"samochod\w*|ludzi\w*|osoby)\b", re.I)
+PR1_CLOSED_LINE = {
+    "en": ("⛔ *PR1 is closed along its whole length* on IFCN's list, from Pico do Areeiro, including the section to "
+           "Pedra Rija (IFCN's control gate at Pedra Rija is closed).",
+           "Until IFCN reopens PR1, the only way up to Pico Ruivo is the Pico Ruivo trail (PR1.2), from Achada do Teixeira, which is open.",
+           "Cars in the car parks don't mean PR1 is open: at Achada do Teixeira they are people walking the Pico Ruivo trail (PR1.2), which is open."),
+    "pt": ("⛔ *O PR1 está encerrado em toda a extensão* na lista do IFCN, a partir do Pico do Areeiro, incluindo o troço "
+           "até à Pedra Rija (o portão de controlo do IFCN na Pedra Rija está fechado).",
+           "Até o IFCN reabrir o PR1, a única forma de subir ao Pico Ruivo é a Vereda do Pico Ruivo (PR1.2), a partir da Achada do Teixeira, que está aberta.",
+           "Os carros nos parques não significam que o PR1 esteja aberto: na Achada do Teixeira são pessoas que fazem a Vereda do Pico Ruivo (PR1.2), que está aberta."),
+    "fr": ("⛔ *Le PR1 est fermé sur toute sa longueur* sur la liste de l'IFCN, depuis le Pico do Areeiro, y compris le "
+           "tronçon jusqu'à Pedra Rija (le portail de contrôle de l'IFCN à Pedra Rija est fermé).",
+           "Tant que l'IFCN n'a pas rouvert le PR1, la seule façon de monter au Pico Ruivo est le sentier du Pico Ruivo (PR1.2), depuis Achada do Teixeira, qui est ouvert.",
+           "Les voitures sur les parkings ne veulent pas dire que le PR1 est ouvert : à Achada do Teixeira, ce sont des personnes qui font le sentier du Pico Ruivo (PR1.2), qui est ouvert."),
+    "de": ("⛔ *Der PR1 ist laut IFCN-Liste auf ganzer Länge gesperrt*, ab dem Pico do Areeiro, einschließlich des "
+           "Abschnitts bis Pedra Rija (das Kontrolltor des IFCN bei Pedra Rija ist geschlossen).",
+           "Bis das IFCN den PR1 wieder öffnet, führt der einzige Weg auf den Pico Ruivo über den Pico-Ruivo-Weg (PR1.2) ab Achada do Teixeira, der geöffnet ist.",
+           "Autos auf den Parkplätzen bedeuten nicht, dass der PR1 offen ist: In Achada do Teixeira sind es Leute auf dem Pico-Ruivo-Weg (PR1.2), der geöffnet ist."),
+    "pl": ("⛔ *PR1 jest zamknięty na całej długości* według listy IFCN, od Pico do Areeiro, łącznie z odcinkiem do "
+           "Pedra Rija (brama kontrolna IFCN przy Pedra Rija jest zamknięta).",
+           "Dopóki IFCN nie otworzy ponownie PR1, jedyna droga na Pico Ruivo to szlak Pico Ruivo (PR1.2) z Achada do Teixeira, który jest otwarty.",
+           "Samochody na parkingach nie oznaczają, że PR1 jest otwarty: w Achada do Teixeira to osoby idące szlakiem Pico Ruivo (PR1.2), który jest otwarty."),
+}
+PR1_TOLD_S = 6 * 3600
+SUNRISE_WORDS = re.compile(r"sunrise|nascer do sol|lever du soleil|sonnenaufgang|wsch[oó]d", re.I)
+PR1_SUNRISE = {   # owner 18 Nov: no sunrise at Areeiro while PR1 is closed; offer Pico Ruivo
+    "en": "🌅 For the sunrise, the option while PR1 is closed is Pico Ruivo, by the Pico Ruivo trail (PR1.2) from Achada do Teixeira, which is open.",
+    "pt": "🌅 Para o nascer do sol, enquanto o PR1 estiver encerrado, a opção é o Pico Ruivo, pela Vereda do Pico Ruivo (PR1.2) a partir da Achada do Teixeira, que está aberta.",
+    "fr": "🌅 Pour le lever du soleil, tant que le PR1 est fermé, l'option est le Pico Ruivo, par le sentier du Pico Ruivo (PR1.2) depuis Achada do Teixeira, qui est ouvert.",
+    "de": "🌅 Für den Sonnenaufgang ist, solange der PR1 gesperrt ist, der Pico Ruivo die Option: über den Pico-Ruivo-Weg (PR1.2) ab Achada do Teixeira, der geöffnet ist.",
+    "pl": "🌅 Na wschód słońca, dopóki PR1 jest zamknięty, opcją jest Pico Ruivo, szlakiem Pico Ruivo (PR1.2) z Achada do Teixeira, który jest otwarty.",
+}
+PR1_OFFENCE = {   # the cars answer is fixed text only: the model guessed "the road and car parks are open" (18 Nov test)
+    "en": "Walking or entering a closed trail is an administrative offence, with fines from €250 to €2,500.",
+    "pt": "Percorrer ou entrar num percurso encerrado é uma contraordenação, com coimas de 250 € a 2500 €.",
+    "fr": "Parcourir ou emprunter un sentier fermé est une infraction administrative, passible d'amendes de 250 € à 2 500 €.",
+    "de": "Einen gesperrten Weg zu begehen ist eine Ordnungswidrigkeit, mit Bußgeldern von 250 € bis 2.500 €.",
+    "pl": "Wejście na zamknięty szlak to wykroczenie administracyjne, zagrożone grzywną od 250 € do 2500 €.",
+}
+
+
+def pr1_closed_line(user, text, lang, reply, meta=None):
+    """PR1 CLOSED on IFCN's list (no island-wide closure) and the question is about PR1 / Areeiro / Pedra Rija / Pico
+    Ruivo / Achada / the sunrise (words or the page it came from) → the fixed lines, once per visitor per 6 h; the cars
+    line every time they ask about cars or people."""
+    try:
+        st = live_status()
+        if ((st.get("alert") or {}).get("blanket")) == "closed":
+            return None
+        rows = {t.get("code"): t.get("status") for t in st.get("trails", [])}
+        if rows.get("PR1") != "CLOSED":
+            return None
+        tag = str(((meta or {}).get("campaign") or (store.get_user(user) or {}).get("source") or ""))
+        if not (PR1_Q.search(text or "") or re.search(r"web-(pr1(?!-[13])|weather|sunrise|oneway|back)\b", tag)):
+            return None
+        en, ruivo, cars = PR1_CLOSED_LINE.get(lang) or PR1_CLOSED_LINE["en"]
+        line = en + (f" {ruivo}" if rows.get("PR1.2") == "OPEN" else "")
+        cars_q = bool(CARS_Q.search(text or "")) and rows.get("PR1.2") == "OPEN"
+        sun = (PR1_SUNRISE.get(lang) or PR1_SUNRISE["en"]) if SUNRISE_WORDS.search(text or "") and rows.get("PR1.2") == "OPEN" else ""
+        told = any(m.get("role") == "assistant" and en[:40] in (m.get("content") or "")
+                   for m in store.history(user, time.time() - PR1_TOLD_S))
+        extra = "\n\n".join(x for x in (cars if cars_q else "", sun) if x)
+        if told:
+            return extra or None
+        return line + (f"\n\n{extra}" if extra else "")
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def site_open_line(text, lang, reply):
     """'IFCN's page shows them open' during an island-wide closure → the fixed explanation (11 Nov real chat), unless
     the reply already gives it."""
@@ -1475,6 +1550,20 @@ def answer(user, text, lang, meta=None, c=None):
     line = site_open_line(text, lang, clean)
     if line:
         clean = f"{line}\n\n{clean}"
+    line = pr1_closed_line(user, text, lang, clean, meta)   # owner 18 Nov: whole PR1 closed → only Pico Ruivo via Achada
+    if line:
+        cars = (PR1_CLOSED_LINE.get(lang) or PR1_CLOSED_LINE["en"])[2]
+        if cars in line:   # "why cars/people if it's closed?": our fixed lines + the fine, then our page link only
+            site = [p for p in clean.split("\n\n") if p.strip().startswith("🥾")]
+            clean = "\n\n".join([line, PR1_OFFENCE.get(lang) or PR1_OFFENCE["en"]] + site)
+        else:
+            sun = PR1_SUNRISE.get(lang) or PR1_SUNRISE["en"]
+            head = line.replace(sun, "").strip()
+            clean = (f"{head}\n\n{clean}" if head else clean)
+            if sun in line:   # after the model's answer, before our page link
+                paras = clean.split("\n\n")
+                k = next((i for i, p in enumerate(paras) if p.strip().startswith("🥾")), len(paras))
+                clean = "\n\n".join(paras[:k] + [sun] + paras[k:])
     if clean != reply:
         store.fix_last_answer(user, clean)
         reply = clean
