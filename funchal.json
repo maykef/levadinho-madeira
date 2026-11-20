@@ -1,31 +1,7 @@
 {
- "stamp": "2026-11-19T08:14+00:00",
+ "stamp": "2026-11-20T07:55+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-19",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:40",
-   "sunset": "18:05",
-   "weather": {
-    "tmin": 19,
-    "tmax": 23,
-    "rain": 76,
-    "wtype": 7,
-    "uv": 3.4
-   },
-   "fair": {
-    "theme": "gastronomy",
-    "pt": "Gastronomia",
-    "hours": [
-     "09:00",
-     "17:00"
-    ],
-    "url": "https://mercados.funchal.pt/feiras-tematicas-novembro-2026-mercado-dos-lavradores/"
-   }
-  },
   {
    "date": "2026-11-20",
    "type": "weekday",
@@ -36,9 +12,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 24,
-    "rain": 90,
+    "rain": 92,
     "wtype": 7,
-    "uv": 3.7
+    "uv": 3.5
    },
    "fair": null
   },
@@ -52,9 +28,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 88,
+    "rain": 92,
     "wtype": 7,
-    "uv": 3.0
+    "uv": 3.4
    },
    "fair": null
   },
@@ -67,10 +43,10 @@
    "sunset": "18:04",
    "weather": {
     "tmin": 19,
-    "tmax": 24,
-    "rain": 49,
+    "tmax": 23,
+    "rain": 18,
     "wtype": 3,
-    "uv": 3.5
+    "uv": 3.6
    },
    "fair": null
   },
@@ -83,10 +59,10 @@
    "sunset": "18:04",
    "weather": {
     "tmin": 19,
-    "tmax": 24,
-    "rain": 78,
-    "wtype": 6,
-    "uv": null
+    "tmax": 23,
+    "rain": 67,
+    "wtype": 7,
+    "uv": 2.7
    },
    "fair": null
   },
@@ -97,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:45",
    "sunset": "18:03",
-   "weather": null,
+   "weather": {
+    "tmin": 18,
+    "tmax": 23,
+    "rain": 75,
+    "wtype": 6,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -187,6 +169,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-12-03",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:53",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -209,6 +201,15 @@
    "src": "eventsmadeira.com"
   },
   {
+   "title": "Moda Madeira",
+   "venue": "",
+   "start": "2026-11-20",
+   "end": "2026-11-21",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/moda-madeira/",
+   "src": "eventsmadeira.com"
+  },
+  {
    "title": "Chamber Music Concert – Legno Duo | OCM",
    "venue": "",
    "start": "2026-11-21",
@@ -219,11 +220,11 @@
   }
  ],
  "sea": {
-  "date": "2026-11-19",
+  "date": "2026-11-20",
   "sst": 22,
   "wave": [
-   1.0,
-   1.1
+   0.8,
+   1.0
   ],
   "warnings": []
  },
