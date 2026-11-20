@@ -388,9 +388,10 @@
       var fresh = openingRows() || open;
       var closed = open.kind === "trail" || TRAIL_CLOSED ? await closedRows() : null;
       if (closed) { fresh = { rows: closed, kind: "closed" }; open.kind = "closed"; open.chips = null; }   // closed: the "open nearby" chips, not the page's own
-      else if (TRAIL_PAGE && !document.getElementById("answers")) {   // PR1: today's status heads the chat (owner, 2026-11-20)
+      else if (TRAIL_PAGE) {   // today's status heads the chat: badge + IFCN's note (owner, 2026-11-20)
         var sr = await statusRow();
-        if (sr) fresh = { rows: [sr], kind: fresh.kind };   // the status alone: the page's lead describes the normal regime
+        if (sr && document.getElementById("answers") && fresh.rows && fresh.rows.length) fresh.rows[0] = [fresh.rows[0][0], sr[1]];   // "Is it open today?" row
+        else if (sr) fresh = { rows: [sr], kind: fresh.kind };   // PR1: the status alone (its lead describes the normal regime)
       }
       if (await stormOn()) {   // storm mode: the island-wide closure first, then nothing that suggests walking
         fresh = { rows: [["", "⚠️ " + (STORM[LANG] || STORM.en)]], kind: "storm" };

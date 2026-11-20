@@ -4,7 +4,7 @@
 Owner, 2026-10-20: chat only on question-shaped pages; trail pages are factsheets. The 8 trail-code pilot pages
 (PR6.8, PR9.1, PR7, PR28, PR13, PR13.1, PR6.6, PR1.3) were removed from the pilot that day; getting-back stays
 (it converts ~1 in 4), and new question pages (one-day-in-madeira…) join this list as they are built. × 5 languages.
-Each gets <script src="/chat.js?v=20261120" defer> before </body>, between CHAT:START/END markers. The page HTML is otherwise
+Each gets <script src="/chat.js?v=20261120b" defer> before </body>, between CHAT:START/END markers. The page HTML is otherwise
 unchanged (Google indexes the same page); chat.js adds the chat above it only when the bot answers.
 Idempotent. `--remove` takes the markers out of every page (to end the pilot).
 
@@ -25,8 +25,8 @@ PILOT = ["getting-back.html", "one-day-in-madeira/index.html", "two-days-in-made
          "pr1-one-way/index.html", "levadas-by-bus/index.html",  # owner, 2026-10-22: the week's top landings for PT/PL visitors; both question-shaped
          "pico-do-areeiro-weather/index.html", "pr1-sunrise-transport/index.html",  # owner, 2026-10-22: the remaining question-shaped
          "free-walks/index.html", "simplifica-booking/index.html"]  # pages in October's top 15 (chat now covers ~41% of views)
-BLOCK = '<!-- CHAT:START (scripts/gen_chat.py) --><script src="/chat.js?v=20261120" defer></script><!-- CHAT:END -->'
-BLOCK_STORM = ('<!-- CHAT:START (scripts/gen_chat.py, trail page) --><script src="/chat.js?v=20261120" data-trail-page defer>'
+BLOCK = '<!-- CHAT:START (scripts/gen_chat.py) --><script src="/chat.js?v=20261120b" defer></script><!-- CHAT:END -->'
+BLOCK_STORM = ('<!-- CHAT:START (scripts/gen_chat.py, trail page) --><script src="/chat.js?v=20261120b" data-trail-page defer>'
                '</script><!-- CHAT:END -->')
 MARK = re.compile(r"<!-- CHAT:START.*?<!-- CHAT:END -->", re.S)
 
