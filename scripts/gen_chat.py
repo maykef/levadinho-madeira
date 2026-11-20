@@ -4,13 +4,15 @@
 Owner, 2026-10-20: chat only on question-shaped pages; trail pages are factsheets. The 8 trail-code pilot pages
 (PR6.8, PR9.1, PR7, PR28, PR13, PR13.1, PR6.6, PR1.3) were removed from the pilot that day; getting-back stays
 (it converts ~1 in 4), and new question pages (one-day-in-madeira…) join this list as they are built. × 5 languages.
-Each gets <script src="/chat.js?v=20261108" defer> before </body>, between CHAT:START/END markers. The page HTML is otherwise
+Each gets <script src="/chat.js?v=20261120" defer> before </body>, between CHAT:START/END markers. The page HTML is otherwise
 unchanged (Google indexes the same page); chat.js adds the chat above it only when the bot answers.
 Idempotent. `--remove` takes the markers out of every page (to end the pilot).
 
-Storm mode (owner, 2026-11-08): every other page with a live status card (the 37 trail pages incl. PR1) gets the same
-script marked data-storm-only: chat.js shows the chat there only during IFCN's island-wide closure, opening with
-"all trails are closed". On normal days those pages stay factsheets (owner, 2026-10-20). Re-run after gen_spokes.py.
+Trail pages (owner, 2026-11-20: "webchat as a permanent feature in all trails", reversing 2026-10-20): every other page
+with a live status card (the 37 trail pages incl. PR1) gets the script marked data-trail-page: the chat opens there every
+day, headed by today's status (the quick-answers card's "Is it open today?"; PR1, which has no card, a status line from
+status.json; a CLOSED trail: closed + open trails nearby; IFCN's island-wide closure: that first). It was storm-only
+(data-storm-only) from 2026-11-08 to 2026-11-20. Re-run after gen_spokes.py.
 """
 import glob
 import os
@@ -23,8 +25,8 @@ PILOT = ["getting-back.html", "one-day-in-madeira/index.html", "two-days-in-made
          "pr1-one-way/index.html", "levadas-by-bus/index.html",  # owner, 2026-10-22: the week's top landings for PT/PL visitors; both question-shaped
          "pico-do-areeiro-weather/index.html", "pr1-sunrise-transport/index.html",  # owner, 2026-10-22: the remaining question-shaped
          "free-walks/index.html", "simplifica-booking/index.html"]  # pages in October's top 15 (chat now covers ~41% of views)
-BLOCK = '<!-- CHAT:START (scripts/gen_chat.py) --><script src="/chat.js?v=20261108" defer></script><!-- CHAT:END -->'
-BLOCK_STORM = ('<!-- CHAT:START (scripts/gen_chat.py, storm mode only) --><script src="/chat.js?v=20261108" data-storm-only defer>'
+BLOCK = '<!-- CHAT:START (scripts/gen_chat.py) --><script src="/chat.js?v=20261120" defer></script><!-- CHAT:END -->'
+BLOCK_STORM = ('<!-- CHAT:START (scripts/gen_chat.py, trail page) --><script src="/chat.js?v=20261120" data-trail-page defer>'
                '</script><!-- CHAT:END -->')
 MARK = re.compile(r"<!-- CHAT:START.*?<!-- CHAT:END -->", re.S)
 
@@ -45,7 +47,7 @@ def main(remove=False):
         if new != h:
             open(f, "w", encoding="utf-8").write(new)
             changed += 1
-    print(f"chat {'removed from' if remove else 'on'} {len(want) if not remove else 0} pilot pages, storm-only on {storm} "
+    print(f"chat {'removed from' if remove else 'on'} {len(want) if not remove else 0} pilot pages and {storm} "
           f"trail pages ({changed} files changed)")
 
 

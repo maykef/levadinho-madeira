@@ -89,8 +89,26 @@
     }
     catch (e) { return false; }
   }
-  // trail pages carry chat.js with data-storm-only (scripts/gen_chat.py): the chat appears there only in storm mode
-  var STORM_ONLY = !!(document.currentScript && document.currentScript.hasAttribute("data-storm-only"));
+  // trail pages carry chat.js with data-trail-page (scripts/gen_chat.py): since 2026-11-20 the chat opens there every day
+  // (owner: "webchat as a permanent feature in all trails", headed by whether the trail is open or closed). Pages cached
+  // with the old data-storm-only attribute get the same treatment.
+  var TRAIL_PAGE = !!(document.currentScript && (document.currentScript.hasAttribute("data-trail-page") ||
+                                                 document.currentScript.hasAttribute("data-storm-only")));
+  var BADGE = { en: { OPEN: "OPEN", PARTIAL: "RESTRICTED", CLOSED: "CLOSED" }, pt: { OPEN: "ABERTO", PARTIAL: "CONDICIONADO", CLOSED: "FECHADO" },
+                fr: { OPEN: "OUVERT", PARTIAL: "RESTREINT", CLOSED: "FERMÉ" }, de: { OPEN: "OFFEN", PARTIAL: "EINGESCHRÄNKT", CLOSED: "GESPERRT" },
+                pl: { OPEN: "OTWARTY", PARTIAL: "OGRANICZONY", CLOSED: "ZAMKNIĘTY" } };   // same words as status.js
+  var ONLIST = { en: "on IFCN's official warnings list.", pt: "na lista oficial de avisos do IFCN.", fr: "sur la liste officielle des avis de l'IFCN.",
+                 de: "laut offizieller Hinweisliste des IFCN.", pl: "według oficjalnej listy komunikatów IFCN." };
+  // a trail page without a quick-answers card (PR1): its first message is today's status from status.json, badge + note
+  async function statusRow() {
+    var code = pageCode(), st;
+    if (!code) return null;
+    try { st = await (await fetch("/status.json", { cache: "no-store" })).json(); } catch (e) { return null; }
+    var t = (st.trails || []).filter(function (x) { return x.code === code; })[0];
+    if (!t || !(BADGE.en[t.status])) return null;
+    var note = t.note && typeof t.note === "object" ? (t.note[LANG] || t.note.en || "") : (t.note || "");
+    return ["", "<b>" + (BADGE[LANG] || BADGE.en)[t.status] + "</b> " + (ONLIST[LANG] || ONLIST.en) + (note ? " " + esc(note) : "")];
+  }
   var U = UI[LANG] || UI.en;
   // the owner's devices (#skipgc on any page sets it, #countme clears it): chats answered but never recorded
   var OWNER = (function () { try { return localStorage.getItem("gc-skip") === "1"; } catch (e) { return false; } })();
@@ -244,8 +262,8 @@
     var tag = waLink ? (decodeURIComponent(waLink.getAttribute("href")).match(/#(web-[a-z0-9-]+)/) || [])[1] : null;
     if (!tag) return false;
     if (!open || !open.rows.length) {
-      if (!STORM_ONLY) return false;
-      open = { rows: [], kind: "storm" };   // a storm-only page without a quick-answers card (PR1): the storm line is enough
+      if (!TRAIL_PAGE) return false;
+      open = { rows: [], kind: "guide" };   // a trail page without a card or lead: the status line is enough
     }
     var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
     var sec = document.createElement("section");
@@ -370,6 +388,10 @@
       var fresh = openingRows() || open;
       var closed = open.kind === "trail" || TRAIL_CLOSED ? await closedRows() : null;
       if (closed) { fresh = { rows: closed, kind: "closed" }; open.kind = "closed"; open.chips = null; }   // closed: the "open nearby" chips, not the page's own
+      else if (TRAIL_PAGE && !document.getElementById("answers")) {   // PR1: today's status heads the chat (owner, 2026-11-20)
+        var sr = await statusRow();
+        if (sr) fresh = { rows: [sr], kind: fresh.kind };   // the status alone: the page's lead describes the normal regime
+      }
       if (await stormOn()) {   // storm mode: the island-wide closure first, then nothing that suggests walking
         fresh = { rows: [["", "⚠️ " + (STORM[LANG] || STORM.en)]], kind: "storm" };
         if (AHEAD) fresh.rows.push(["", "<b>" + esc(AHEAD.head) + "</b> " + esc(AHEAD.body)]);   // same words as the banner
@@ -391,9 +413,7 @@
   }
 
   async function start() {
-    // trail pages (data-storm-only): the chat only during an island-wide closure, an IPMA warning ahead (owner,
-    // 2026-11-09) or while this page's trail is CLOSED (owner, 2026-11-12: it opens saying the trail is still closed)
-    if (STORM_ONLY && !(await stormOn()) && !AHEAD && !TRAIL_CLOSED) return;
+    await stormOn();   // reads AHEAD and TRAIL_CLOSED for the opening; trail pages show the chat every day since 2026-11-20
     var ctl = window.AbortController ? new AbortController() : null;
     var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 2500);
     fetch(API + "/health", { signal: ctl ? ctl.signal : undefined, cache: "no-store" })
