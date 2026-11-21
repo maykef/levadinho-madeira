@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-20T07:55+00:00",
+ "stamp": "2026-11-21T07:53+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-20",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:41",
-   "sunset": "18:05",
-   "weather": {
-    "tmin": 20,
-    "tmax": 24,
-    "rain": 92,
-    "wtype": 7,
-    "uv": 3.5
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-21",
    "type": "saturday",
@@ -28,9 +12,9 @@
    "weather": {
     "tmin": 20,
     "tmax": 25,
-    "rain": 92,
+    "rain": 100,
     "wtype": 7,
-    "uv": 3.4
+    "uv": 3.6
    },
    "fair": null
   },
@@ -44,7 +28,7 @@
    "weather": {
     "tmin": 19,
     "tmax": 23,
-    "rain": 18,
+    "rain": 35,
     "wtype": 3,
     "uv": 3.6
    },
@@ -59,10 +43,10 @@
    "sunset": "18:04",
    "weather": {
     "tmin": 19,
-    "tmax": 23,
-    "rain": 67,
+    "tmax": 24,
+    "rain": 73,
     "wtype": 7,
-    "uv": 2.7
+    "uv": 2.9
    },
    "fair": null
   },
@@ -75,10 +59,10 @@
    "sunset": "18:03",
    "weather": {
     "tmin": 18,
-    "tmax": 23,
-    "rain": 75,
-    "wtype": 6,
-    "uv": null
+    "tmax": 24,
+    "rain": 63,
+    "wtype": 7,
+    "uv": 2.8
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:46",
    "sunset": "18:03",
-   "weather": null,
+   "weather": {
+    "tmin": 17,
+    "tmax": 22,
+    "rain": 43,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-12-04",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:54",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -217,13 +217,22 @@
    "all_day": true,
    "url": "https://eventsmadeira.com/en/event/chamber-music-concert-legno-duo-ocm/",
    "src": "eventsmadeira.com"
+  },
+  {
+   "title": "Alice no país do… Teatro",
+   "venue": "Teatro Municipal Baltazar Dias",
+   "start": "2026-11-27T20:00",
+   "end": "2026-12-05T20:00",
+   "all_day": false,
+   "url": "https://cultura.funchal.pt/event/alice-no-pais-do-teatro/",
+   "src": "cultura.funchal.pt"
   }
  ],
  "sea": {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "sst": 22,
   "wave": [
-   0.8,
+   0.7,
    1.0
   ],
   "warnings": []
@@ -233,15 +242,9 @@
    "id": "lido",
    "name": "Complexo Balnear do Lido",
    "url": "https://frentemarfunchal.pt/complexos/lido-2/",
-   "hours": [
-    "09:00",
-    "18:00"
-   ],
-   "window": [
-    "2026-10-25",
-    "2027-03-31"
-   ],
-   "days": "daily"
+   "hours": null,
+   "window": null,
+   "days": null
   },
   {
    "id": "ponta-gorda",
@@ -261,15 +264,9 @@
    "id": "barreirinha",
    "name": "Complexo Balnear da Barreirinha",
    "url": "https://frentemarfunchal.pt/complexos/barreirinha/",
-   "hours": [
-    "09:30",
-    "17:30"
-   ],
-   "window": [
-    "2026-10-25",
-    "2027-03-31"
-   ],
-   "days": "daily"
+   "hours": null,
+   "window": null,
+   "days": null
   },
   {
    "id": "doca-do-cavacas",
