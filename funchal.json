@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-21T07:53+00:00",
+ "stamp": "2026-11-22T07:39+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-21",
-   "type": "saturday",
-   "holiday": null,
-   "bus": "saturday",
-   "sunrise": "07:42",
-   "sunset": "18:04",
-   "weather": {
-    "tmin": 20,
-    "tmax": 25,
-    "rain": 100,
-    "wtype": 7,
-    "uv": 3.6
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-22",
    "type": "sunday",
@@ -28,9 +12,9 @@
    "weather": {
     "tmin": 19,
     "tmax": 23,
-    "rain": 35,
+    "rain": 25,
     "wtype": 3,
-    "uv": 3.6
+    "uv": 3.5
    },
    "fair": null
   },
@@ -42,11 +26,11 @@
    "sunrise": "07:44",
    "sunset": "18:04",
    "weather": {
-    "tmin": 19,
+    "tmin": 20,
     "tmax": 24,
-    "rain": 73,
+    "rain": 61,
     "wtype": 7,
-    "uv": 2.9
+    "uv": 3.2
    },
    "fair": null
   },
@@ -60,9 +44,9 @@
    "weather": {
     "tmin": 18,
     "tmax": 24,
-    "rain": 63,
-    "wtype": 7,
-    "uv": 2.8
+    "rain": 57,
+    "wtype": 3,
+    "uv": 3.4
    },
    "fair": null
   },
@@ -76,9 +60,9 @@
    "weather": {
     "tmin": 17,
     "tmax": 22,
-    "rain": 43,
+    "rain": 12,
     "wtype": 3,
-    "uv": null
+    "uv": 2.5
    },
    "fair": null
   },
@@ -89,7 +73,13 @@
    "bus": "weekday",
    "sunrise": "07:47",
    "sunset": "18:03",
-   "weather": null,
+   "weather": {
+    "tmin": 17,
+    "tmax": 22,
+    "rain": 25,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": {
     "theme": "fashion",
     "pt": "Moda, Bijuteria e Decoração",
@@ -179,6 +169,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-12-05",
+   "type": "saturday",
+   "holiday": null,
+   "bus": "saturday",
+   "sunrise": "07:54",
+   "sunset": "18:01",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -201,24 +201,6 @@
    "src": "eventsmadeira.com"
   },
   {
-   "title": "Moda Madeira",
-   "venue": "",
-   "start": "2026-11-20",
-   "end": "2026-11-21",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/moda-madeira/",
-   "src": "eventsmadeira.com"
-  },
-  {
-   "title": "Chamber Music Concert – Legno Duo | OCM",
-   "venue": "",
-   "start": "2026-11-21",
-   "end": "2026-11-21",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/chamber-music-concert-legno-duo-ocm/",
-   "src": "eventsmadeira.com"
-  },
-  {
    "title": "Alice no país do… Teatro",
    "venue": "Teatro Municipal Baltazar Dias",
    "start": "2026-11-27T20:00",
@@ -229,11 +211,11 @@
   }
  ],
  "sea": {
-  "date": "2026-11-21",
+  "date": "2026-11-22",
   "sst": 22,
   "wave": [
    0.7,
-   1.0
+   0.9
   ],
   "warnings": []
  },
