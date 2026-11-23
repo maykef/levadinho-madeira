@@ -1,5 +1,5 @@
 {
- "stamp": "2026-11-23T08:28+00:00",
+ "stamp": "2026-11-23T15:00+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
   {
@@ -10,11 +10,11 @@
    "sunrise": "07:44",
    "sunset": "18:04",
    "weather": {
-    "tmin": 19,
-    "tmax": 24,
-    "rain": 98,
+    "tmin": 20,
+    "tmax": 23,
+    "rain": 96,
     "wtype": 7,
-    "uv": 2.9
+    "uv": 2.6
    },
    "fair": null
   },
@@ -27,10 +27,10 @@
    "sunset": "18:03",
    "weather": {
     "tmin": 19,
-    "tmax": 23,
-    "rain": 59,
-    "wtype": 7,
-    "uv": 3.2
+    "tmax": 24,
+    "rain": 60,
+    "wtype": 3,
+    "uv": 3.1
    },
    "fair": null
   },
@@ -44,9 +44,9 @@
    "weather": {
     "tmin": 17,
     "tmax": 22,
-    "rain": 8,
+    "rain": 0,
     "wtype": 3,
-    "uv": 2.3
+    "uv": 2.5
    },
    "fair": null
   },
@@ -58,11 +58,11 @@
    "sunrise": "07:47",
    "sunset": "18:03",
    "weather": {
-    "tmin": 18,
+    "tmin": 17,
     "tmax": 22,
     "rain": 25,
-    "wtype": 3,
-    "uv": 3.0
+    "wtype": 2,
+    "uv": 2.6
    },
    "fair": {
     "theme": "fashion",
@@ -82,11 +82,11 @@
    "sunrise": "07:48",
    "sunset": "18:02",
    "weather": {
-    "tmin": 17,
+    "tmin": 16,
     "tmax": 22,
-    "rain": 57,
+    "rain": 40,
     "wtype": 7,
-    "uv": null
+    "uv": 3.1
    },
    "fair": null
   },

@@ -12,7 +12,7 @@
   "weather": {
     "ok": false
   },
-  "stamp": "2026-11-23 08:28",
+  "stamp": "2026-11-23 15:00",
   "date": "2026-11-23",
   "source": {
     "name": "IFCN",
@@ -29,7 +29,7 @@
       "key": "summit",
       "place": "Pico do Areeiro",
       "temp": null,
-      "wind": 15,
+      "wind": 31,
       "rain": null,
       "in_cloud": false
     },
@@ -44,25 +44,25 @@
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 15,
-      "wind": 4,
+      "temp": 17,
+      "wind": 12,
       "rain": 0.0,
       "in_cloud": true
     },
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 20,
-      "wind": 16,
+      "temp": 22,
+      "wind": 33,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 20,
-      "wind": 6,
-      "rain": 2.4,
+      "temp": 22,
+      "wind": 4,
+      "rain": 0.0,
       "in_cloud": false
     }
   ],
@@ -91,7 +91,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 15,
+      "temp": 17,
       "page": "/25-fontes/"
     },
     {
@@ -121,7 +121,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 20,
+      "temp": 22,
       "page": "/sao-lourenco/"
     },
     {
@@ -141,7 +141,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 15,
+      "temp": 17,
       "page": "/fanal/"
     },
     {
@@ -171,7 +171,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/levada-dos-cedros/"
     },
     {
@@ -221,7 +221,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 20,
+      "temp": 22,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -251,7 +251,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 15,
+      "temp": 17,
       "page": "/levada-do-risco/"
     },
     {
@@ -261,7 +261,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/levada-do-alecrim/"
     },
     {
@@ -271,7 +271,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/vereda-da-lagoa-do-vento/"
     },
     {
@@ -281,7 +281,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/levada-do-moinho/"
     },
     {
@@ -301,7 +301,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/vereda-da-ribeira-da-janela/"
     },
     {
@@ -311,7 +311,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -321,7 +321,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
@@ -331,7 +331,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/caminho-real-do-paul-do-mar/"
     },
     {
@@ -341,7 +341,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/vereda-do-jardim-do-mar/"
     },
     {
@@ -351,7 +351,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/caminho-do-norte/"
     },
     {
@@ -361,7 +361,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -371,7 +371,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -381,7 +381,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/vereda-do-tunel-do-cavalo/"
     },
     {
@@ -391,7 +391,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/levada-da-rocha-vermelha/"
     },
     {
@@ -401,7 +401,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/levada-do-paul-ii-um-caminho-para-todos/"
     },
     {
@@ -411,7 +411,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/levada-velha-do-rabacal/"
     },
     {
@@ -421,7 +421,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/vereda-do-pico-fernandes/"
     },
     {
@@ -431,7 +431,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 15,
+      "temp": 17,
       "page": "/vereda-da-palha-carga/"
     },
     {
@@ -503,9 +503,9 @@
         "rain_prob": 100,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 25,
+        "wind_kmh": 28,
         "tmin": 10,
-        "tmax": 16
+        "tmax": 15
       },
       {
         "date": "2026-11-24",
@@ -513,19 +513,19 @@
         "rain_prob": 100,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 25,
-        "tmin": 7,
-        "tmax": 11
+        "wind_kmh": 28,
+        "tmin": 8,
+        "tmax": 12
       },
       {
         "date": "2026-11-25",
         "type": 7,
-        "rain_prob": 88,
+        "rain_prob": 92,
         "rain_int": 1,
         "wind_class": 2,
         "wind_kmh": 24,
-        "tmin": 6,
-        "tmax": 10
+        "tmin": 5,
+        "tmax": 9
       },
       {
         "date": "2026-11-26",
@@ -539,23 +539,23 @@
       },
       {
         "date": "2026-11-27",
-        "type": 10,
-        "rain_prob": 84,
+        "type": 7,
+        "rain_prob": 73,
         "rain_int": 1,
-        "wind_class": 2,
-        "wind_kmh": 19,
-        "tmin": 5,
+        "wind_class": 1,
+        "wind_kmh": 14,
+        "tmin": 4,
         "tmax": 11
       }
     ],
     "north": [
       {
         "date": "2026-11-23",
-        "type": 3,
-        "rain_prob": 49,
-        "rain_int": null,
+        "type": 7,
+        "rain_prob": 65,
+        "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 23,
+        "wind_kmh": 17,
         "tmin": 17,
         "tmax": 23
       },
@@ -572,59 +572,59 @@
       {
         "date": "2026-11-25",
         "type": 3,
-        "rain_prob": 53,
+        "rain_prob": 39,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 13,
+        "wind_kmh": 14,
         "tmin": 16,
         "tmax": 19
       },
       {
         "date": "2026-11-26",
-        "type": 7,
-        "rain_prob": 88,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 12,
-        "tmin": 16,
-        "tmax": 19
-      },
-      {
-        "date": "2026-11-27",
         "type": 3,
         "rain_prob": 60,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 8,
+        "wind_kmh": 13,
         "tmin": 15,
-        "tmax": 19
+        "tmax": 20
+      },
+      {
+        "date": "2026-11-27",
+        "type": 2,
+        "rain_prob": 49,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 9,
+        "tmin": 16,
+        "tmax": 20
       }
     ],
     "west": [
       {
         "date": "2026-11-23",
-        "type": 7,
-        "rain_prob": 98,
+        "type": 10,
+        "rain_prob": 92,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 23,
-        "tmin": 9,
-        "tmax": 17
+        "wind_kmh": 25,
+        "tmin": 10,
+        "tmax": 16
       },
       {
         "date": "2026-11-24",
-        "type": 9,
+        "type": 10,
         "rain_prob": 100,
-        "rain_int": 2,
+        "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 24,
+        "wind_kmh": 27,
         "tmin": 7,
-        "tmax": 12
+        "tmax": 13
       },
       {
         "date": "2026-11-25",
         "type": 10,
-        "rain_prob": 88,
+        "rain_prob": 98,
         "rain_int": 1,
         "wind_class": 2,
         "wind_kmh": 16,
@@ -633,22 +633,22 @@
       },
       {
         "date": "2026-11-26",
-        "type": 7,
-        "rain_prob": 98,
+        "type": 10,
+        "rain_prob": 100,
         "rain_int": 1,
-        "wind_class": 1,
+        "wind_class": 2,
         "wind_kmh": 17,
-        "tmin": 5,
-        "tmax": 9
+        "tmin": 6,
+        "tmax": 10
       },
       {
         "date": "2026-11-27",
-        "type": 10,
-        "rain_prob": 92,
+        "type": 7,
+        "rain_prob": 88,
         "rain_int": 1,
         "wind_class": 1,
-        "wind_kmh": 11,
-        "tmin": 5,
+        "wind_kmh": 8,
+        "tmin": 4,
         "tmax": 11
       }
     ],
@@ -656,103 +656,103 @@
       {
         "date": "2026-11-23",
         "type": 7,
-        "rain_prob": 96,
+        "rain_prob": 100,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 37,
+        "wind_kmh": 34,
         "tmin": 19,
         "tmax": 23
       },
       {
         "date": "2026-11-24",
         "type": 7,
-        "rain_prob": 76,
+        "rain_prob": 80,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 31,
+        "wind_kmh": 30,
         "tmin": 18,
         "tmax": 22
       },
       {
         "date": "2026-11-25",
         "type": 3,
-        "rain_prob": 49,
+        "rain_prob": 35,
         "rain_int": null,
         "wind_class": 2,
         "wind_kmh": 22,
-        "tmin": 17,
-        "tmax": 20
+        "tmin": 18,
+        "tmax": 21
       },
       {
         "date": "2026-11-26",
         "type": 7,
-        "rain_prob": 80,
+        "rain_prob": 82,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 24,
+        "wind_kmh": 28,
         "tmin": 17,
         "tmax": 21
       },
       {
         "date": "2026-11-27",
-        "type": 2,
-        "rain_prob": 60,
+        "type": 3,
+        "rain_prob": 59,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 18,
-        "tmin": 17,
-        "tmax": 20
+        "wind_kmh": 19,
+        "tmin": 18,
+        "tmax": 21
       }
     ],
     "south": [
       {
         "date": "2026-11-23",
         "type": 7,
-        "rain_prob": 98,
+        "rain_prob": 96,
         "rain_int": 1,
+        "wind_class": 1,
+        "wind_kmh": 8,
+        "tmin": 20,
+        "tmax": 23
+      },
+      {
+        "date": "2026-11-24",
+        "type": 3,
+        "rain_prob": 60,
+        "rain_int": null,
         "wind_class": 1,
         "wind_kmh": 11,
         "tmin": 19,
         "tmax": 24
       },
       {
-        "date": "2026-11-24",
-        "type": 7,
-        "rain_prob": 59,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 10,
-        "tmin": 19,
-        "tmax": 23
-      },
-      {
         "date": "2026-11-25",
         "type": 3,
-        "rain_prob": 8,
+        "rain_prob": 0,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 10,
+        "wind_kmh": 11,
         "tmin": 17,
         "tmax": 22
       },
       {
         "date": "2026-11-26",
-        "type": 3,
+        "type": 2,
         "rain_prob": 25,
         "rain_int": null,
         "wind_class": 1,
         "wind_kmh": 5,
-        "tmin": 18,
+        "tmin": 17,
         "tmax": 22
       },
       {
         "date": "2026-11-27",
         "type": 7,
-        "rain_prob": 57,
+        "rain_prob": 40,
         "rain_int": 1,
         "wind_class": 1,
         "wind_kmh": 5,
-        "tmin": 17,
+        "tmin": 16,
         "tmax": 22
       }
     ]
