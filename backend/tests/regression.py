@@ -61,6 +61,11 @@ def score(results):
         wc = (current.get(r["id"]) or {}).get("when_closed")
         if wc and (r.get("trail_status_at_run") or trail_status(st, wc["trail"])) == "CLOSED":
             r["must"], r["must_not"] = wc.get("must", []), wc.get("must_not", [])
+        # extra checks while the trail is not OPEN end to end (23 Nov: PR1 closed beyond Pedra Rija and the bot still
+        # said "leave your car at Achada do Teixeira, where PR1 ends")
+        wn = (current.get(r["id"]) or {}).get("when_not_open")
+        if wn and (r.get("trail_status_at_run") or trail_status(st, wn["trail"])) != "OPEN":
+            r["must"], r["must_not"] = r.get("must", []) + wn.get("must", []), r.get("must_not", []) + wn.get("must_not", [])
         a = without_lead(r["answer"] or "", heads)   # the bot's own answer, both ways
         miss = [p for p in r.get("must", []) if not re.search(p, a, re.I)]
         bad = [p for p in r.get("must_not", []) if re.search(p, a, re.I)]
@@ -88,8 +93,8 @@ def baseline(out, mode="baseline"):
         store.set_user(user, lang=q["lang"], consent="yes", state="ready", base=q.get("base", "Funchal"), source=q.get("source"))
         t = time.time()
         r = dict(q)
-        if q.get("when_closed"):
-            r["trail_status_at_run"] = trail_status(live_status(), q["when_closed"]["trail"])
+        if q.get("when_closed") or q.get("when_not_open"):
+            r["trail_status_at_run"] = trail_status(live_status(), (q.get("when_closed") or q["when_not_open"])["trail"])
         try:
             for turn in q.get("before", []):  # a follow-up: the earlier turns of the real chat, on the same visitor
                 brain.respond(user, turn, q["lang"], {"events": []}, brain.classify(turn))

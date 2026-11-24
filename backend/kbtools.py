@@ -262,6 +262,7 @@ def trail_facts(code: str, lang: str = "en") -> dict:
     # bus timetables live in bus(), but the 'nobus' sentences carry the car-park and shuttle facts (Rabaçal ER105…)
     notes = _q("""SELECT topic, text, source_id FROM kb.fact WHERE subject = %s AND confirmed
                   AND (topic <> 'bus' OR id LIKE 'bus:%%:nobus:%%') ORDER BY id""", (c,))
+    extra = [_pr1_car_extra()] if c == "PR1" and any(n["topic"] == "car" for n in notes) else []
     return {
         "code": t["code"], "name": t["name"], "status": t["status"], "status_note": _pick(t["note"], lang),
         "distance": t["distance_txt"], "duration": t["duration"], "difficulty": t["difficulty"],
@@ -295,7 +296,7 @@ def trail_facts(code: str, lang: str = "en") -> dict:
         "tunnels_note": "tunnels/torch_needed/exposure null = no sourced data, not 'none'.",
         "trailhead": {"lat": t["lat"], "lon": t["lon"]},
         "page": _page(t["page_url"], lang), "official_page": t["official_url"],
-        "notes": [{"topic": n["topic"], "text": _pick(n["text"], lang), "source": _source(n["source_id"])} for n in notes],
+        "notes": [{"topic": n["topic"], "text": _pick(n["text"], lang), "source": _source(n["source_id"])} for n in notes] + extra,
         "source": _source(t["source_id"]), "status_source": _source("ifcn_warnings"),
     }
 
@@ -498,6 +499,28 @@ DAY_NAMES = {"daily": "Every day", "mon_fri": "Monday to Friday", "sat": "Saturd
              "sat_sun": "Saturdays and Sundays", "sat_sun_hol": "Saturdays, Sundays and holidays"}
 
 
+# operators' phone numbers as SIGA prints them ("Em caso de inconveniência com os horários e carreiras, contatar",
+# siga.madeira.gov.pt, checked 24 Nov 2026); keys are matched inside kb.bus_trip.operator, lower case
+OPERATOR_PHONE = {"cam": "+351 291 201 151", "rodoeste": "+351 291 220 148", "horários do funchal": "+351 291 705 555"}
+
+
+_STOPS_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "bot", "bus_stops.json")
+_STOPS = None
+
+
+def _boarding_known(r):
+    """True when bot/bus_stops.json has a located boarding point for this trip's first stop and line (as brain._boarding)."""
+    global _STOPS
+    if _STOPS is None:
+        try:
+            _STOPS = [s for s in json.load(open(_STOPS_FILE, encoding="utf-8"))
+                      if s.get("board", True) and s.get("lat") is not None]
+        except (OSError, ValueError):
+            _STOPS = []
+    return any(s["operator"] == r["operator"] and s["kb_stop"] == r["from_stop"] and r["line"] in s.get("lines", [r["line"]])
+               for s in _STOPS)
+
+
 def _timetable(rows):
     """One line per leg, route and day type with EVERY departure, e.g. 'there · CAM 113 (new no. 702) Funchal → Baía
     d'Abra · Monday to Friday: 07:30→08:50, 11:00→12:30 (change bus at Machico), …'. Copy these lines as they are."""
@@ -672,6 +695,21 @@ def bus(trail: str | None = None, from_stop: str | None = None, to_stop: str | N
                             "no bus to Levada do Rei') and suggest a taxi (see the transport tool)."]
     if code in ("PR1", "PR1.2") or "achada" in _plain(f"{from_stop or ''} {to_stop or ''}"):
         out["notes"] = _achada_notes(lang) + out.get("notes", [])
+    # 24 Nov real chat: "where do I catch it in Funchal? the address?" → invented "the bus station", then a dead end.
+    # Stops located in bot/bus_stops.json get a map link from the bot; for the others, say where to find the stop.
+    unknown = [r for r in rows if not _boarding_known(r)]
+    if unknown:
+        where = sorted({f"{r['operator']} {r['line']} at {r['from_stop']}" for r in unknown})[:4]
+        ops = sorted({r["operator"] for r in unknown if r["operator"]})
+        contacts = " or ".join(f"call {o} on {OPERATOR_PHONE[o.lower()]}" for o in ops if o.lower() in OPERATOR_PHONE)
+        out["boarding_stop"] = ("The exact stop where you board is not on the printed timetable (" + "; ".join(where) +
+                                "): check the official timetable site, siga.madeira.gov.pt/horarios (it has a journey "
+                                "planner)" + (f", or {contacts}" if contacts else "") + ".")
+        # 24 Nov regression (bus-after-hike-thursday-en): "where is the nearest bus station?" got ONLY this line, no
+        # buses, and the next turn lost the thread: the trips stay the answer, this line is added to them
+        out["boarding_stop_rule"] = ("Answer with the trips as usual. If the visitor asks where exactly to board (a stop, "
+                                     "terminal, station or address), ADD boarding_stop in one line after the trips. "
+                                     "Never name a stop, terminal, station or street yourself.")
     if rows and "for_day" not in out:  # 1 Nov (live chat + test): "Monday to Friday" was read as "no bus on Monday"
         now = datetime.datetime.now(MADEIRA).date()
         today = "mon_fri" if now.weekday() < 5 else "sat" if now.weekday() == 5 else "sun_hol"
@@ -757,6 +795,7 @@ def transport(pickup: str | None = None, destination: str | None = None, trail: 
         if any("areeiro" in _plain(p) or "arieiro" in _plain(p) for p in places) else []
     if car:
         res["driving_up"] = [{"text": _pick(c["text"], "en"), "source": _source(c["source_id"])} for c in car]
+        res["driving_up"].append(_pr1_car_extra())
     if back:
         res["getting_back"] = [{"trail": b["subject"], "text": _pick(b["text"], "en"), "source": _source(b["source_id"])} for b in back]
     if pickup and destination:
@@ -1386,11 +1425,36 @@ WEBCAMS = {  # NetMadeira cameras we grab (seo_research/funchal/webcams/grab.py)
     "areeiro": {"folder": "nm_pico-do-arieiro", "name": "Pico do Areeiro",
                 "shows": "the view from Pico do Areeiro over the valley and a corner of the car park: whether the summit is above or in the cloud",
                 "advice": "The camera shows only a corner of the car park: assume it is busy. Don't drive up for sunrise: arrange a "
-                          "transfer, or a taxi (Funchal → Pico do Areeiro about €35, indicative; Táxis Madeira +351 291 764 476), "
-                          "or park at Achada do Teixeira and take a taxi up with Táxis Santana (+351 291 572 540) (Levadinho's guide).",
+                          "transfer, or a taxi (Funchal → Pico do Areeiro about €35, indicative; Táxis Madeira +351 291 764 476)"
+                          " (Levadinho's guide).",
+                "advice_through": " For the full PR1 you can also park at Achada do Teixeira, where it ends, and take a taxi "
+                                  "up with Táxis Santana (+351 291 572 540).",   # added only while PR1 is OPEN end to end
                 "trails": ["PR1"], "places": ["pico do areeiro", "pico do arieiro", "areeiro", "arieiro"],
                 "live": "https://www.netmadeira.com/webcams/show/netmadeira/pico-do-arieiro"},
 }
+
+
+PR1_NOT_THROUGH = ("The full PR1 is not open today, so the walk does not reach Achada do Teixeira: leaving a car at "
+                   "Achada do Teixeira for PR1 is not an option today.")
+
+
+PR1_CAR_ACHADA = ("Another option for the full PR1: leave the car at Achada do Teixeira, where PR1 ends, and take a "
+                  "taxi up to Pico do Areeiro with Táxis Santana (+351 291 572 540).")
+
+
+def _pr1_car_extra():
+    """The line that follows the driving advice: the Achada option only while the walk gets there (23 Nov real chat:
+    PR1 closed beyond Pedra Rija and the bot still said to leave the car at Achada, 'where PR1 ends')."""
+    return ({"topic": "car", "text": PR1_CAR_ACHADA, "source": _source("levadinho_guide")} if _pr1_through()
+            else {"topic": "car", "text": PR1_NOT_THROUGH, "source": _source("ifcn_warnings")})
+
+
+def _pr1_through():
+    """True only when the live status shows PR1 OPEN end to end (PARTIAL = Pedra Rija only; unknown = not through)."""
+    try:
+        return next((t.get("status") for t in _fc5_status().get("trails") or [] if t.get("code") == "PR1"), None) == "OPEN"
+    except Exception:  # noqa: BLE001
+        return False
 
 
 def latest_frame(cam_id):
@@ -1457,7 +1521,7 @@ def webcam(trail: str | None = None, place: str | None = None, lang: str = "en")
         c = WEBCAMS[k]
         path, taken = latest_frame(k)
         item = {"camera": c["name"], "shows": c["shows"], "source": _source("netmadeira"),
-                **({"advice": c["advice"]} if c.get("advice") else {})}
+                **({"advice": c["advice"] + (c.get("advice_through", "") if _pr1_through() else "")} if c.get("advice") else {})}
         age = int((now - taken).total_seconds() // 60) if path else None
         if path and age <= 120:
             item.update(image_url=f"{CAM_BASE}/{k}.jpg", taken=taken.strftime("%H:%M"), minutes_ago=age)
@@ -1465,7 +1529,7 @@ def webcam(trail: str | None = None, place: str | None = None, lang: str = "en")
             item["note"] = ("This camera is not sending pictures at the moment: say so in one line, then give the advice."
                             if c.get("advice") else "This camera is not sending pictures at the moment: say so in one line.")
             if c.get("advice", "").startswith("The camera shows only"):   # no picture: the car-park sentence goes
-                item["advice"] = c["advice"].split(": assume it is busy. ", 1)[-1]
+                item["advice"] = item["advice"].split(": assume it is busy. ", 1)[-1]
         code = resolve_trail(trail) if trail else None
         code = code if code in c["trails"] else c["trails"][0]
         r = _q("SELECT t.name, s.status FROM kb.trail t JOIN kb.trail_status s USING (code) WHERE t.code = %s", (code,))

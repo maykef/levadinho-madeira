@@ -164,8 +164,10 @@ AREEIRO_CAR = ("We advise against driving to Pico do Areeiro for sunrise: the ca
                "very early (assume it is busy), and you can't park at the Radar roundabout. The road is public but steep "
                "and narrow, can be icy in winter, and is best not driven at night; the drive from Funchal takes about 30 "
                "minutes. Take a taxi instead (Funchal → Pico do Areeiro about €35 per car, indicative; Táxis Madeira "
-               "+351 291 764 476) or a transfer, or leave the car at Achada do Teixeira, where PR1 ends, and take a taxi "
-               "up with Táxis Santana (+351 291 572 540).")
+               "+351 291 764 476) or a transfer.")
+# "Or leave the car at Achada do Teixeira, where PR1 ends, and take a taxi up" is NOT stored here: it is true only
+# while the full PR1 is open, so kbtools adds it from the live status (PR1_CAR_ACHADA, _pr1_car_extra). 23 Nov real chat:
+# PR1 closed beyond Pedra Rija and the bot still gave it.
 OWNER_FACTS = [
     ("areeiro_car", "car", "PR1", AREEIRO_CAR),
     ("pr1_slots", "fees_booking", "PR1", "PR1 entry slots on SIMplifica run from 07:00 to 16:00, every 30 minutes."),

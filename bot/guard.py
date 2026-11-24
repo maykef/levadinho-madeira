@@ -112,6 +112,20 @@ def _sentences(text):
     return out
 
 
+def _drop_orphan_leadins(text):
+    """Remove lines ending in ':' that introduce nothing: followed by a blank line, the end, or another such line."""
+    lines = text.split("\n")
+    keep = []
+    for i, ln in enumerate(lines):
+        if ln.rstrip().endswith(":"):
+            nxt = next((x for x in lines[i + 1:] if x.strip()), None)
+            blank_after = i + 1 >= len(lines) or not lines[i + 1].strip()
+            if blank_after or nxt is None or nxt.rstrip().endswith(":"):
+                continue
+        keep.append(ln)
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(keep)).strip()
+
+
 def _drop(text, pred):
     kept, dropped = [], []
     for s, sep in _sentences(text):
@@ -136,6 +150,26 @@ REOPEN_LINE = {
     "fr": "La réouverture d'un sentier fermé est une décision de l'IFCN, annoncée sur sa liste d'avis : nous ne pouvons pas la prévoir, réservez donc avec souplesse.",
     "de": "Ob ein gesperrter Weg wieder öffnet, entscheidet das IFCN auf seiner Hinweisliste: Wir können das nicht vorhersagen, buchen Sie also flexibel.",
     "pl": "O ponownym otwarciu zamkniętego szlaku decyduje IFCN na swojej liście ostrzeżeń: nie możemy tego przewidzieć, więc rezerwuj elastycznie.",
+}
+# 24 Nov real chat (PR8 page): "What is the address of this bus terminal?" -> "I don't have the address for the Funchal
+# bus terminal." and the visitor left. Our timetables don't print boarding stops: point to SIGA (its own contact line,
+# siga.madeira.gov.pt footer, checked 24 Nov 2026) instead of a dead end.
+BOARD_ASK = re.compile(r"\b(address|morada|endere[cç]o|adresse|adres\w*|departure point|ponto de partida|point de d[ée]part|"
+                       r"bus (station|terminal|stop)|terminal|paragem|esta[cç][aã]o (de autocarros|rodovi)|arr[eê]t|gare|"
+                       r"haltestelle|busbahnhof|abfahrtsort|przystan\w*|dworz\w*|where\b[^?\n]{0,30}\b(catch|board|get on|take)\b|"
+                       r"onde\b[^?\n]{0,30}\bapanh|o[uù]\b[^?\n]{0,30}\bprendre|wo\b[^?\n]{0,30}\b(einsteig|f[äa]hrt|abf)|"
+                       r"gdzie\b[^?\n]{0,30}\b(wsi[aą]\w*|z[lł]apa\w*|odje\w*))", re.I)
+NO_STOP = re.compile(r"\b(I|we) (don'?t|do not|cannot|can'?t) (have|give|find)\b[^.\n]{0,60}\b(address|stop|location|terminal|station|place)|"
+                     r"\bn[aã]o (tenho|temos|sei)\b[^.\n]{0,60}\b(morada|endere|paragem|local|terminal|esta[cç])|"
+                     r"\b(je n'ai|nous n'avons|je ne connais) (pas|aucune?)\b[^.\n]{0,60}\b(adresse|arr[eê]t|lieu|gare|terminal)|"
+                     r"\b(ich habe|wir haben) keine\b[^.\n]{0,60}\b(adresse|haltestelle|ort|angabe)|"
+                     r"\bnie (mam|mamy|znam)\b[^.\n]{0,60}\b(adres|przystan|miejsc|informacj)", re.I)
+BOARD_LINE = {
+    "en": "The exact boarding stop isn't printed on the timetables we use: check the official site siga.madeira.gov.pt/horarios (it has a journey planner) or call SIGA on +351 291 145 180.",
+    "pt": "A paragem exata de embarque não vem nos horários que usamos: consulte o site oficial siga.madeira.gov.pt/horarios (tem planeador de viagem) ou ligue para o SIGA: +351 291 145 180.",
+    "fr": "L'arrêt exact n'est pas indiqué sur les horaires que nous utilisons : consultez le site officiel siga.madeira.gov.pt/horarios (avec un planificateur de trajet) ou appelez le SIGA au +351 291 145 180.",
+    "de": "Die genaue Einstiegshaltestelle steht nicht in den Fahrplänen, die wir nutzen: Prüfen Sie die offizielle Seite siga.madeira.gov.pt/horarios (mit Routenplaner) oder rufen Sie SIGA unter +351 291 145 180 an.",
+    "pl": "Dokładnego przystanku nie ma w rozkładach, z których korzystamy: sprawdź oficjalną stronę siga.madeira.gov.pt/horarios (z planerem podróży) lub zadzwoń do SIGA: +351 291 145 180.",
 }
 # 14 Nov real chat: "And tomorrow" -> "PR1.3 is closed tomorrow according to IFCN" (IFCN's list gives today only)
 TOMORROW_ASK = re.compile(r"tomorrow|amanh[aã]|demain|morgen|jutr", re.I)
@@ -211,6 +245,12 @@ def check(reply, user_text, lang, trails, context=""):
             changes += [f"'no information' about reopening dropped: {x[:80]}" for x in d]
             if not re.search(r"IFCN[^.\n]{0,60}(decis|décision|entscheid|decyduj)|(decis|décision|entscheid|decyduj)[^.\n]{0,60}IFCN", out, re.I):
                 out = out.rstrip() + "\n\n" + REOPEN_LINE.get(lang, REOPEN_LINE["en"])
+    if BOARD_ASK.search(user_text):
+        out, d = _drop(out, lambda s: bool(NO_STOP.search(s)))
+        if d:
+            changes += [f"'no address' for a bus stop dropped: {x[:80]}" for x in d]
+            if "siga.madeira" not in out:
+                out = (BOARD_LINE.get(lang, BOARD_LINE["en"]) + "\n\n" + out).strip()
     if TOMORROW_ASK.search(user_text):
         out, d = _drop(out, lambda s: bool(TOMORROW_W.search(s) and STATUS_W.search(s) and not SKY_W.search(s)))
         if d:
@@ -259,6 +299,9 @@ def check(reply, user_text, lang, trails, context=""):
             out, d = _drop(out, lambda s: bool(HHMM.search(s)) and (BUS_WORD.search(s) or len(HHMM.findall(s)) >= 3
                                                                    or len(re.sub(r"[\d:→,\s*\-–()|]", "", s)) < 25))
             out = re.sub(r"\n?\*[^*\n]{3,40}:\*\s*(?=\n|$)", "", out)     # day headings left without times
+            # 24 Nov real chat: "On Tuesdays (today), departures from Funchal are at:" stayed with nothing after it
+            # (its times were dropped above): a lead-in line ending in ':' with no text under it goes too
+            out = _drop_orphan_leadins(out)
             tables = []
             for code, leg, tt, _deps, _every in covered:
                 head = (answers.T["there_bus"] if leg == "there" else answers.T["back_bus"])[lang].format(tt="")

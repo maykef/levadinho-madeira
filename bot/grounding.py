@@ -36,6 +36,7 @@ NAME_RE = re.compile(r"\b((?:Igreja|Capela|Museu|Praia|Miradouro|Piscinas?|Forte
 NOT_PLACE = set("""departs depart departures departure retour retours arrivee arrivees horaires horaire bus trajet
     partida partidas chegada chegadas saida saidas regresso volta ida autocarro autocarros horario horarios viagem
     abfahrt abfahrten ankunft ruckfahrt hinfahrt busse fahrt odjazd odjazdy przyjazd powrot autobus autobusy
+    autobusem autobusu autobusie autobusow dojazd dojazdu dojedziesz dojechac linia linii przystanek rozklad
     departures arrivals buses return returns trips trip times""".split())
 # group sizes written as words ("we are two", "somos três", "nous sommes quatre", "wir sind zu dritt", "jest nas dwoje")
 WORD_NUM = {w: n for n, ws in {
@@ -169,9 +170,25 @@ def unsupported(reply, ev):
         first, rest = name.split(" ", 1)
         if _fold(first) in NOT_PLACE:
             name = re.sub(r"^(?:do|da|dos|das|de|d')\s?", "", rest)
-        if _fold(name) not in ev.fold:
+        if _fold(name) not in ev.fold and not _two_places(name, ev):
             out.append(name)
     return list(dict.fromkeys(out))
+
+
+PLACE_WORDS = {_fold(w) for w in "Igreja Capela Museu Praia Miradouro Piscina Piscinas Forte Quinta Ponta Porto Pico Lagoa "
+               "Ribeira Achada Fajã Cabo Ilhéu".split()}
+
+
+def _two_places(name, ev):
+    """Polish "do" means "to" (24 Nov test: "z Funchal do Baía d'Abra" was cut as the place "Funchal do Baía"): two
+    known places joined by a connector are fine, unless the left one is a bare place word ("Pico do Funchal")."""
+    for m in re.finditer(r"\s(?:do|da|dos|das|de)\s", name):
+        left, right = name[:m.start()], name[m.end():]
+        if _fold(left) in PLACE_WORDS:
+            continue
+        if re.search(rf"\b{re.escape(_fold(left))}\b", ev.fold) and re.search(rf"\b{re.escape(_fold(right))}", ev.fold):
+            return True
+    return False
 
 
 def cut(reply, bad):

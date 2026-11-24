@@ -713,12 +713,12 @@ BUS_OFFER = {
     "de": "Sagen Sie mir, wann und wo Sie in den Bus steigen, dann zeige ich Ihnen den Weg zur nächsten Haltestelle.",
     "pl": "Napisz, kiedy i skąd jedziesz autobusem, a wskażę Ci drogę do najbliższego przystanku.",
 }
-BUS_OFFER_TIMES = {  # when we have no location for the stop: no directions promised
-    "pt": "Diga-me o dia e onde vai apanhar o autocarro, e eu indico-lhe a paragem e os horários.",
-    "en": "Tell me the day and where you'll catch the bus, and I'll give you the stop and the times.",
-    "fr": "Dites-moi le jour et où vous prendrez le bus, et je vous donne l'arrêt et les horaires.",
-    "de": "Sagen Sie mir den Tag und wo Sie in den Bus steigen, dann nenne ich Ihnen die Haltestelle und die Zeiten.",
-    "pl": "Napisz, w który dzień i skąd jedziesz autobusem, a podam Ci przystanek i godziny.",
+BUS_OFFER_TIMES = {  # when we have no location for the stop: neither directions nor the stop promised (24 Nov real chat)
+    "pt": "Diga-me em que dia vai, e eu indico-lhe os autocarros desse dia.",
+    "en": "Tell me which day you're going, and I'll give you that day's buses.",
+    "fr": "Dites-moi quel jour vous y allez, et je vous donne les bus de ce jour-là.",
+    "de": "Sagen Sie mir, an welchem Tag Sie fahren, dann nenne ich Ihnen die Busse für diesen Tag.",
+    "pl": "Napisz, w który dzień jedziesz, a podam Ci autobusy na ten dzień.",
 }
 BUS_TAXI = {"pt": "Em alternativa, um táxi: {name} {phone}.", "en": "Alternatively, a taxi: {name} {phone}.",
             "fr": "Sinon, un taxi : {name} {phone}.", "de": "Alternativ ein Taxi: {name} {phone}.",

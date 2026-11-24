@@ -972,6 +972,183 @@
     "no other"
    ],
    "note": "3 Nov real chat: said no other places; our data has Machico buses to Funchal after 14:00 every day"
+  },
+  {
+   "id": "pr1-park-not-through-en",
+   "lang": "en",
+   "q": "I want to know more details about PR1\nWhich section is open and where I can park the car",
+   "must": [
+    "€ ?4|4 ?€"
+   ],
+   "when_not_open": {
+    "trail": "PR1",
+    "must": [],
+    "must_not": [
+     "Achada do Teixeira[^.\\n]{0,40}(where|onde|où|wo|gdzie)[^.\\n]{0,25}PR1[^.\\n]{0,25}(ends|termina|acaba|termine|finit|endet|kończy)"
+    ]
+   },
+   "note": "23 Nov real chat: PR1 closed beyond Pedra Rija, the prepared sunrise advice still said to leave the car at Achada do Teixeira 'where PR1 ends' and taxi up. That sentence is given only while PR1 is OPEN (kbtools._pr1_through)."
+  },
+  {
+   "id": "pr1-park-not-through-pt",
+   "lang": "pt",
+   "q": "Quero saber mais detalhes sobre o PR1\nQue secção está aberta e onde posso estacionar o carro",
+   "must": [
+    "€ ?4|4 ?€"
+   ],
+   "when_not_open": {
+    "trail": "PR1",
+    "must": [],
+    "must_not": [
+     "Achada do Teixeira[^.\\n]{0,40}(where|onde|où|wo|gdzie)[^.\\n]{0,25}PR1[^.\\n]{0,25}(ends|termina|acaba|termine|finit|endet|kończy)"
+    ]
+   },
+   "note": "23 Nov real chat: PR1 closed beyond Pedra Rija, the prepared sunrise advice still said to leave the car at Achada do Teixeira 'where PR1 ends' and taxi up. That sentence is given only while PR1 is OPEN (kbtools._pr1_through)."
+  },
+  {
+   "id": "pr1-park-not-through-fr",
+   "lang": "fr",
+   "q": "Je voudrais plus de détails sur le PR1\nQuelle section est ouverte et où puis-je garer la voiture",
+   "must": [
+    "€ ?4|4 ?€"
+   ],
+   "when_not_open": {
+    "trail": "PR1",
+    "must": [],
+    "must_not": [
+     "Achada do Teixeira[^.\\n]{0,40}(where|onde|où|wo|gdzie)[^.\\n]{0,25}PR1[^.\\n]{0,25}(ends|termina|acaba|termine|finit|endet|kończy)"
+    ]
+   },
+   "note": "23 Nov real chat: PR1 closed beyond Pedra Rija, the prepared sunrise advice still said to leave the car at Achada do Teixeira 'where PR1 ends' and taxi up. That sentence is given only while PR1 is OPEN (kbtools._pr1_through)."
+  },
+  {
+   "id": "pr1-park-not-through-de",
+   "lang": "de",
+   "q": "Ich möchte mehr Details zum PR1 wissen\nWelcher Abschnitt ist offen und wo kann ich das Auto parken",
+   "must": [
+    "€ ?4|4 ?€"
+   ],
+   "when_not_open": {
+    "trail": "PR1",
+    "must": [],
+    "must_not": [
+     "Achada do Teixeira[^.\\n]{0,40}(where|onde|où|wo|gdzie)[^.\\n]{0,25}PR1[^.\\n]{0,25}(ends|termina|acaba|termine|finit|endet|kończy)"
+    ]
+   },
+   "note": "23 Nov real chat: PR1 closed beyond Pedra Rija, the prepared sunrise advice still said to leave the car at Achada do Teixeira 'where PR1 ends' and taxi up. That sentence is given only while PR1 is OPEN (kbtools._pr1_through)."
+  },
+  {
+   "id": "pr1-park-not-through-pl",
+   "lang": "pl",
+   "q": "Chcę poznać więcej szczegółów o PR1\nKtóry odcinek jest otwarty i gdzie mogę zaparkować samochód",
+   "must": [
+    "€ ?4|4 ?€"
+   ],
+   "when_not_open": {
+    "trail": "PR1",
+    "must": [],
+    "must_not": [
+     "Achada do Teixeira[^.\\n]{0,40}(where|onde|où|wo|gdzie)[^.\\n]{0,25}PR1[^.\\n]{0,25}(ends|termina|acaba|termine|finit|endet|kończy)"
+    ]
+   },
+   "note": "23 Nov real chat: PR1 closed beyond Pedra Rija, the prepared sunrise advice still said to leave the car at Achada do Teixeira 'where PR1 ends' and taxi up. That sentence is given only while PR1 is OPEN (kbtools._pr1_through)."
+  },
+  {
+   "id": "pr8-bus-there-en",
+   "lang": "en",
+   "source": "web-pr8",
+   "q": "How do I get there?",
+   "must": [
+    "113|702"
+   ],
+   "must_not": [
+    "(are at|leave at|sont à|partent à|abfahrten|odjazdy|partidas)[^\\n]{0,20}:\\s*(\\n\\s*\\n|\\n?$)"
+   ],
+   "note": "24 Nov real chat (web, PR8 page): 'On Tuesdays (today), departures from Funchal are at:' was left with nothing under it (guard dropped the model's times and not the lead-in; guard._drop_orphan_leadins)."
+  },
+  {
+   "id": "pr8-bus-stop-en",
+   "lang": "en",
+   "source": "web-pr8",
+   "before": [
+    "How do I get there?"
+   ],
+   "q": "Where can I catch this bus in Funchal?",
+   "must": [
+    "siga\\.madeira\\.gov\\.pt|291 201 151"
+   ],
+   "must_not": [
+    "bus station|bus terminal is|main (bus )?terminal|terminal de autocarros|estação rodovi|gare routière|busbahnhof|dworzec",
+    "I'll give you the stop",
+    "(are at|leave at|sont à|partent à|abfahrten|odjazdy|partidas)[^\\n]{0,20}:\\s*(\\n\\s*\\n|\\n?$)"
+   ],
+   "note": "24 Nov real chat (web, PR8 page): the bot invented 'the bus station' as the departure point. No source names CAM 113's Funchal stop: point to SIGA / CAM (kbtools bus() boarding_stop)."
+  },
+  {
+   "id": "pr8-bus-address-en",
+   "lang": "en",
+   "source": "web-pr8",
+   "before": [
+    "How do I get there?",
+    "Where can I catch this bus in Funchal?",
+    "Where is this departure point?"
+   ],
+   "q": "What  is the address of this bus terminal ?",
+   "must": [
+    "siga\\.madeira\\.gov\\.pt|291 201 151"
+   ],
+   "must_not": [
+    "I don'?t have the address",
+    "bus station|bus terminal is|main (bus )?terminal|terminal de autocarros|estação rodovi|gare routière|busbahnhof|dworzec"
+   ],
+   "note": "24 Nov real chat (web, PR8 page): ended on 'I don't have the address for the Funchal bus terminal' and the visitor left."
+  },
+  {
+   "id": "pr8-bus-stop-de",
+   "lang": "de",
+   "source": "web-pr8",
+   "before": [
+    "Wie komme ich mit dem Bus hin?"
+   ],
+   "q": "Wo fährt der Bus in Funchal ab?",
+   "must": [
+    "siga\\.madeira\\.gov\\.pt|291 201 151"
+   ],
+   "must_not": [
+    "bus station|bus terminal is|main (bus )?terminal|terminal de autocarros|estação rodovi|gare routière|busbahnhof|dworzec",
+    "nenne ich Ihnen die Haltestelle"
+   ],
+   "note": "24 Nov real chat (web, PR8 page): the same follow-up in German."
+  },
+  {
+   "id": "pr8-bus-pl",
+   "lang": "pl",
+   "source": "web-pr8",
+   "q": "Jak tam dojechać autobusem?",
+   "must": [
+    "113|702"
+   ],
+   "must_not": [
+    "Nie mam tej informacji"
+   ],
+   "note": "24 Nov test: grounding read Polish 'z Funchal do Baía d'Abra' as the invented place 'Funchal do Baía' and replaced the answer with 'no information' (grounding._two_places)."
+  },
+  {
+   "id": "pr1-himmelstreppe-de",
+   "lang": "de",
+   "source": "web-pr1",
+   "q": "Ich will die himmtlstreppe laufen",
+   "must": [
+    "Pedra Rija"
+   ],
+   "when_not_open": {
+    "trail": "PR1",
+    "must": [
+     "PR1\\.2|Achada do Teixeira"
+    ],
+    "must_not": []
+   },
+   "note": "24 Nov real chat (web, PR1 page, typo kept): answered right (Areeiro ↔ Pedra Rija open, Pico Ruivo via PR1.2); kept so it stays right."
   }
  ]
 }
