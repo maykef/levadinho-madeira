@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-23T15:00+00:00",
+ "stamp": "2026-11-24T10:36+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-23",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:44",
-   "sunset": "18:04",
-   "weather": {
-    "tmin": 20,
-    "tmax": 23,
-    "rain": 96,
-    "wtype": 7,
-    "uv": 2.6
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-24",
    "type": "weekday",
@@ -27,9 +11,9 @@
    "sunset": "18:03",
    "weather": {
     "tmin": 19,
-    "tmax": 24,
-    "rain": 60,
-    "wtype": 3,
+    "tmax": 23,
+    "rain": 90,
+    "wtype": 7,
     "uv": 3.1
    },
    "fair": null
@@ -58,10 +42,10 @@
    "sunrise": "07:47",
    "sunset": "18:03",
    "weather": {
-    "tmin": 17,
+    "tmin": 18,
     "tmax": 22,
-    "rain": 25,
-    "wtype": 2,
+    "rain": 10,
+    "wtype": 3,
     "uv": 2.6
    },
    "fair": {
@@ -82,9 +66,9 @@
    "sunrise": "07:48",
    "sunset": "18:02",
    "weather": {
-    "tmin": 16,
+    "tmin": 18,
     "tmax": 22,
-    "rain": 40,
+    "rain": 49,
     "wtype": 7,
     "uv": 3.1
    },
@@ -97,7 +81,13 @@
    "bus": "saturday",
    "sunrise": "07:49",
    "sunset": "18:02",
-   "weather": null,
+   "weather": {
+    "tmin": 16,
+    "tmax": 22,
+    "rain": 55,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-12-07",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:56",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -202,11 +202,11 @@
   }
  ],
  "sea": {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "sst": 22,
   "wave": [
-   0.8,
-   1.0
+   0.7,
+   0.8
   ],
   "warnings": []
  },
