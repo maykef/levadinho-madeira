@@ -1,19 +1,24 @@
 {
   "status": "PARTIAL",
   "note": {
-    "pt": "Transitável: Vereda do Areeiro (até ao Miradouro da Pedra Rija). Encerrado/condicionado: Vereda do Areeiro (sentido único).",
-    "en": "Open: Vereda do Areeiro (up to the Pedra Rija Viewpoint). Closed/restricted: Vereda do Areeiro (one-way).",
-    "fr": "Praticable : Sentier de l'Areeiro (jusqu'au belvédère de Pedra Rija). Fermé/restreint : Vereda do Areeiro (sens unique).",
-    "de": "Begehbar: Vereda do Areeiro (bis zum Aussichtspunkt Pedra Rija). Gesperrt/eingeschränkt: Vereda do Areeiro (Einbahnstraße).",
-    "pl": "Dostępny: Vereda do Areeiro (do punktu widokowego Pedra Rija). Zamknięty/ograniczony: Vereda do Areeiro (jednokierunkowa)."
+    "pt": "Transitável: Percurso de sentido único entre o Pico do Areeiro e o Pico Ruivo reaberto a partir de 25/11/2026. Transitável: Vereda do Areeiro (até ao Miradouro da Pedra Rija). Encerrado/condicionado: Vereda do Areeiro (sentido único).",
+    "en": "Open: The one-way trail between Pico do Areeiro and Pico Ruivo will reopen on November 25, 2026. Open: Vereda do Areeiro (up to the Pedra Rija Viewpoint). Closed/restricted: Vereda do Areeiro (one-way).",
+    "fr": "Praticable : Le sentier à sens unique entre le Pico do Areeiro et le Pico Ruivo rouvrira le 25/11/2026. Praticable : Sentier de l'Areeiro (jusqu'au belvédère de Pedra Rija). Fermé/restreint : Vereda do Areeiro (sens unique).",
+    "de": "Begehbar: Die Einbahnstrecke zwischen dem Pico do Areeiro und dem Pico Ruivo wird ab dem 25.11.2026 wieder geöffnet. Begehbar: Vereda do Areeiro (bis zum Aussichtspunkt Pedra Rija). Gesperrt/eingeschränkt: Vereda do Areeiro (Einbahnstraße).",
+    "pl": "Dostępny: Trasa jednokierunkowa między Pico do Areeiro a Pico Ruivo zostanie ponownie otwarta 25.11.2026 r. Dostępny: Vereda do Areeiro (do punktu widokowego Pedra Rija). Zamknięty/ograniczony: Vereda do Areeiro (jednokierunkowa)."
   },
   "closure": null,
   "manual_note": "",
   "weather": {
-    "ok": false
+    "ok": true,
+    "temp_c": 8.4,
+    "humidity": 26,
+    "in_cloud": false,
+    "wind_kmh": 17,
+    "wind_strong": false
   },
-  "stamp": "2026-11-24 10:35",
-  "date": "2026-11-24",
+  "stamp": "2026-11-25 09:20",
+  "date": "2026-11-25",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
@@ -28,31 +33,31 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": null,
-      "wind": 9,
-      "rain": null,
+      "temp": 8,
+      "wind": 17,
+      "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": null,
+      "temp": 14,
       "wind": null,
-      "rain": null,
+      "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 16,
-      "wind": 6,
+      "temp": 13,
+      "wind": 5,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "east",
       "place": "São Lourenço",
-      "temp": 19,
+      "temp": 18,
       "wind": 26,
       "rain": 0.0,
       "in_cloud": false
@@ -60,8 +65,8 @@
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 21,
-      "wind": 1,
+      "temp": 17,
+      "wind": 8,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -74,14 +79,14 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": null,
+      "temp": 8,
       "page": "/pr1/",
       "note": {
-        "pt": "Transitável: Vereda do Areeiro (até ao Miradouro da Pedra Rija). Encerrado/condicionado: Vereda do Areeiro (sentido único).",
-        "en": "Open: Vereda do Areeiro (up to the Pedra Rija Viewpoint). Closed/restricted: Vereda do Areeiro (one-way).",
-        "fr": "Praticable : Sentier de l'Areeiro (jusqu'au belvédère de Pedra Rija). Fermé/restreint : Vereda do Areeiro (sens unique).",
-        "de": "Begehbar: Vereda do Areeiro (bis zum Aussichtspunkt Pedra Rija). Gesperrt/eingeschränkt: Vereda do Areeiro (Einbahnstraße).",
-        "pl": "Dostępny: Vereda do Areeiro (do punktu widokowego Pedra Rija). Zamknięty/ograniczony: Vereda do Areeiro (jednokierunkowa)."
+        "pt": "Transitável: Percurso de sentido único entre o Pico do Areeiro e o Pico Ruivo reaberto a partir de 25/11/2026. Transitável: Vereda do Areeiro (até ao Miradouro da Pedra Rija). Encerrado/condicionado: Vereda do Areeiro (sentido único).",
+        "en": "Open: The one-way trail between Pico do Areeiro and Pico Ruivo will reopen on November 25, 2026. Open: Vereda do Areeiro (up to the Pedra Rija Viewpoint). Closed/restricted: Vereda do Areeiro (one-way).",
+        "fr": "Praticable : Le sentier à sens unique entre le Pico do Areeiro et le Pico Ruivo rouvrira le 25/11/2026. Praticable : Sentier de l'Areeiro (jusqu'au belvédère de Pedra Rija). Fermé/restreint : Vereda do Areeiro (sens unique).",
+        "de": "Begehbar: Die Einbahnstrecke zwischen dem Pico do Areeiro und dem Pico Ruivo wird ab dem 25.11.2026 wieder geöffnet. Begehbar: Vereda do Areeiro (bis zum Aussichtspunkt Pedra Rija). Gesperrt/eingeschränkt: Vereda do Areeiro (Einbahnstraße).",
+        "pl": "Dostępny: Trasa jednokierunkowa między Pico do Areeiro a Pico Ruivo zostanie ponownie otwarta 25.11.2026 r. Dostępny: Vereda do Areeiro (do punktu widokowego Pedra Rija). Zamknięty/ograniczony: Vereda do Areeiro (jednokierunkowa)."
       }
     },
     {
@@ -91,7 +96,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 16,
+      "temp": 13,
       "page": "/25-fontes/"
     },
     {
@@ -101,7 +106,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": null,
+      "temp": 8,
       "page": "/pico-ruivo/"
     },
     {
@@ -111,7 +116,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": null,
+      "temp": 14,
       "page": "/caldeirao-verde/"
     },
     {
@@ -121,7 +126,7 @@
       "fee": "4.50",
       "region": "east",
       "popular": true,
-      "temp": 19,
+      "temp": 18,
       "page": "/sao-lourenco/"
     },
     {
@@ -131,7 +136,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": null,
+      "temp": 8,
       "page": "/balcoes/"
     },
     {
@@ -141,7 +146,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 16,
+      "temp": 13,
       "page": "/fanal/"
     },
     {
@@ -151,7 +156,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": null,
+      "temp": 8,
       "page": "/levada-do-furado/"
     },
     {
@@ -161,7 +166,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": null,
+      "temp": 14,
       "page": "/levada-do-rei/"
     },
     {
@@ -171,7 +176,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/levada-dos-cedros/"
     },
     {
@@ -181,7 +186,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": null,
+      "temp": 14,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -191,7 +196,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": null,
+      "temp": 8,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -201,7 +206,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": null,
+      "temp": 8,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -211,7 +216,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": null,
+      "temp": 8,
       "page": "/vereda-do-burro/"
     },
     {
@@ -221,7 +226,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 21,
+      "temp": 17,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -231,7 +236,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": null,
+      "temp": 8,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -241,7 +246,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": null,
+      "temp": 14,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -251,7 +256,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 16,
+      "temp": 13,
       "page": "/levada-do-risco/"
     },
     {
@@ -261,7 +266,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/levada-do-alecrim/"
     },
     {
@@ -271,7 +276,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/vereda-da-lagoa-do-vento/"
     },
     {
@@ -281,7 +286,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/levada-do-moinho/"
     },
     {
@@ -291,7 +296,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": null,
+      "temp": 8,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -301,7 +306,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/vereda-da-ribeira-da-janela/"
     },
     {
@@ -311,7 +316,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -321,7 +326,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
@@ -331,7 +336,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/caminho-real-do-paul-do-mar/"
     },
     {
@@ -341,7 +346,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/vereda-do-jardim-do-mar/"
     },
     {
@@ -351,7 +356,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/caminho-do-norte/"
     },
     {
@@ -361,7 +366,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -371,7 +376,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -381,7 +386,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/vereda-do-tunel-do-cavalo/"
     },
     {
@@ -391,7 +396,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/levada-da-rocha-vermelha/"
     },
     {
@@ -401,7 +406,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/levada-do-paul-ii-um-caminho-para-todos/"
     },
     {
@@ -411,7 +416,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/levada-velha-do-rabacal/"
     },
     {
@@ -421,7 +426,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/vereda-do-pico-fernandes/"
     },
     {
@@ -431,7 +436,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 16,
+      "temp": 13,
       "page": "/vereda-da-palha-carga/"
     },
     {
@@ -441,7 +446,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": null,
+      "temp": 14,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "Um Caminho para todos.",
@@ -498,223 +503,213 @@
   "forecast": {
     "summit": [
       {
-        "date": "2026-11-24",
-        "type": 10,
-        "rain_prob": 100,
+        "date": "2026-11-25",
+        "type": 7,
+        "rain_prob": 80,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 30,
-        "tmin": 7,
-        "tmax": 12
-      },
-      {
-        "date": "2026-11-25",
-        "type": 3,
-        "rain_prob": 60,
-        "rain_int": null,
-        "wind_class": 2,
-        "wind_kmh": 27,
+        "wind_kmh": 26,
         "tmin": 6,
         "tmax": 10
       },
       {
         "date": "2026-11-26",
         "type": 7,
-        "rain_prob": 88,
+        "rain_prob": 94,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 22,
-        "tmin": 5,
+        "wind_kmh": 23,
+        "tmin": 6,
         "tmax": 9
       },
       {
         "date": "2026-11-27",
-        "type": 7,
-        "rain_prob": 78,
-        "rain_int": 1,
+        "type": 9,
+        "rain_prob": 92,
+        "rain_int": 2,
         "wind_class": 1,
-        "wind_kmh": 16,
-        "tmin": 6,
+        "wind_kmh": 14,
+        "tmin": 4,
         "tmax": 11
       },
       {
         "date": "2026-11-28",
         "type": 6,
-        "rain_prob": 94,
+        "rain_prob": 92,
         "rain_int": 2,
         "wind_class": 1,
-        "wind_kmh": 8,
+        "wind_kmh": 9,
         "tmin": 4,
-        "tmax": 12
+        "tmax": 11
+      },
+      {
+        "date": "2026-11-29",
+        "type": 7,
+        "rain_prob": 88,
+        "rain_int": 1,
+        "wind_class": 2,
+        "wind_kmh": 20,
+        "tmin": 4,
+        "tmax": 10
       }
     ],
     "north": [
       {
-        "date": "2026-11-24",
-        "type": 9,
-        "rain_prob": 100,
-        "rain_int": 2,
-        "wind_class": 1,
-        "wind_kmh": 14,
-        "tmin": 16,
-        "tmax": 20
-      },
-      {
         "date": "2026-11-25",
         "type": 3,
-        "rain_prob": 12,
+        "rain_prob": 41,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 13,
+        "wind_kmh": 14,
         "tmin": 16,
         "tmax": 19
       },
       {
         "date": "2026-11-26",
-        "type": 3,
-        "rain_prob": 60,
-        "rain_int": null,
+        "type": 7,
+        "rain_prob": 82,
+        "rain_int": 1,
         "wind_class": 1,
-        "wind_kmh": 11,
+        "wind_kmh": 13,
         "tmin": 15,
         "tmax": 20
       },
       {
         "date": "2026-11-27",
-        "type": 5,
-        "rain_prob": 57,
+        "type": 3,
+        "rain_prob": 31,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 7,
-        "tmin": 16,
+        "wind_kmh": 10,
+        "tmin": 15,
         "tmax": 20
       },
       {
         "date": "2026-11-28",
         "type": 3,
-        "rain_prob": 41,
+        "rain_prob": 57,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 9,
-        "tmin": 16,
+        "wind_kmh": 10,
+        "tmin": 15,
+        "tmax": 20
+      },
+      {
+        "date": "2026-11-29",
+        "type": 6,
+        "rain_prob": 92,
+        "rain_int": 2,
+        "wind_class": 1,
+        "wind_kmh": 8,
+        "tmin": 14,
         "tmax": 20
       }
     ],
     "west": [
       {
-        "date": "2026-11-24",
-        "type": 10,
-        "rain_prob": 100,
-        "rain_int": 1,
-        "wind_class": 2,
-        "wind_kmh": 26,
-        "tmin": 7,
-        "tmax": 12
-      },
-      {
         "date": "2026-11-25",
         "type": 10,
-        "rain_prob": 86,
+        "rain_prob": 94,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 17,
+        "wind_kmh": 16,
         "tmin": 5,
         "tmax": 11
       },
       {
         "date": "2026-11-26",
-        "type": 7,
+        "type": 10,
         "rain_prob": 100,
         "rain_int": 1,
         "wind_class": 1,
         "wind_kmh": 14,
-        "tmin": 5,
-        "tmax": 10
+        "tmin": 6,
+        "tmax": 9
       },
       {
         "date": "2026-11-27",
-        "type": 10,
-        "rain_prob": 86,
-        "rain_int": 1,
+        "type": 9,
+        "rain_prob": 100,
+        "rain_int": 2,
         "wind_class": 1,
-        "wind_kmh": 9,
-        "tmin": 5,
+        "wind_kmh": 8,
+        "tmin": 4,
         "tmax": 11
       },
       {
         "date": "2026-11-28",
-        "type": 7,
-        "rain_prob": 90,
-        "rain_int": 1,
+        "type": 6,
+        "rain_prob": 92,
+        "rain_int": 2,
         "wind_class": 1,
         "wind_kmh": 5,
         "tmin": 4,
-        "tmax": 12
+        "tmax": 11
+      },
+      {
+        "date": "2026-11-29",
+        "type": 7,
+        "rain_prob": 98,
+        "rain_int": 1,
+        "wind_class": 1,
+        "wind_kmh": 11,
+        "tmin": 3,
+        "tmax": 11
       }
     ],
     "east": [
       {
-        "date": "2026-11-24",
-        "type": 7,
-        "rain_prob": 94,
-        "rain_int": 1,
-        "wind_class": 2,
-        "wind_kmh": 25,
-        "tmin": 18,
-        "tmax": 22
-      },
-      {
         "date": "2026-11-25",
         "type": 3,
-        "rain_prob": 18,
+        "rain_prob": 47,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 23,
-        "tmin": 18,
+        "wind_kmh": 22,
+        "tmin": 17,
         "tmax": 21
       },
       {
         "date": "2026-11-26",
-        "type": 6,
-        "rain_prob": 73,
-        "rain_int": 2,
+        "type": 3,
+        "rain_prob": 60,
+        "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 25,
+        "wind_kmh": 24,
         "tmin": 17,
         "tmax": 21
       },
       {
         "date": "2026-11-27",
-        "type": 7,
-        "rain_prob": 53,
-        "rain_int": 1,
-        "wind_class": 2,
-        "wind_kmh": 20,
+        "type": 3,
+        "rain_prob": 47,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 12,
         "tmin": 17,
         "tmax": 21
       },
       {
         "date": "2026-11-28",
-        "type": 3,
-        "rain_prob": 37,
+        "type": 2,
+        "rain_prob": 39,
         "rain_int": null,
-        "wind_class": 2,
+        "wind_class": 1,
         "wind_kmh": 12,
-        "tmin": 18,
+        "tmin": 17,
+        "tmax": 21
+      },
+      {
+        "date": "2026-11-29",
+        "type": 7,
+        "rain_prob": 90,
+        "rain_int": 1,
+        "wind_class": 2,
+        "wind_kmh": 22,
+        "tmin": 17,
         "tmax": 21
       }
     ],
     "south": [
-      {
-        "date": "2026-11-24",
-        "type": 7,
-        "rain_prob": 90,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 11,
-        "tmin": 19,
-        "tmax": 23
-      },
       {
         "date": "2026-11-25",
         "type": 3,
@@ -722,38 +717,48 @@
         "rain_int": null,
         "wind_class": 1,
         "wind_kmh": 9,
-        "tmin": 17,
+        "tmin": 18,
         "tmax": 22
       },
       {
         "date": "2026-11-26",
         "type": 3,
-        "rain_prob": 10,
+        "rain_prob": 8,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 5,
-        "tmin": 18,
+        "wind_kmh": 6,
+        "tmin": 17,
         "tmax": 22
       },
       {
         "date": "2026-11-27",
         "type": 7,
-        "rain_prob": 49,
+        "rain_prob": 59,
         "rain_int": 1,
         "wind_class": 1,
-        "wind_kmh": 4,
-        "tmin": 18,
+        "wind_kmh": 8,
+        "tmin": 16,
         "tmax": 22
       },
       {
         "date": "2026-11-28",
         "type": 7,
-        "rain_prob": 55,
+        "rain_prob": 76,
+        "rain_int": 1,
+        "wind_class": 1,
+        "wind_kmh": 6,
+        "tmin": 16,
+        "tmax": 22
+      },
+      {
+        "date": "2026-11-29",
+        "type": 7,
+        "rain_prob": 69,
         "rain_int": 1,
         "wind_class": 1,
         "wind_kmh": 5,
         "tmin": 16,
-        "tmax": 22
+        "tmax": 23
       }
     ]
   },

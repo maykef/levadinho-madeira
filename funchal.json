@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-24T10:36+00:00",
+ "stamp": "2026-11-25T09:21+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-24",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:45",
-   "sunset": "18:03",
-   "weather": {
-    "tmin": 19,
-    "tmax": 23,
-    "rain": 90,
-    "wtype": 7,
-    "uv": 3.1
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-25",
    "type": "weekday",
@@ -26,11 +10,11 @@
    "sunrise": "07:46",
    "sunset": "18:03",
    "weather": {
-    "tmin": 17,
+    "tmin": 18,
     "tmax": 22,
     "rain": 0,
     "wtype": 3,
-    "uv": 2.5
+    "uv": 2.3
    },
    "fair": null
   },
@@ -42,11 +26,11 @@
    "sunrise": "07:47",
    "sunset": "18:03",
    "weather": {
-    "tmin": 18,
+    "tmin": 17,
     "tmax": 22,
-    "rain": 10,
+    "rain": 8,
     "wtype": 3,
-    "uv": 2.6
+    "uv": 2.9
    },
    "fair": {
     "theme": "fashion",
@@ -66,11 +50,11 @@
    "sunrise": "07:48",
    "sunset": "18:02",
    "weather": {
-    "tmin": 18,
+    "tmin": 16,
     "tmax": 22,
-    "rain": 49,
+    "rain": 59,
     "wtype": 7,
-    "uv": 3.1
+    "uv": 2.8
    },
    "fair": null
   },
@@ -84,9 +68,9 @@
    "weather": {
     "tmin": 16,
     "tmax": 22,
-    "rain": 55,
+    "rain": 76,
     "wtype": 7,
-    "uv": null
+    "uv": 2.6
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "sunday",
    "sunrise": "07:49",
    "sunset": "18:02",
-   "weather": null,
+   "weather": {
+    "tmin": 16,
+    "tmax": 23,
+    "rain": 69,
+    "wtype": 7,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +169,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-12-08",
+   "type": "holiday",
+   "holiday": "Imaculada Conceição",
+   "bus": "sunday",
+   "sunrise": "07:57",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -199,10 +199,19 @@
    "all_day": false,
    "url": "https://cultura.funchal.pt/event/alice-no-pais-do-teatro/",
    "src": "cultura.funchal.pt"
+  },
+  {
+   "title": "Christmas Traditional Nights",
+   "venue": "",
+   "start": "2026-12-09",
+   "end": "2026-12-23",
+   "all_day": true,
+   "url": "https://eventsmadeira.com/en/event/christmas-traditional-nights/",
+   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "sst": 22,
   "wave": [
    0.7,
