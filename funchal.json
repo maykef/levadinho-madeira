@@ -1,23 +1,7 @@
 {
- "stamp": "2026-11-25T09:27+00:00",
+ "stamp": "2026-11-26T09:04+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-25",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:46",
-   "sunset": "18:03",
-   "weather": {
-    "tmin": 18,
-    "tmax": 22,
-    "rain": 0,
-    "wtype": 3,
-    "uv": 2.3
-   },
-   "fair": null
-  },
   {
    "date": "2026-11-26",
    "type": "weekday",
@@ -26,9 +10,9 @@
    "sunrise": "07:47",
    "sunset": "18:03",
    "weather": {
-    "tmin": 17,
+    "tmin": 18,
     "tmax": 22,
-    "rain": 8,
+    "rain": 14,
     "wtype": 3,
     "uv": 2.9
    },
@@ -52,9 +36,9 @@
    "weather": {
     "tmin": 16,
     "tmax": 22,
-    "rain": 59,
+    "rain": 65,
     "wtype": 7,
-    "uv": 2.8
+    "uv": 2.5
    },
    "fair": null
   },
@@ -66,11 +50,11 @@
    "sunrise": "07:49",
    "sunset": "18:02",
    "weather": {
-    "tmin": 16,
+    "tmin": 17,
     "tmax": 22,
-    "rain": 76,
+    "rain": 63,
     "wtype": 7,
-    "uv": 2.6
+    "uv": 2.8
    },
    "fair": null
   },
@@ -82,11 +66,11 @@
    "sunrise": "07:49",
    "sunset": "18:02",
    "weather": {
-    "tmin": 16,
-    "tmax": 23,
-    "rain": 69,
+    "tmin": 18,
+    "tmax": 22,
+    "rain": 41,
     "wtype": 7,
-    "uv": null
+    "uv": 2.7
    },
    "fair": null
   },
@@ -97,7 +81,13 @@
    "bus": "weekday",
    "sunrise": "07:50",
    "sunset": "18:02",
-   "weather": null,
+   "weather": {
+    "tmin": 17,
+    "tmax": 22,
+    "rain": 29,
+    "wtype": 3,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,18 +169,19 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-12-09",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:57",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
-  {
-   "title": "Mandolin Orchestra Weekly Concerts",
-   "venue": "",
-   "start": "2026-11-04",
-   "end": "2026-11-25",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/mandolin-orchestra-weekly-concerts/",
-   "src": "eventsmadeira.com"
-  },
   {
    "title": "Alice no país do… Teatro",
    "venue": "Teatro Municipal Baltazar Dias",
@@ -211,10 +202,10 @@
   }
  ],
  "sea": {
-  "date": "2026-11-25",
+  "date": "2026-11-26",
   "sst": 22,
   "wave": [
-   0.7,
+   0.6,
    0.8
   ],
   "warnings": []
