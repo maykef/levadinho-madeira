@@ -1539,6 +1539,33 @@ def webcam(trail: str | None = None, place: str | None = None, lang: str = "en")
     return {"webcams": out, **({"trail_closed": closed} if closed else {})}
 
 
+_NUN_W = re.compile(r"\bnun\w{0,3}\W{0,2}s?\s+(path|trail|walk|way|route|hike)|\bnunth\b|"
+                    r"\b(caminho|vereda|trilho|percurso) das freiras\b|\bvereda da eira\b|"
+                    r"\b(chemin|sentier) des (nonnes|religieuses)\b|\bnonnen(pfad|weg|steig)\b|"
+                    r"\b(sciezk\w*|szlak\w*|drog\w*) zakonnic\b")
+_NUN_PLACE = re.compile(r"\beira d[oa] serr?ad\w*|\bcurral das freiras\b|\bnun\w{0,3}\W{0,2}s? valley\b|\bnonnental\b|"
+                        r"\bvallee des nonnes\b|\bdolin\w* zakonnic\b")
+_NUN_WALK = re.compile(r"\b(walk\w*|hik\w*|path|trail|foot|descen\w*|caminh\w*|andar|a pe|vereda|trilho|desc\w+|"
+                       r"march\w*|randonn\w*|sentier|chemin|a pied|wander\w*|weg|pfad|zu fuss|laufen|"
+                       r"szlak\w*|sciezk\w*|pieszo|spacer\w*|wedrow\w*|zejsc\w*|isc)\b")
+_NUN_ROAD = re.compile(r"\b(forest road|estrada florestal|route forestiere|forststrasse|drog\w* lesn\w*)\b")
+
+
+# Horários do Funchal line 81 (181), departures from Lombo Chão to Funchal (seo_research/facts/bus/hf_181.json)
+NUN_BUS_BACK = {"mon_fri": "06:10 06:30 07:15 07:25 07:55 08:45 09:30 10:15 11:15 12:25 13:40 14:30 16:15 17:55 19:45 20:50 22:45".split(),
+                "sat": "06:30 07:30 08:45 10:00 12:00 13:15 14:30 17:45 20:45".split(),
+                "sun_hol": "06:30 07:45 10:30 13:00 14:30 17:35 20:35".split()}
+
+
+def nuns_path_q(text):
+    """True when the visitor means the Eira do Serrado -> Curral das Freiras footpath (the Nun's Path)."""
+    f = _tz_fold(text or "")
+    if _NUN_W.search(f):
+        return True
+    places = {m.group(0)[:5] for m in _NUN_PLACE.finditer(f)}
+    return bool(places) and not _NUN_ROAD.search(f) and (len(places) > 1 or bool(_NUN_WALK.search(f)))
+
+
 def search(text: str, lang: str = "en", limit: int = 5) -> dict:
     """Full-text search over Levadinho's pages (5 languages) and curated fact sheets: returns the best matching
     sections (whole, up to ~1,800 characters each) with their page and source. Use it when no other tool fits the question."""
@@ -1580,6 +1607,18 @@ def search(text: str, lang: str = "en", limit: int = 5) -> dict:
             pinned[0]["snippet"] += (f"\n- LIVE NOW: PR7 Levada do Moinho is {pr7[0]['status']} on IFCN's list. Whenever "
                                      "you mention PR7 or the Ponta do Sol / Lombada loop, say this status.")
         rows = pinned + [r for r in rows if r["id"] != "facts:en:walk:levada-nova"][:limit - 1]
+    if nuns_path_q(text):
+        # the Nun's Path is not a PR trail (owner, 2026-11-26: a live chat got PR10 for it): pin its sheet
+        pinned = _q("SELECT id, kind, subject, lang, title, url, source_id, body snippet, 1 rank "
+                    "FROM kb.doc WHERE id = 'facts:en:walk:nuns-path'")
+        if pinned:
+            now = datetime.datetime.now(MADEIRA)
+            dt = "mon_fri" if now.weekday() < 5 else "sat" if now.weekday() == 5 else "sun_hol"
+            left = [t for t in NUN_BUS_BACK[dt] if t[:5] > now.strftime("%H:%M")]
+            pinned[0]["snippet"] += (f"\n- TODAY is {_WD[now.weekday()]}. Line 81 departures from Lombo Chão to Funchal still "
+                                     f"to come today: {', '.join(left) if left else 'none left today'}. (On a public "
+                                     "holiday the Sunday times apply.)")
+        rows = pinned + [r for r in rows if r["id"] != "facts:en:walk:nuns-path"][:limit - 1]
     res = [{"title": r["title"], "subject": r["subject"], "lang": r["lang"], "url": r["url"],
             "text": re.sub(r"</?b>", "", r["snippet"]), "source": _source(r["source_id"])} for r in rows]
     if re.search(r"sun ?rise|nascer do sol|lever du soleil|sonnenaufgang|wsch[oó]d s[lł]o[nń]ca|amanhecer", text, re.I):
@@ -1889,6 +1928,132 @@ def weather_forecast(trail: str | None = None, place: str | None = None, region:
             res["trail_status_now"] = {"trail": matched, "status": tr.get("status"),
                                        "note": note.get(_lang(lang)) or note.get("en") if isinstance(note, dict) else note}
     return res
+
+
+# ---- local_time: Madeira's clock against the visitor's (owner, 25 Nov 2026) ------------------------------------
+# 25 Nov real chat (PL, booking page): "jaki to będzie czas w Warszawie" got the contact centre's details again. The
+# answer comes from the system's time-zone database (zoneinfo), never from the model. An unknown place gets a fixed
+# "I don't know" sentence.
+_TZ_ALIAS = [  # (zone, name, words in the 5 languages, matched on the folded text)
+    ("Europe/Warsaw", "Poland (Warsaw)", r"poland|polen|pologne|polonia|polsk\w*|polsc\w*|warsaw|warschau|varsovi\w*|"
+                                         r"warszaw\w*|krakow\w*|cracow|krakau|gdansk\w*|wroclaw\w*|poznan\w*|katowic\w*|lodz\w*"),
+    ("Europe/Berlin", "Germany (Berlin)", r"germany|deutschland|allemagne|alemanha|niemc\w*|niemiec\w*|niemcz\w*|berlin\w*|"
+                                          r"munich|munchen|muenchen|monachium|hamburg\w*|frankfurt\w*|koln|cologne|dusseldorf|stuttgart"),
+    ("Europe/Paris", "France (Paris)", r"france|frankreich|franca|francj\w*|paris|paryz\w*|lyon|marseille|toulouse|nantes|bordeaux"),
+    ("Europe/London", "United Kingdom (London)", r"uk|u\.k\.?|united kingdom|great britain|britain|england|scotland|wales|"
+                                                 r"royaume[- ]uni|angleterre|reino unido|inglaterra|grossbritannien|"
+                                                 r"anglia|anglii|wielk\w* brytani\w*|london\w*|londres|londyn\w*|"
+                                                 r"manchester|edinburgh|glasgow|birmingham|bristol|leeds|liverpool"),
+    ("Europe/Dublin", "Ireland (Dublin)", r"ireland|irland\w*|irlanda|dublin\w*"),
+    ("Europe/Lisbon", "mainland Portugal (Lisbon)", r"lisbon|lisboa|lisbonne|lissabon|lizbon\w*|porto(?! (moniz|santo|da cruz|novo))|"
+                                                    r"mainland portugal|portugal continental|continente|faro"),
+    ("Europe/Madrid", "Spain (Madrid)", r"spain|espanha|espagne|spanien|hiszpani\w*|madrid|madryt\w*|barcelon\w*"),
+    ("Europe/Amsterdam", "the Netherlands (Amsterdam)", r"netherlands|holland\w*|holandi\w*|niederlande|pays[- ]bas|paises baixos|amsterdam\w*|rotterdam"),
+    ("Europe/Brussels", "Belgium (Brussels)", r"belgium|belgique|belgien|belgica|belgi[ai]|bruxel\w*|brussel\w*|bruksel\w*"),
+    ("Europe/Zurich", "Switzerland (Zurich)", r"switzerland|schweiz|suisse|suica|szwajcari\w*|zurich|zurych\w*|geneva|geneve|genf|genebra|basel"),
+    ("Europe/Vienna", "Austria (Vienna)", r"austria|austrii|osterreich|oesterreich|autriche|wien|vienna|vienne|viena|wieden\w*|wiedni\w*"),
+    ("Europe/Rome", "Italy (Rome)", r"italy|italien|italie|italia|wloch\w*|wlosz\w*|rome|roma|rom|rzym\w*|milan\w*|mediolan\w*"),
+    ("Europe/Copenhagen", "Denmark (Copenhagen)", r"denmark|danemark|dinamarca|danii|copenhagen|kopenhag\w*|copenhague"),
+    ("Europe/Stockholm", "Sweden (Stockholm)", r"sweden|schweden|suede|suecia|szwecj\w*|stockholm\w*|sztokholm\w*|estocolmo"),
+    ("Europe/Oslo", "Norway (Oslo)", r"norway|norwegen|norvege|noruega|norwegi\w*|oslo"),
+    ("Europe/Helsinki", "Finland (Helsinki)", r"finland|finnland|finlande|finlandi\w*|helsinki\w*"),
+    ("Europe/Prague", "Czechia (Prague)", r"czechia|czech republic|tschechien|tchequie|chequia|czech\w*|prague|prag|praha|pradze|praga"),
+]
+_TZ_ALIAS = [(z, n, re.compile(rf"\b(?:{w})\b")) for z, n, w in _TZ_ALIAS]
+_TZ_MANY = re.compile(r"\b(usa|u\.s\.a?\.?|united states|america|ameryk\w*|stany|stanach|etats[- ]unis|estados unidos|"
+                      r"vereinigte staaten|canada|kanad\w*|brazil|brasil\w*|bresil|brazyli\w*|australi\w*|russia|"
+                      r"russland|russie|rosj\w*|mexico|mexiko|meksyk\w*|indonesia|kazakhstan)\b")
+_TZ_MADEIRA = re.compile(r"\b(madeir\w*|mader\w*|madere|funchal\w*)\b")
+_TZ_SKIP = ("Antarctica/", "Etc/", "America/Indiana/", "America/Kentucky/", "America/North_Dakota/", "Atlantic/Madeira")
+_TZ_CITIES = None
+_CLOCK = re.compile(r"\b([01]?\d|2[0-3])\s?[:hH.]\s?([0-5]\d)\b")
+# also a bare hour inside a range or before "h" / "Uhr": "9–12:30", "9 h–12 h 30", "14 Uhr"
+_CLOCK_ANY = re.compile(r"\b([01]?\d|2[0-3])(?:\s?[:hH.]\s?([0-5]\d)\b|\s?[hH]\b|(?=\s?[–—-]\s?\d)|(?=\s?[Uu]hr\b))")
+TZ_UNKNOWN = {
+    "en": "I don't know the time zone of that place. In Madeira it is {t} now.",
+    "pt": "Não sei qual é o fuso horário desse lugar. Na Madeira são agora {t}.",
+    "fr": "Je ne connais pas le fuseau horaire de cet endroit. À Madère, il est {t} en ce moment.",
+    "de": "Die Zeitzone dieses Ortes kenne ich nicht. Auf Madeira ist es jetzt {t} Uhr.",
+    "pl": "Nie znam strefy czasowej tego miejsca. Na Maderze jest teraz {t}.",
+}
+TZ_WHICH_CITY = {
+    "en": "That country has several time zones. Which city do you mean?",
+    "pt": "Esse país tem vários fusos horários. A que cidade se refere?",
+    "fr": "Ce pays a plusieurs fuseaux horaires. De quelle ville parlez-vous ?",
+    "de": "Dieses Land hat mehrere Zeitzonen. Welche Stadt meinen Sie?",
+    "pl": "Ten kraj ma kilka stref czasowych. O które miasto chodzi?",
+}
+
+
+def _tz_fold(t):
+    import unicodedata
+    t = (t or "").lower().replace("ł", "l").replace("ß", "ss")
+    return "".join(c for c in unicodedata.normalize("NFKD", t) if not unicodedata.combining(c))
+
+
+def tz_place(text):
+    """('zone', 'Europe/Warsaw', 'Poland (Warsaw)') | ('many', None, word) | ('madeira', …) | None, from free text."""
+    global _TZ_CITIES
+    f = _tz_fold(text)
+    for zone, name, rx in _TZ_ALIAS:
+        if rx.search(f):
+            return "zone", zone, name
+    m = _TZ_MANY.search(f)
+    if _TZ_CITIES is None:
+        _TZ_CITIES = {}
+        for z in zoneinfo.available_timezones():
+            if "/" in z and not z.startswith(_TZ_SKIP):
+                city = _tz_fold(z.rsplit("/", 1)[1].replace("_", " "))
+                if len(city) >= 4:
+                    _TZ_CITIES.setdefault(city, z)
+    hit = max((c for c in _TZ_CITIES if re.search(rf"\b{re.escape(c)}\b", f)), key=len, default=None)
+    if hit:
+        return "zone", _TZ_CITIES[hit], _TZ_CITIES[hit].rsplit("/", 1)[1].replace("_", " ")
+    if m:
+        return "many", None, m.group(1)
+    if _TZ_MADEIRA.search(f):
+        return "madeira", "Atlantic/Madeira", "Madeira"
+    return None
+
+
+def local_time(city_or_country: str, madeira_times: str | None = None, lang: str = "en") -> dict:
+    """The time now in Madeira and in another place, and the difference between the two (time-zone database).
+    city_or_country: the city or country exactly as the visitor wrote it (Warszawie, Polen, London, New York), or Madeira.
+    madeira_times: Madeira clock times to convert to that place's time, as they were written
+    (e.g. "9:00–12:30 and 14:00–17:30"); leave out for just the time now and the difference."""
+    now = datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira"))
+    out = {"madeira_now": f"{now:%H:%M}",
+           "madeira_rule": "Opening hours, phone-line hours, timetables and SIMplifica slots in Madeira are in Madeira "
+                           "local time.",
+           "source": {"name": "IANA time-zone database", "url": None}}
+    got = tz_place(city_or_country)
+    if not got:
+        return {"reply_exactly": TZ_UNKNOWN[_lang(lang)].format(t=out["madeira_now"])}
+    kind, zone, name = got
+    if kind == "many":
+        return {"reply_exactly": TZ_WHICH_CITY[_lang(lang)]}
+    if kind == "madeira":
+        return out
+    there = now.astimezone(zoneinfo.ZoneInfo(zone))
+    diff = (there.utcoffset() - now.utcoffset()).total_seconds() / 3600
+    n = f"{abs(diff):g} hour" + ("" if abs(diff) == 1 else "s")
+    out.update(place=name, there_now=f"{there:%H:%M}",
+               difference_today=(f"{name} is on the same time as Madeira" if not diff else
+                                 f"{name} is {n} {'later than (ahead of)' if diff > 0 else 'earlier than (behind)'} Madeira"))
+    zi = zoneinfo.ZoneInfo(zone)
+
+    def conv(m):
+        src = now.replace(hour=int(m.group(1)), minute=int(m.group(2) or 0), second=0, microsecond=0)
+        dst = src.astimezone(zi)
+        day = (dst.date() - src.date()).days
+        return f"{dst:%H:%M}" + (" (next day)" if day > 0 else " (day before)" if day < 0 else "")
+
+    span = " ".join((madeira_times or "").split())
+    if _CLOCK_ANY.search(span):
+        # the visitor's own wording with each time replaced, so ranges stay ranges ("9:00–12:30" → "10:00–13:30")
+        out["converted"] = f"{span} in Madeira = {_CLOCK_ANY.sub(conv, span)} in {name}"
+        out.update(diff_hours=diff, madeira_span=span, converted_span=_CLOCK_ANY.sub(conv, span))
+    return out
 
 
 def day_plan(plan: str, day: str | None = None, lang: str = "en") -> dict:

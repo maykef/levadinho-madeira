@@ -122,6 +122,20 @@ car (never taxis). Regression: `python3 backend/tests/regression.py tools OUT.js
 - Regression 66/66 offline (`tools_v31`–`v35`); `pr1-back-en`, `pr1-fee-en` and `taxi-achada-machico-en` fail
   intermittently (pass on rerun).
 
+**26 Nov 2026 (real web chat: "is the nunth path open today … bus back to Lido" got PR10 Levada do Furado):** the Nun's Path (Eira do Serrado → Curral das Freiras) is not a PR trail, so the bot had nothing on it and invented a PR10 link. Now a fact sheet `facts:en:walk:nuns-path` in kb.doc (`backend/load.py`, sources in `seo_research/facts/nuns_path.md`: the parish council's own walk page from the web archive, Horários do Funchal line 181 on SIGA, the owner's "a bit steep in places"). `kbtools.nuns_path_q()` recognises the walk in 5 languages (also "walk from Eira do Serrado", not the forest road); `search` pins the sheet and adds today's remaining line 81 departures from Lombo Chão; `brain_tools.answer` prefetches it like Levada Nova. No official status: the bot never says OPEN or CLOSED for it. `brain.PLACE_NAMED` gained `serrado|lido` (the French, German and Polish versions were answered with the PR1 taxi pick-up question). Regression: `nuns-path-en`.
+
+**25 Nov 2026 (two real Polish chats: far-ahead reopening, time zones):**
+- "Will it be open in February?" (a month, a season, a year, or a date beyond the 5-day forecast;
+  `brain_tools.far_ahead`): fixed sentences, no model, no forecast: the trail's status line, then "Nobody knows yet…
+  IFCN decides… Keep checking the trail's page" (`FAR_REPLY`, 5 languages; `FAR_REPLY_ALL` when no trail is named).
+  Not for the cable car, market, bus… (`NOT_TRAIL_W`). "When will it reopen?" keeps the forecast prefetch.
+- Bot-only tool `kbtools.local_time(city_or_country, madeira_times, lang)`: Madeira's clock against another
+  place's, from the system's time-zone database (zoneinfo): time now, difference, and Madeira hours rewritten on the
+  visitor's clock ("9:00–12:30" → "10:00–13:30"). Places: `_TZ_ALIAS` (countries and cities in the 5 languages) plus
+  zoneinfo's city names; an unknown place → fixed "I don't know the time zone of that place"; a country with several
+  zones → "Which city do you mean?". `answer()` prefetches it for time-zone questions (`tz_question`), taking the
+  hours from our last answer that gave any; converted hours go out as fixed sentences (`TZ_REPLY`).
+
 **8 Nov 2026 (storm day: IPMA 5-day forecast, 92164005 + 0c3e1a69):**
 - Bot-only tool `kbtools.weather_forecast(trail, place, region, lang)`: IPMA's 5-day forecast per place
   (`scripts/ipma_forecast.py`, the weather card's five places), `text` = "IPMA forecast for «area»:" + day lines,

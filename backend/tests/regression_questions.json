@@ -1149,6 +1149,63 @@
     "must_not": []
    },
    "note": "24 Nov real chat (web, PR1 page, typo kept): answered right (Areeiro ↔ Pedra Rija open, Pico Ruivo via PR1.2); kept so it stays right."
+  },
+  {
+   "id": "far-ahead-february-pl",
+   "lang": "pl",
+   "source": "web-pr14",
+   "q": "czy w lutym będzie otwarty",
+   "must": [
+    "Nikt jeszcze nie wie"
+   ],
+   "must_not": [
+    "Prognoza",
+    "°C"
+   ],
+   "note": "25 Nov real chat (PR14 page): got five days of IPMA forecast for a question about February. Fixed sentences now (brain_tools.far_ahead / FAR_REPLY): nobody knows, keep checking the trail's page."
+  },
+  {
+   "id": "time-warsaw-pl",
+   "lang": "pl",
+   "source": "web-booking",
+   "before": [
+    "jak zwrócić bilet na szlak kiedy został zamkniety z powodow pogodowych",
+    "od tygodnia nie dostałam odpowiedzi na mojego maila"
+   ],
+   "q": "jaki to bedzie czas w warszawie",
+   "must": [
+    "godzin"
+   ],
+   "must_not": [
+    "Contact Center",
+    "\\+351"
+   ],
+   "note": "25 Nov real chat (booking page): got the contact centre's details again instead of the time in Warsaw. kbtools.local_time, prefetched (brain_tools.tz_question)."
+  },
+  {
+   "id": "time-unknown-place-en",
+   "lang": "en",
+   "source": "web-home",
+   "q": "What is the time difference with Wąchock?",
+   "must": [
+    "don't know the time zone"
+   ],
+   "note": "25 Nov (owner): a place the time-zone tool doesn't know gets the fixed 'I don't know' sentence."
+  },
+  {
+   "id": "nuns-path-en",
+   "lang": "en",
+   "source": "web-home",
+   "q": "Is the nunth path open today? If i take an uber to Eira Do Serrado and would like to walk for 2-3 hours. Where do I stop and take a bus back to Lido.",
+   "must": [
+    "Curral das Freiras",
+    "81"
+   ],
+   "must_not": [
+    "PR10",
+    "Furado"
+   ],
+   "note": "26 Nov real chat: the Nun's Path (Eira do Serrado to Curral das Freiras) is not a PR trail; the bot named PR10. Sheet facts:en:walk:nuns-path, bus 81 back from the village."
   }
  ]
 }

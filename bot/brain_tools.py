@@ -25,7 +25,7 @@ MAX_ROUNDS = 5
 MAX_RESULT_CHARS = 12000
 
 # Every public MCP tool (owner, 2026-10-10: every fact in the knowledge store, every answer from it).
-BOT_TOOLS = list(kbtools.TOOLS) + [kbtools.taxi_prices, kbtools.day_plan, kbtools.weather_forecast]  # bot only, not on the public MCP server
+BOT_TOOLS = list(kbtools.TOOLS) + [kbtools.taxi_prices, kbtools.day_plan, kbtools.weather_forecast, kbtools.local_time]  # bot only, not on the public MCP server
 BY_NAME = {f.__name__: f for f in BOT_TOOLS}
 JSON_TYPE = {str: "string", int: "integer", float: "number", bool: "boolean"}
 _TRAIL = ("A trail code (PR9) or, if you are not sure of the code, the trail's name or place exactly as the visitor "
@@ -117,6 +117,8 @@ WHEN = {
     "notices": "Use for: events in Funchal (\"funchal\") and cruise ships in port (\"funchal-port\").",
     "search": "Use for: anything else, in the visitor's language — parking, what's at a trailhead (café, toilets), "
               "dogs, drones, what to bring, one or two days in Madeira, things to do, cruise-day plans.",
+    "local_time": "Use for: what time it is in Madeira or in the visitor's home town or country, the time difference, "
+                  "and what a Madeira time (opening hours, a phone line, a slot) is on the visitor's clock.",
     "day_plan": "Use ONLY when the visitor asks for one of these exact plans: Balcões AND PR1 on the same day "
                 "(pr11_pr1); Balcões AND Levada do Furado on the same day (pr11_pr10); getting back from Portela "
                 "(portela_back). Never for a general \"which walk?\" question. Never answer Balcões + PR1 with pr11_pr10.",
@@ -139,6 +141,163 @@ SUNRISE_Q = re.compile(r"sunrise|nascer do sol|lever du soleil|sonnenaufgang|wsc
 # trail is closed the forecast is looked up first, like the page and search prefetch (answer())
 REOPEN_Q = re.compile(r"re-?open|open again|be open|open (tomorrow|on|next)|reabr|volt\w* a abrir|abr(e|em|ir[aã]o?) "
                       r"(amanh|de novo|outra)|rouvr|ouvert|wieder (offen|geöffnet|öffn)|öffnen .*wieder|otwar", re.I)
+# 25 Nov real chat (PL, PR14 page): "czy w lutym będzie otwarty" (will it be open in February) got five days of IPMA
+# forecast. A will-it-be-open question about a month, a season or a date beyond the forecast gets fixed sentences:
+# nobody knows, keep checking the page (owner). Matched on the folded text (kbtools._tz_fold).
+MONTHS = [r"january|janeiro|janvier|januar|stycz\w*", r"february|fevereiro|fevrier|februar|lut(y|ym|ego)",
+          r"march|marco|mars|marz|maerz|marzec|marc(u|a)", r"april|abril|avril|kwie\w+",
+          r"(?<=in )may|maio|mai|maj(u|a)?", r"june|junho|juin|juni|czerw\w+", r"july|julho|juillet|juli|lip(iec|cu|ca)",
+          r"august|agosto|aout|sierp\w+", r"september|setembro|septembre|wrzes\w+|wrzesien",
+          r"october|outubro|octobre|oktober|pazdziernik\w*", r"november|novembro|novembre|listopad\w*",
+          r"december|dezembro|decembre|dezember|grud\w+"]
+MONTHS = [re.compile(rf"\b(?:{m})\b") for m in MONTHS]
+FAR_W = re.compile(r"\b(next (month|year|spring|summer|autumn|fall|winter)|(this|in|by) (spring|summer|autumn|winter)|"
+                   r"in (\d+|a few|two|three|four|several) (weeks|months)|christmas|new year|easter|20[2-9]\d|"
+                   r"proxim[oa] (mes|ano|primavera|verao|outono|inverno)|(mes|ano) que vem|n[oa] (primavera|verao|outono|inverno)|"
+                   r"daqui a (\d+|duas|dois|tres|algumas|alguns) (semanas|meses)|natal|ano novo|pascoa|"
+                   r"(mois|annee|printemps|automne|hiver) prochaine?|l'(annee|ete|hiver|automne) prochaine?|"
+                   r"(au|ce) printemps|(en|cet) (ete|automne|hiver)|dans (\d+|deux|trois|quelques|plusieurs) (semaines|mois)|"
+                   r"noel|nouvel an|paques|"
+                   r"nachste[nsmr]? (monat|jahr|fruhling|fruhjahr|sommer|herbst|winter)|im (fruhling|fruhjahr|sommer|herbst|winter)|"
+                   r"in (\d+|zwei|drei|vier|ein paar|einigen|mehreren) (wochen|monaten)|weihnachten|silvester|neujahr|ostern|"
+                   r"przyszl\w+ (miesiac\w*|rok\w*|wiosn\w*|lat\w*|jesien\w*|zim\w*)|(na|w) (wiosn\w+|lecie|jesien\w*|zim\w+)|"
+                   r"wiosna|latem|jesienia|zima|za (\d+|dwa|trzy|cztery|kilka|pare) (tygodni\w*|miesi\w+)|"
+                   r"boze narodzenie|swieta(ch)?|swiat|sylwest\w+|now\w+ rok\w*|wielkanoc\w*)\b")
+# will-it-be-open questions that are not about a trail (the cable car in January, the market at Christmas)
+NOT_TRAIL_W = re.compile(r"cable|telefer|teleph|seilbahn|kolej\w* linow\w*|market|mercado|marche|markt|targ\w*|museu\w*|musee|muze\w*|"
+                         r"garden|jardi[nm]\w*|garten|ogrod\w*|lido|pool|piscin\w*|schwimmbad|basen\w*|cafe|caf[eé]|kawiarni\w*|"
+                         r"restaura\w*|shop|loja|magasin|laden|sklep\w*|tobogg?an\w*|carreiros|\bbus(es)?\b|autocarro\w*|autobus\w*|"
+                         r"\broad\b|estrada|route\b|strasse|drog\w+|parking|car park|estacionamento|parkplatz|toilet\w*|\bwc\b|"
+                         r"airport|aeroporto|aeroport|flughafen|lotnisk\w*", re.I)
+TRAIL_W = re.compile(r"\b(trails?|levadas?|veredas?|percursos?|trilhos?|sentiers?|randonnees?|wanderwege?|wege?|"
+                     r"wanderung(en)?|szlak\w*|hik\w+|walks?|pr ?\d+)\b")
+FAR_REPLY = {
+    "en": "Nobody knows yet whether it will be open then: IFCN decides when a trail closes or reopens. Keep checking the trail's page.",
+    "pt": "Ninguém sabe ainda se estará aberto nessa altura: é o IFCN que decide quando um percurso encerra ou reabre. Continue a consultar a página do percurso.",
+    "fr": "Personne ne sait encore s'il sera ouvert à ce moment-là : c'est l'IFCN qui décide quand un sentier ferme ou rouvre. Continuez à consulter la page du sentier.",
+    "de": "Ob er dann geöffnet ist, weiß noch niemand: Das IFCN entscheidet, wann ein Weg gesperrt oder wieder geöffnet wird. Schauen Sie weiter auf die Seite des Weges.",
+    "pl": "Nikt jeszcze nie wie, czy będzie wtedy otwarty: o zamknięciu i ponownym otwarciu szlaku decyduje IFCN. Sprawdzaj stronę szlaku.",
+}
+FAR_REPLY_ALL = {
+    "en": "Nobody knows yet which trails will be open then: IFCN decides when a trail closes or reopens. Keep checking levadinho-madeira.com, which follows IFCN's official list.",
+    "pt": "Ninguém sabe ainda que percursos estarão abertos nessa altura: é o IFCN que decide quando um percurso encerra ou reabre. Continue a consultar levadinho-madeira.com, que segue a lista oficial do IFCN.",
+    "fr": "Personne ne sait encore quels sentiers seront ouverts à ce moment-là : c'est l'IFCN qui décide quand un sentier ferme ou rouvre. Continuez à consulter levadinho-madeira.com, qui suit la liste officielle de l'IFCN.",
+    "de": "Welche Wege dann geöffnet sind, weiß noch niemand: Das IFCN entscheidet, wann ein Weg gesperrt oder wieder geöffnet wird. Schauen Sie weiter auf levadinho-madeira.com, das der offiziellen Liste des IFCN folgt.",
+    "pl": "Nikt jeszcze nie wie, które szlaki będą wtedy otwarte: o zamknięciu i ponownym otwarciu szlaku decyduje IFCN. Sprawdzaj levadinho-madeira.com, które śledzi oficjalną listę IFCN.",
+}
+OPEN_W = re.compile(r"\b(open|opens|closed|aberto?s?|abertas?|abre|fechad\w+|encerrad\w+|ouverts?|ouvertes?|ouvre|fermes?|fermees?|"
+                    r"offen|geoffnet|oeffnet|offnet|gesperrt|geschlossen|otwart\w+|zamkniet\w+)\b")
+FORECAST_DAYS = 5
+
+
+def far_ahead(text, today=None):
+    """True when the question is about a time beyond the 5-day forecast: a season, "next month", a year, or a month
+    (with or without a day) that is not within the next FORECAST_DAYS days."""
+    import datetime
+    import zoneinfo
+    f = kbtools._tz_fold(text)
+    if FAR_W.search(f):
+        return True
+    today = today or datetime.datetime.now(zoneinfo.ZoneInfo("Atlantic/Madeira")).date()
+    for n, rx in enumerate(MONTHS, 1):
+        m = rx.search(f)
+        if not m:
+            continue
+        d = re.search(r"\b(\d{1,2})(st|nd|rd|th|er|\.)?\s+(of |de |d')?$", f[:m.start()]) or re.match(r"\s+(\d{1,2})\b", f[m.end():])
+        day = int(d.group(1)) if d and 1 <= int(d.group(1)) <= 31 else None
+        year = today.year + (1 if n < today.month else 0)
+        if day:
+            try:
+                return not 0 <= (datetime.date(year, n, day) - today).days <= FORECAST_DAYS
+            except ValueError:
+                return True
+        if n == today.month:   # "in November" asked in November: the days ahead, the forecast is the answer
+            return False
+        return True
+    return False
+
+
+# 25 Nov real chat (PL, booking page): "jaki to będzie czas w Warszawie" got the contact centre's details again.
+# A time-zone question gets local_time's result before the model writes (matched on the folded text).
+def clock_span(text):
+    """The stretch of text from its first clock time to its last ("9:00–12:30 and 14:00–17:30"), one line, else "".
+    A bare hour that opens the first range ("9–12:30", "9 h–12 h 30") belongs to it."""
+    hits = list(kbtools._CLOCK.finditer(text or ""))
+    if not hits:
+        return ""
+    start = hits[0].start()
+    lead = [m for m in kbtools._CLOCK_ANY.finditer(text) if start - 12 <= m.start() < start
+            and not text[m.end():start].strip(" –—-hH")]
+    if lead:
+        start = lead[0].start()
+    span = text[start:hits[-1].end()]
+    if len(span) > 90 or "\n" in span:   # times scattered over a long answer: the bare times
+        return " ".join(h.group(0) for h in hits[:8])
+    return span
+
+
+def tz_question(q):
+    """A time-zone question: its own words (TZ_Q), or a time word with a place abroad ("quelle heure à Paris ?")."""
+    f = kbtools._tz_fold(q)
+    if TZ_Q.search(f):
+        return True
+    where = kbtools.tz_place(q)
+    return bool(where and where[0] == "zone" and TIME_W.search(f) and not GO_W.search(f))
+
+
+# Hours on the visitor's clock go out as fixed sentences built from local_time's result (25 Nov tests: the model's own
+# copy turned "10:00–13:30 und 15:00–18:30" into "12:30–13:30, 18:30–18:30", or gave the time now instead).
+TZ_REPLY = {
+    "en": {"later": "There it is {n} later than in Madeira.", "earlier": "There it is {n} earlier than in Madeira.",
+           "same": "There it is the same time as in Madeira: {a}.", "conv": "{a} in Madeira = {b} there.",
+           "h": lambda n: f"{n:g} hour" + ("" if n == 1 else "s")},
+    "pt": {"later": "Aí é {n} mais tarde do que na Madeira.", "earlier": "Aí é {n} mais cedo do que na Madeira.",
+           "same": "Aí é a mesma hora que na Madeira: {a}.", "conv": "{a} na Madeira = {b} aí.",
+           "h": lambda n: f"{n:g}".replace(".", ",") + (" hora" if n == 1 else " horas")},
+    "fr": {"later": "Là-bas, il est {n} plus tard qu'à Madère.", "earlier": "Là-bas, il est {n} plus tôt qu'à Madère.",
+           "same": "Là-bas, il est la même heure qu'à Madère : {a}.", "conv": "{a} à Madère = {b} là-bas.",
+           "h": lambda n: f"{n:g}".replace(".", ",") + (" heure" if n < 2 else " heures")},
+    "de": {"later": "Dort ist es {n} später als auf Madeira.", "earlier": "Dort ist es {n} früher als auf Madeira.",
+           "same": "Dort ist es dieselbe Uhrzeit wie auf Madeira: {a}.", "conv": "{a} auf Madeira = {b} dort.",
+           "h": lambda n: f"{n:g}".replace(".", ",") + (" Stunde" if n == 1 else " Stunden")},
+    "pl": {"later": "Tam jest o {n} później niż na Maderze.", "earlier": "Tam jest o {n} wcześniej niż na Maderze.",
+           "same": "Tam jest ta sama godzina co na Maderze: {a}.", "conv": "{a} na Maderze = {b} tam.",
+           "h": lambda n: f"{n:g}".replace(".", ",") + (" godzinę" if n == 1 else " godziny" if n != int(n) or (
+               int(n) % 10 in (2, 3, 4) and int(n) % 100 not in (12, 13, 14)) else " godzin")},
+}
+
+
+def tz_fixed(r, lang):
+    """The converted hours as fixed sentences, or None when the result has none."""
+    if not (isinstance(r, dict) and r.get("converted_span")):
+        return None
+    T = TZ_REPLY[lang if lang in TZ_REPLY else "en"]
+    d = r["diff_hours"]
+    if not d:
+        return T["same"].format(a=r["madeira_span"])
+    return T["later" if d > 0 else "earlier"].format(n=T["h"](abs(d))) + " " + T["conv"].format(a=r["madeira_span"], b=r["converted_span"])
+
+
+def tz_result(r):
+    """local_time's result for the model: with hours to convert, the clock "now" is left out ("what time is that
+    in Warsaw?" is about those hours; 25 Nov test: the model answered with the time now instead)."""
+    if isinstance(r, dict) and r.get("converted"):
+        r = {k: v for k, v in r.items() if k not in ("there_now", "madeira_now")}
+    return r
+
+
+TIME_W = re.compile(r"\b(time|o'?clock|heure|hora|horas|uhr|uhrzeit|czas\w*|godzin\w*)\b")
+GO_W = re.compile(r"\b(bus|buses|flight|fly|plane|ferry|train|vol|avion|voo|aviao|autocarro|flug|flugzeug|lot\w*|samolot\w*|"
+                  r"autobus\w*|leave|leaves|depart\w*|part|parte|sai|fahrt|fliegt|odjezd\w*|odlat\w*)\b")
+NOW_W = re.compile(r"\b(now|right now|currently|agora|neste momento|maintenant|en ce moment|actuellement|jetzt|gerade|"
+                   r"momentan|teraz|obecnie)\b")
+TZ_Q = re.compile(r"time ?zones?|time difference|what time is it(?! open)|what time (is|will) (that|this|it) be in|"
+                  r"\b(local|madeira) time\b|\btime (now |right now )?in (?!hours|minutes|total)|hours? (ahead|behind)|"
+                  r"fuso horario|que horas sao|diferenca horaria|hora local|hora (da|na) madeira|"
+                  r"decalage horaire|fuseau horaire|quelle heure est[- ]il|il est quelle heure|heure locale|heure de madere|"
+                  r"zeitzone|zeitverschiebung|zeitunterschied|wie spat ist es|wie ?viel uhr ist es|ortszeit|uhrzeit in|"
+                  r"czas\w* w \w|ktora (to |jest |bedzie )*godzina|roznic\w* czasu|stref\w* czasow\w*|"
+                  r"czas\w* (maderski\w*|lokaln\w*)")
 BUS_HUB_Q = re.compile(r"where can (i|we) (get|go)\b[^?]*\bbus|which (trails?|levadas?|walks?|hikes?)\b[^?]*\bbus|"
                        r"directly by bus|only there\b|by bus without|dojad\w* autobus|wohin\b[^?]*\bbus|"
                        r"welche (wege|levadas?|wanderungen)\b[^?]*\bbus|o[uù]\b[^?]*\b(en )?bus|quels? (sentiers?|levadas?)\b[^?]*bus|"
@@ -325,6 +484,11 @@ def _how(name, args, result, lang, q=""):
     elif name in ("places", "place") and re.search(r"cable|monte|telef", blob[:4000], re.I):
         h.append("Monte: the cable car from the Old Town (Zona Velha) is the way up; the bus is the way down after the "
                  "cable car stops. Never answer Monte with taxis.")
+    elif name == "local_time":
+        h.append("Answer only the time question, in one or two lines. When 'converted' is given, the visitor asks about "
+                 "those hours: say the difference as \"N hour(s) later / earlier than in Madeira\" (or the same time), "
+                 "then copy the times after the \"=\" in 'converted' exactly as written. Every clock time you "
+                 "write must be in this result: never work one out yourself. No contact details, no other topic, no flag.")
     elif name == "notices" and "cruise" in blob:
         h.append("A ship in this list is the port's schedule: never assume it is the visitor's ship.")
     elif name == "search":
@@ -499,6 +663,8 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                                                          for s in page["sections"]]},
                                             ensure_ascii=False)[:MAX_RESULT_CHARS]}]
     nova = bool(re.search(r"levada\s+nova", search_text or text, re.I))  # two walks share the name (16 Nov): the sheet + PR7 live
+    # the Nun's Path (Eira do Serrado -> Curral das Freiras) is not a PR trail: 26 Nov live chat got PR10 for it
+    nova = nova or kbtools.nuns_path_q(search_text or text)
     if PREFETCH or nova:
         args = {"text": search_text or text, "limit": PREFETCH or 3}
         t = time.time()
@@ -509,6 +675,44 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                       "function": {"name": "search", "arguments": json.dumps(args, ensure_ascii=False)}}]},
                      {"role": "tool", "tool_call_id": "prefetch-search",
                       "content": json.dumps(found, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
+    tz_clocks = ""
+    if tz_question(q_now):
+        where = kbtools.tz_place(q_now)
+        tz_clocks = clock_span(q_now)
+        if not tz_clocks:   # "what time is that in Warsaw?": the Madeira times of our last answer that gave any,
+            # not an answer that was itself a conversion (its times are already the visitor's clock)
+            tz_clocks = next((clock_span(h.get("content") or "") for i, h in reversed(list(enumerate(history))[-8:])
+                              if h.get("role") == "assistant" and kbtools._CLOCK.search(h.get("content") or "")
+                              and not (i and tz_question(history[i - 1].get("content") or ""))), "")
+        if not where or where[0] != "zone" or NOW_W.search(kbtools._tz_fold(q_now)):
+            tz_clocks = ""
+        args = {"city_or_country": q_now if where else "Madeira", **({"madeira_times": tz_clocks} if tz_clocks else {})}
+        t = time.time()
+        lt = run_tool("local_time", args, lang)
+        trace.append({"tool": "local_time", "args": args, "ms": int((time.time() - t) * 1000), "error": lt.get("error"),
+                      "prefetch": True})
+        if tz_fixed(lt, lang) or lt.get("reply_exactly"):   # (reply_exactly: a country with several time zones)
+            trace[-1]["verbatim"] = True
+            return tz_fixed(lt, lang) or lt["reply_exactly"], trace
+        lt = tz_result(lt)
+        if not lt.get("error"):
+            lt = {"how_to_answer": _how("local_time", args, lt, lang, q_now), **lt}
+        messages += [{"role": "assistant", "content": "", "tool_calls": [{"id": "prefetch-time", "type": "function",
+                      "function": {"name": "local_time", "arguments": json.dumps(args, ensure_ascii=False)}}]},
+                     {"role": "tool", "tool_call_id": "prefetch-time",
+                      "content": json.dumps(lt, ensure_ascii=False, default=str)[:MAX_RESULT_CHARS]}]
+    if (REOPEN_Q.search(q_now) or OPEN_W.search(kbtools._tz_fold(q_now))) and not SITE_SAYS_OPEN.search(answers_fold(q_now)) and far_ahead(q_now) \
+            and not NOT_TRAIL_W.search(kbtools._tz_fold(q_now)):
+        code = kbtools.resolve_trail(q_now)
+        pm = re.search(r"OUR PAGE FOR (PR[\d.]+)", page_hint)
+        code = code or (pm.group(1) if pm else None)
+        if code or TRAIL_W.search(kbtools._tz_fold(q_now)):
+            import answers
+            L = lang if lang in FAR_REPLY else "en"
+            line = answers.status_line(code, L) if code else ""
+            trace.append({"tool": "trail_status", "args": {"code": code} if code else {}, "ms": 0, "error": None,
+                          "prefetch": True, "verbatim": True, "far_ahead": True})
+            return (line + "\n\n" if line else "") + (FAR_REPLY if code else FAR_REPLY_ALL)[L], trace
     if REOPEN_Q.search(search_text or text) and not SITE_SAYS_OPEN.search(answers_fold(search_text or text)):
         st = kbtools._fc5_status()
         code = kbtools.resolve_trail(search_text or text)
@@ -591,7 +795,11 @@ def answer(history, text, lang, lang_rule, page_hint="", search_text=None, page=
                 result = {"error": f"That plan is not what the visitor asked for. Do not call day_plan again. For getting "
                                    f"to and from {code}, call bus(trail='{code}', day=…) and transport(trail='{code}')."}
             else:
+                if name == "local_time" and tz_clocks and not args.get("madeira_times"):
+                    args = {**args, "madeira_times": tz_clocks}   # the hours the visitor means (the prefetch found them)
                 result = run_tool(name, args, lang)
+                if name == "local_time":
+                    result = tz_result(result)
             how = _how(name, args, result, lang, search_text or text) if isinstance(result, dict) and not result.get("error") else []
             if how:  # first: results are cut at MAX_RESULT_CHARS, and at the end fees_and_rules' rules (~13,200) were cut
                 result = {"how_to_answer": how, **result}  # off every time (3 Nov: payment + sunrise rules never seen)

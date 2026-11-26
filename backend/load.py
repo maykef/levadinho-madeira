@@ -444,6 +444,45 @@ def load_docs(cur):
                  "no official status; Lombada / Ponta do Sol: no official status, but its Levada do Moinho part is PR7 — "
                  "say PR7's actual status from trail_status).",
                  "english", "levadinho_research", mtime("backend/load.py")))
+    # the Nun's Path, Eira do Serrado -> Curral das Freiras (owner, 2026-11-26, after a live web chat "is the nunth
+    # path open today ... bus back to Lido" got PR10 Levada do Furado); facts in seo_research/facts/nuns_path.md
+    rows.append(("facts:en:walk:nuns-path", "facts", None, "en",
+                 "Nun's Path (Nuns' Path, Caminho das Freiras, Vereda da Eira do Serrado): the walk from the Eira do Serrado "
+                 "viewpoint down to Curral das Freiras (Nun's Valley): is it open, how long, bus back to Funchal",
+                 SITE + "/free-walks/",
+                 "The Nun's Path is the old cobbled footpath from the Eira do Serrado viewpoint down to the village of "
+                 "Curral das Freiras (Nun's Valley). It is NOT an IFCN classified PR trail: it is not on IFCN's "
+                 "trail-warnings list, so it has NO official open/closed status, is not on SIMplifica and needs no ticket. "
+                 "It has nothing to do with PR10 Levada do Furado or any other PR trail: never name a PR trail for it.\n"
+                 "THE ANSWER TO GIVE when asked if it is open: say it is not a classified trail, so there is no official "
+                 "open/closed status and Levadinho has no closure notice for it; never call it OPEN or CLOSED, and say "
+                 "nothing else about its condition (no 'generally accessible', 'usually open', 'conditions vary'). Then "
+                 "give only the facts below that were asked.\n"
+                 "- A visitor who reaches Eira do Serrado by taxi, Uber, Bolt or car and wants to walk: the walk down "
+                 "takes about 2 hours and ends in Curral das Freiras; the bus back to Funchal is taken there, in the "
+                 "village (line 81, times below). Give the bus times for the day they ask about.\n"
+                 "- The walk (parish council of Curral das Freiras): starts at Eira do Serrado (viewpoint at 1,095 m), ends in "
+                 "the centre of Curral das Freiras (654 m). 2.7 km, about 2 hours, mostly old cobbled paving, uneven "
+                 "ground, rated easy overall. It can be walked both ways, but walking up from Curral das Freiras takes "
+                 "more effort, so start at Eira do Serrado and walk down. About halfway down there is a small viewpoint, "
+                 "Poqueão.\n"
+                 "- Levadinho's guide (first-hand): it gets a bit steep in places.\n"
+                 "- Bus back: from Curral das Freiras take Horários do Funchal line 81 (new number 181) to Funchal. It "
+                 "ends in Funchal centre (cable car terminus on the seafront, after Marina and Praça do Povo). Lido is "
+                 "not on this line's stop list: say the bus goes to Funchal centre, not to Lido.\n"
+                 "- Line 81 to Funchal leaves its terminus at Lombo Chão, just above the village, and passes the village "
+                 "centre shortly after (the time in the village is not printed). Departures from Lombo Chão: Monday to "
+                 "Friday 06:10, 06:30, 07:00 (school days only), 07:15, 07:25, 07:55, 08:45, 09:30, 10:15, 11:15, 12:25, "
+                 "13:40, 14:30, 16:15, 17:55, 19:45, 20:50, 22:45; Saturday 06:30, 07:30, 08:45, 10:00, 12:00, 13:15, "
+                 "14:30, 17:45, 20:45; Sunday and public holidays 06:30, 07:45, 10:30, 13:00, 14:30, 17:35, 20:35. No "
+                 "service on 25 December.\n"
+                 "- Bus to the start: these line 81 buses from Funchal go via Eira do Serrado (tell the driver when "
+                 "boarding): Monday to Friday 09:00 (on request), 10:00, 11:00; Saturday 08:45, 10:00, 11:30; Sunday and "
+                 "public holidays 09:05, 11:40.\n"
+                 "- Getting ON a bus at Eira do Serrado is only possible by booking it by phone (291 705 563 or "
+                 "965 059 005) by midnight the day before: otherwise walk down and take the bus in Curral das Freiras.\n"
+                 "(Sources: Junta de Freguesia do Curral das Freiras walk page; Horários do Funchal line 181 timetable on SIGA.)",
+                 "english", "levadinho_research", mtime("backend/load.py")))
     cur.execute("DELETE FROM kb.doc")
     cur.executemany("""INSERT INTO kb.doc (id, kind, subject, lang, title, url, body, cfg, source_id, checked_at)
                        VALUES (%s,%s,%s,%s,%s,%s,%s,%s::regconfig,%s,%s)""", rows)

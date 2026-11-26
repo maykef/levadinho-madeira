@@ -907,7 +907,7 @@ PICKUP_ASK = {
 PICKUP_Q = re.compile(r"taxi|táxi|taksówk|transfer|get(ting)? back|go back|zurück|abhol|voltar|regress|recolh|retour|rentrer|"
                       r"powr[óo]t|wróci|pick.?up", re.I)
 PLACE_NAMED = re.compile(r"achada|teixeira|areeiro|arieiro|ruivo|pedra rija|raba[cç]al|funchal|santana|cani[cç]al|"
-                         r"porto moniz|fanal|ribeiro frio|queimadas|encumeada|curral|monte|cani[cç]o|calheta|machico|"
+                         r"porto moniz|fanal|ribeiro frio|queimadas|encumeada|curral|serrado|lido|monte|cani[cç]o|calheta|machico|"
                          r"airport|aeroporto|a[ée]roport|flughafen|lotnisk|port|porto|hafen|ship|navio|schiff|statek|navire", re.I)
 
 
