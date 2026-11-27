@@ -1,31 +1,7 @@
 {
- "stamp": "2026-11-26T09:04+00:00",
+ "stamp": "2026-11-27T09:19+00:00",
  "tz": "Atlantic/Madeira",
  "days": [
-  {
-   "date": "2026-11-26",
-   "type": "weekday",
-   "holiday": null,
-   "bus": "weekday",
-   "sunrise": "07:47",
-   "sunset": "18:03",
-   "weather": {
-    "tmin": 18,
-    "tmax": 22,
-    "rain": 14,
-    "wtype": 3,
-    "uv": 2.9
-   },
-   "fair": {
-    "theme": "fashion",
-    "pt": "Moda, Bijuteria e Decoração",
-    "hours": [
-     "09:00",
-     "17:00"
-    ],
-    "url": "https://mercados.funchal.pt/feiras-tematicas-novembro-2026-mercado-dos-lavradores/"
-   }
-  },
   {
    "date": "2026-11-27",
    "type": "weekday",
@@ -34,11 +10,11 @@
    "sunrise": "07:48",
    "sunset": "18:02",
    "weather": {
-    "tmin": 16,
+    "tmin": 17,
     "tmax": 22,
-    "rain": 65,
+    "rain": 40,
     "wtype": 7,
-    "uv": 2.5
+    "uv": 2.8
    },
    "fair": null
   },
@@ -50,9 +26,9 @@
    "sunrise": "07:49",
    "sunset": "18:02",
    "weather": {
-    "tmin": 17,
+    "tmin": 18,
     "tmax": 22,
-    "rain": 63,
+    "rain": 59,
     "wtype": 7,
     "uv": 2.8
    },
@@ -66,10 +42,10 @@
    "sunrise": "07:49",
    "sunset": "18:02",
    "weather": {
-    "tmin": 18,
-    "tmax": 22,
-    "rain": 41,
-    "wtype": 7,
+    "tmin": 16,
+    "tmax": 23,
+    "rain": 10,
+    "wtype": 2,
     "uv": 2.7
    },
    "fair": null
@@ -82,11 +58,11 @@
    "sunrise": "07:50",
    "sunset": "18:02",
    "weather": {
-    "tmin": 17,
+    "tmin": 16,
     "tmax": 22,
-    "rain": 29,
+    "rain": 39,
     "wtype": 3,
-    "uv": null
+    "uv": 2.5
    },
    "fair": null
   },
@@ -97,7 +73,13 @@
    "bus": "sunday",
    "sunrise": "07:51",
    "sunset": "18:02",
-   "weather": null,
+   "weather": {
+    "tmin": 17,
+    "tmax": 23,
+    "rain": 27,
+    "wtype": 2,
+    "uv": null
+   },
    "fair": null
   },
   {
@@ -179,6 +161,16 @@
    "sunset": "18:02",
    "weather": null,
    "fair": null
+  },
+  {
+   "date": "2026-12-10",
+   "type": "weekday",
+   "holiday": null,
+   "bus": "weekday",
+   "sunrise": "07:58",
+   "sunset": "18:02",
+   "weather": null,
+   "fair": null
   }
  ],
  "events": [
@@ -190,23 +182,14 @@
    "all_day": false,
    "url": "https://cultura.funchal.pt/event/alice-no-pais-do-teatro/",
    "src": "cultura.funchal.pt"
-  },
-  {
-   "title": "Christmas Traditional Nights",
-   "venue": "",
-   "start": "2026-12-09",
-   "end": "2026-12-23",
-   "all_day": true,
-   "url": "https://eventsmadeira.com/en/event/christmas-traditional-nights/",
-   "src": "eventsmadeira.com"
   }
  ],
  "sea": {
-  "date": "2026-11-26",
+  "date": "2026-11-27",
   "sst": 22,
   "wave": [
-   0.6,
-   0.8
+   0.5,
+   0.6
   ],
   "warnings": []
  },
@@ -223,15 +206,9 @@
    "id": "ponta-gorda",
    "name": "Complexo Balnear da Ponta Gorda",
    "url": "https://frentemarfunchal.pt/complexos/ponta-gorda/",
-   "hours": [
-    "09:30",
-    "18:00"
-   ],
-   "window": [
-    "2026-10-25",
-    "2027-03-31"
-   ],
-   "days": "daily"
+   "hours": null,
+   "window": null,
+   "days": null
   },
   {
    "id": "barreirinha",
@@ -245,15 +222,9 @@
    "id": "doca-do-cavacas",
    "name": "Poças do Gomes – Doca do Cavacas",
    "url": "https://frentemarfunchal.pt/complexos/pocas-do-gomes-doca-do-cavacas/",
-   "hours": [
-    "10:00",
-    "18:00"
-   ],
-   "window": [
-    "2026-10-25",
-    "2027-03-31"
-   ],
-   "days": "daily"
+   "hours": null,
+   "window": null,
+   "days": null
   }
  ],
  "lido_price": {
