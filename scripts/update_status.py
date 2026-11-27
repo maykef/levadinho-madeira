@@ -284,6 +284,9 @@ def _split_item(text):
     return code, name.strip(" -–"), qual
 
 
+REOPENED_RE = re.compile(r"\breabert[oa]s?\s+(?:a\s+partir\s+de|desde)\b", re.I)
+
+
 def ifcn_statuses():
     """Parse the IFCN warnings page -> {code: {"status", "name", "segments"}}.
 
@@ -347,6 +350,17 @@ def ifcn_statuses():
 
     out = {}
     for code, rows in entries.items():
+        # 25 Nov 2026 (owner, 27 Nov): IFCN moved "PR 1 Vereda do Areeiro (sentido único)" to TRANSITÁVEIS with
+        # "reaberto a partir de 25/11/2026" and left the same line under ENCERRADOS. An item reopened by name
+        # wins over its own leftover closed line; the "reopened from <date>" remark is then no note at all.
+        reopened = {_fold(n) for st, _l, n, q in rows if st == "OPEN" and REOPENED_RE.search(q)}
+        stale = [r for r in rows if r[0] != "OPEN" and _fold(r[2]) in reopened]
+        if stale:
+            print(f"ifcn: {code} {stale[0][2]!r} is listed as reopened and still under {stale[0][1]}: "
+                  f"taking the reopening", file=sys.stderr)
+            rows = [r for r in rows if r not in stale]
+        if reopened:
+            rows = [(st, l, n, "" if REOPENED_RE.search(q) else q) for st, l, n, q in rows]
         statuses = {s for s, *_ in rows}
         if len(statuses) > 1:
             # Listed under more than one heading (PR1): some section open, some not.

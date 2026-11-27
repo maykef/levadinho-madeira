@@ -1,23 +1,23 @@
 {
-  "status": "PARTIAL",
+  "status": "OPEN",
   "note": {
-    "pt": "Transitável: Percurso de sentido único entre o Pico do Areeiro e o Pico Ruivo reaberto a partir de 25/11/2026. Transitável: Vereda do Areeiro (até ao Miradouro da Pedra Rija). Encerrado/condicionado: Vereda do Areeiro (sentido único).",
-    "en": "Open: The one-way trail between Pico do Areeiro and Pico Ruivo will reopen on November 25, 2026. Open: Vereda do Areeiro (up to the Pedra Rija Viewpoint). Closed/restricted: Vereda do Areeiro (one-way).",
-    "fr": "Praticable : Le sentier à sens unique entre le Pico do Areeiro et le Pico Ruivo rouvrira le 25/11/2026. Praticable : Sentier de l'Areeiro (jusqu'au belvédère de Pedra Rija). Fermé/restreint : Vereda do Areeiro (sens unique).",
-    "de": "Begehbar: Die Einbahnstrecke zwischen dem Pico do Areeiro und dem Pico Ruivo wird ab dem 25.11.2026 wieder geöffnet. Begehbar: Vereda do Areeiro (bis zum Aussichtspunkt Pedra Rija). Gesperrt/eingeschränkt: Vereda do Areeiro (Einbahnstraße).",
-    "pl": "Dostępny: Trasa jednokierunkowa między Pico do Areeiro a Pico Ruivo zostanie ponownie otwarta 25.11.2026 r. Dostępny: Vereda do Areeiro (do punktu widokowego Pedra Rija). Zamknięty/ograniczony: Vereda do Areeiro (jednokierunkowa)."
+    "pt": "",
+    "en": "",
+    "fr": "",
+    "de": "",
+    "pl": ""
   },
   "closure": null,
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 4.9,
+    "temp_c": 5.7,
     "humidity": 100,
     "in_cloud": true,
     "wind_kmh": 20,
     "wind_strong": false
   },
-  "stamp": "2026-11-27 09:19",
+  "stamp": "2026-11-27 09:53",
   "date": "2026-11-27",
   "source": {
     "name": "IFCN",
@@ -25,15 +25,15 @@
     "updated": ""
   },
   "counts": {
-    "OPEN": 20,
-    "PARTIAL": 2,
+    "OPEN": 21,
+    "PARTIAL": 1,
     "CLOSED": 15
   },
   "regions": [
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 5,
+      "temp": 6,
       "wind": 20,
       "rain": 0.0,
       "in_cloud": true
@@ -41,7 +41,7 @@
     {
       "key": "north",
       "place": "Santana",
-      "temp": 12,
+      "temp": 13,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -49,8 +49,8 @@
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 12,
-      "wind": 5,
+      "temp": 13,
+      "wind": 1,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -58,15 +58,15 @@
       "key": "east",
       "place": "São Lourenço",
       "temp": 18,
-      "wind": 14,
+      "wind": 6,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 17,
-      "wind": 5,
+      "temp": 18,
+      "wind": 3,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -75,19 +75,12 @@
     {
       "code": "PR1",
       "name": "Vereda do Areeiro",
-      "status": "PARTIAL",
+      "status": "OPEN",
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 5,
-      "page": "/pr1/",
-      "note": {
-        "pt": "Transitável: Percurso de sentido único entre o Pico do Areeiro e o Pico Ruivo reaberto a partir de 25/11/2026. Transitável: Vereda do Areeiro (até ao Miradouro da Pedra Rija). Encerrado/condicionado: Vereda do Areeiro (sentido único).",
-        "en": "Open: The one-way trail between Pico do Areeiro and Pico Ruivo will reopen on November 25, 2026. Open: Vereda do Areeiro (up to the Pedra Rija Viewpoint). Closed/restricted: Vereda do Areeiro (one-way).",
-        "fr": "Praticable : Le sentier à sens unique entre le Pico do Areeiro et le Pico Ruivo rouvrira le 25/11/2026. Praticable : Sentier de l'Areeiro (jusqu'au belvédère de Pedra Rija). Fermé/restreint : Vereda do Areeiro (sens unique).",
-        "de": "Begehbar: Die Einbahnstrecke zwischen dem Pico do Areeiro und dem Pico Ruivo wird ab dem 25.11.2026 wieder geöffnet. Begehbar: Vereda do Areeiro (bis zum Aussichtspunkt Pedra Rija). Gesperrt/eingeschränkt: Vereda do Areeiro (Einbahnstraße).",
-        "pl": "Dostępny: Trasa jednokierunkowa między Pico do Areeiro a Pico Ruivo zostanie ponownie otwarta 25.11.2026 r. Dostępny: Vereda do Areeiro (do punktu widokowego Pedra Rija). Zamknięty/ograniczony: Vereda do Areeiro (jednokierunkowa)."
-      }
+      "temp": 6,
+      "page": "/pr1/"
     },
     {
       "code": "PR6",
@@ -96,7 +89,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 12,
+      "temp": 13,
       "page": "/25-fontes/"
     },
     {
@@ -106,7 +99,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 5,
+      "temp": 6,
       "page": "/pico-ruivo/"
     },
     {
@@ -116,7 +109,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 12,
+      "temp": 13,
       "page": "/caldeirao-verde/"
     },
     {
@@ -136,7 +129,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 5,
+      "temp": 6,
       "page": "/balcoes/"
     },
     {
@@ -146,7 +139,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 12,
+      "temp": 13,
       "page": "/fanal/"
     },
     {
@@ -156,7 +149,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 5,
+      "temp": 6,
       "page": "/levada-do-furado/"
     },
     {
@@ -166,7 +159,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-do-rei/"
     },
     {
@@ -176,7 +169,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-dos-cedros/"
     },
     {
@@ -186,7 +179,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -196,7 +189,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 5,
+      "temp": 6,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -206,7 +199,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 5,
+      "temp": 6,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -216,7 +209,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 5,
+      "temp": 6,
       "page": "/vereda-do-burro/"
     },
     {
@@ -226,7 +219,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 17,
+      "temp": 18,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -236,7 +229,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 5,
+      "temp": 6,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -246,7 +239,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -256,7 +249,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-do-risco/"
     },
     {
@@ -266,7 +259,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-do-alecrim/"
     },
     {
@@ -276,7 +269,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-da-lagoa-do-vento/"
     },
     {
@@ -286,7 +279,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-do-moinho/"
     },
     {
@@ -296,7 +289,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 5,
+      "temp": 6,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -306,7 +299,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-da-ribeira-da-janela/"
     },
     {
@@ -316,7 +309,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -326,7 +319,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
@@ -336,7 +329,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/caminho-real-do-paul-do-mar/"
     },
     {
@@ -346,7 +339,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-do-jardim-do-mar/"
     },
     {
@@ -356,7 +349,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/caminho-do-norte/"
     },
     {
@@ -366,7 +359,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -376,7 +369,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -386,7 +379,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-do-tunel-do-cavalo/"
     },
     {
@@ -396,7 +389,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-da-rocha-vermelha/"
     },
     {
@@ -406,7 +399,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-do-paul-ii-um-caminho-para-todos/"
     },
     {
@@ -416,7 +409,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-velha-do-rabacal/"
     },
     {
@@ -426,7 +419,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-do-pico-fernandes/"
     },
     {
@@ -436,7 +429,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/vereda-da-palha-carga/"
     },
     {
@@ -446,7 +439,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 12,
+      "temp": 13,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "Um Caminho para todos.",
