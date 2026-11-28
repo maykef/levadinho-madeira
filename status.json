@@ -11,13 +11,13 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 6.7,
+    "temp_c": 8.2,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 5,
+    "wind_kmh": 3,
     "wind_strong": false
   },
-  "stamp": "2026-11-28 08:36",
+  "stamp": "2026-11-28 15:30",
   "date": "2026-11-28",
   "source": {
     "name": "IFCN",
@@ -25,23 +25,23 @@
     "updated": ""
   },
   "counts": {
-    "OPEN": 21,
+    "OPEN": 20,
     "PARTIAL": 1,
-    "CLOSED": 15
+    "CLOSED": 16
   },
   "regions": [
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 7,
-      "wind": 5,
+      "temp": 8,
+      "wind": 3,
       "rain": 0.0,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 14,
+      "temp": 17,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -49,24 +49,24 @@
     {
       "key": "west",
       "place": "Rabaçal",
-      "temp": 13,
+      "temp": 16,
       "wind": 5,
-      "rain": 0.1,
+      "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "east",
       "place": "São Lourenço",
       "temp": 18,
-      "wind": 2,
+      "wind": 13,
       "rain": 0.0,
       "in_cloud": false
     },
     {
       "key": "south",
       "place": "Funchal",
-      "temp": 18,
-      "wind": 5,
+      "temp": 20,
+      "wind": 7,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -79,7 +79,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 7,
+      "temp": 8,
       "page": "/pr1/"
     },
     {
@@ -89,7 +89,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 13,
+      "temp": 16,
       "page": "/25-fontes/"
     },
     {
@@ -99,17 +99,17 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 7,
+      "temp": 8,
       "page": "/pico-ruivo/"
     },
     {
       "code": "PR9",
       "name": "Levada do Caldeirão Verde",
-      "status": "OPEN",
+      "status": "CLOSED",
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 14,
+      "temp": 17,
       "page": "/caldeirao-verde/"
     },
     {
@@ -129,7 +129,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 7,
+      "temp": 8,
       "page": "/balcoes/"
     },
     {
@@ -139,7 +139,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 13,
+      "temp": 16,
       "page": "/fanal/"
     },
     {
@@ -149,7 +149,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 8,
       "page": "/levada-do-furado/"
     },
     {
@@ -159,7 +159,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 14,
+      "temp": 17,
       "page": "/levada-do-rei/"
     },
     {
@@ -169,7 +169,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/levada-dos-cedros/"
     },
     {
@@ -179,7 +179,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 14,
+      "temp": 17,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -189,7 +189,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 8,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -199,7 +199,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 8,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -209,7 +209,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 8,
       "page": "/vereda-do-burro/"
     },
     {
@@ -219,7 +219,7 @@
       "fee": null,
       "region": "south",
       "popular": false,
-      "temp": 18,
+      "temp": 20,
       "page": "/caminho-real-do-monte/"
     },
     {
@@ -229,7 +229,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 8,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -239,7 +239,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 14,
+      "temp": 17,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -249,7 +249,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": true,
-      "temp": 13,
+      "temp": 16,
       "page": "/levada-do-risco/"
     },
     {
@@ -259,7 +259,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/levada-do-alecrim/"
     },
     {
@@ -269,7 +269,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/vereda-da-lagoa-do-vento/"
     },
     {
@@ -279,7 +279,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/levada-do-moinho/"
     },
     {
@@ -289,7 +289,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 7,
+      "temp": 8,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -299,7 +299,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/vereda-da-ribeira-da-janela/"
     },
     {
@@ -309,7 +309,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/levada-faja-do-rodrigues/"
     },
     {
@@ -319,7 +319,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/caminho-do-pinaculo-e-folhadal/"
     },
     {
@@ -329,7 +329,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/caminho-real-do-paul-do-mar/"
     },
     {
@@ -339,7 +339,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/vereda-do-jardim-do-mar/"
     },
     {
@@ -349,7 +349,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/caminho-do-norte/"
     },
     {
@@ -359,7 +359,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/vereda-do-chao-dos-louros/"
     },
     {
@@ -369,7 +369,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/glaciar-de-planalto/"
     },
     {
@@ -379,7 +379,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/vereda-do-tunel-do-cavalo/"
     },
     {
@@ -389,7 +389,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/levada-da-rocha-vermelha/"
     },
     {
@@ -399,7 +399,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/levada-do-paul-ii-um-caminho-para-todos/"
     },
     {
@@ -409,7 +409,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/levada-velha-do-rabacal/"
     },
     {
@@ -419,7 +419,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/vereda-do-pico-fernandes/"
     },
     {
@@ -429,7 +429,7 @@
       "fee": "4.50",
       "region": "west",
       "popular": false,
-      "temp": 13,
+      "temp": 16,
       "page": "/vereda-da-palha-carga/"
     },
     {
@@ -439,7 +439,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 14,
+      "temp": 17,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "Um Caminho para todos.",
@@ -464,30 +464,30 @@
     "storm": null,
     "ahead_text": null,
     "partial": {
-      "closed": 15,
+      "closed": 16,
       "total": 37,
       "pr1": false,
       "source": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
       "text": {
         "en": {
           "head": "Many trails are closed.",
-          "body": "15 of 37 classified trails are closed on IFCN's list. Check each trail's status before you go."
+          "body": "16 of 37 classified trails are closed on IFCN's list. Check each trail's status before you go."
         },
         "pt": {
           "head": "Muitos percursos estão encerrados.",
-          "body": "15 dos 37 percursos classificados estão encerrados na lista do IFCN. Confirme o estado de cada percurso antes de ir."
+          "body": "16 dos 37 percursos classificados estão encerrados na lista do IFCN. Confirme o estado de cada percurso antes de ir."
         },
         "fr": {
           "head": "De nombreux sentiers sont fermés.",
-          "body": "15 des 37 sentiers classés sont fermés sur la liste de l'IFCN. Vérifiez l'état de chaque sentier avant de partir."
+          "body": "16 des 37 sentiers classés sont fermés sur la liste de l'IFCN. Vérifiez l'état de chaque sentier avant de partir."
         },
         "de": {
           "head": "Viele Wege sind gesperrt.",
-          "body": "15 von 37 klassifizierten Wegen sind laut IFCN-Liste gesperrt. Prüfen Sie vor dem Losgehen den Status jedes Weges."
+          "body": "16 von 37 klassifizierten Wegen sind laut IFCN-Liste gesperrt. Prüfen Sie vor dem Losgehen den Status jedes Weges."
         },
         "pl": {
           "head": "Wiele szlaków jest zamkniętych.",
-          "body": "15 z 37 sklasyfikowanych szlaków jest zamkniętych według listy IFCN. Sprawdź stan szlaku przed wyjściem."
+          "body": "16 z 37 sklasyfikowanych szlaków jest zamkniętych według listy IFCN. Sprawdź stan szlaku przed wyjściem."
         }
       }
     }
