@@ -11,14 +11,14 @@
   "manual_note": "",
   "weather": {
     "ok": true,
-    "temp_c": 5.7,
+    "temp_c": 6.7,
     "humidity": 100,
     "in_cloud": true,
-    "wind_kmh": 20,
+    "wind_kmh": 5,
     "wind_strong": false
   },
-  "stamp": "2026-11-27 09:53",
-  "date": "2026-11-27",
+  "stamp": "2026-11-28 08:36",
+  "date": "2026-11-28",
   "source": {
     "name": "IFCN",
     "url": "https://ifcn.madeira.gov.pt/pt/?view=article&id=627:percursos-pedestres-avisos&catid=146:avisos",
@@ -33,15 +33,15 @@
     {
       "key": "summit",
       "place": "Pico do Areeiro",
-      "temp": 6,
-      "wind": 20,
+      "temp": 7,
+      "wind": 5,
       "rain": 0.0,
       "in_cloud": true
     },
     {
       "key": "north",
       "place": "Santana",
-      "temp": 13,
+      "temp": 14,
       "wind": null,
       "rain": 0.0,
       "in_cloud": false
@@ -50,15 +50,15 @@
       "key": "west",
       "place": "Rabaçal",
       "temp": 13,
-      "wind": 1,
-      "rain": 0.0,
+      "wind": 5,
+      "rain": 0.1,
       "in_cloud": false
     },
     {
       "key": "east",
       "place": "São Lourenço",
       "temp": 18,
-      "wind": 6,
+      "wind": 2,
       "rain": 0.0,
       "in_cloud": false
     },
@@ -66,7 +66,7 @@
       "key": "south",
       "place": "Funchal",
       "temp": 18,
-      "wind": 3,
+      "wind": 5,
       "rain": 0.0,
       "in_cloud": false
     }
@@ -79,7 +79,7 @@
       "fee": "10.50",
       "region": "summit",
       "popular": true,
-      "temp": 6,
+      "temp": 7,
       "page": "/pr1/"
     },
     {
@@ -99,7 +99,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 6,
+      "temp": 7,
       "page": "/pico-ruivo/"
     },
     {
@@ -109,7 +109,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 13,
+      "temp": 14,
       "page": "/caldeirao-verde/"
     },
     {
@@ -129,7 +129,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": true,
-      "temp": 6,
+      "temp": 7,
       "page": "/balcoes/"
     },
     {
@@ -149,7 +149,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 7,
       "page": "/levada-do-furado/"
     },
     {
@@ -159,7 +159,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": true,
-      "temp": 13,
+      "temp": 14,
       "page": "/levada-do-rei/"
     },
     {
@@ -179,7 +179,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 13,
+      "temp": 14,
       "page": "/vereda-da-ilha/"
     },
     {
@@ -189,7 +189,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 7,
       "page": "/vereda-da-encumeada/"
     },
     {
@@ -199,7 +199,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 7,
       "page": "/vereda-do-urzal/"
     },
     {
@@ -209,7 +209,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 7,
       "page": "/vereda-do-burro/"
     },
     {
@@ -229,7 +229,7 @@
       "fee": null,
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 7,
       "page": "/levada-do-barreiro/"
     },
     {
@@ -239,7 +239,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 13,
+      "temp": 14,
       "page": "/vereda-das-funduras/"
     },
     {
@@ -289,7 +289,7 @@
       "fee": "4.50",
       "region": "summit",
       "popular": false,
-      "temp": 6,
+      "temp": 7,
       "page": "/caminho-real-da-encumeada/"
     },
     {
@@ -439,7 +439,7 @@
       "fee": "4.50",
       "region": "north",
       "popular": false,
-      "temp": 13,
+      "temp": 14,
       "page": "/levada-do-caldeirao-verde-um-caminho-para-todos/",
       "note": {
         "pt": "Um Caminho para todos.",
@@ -496,262 +496,262 @@
   "forecast": {
     "summit": [
       {
-        "date": "2026-11-27",
-        "type": 7,
-        "rain_prob": 98,
-        "rain_int": 1,
-        "wind_class": 2,
-        "wind_kmh": 20,
-        "tmin": 5,
-        "tmax": 12
-      },
-      {
         "date": "2026-11-28",
         "type": 7,
-        "rain_prob": 76,
+        "rain_prob": 78,
         "rain_int": 1,
-        "wind_class": 2,
-        "wind_kmh": 16,
+        "wind_class": 1,
+        "wind_kmh": 12,
         "tmin": 6,
         "tmax": 11
       },
       {
         "date": "2026-11-29",
         "type": 3,
-        "rain_prob": 43,
+        "rain_prob": 25,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 17,
+        "wind_kmh": 16,
         "tmin": 4,
-        "tmax": 11
+        "tmax": 12
       },
       {
         "date": "2026-11-30",
-        "type": 10,
-        "rain_prob": 88,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 14,
+        "type": 2,
+        "rain_prob": 45,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 15,
         "tmin": 6,
-        "tmax": 11
+        "tmax": 12
       },
       {
         "date": "2026-12-01",
         "type": 7,
-        "rain_prob": 61,
+        "rain_prob": 69,
         "rain_int": 1,
         "wind_class": 2,
-        "wind_kmh": 15,
+        "wind_kmh": 18,
         "tmin": 5,
+        "tmax": 12
+      },
+      {
+        "date": "2026-12-02",
+        "type": 7,
+        "rain_prob": 43,
+        "rain_int": 1,
+        "wind_class": 2,
+        "wind_kmh": 32,
+        "tmin": 6,
         "tmax": 12
       }
     ],
     "north": [
       {
-        "date": "2026-11-27",
-        "type": 2,
-        "rain_prob": 31,
+        "date": "2026-11-28",
+        "type": 3,
+        "rain_prob": 37,
         "rain_int": null,
         "wind_class": 1,
         "wind_kmh": 10,
         "tmin": 16,
-        "tmax": 21
-      },
-      {
-        "date": "2026-11-28",
-        "type": 2,
-        "rain_prob": 45,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 12,
-        "tmin": 16,
         "tmax": 20
       },
       {
         "date": "2026-11-29",
-        "type": 3,
-        "rain_prob": 51,
+        "type": 2,
+        "rain_prob": 29,
         "rain_int": null,
         "wind_class": 1,
-        "wind_kmh": 11,
+        "wind_kmh": 12,
         "tmin": 16,
         "tmax": 20
       },
       {
         "date": "2026-11-30",
         "type": 2,
-        "rain_prob": 41,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 12,
-        "tmin": 16,
-        "tmax": 20
-      },
-      {
-        "date": "2026-12-01",
-        "type": 2,
-        "rain_prob": 35,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 15,
-        "tmin": 16,
-        "tmax": 20
-      }
-    ],
-    "west": [
-      {
-        "date": "2026-11-27",
-        "type": 10,
-        "rain_prob": 100,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 14,
-        "tmin": 5,
-        "tmax": 12
-      },
-      {
-        "date": "2026-11-28",
-        "type": 6,
-        "rain_prob": 96,
-        "rain_int": 2,
-        "wind_class": 1,
-        "wind_kmh": 11,
-        "tmin": 6,
-        "tmax": 11
-      },
-      {
-        "date": "2026-11-29",
-        "type": 7,
-        "rain_prob": 92,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 12,
-        "tmin": 4,
-        "tmax": 11
-      },
-      {
-        "date": "2026-11-30",
-        "type": 6,
-        "rain_prob": 94,
-        "rain_int": 2,
-        "wind_class": 1,
-        "wind_kmh": 9,
-        "tmin": 5,
-        "tmax": 11
-      },
-      {
-        "date": "2026-12-01",
-        "type": 3,
-        "rain_prob": 60,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 11,
-        "tmin": 5,
-        "tmax": 12
-      }
-    ],
-    "east": [
-      {
-        "date": "2026-11-27",
-        "type": 5,
-        "rain_prob": 24,
-        "rain_int": null,
-        "wind_class": 2,
-        "wind_kmh": 16,
-        "tmin": 18,
-        "tmax": 22
-      },
-      {
-        "date": "2026-11-28",
-        "type": 5,
         "rain_prob": 25,
         "rain_int": null,
         "wind_class": 2,
-        "wind_kmh": 18,
-        "tmin": 18,
-        "tmax": 22
-      },
-      {
-        "date": "2026-11-29",
-        "type": 7,
-        "rain_prob": 61,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 14,
-        "tmin": 18,
-        "tmax": 22
-      },
-      {
-        "date": "2026-11-30",
-        "type": 3,
-        "rain_prob": 60,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 13,
-        "tmin": 18,
-        "tmax": 21
-      },
-      {
-        "date": "2026-12-01",
-        "type": 2,
-        "rain_prob": 45,
-        "rain_int": null,
-        "wind_class": 2,
-        "wind_kmh": 13,
-        "tmin": 18,
-        "tmax": 22
-      }
-    ],
-    "south": [
-      {
-        "date": "2026-11-27",
-        "type": 7,
-        "rain_prob": 40,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 8,
-        "tmin": 17,
-        "tmax": 22
-      },
-      {
-        "date": "2026-11-28",
-        "type": 7,
-        "rain_prob": 59,
-        "rain_int": 1,
-        "wind_class": 1,
-        "wind_kmh": 9,
-        "tmin": 18,
-        "tmax": 22
-      },
-      {
-        "date": "2026-11-29",
-        "type": 2,
-        "rain_prob": 10,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 11,
+        "wind_kmh": 17,
         "tmin": 16,
-        "tmax": 23
-      },
-      {
-        "date": "2026-11-30",
-        "type": 3,
-        "rain_prob": 39,
-        "rain_int": null,
-        "wind_class": 1,
-        "wind_kmh": 7,
-        "tmin": 16,
-        "tmax": 22
+        "tmax": 20
       },
       {
         "date": "2026-12-01",
         "type": 2,
         "rain_prob": 27,
         "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 17,
+        "tmin": 16,
+        "tmax": 20
+      },
+      {
+        "date": "2026-12-02",
+        "type": 3,
+        "rain_prob": 10,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 21,
+        "tmin": 16,
+        "tmax": 20
+      }
+    ],
+    "west": [
+      {
+        "date": "2026-11-28",
+        "type": 9,
+        "rain_prob": 100,
+        "rain_int": 2,
+        "wind_class": 1,
+        "wind_kmh": 7,
+        "tmin": 6,
+        "tmax": 10
+      },
+      {
+        "date": "2026-11-29",
+        "type": 6,
+        "rain_prob": 90,
+        "rain_int": 2,
+        "wind_class": 1,
+        "wind_kmh": 11,
+        "tmin": 4,
+        "tmax": 12
+      },
+      {
+        "date": "2026-11-30",
+        "type": 7,
+        "rain_prob": 69,
+        "rain_int": 1,
+        "wind_class": 1,
+        "wind_kmh": 12,
+        "tmin": 5,
+        "tmax": 13
+      },
+      {
+        "date": "2026-12-01",
+        "type": 7,
+        "rain_prob": 65,
+        "rain_int": 1,
+        "wind_class": 2,
+        "wind_kmh": 17,
+        "tmin": 4,
+        "tmax": 12
+      },
+      {
+        "date": "2026-12-02",
+        "type": 2,
+        "rain_prob": 37,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 24,
+        "tmin": 5,
+        "tmax": 12
+      }
+    ],
+    "east": [
+      {
+        "date": "2026-11-28",
+        "type": 5,
+        "rain_prob": 16,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 20,
+        "tmin": 18,
+        "tmax": 22
+      },
+      {
+        "date": "2026-11-29",
+        "type": 3,
+        "rain_prob": 43,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 13,
+        "tmin": 18,
+        "tmax": 22
+      },
+      {
+        "date": "2026-11-30",
+        "type": 2,
+        "rain_prob": 55,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 17,
+        "tmin": 18,
+        "tmax": 22
+      },
+      {
+        "date": "2026-12-01",
+        "type": 3,
+        "rain_prob": 59,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 20,
+        "tmin": 18,
+        "tmax": 22
+      },
+      {
+        "date": "2026-12-02",
+        "type": 3,
+        "rain_prob": 25,
+        "rain_int": null,
+        "wind_class": 2,
+        "wind_kmh": 27,
+        "tmin": 18,
+        "tmax": 22
+      }
+    ],
+    "south": [
+      {
+        "date": "2026-11-28",
+        "type": 7,
+        "rain_prob": 73,
+        "rain_int": 1,
         "wind_class": 1,
         "wind_kmh": 6,
-        "tmin": 17,
+        "tmin": 18,
+        "tmax": 22
+      },
+      {
+        "date": "2026-11-29",
+        "type": 2,
+        "rain_prob": 4,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 9,
+        "tmin": 16,
         "tmax": 23
+      },
+      {
+        "date": "2026-11-30",
+        "type": 2,
+        "rain_prob": 14,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 10,
+        "tmin": 16,
+        "tmax": 23
+      },
+      {
+        "date": "2026-12-01",
+        "type": 3,
+        "rain_prob": 37,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 8,
+        "tmin": 16,
+        "tmax": 22
+      },
+      {
+        "date": "2026-12-02",
+        "type": 2,
+        "rain_prob": 25,
+        "rain_int": null,
+        "wind_class": 1,
+        "wind_kmh": 14,
+        "tmin": 18,
+        "tmax": 22
       }
     ]
   },
